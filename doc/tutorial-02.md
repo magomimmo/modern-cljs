@@ -123,10 +123,10 @@ ClojureScript:cljs.user> (js/alert "Hello from a browser connected repl")
 ```
 ![Alert Window][9]
 
-## Next steps
+## Next step
 
 In the next [tutorial][10] we're going to substitute the external
-htpp-server with a CLJ based http-server in such a way that in others
+http-server with a CLJ based http-server in such a way that in others
 tutorial we'll implement a direct communications between CLJS client
 code and CLJ server code.
 
