@@ -29,8 +29,8 @@ with [ring][4], a CLJ based http-server.
 Copyright © Mimmo Cosenza, 2012. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: doc/tutorial-01.md
-[2]: doc/tutorial-02.md
-[3]: doc/tutorial-03.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
 [4]: https://github.com/mmcgrana/ring.git
 [5]: https://github.com/clojure/clojurescript.git
