@@ -4,8 +4,8 @@
             [compojure.route :as route]))
 
 (defroutes app-routes
-  ; to server static pages saved in resources/public directory
   (GET "/" [] "<p>Hello from compojure</p>")
+  ; to server static pages saved in resources/public directory
   (route/resources "/")
   ; when the stati resource does not exist
   (route/not-found "Page non found"))

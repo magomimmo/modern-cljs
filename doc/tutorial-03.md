@@ -6,14 +6,14 @@ http-server.
 
 ## Introduction
 
-Until we play only with CLJS code that, once compiled to JS, runs on the
-browser side, we needn't a CLJ enabled http-server. But we love clojure,
-right, and we want to learn more about it too.
+Until we only play with CLJS code that, once compiled to JS, runs on the
+browser side, we needn't a CLJ enabled http-server. But we love clojure
+and we want to learn more about it too.
 
-[Ring][1] is one of the foundamental building-blocks (or component) of
-any CLJ based stack of libraries to develop web based application in CLJ
-programming language adn we're going to use it instead of any other
-http-server based on different programming language.
+[Ring][1] is one of the foundamental building-blocks of any CLJ based
+stack of libraries to develop web based application in CLJ programming
+language and we're going to use it instead of any other http-server
+based.
 
 ## Add lein-ring plugin to our project.clj
 
@@ -22,14 +22,14 @@ build, the configuration and the running of CLJS code. In a similar way,
 we're going to use [lein-ring][3] plugin to manage and automate common
 [ring][1] tasks.
 
-To install `lein-ring` add it as a plugin to your `project.clj`. As for
+To install `lein-ring`, add it as a plugin to your `project.clj`. As for
 `lein-cljsbuild`, if you're going to use it in every CLJ project, you
 can add it to your global profile (i.e. in `~/.lein/profiles.clj`).
 
 Like `lein-cljsbuild`, `lein-ring` plugin require to be configurated by
-adding a `:ring` keyword to `project.clj`. The value of `:ring` will
+adding a `:ring` keyword to `project.clj`. The value of `:ring` has to
 contain a map of configuration options, but just one of them, `:handler`
-is required and has to refer a function (i.e. handler) we have to
+is required. It has to refer a function (i.e. handler) we are going to
 define.
 
 Here is the modified version of `project.clj` with the required
@@ -90,10 +90,11 @@ it's content as follows.
             [compojure.route :as route]))
 
 (defroutes app-routes
-  ; to server static pages saved in resources/public directory
+  ; to serve document root address
   (GET "/" [] "<p>Hello from compojure</p>")
+  ; to server static pages saved in resources/public directory
   (route/resources "/")
-  ; when the stati resource does not exist
+  ; if page is not found
   (route/not-found "Page non found"))
 
 (def handler
@@ -102,8 +103,9 @@ it's content as follows.
 
 ## Add compojure to project.clj
 
-Before run our new CLJ based http-server, we need to add `compojure` to
-`project.clj` dependencies section. The new `project.clj` is as follows:
+Before running our new CLJ based http-server, we need to add `compojure`
+to `project.clj` dependencies section. The new `project.clj` is as
+follows:
 
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
