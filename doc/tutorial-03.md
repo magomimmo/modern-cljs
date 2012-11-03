@@ -155,7 +155,7 @@ like so: `$ lein ring server 8888`.
 
 You can also check that the browser connected repl is still working by
 launching again `$ lein trampoline cljsbuild repl-listen` command on a
-new terminal (remeber to `$ cd /path/to/modern-cljs`)
+new terminal (remember to cd to `/path/to/modern-cljs`)
 
 ## Next step
 
