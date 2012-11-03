@@ -26,16 +26,11 @@ easy to be configured and run.
 ## Install, configure and run MAMP
 
 Follow MAMP documentation to install MAMP. Start MAPM and click the
-Preferences button of its Admin GUI.
-
-![MAMP Admin Panel][5]
-
-Then click the Apache tab to choose
+Preferences button of its Admin GUI. Then click the Apache tab to choose
 `/path/to/modern-cljs/resources/public` as root directory of your local
 Apache http server. Click ok. Finally click `Start Servers` button to
 start everything. Now you have a local web server running on your
-machine at port `8888`. Visit
-[simple.html][7] you create in
+machine at port `8888`. Visit [simple.html][7] you create in
 [Tutorial 1 - The Basic][6] to verify that everything it's ok.
 
 ## Setting a browser connected CLJS REPL (bREPL)
@@ -123,8 +118,6 @@ and see immediate feedback in the browser itself.
 ClojureScript:cljs.user> (js/alert "Hello from a browser connected repl")
 ```
 
-![Alert windows][9]
-
 ## [Tutorial 3 - CLJ based http-server][10]
 
 In the next [Tutorial 3][10] we're going to substitute the external
@@ -141,9 +134,7 @@ License, the same as Clojure.
 [2]: http://en.wikipedia.org/wiki/Same_origin_policy
 [3]: http://httpd.apache.org/
 [4]: http://www.mamp.info/en/index.html
-[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/images/mamp-01.png
 [6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
 [7]: http://localhost:8888/simple.html
 [8]: https://developers.google.com/closure/compiler/
-[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/images/alert.png
 [10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
