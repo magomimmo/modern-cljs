@@ -117,6 +117,7 @@ and see immediate feedback in the browser itself.
 ```clojure
 ClojureScript:cljs.user> (js/alert "Hello from a browser connected repl")
 ```
+![Alert Window][9]
 
 ## Next steps
 
@@ -137,4 +138,5 @@ License, the same as Clojure.
 [6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
 [7]: http://localhost:8888/simple.html
 [8]: https://developers.google.com/closure/compiler/
+[9]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/alert.png
 [10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
