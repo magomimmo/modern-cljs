@@ -3,18 +3,20 @@
 In the first tutorial you are going to create and configure a very basic
 [CLJS][3] project using [leiningen][1] and [lein-cljsbuild][2] plugin.
 
-[leiningen][1] is a build managment system for CLJ
+[Leiningen][1] is a build managment system for CLJ
 project. [lein-cljsbuild][2] is a leiningen plugin specialized in
 managing CLJS project.
 
 ## Create a Clojure (CLJ) project
 
 Install, if not already done, [leiningen][1] and create a new project
-named `mondern-cljs`
+named `mondern-cljs`.
 
 ```bash
 $ lein new modern-cljs
 ```
+
+I'm assuming that you add `lein` to your `PATH` environment variable.
 
 ## Modify the project structure
 
@@ -65,16 +67,16 @@ And here is the updated version with added `lein-cljsbuild` plugin,
   ; CLJ source code path
   :source-paths ["src/clj"]
   :dependencies [[org.clojure/clojure "1.4.0"]]
-  ; lein-cljsbuild plugin to build CLJS peoject
+  ; lein-cljsbuild plugin to build a CLJS project
   :plugins [[lein-cljsbuild "0.2.9"]]
-  ; cljsbuild configuration
+  ; cljsbuild options configuration
   :cljsbuild {:builds
               [{; CLJS source code path
                 :source-path "src/cljs"
-                ; Google Closure (CLS) configuration
-                :compiler {; CLS generated JS script
+                ; Google Closure (CLS) options configuration
+                :compiler {; CLS generated JS script filename
                            :output-to "resources/public/js/modern.js"
-                           ; minimal optmization directorive
+                           ; minimal JS optimization directive
                            :optimizations :whitespace
                            ; generated JS code prettyfication
                            :pretty-print true}}]})
@@ -110,7 +112,7 @@ of `:output-to` keyword of `project.clj`. Save the file in
     <![endif]-->
 </head>
 <body>
-    <!-- sample.html -->
+    <!-- simple.html -->
     <script src="js/modern.js"></script>
 </body>
 </html>
@@ -125,12 +127,17 @@ $ lein cljsbuild once
 Compiling ClojureScript.
 Compiling "resources/public/js/modern.js" from "src/cljs"...
 Successfully compiled "resources/public/js/modern.js" in 7.860731 seconds.
-mimmo$
+$
 ```
 ## Visit simple.html
 
 Open a browser and visit the local file `simple.html`. If everything
 went ok, you should see "Hello, ClojureScript!".
+
+## [Tutorial 2 - Browser CLJS REPL (bREPL)][4]
+
+The next [tutorial][4] will introduce the so called *brepl*, a browser
+connected CLJS REPL.
 
 # License
 
@@ -140,3 +147,4 @@ License, the same as Clojure.
 [1]: https://github.com/technomancy/leiningen
 [2]: https://github.com/emezeske/lein-cljsbuild.git
 [3]: https://github.com/clojure/clojurescript.git
+[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
