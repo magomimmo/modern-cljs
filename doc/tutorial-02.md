@@ -127,7 +127,7 @@ ClojureScript:cljs.user> (js/alert "Hello from a browser connected repl")
 
 ## [Tutorial 3 - CLJ based http-server][10]
 
-In the next [Tutorial 3] we're going to substitute the external
+In the next [Tutorial 3][10] we're going to substitute the external
 htpp-server with a CLJ based http-server in such a way that in others
 tutorial we'll implement a direct communications between CLJS client
 code and CLJ server code.
@@ -141,9 +141,9 @@ License, the same as Clojure.
 [2]: http://en.wikipedia.org/wiki/Same_origin_policy
 [3]: http://httpd.apache.org/
 [4]: http://www.mamp.info/en/index.html
-[5]: images/mamp-01.png
+[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/images/mamp-01.png
 [6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
 [7]: http://localhost:8888/simple.html
 [8]: https://developers.google.com/closure/compiler/
-[9]: images/alert.png
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/images/alert.png
 [10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
