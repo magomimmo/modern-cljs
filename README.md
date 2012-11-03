@@ -9,17 +9,17 @@ This series of tutorials will guide you in creating, setting up and run
 simple CLJS projects. The series follows a progressive enhancement of
 the project itself.
 
-# [Tutorial 1 - The basic][1]
+## [Tutorial 1 - The basic][1]
 
 In the first tutorial you are going to create and configure a very basic
 CLJS project.
 
-# [Tutorial 2 - Browser CLJS REPL (bREPL)][2]
+## [Tutorial 2 - Browser CLJS REPL (bREPL)][2]
 
 In this tutorial you are going to set up a browser connected CLJS REPL
 (bRepl) using an external http-server.
 
-# [Tutorial 3 - CLJ based http-server][3]
+## [Tutorial 3 - CLJ based http-server][3]
 
 In this tutorial you are going to substitute the external http-server
 with [ring][4], a CLJ based http-server.

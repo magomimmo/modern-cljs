@@ -134,9 +134,9 @@ $
 Open a browser and visit the local file `simple.html`. If everything
 went ok, you should see "Hello, ClojureScript!".
 
-## [Tutorial 2 - Browser CLJS REPL (bREPL)][4]
+## Next Step
 
-The next [tutorial][4] will introduce the so called *brepl*, a browser
+In the next [tutorial][4] we're introduce the so called *brepl*, a browser
 connected CLJS REPL.
 
 # License

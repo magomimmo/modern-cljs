@@ -118,9 +118,9 @@ and see immediate feedback in the browser itself.
 ClojureScript:cljs.user> (js/alert "Hello from a browser connected repl")
 ```
 
-## [Tutorial 3 - CLJ based http-server][10]
+## Next steps
 
-In the next [Tutorial 3][10] we're going to substitute the external
+In the next [tutorial][10] we're going to substitute the external
 htpp-server with a CLJ based http-server in such a way that in others
 tutorial we'll implement a direct communications between CLJS client
 code and CLJ server code.
