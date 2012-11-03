@@ -50,7 +50,7 @@ Now you need to edit `project.clj` to:
 
 Here is the leiningen generated `project.clj`
 
-```
+```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
@@ -61,7 +61,7 @@ Here is the leiningen generated `project.clj`
 
 And here is the new version to reflect the above changes.
 
-```
+```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
@@ -82,7 +82,7 @@ And here is the new version to reflect the above changes.
 After having configured `project.clj`, create a CLJS file inside
 `src/cljs/modern_cljs` directory with the following code
 
-```
+```clojure
 (ns modern-cljs.modern)
 
 (.write js/document "Hello, ClojureScript!")
@@ -96,7 +96,7 @@ Create `simple.html` file with a `script` tag pointing to the value
 of `:output-to` keyword of `project.clj`. Save the file in
 `resources/public/` directory.
 
-```
+```html
 <!doctype html>
 <html lang="en">
 <head>
