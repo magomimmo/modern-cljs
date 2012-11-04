@@ -17,7 +17,7 @@ based.
 
 ## Add lein-ring plugin to our project.clj
 
-We already saw how `lein-cljsbuild` pluin helped us in managing the
+We already saw how `lein-cljsbuild` plugin helped us in managing the
 build, the configuration and the running of CLJS code. In a similar way,
 we're going to use [lein-ring][3] plugin to manage and automate common
 [ring][1] tasks.
@@ -55,9 +55,9 @@ configuration we talked about.
               [{; clojurescript source code path
                 :source-path "src/cljs"
                 ; Google Closure Compiler options
-                :compiler {; the name of emitted JS script file
+                :compiler {; the name of the emitted JS script file
                            :output-to "resources/public/js/modern.js"
-                           ; minimum optimization
+                           ; use minimal optimization CLS directive
                            :optimizations :whitespace
                            ; prettyfying emitted JS
                            :pretty-print true}}]})
@@ -65,9 +65,9 @@ configuration we talked about.
 
 ## Create the handler
 
-An ring handler is just a function that receives a request as an
+A ring handler is just a function that receives a request as an
 argument and produces a response. Both request and response are regular
-clojure map. Instead of using low-level ring API, we're going to add
+clojure map. Instead of using low-level [Ring API][4], we're going to add
 another very common component to our `project.clj`:
 [compojure][3].
 
@@ -129,7 +129,7 @@ follows:
               [{; clojurescript source code path
                 :source-path "src/cljs"
                 ; Google Closure Compiler options
-                :compiler {; the name of emitted JS script file
+                :compiler {; the name of the emitted JS script file
                            :output-to "resources/public/js/modern.js"
                            ; minimum optimization
                            :optimizations :whitespace
@@ -169,3 +169,4 @@ License, the same as Clojure.
 [1]: https://github.com/mmcgrana/ring.git
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
 [3]: https://github.com/weavejester/compojure.git
+[4]: http://ring-clojure.github.com/ring/

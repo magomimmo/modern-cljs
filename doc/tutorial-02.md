@@ -9,19 +9,20 @@ One of the main reason to use a LISP dialect like CLJ is its REPL (Real
 Eval Print Loop), which enables a very interactive style of
 programming. CLJS communities worked a lot to bring the same REPL-based
 programming experience in CLJS, creating a way to connect a CLJS REPL to
-the JS engine embedded in the browser. This way of programming allows
-you to evaluate CLJS forms in the REPL and see immediate feedback in the
+the JS engine embedded in the browser. This style of programming allows
+you to evaluate CLJS forms in the REPL and have immediate feedback in the
 browser to which the REPL is connected.
 
 Due to browser imposed limitations to prevent [cross site scripting][1]
-attacks, the REPL connection with the browser JS engine has to be set up
-respecting the [Same Origin Policy][2]. This means that, if we want to
-enable a browser connected CLJS REPl (bREPL), we need to set up a local
-http-server.
+attacks, the REPL connection with the browser embedded JS engine has to
+be set up respecting the [Same Origin Policy][2]. This means that, if we
+want to enable a browser connected CLJS REPl (bREPL), we need to set up
+a local http-server.
 
 You can use any http-server. In this tutorial we're going to use the
-[Apache http-server][3] which is included in [MAMP][4] and it's very
-easy to be configured and run.
+[apache http-server][3], which is included in [MAMP][4] for Mac OS X
+operating system, because it's very easy to be configured and run. There
+should be similar options for others OSs.
 
 ## Install, configure and run MAMP
 
@@ -37,14 +38,14 @@ start everything. Now you have a local web server running on your
 machine at port `8888`. Visit [simple.html][7] you create in
 [Tutorial 1 - The Basic][6] to verify that everything it's ok.
 
-## Setting a browser connected CLJS REPL (bREPL)
+## Setting a browser connected CLJS REPL (brepl)
 
-To setting a bREPL, we need to follow few steps:
+To setting a brepl, we need to follow few steps:
 
 * create a CLJS file to create the connection between the browser and
-  the CLJS REPL
+  the brepl
 * compile the CLJS file
-* start the bRepl server
+* start the brepl server
 * enable the connection
 
 ### Create the connection
@@ -61,18 +62,18 @@ following content:
 
 Save the file as `connect.cljs`.
 
-As you can see, to connect from the browser to the CLJS REPL we have to
-call the `connect` function defined in the `clojure.browser.repl`
-namespace. We set `9000` as a port of the CLJS REPL to be connected to,
-because this is the default port used by the CLJS REPL server
-(i.e. bRepl) when we'll start it.
+As you can see, to connect from the browser to the brepl we have to call
+the `connect` function defined in the `clojure.browser.repl`
+namespace. We set `9000` as a port of the brepl to be connected to,
+because this is the default port used by the brepl server when we'll
+start it.
 
 ### Compile the CLJS file
 
 Now we need compile the new CLJS file. [Google Closure Compiler][8] CLS)
 has few compilation options we already set up in our `project.clj`
 during [Tutorial 1][6] and we can leave that options as we have already
-configured. Now Call the compilation process:
+configured. Now Call the CLJS compilation task:
 
 ```bash
 $ lein cljsbuild once
@@ -81,7 +82,7 @@ Compiling "resources/public/js/modern.js" from "src/cljs"...
 Successfully compiled "resources/public/js/modern.js" in 4.904672 seconds.
 $
 ```
-### Start a bRepl
+### Start a brepl
 
 To enable the connection between the repl and the browser, we need
 to start a repl that acts as a server waiting for a connection from the
@@ -95,12 +96,12 @@ Running ClojureScript REPL, listening on port 9000.
 ClojureScript:cljs.user>
 ```
 
-Do not type anything at the bRepl prompt, because it's waiting for a
+Do not type anything at the brepl prompt, because it's waiting for a
 connection from the browser and it's not yet responsive.
 
 ### Enable the connection
 
-To enable the browser connection with the running bRepl we just need to
+To enable the browser connection with the running brepl we just need to
 visit the [simple.html][7] we created in the prevoius [Tutorial 1][6].
 
 Obviously, the http-server has to be running. By visiting

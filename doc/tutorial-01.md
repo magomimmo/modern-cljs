@@ -1,22 +1,22 @@
 # Tutorial 1 - The basic
 
 In the first tutorial you are going to create and configure a very basic
-[CLJS][3] project using [leiningen][1] and [lein-cljsbuild][2] plugin.
+[CLJS][3] project using [leiningen][1] 2 and [lein-cljsbuild][2] plugin.
 
 [Leiningen][1] is a build managment system for CLJ
-project. [lein-cljsbuild][2] is a leiningen plugin specialized in
-managing CLJS project.
+projects. [Lein-cljsbuild][2] is a leiningen plugin specialized in
+managing CLJS projects.
 
 ## Create a Clojure (CLJ) project
 
-Install, if not already done, [leiningen][1] and create a new project
+If not already done, install [leiningen][1] and create a new project
 named `mondern-cljs`.
 
 ```bash
 $ lein new modern-cljs
 ```
 
-I'm assuming that you add `lein` to your `PATH` environment variable.
+I'm assuming that you add `lein` to your `$PATH` environment variable.
 
 ## Modify the project structure
 
@@ -39,7 +39,7 @@ $ mkdir -p resources/public/{js,css}
 
 ## Edit project.clj
 
-Now you need to edit `project.clj` to:
+You now need to edit `project.clj` to:
 
 * update source-paths of CLJ source code of the project;
 * add and configure [lein-cljsbuild][2] plugin in `project.clj`.
@@ -55,8 +55,9 @@ Here is the original leiningen generated `project.clj`
   :dependencies [[org.clojure/clojure "1.4.0"]])
 ```
 
-And here is the updated version with added `lein-cljsbuild` plugin,
-`:cljsbuild` and `:source-paths` configurations
+And here is the updated version where we added added the
+`lein-cljsbuild` plugin, the `:cljsbuild` and the `:source-paths`
+configurations
 
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -97,8 +98,8 @@ Save the file as `modern.cljs`.
 
 ## Create an HTML page
 
-Create `simple.html` file with a `script` tag pointing to the value
-of `:output-to` keyword of `project.clj`. Save the file in
+Create a simple html file and include a `script` tag pointing to the value
+of `:output-to` keyword of `project.clj`. Save the file as `simple.html` in
 `resources/public/` directory.
 
 ```html
@@ -112,7 +113,7 @@ of `:output-to` keyword of `project.clj`. Save the file in
     <![endif]-->
 </head>
 <body>
-    <!-- simple.html -->
+    <!-- pointing to cljsbuild generated js file -->
     <script src="js/modern.js"></script>
 </body>
 </html>
@@ -120,7 +121,7 @@ of `:output-to` keyword of `project.clj`. Save the file in
 
 ## Compile CLJS
 
-To compile CLJS to JS, use `lein-cljsbuild` command as follow:
+To compile CLJS to JS, use the task `once` of `cljsbuild` as follow:
 
 ```bash
 $ lein cljsbuild once
