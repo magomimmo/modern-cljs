@@ -28,8 +28,8 @@ can add it to your global profile (i.e. in `~/.lein/profiles.clj`).
 
 Like `lein-cljsbuild`, `lein-ring` plugin require to be configurated by
 adding a `:ring` keyword to `project.clj`. The value of `:ring` has to
-contain a map of configuration options, but just one of them, `:handler`
-is required. It has to refer a function (i.e. handler) we are going to
+contain a map of configuration options, but just one of them,
+`:handler`, is required. It has to refer a function we are going to
 define.
 
 Here is the modified version of `project.clj` with the required
@@ -155,7 +155,8 @@ like so: `$ lein ring server 8888`.
 
 You can also check that the browser connected repl is still working by
 launching again `$ lein trampoline cljsbuild repl-listen` command on a
-new terminal (remember to cd to `/path/to/modern-cljs`)
+new terminal (remember to cd to `/path/to/modern-cljs`) and visiting
+[simple.html][5] page.
 
 ## Next step
 
@@ -170,3 +171,4 @@ License, the same as Clojure.
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
 [3]: https://github.com/weavejester/compojure.git
 [4]: http://ring-clojure.github.com/ring/
+[5]: http://localhost:3000/simple.html

@@ -16,7 +16,7 @@ browser to which the REPL is connected.
 Due to browser imposed limitations to prevent [cross site scripting][1]
 attacks, the REPL connection with the browser embedded JS engine has to
 be set up respecting the [Same Origin Policy][2]. This means that, if we
-want to enable a browser connected CLJS REPl (bREPL), we need to set up
+want to enable a browser connected CLJS REPL (brepl), we need to set up
 a local http-server.
 
 You can use any http-server. In this tutorial we're going to use the
