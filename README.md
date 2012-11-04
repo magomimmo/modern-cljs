@@ -7,7 +7,7 @@ A series of tutorials to guide you in creating and setting up
 
 This series of tutorials will guide you in creating, setting up and run
 simple CLJS projects. The series follows a progressive enhancement of
-the project itself.
+projects themself.
 
 ## [Tutorial 1 - The basic][1]
 
