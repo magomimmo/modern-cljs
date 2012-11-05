@@ -135,6 +135,8 @@ $
 Open a browser and visit the local file `simple.html`. If everything
 went ok, you should see "Hello, ClojureScript!".
 
+![Hello ClojureScript][5]
+
 ## Next Step
 
 In the next [tutorial][4] we're introduce the so called *brepl*, a browser
@@ -149,3 +151,4 @@ License, the same as Clojure.
 [2]: https://github.com/emezeske/lein-cljsbuild.git
 [3]: https://github.com/clojure/clojurescript.git
 [4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[5]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/hellocljs.png
