@@ -23,20 +23,21 @@ As I said, I'm going to follow the already cited [Modern JavaScript][1]
 book to try to transpose [Larry Ullman][2] approach as a kind of Modern
 ClojureScript.
 
-So I'll start by migrating to CLJS his first sample, a registration
-form, because it's very instructive both in explaning the evolution of
-the use of JS in the last decade, and in starting CLJS programming
-without knowing to much about Clojure and/or ClojureScript themselves.
+So I'll start by migrating to CLJS his first sample, a login form,
+because it's very instructive both in explaning the evolution of the use
+of JS in the last decade, and in starting CLJS programming without
+knowing to much about Clojure and/or ClojureScript themselves.
 
-> I'm persuading myself that CLJS should be easier to use not only to
+> I'm persuading myself that CLJS should be easier to set up not only to
 > us, as server-side guys, but for smart client-side guys
 > too. Application logic is moving fast from server-side to client-side
 > and all of us, as server-side guys, never loved to much that bad LISP
 > in C dressed running in the browser. We now have the opportunity to
 > see the best LISP ever *running in the browser* and we should try to
-> bring client programmers with us. Otherwise we risk to see that bad
-> LISP in C dressed running on the server-side too, just because we were
-> not able to show them the supposed Clojure(Script) superiority.
+> bring client-side programmers with us. Otherwise, we risk to see that
+> bad LISP in C dressed *running on the server-side* too, just because
+> we were not able to show to those programmers the supposed
+> Clojure(Script) superiority.
 
 ## Registration form
 
@@ -202,6 +203,7 @@ Now let's write some CLJS code. Create the file `login.cljs` in the
 ```clojure
 (ns modern-cljs.login)
 
+;; define the function to be attached to form submission
 (defn validate-form []
   ;; get email and password element by their ids in the HTML form
   (let [email (.getElementById js/document "email")
@@ -212,6 +214,7 @@ Now let's write some CLJS code. Create the file `login.cljs` in the
       (do (js/alert "Please, complete the form!")
           false))))
 
+;; define the function to initialize the connection with html form
 (defn init []
   ;; verity that js/document exists and that it has a getElementById
   ;; property
@@ -222,7 +225,7 @@ Now let's write some CLJS code. Create the file `login.cljs` in the
     (let [login-form (.getElementById js/document "loginForm")]
       (set! (.-onsubmit login-form) validate-form))))
 
-;; when js/window has been loaded, set its onload property to init function
+;; initialize the HTML page in unobstrusive way
 (set! (.-onload js/window) init)
 ```
 
@@ -233,10 +236,13 @@ to name things is not idiomatic.
 The `let` form allows you to define kind of local variables, like `var`
 in JS code.
 
-As we said, we used exstensively the ["." (dot) and ".-" JS interop][12]
+As we said, we used exstensively the ["." and ".-" JS interop][12]
 to call JS native functions (e.g. `.getElementById`) and to get/set JS
 object properties (i.e. `.-value`) or funcions we want as value
 (e.g. `.-getElementById` and `.-onsubmit`), rather than execute.
+
+This is one of the differences between CLJS from CLJ. It dipends on the
+underlying host virtual machine (i.e. JSVM versus JVM).
 
 Copy `login.html` file from [ch02 of Modern JS Code][3] to
 `resources/public` directory.
@@ -244,8 +250,8 @@ Copy `login.html` file from [ch02 of Modern JS Code][3] to
 If you're using an HTML5 browser, instruct the form to deactivate input
 validation by adding `novalidate` as last attribute of the form.
 
-Finally, set the `src` script attribute to `js/modern.js`. Here is the
-final `login.html`
+Finally, set the `src` script attribute value to `js/modern.js`. Here is
+the final `login.html`
 
 ```html
 <!doctype html>
@@ -307,10 +313,7 @@ If you want trigger CLJS automatic recompilation whenever you change
 CLJS source code, just substutute the task `auto` to `once` like so:
 
 ```bash
-$ lein cljsbuild once
-Compiling ClojureScript.
-Compiling "resources/public/js/modern.js" from "src/cljs"...
-Successfully compiled "resources/public/js/modern.js" in 4.718857 seconds.
+$ lein cljsbuild auto
 ```
 
 ## Run
@@ -321,7 +324,7 @@ well.
 ![Login Form][13]
 
 Note that the browser shows both the login form and the "Hello,
-ClojureScript" text from the [first tutorial][11]. The reason of that
+ClojureScript!" text from the [first tutorial][11]. The reason of that
 will be explained in a next tutorial.
 
 Now play with the form:
@@ -357,6 +360,10 @@ you to complete the form.
 If you fill both the email and password and click the login button (or
 evalute `(validate-form)` in the brepl, you'll see the `Not found page`
 we set up with compojure in [Tutorial 3][16]
+
+# Tutorial 5 - Introducing Domina
+
+TO BE DONE
 
 # License
 
