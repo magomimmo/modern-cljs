@@ -19,7 +19,7 @@ based.
 
 We already saw how `lein-cljsbuild` plugin helped us in managing the
 build, the configuration and the running of CLJS code. In a similar way,
-we're going to use [lein-ring][3] plugin to manage and automate common
+we're going to use [lein-ring][7] plugin to manage and automate common
 [ring][1] tasks.
 
 To install `lein-ring`, add it as a plugin to your `project.clj`. As for
@@ -173,3 +173,4 @@ License, the same as Clojure.
 [4]: http://ring-clojure.github.com/ring/
 [5]: http://localhost:3000/simple.html
 [6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
+[7]: https://github.com/weavejester/lein-ring
