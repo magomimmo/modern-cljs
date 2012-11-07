@@ -24,7 +24,7 @@ In this tutorial you are going to set up a browser connected CLJS REPL
 In this tutorial you are going to substitute the external http-server
 with [ring][4], a CLJ based http-server.
 
-## [Tutorial 4 - Modern CLojureScript][6]
+## [Tutorial 4 - Modern ClojureScript][6]
 
 In this tutorial we start having some fun with CLJS form validation, by
 porting from JS to CLJS the login form example of
