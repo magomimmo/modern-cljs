@@ -21,4 +21,5 @@
       (set! (.-onsubmit login-form) validate-form))))
 
 ;; when js/window has been loaded, set its onload property to init function
+
 (set! (.-onload js/window) init)

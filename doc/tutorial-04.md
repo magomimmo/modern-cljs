@@ -6,10 +6,10 @@ samples from the book [Modern JavaScript: Development and Desing][1] by
 
 ![Modern JS][7]
 
-The reason I choose [it][3] as a reference is because it starts
-smoothly, but keeps a roboust approach to JS coding. I think that
-bringing [Larry][2] approach from JS into ClojureScript (CLJS) could be
-helpful to anyone not yet fluent in CLJS.
+The reason I choose it as a reference is because it starts smoothly, but
+keeps a roboust approach to JS coding. I think that bringing Larry
+approach from JS into ClojureScript (CLJS) could be helpful to anyone
+not yet fluent in CLJS.
 
 ## Introduction
 
@@ -94,7 +94,7 @@ Now, take a loook at the HTML code.
 </body>
 </html>
 ```
-### Progressive enhancement and unostrusive JS
+### Progressive enhancement and unobstrusive JS
 
 `login.php` script is associated to the `form action`. And `login.js` is
 linked within the html page. Aside from `login.js` beeing linked within
@@ -103,7 +103,7 @@ JS script. This choice has to do with the so called *progressive
 enhancement* and *unobstrusive JS* that Larry Ullman clearly explains in
 his book.
 
-The following [sequence diagrams][4] shows his approacu in action.
+The following [sequence diagrams][4] show his approach in action.
 
 #### Server-side only validation
 
@@ -344,7 +344,7 @@ complete the form;
 In this last paragraph of the tutorial you can start to have some fun
 with the brepl and the CLJ http-server we introduced in [tutorial 3][16]
 
-1. launch the brepl: `$ lein trampoline cljsbuild repl-listen"
+1. launch the brepl: `$ lein trampoline cljsbuild repl-listen`
 2. launch the ring server: `$ lein ring server`
 3. visit the login page: `http://localhost:3000/login.html`
 4. evaluate `(in-ns 'modern-cljs.login)` in the brepl
@@ -376,6 +376,6 @@ License, the same as Clojure.
 [11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
 [12]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
 [13]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/login-cljs-01.png
-[15]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/please-complete.png
+[14]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/please-complete.png
 [15]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/file-not-found.png
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
