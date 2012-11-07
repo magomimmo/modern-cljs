@@ -39,7 +39,7 @@ License, the same as Clojure.
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
 [3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
 [4]: https://github.com/mmcgrana/ring.git
-[5]: https://github.com/clojure/clojurescript.git5
+[5]: https://github.com/clojure/clojurescript.git
 [6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
 [7]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 [8]: http://www.larryullman.com/
