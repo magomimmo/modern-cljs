@@ -160,7 +160,7 @@ new terminal (remember to cd to `/path/to/modern-cljs`) and visiting
 
 ## Next step
 
-TO BE DONE
+In the [next tutorial 4][6] we're going to have some fun introducing form validation in CLJS.
 
 # License
 
@@ -172,3 +172,4 @@ License, the same as Clojure.
 [3]: https://github.com/weavejester/compojure.git
 [4]: http://ring-clojure.github.com/ring/
 [5]: http://localhost:3000/simple.html
+[6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
