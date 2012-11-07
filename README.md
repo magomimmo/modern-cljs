@@ -12,22 +12,12 @@ enhancement of projects themselves.
 Assuming you already installed [leiningen][9], to run the tutorials
 without coding: 
 
-1. ```bash 
-$ git clone https://github.com/magomimmo/modern-cljs.git
-```
-2. ```bash 
-$ cd modern-cljs
-```
-3. ```bash 
-$ lein ring server
-```
+1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
+2. `$ cd modern-cljs`
+3. ` $ lein ring server`
 4. open a new terminal and cd in modern-cljs 
-5. ```bash 
-$ lein cljsbuild once
-```
-6. ```bash 
-$ lein trampoline cljsbuild repl-listen
-```
+5. `$ lein cljsbuild once`
+6. `$ lein trampoline cljsbuild repl-listen`
 7. visit [simple.html][10] for tutorials 1, 2 and 3
 8. visit [login.html][11] for tutorial 4
 9. play with the repl connected to the browser
