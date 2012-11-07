@@ -222,8 +222,8 @@ Now let's write some CLJS code. Create the file `login.cljs` in the
     (let [login-form (.getElementById js/document "loginForm")]
       (set! (.-onsubmit login-form) validate-form))))
 
-;; when js/window has been loaded, set its onload property to init
-function (set! (.-onload js/window) init)
+;; when js/window has been loaded, set its onload property to init function
+(set! (.-onload js/window) init)
 ```
 
 As you can see from this ugly code, we have defined two functions:
