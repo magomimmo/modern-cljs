@@ -41,7 +41,7 @@ configuration we talked about.
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  ; clojure source code path
+  ; clojure source code pathname
   :source-paths ["src/clj"]
   :dependencies [[org.clojure/clojure "1.4.0"]]
   :plugins [; cljsbuild plugin
@@ -49,13 +49,13 @@ configuration we talked about.
             ; ring plugin
             [lein-ring "0.7.5"]]
   ; ring tasks configuration
-  :ring {:handler modern-cljs.core/hanlder}
-  ; cljsbuild tadks configuration
+  :ring {:handler modern-cljs.core/handler}
+  ; cljsbuild tasks configuration
   :cljsbuild {:builds
               [{; clojurescript source code path
                 :source-path "src/cljs"
                 ; Google Closure Compiler options
-                :compiler {; the name of the emitted JS script file
+                :compiler {; the name of the emitted JS file
                            :output-to "resources/public/js/modern.js"
                            ; use minimal optimization CLS directive
                            :optimizations :whitespace
@@ -66,22 +66,22 @@ configuration we talked about.
 ## Create the handler
 
 A ring handler is just a function that receives a request as an
-argument and produces a response. Both request and response are regular
-clojure map. Instead of using low-level [Ring API][4], we're going to add
-another very common component to our `project.clj`:
+argument and produces a response. Both request and response are
+regular clojure map. Instead of using low-level [Ring API][4], we're
+going to add another very common library to our `project.clj`:
 [compojure][3].
 
-[Compojure][3] is a small routing library for [Ring][1] that
-allows web applications to be composed of small, independent parts,
-using a concise DSL (Domain Specific Language) to generate [Ring][1]
+[Compojure][3] is a small routing library for [Ring][1] that allows
+web applications to be composed of small and independent parts, using
+a concise DSL (Domain Specific Language) to generate [Ring][1]
 handler.
 
 In this tutorial our goal is to set up an http-server able to serve
 static html pages (e.g. simple.html) saved in the `resources/public`
 directory.
 
-Open the file `core.clj` from `src/clj/modern_cljs` directory and change
-it's content as follows.
+Open the file `core.clj` from `src/clj/modern_cljs` directory and
+change it's content as follows.
 
 ```clojure
 (ns modern-cljs.core
@@ -89,6 +89,9 @@ it's content as follows.
   (:require [compojure.handler :as handler]
             [compojure.route :as route]))
 
+;; defroutes macro defines a function that chains individual route
+;; functions together. The request map is passed to each function in
+;; turn, until a non-nil response is returned.    
 (defroutes app-routes
   ; to serve document root address
   (GET "/" [] "<p>Hello from compojure</p>")
@@ -97,6 +100,8 @@ it's content as follows.
   ; if page is not found
   (route/not-found "Page non found"))
 
+;; site function create an handler suitable for a standard website,
+;; adding a bunch of standard ring middleware to app-route:
 (def handler
   (handler/site app-routes))
 ```
@@ -113,7 +118,7 @@ follows:
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  ; clojure source code path
+  ; clojure source code pathname
   :source-paths ["src/clj"]
   :dependencies [[org.clojure/clojure "1.4.0"]
                  ; compojure dependency
@@ -124,12 +129,12 @@ follows:
             [lein-ring "0.7.5"]]
   ; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
-  ; cljsbuild tadks configuration
+  ; cljsbuild tasks configuration
   :cljsbuild {:builds
               [{; clojurescript source code path
                 :source-path "src/cljs"
                 ; Google Closure Compiler options
-                :compiler {; the name of the emitted JS script file
+                :compiler {; the name of the emitted JS file
                            :output-to "resources/public/js/modern.js"
                            ; minimum optimization
                            :optimizations :whitespace

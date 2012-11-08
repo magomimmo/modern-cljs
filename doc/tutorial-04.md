@@ -4,8 +4,6 @@ In this tutorial we're going to start the porting of few JavaScript (JS)
 samples from the book [Modern JavaScript: Development and Desing][1] by
 [Larry Ullman][2]. You can download the code of the book from [here][3].
 
-![Modern JS][7]
-
 The reason I choose it as a reference is because it starts smoothly, but
 keeps a roboust approach to JS coding. I think that bringing Larry
 approach from JS into ClojureScript (CLJS) could be helpful to anyone
@@ -36,7 +34,7 @@ knowing to much about Clojure and/or ClojureScript themselves.
 > see the best LISP ever *running in the browser* and we should try to
 > bring client-side programmers with us. Otherwise, we risk to see that
 > bad LISP in C dressed *running on the server-side* too, just because
-> we were not able to show to those programmers the supposed
+> we were not able to show to those programmers the pretended
 > Clojure(Script) superiority.
 
 ## Registration form
@@ -140,6 +138,11 @@ The user experience has been now much more enhanced. The Ajax call
 communicates with the server (e.g. to verify if the email address does
 exist) resulting in a more efficient and responsive process.
 
+In this tutorial we are going to limit ourselves to the client-side
+validation scenario without implementing the server-side validation
+and the ajax call to server-side services, which will be implemented
+in subsequent more advanced tutorials.
+
 ## JavaScript
 
 That said, let's take a look at `login.js` code:
@@ -186,16 +189,14 @@ window.onload = init;
 ## Porting to ClojureScript
 
 It has been not a short trip, but we can now start to port the login
-form validation from JS to CLJS.
-
-We're going to start pedantic by directly translating JS to CLJS using
-CLJS interop with the underlying JavaScript Virtual Machine (JSVM).
+form validation from JS to CLJS. We're going to start pedantic by
+directly translating JS to CLJS using [CLJS interop][12] with the underlying
+JavaScript Virtual Machine (JSVM).
 
 The JS `validateForm()` function gets `email` and `password` ids from
-form input and just verity that both of them have a value.
-
-`validateForm()` function returns `true` if the validation passes,
-`false` otherwise.
+form input and just verity that both of them have a
+value. `validateForm()` function returns `true` if the validation
+passes, `false` otherwise.
 
 Now let's write some CLJS code. Create the file `login.cljs` in the
 `src/cljs/modern_cljs` directory and write the following code:
@@ -203,7 +204,7 @@ Now let's write some CLJS code. Create the file `login.cljs` in the
 ```clojure
 (ns modern-cljs.login)
 
-;; define the function to be attached to form submission
+;; define the function to be attached to form submission event
 (defn validate-form []
   ;; get email and password element by their ids in the HTML form
   (let [email (.getElementById js/document "email")
@@ -214,7 +215,8 @@ Now let's write some CLJS code. Create the file `login.cljs` in the
       (do (js/alert "Please, complete the form!")
           false))))
 
-;; define the function to initialize the connection with html form
+;; define the function to attach validate-form to onsubmit event of
+;;the form
 (defn init []
   ;; verity that js/document exists and that it has a getElementById
   ;; property
@@ -229,29 +231,31 @@ Now let's write some CLJS code. Create the file `login.cljs` in the
 (set! (.-onload js/window) init)
 ```
 
-As you can see from this ugly code, we have defined two functions:
-`validate-form` and `init`. Note that in CLJ/CLJS the use of CamelCase
-to name things is not idiomatic.
+As you can see, this pedantic code directly translated from JS code,
+defines two functions: `validate-form` and `init`. 
 
-The `let` form allows you to define kind of local variables, like `var`
-in JS code.
+> Note that in CLJ/CLJS the use of CamelCase to name things is not
+> idiomatic. That's why we translate JS `validateForm` function name
+> to `validate-form` CLJS function name.
 
-As we said, we used exstensively the ["." and ".-" JS interop][12]
-to call JS native functions (e.g. `.getElementById`) and to get/set JS
-object properties (i.e. `.-value`) or funcions we want as value
-(e.g. `.-getElementById` and `.-onsubmit`), rather than execute.
-
-This is one of the differences between CLJS from CLJ. It dipends on the
-underlying host virtual machine (i.e. JSVM versus JVM).
+The `let` form allows you to define a kind of local variables, like
+`var` in the above JS code. As we said, we exstensively used the "."
+and ".-" JS interop to call JS native functions
+(e.g. `.getElementById`) and to get/set JS object properties
+(i.e. `.-value`) or funcions we want as value (e.g. `.-getElementById`
+and `.-onsubmit`), rather than execute. This is one of the
+[differences between CLJS from CLJ][12] that dipends on the underlying
+hosting virtual machine (i.e. JSVM versus JVM).
 
 Copy `login.html` file from [ch02 of Modern JS Code][3] to
 `resources/public` directory.
 
-If you're using an HTML5 browser, instruct the form to deactivate input
-validation by adding `novalidate` as last attribute of the form.
+> If you're using an HTML5 browser, instruct the form to deactivate
+> input validation by adding `novalidate` as last attribute of the
+> form.
 
-Finally, set the `src` script attribute value to `js/modern.js`. Here is
-the final `login.html`
+Finally, set the `src` script tag attribute value to
+`js/modern.js`. Here is the final `login.html`
 
 ```html
 <!doctype html>
@@ -325,19 +329,23 @@ well.
 
 Note that the browser shows both the login form and the "Hello,
 ClojureScript!" text from the [first tutorial][11]. The reason of that
-will be explained in a next tutorial.
+will be explained in a subsequent tutorial on [Google Closure
+Compiler][17]. 
 
 Now play with the form:
 
 * if you click the login button before having valorized both email and
-password fields you should see the alert window popping up saying you to
-complete the form;
-* if you click the login button after having valorized both email anche
-  passowrd fileds you should see the usual browser error message saying
-  that the page `/path/to/modern-cljs/resources/public/login.php` could
-  not be found. That because the action attribute of the html form is
-  still "login.php".
-
+password fields you should see the alert window popping up and asking
+you to complete the form;
+* if you click the login button after having valorized both email and
+  passoword fields you should see the usual browser error message
+  saying that the page
+  `/path/to/modern-cljs/resources/public/login.php` could not be
+  found. That's because the action attribute of the html form
+  still references `login.php` as the server-side validation
+  script. The server-side validation will be implemented in CLJ in a
+  subsequent more advanced tutorial.
+  
 ![Please, complete the form][14]
 
 ![File not found][15]
@@ -377,7 +385,6 @@ License, the same as Clojure.
 [4]: http://en.wikipedia.org/wiki/Sequence_diagram
 [5]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/ch02-tree.png
 [6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/login-form.png
-[7]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/ModernJS.jpeg
 [8]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/login-01-dia.png
 [9]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/login-02-dia.png
 [10]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/login-03-dia.png
@@ -387,3 +394,4 @@ License, the same as Clojure.
 [14]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/please-complete.png
 [15]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/file-not-found.png
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[17]: https://developers.google.com/closure/compiler/

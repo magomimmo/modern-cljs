@@ -1,10 +1,10 @@
 # Tutorial 1 - The basic
 
 In the first tutorial you are going to create and configure a very basic
-[CLJS][3] project using [leiningen][1] 2 and [lein-cljsbuild][2] plugin.
+[CLJS][3] project using [leiningen 2][1] and [lein-cljsbuild][2] plugin.
 
 [Leiningen][1] is a build managment system for CLJ
-projects. [Lein-cljsbuild][2] is a leiningen plugin specialized in
+projects. [lein-cljsbuild][2] is a leiningen plugin specialized in
 managing CLJS projects.
 
 ## Create a Clojure (CLJ) project
@@ -29,6 +29,10 @@ $ cd modern-cljs
 $ mkdir -p src/{clj,cljs/modern_cljs}
 $ mv src/modern_cljs/ src/clj/
 ```
+
+> Note: due to [java difficulties][6] in managing hyphen "-" (or other
+> special characters) in package names, substitute any hyphen with
+> underscore in corresponding directory names.
 
 Create a directory structure to host static resources of the project
 (i.e. html pages, js script files, css stylesheet files, etc.)
@@ -152,3 +156,4 @@ License, the same as Clojure.
 [3]: https://github.com/clojure/clojurescript.git
 [4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
 [5]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/hellocljs.png
+[6]: http://docs.oracle.com/javase/specs/jls/se7/html/jls-6.html

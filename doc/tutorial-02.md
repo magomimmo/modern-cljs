@@ -70,7 +70,7 @@ start it.
 
 ### Compile the CLJS file
 
-Now we need compile the new CLJS file. [Google Closure Compiler][8] CLS)
+Now we need compile the new CLJS file. [Google Closure Compiler][8] (CLS)
 has few compilation options we already set up in our `project.clj`
 during [Tutorial 1][6] and we can leave that options as we have already
 configured. Now Call the CLJS compilation task:
