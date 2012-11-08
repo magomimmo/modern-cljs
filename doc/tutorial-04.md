@@ -235,8 +235,8 @@ As you can see, this pedantic code directly translated from JS code,
 defines two functions: `validate-form` and `init`. 
 
 > Note that in CLJ/CLJS the use of CamelCase to name things is not
-> idiomatic. That's why we translate JS `validateForm` function name
-> to `validate-form` CLJS function name.
+> idiomatic. That's why we translated `validateForm` to
+> `validate-form`.
 
 The `let` form allows you to define a kind of local variables, like
 `var` in the above JS code. As we said, we exstensively used the "."
