@@ -229,7 +229,7 @@ Now let's write some CLJS code. Create the file `login.cljs` in the
 ```
 
 As you can see, this ported code defines two functions: `validate-form`
-and `init`. 
+and `init`.
 
 > Note that in CLJ/CLJS the use of CamelCase to name things is not
 > idiomatic. That's why we translated `validateForm` to
@@ -327,7 +327,7 @@ well.
 Note that the browser shows both the login form and the "Hello,
 ClojureScript!" text from the [first tutorial][11]. The reason for that
 will be explained in a subsequent tutorial on [Google Closure
-Compiler][17]. 
+Compiler][17].
 
 Now let's play with the form:
 
@@ -342,7 +342,7 @@ you to complete the form;
   still references `login.php` as the server-side validation
   script. The server-side validation will be implemented in CLJ in a
   subsequent tutorial.
-  
+
 ![Please, complete the form][14]
 
 ![File not found][15]
@@ -367,9 +367,10 @@ If you fill both the email and password and click the login button (or
 evaluate `(validate-form)` in the brepl, you'll see the `Not found page`
 we set up with compojure in [Tutorial 3][16]
 
-# Tutorial 5 - Introducing Domina
+# Next Tutorial
 
-TO BE DONE
+In the [next tutorial][18] we're going to use [domina library][18] to
+make our login form validation more clojure-ish.
 
 # License
 
@@ -392,4 +393,5 @@ License, the same as Clojure.
 [15]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/file-not-found.png
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
 [17]: https://developers.google.com/closure/compiler/
-
+[18]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
+[19]: https://github.com/levand/domina

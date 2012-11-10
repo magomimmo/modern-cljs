@@ -9,19 +9,17 @@ This series of tutorials will guide you in creating, setting up and
 running simple CLJS projects. The series follows a progressive
 enhancement of projects themselves.
 
-Assuming you already installed [leiningen][9], to run the tutorials
-without coding: 
+Assuming you already have installed [leiningen][9], to run the last
+available tutorial (i.e. [tutorial 5][12]) without coding:
 
 1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
 2. `$ cd modern-cljs`
 3. ` $ lein ring server`
-4. open a new terminal and cd in modern-cljs 
+4. open a new terminal and cd in modern-cljs
 5. `$ lein cljsbuild once`
 6. `$ lein trampoline cljsbuild repl-listen`
-7. visit [simple.html][10] for tutorials 1, 2 and 3
-8. visit [login.html][11] for tutorial 4
-9. play with the repl connected to the browser
-10. have fun 
+7. visit [login.html][11]
+8. play with the repl connected to the browser
 
 That said, I suggest coding yourself the content of the tutorials.
 
@@ -46,9 +44,14 @@ In this tutorial we start having some fun with CLJS form validation, by
 porting from JS to CLJS the login form example of
 [Modern Javascript: Development and desing][7] by [Larry Ullman][8].
 
-## Tutorial 5 - Introducing Domina
+## [Tutorial 5 - Introducing Domina][12]
 
-To be done
+In this tutorial we're goingo to use [domina library][13] to make our
+login form validation more clojure-ish.
+
+## Tutorial 6 - TO BE DONE
+
+TO BE DONE
 
 # License
 
@@ -66,3 +69,5 @@ License, the same as Clojure.
 [9]: https://github.com/technomancy/leiningen
 [10]: http://localhost:3000/simple.html
 [11]: http://localhost:3000/login.html
+[12]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
+[13]: https://github.com/levand/domina
