@@ -4,7 +4,6 @@ In this tutorial we're going to introduce [Domina][1] to improve the
 idiomaticity of the validation sample of the login form we presented in
 the [previous tutorial][2].
 
-if you want to see and run the modern-cljs
 ## Introduction
 
 In the [previus tutorial][2] we started coding in CLJS directly
@@ -36,9 +35,9 @@ a more clojure-ish style.
 
 ## Add domina to projct dependencies
 
-As usual when using leiningen, to add a library to a CLJ/CLJS project
-you need to add the library to the dependencies section of
-`projct.clj`. Here is the updated version of `project.clj`
+As usual when using leiningen, to add a library to a CLJ/CLJS project,
+you need to add it to the dependencies section of `project.clj`. Here is
+the updated version of `project.clj`
 
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -72,7 +71,7 @@ you need to add the library to the dependencies section of
                            :pretty-print true}}]})
 ```
 
-## domina by-id, value and set-value! functions
+## Domina selectors
 
 [Domina][1] offers more selector functions: `xpath`, in `domina.xpath`
 namespace, and `sel`, in `domina.css` namaspace. But it also features
