@@ -7,7 +7,9 @@
   :source-paths ["src/clj"]
   :dependencies [[org.clojure/clojure "1.4.0"]
                  ; compojure dependency
-                 [compojure "1.1.3"]]
+                 [compojure "1.1.3"]
+                 ; domina dependency
+                 [domina "1.0.0"]]
   :plugins [; cljsbuild plugin
             [lein-cljsbuild "0.2.9"]
             ; ring plugin
