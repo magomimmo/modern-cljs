@@ -93,6 +93,10 @@ Now, let's take a look at the HTML.
 ```
 ### Progressive enhancement and unobtrusive JS
 
+Note that each element has both a `name` attribute and an `id`
+attribute. The `name` value will be used when the form data is submitted
+to the server-side. The `id` value will be used by the JS.
+
 `login.php` script is associated with the `form action`. And `login.js` is
 linked within the html page. Aside from `login.js` being linked within
 `login.html`, there is no direct connection between the `form` and the
