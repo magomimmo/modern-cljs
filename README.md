@@ -46,7 +46,7 @@ porting from JS to CLJS the login form example of
 
 ## [Tutorial 5 - Introducing Domina][12]
 
-In this tutorial we're goingo to use [domina library][13] to make our
+In this tutorial we're going to use [domina library][13] to make our
 login form validation more clojure-ish.
 
 ## Tutorial 6 - TO BE DONE
