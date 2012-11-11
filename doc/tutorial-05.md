@@ -29,9 +29,50 @@ agreement with the following reasoning:
 > with HTML, CSS and images without having to set an eye on Hiccup data
 > structures or those pesky parentheses.
 
-[`login.html`][8] is going to be our pure HTML/CSS template and `domina`
-is going to be our CLJS library to interface the DOM of `login.html` in
-more idiomatic ClojureScript.
+Our old `login.html` friend is going to be our pure HTML/CSS template
+and `domina` is going to be our CLJS library to interface the DOM of the
+page in more idiomatic CLJ/CLJS.
+
+Here is the content of `login.html` we already used in [tutorial 4][2].
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- login.html -->
+    <form action="login.php" method="post" id="loginForm" novalidate>
+        <fieldset>
+            <legend>Login</legend>
+
+            <div>
+              <label for="email">Email Address</label>
+              <input type="email" name="email" id="email" required>
+            </div>
+
+            <div>
+              <label for="password">Password</label>
+              <input type="password" name="password" id="password" required>
+            </div>
+
+            <div>
+              <label for="submit"></label>
+              <input type="submit" value="Login &rarr;" id="submit">
+            </div>
+
+        </fieldset>
+    </form>
+    <script src="js/modern.js"></script>
+</body>
+</html>
+```
 
 ## Add domina to project dependencies
 
@@ -91,7 +132,7 @@ element, and `(set-value! el value)` which sets its value.
 
 > Note 2: when you need to :use or :require a namespace, CLJS imposes
 > using the :only form of :use and the :as form of :require. For further
-> differences see [the ClojureScript Wiki][9]
+> differences see [the ClojureScript Wiki][8]
 
 ## Modify validate-form
 
@@ -171,9 +212,11 @@ false
 ClojureScript:modern-cljs.login>
 ```
 
-Fill both the `Email Address` and `Password` fields of the login form. At
-the CLJS repl prompt, call `(validate-form)` again. You should now see
-`(validate-form)` returning `true`.
+Fill both the `Email Address` and `Password` fields of the login
+form. At the CLJS repl prompt, call `(validate-form)` again. You should
+now see `(validate-form)` returning `true`, passing the controll to the
+[original][6] server-side script which we're going to implement in a
+subsequent tutorial using CLJ.
 
 ```bash
 ClojureScript:modern-cljs.login> (validate-form)
@@ -181,9 +224,239 @@ true
 ClojureScript:modern-cljs.login>
 ```
 
+## Shopping calculator sample
+
+Now let's try to port to CLJS a second example from Larry Ullman
+[Modern JavaScript][6] book: a kind of an e-commerce tool that will
+calculate the total of an order, including tax, and minus any discount.
+
+### Pure HTML/CSS page
+
+Here is the `shopping.html` content which is in line with
+[clojurescriptone approach][4] and [Larry Ullman][6] to keep the design
+of the HTML/CSS/images phase from the code is going to implement its
+behaviour. Save it in `src/resources/public` directory.
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Shopping Calculator</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- shopping.html -->
+  <form action="" method="post" id="shoppingForm" novalidate>
+    <legend> Shopping Calculator</legend>
+    <fieldset>
+
+      <div>
+        <label for="quantity">Quantity</label>
+        <input type="number"
+               name="quantity"
+               id="quantity"
+               value="1"
+               min="1" required>
+      </div>
+
+      <div>
+        <label for="price">Price Per Unit</label>
+        <input type="text"
+               name="price"
+               id="price"
+               value="1.00"
+               required>
+      </div>
+
+      <div>
+        <label for="tax">Tax Rate (%)</label>
+        <input type="text"
+               name="tax"
+               id="tax"
+               value="0.0"
+               required>
+      </div>
+
+      <div>
+        <label for="discount">Discount</label>
+        <input type="text"
+               name="discount"
+               id="discount"
+               value="0.00" required>
+      </div>
+
+      <div>
+        <label for="total">Total</label>
+        <input type="text"
+               name="total"
+               id="total"
+               value="0.00">
+      </div>
+
+      <div>
+        <input type="submit"
+               value="Calculate"
+               id="submit">
+      </div>
+
+    </fieldset>
+  </form>
+  <script src="js/modern.js"></script>
+</body>
+</html>
+```
+
+As before, we included the link to `js/modern.js` external JS file which
+will be generated by the CLJS compilation. Note that this time we have
+not attached any value to the `action` attribute of the form. That's
+because in this new example there is no server-side form submission.
+
+The following picture show the rendered `shopping.html` page.
+
+![Shopping Page][9]
+
+### Shopping calculator CLJS code
+
+Now it's time to code the implementation of the shopping calculator. We
+need to read few values from the calculator form:
+
+* quantity
+* price per unit
+* tax rate
+* discount
+
+We than have to calculate the total and write back the result in the
+form and return the `false` value because there is no a server-side
+scritp to which submit any data.
+
+Create the `shopping.cljs` file in `src/cljs/modern_cljs` directory and
+type into it the following code
+
+```clojure
+(ns modern-cljs.shopping
+  (:use [domina :only [by-id value set-value!]]))
+
+(defn calculate []
+  (let [quantity (value (by-id "quantity"))
+        price (value (by-id "price"))
+        tax (value (by-id "tax"))
+        discount (value (by-id "discount"))]
+    ;; bad CLJ style
+    ;; (set-value! (by-id "total")
+    ;;             (.toFixed (- (* (+ 1 (/ tax 100))
+    ;;                             (* quantity price))
+    ;;                          discount)
+    ;;                       2))
+
+    ;; better CLJ style
+    (set-value! (by-id "total") (-> (* quantity price)
+                                    (* (+ 1 (/ tax 100)))
+                                    (- discount)
+                                    (.toFixed 2)))
+    false))
+
+;; the same as the previus sample
+(defn init []
+  (if (and js/document
+           (.-getElementById js/document))
+    (let [theForm (.getElementById js/document "shoppingForm")]
+      (set! (.-onsubmit theForm) calculate))))
+
+;; the same as the previus sample
+(set! (.-onload js/window) init)
+```
+
+Let's now try our little shopping calculator as usual:
+
+```bash
+$ lein ring server # in the modern-cljs directory
+$ lein cljsbuild auto # in the modern-cljs directory in a new terminal
+$ lein trampoline cljsbuild repl-listen # in a the modern_cljs directly in a new terminal
+```
+
+### A short trouble shooting session
+
+Now visit `localhost:3000/shopping.html` and run the calculator by
+clicking the `Calculate` button. You'll receive a "Page not found". What's appened?
+
+The received error is not so informative. We have not yet introduced any
+debugging tool to be used in such a case, so we try shooting the trouble
+with what we have in our hands: the CLJS repl connected to the browser
+(i.e. brepl). In the previus login form sample we ran the
+`(validate-form)` function from the brepl to test its behaviour. Let's
+try the same thing by evaluating the `(calculate)` function we just
+defined in `modern-cljs.shopping` namespace.
+
+First, click the back button of your browser to show again
+`shopping.html` page and then evalutate the following CLJS expressions
+in the brepl.
+
+```bash
+ClojureScript:cljs.user> (in-ns 'modern-cljs.shopping)
+
+ClojureScript:modern-cljs.shopping> (calculate)
+false
+ClojureScript:modern-cljs.shopping>
+```
+
+The `calculate` functions correctly returns `false`, but the funny thing
+is that the `Total` shown by the calculator form is right.
+
+![Total][11]
+
+This means that the `calculate` function is correctly called in the
+brepl, but not by the `Calculate` button of the form. Let's see if the
+brepl may help us in investigating trouble.
+
+```bash
+(.-onsubmit (.getElementById js/document "shoppingForm"))
+nil
+ClojureScript:modern-cljs.shopping>
+```
+
+Ops, the `onsubmit` property of `shoppingForm` form element has no
+value. `calculate` should have been set as its value by `init` function
+which, in turn, should have been set as the value of the `onload`
+property of the `window` object. Let's know see what's the value of the
+`onload` property of the `window` object.
+
+```bash
+lojureScript:modern-cljs.shopping> (.-onload js/window)
+#<function init() {
+  if(cljs.core.truth_(function() {
+    var and__3822__auto____6439 = document;
+    if(cljs.core.truth_(and__3822__auto____6439)) {
+      return document.getElementById
+    }else {
+      return and__3822__auto____6439
+    }
+  }())) {
+    var login_form__6440 = document.getElementById("loginForm");
+    return login_form__6440.onsubmit = modern_cljs.login.validate_form
+  }else {
+    return null
+  }
+}>
+ClojureScript:modern-cljs.shopping>
+```
+
+Ops, the `init` function assigned as value for the `window` `onload`
+property is not the one we just defined, but the `init` function we
+defined to initialize the previous `loginForm`.
+
+What just appened has to do with the Google Closure Compiler
+(i.e. cljsbuild) which gets every CLJS file from `:source-path` keyword
+we set in the very first [tutorial][10] and compiles all of them in the
+"js/modern.js" file we set in the same tutorial as the value of the
+`:output-to` option of `lein-cljsbuild` plugin.
+
 # Next Step
 
-TO BE DONE
+In the next tutorial we're going to solve the problem we just met. TO BE DONE
 
 # License
 
@@ -197,5 +470,7 @@ License, the same as Clojure.
 [5]: https://github.com/weavejester/hiccup
 [6]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 [7]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md#porting-to-clojurescript
-[9]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
+[8]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
+[9]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping.png
+[10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+[11]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/total.png
