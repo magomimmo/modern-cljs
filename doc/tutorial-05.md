@@ -234,7 +234,7 @@ calculate the total of an order, including tax, and minus any discount.
 
 Here is the `shopping.html` content which is in line with
 [clojurescriptone approach][4] and [Larry Ullman][6] to keep the design
-of the HTML/CSS/images phase from the code is going to implement its
+of the HTML/CSS/images separated from the code is going to implement its
 behaviour. Save it in `src/resources/public` directory.
 
 ```html
@@ -329,9 +329,9 @@ need to read few values from the calculator form:
 * tax rate
 * discount
 
-We than have to calculate the total and write back the result in the
-form and return the `false` value because there is no a server-side
-scritp to which submit any data.
+We then have to calculate the total, write back the result in the form
+and return the `false` value because there is no a server-side scritp to
+which submit any data.
 
 Create the `shopping.cljs` file in `src/cljs/modern_cljs` directory and
 type into it the following code
@@ -386,7 +386,7 @@ clicking the `Calculate` button. You'll receive a "Page not found". What's appen
 The received error is not so informative. We have not yet introduced any
 debugging tool to be used in such a case, so we try shooting the trouble
 with what we have in our hands: the CLJS repl connected to the browser
-(i.e. brepl). In the previus login form sample we ran the
+(i.e. brepl). In the previous login form sample we ran the
 `(validate-form)` function from the brepl to test its behaviour. Let's
 try the same thing by evaluating the `(calculate)` function we just
 defined in `modern-cljs.shopping` namespace.
@@ -413,7 +413,7 @@ brepl, but not by the `Calculate` button of the form. Let's see if the
 brepl may help us in investigating trouble.
 
 ```bash
-(.-onsubmit (.getElementById js/document "shoppingForm"))
+ClojureScript:modern-cljs.shopping> (.-onsubmit (.getElementById js/document "shoppingForm"))
 nil
 ClojureScript:modern-cljs.shopping>
 ```
@@ -425,7 +425,7 @@ property of the `window` object. Let's know see what's the value of the
 `onload` property of the `window` object.
 
 ```bash
-lojureScript:modern-cljs.shopping> (.-onload js/window)
+ClojureScript:modern-cljs.shopping> (.-onload js/window)
 #<function init() {
   if(cljs.core.truth_(function() {
     var and__3822__auto____6439 = document;
