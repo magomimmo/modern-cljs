@@ -1,19 +1,19 @@
 # Tutorial 5 - Introducing Domina
 
 In this tutorial we're going to introduce [Domina][1] to improve the
-idiomaticity of the validation sample of the login form we presented in
+idiomaticity of the login form validation we presented in
 the [previous tutorial][2].
 
 ## Introduction
 
-In the [previus tutorial][2] we started coding in CLJS directly
+In the [previous tutorial][2] we started coding in CLJS directly
 translating from JS to CLJS by using [JS interop][7] features of CLJS. Now
 it's time to try something better.
 
 > [Domina][1] is a jQuery inspired DOM manipulation library for
 > ClojureScript. It provides a functional, idiomatic Clojure interface
 > to the DOM manipulation facilities provided by the Google Closure
-> library...  While Domina does not provide any innovations, attempts to
+> library...  While Domina does not provide any innovations, it attempts to
 > provide a basic functional interface to DOM manipulation that feels
 > natural in ClojureScript.
 
@@ -31,9 +31,9 @@ agreement with the following reasoning:
 
 [`login.html`][8] is going to be our pure HTML/CSS template and `domina`
 is going to be our CLJS library to interface the DOM of `login.html` in
-a more clojure-ish style.
+more idiomatic ClojureScript.
 
-## Add domina to projct dependencies
+## Add domina to project dependencies
 
 As usual when using leiningen, to add a library to a CLJ/CLJS project,
 you need to add it to the dependencies section of `project.clj`. Here is
@@ -73,24 +73,25 @@ the updated version of `project.clj`
 
 ## Domina selectors
 
-[Domina][1] offers more selector functions: `xpath`, in `domina.xpath`
-namespace, and `sel`, in `domina.css` namaspace. But it also features
-`by-id`, `value` and `set-value!` functions defined in `domina` core
+[Domina][1] offers several selector functions: `xpath`, in the `domina.xpath`
+namespace, and `sel`, in the `domina.css` namaspace. But it also features the
+`by-id`, `value` and `set-value!` functions defined in the `domina` core
 namespace, which is the one we're going to use.
 
-The nice thing about domina `(by-id id)`, inherited by the unferlying
-Googgle Closure library on which `domina` is implemented, is that it
+The nice thing about domina `(by-id id)`, inherited by the underlying
+Google Closure library on which `domina` is implemented, is that it
 takes care of verifying if the passed argument is a string. As we
-anticipated, `domina` core namespace offers other useful functions we're
+anticipated, the `domina` core namespace offers other useful functions we're
 going to use: `(value el)`, which returns the value of the passed
 element, and `(set-value! el value)` which sets its value.
 
-> Note 1: when a function modify an argument passed to it, by clojure
-> naming convetion the bang "!" is added at the end of the function
+> Note 1: when a function modifies an argument passed to it, by Clojure
+> naming convention a bang "!" is added at the end of the function
 > name.
 
 > Note 2: when you need to :use or :require a namespace, CLJS imposes
-> using the :only form of :use and the :as form of :require.
+> using the :only form of :use and the :as form of :require. For further
+> differences see [the ClojureScript Wiki][9]
 
 ## Modify validate-form
 
@@ -120,8 +121,8 @@ function definition as follows:
 ```
 
 As you can see, using `domina` the code is now more fluid than before.
-Leave the rest of the file as it was. To check that everything went well
-do as follows:
+Leave the rest of the file as is. To check that everything still works
+do the following:
 
 ```bash
 $ cd /path/to/modern-cljs
@@ -158,7 +159,7 @@ ClojureScript:modern-cljs.login> validate-form
 ClojureScript:modern-cljs.login>
 ```
 
-The evalutation of `validate-form` symbol returns the JS function
+The evaluation of the `validate-form` symbol returns the JS function
 definition attached by the CLJS compiler to the symbol itself. If you
 now try to call the function `(validate-form)`, you should see the
 browser alert window asking you to complete the form; click the `ok`
@@ -170,7 +171,7 @@ false
 ClojureScript:modern-cljs.login>
 ```
 
-Fill both `Email Address` and `Password` fields of the login form. At
+Fill both the `Email Address` and `Password` fields of the login form. At
 the CLJS repl prompt, call `(validate-form)` again. You should now see
 `(validate-form)` returning `true`.
 
@@ -197,3 +198,4 @@ License, the same as Clojure.
 [6]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 [7]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md#porting-to-clojurescript
+[9]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
