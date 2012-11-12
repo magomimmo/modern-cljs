@@ -462,7 +462,7 @@ ClojureScript:modern-cljs.shopping> (init)
 ClojureScript:modern-cljs.shopping>
 ```
 
-Now you can use the *Shopping Calculator* form clicking its *Calculate* button.
+You can now use the *Shopping Calculator* form clicking its *Calculate* button.
 
 # Next Step
 
