@@ -253,7 +253,6 @@ behaviour. Save it in `src/resources/public` directory.
   <form action="" method="post" id="shoppingForm" novalidate>
     <legend> Shopping Calculator</legend>
     <fieldset>
-
       <div>
         <label for="quantity">Quantity</label>
         <input type="number"
@@ -262,7 +261,6 @@ behaviour. Save it in `src/resources/public` directory.
                value="1"
                min="1" required>
       </div>
-
       <div>
         <label for="price">Price Per Unit</label>
         <input type="text"
@@ -271,7 +269,6 @@ behaviour. Save it in `src/resources/public` directory.
                value="1.00"
                required>
       </div>
-
       <div>
         <label for="tax">Tax Rate (%)</label>
         <input type="text"
@@ -280,7 +277,6 @@ behaviour. Save it in `src/resources/public` directory.
                value="0.0"
                required>
       </div>
-
       <div>
         <label for="discount">Discount</label>
         <input type="text"
@@ -288,7 +284,6 @@ behaviour. Save it in `src/resources/public` directory.
                id="discount"
                value="0.00" required>
       </div>
-
       <div>
         <label for="total">Total</label>
         <input type="text"
@@ -296,13 +291,11 @@ behaviour. Save it in `src/resources/public` directory.
                id="total"
                value="0.00">
       </div>
-
       <div>
         <input type="submit"
                value="Calculate"
                id="submit">
       </div>
-
     </fieldset>
   </form>
   <script src="js/modern.js"></script>
@@ -381,7 +374,7 @@ $ lein trampoline cljsbuild repl-listen # in a the modern_cljs directly in a new
 ### A short trouble shooting session
 
 Now visit `localhost:3000/shopping.html` and run the calculator by
-clicking the `Calculate` button. You'll receive a "Page not found". What's appened?
+clicking the `Calculate` button. You'll receive a "Page not found". What's happened?
 
 The received error is not so informative. We have not yet introduced any
 debugging tool to be used in such a case, so we try shooting the trouble
@@ -448,11 +441,28 @@ Ops, the `init` function assigned as value for the `window` `onload`
 property is not the one we just defined, but the `init` function we
 defined to initialize the previous `loginForm`.
 
-What just appened has to do with the Google Closure Compiler
-(i.e. cljsbuild) which gets every CLJS file from `:source-path` keyword
-we set in the very first [tutorial][10] and compiles all of them in the
+What just happened has to do with the Google Closure Compiler
+(i.e. cljsbuild). It gets every CLJS file from `:source-path` keyword we
+set in the very first [tutorial][10] and compiles all of them in the
 "js/modern.js" file we set in the same tutorial as the value of the
 `:output-to` option of `lein-cljsbuild` plugin.
+
+To temporarily solve this problem, evaluate the `(init)` function in the brepl as follows:
+
+```bash
+ClojureScript:modern-cljs.shopping> (init)
+#<function calculate() {
+  var quantity__18253 = domina.value.call(null, domina.by_id.call(null, "quantity"));
+  var price__18254 = domina.value.call(null, domina.by_id.call(null, "price"));
+  var tax__18255 = domina.value.call(null, domina.by_id.call(null, "tax"));
+  var discount__18256 = domina.value.call(null, domina.by_id.call(null, "discount"));
+  domina.set_value_BANG_.call(null, domina.by_id.call(null, "total"), (quantity__18253 * price__18254 * (1 + tax__18255 / 100) - discount__18256).toFixed(2));
+  return false
+}>
+ClojureScript:modern-cljs.shopping>
+```
+
+Now you can use the *Shopping Calculator* form clicking its *Calculate* button.
 
 # Next Step
 
