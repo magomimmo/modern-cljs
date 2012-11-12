@@ -402,7 +402,7 @@ is that the `Total` shown by the calculator form is right.
 
 This means that the `calculate` function is correctly called in the
 brepl, but not by the `Calculate` button of the form. Let's see if the
-brepl may help us in investigating trouble.
+brepl may help us in investigating the problem we have.
 
 ```bash
 ClojureScript:modern-cljs.shopping> (.-onsubmit (.getElementById js/document "shoppingForm"))
