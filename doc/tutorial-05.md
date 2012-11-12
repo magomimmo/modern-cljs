@@ -344,7 +344,6 @@ type into it the following code
     ;;                             (* quantity price))
     ;;                          discount)
     ;;                       2))
-
     ;; better CLJ style
     (set-value! (by-id "total") (-> (* quantity price)
                                     (* (+ 1 (/ tax 100)))
@@ -352,14 +351,14 @@ type into it the following code
                                     (.toFixed 2)))
     false))
 
-;; the same as the previus sample
+;; the same as the previous sample
 (defn init []
   (if (and js/document
            (.-getElementById js/document))
     (let [theForm (.getElementById js/document "shoppingForm")]
       (set! (.-onsubmit theForm) calculate))))
 
-;; the same as the previus sample
+;; the same as the previous sample
 (set! (.-onload js/window) init)
 ```
 
