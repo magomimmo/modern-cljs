@@ -1,4 +1,4 @@
-# Tutorial 6 - Trouble Shootin Session
+# Tutorial 6 - Easy made Complex and Simple made Easy
 
 In this tutorial we are going to investigate the issue we met in the
 [last tutorial][1] and try to solve it.
