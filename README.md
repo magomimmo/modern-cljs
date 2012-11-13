@@ -10,7 +10,7 @@ running simple CLJS projects. The series follows a progressive
 enhancement of projects themselves.
 
 Assuming you already have installed [leiningen][9], to run the last
-available tutorial (i.e. [tutorial 5][12]) without coding:
+available tutorial (i.e. [tutorial 6][14]) without coding:
 
 1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
 2. `$ cd modern-cljs`
@@ -18,7 +18,7 @@ available tutorial (i.e. [tutorial 5][12]) without coding:
 4. open a new terminal and cd in modern-cljs
 5. `$ lein cljsbuild once`
 6. `$ lein trampoline cljsbuild repl-listen`
-7. visit [login.html][11]
+7. visit [login.html][11] and/or [shopping.html][15]
 8. play with the repl connected to the browser
 
 That said, I suggest coding yourself the content of the tutorials.
@@ -77,3 +77,4 @@ License, the same as Clojure.
 [12]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
 [13]: https://github.com/levand/domina
 [14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
+[15]: http://localhost:3000/shopping.html
