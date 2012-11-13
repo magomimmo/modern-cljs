@@ -32,7 +32,7 @@ plugin.
 ## Introducing Google Closure Compiler (CLS)
 
 In the [first tutorial][3], we set the `:cljsbuild` keyword of
-`project.clj` to configure Google Closure Compiler with the folloowing
+`project.clj` to configure Google Closure Compiler with the following
 options:
 
 ```clojure
@@ -117,14 +117,18 @@ And here is the modified fragment of `project.clj`
       :pretty-print true}}}})
 ```
 
+> NOTE 1: To understand the details of the `:cljsbuild` configurations,
+> I strongly recommend to read the [advanced project.clj example][4]
+> from [lein-cljsbuild][5] plugin.
+
 Finally you have to include the right JS file (e.g. `"js/login.js"`
 and `"js/shopping.js"` in the script tag of each html page
 (e.g. `login.html` and `shopping.html`).
 
 Rich would call the above solution a kind of **incidental
-complexity**. What's worst is the fact that each JS emitted file, no
+complexity**. What's worst is the fact that each emitted JS file, no
 matter how smart is the CLS compiler in reducing the total size of
-each generated JS file, is different form the others: there is no way
+each generated JS file, is different from the others: there is no way
 for the browser to cache the first downloaded one to locally serve all
 the others from the cache.
 
@@ -139,6 +143,16 @@ Now the simple made easy way:
 * add a `script` tag calling the correponding `init` function in both
   `login.html` and `shopping.html` files;
 * you're done. 
+
+> NOTE 2: if you do not `^:export` a CLJS function, it will be subject
+> to Google Closure Compiler `:optimizations` strategies. When set to
+> `:simple` optimizations, the CLS compiler will minified the emitted
+> JS file and any local variable or function name will be shorten and
+> won't be available from external JS code. If a variable or function
+> name is annotated with `:export` metadata, its name is going to be
+> preserved and can be called by standard JS code. In our example the
+> two functions will be available as: `modern_cljs.login.init()` and
+> `modern_cljs.shopping.init()`. 
 
 Here is the interested fragment of `login.cljs`
 
@@ -182,6 +196,9 @@ And here is the interested fragment of `shopping.html`
   <script>modern_cljs.shopping.init();</script>
 ```
 
+> NOTE 3: See NOTE 2 above for an explanation of the exposed function
+> names from CLJS to JS.
+
 You can now run everything as usual:
 
 ```bash
@@ -202,3 +219,6 @@ License, the same as Clojure.
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
 [2]: http://localhost:3000/shopping.html
 [3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+[4]: https://github.com/emezeske/lein-cljsbuild/blob/master/example-projects/advanced/project.clj
+[5]: https://github.com/emezeske/lein-cljsbuild
+
