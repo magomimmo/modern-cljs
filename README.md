@@ -49,7 +49,12 @@ porting from JS to CLJS the login form example of
 In this tutorial we're going to use [domina library][13] to make our
 login form validation more clojure-ish.
 
-## Tutorial 6 - TO BE DONE
+## [Tutorial 6 - Easy made Complex and Simple made Easy][14]
+
+In this tutorial we're going to investigate and solve in two different
+ways the not so nice issue we met in the last tutorial.
+
+## Tutorial 7 - TO BE DONE
 
 TO BE DONE
 
@@ -71,3 +76,4 @@ License, the same as Clojure.
 [11]: http://localhost:3000/login.html
 [12]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
 [13]: https://github.com/levand/domina
+[14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md

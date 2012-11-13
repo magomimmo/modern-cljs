@@ -20,10 +20,17 @@
                                     (.toFixed 2)))
     false))
 
-(defn init []
+;;; export init function to let it be called inside a script tag in
+;;; the corresponding shopping.html page
+(defn ^:export init []
   (if (and js/document
            (.-getElementById js/document))
     (let [theForm (.getElementById js/document "shoppingForm")]
       (set! (.-onsubmit theForm) calculate))))
 
-(set! (.-onload js/window) init)
+;; the following call to set the onload property of the winodw object
+;; has been removed/commented as a consequence of the above exporting
+;; of the init function.
+
+;; when js/window has been loaded, set its onload property to init function
+; (set! (.-onload js/window) init)

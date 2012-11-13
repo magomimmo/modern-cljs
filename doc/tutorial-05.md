@@ -172,6 +172,10 @@ $ lein cljsbuild once # or auto to trigger automatic recompilation
 $ lein trampoline cljsbuild repl-listen
 ```
 
+> Note 3: be sure to `cd` in the home directory of the project in each
+> terminal you open (at least 2, if you run `$ lein cljsbuild once`
+> command - at least 3 if you run `$ lein cljsbuild auto` command.
+
 Open your browser at `localhost:3000/login.html` and after few moments,
 when the CLJS repl becomes responsive having established the connection
 with the browser, try the following at the REPL prompt:
@@ -365,7 +369,7 @@ type into it the following code
 Let's now try our little shopping calculator as usual:
 
 ```bash
-$ lein ring server # in the modern-cljs directory
+$ lein ring server # in the modern-cljs home directory
 $ lein cljsbuild auto # in the modern-cljs directory in a new terminal
 $ lein trampoline cljsbuild repl-listen # in a the modern_cljs directly in a new terminal
 ```
@@ -373,12 +377,13 @@ $ lein trampoline cljsbuild repl-listen # in a the modern_cljs directly in a new
 ### A short trouble shooting session
 
 Now visit `localhost:3000/shopping.html` and run the calculator by
-clicking the `Calculate` button. You'll receive a "Page not found". What's happened?
+clicking the `Calculate` button. You'll receive a "Page not
+found". What's happened?
 
-The received error is not so informative. We have not yet introduced any
-debugging tool to be used in such a case, so we try shooting the trouble
-with what we have in our hands: the CLJS repl connected to the browser
-(i.e. brepl). In the previous login form sample we ran the
+The received error is not so informative. We have not yet introduced
+any debugging tool to be used in such a case, so we try shooting the
+trouble with what we have in our hands: the CLJS repl connected to the
+browser (i.e. brepl). In the previous login form sample we ran the
 `(validate-form)` function from the brepl to test its behaviour. Let's
 try the same thing by evaluating the `(calculate)` function we just
 defined in `modern-cljs.shopping` namespace.
@@ -411,10 +416,10 @@ ClojureScript:modern-cljs.shopping>
 ```
 
 Ops, the `onsubmit` property of `shoppingForm` form element has no
-value. `calculate` should have been set as its value by `init` function
-which, in turn, should have been set as the value of the `onload`
-property of the `window` object. Let's know see what's the value of the
-`onload` property of the `window` object.
+value. `calculate` should have been set as its value by `init`
+function which, in turn, should have been set as the value of the
+`onload` property of the `window` object. Let's know see what's the
+value of the `onload` property of the `window` object.
 
 ```bash
 ClojureScript:modern-cljs.shopping> (.-onload js/window)
@@ -436,17 +441,18 @@ ClojureScript:modern-cljs.shopping> (.-onload js/window)
 ClojureScript:modern-cljs.shopping>
 ```
 
-Ops, the `init` function assigned as value for the `window` `onload`
+Oops, the `init` function assigned as value for the `window` `onload`
 property is not the one we just defined, but the `init` function we
 defined to initialize the previous `loginForm`.
 
 What just happened has to do with the Google Closure Compiler
-(i.e. cljsbuild). It gets every CLJS file from `:source-path` keyword we
-set in the very first [tutorial][10] and compiles all of them in the
-"js/modern.js" file we set in the same tutorial as the value of the
-`:output-to` option of `lein-cljsbuild` plugin.
+(i.e. cljsbuild). It gets every CLJS file from `:source-path` keyword
+we set in the very first [tutorial][10] and compiles all of them in
+the "js/modern.js" file we set in the same tutorial as the value of
+the `:output-to` option of `lein-cljsbuild` plugin.
 
-To temporarily solve this problem, evaluate the `(init)` function in the brepl as follows:
+To temporarily solve this problem, evaluate the `(init)` function in
+the brepl as follows:
 
 ```bash
 ClojureScript:modern-cljs.shopping> (init)
@@ -461,11 +467,13 @@ ClojureScript:modern-cljs.shopping> (init)
 ClojureScript:modern-cljs.shopping>
 ```
 
-You can now use the *Shopping Calculator* form clicking its *Calculate* button.
+You can now use the *Shopping Calculator* form clicking its
+*Calculate* button.
 
 # Next Step
 
-In the next tutorial we're going to solve the problem we just met. TO BE DONE
+In the [next tutorial][12] we're going to investigate and solve in two
+different ways the problem we just met.
 
 # License
 
@@ -483,3 +491,4 @@ License, the same as Clojure.
 [9]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping.png
 [10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
 [11]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/total.png
+[12]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md

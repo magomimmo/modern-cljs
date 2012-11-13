@@ -12,7 +12,9 @@
       (do (js/alert "Please, complete the form!")
           false))))
 
-(defn init []
+;;; export init function to let it be called inside a script tag in
+;;; the corresponding login.html page
+(defn ^:export init []
   ;; verity that js/document exists and that it has a getElementById
   ;; property
   (if (and js/document
@@ -22,6 +24,9 @@
     (let [login-form (.getElementById js/document "loginForm")]
       (set! (.-onsubmit login-form) validate-form))))
 
-;; when js/window has been loaded, set its onload property to init function
+;; the following call to set the onload property of the winodw object
+;; has been removed/commented as a consequence of the above exporting
+;; of the init function.
 
-(set! (.-onload js/window) init)
+;; when js/window has been loaded, set its onload property to init function
+; (set! (.-onload js/window) init)
