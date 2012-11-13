@@ -32,7 +32,8 @@ plugin.
 ## Introducing Google Closure Compiler (CLS)
 
 In the [first tutorial][3], we set the `:cljsbuild` keyword of
-`project.clj` to configure Google Closure Compiler options:
+`project.clj` to configure Google Closure Compiler with the folloowing
+options:
 
 ```clojure
 (defproject ....  
@@ -52,12 +53,12 @@ in the `"resources/public/js/modern.js` file.
 
 I'm not going to explain every single detail of CLJS/CLS pair of
 compilers. The only detail it is useful to recap to investigate and
-eventually to solve the above issue is that the CLSJ/CLS compilers
-generates a **single** JS file
+eventually to solve the above issue is that the CLSJ/CLS pair of
+compilers generates a **single** JS file
 (e.g. `"resources/public/js/modern.js"`) from **all** the CLJS files
 it finds in `"src/cljs"` directory/subdirectories
 (e.g. `connect.cljs`, `login.cljs`, `modern.cljs` and
-`shopping.cljs`). 
+`shopping.cljs`).
 
 ## Is mutability evil?
 
@@ -123,9 +124,9 @@ and `"js/shopping.js"` in the script tag of each html page
 Rich would call the above solution a kind of **incidental
 complexity**. What's worst is the fact that each JS emitted file, no
 matter how smart is the CLS compiler in reducing the total size of
-each generated JS file, is different form the other: no way for the
-browser to cache the first downloaded one to locally serve all the
-others from the cache.
+each generated JS file, is different form the others: there is no way
+for the browser to cache the first downloaded one to locally serve all
+the others from the cache.
 
 ## Simple made easy
 
