@@ -199,5 +199,5 @@ Copyright © Mimmo Cosenza, 2012. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
-[2]: localhost:3000/shopping.html
+[2]: http://localhost:3000/shopping.html
 [3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
