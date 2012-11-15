@@ -207,6 +207,112 @@ $ lein cljsbuild auto # from the project home directory in a new terminal
 $ lein trampoline cljsbuild repl-listen # from the project home directory in a new terminal
 ```
 
+## A litle bit of abstrabction
+
+The careful reader will have notice that the `init` function defined
+in the `modern-cljs.login` namespace and the one defined in the
+`modern-cljs.shopping` namespace are almost identical. They differ
+only for the form `id` and the function assigned to `onsubmit`
+event. We can then define a more general (i.e. abstract) `init`
+function which, receiving both a form `id` and a function as argments,
+factorizes implementation of both `init` function, by further reducing
+code duplication.
+
+The factorized `init` function, being common to both `login.cljs` and
+`shopping.cljs`, will be created in a new namespace, named
+`modern-cljs.common`.
+
+Create the `common.cljs` file in `src/cljs/modern-cljs` directory and
+write into it the following code.
+
+```clojure
+(ns modern-cljs.common)
+
+(defn ^:export init [form-id onload-fn]
+  ;; verity that js/document exists and that it has a getElementById
+  ;; property
+  (if (and js/document
+           (.-getElementById js/document))
+    ;; get loginForm by element id and set its onsubmit property to
+    ;; validate-form function
+    (let [form (.getElementById js/document form-id)]
+      (set! (.-onsubmit form) onload-fn)))
+```
+
+Now we need to consequently update each pair of html page and CLJS
+code to reflect this change.
+
+Here is the interested `login.html` fragment
+
+```html
+    <script src="js/modern.js"></script>
+    <script>modern_cljs.common.init('loginForm', modern_cljs.login.validate_form);</script>
+```
+
+> NOTE 4: CLS compiler translates "-" in "_". So
+> `modern-cljs.common.init` becomes `mondern_cljs.common.init` and
+> `modern-cljs.login.validate-form` becomes
+> `modern_cljs.login.validate_form`
+
+
+And here is the interested `login.cljs` fragment
+
+```clojure
+(defn ^:export validate-form []
+  ;; get email and password element using (by-id id)
+  (let [email (by-id "email")
+        password (by-id "password")]
+    ;; get email and password value using (value el)
+    (if (and (> (count (value email)) 0)
+             (> (count (value password)) 0))
+      true
+      (do (js/alert "Please, complete the form!")
+          false))))
+```
+
+> NOTE 5: You need to `:export` the `validate-form` function name to
+> protect it from eventual CLS compiler renaming caused by the `:simple` or
+> the more aggressive `:advanced` optimization.
+
+Here is the interested `shopping.html` fragment
+
+```html
+    <script src="js/modern.js"></script>
+    <script>modern_cljs.common.init('shoppingForm', modern_cljs.shopping.validate_form)
+```
+
+> NOTE 6: See NOTE 4.
+
+And here is the interested `shopping.cljs` fragment
+
+```clojure
+(defn ^:export calculate []
+  (let [quantity (value (by-id "quantity"))
+        price (value (by-id "price"))
+        tax (value (by-id "tax"))
+        discount (value (by-id "discount"))]
+    (set-value! (by-id "total") (-> (* quantity price)
+                                    (* (+ 1 (/ tax 100)))
+                                    (- discount)
+                                    (.toFixed 2)))
+    false))
+```
+
+> NOTE 7: See NOTE 5
+
+If you have not kept everything running in the terminals from the last
+work, you can re-start everything as usual:
+
+```bash
+$ lein ring server # from the project home directory
+$ lein cljsbuild auto # from the project home directory in a new terminal
+$ lein trampoline cljsbuild repl-listen # from the project home directory in a new terminal
+```
+
+In a subsequent tutorial we'll introduce [domina event][6] management
+to further improve our functional style in porting
+[Modern JavaScript samples][7] to CLJS.
+
 # Next step - TO BE DONE
 
 TO BE DONE
@@ -221,4 +327,6 @@ License, the same as Clojure.
 [3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
 [4]: https://github.com/emezeske/lein-cljsbuild/blob/master/example-projects/advanced/project.clj
 [5]: https://github.com/emezeske/lein-cljsbuild
+[6]: https://github.com/levand/domina#event-handling
+[7]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 

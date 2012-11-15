@@ -1,7 +1,10 @@
 (ns modern-cljs.shopping
   (:use [domina :only [by-id value set-value!]]))
 
-(defn calculate []
+;;; we need to :export calculate funtion to protect it from renanimg
+;;; caused by Google Closure Compiler when :simple or :advanced
+;;; optimization option are used.
+(defn ^:export calculate []
   (let [quantity (value (by-id "quantity"))
         price (value (by-id "price"))
         tax (value (by-id "tax"))
@@ -19,18 +22,3 @@
                                     (- discount)
                                     (.toFixed 2)))
     false))
-
-;;; export init function to let it be called inside a script tag in
-;;; the corresponding shopping.html page
-(defn ^:export init []
-  (if (and js/document
-           (.-getElementById js/document))
-    (let [theForm (.getElementById js/document "shoppingForm")]
-      (set! (.-onsubmit theForm) calculate))))
-
-;; the following call to set the onload property of the winodw object
-;; has been removed/commented as a consequence of the above exporting
-;; of the init function.
-
-;; when js/window has been loaded, set its onload property to init function
-; (set! (.-onload js/window) init)

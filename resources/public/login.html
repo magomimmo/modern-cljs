@@ -32,6 +32,8 @@
         </fieldset>
     </form>
     <script src="js/modern.js"></script>
-    <script>modern_cljs.login.init();</script>
+    <script>
+      modern_cljs.common.init('loginForm', modern_cljs.login.validate_form);
+    </script>
 </body>
 </html>

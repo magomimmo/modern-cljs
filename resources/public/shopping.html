@@ -66,6 +66,8 @@
     </fieldset>
   </form>
   <script src="js/modern.js"></script>
-  <script>modern_cljs.shopping.init();</script>
+  <script>
+    modern_cljs.common.init('shoppingForm', modern_cljs.shopping.calculate);
+  </script>
 </body>
 </html>
