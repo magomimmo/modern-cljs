@@ -236,7 +236,7 @@ write into it the following code.
     ;; get loginForm by element id and set its onsubmit property to
     ;; validate-form function
     (let [form (.getElementById js/document form-id)]
-      (set! (.-onsubmit form) onload-fn)))
+      (set! (.-onsubmit form) onload-fn))))
 ```
 
 Now we need to consequently update each pair of html page and CLJS
@@ -246,7 +246,9 @@ Here is the interested `login.html` fragment
 
 ```html
     <script src="js/modern.js"></script>
-    <script>modern_cljs.common.init('loginForm', modern_cljs.login.validate_form);</script>
+    <script>
+	  modern_cljs.common.init('loginForm', modern_cljs.login.validate_form);
+	</script>
 ```
 
 > NOTE 4: CLS compiler translates "-" in "_". So
@@ -278,7 +280,9 @@ Here is the interested `shopping.html` fragment
 
 ```html
     <script src="js/modern.js"></script>
-    <script>modern_cljs.common.init('shoppingForm', modern_cljs.shopping.validate_form)
+    <script>
+		modern_cljs.common.init('shoppingForm', modern_cljs.shopping.validate_form);
+	</script>
 ```
 
 > NOTE 6: See NOTE 4.
