@@ -88,3 +88,5 @@ License, the same as Clojure.
 [13]: https://github.com/levand/domina
 [14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
 [15]: http://localhost:3000/shopping.html
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/038fde9af9dd006a05697e407351cb9a "githalytics.com")](http://githalytics.com/magomimmo/modern-cljs)
