@@ -10,7 +10,7 @@ running simple CLJS projects. The series follows a progressive
 enhancement of projects themselves.
 
 Assuming you already have installed [leiningen][9], to run the last
-available tutorial (i.e. [tutorial 6][14]) without coding:
+available tutorial without coding:
 
 1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
 2. `$ cd modern-cljs`
@@ -21,7 +21,18 @@ available tutorial (i.e. [tutorial 6][14]) without coding:
 7. visit [login.html][11] and/or [shopping.html][15]
 8. play with the repl connected to the browser
 
-That said, I suggest coding yourself the content of the tutorials.
+> NOTE: If you want to access the code of any single tutorial because
+> you don't want to `copy&paste` it or you don't want to write it
+> yourself, do as follow:
+> 
+> * `$ git clone https://github.com/magomimmo/modern-cljs.git` (if you
+>   did not already done);
+> * `$ cd modern-cljs`
+> * `$ git checkout tut-01 # for tutorial 1, tut-02 for tutorial 2 etc.`
+>   
+> That said, I suggest coding yourself the content of the tutorials. In
+> my experience is always the best choice if you are not already fluent
+> in the programming language you have under your fingers.
 
 ## [Tutorial 1 - The basic][1]
 
@@ -72,7 +83,6 @@ License, the same as Clojure.
 [7]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 [8]: http://www.larryullman.com/
 [9]: https://github.com/technomancy/leiningen
-[10]: http://localhost:3000/simple.html
 [11]: http://localhost:3000/login.html
 [12]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
 [13]: https://github.com/levand/domina
