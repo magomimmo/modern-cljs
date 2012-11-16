@@ -24,12 +24,12 @@ available tutorial without coding:
 > NOTE: If you want to access the code of any single tutorial because
 > you don't want to `copy&paste` it or you don't want to write it
 > yourself, do as follows:
-> 
+>
 > * `$ git clone https://github.com/magomimmo/modern-cljs.git` (if you
 >   did not already done);
 > * `$ cd modern-cljs`
 > * `$ git checkout tut-01 # for tutorial 1, tut-02 for tutorial 2 etc.`
->   
+>
 > That said, I suggest coding yourself the content of the tutorials. In
 > my experience is always the best choice if you are not already fluent
 > in the programming language you have under your fingers.
@@ -89,4 +89,17 @@ License, the same as Clojure.
 [14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
 [15]: http://localhost:3000/shopping.html
 
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/038fde9af9dd006a05697e407351cb9a "githalytics.com")](http://githalytics.com/magomimmo/modern-cljs)
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36404007-1']);
+  _gaq.push(['_setDomainName', 'github.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
