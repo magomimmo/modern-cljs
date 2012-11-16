@@ -23,7 +23,7 @@ available tutorial without coding:
 
 > NOTE: If you want to access the code of any single tutorial because
 > you don't want to `copy&paste` it or you don't want to write it
-> yourself, do as follow:
+> yourself, do as follows:
 > 
 > * `$ git clone https://github.com/magomimmo/modern-cljs.git` (if you
 >   did not already done);
