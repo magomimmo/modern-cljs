@@ -71,6 +71,9 @@ In this tutorial we're going to explore CLJS/CLS compilation modes by
 using the usual `lein-cljsbuild` plugin of `leiningen`, but we'll
 discover a trouble we do not know how to manage yet.
 
+## Tutorial 8 - TO BE DONE
+
+TO BE DONE
 
 # License
 
@@ -91,4 +94,4 @@ License, the same as Clojure.
 [13]: https://github.com/levand/domina
 [14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
 [15]: http://localhost:3000/shopping.html
-[16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
+[16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
