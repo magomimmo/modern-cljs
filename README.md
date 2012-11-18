@@ -18,7 +18,7 @@ available tutorial without coding:
 4. open a new terminal and cd in modern-cljs
 5. `$ lein cljsbuild once`
 6. `$ lein trampoline cljsbuild repl-listen`
-7. visit [login.html][11] and/or [shopping.html][15]
+7. visit [login-dbg.html][11] and/or [shopping-dbg.html][15]
 8. play with the repl connected to the browser
 
 > NOTE: If you want to access the code of any single tutorial because
@@ -89,9 +89,9 @@ License, the same as Clojure.
 [7]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 [8]: http://www.larryullman.com/
 [9]: https://github.com/technomancy/leiningen
-[11]: http://localhost:3000/login.html
+[11]: http://localhost:3000/login-dbg.html
 [12]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
 [13]: https://github.com/levand/domina
 [14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
-[15]: http://localhost:3000/shopping.html
+[15]: http://localhost:3000/shopping-dbg.html
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
