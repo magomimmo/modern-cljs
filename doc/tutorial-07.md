@@ -15,7 +15,7 @@ and `:advanced`.
 
 ## Being aggressive as all the others
 
-As we already saw in the very [first tutorial] of this series, we have
+As we already saw in the very [first tutorial][8] of this series, we have
 been using the `lein-cljsbuild` plugin to configure the CLJS compilation
 process, by instructing `:cljsbuild` keyword with the following value:
 
@@ -46,8 +46,8 @@ sessions with a browser development tool activated.
 
 The `:simple` compilation mode is a little more aggressive with the
 emitted JS code by the CLJS compiler. As a lot of others minifiers, it
-basically produces a minified output JS code by simplifying expressions
-and renaming local variables within functions. Nothing very new.
+basically produces a minified JS code by simplifying expressions and
+renaming local variables within functions. Nothing very new.
 
 To activate `:simple` compilation mode, all you have to do is just
 change `:optmizations` value from `:whitespace` to `:simple`.
@@ -315,7 +315,7 @@ Now edit `login-dbg.htnl`, `login-pre.html`, `shopping-dbg.html` and
 You're now ready to launch your samples from `modern-cljs` directory as
 usual (e.g. `$ lein ring server`, `lein cljsbuild auto` and `lein
 trampoline cljsbuild repl-listen`) and then to visit the debugging,
-pre-production and production versions of above pages.
+pre-production and production versions of the above pages.
 
 Take into account that using the browser as an
 [evaluation environment][3] is discouraged. If you try to evalutate a
