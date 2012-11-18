@@ -10,12 +10,12 @@ In the [last tutorial][1] we came in contact with `:export` directive
 been attached to `init`, `validate-form` and `calulate` functions. That
 directive had the scope to protect the above functions from being
 evantually renamed by the Google Closure (CLS) compiler when used with
-more aggressive compilation mode than `:whitespace`: namely `:simple`
+more aggressive compilation mode than `:whitespace`, namely `:simple`
 and `:advanced`.
 
 ## Being aggressive as all the others
 
-As we already saw in the very first tutorial of this series, we have
+As we already saw in the very [first tutorial] of this series, we have
 been using the `lein-cljsbuild` plugin to configure the CLJS compilation
 process, by instructing `:cljsbuild` keyword with the following value:
 
@@ -47,7 +47,7 @@ sessions with a browser development tool activated.
 The `:simple` compilation mode is a little more aggressive with the
 emitted JS code by the CLJS compiler. As a lot of others minifiers, it
 basically produces a minified output JS code by simplifying expressions
-and renaming local variables within functions. Nothing ver new.
+and renaming local variables within functions. Nothing very new.
 
 To activate `:simple` compilation mode, all you have to do is just
 change `:optmizations` value from `:whitespace` to `:simple`.
@@ -56,7 +56,7 @@ Instead of just substituting `:simple` directive to the `:whitespace`
 one, `lein-cljsbuild` is so nice to allow us to declare more than one
 build configuration, as documentated in [sample.project.clj][2]. Here is
 our new `project.clj` declaration with two `:builds`, the first one,
-named `:dev` which uses `:whitespace` compilation mode, the second one,
+named `:dev`, which uses `:whitespace` compilation mode, the second one,
 named `:pre-prod`, which uses `:simple` compilation mode.
 
 ```clojure
@@ -92,7 +92,7 @@ named `:pre-prod`, which uses `:simple` compilation mode.
                            ; prettyfying emitted JS
                            :pretty-print true}}
                :pre-prod
-               {; some path as above
+               {; same path as above
                 :source-path "src/cljs"
                 :compiler {; different output name
                            :output-to "resources/public/js/modern_pre.js"
@@ -160,7 +160,7 @@ It's now time to be much more aggressive by enabling the so called `dead
 code elimination` through `:advanced` CLS compilation mode.  Here is the
 code snippet.
 
-```
+```clojure
 (defproject ...
   ...
 
@@ -196,7 +196,7 @@ code snippet.
 
 ```
 
-Now compile the new build as usual by launching `$ lein cljsbuild one
+Now compile the new build as usual by launching `$ lein cljsbuild once
 prod` and then list the content of `resources/public/js`.
 
 ```bash
@@ -314,7 +314,7 @@ Now edit `login-dbg.htnl`, `login-pre.html`, `shopping-dbg.html` and
 
 You're now ready to launch your samples from `modern-cljs` directory as
 usual (e.g. `$ lein ring server`, `lein cljsbuild auto` and `lein
-trampoline cljsbuild repl-listen) and then to visit the debugging,
+trampoline cljsbuild repl-listen`) and then to visit the debugging,
 pre-production and production versions of above pages.
 
 Take into account that using the browser as an
@@ -365,3 +365,4 @@ License, the same as Clojure.
 [5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
 [6]: https://github.com/emezeske/lein-cljsbuild/issues/157
 [7]: http://dev.clojure.org/jira/browse/CLJS-419
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
