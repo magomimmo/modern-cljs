@@ -65,7 +65,7 @@ login form validation more clojure-ish.
 In this tutorial we're going to investigate and solve in two different
 ways the not so nice issue we met in the last tutorial.
 
-##  Tutorial 7 - Being doubly aggressive
+##  [Tutorial 7 - Being doubly aggressive][16]
 
 In this tutorial we're going to explore CLJS/CLS compilation modes by
 using the usual `lein-cljsbuild` plugin of `leiningen`, but we'll
@@ -91,3 +91,4 @@ License, the same as Clojure.
 [13]: https://github.com/levand/domina
 [14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
 [15]: http://localhost:3000/shopping.html
+[16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
