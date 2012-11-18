@@ -334,4 +334,4 @@ License, the same as Clojure.
 [5]: https://github.com/emezeske/lein-cljsbuild
 [6]: https://github.com/levand/domina#event-handling
 [7]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
