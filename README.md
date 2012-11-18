@@ -65,9 +65,12 @@ login form validation more clojure-ish.
 In this tutorial we're going to investigate and solve in two different
 ways the not so nice issue we met in the last tutorial.
 
-## Tutorial 7 - TO BE DONE
+##  Tutorial 7 - Being doubly aggressive
 
-TO BE DONE
+In this tutorial we're going to explore CLJS/CLS compilation modes by
+using the usual `lein-cljsbuild` plugin of `leiningen`, but we'll
+discover a trouble we do not know how to manage yet.
+
 
 # License
 

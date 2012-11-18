@@ -18,12 +18,31 @@
   :ring {:handler modern-cljs.core/handler}
   ; cljsbuild tadks configuration
   :cljsbuild {:builds
-              [{; clojurescript source code path
+              {
+               :dev
+               {; clojurescript source code path
+                :source-path "src/cljs"
+                ; Google Closure Compiler options
+                :compiler {; the name of emitted JS script file
+                           :output-to "resources/public/js/modern_dbg.js"
+                           ; minimum optimization
+                           :optimizations :whitespace
+                           ; prettyfying emitted JS
+                           :pretty-print true}}
+               :prod
+               {; clojurescript source code path
                 :source-path "src/cljs"
                 ; Google Closure Compiler options
                 :compiler {; the name of emitted JS script file
                            :output-to "resources/public/js/modern.js"
-                           ; minimum optimization
-                           :optimizations :whitespace
-                           ; prettyfying emitted JS
-                           :pretty-print true}}]})
+                           ; advanced optimization
+                           :optimizations :advanced}}
+               :pre-prod
+               {; some path as above
+                :source-path "src/cljs"
+                :compiler {; different output name
+                           :output-to "resources/public/js/modern_pre.js"
+                           ; simple optmization
+                           :optimizations :simple
+                           ; no need prettyfication
+                           }}}})

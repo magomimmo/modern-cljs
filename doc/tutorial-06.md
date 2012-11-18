@@ -27,7 +27,7 @@ one we defined in `login.cljs`.
 
 As we anticipated in the [previous tutorial][1], this behaviour
 depends from Google Closure Compiler driven by `lein-cljsbuild`
-plugin. 
+plugin.
 
 ## Introducing Google Closure Compiler (CLS)
 
@@ -36,7 +36,7 @@ In the [first tutorial][3], we set the `:cljsbuild` keyword of
 options:
 
 ```clojure
-(defproject ....  
+(defproject ....
   ...
   :cljsbuild {:builds
               [{:source-path "src/cljs"
@@ -49,7 +49,7 @@ options:
 The `:source-path` option instructs CLS to look for any CLJS source
 code in the `src/cljs` directory structure. The `:output-to` option of
 the `:compiler` keyword instructs CLS to save the compilation result
-in the `"resources/public/js/modern.js` file. 
+in the `"resources/public/js/modern.js` file.
 
 I'm not going to explain every single detail of CLJS/CLS pair of
 compilers. The only detail it is useful to recap to investigate and
@@ -75,7 +75,7 @@ From the above discussion the reader could start bilieving in the
 statement that CLJS is good only for *single page browser
 application*. Indeed, there is a very modest solution to the above
 conflict between more calls setting the same `onload` property of the
-JS `window` object: duplication! 
+JS `window` object: duplication!
 
 You have to duplicate the directory structure and the corresponding
 build options for each html page is going to include that single
@@ -97,10 +97,10 @@ And here is the modified fragment of `project.clj`
 ```clojure
 (defproject ...
   ...
-  
+
   :cljsbuild
   {:builds
-   
+
    ;; login.js build
    {:login
     {:source-path "src/cljs/login"
@@ -142,7 +142,7 @@ Now the simple made easy way:
   `shopping.cljs` files;
 * add a `script` tag calling the correponding `init` function in both
   `login.html` and `shopping.html` files;
-* you're done. 
+* you're done.
 
 > NOTE 2: if you do not `^:export` a CLJS function, it will be subject
 > to Google Closure Compiler `:optimizations` strategies. When set to
@@ -152,7 +152,7 @@ Now the simple made easy way:
 > name is annotated with `:export` metadata, its name is going to be
 > preserved and can be called by standard JS code. In our example the
 > two functions will be available as: `modern_cljs.login.init()` and
-> `modern_cljs.shopping.init()`. 
+> `modern_cljs.shopping.init()`.
 
 Here is the interested fragment of `login.cljs`
 
@@ -247,8 +247,8 @@ Here is the interested `login.html` fragment
 ```html
     <script src="js/modern.js"></script>
     <script>
-	  modern_cljs.common.init('loginForm', modern_cljs.login.validate_form);
-	</script>
+          modern_cljs.common.init('loginForm', modern_cljs.login.validate_form);
+        </script>
 ```
 
 > NOTE 4: CLS compiler translates "-" in "_". So
@@ -281,8 +281,8 @@ Here is the interested `shopping.html` fragment
 ```html
     <script src="js/modern.js"></script>
     <script>
-		modern_cljs.common.init('shoppingForm', modern_cljs.shopping.validate_form);
-	</script>
+                modern_cljs.common.init('shoppingForm', modern_cljs.shopping.validate_form);
+        </script>
 ```
 
 > NOTE 6: See NOTE 4.
@@ -317,9 +317,10 @@ In a subsequent tutorial we'll introduce [domina event][6] management
 to further improve our functional style in porting
 [Modern JavaScript samples][7] to CLJS.
 
-# Next step - TO BE DONE
+# Next step - Being doubly aggressive
 
-TO BE DONE
+In the [next tutorial][8] we're going to explore CLJS/CLS compilation modes by
+using the usual `lein-cljsbuild` plugin of `leiningen`.
 
 # License
 
@@ -333,4 +334,4 @@ License, the same as Clojure.
 [5]: https://github.com/emezeske/lein-cljsbuild
 [6]: https://github.com/levand/domina#event-handling
 [7]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
-
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
