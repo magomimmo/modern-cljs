@@ -25,7 +25,7 @@ operating system, because it's very easy to be configured and run. There
 should be similar options for others OSs.
 
 > NOTE 1: a very handy and portable http-server is python module
-> `SimpleHTTPServer. If you have python installed on your operating
+> `SimpleHTTPServer`. If you have python installed on your operating
 > system just launch it as follows:
 >
 > ```bash
