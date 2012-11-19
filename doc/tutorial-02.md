@@ -24,6 +24,18 @@ You can use any http-server. In this tutorial we're going to use the
 operating system, because it's very easy to be configured and run. There
 should be similar options for others OSs.
 
+> NOTE 1: a very handy and portable http-server is python module
+> `SimpleHTTPServer. If you have python installed on your operating
+> system just launch it as follows:
+>
+> ```bash
+> $ cd /path/to/modern-cljs/resources/public
+> $ python -m SimpleHTTPServer 8888
+> Serving HTTP on 0.0.0.0 port 8888 ...
+> ```
+> 
+> Thanks to [Max Penet][11] for the suggestion.
+
 ## Install, configure and run MAMP
 
 Follow MAMP documentation to install MAMP. Start MAPM and click the
@@ -146,3 +158,4 @@ License, the same as Clojure.
 [8]: https://developers.google.com/closure/compiler/
 [9]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/alert.png
 [10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[11]: https://github.com/mpenet
