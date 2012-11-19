@@ -26,7 +26,7 @@ available tutorial without coding:
 > yourself, do as follows:
 >
 > * `$ git clone https://github.com/magomimmo/modern-cljs.git` (if you
->   did not already done);
+>   have not already done);
 > * `$ cd modern-cljs`
 > * `$ git checkout tut-01 # for tutorial 1, tut-02 for tutorial 2 etc.`
 >

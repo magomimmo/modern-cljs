@@ -53,8 +53,8 @@ To activate `:simple` compilation mode, all you have to do is just
 change `:optmizations` value from `:whitespace` to `:simple`.
 
 Instead of just substituting `:simple` directive to the `:whitespace`
-one, `lein-cljsbuild` is so nice to allow us to declare more than one
-build configuration, as documentated in [sample.project.clj][2]. Here is
+one, as documentated in [sample.project.clj][2], `lein-cljsbuild` is so
+nice to allow us to declare more than one build configuration. Here is
 our new `project.clj` declaration with two `:builds`, the first one,
 named `:dev`, which uses `:whitespace` compilation mode, the second one,
 named `:pre-prod`, which uses `:simple` compilation mode.
@@ -318,10 +318,11 @@ trampoline cljsbuild repl-listen`) and then to visit the debugging,
 pre-production and production versions of the above pages.
 
 Take into account that using the browser as an
-[evaluation environment][3] is discouraged. If you try to evalutate a
-CLJS expression from the brepl when you're visiting the production
-versions of the pages (i.e. `login.html` and `shopping.html`) the brepl
-will hang up and this brings us to the next paragraph.
+[evaluation environment][3] is discouraged with `:advanced` mode. If you
+try to evalutate a CLJS expression from the brepl when you're visiting
+the production versions of the pages (i.e. `login.html` and
+`shopping.html`) the brepl will hang up and this brings us to the next
+paragraph.
 
 ## Get in trouble
 
