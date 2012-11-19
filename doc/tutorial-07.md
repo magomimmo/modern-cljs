@@ -78,7 +78,7 @@ named `:pre-prod`, which uses `:simple` compilation mode.
             [lein-ring "0.7.5"]]
   ; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
-  ; cljsbuild tadks configuration
+  ; cljsbuild tasks configuration
   :cljsbuild {:builds
               {
                :dev
