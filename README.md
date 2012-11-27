@@ -76,6 +76,8 @@ discover a trouble we do not know how to manage yet.
 In this tutorial we're going to patch CLJS compiler for solving 
 the code duplication trouble we met in the previous tutorial.
 
+## Tutorial 9 - To be done
+
 TO BE DONE
 
 # License
