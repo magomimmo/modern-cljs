@@ -178,7 +178,7 @@ underlying CLJS compiler.
 
 ## CLJS compiler
 
-In the CLJS [Quick Start][3] guide you can read the following
+In the CLJS [Quick Start][2] guide you can read the following
 
 > cljsc is convenient when a command-line tool is required or when a file
 > or project only needs to be compiled once. While developing, it is much
@@ -196,7 +196,7 @@ cljs.closure/build
 
 It seems that if we want to patch the CLJS compiler, the `build`
 function defined in the `cljs.closure` namespace is the first one we
-should take care of. Indeed, by observing the reported `build` call
+should take care of. Indeed, by observing the following `build` call
 sample, it can be seen that it accepts a CLJS source and an options
 map, the same options map we already met in `lein-cljsbuild`.
 
@@ -339,7 +339,7 @@ one.
            output-files)))))
 ```
 
-As you can observe, we modify `compile-root` by:
+As you can observe, we modified `compile-root` by:
 
 * adding a new arity which accepts as third argument the value of
 `:exclude` option passed by `compile-dir`;
@@ -349,7 +349,7 @@ As you can observe, we modify `compile-root` by:
 ### exclude-file-names
 
 `exclude-file-names` is a new function which accept a source-dir and a
-vector of source filea and/or directories as arguments and produce
+vector of source files and/or directories as arguments and produces
 their expansion as a complete set of source files which live in
 source-dir and are to be excluded from compilation.
 
@@ -369,7 +369,7 @@ Here is `exclude-file-names` definition.
 ### cljs-files-in
 
 `cljs-files-in` is the last function we have to update to support the
-envisioned `:exclude` option. Here is the uodated definition.
+envisioned `:exclude` option. Here is the updated definition.
 
 ```clojure
 (defn cljs-files-in
@@ -386,7 +386,7 @@ envisioned `:exclude` option. Here is the uodated definition.
 ```
 
 As you can see, we added a new arity to manage the expanded set of
-CLJS source file to be excluded from compilation. The files exclusion
+CLJS source files to be excluded from compilation. The files exclusion
 is obtained by adding a new `and` clause to the anonymous function
 passed to `filter` HFO.
 
@@ -482,8 +482,8 @@ by the patched CLJS compiler still have the call to connect the
 browser with the brepl server.
 
 On the contrary, `modern.js`, which as been emitted by excluding
-`modern_cljs/connect.cljs" form compilation, does not contain anymore
-the connection with the brepl server as you can verify as follows.
+`modern_cljs/connect.cljs` form compilation, does not contain anymore
+the connection with the brepl server as you can verify by yourself.
 
 ```bash
 $ tail resources/public/js/modern.js 
