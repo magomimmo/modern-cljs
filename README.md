@@ -71,7 +71,10 @@ In this tutorial we're going to explore CLJS/CLS compilation modes by
 using the usual `lein-cljsbuild` plugin of `leiningen`, but we'll
 discover a trouble we do not know how to manage yet.
 
-## Tutorial 8 - TO BE DONE
+## [Tutorial 8 - Learn by contributing][17]
+
+In this tutorial we're going to patch CLJS compiler for solving 
+the code duplication trouble we met in the previous tutorial.
 
 TO BE DONE
 
@@ -95,3 +98,4 @@ License, the same as Clojure.
 [14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
 [15]: http://localhost:3000/shopping-dbg.html
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
+[17]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md

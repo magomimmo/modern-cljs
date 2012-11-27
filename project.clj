@@ -4,7 +4,9 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   ; clojure source code path
-  :source-paths ["src/clj"]
+  :source-paths ["src/clj"
+                 "compiler/clojurescript/src/clj"
+                 "compiler/clojurescript/src/cljs"]
   :dependencies [[org.clojure/clojure "1.4.0"]
                  ; compojure dependency
                  [compojure "1.1.3"]
@@ -35,7 +37,10 @@
                 ; Google Closure Compiler options
                 :compiler {; the name of emitted JS script file
                            :output-to "resources/public/js/modern.js"
-                           ; advanced optimization
+                           ; the name of the CLJS source file to be
+                           ; excluded from compilation
+                           :exclude ["modern_cljs/connect.cljs"]
+                           ;advanced optimization
                            :optimizations :advanced}}
                :pre-prod
                {; some path as above

@@ -350,9 +350,11 @@ same CLJS code base (i.e. `:source-path "src/cljs"`) and simultaneously
 have more builds that differently filter the code base istself, causing
 a maintenance headache due to code duplication.
 
-# Next step - TO BE DONE
+# Next step - Learn by contributing
 
-TO BE DONE
+In the [next tutorial][9] we're going to learn how to patch CLJ/CLJS for solving 
+the code duplication trouble we have just met.
+
 
 # License
 
@@ -367,3 +369,4 @@ License, the same as Clojure.
 [6]: https://github.com/emezeske/lein-cljsbuild/issues/157
 [7]: http://dev.clojure.org/jira/browse/CLJS-419
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
