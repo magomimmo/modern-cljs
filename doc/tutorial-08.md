@@ -35,7 +35,7 @@ underlying CLJS compiler. Solving the code duplication problem means
 to patch the underlying CLJS compiler and to substitute in
 `lein-cljsbuild` the original CLJS compiler with the patched one.
 
-The wiki of `lein-cljsbuild` [documents][2] how to set up a project to
+The wiki of `lein-cljsbuild` [documents][3] how to set up a project to
 enable the use of an arbitrary version of the CLJS compiler.
 
 We need to:
@@ -70,8 +70,8 @@ Here is the interested code snippet of `project.clj`.
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :source-paths ["src/clj"
-                     "compiler/clojurescript/src/clj"
-                     "compiler/clojurescript/src/cljs"]
+                 "compiler/clojurescript/src/clj"
+                 "compiler/clojurescript/src/cljs"]
   ...
   ...)
 ```
@@ -101,9 +101,10 @@ that the brepl is stil working as expected.
 
 Before proceeding with any patch, we need to specity the requirements to
 be satisfied for solving our code duplication problem. Let's go back to
-the portion of `project.clj` where we declared each build:
+the portion of `project.clj` where we declared each build.
 
-```clojure (defproject modern-cljs "0.1.0-SNAPSHOT"
+```clojure 
+(defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
   ...
 
