@@ -5,7 +5,7 @@ In this tutorial we are going to investigate the issue we met in the
 
 ## Introduction
 
-Last tutorial ended with a not so nice issue. Just to recap we did as
+Our last tutorial ended with a not so nice issue. Just to recap we did as
 follows:
 
 * created the `login.html` page and the corresponding `login.cljs`
@@ -26,13 +26,13 @@ that the `init` function we set for the `onload` property of the JS
 one we defined in `login.cljs`.
 
 As we anticipated in the [previous tutorial][1], this behaviour
-depends from Google Closure Compiler driven by `lein-cljsbuild`
+depends on the Google Closure Compiler driven by the `lein-cljsbuild`
 plugin.
 
 ## Introducing Google Closure Compiler (CLS)
 
 In the [first tutorial][3], we set the `:cljsbuild` keyword of
-`project.clj` to configure Google Closure Compiler with the following
+`project.clj` to configure the Google Closure Compiler with the following
 options:
 
 ```clojure
@@ -49,14 +49,14 @@ options:
 The `:source-path` option instructs CLS to look for any CLJS source
 code in the `src/cljs` directory structure. The `:output-to` option of
 the `:compiler` keyword instructs CLS to save the compilation result
-in the `"resources/public/js/modern.js` file.
+in `"resources/public/js/modern.js`.
 
-I'm not going to explain every single detail of CLJS/CLS pair of
-compilers. The only detail it is useful to recap to investigate and
-eventually to solve the above issue is that the CLSJ/CLS pair of
+I'm not going to explain every single detail of the CLJS/CLS pair of
+compilers. The only detail that is useful for investigation and
+eventually solving the above issue is that the pair of
 compilers generates a **single** JS file
-(e.g. `"resources/public/js/modern.js"`) from **all** the CLJS files
-it finds in `"src/cljs"` directory/subdirectories
+(e.g. `"resources/public/js/modern.js"`) from **all** of the CLJS files
+it finds in the `"src/cljs"` directory and subdirectories
 (e.g. `connect.cljs`, `login.cljs`, `modern.cljs` and
 `shopping.cljs`).
 
@@ -67,18 +67,17 @@ Both `login.cljs` and `shopping.cljs` had a final call to `(set!
 `login.cljs` and once from `shopping.cljs`. The order of these calls
 doesn't matter, because whichever comes first, the other is going to
 mutate its previous value: a clear case against JS mutable data
-structure?
+structures?
 
 ## Easy made complex
 
-From the above discussion the reader could start bilieving in the
-statement that CLJS is good only for *single page browser
-application*. Indeed, there is a very modest solution to the above
-conflict between more calls setting the same `onload` property of the
-JS `window` object: duplication!
+From the above discussion the reader could infer that that CLJS is good only
+for a *single page browser application*. Indeed, there is a very modest solution
+to the above conflict between more calls setting the same `onload` property of
+the JS `window` object: duplication!
 
 You have to duplicate the directory structure and the corresponding
-build options for each html page is going to include that single
+build options for each html page that is going to include the single
 generated JS file.
 
 Here are the bash commands you should enter in the terminal.
@@ -118,19 +117,18 @@ And here is the modified fragment of `project.clj`
 ```
 
 > NOTE 1: To understand the details of the `:cljsbuild` configurations,
-> I strongly recommend to read the [advanced project.clj example][4]
-> from [lein-cljsbuild][5] plugin.
+> I strongly recommend you read the [advanced project.clj example][4]
+> from the [lein-cljsbuild][5] plugin.
 
 Finally you have to include the right JS file (e.g. `"js/login.js"`
 and `"js/shopping.js"` in the script tag of each html page
 (e.g. `login.html` and `shopping.html`).
 
-Rich would call the above solution a kind of **incidental
+Most would call the above solution a kind of **incidental
 complexity**. What's worst is the fact that each emitted JS file, no
-matter how smart is the CLS compiler in reducing the total size of
-each generated JS file, is different from the others: there is no way
-for the browser to cache the first downloaded one to locally serve all
-the others from the cache.
+matter how smart is the CLS compiler is in reducing the total size, is
+different from the others: there is no way for the browser to cache the first
+downloaded one to locally serve all the others from the cache.
 
 ## Simple made easy
 
@@ -146,15 +144,15 @@ Now the simple made easy way:
 
 > NOTE 2: if you do not `^:export` a CLJS function, it will be subject
 > to Google Closure Compiler `:optimizations` strategies. When set to
-> `:simple` optimizations, the CLS compiler will minified the emitted
-> JS file and any local variable or function name will be shorten and
+> `:simple` optimizations, the CLS compiler will minify the emitted
+> JS file and any local variable or function name will be shortened/obfuscated and
 > won't be available from external JS code. If a variable or function
 > name is annotated with `:export` metadata, its name is going to be
 > preserved and can be called by standard JS code. In our example the
 > two functions will be available as: `modern_cljs.login.init()` and
 > `modern_cljs.shopping.init()`.
 
-Here is the interested fragment of `login.cljs`
+Here is the related fragment of `login.cljs`
 
 ```clojure
 ;; the rest as before
@@ -182,22 +180,22 @@ And here is the interested fragment of `shopping.cljs`
 ;; (set! (.-onload js/window) init)
 
 ```
-Here is the interested fragment of `login.html`
+Here is the related fragment of `login.html`
 
 ```html
     <script src="js/modern.js"></script>
     <script>modern_cljs.login.init();</script>
 ```
 
-And here is the interested fragment of `shopping.html`
+And here is the related fragment of `shopping.html`
 
 ```html
   <script src="js/modern.js"></script>
   <script>modern_cljs.shopping.init();</script>
 ```
 
-> NOTE 3: See NOTE 2 above for an explanation of the exposed function
-> names from CLJS to JS.
+> NOTE 3: See NOTE 2 above for an explanation of exposing
+> functions from CLJS to JS.
 
 You can now run everything as usual:
 
@@ -209,16 +207,15 @@ $ lein trampoline cljsbuild repl-listen # from the project home directory in a n
 
 ## A litle bit of abstrabction
 
-The careful reader will have notice that the `init` function defined
+The careful reader will have noticed that the `init` function defined
 in the `modern-cljs.login` namespace and the one defined in the
 `modern-cljs.shopping` namespace are almost identical. They differ
-only for the form `id` and the function assigned to `onsubmit`
-event. We can then define a more general (i.e. abstract) `init`
+only in the form `id` and the function assigned to the `onsubmit`
+event. We can define a more general (i.e. abstracted) `init`
 function which, receiving both a form `id` and a function as argments,
-factorizes implementation of both `init` function, by further reducing
-code duplication.
+handles the implementation of both `init` function, and reduces code duplication.
 
-The factorized `init` function, being common to both `login.cljs` and
+The abstracted `init` function, being common to both `login.cljs` and
 `shopping.cljs`, will be created in a new namespace, named
 `modern-cljs.common`.
 
@@ -229,7 +226,7 @@ write into it the following code.
 (ns modern-cljs.common)
 
 (defn ^:export init [form-id onload-fn]
-  ;; verity that js/document exists and that it has a getElementById
+  ;; verify that js/document exists and that it has a getElementById
   ;; property
   (if (and js/document
            (.-getElementById js/document))
@@ -239,16 +236,16 @@ write into it the following code.
       (set! (.-onsubmit form) onload-fn))))
 ```
 
-Now we need to consequently update each pair of html page and CLJS
+Now we need to update each html page and its associated CLJS
 code to reflect this change.
 
-Here is the interested `login.html` fragment
+Here is the related `login.html` fragment
 
 ```html
     <script src="js/modern.js"></script>
     <script>
-          modern_cljs.common.init('loginForm', modern_cljs.login.validate_form);
-        </script>
+      modern_cljs.common.init('loginForm', modern_cljs.login.validate_form);
+    </script>
 ```
 
 > NOTE 4: CLS compiler translates "-" in "_". So
@@ -257,7 +254,7 @@ Here is the interested `login.html` fragment
 > `modern_cljs.login.validate_form`
 
 
-And here is the interested `login.cljs` fragment
+And here is the related `login.cljs` fragment
 
 ```clojure
 (defn ^:export validate-form []
@@ -276,18 +273,18 @@ And here is the interested `login.cljs` fragment
 > protect it from eventual CLS compiler renaming caused by the `:simple` or
 > the more aggressive `:advanced` optimization.
 
-Here is the interested `shopping.html` fragment
+Here is the related `shopping.html` fragment
 
 ```html
     <script src="js/modern.js"></script>
     <script>
-                modern_cljs.common.init('shoppingForm', modern_cljs.shopping.validate_form);
-        </script>
+      modern_cljs.common.init('shoppingForm', modern_cljs.shopping.validate_form);
+    </script>
 ```
 
 > NOTE 6: See NOTE 4.
 
-And here is the interested `shopping.cljs` fragment
+And here is the related `shopping.cljs` fragment
 
 ```clojure
 (defn ^:export calculate []
@@ -304,8 +301,8 @@ And here is the interested `shopping.cljs` fragment
 
 > NOTE 7: See NOTE 5
 
-If you have not kept everything running in the terminals from the last
-work, you can re-start everything as usual:
+If you have not kept everything running in the terminals from our last
+session, you can restart everything as usual:
 
 ```bash
 $ lein ring server # from the project home directory
@@ -335,3 +332,4 @@ License, the same as Clojure.
 [6]: https://github.com/levand/domina#event-handling
 [7]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
+
