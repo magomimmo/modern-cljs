@@ -1,4 +1,4 @@
-# Tutorial 8 - Learn by being collaborative
+# Tutorial 8 - Learn by contributing
 
 In this tutorial we're going to learn more about CLJS by trying to
 patch it for solving the problem we found in the [last tutorial][1].
@@ -103,7 +103,7 @@ Before proceeding with any patch, we need to specity the requirements to
 be satisfied for solving our code duplication problem. Let's go back to
 the portion of `project.clj` where we declared each build.
 
-```clojure 
+```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
   ...
@@ -167,8 +167,8 @@ sample.
             :prod
                {:source-path "src/cljs"
                 :compiler {:output-to "resources/public/js/modern.js"
-                           :exclude ["modern_cljs/connect.cljs" 
-						             "modern_cljs/exclude_dir"]
+                           :exclude ["modern_cljs/connect.cljs"
+                                                             "modern_cljs/exclude_dir"]
                            :optimizations :advanced}}
 ```
 
@@ -255,7 +255,7 @@ next function we need to follow the definition of.
 ```
 
 `compile-dir` accepts as arguments a source directory and a map of
-compilation. It next calls `compile-root`, defined in the
+compilation options. It next calls `compile-root`, defined in the
 `compiler.clj`, by passing it the received source directory and the
 output directory extracted from the received option maps (defaulted to
 "out" directory).
@@ -284,7 +284,7 @@ original one in `closure.clj` which resides in the
 
 ### compile-root
 
-Take now a look to `compile-root` which is defined in
+Take now a look at `compile-root` which is defined in
 `compiler.clj`. Here is the orginal definition of `compile-root`.
 
 ```clojure
@@ -345,7 +345,7 @@ As you can observe, we modified `compile-root` by:
 `:exclude` option passed by `compile-dir`;
 * changing the call to `cljs-files-in`, which now receives the
   expasion produced by `exclude-file-names` as second argument.
-  
+
 ### exclude-file-names
 
 `exclude-file-names` is a new function which accept a source-dir and a
@@ -363,7 +363,7 @@ Here is `exclude-file-names` definition.
           (map #(.getAbsolutePath ^java.io.File %)
                (mapcat #(let [dir-path (.getAbsolutePath ^java.io.File dir)]
                           (file-seq (io/file (str dir java.io.File/separator %))))
-                       exclude-coll)))))          
+                       exclude-coll)))))
 ```
 
 ### cljs-files-in
@@ -454,7 +454,7 @@ option to the `:compiler` mode in the `:prod` build. Here is the final
 
 ## Sanity check
 
-We can now run `lein-cljsbuild` to check the patched CLJS compiler. 
+We can now run `lein-cljsbuild` to check the patched CLJS compiler.
 
 ```bash
 $ cd path/to/modern-cljs # cd in modern-cljs project home directory
@@ -465,16 +465,15 @@ $ lein cljsbuild once # compile all builds in project.clj
 > NOTE 5: you should receive a lot of wornings during the cljsbuild
 > compilation of domina. Don't warry about them.
 
-To verify that `:dev` and `:pre-prod` builds still contains the
-generated code to create the client-side connection with the brepl, do
-as follows:
+To verify that `:dev` and `:pre-prod` builds still contain the generated
+code to create the client-side connection with the brepl, do as follows:
 
 ```bash
-$ tail -n 1 resources/public/js/modern_dbg.js 
+$ tail -n 1 resources/public/js/modern_dbg.js
 clojure.browser.repl.connect.call(null, "http://localhost:9000/repl");
-$ tail -n 1 resources/public/js/modern_pre.js 
+$ tail -n 1 resources/public/js/modern_pre.js
 clojure.browser.repl.connect.call(null, "http://localhost:9000/repl");
-$ 
+$
 ```
 
 As you can see both `modern_dgb.js` and `modern_pre.js` files emitted
@@ -486,7 +485,7 @@ On the contrary, `modern.js`, which as been emitted by excluding
 the connection with the brepl server as you can verify by yourself.
 
 ```bash
-$ tail resources/public/js/modern.js 
+$ tail resources/public/js/modern.js
   return v(v(c) ? document.getElementById : c) ? document.getElementById(a).onsubmit = b : l
 });
 da("modern_cljs.login.validate_form", function() {
