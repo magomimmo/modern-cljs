@@ -13,13 +13,17 @@ Assuming you already have installed [leiningen][9], to run the last
 available tutorial without coding:
 
 1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
-2. `$ cd modern-cljs`
-3. ` $ lein ring server`
-4. open a new terminal and cd in modern-cljs
-5. `$ lein cljsbuild once`
-6. `$ lein trampoline cljsbuild repl-listen`
-7. visit [login-dbg.html][11] and/or [shopping-dbg.html][15]
-8. play with the repl connected to the browser
+2. `$ cd modern-cljs/compiler`
+3. `$ git clone https://github.com/magomimmo/clojurescript.git`
+4. `$ cd clojurescript`
+5. `$ ./script/bootstrap`
+6. `$ cd ../..`
+7. ` $ lein ring server`
+8. open a new terminal and cd in modern-cljs
+9. `$ lein cljsbuild once`
+10. `$ lein trampoline cljsbuild repl-listen`
+11. visit [login-dbg.html][11] and/or [shopping-dbg.html][15]
+12. play with the repl connected to the browser
 
 > NOTE: If you want to access the code of any single tutorial because
 > you don't want to `copy&paste` it or you don't want to write it
@@ -73,7 +77,7 @@ discover a trouble we do not know how to manage yet.
 
 ## [Tutorial 8 - Learn by contributing][17]
 
-In this tutorial we're going to patch CLJS compiler for solving 
+In this tutorial we're going to patch CLJS compiler for solving
 the code duplication trouble we met in the previous tutorial.
 
 ## Tutorial 9 - To be done
