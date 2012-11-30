@@ -358,13 +358,24 @@ Here is `exclude-file-names` definition.
 ```clojure
 (defn exclude-file-names
   "Return a set of absolute paths of files that must be excluded"
-  [dir exclude-coll]
+  [dir exclude-vec]
   (set (filter #(.endsWith ^String % ".cljs")
           (map #(.getAbsolutePath ^java.io.File %)
                (mapcat #(let [dir-path (.getAbsolutePath ^java.io.File dir)]
                           (file-seq (io/file (str dir java.io.File/separator %))))
-                       exclude-coll)))))
+                       exclude-vec)))))
 ```
+
+> The previous definition of `exclude-file-names` contains a inattention
+> error (which doesn't shows itself when run) and could be implemented by
+> reducing the number of times it traverses the excluce vector of source
+> files and/or directories.
+>
+> In the subsequent tutorial we're going to implement `eclude-file-names`
+> in a better way. This is a typical scenario in which, even if you're not
+> fanatic about testing the code (so do I), you should appreciate to have
+> some test: same interface, different implementation (not to be confused
+> with the usual concept of polymorphism).
 
 ### cljs-files-in
 
