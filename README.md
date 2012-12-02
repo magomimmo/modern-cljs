@@ -69,7 +69,7 @@ login form validation more clojure-ish.
 In this tutorial we're going to investigate and solve in two different
 ways the not so nice issue we met in the last tutorial.
 
-##  [Tutorial 7 - Being doubly aggressive][16]
+##  [Tutorial 7 - On being doubly aggressive][16]
 
 In this tutorial we're going to explore CLJS/CLS compilation modes by
 using the usual `lein-cljsbuild` plugin of `leiningen`, but we'll
@@ -80,7 +80,12 @@ discover a trouble we do not know how to manage yet.
 In this tutorial we're going to patch CLJS compiler for solving
 the code duplication trouble we met in the previous tutorial.
 
-## Tutorial 9 - To be done
+## [Tutorial 9 - It's better to be safe than sorry - Part 1][18]
+
+In this tutorial we're going to illustrate the clojure testing tool using the
+patched CLJS compiler as a true and real-life case.
+
+## Tutorial 10 - It's better to be safe than sorry - Part 2
 
 TO BE DONE
 
@@ -105,3 +110,4 @@ License, the same as Clojure.
 [15]: http://localhost:3000/shopping-dbg.html
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
 [17]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
+[18]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
