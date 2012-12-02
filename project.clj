@@ -43,7 +43,7 @@
                            ;advanced optimization
                            :optimizations :advanced}}
                :pre-prod
-               {; some path as above
+               {; same path as above
                 :source-path "src/cljs"
                 :compiler {; different output name
                            :output-to "resources/public/js/modern_pre.js"
