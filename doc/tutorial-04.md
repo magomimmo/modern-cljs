@@ -26,14 +26,15 @@ because it's very instructive both in explaining the evolution of the use
 of JS in the last decade, and in starting CLJS programming without
 knowing much about Clojure and/or ClojureScript themselves.
 
-> I'm of the opinion that CLJS should be easier to set up not only to
-> use, as server-side devs, but for smart client-side devs as well.
-> Application logic is moving fast from server-side to client-side
-> and all of us, as server-side devs, never had much love for that LISP
-> dressed in C running in the browser. We now have the opportunity to
-> see the best LISP ever *running in the browser* and we should try to
-> bring client-side programmers with us. Otherwise, we risk seeing said
-> LISP in C's clothing *running on the server-side* too.
+> NOTE 1: I'm of the opinion that CLJS should be easier to set up not
+> only to use, as server-side devs, but for smart client-side devs as
+> well.  Application logic is moving fast from server-side to
+> client-side and all of us, as server-side devs, never had much love
+> for that LISP dressed in C running in the browser. We now have the
+> opportunity to see the best LISP ever *running in the browser* and we
+> should try to bring client-side programmers with us. Otherwise, we
+> risk seeing said LISP in C's clothing *running on the server-side*
+> too.
 
 ## Registration form
 
@@ -235,9 +236,8 @@ Now let's write some CLJS code. Create the file `login.cljs` in the
 As you can see, this ported code defines two functions: `validate-form`
 and `init`.
 
-> Note that in CLJ/CLJS the use of CamelCase to name things is not
-> idiomatic. That's why we translated `validateForm` to
-> `validate-form`.
+> NOTE 2: note that in CLJ/CLJS the use of CamelCase to name things is not
+> idiomatic. That's why we translated `validateForm` to `validate-form`.
 
 The `let` form allows you to define a kind of local variables, like
 `var` in the above JS code. As noted, we extensively used the "."
@@ -251,9 +251,12 @@ host virtual machine (i.e. JSVM versus JVM).
 Copy the `login.html` file from [ch02 of Modern JS Code][3] to
 `resources/public` directory.
 
-> If you're using an HTML5 browser, instruct the form to deactivate
-> input validation by adding `novalidate` as the last attribute of the
-> form.
+> NOTE 3: If you're using an HTML5 browser, instruct the form to
+> deactivate input validation by adding `novalidate` as the last
+> attribute of the form. Pay attention to the `novalidate` spelling,
+> otherwise the HTML5 browser will be free to intercept the fields
+> attribute `required` and check for them before JS is involved and you
+> would not see the alert window be opened by CLJS.
 
 Finally, set the `src` script tag attribute value to
 `js/modern.js`. Here is the final `login.html`
@@ -297,8 +300,8 @@ Finally, set the `src` script tag attribute value to
 </html>
 ```
 
-We're almost done.  Copy `styless.css` file from
-[ch02/css of Modern JS Code][3] to `resources/public/css` directory.
+We're almost done.  Copy `style.css` file from
+[ch02/css][3] of Modern JS Code  to `resources/public/css` directory.
 
 ## CLJS Compilation
 
