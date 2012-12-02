@@ -342,7 +342,7 @@ Great. All the initial test assertions passed. After a bit of efforts we
 discovered how to launch the tests in the repl to protect ourselves from
 becoming sorry for not having done a decent job.
 
-## Go ahaed and stop again
+## Go ahead and stop again
 
 I'm not going to explain every single assertion eventually used to test
 `exclude-file-names`, but sooner or later you start asserting things in
