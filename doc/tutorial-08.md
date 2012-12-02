@@ -521,9 +521,9 @@ $
 > efforts in learning CLJ/CLJS under my direction. I want to thank
 > them for the good job they did.
 
-# Next step - TO BE DONE
+# Next step - It's better to be safe than sorry (Part.1)
 
-TO BE DONE
+In the [next tutorial][6] we're going find the motivation and the room for testing.
 
 # License
 
@@ -535,3 +535,4 @@ License, the same as Clojure.
 [3]: https://github.com/emezeske/lein-cljsbuild/wiki/Using-a-Git-Checkout-of-the-ClojureScript-Compiler
 [4]: https://github.com/federico-b
 [5]: https://github.com/agofilo
+[6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
