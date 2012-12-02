@@ -120,6 +120,7 @@ user=>
 
 Evaluate some extreme calls
 
+```clojure
 user=> (comp/exclude-file-names nil nil)
 #{}
 user=> (comp/exclude-file-names nil [])
