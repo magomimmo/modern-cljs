@@ -8,8 +8,8 @@ of this tutorial.
 
 > NOTE 1: Sorry for the content of this tutorial not being specifically
 > dedicated to CLJS. But I think that most of the considerations about
-> testing are common to both side of the creek. And sorry for had
-> brocken the content in two parts. It was too long to stay in a single
+> testing are common to both sides of the creek. And sorry for having
+> broken the content in two parts. It was too long to stay in a single
 > unit of my own attention time.
 
 ## Introduction
@@ -83,7 +83,7 @@ the others samples: `(exclude-file-names "src/cljs" [])` and
 
 ## The repl as a manual testing tool
 
-The beauty of a repl is that you can interactive with those samples.
+The beauty of a repl is that you can interact with those samples.
 
 ### Open the door
 
@@ -215,15 +215,16 @@ with a bug caused by a wrong cut and/or paste somewhere.
 
 ## Being plural
 
-To moderate the boaring, `clojure.tests` namespace defines the `are`
+To moderate the boringness, `clojure.tests` namespace defines the `are`
 macro which allows you to group, in a single unit, all test cases for a
 function by reducing repetitions. We start from three simple assertions:
 
-* `nil` is the result of calling `(exclude-file-names nil nil)`
-* `nil` is the result of calling `(exclude-file-names nil [])`
-* `nil` is the result of calling `(exclude-file-names nil [""])`
+* `nil` is the expected result of calling `(exclude-file-names nil nil)`
+* `nil` is the expected result of calling `(exclude-file-names nil [])`
+* `nil` is the expected result of calling `(exclude-file-names nil [""])`
 
-Redefine `test-exclude-file-names` in the repl and re-execute `(run-tests)`
+Now, using the `are` macro, redefine `test-exclude-file-names` in the
+repl and re-execute `(run-tests)`
 
 ```clojure
 user=> (test/deftest test-exclude-file-names
@@ -281,7 +282,7 @@ content.
 > `$CLOJURESCRIPT_HOME/src/test/clj/cljs/compiler_test.clj`.
 
 Try now to launch a new repl and then require the `cljs.compiler-test`
-namespace to launch `run-tests`.
+namespace to execute `run-tests`.
 
 ```bash
 $ cd $CLOJURESCRIPT_HOME
@@ -352,7 +353,7 @@ To test our `exclude-file-names` function on a real scenario we're
 initially going to use the CLJS code base itself as our mutable world.
 
 This time we start from the tests. Open `compile_test.clj` and add some
-assertions to `test-exclude-file-names`.
+reasonable assertions to `test-exclude-file-names`.
 
 ```clojure
 (ns cljs.compiler-test
@@ -425,10 +426,10 @@ user=>
 
 Oh my God, we got 5 fails of 12 assertions. Let's fix them one by one.
 
-The first fix, has to do with the failure of `(exclude-file-names
-"src/cljs" [""])` which has resulted in a set of files instead of a
-void set (i.e. #{}). It depends on the void string `""` being passed
-around as a directory name.
+The first fix has to do with the failure of `(exclude-file-names
+"src/cljs" [""])` which has resulted in a set of files instead of a void
+set (i.e. #{}). It depends on the void string `""` being passed around
+as a directory name.
 
 All the other fails have to do with non existent files and/or
 directories returned by combining and existing directory with a non
@@ -478,10 +479,10 @@ user=>
 
 ## Enter the mutable world
 
-Even a not so careful reader should have noted that in the assertions we
+Even a not so careful reader should have noted that the assertions
 assumed the existance of the "src/cljs" source directory which lives
-inside $CLOJURESCRIPT_HOME directory. If we want to go on making new
-assertions on this mutable world, you start figthing with it. It is
+inside $CLOJURESCRIPT_HOME directory. If you want to go on and creating
+new assertions on a mutable world, you start figthing with it. It is
 frequently easier to mock it up.
 
 # Next step - It's better to be safe than sorry (Part 2)
