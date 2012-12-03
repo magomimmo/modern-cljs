@@ -438,8 +438,7 @@ Here is the code the fix them all. Open `compiler.clj` from
 `$CLOJURESCRIPT_HOME/src/clj/cljs` directory and edit the
 `exclude-file-names` function as follows.
 
-```
-clojure
+```clojure
 (defn exclude-file-names [dir exclude-vec]
   "Return a set of absolute paths of files to be excluded"
   (when (and dir (vector? exclude-vec))
