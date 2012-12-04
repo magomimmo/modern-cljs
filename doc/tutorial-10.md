@@ -380,7 +380,8 @@ discussing the details of that fix.
 
 We think that we coverefd enough to better undestand why `test` are so
 important. In a subsequent tutorial we're going to apply similar
-consideration on the client-side (i.e. CLJS and the generated JS).
+considerations on the client-side (i.e. CLJS and the generated JS),
+where the problem is doubled and in a lot of case not solved.
 
 # Next step - TO BE DONE
 
