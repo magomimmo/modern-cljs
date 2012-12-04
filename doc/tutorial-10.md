@@ -48,11 +48,12 @@ existance in the file system of `cljs` directory inside the above one.
 
 But what is going to happen in a future release of CLJS compiler if
 those directories and files will not exist anymore? Those border
-assertions are going pass anyway, because they are true in any possible
-world even if they seem to assume the existance of `src/cljs/cljs`
-directories. Any other concrete assertion will probably miserably fails,
-perhaps months after we set up the tests suite.  A foresight worthy of
-Cassandra (not to be confused with the notorious nosqldb).
+assertions are going to pass anyway, because they are true in any
+possible world even if they seem to assume the existance of
+`src/cljs/cljs` directories. Any other concrete assertion will probably
+miserably fails, perhaps months after we set up the tests suite.  A
+foresight worthy of Cassandra (not to be confused with the notorious
+nosqldb).
 
 ## Enter fixture
 
@@ -75,7 +76,7 @@ A fixture is an HFO (Higher Order Function) which:
 > destruction inside `test-exclude-file-names` function. The only really
 > nice feature of *fixture* is the sharing attribute, which allows
 > (`:once`) or not allow (`:each`) to share the scenario while stepping
-> from one test to the next.
+> from one test function to the next.
 
 ### Plan the world
 
@@ -83,7 +84,7 @@ Let's start by predisposing the seeds of the mutable world we are going
 to create. That world will be the context against which evalute `false` or
 `true` all the assertions to be tested.
 
-We'll define two literal vectors to represent files and directories
+We'll define two literal vectors to represent directories and files
 contained in it.
 
 Open the `compiler_test.cljs` file from `test/clj/cljs` directory and
@@ -133,7 +134,8 @@ sequences (i.e. `@dir-names` and `@file-names`).
 We configurated the seeds and defined the functions that are going to
 create and destroy our not so more mutable world. We now need to insert
 the two functions in the `test-exclude-file-names` and review the
-assertions already wrote (i.e. `"src/cljs"` `"__dir"`).
+assertions already wrote (i.e. `"src/cljs"`vs `"__dir"` and `cljs` vs
+`dir1`).
 
 ```clojure
 (t/deftest test-exclude-file-names
@@ -323,7 +325,9 @@ definition.
 
 ### Run test again
 
-Don't kill the repl, do as follow to run the test again.
+Do as follows to run the test in the stll active repl, otherwise launch
+the repl as usual and require `cljs.compiler-test` and `clojure.test`
+namespaces.
 
 ```clojure
 user=> (in-ns 'cljs.compiler)
@@ -354,23 +358,25 @@ user=>
 
 Great, we passed every single assertion of the test, and if you take a
 look at $CLOJURESCRIPT_HOME content you are not going to find any
-`__dir` directory. the same world we created has been destryed after
-having passed the test.
+`__dir` directory. the same world we created has been destroyed a
+moment after it passed the test.
 
 ## Confidence
 
 We're now more confident about `exclude-file-names` behavior even if we
 still know it needs some refactoring (i.e. regex). At the moment we're
 happy with what we have. Now should be the time to fly up towards the
-*external-interfaces* of CLJS compiler. We have more choices: we can
-fill bottom-up the entire gap between `exclude-file-names` and `cljsc`
-script, passing from `compiler-root` and `compile-dir`; or we could jump
-directly to `cljsc` script.
+*external-interfaces* of CLJS compiler. We have more choices:
 
-When me, [Federico][3] and [Francesco][4] started to think about the CLJS patch,
-we immediately sow that `cljsc.clj`, which is called by `cljsc` script,
-needs to be fixed too. We're not going here in discussing the details of
-that fix.
+* we can fill bottom-up the entire gap between `exclude-file-names` and
+`cljsc` script, passing through `compiler-root` and `compile-dir`
+functions;
+* or we could just jump up directly on testing `cljsc` script.
+
+When me, [Federico][3] and [Francesco][4] started to think about the
+CLJS patch, we immediately sow that `cljsc.clj`, which is called by
+`cljsc` script, needs to be fixed too. We're not going here in
+discussing the details of that fix.
 
 We think that we coverefd enough to better undestand why `test` are so
 important. In a subsequent tutorial we're going to apply similar
