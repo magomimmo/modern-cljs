@@ -85,7 +85,13 @@ the code duplication trouble we met in the previous tutorial.
 In this tutorial we're going to illustrate the clojure testing tool using the
 patched CLJS compiler as a true and real-life case.
 
-## Tutorial 10 - It's better to be safe than sorry - Part 2
+## [Tutorial 10 - It's better to be safe than sorry - Part 2][19]
+
+In this tutorial we're going to finish the work started in the previus
+one by introducing mocks to manage the tests of CLJS compiler in the
+mutable world of the file system.
+
+## Tutorial 11 - TO BE DONE
 
 TO BE DONE
 
@@ -111,3 +117,4 @@ License, the same as Clojure.
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
 [17]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
 [18]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
+[19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md

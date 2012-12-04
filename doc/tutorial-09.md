@@ -487,7 +487,9 @@ frequently easier to mock it up.
 
 # Next step - It's better to be safe than sorry (Part 2)
 
-TO BE DONE
+In the [next tutorial][3] we're going to finish the work on testing that has
+been started here. We'll introduce mocks as a way to manage the
+mutability of the file system when asserting facts on it.
 
 # License
 
@@ -496,3 +498,4 @@ License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
 [2]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/src-dir.png
+[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
