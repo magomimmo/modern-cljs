@@ -21,7 +21,7 @@ which to exercise the tests themselves.
 
 ## Asserting existance in a mutable world
 
-Let'us review the assertions we make in `test-exclude-file-names` test.
+Let's review the assertions we made in `test-exclude-file-names` test.
 
 ```clojure
 (t/deftest test-exclude-file-names
