@@ -1,7 +1,7 @@
 # Tutorial 10 - It'a better to be safe than sorry (Part 2)
 
 In this Part 2 of the tutorial we're going to [continue][1] learning a
-little bit more about testing by introducing more features of the
+little bit more about testing, by introducing more features of the
 `clojure.test` namespace used to test the patch of CLJS compiler we
 proposed in a [previous tutorial][2].
 
@@ -21,7 +21,7 @@ which to exercise the tests themselves.
 
 ## Asserting existance in a mutable world
 
-Let's review the assertions we made in `test-exclude-file-names` test.
+Let's review the assertions we made in `test-exclude-file-names` test function.
 
 ```clojure
 (t/deftest test-exclude-file-names
@@ -50,16 +50,16 @@ But what is going to happen in a future release of CLJS compiler if
 those directories and files will not exist anymore? Those border
 assertions are going pass anyway, because they are true in any possible
 world even if they seem to assume the existance of `src/cljs/cljs`
-directories. Any other concrete assertion will probably miserably fail,
-perhaps months after we set up the tests suite. A foresight worthy of
-Cassandra (not to be confused with the notorious no sql db).
+directories. Any other concrete assertion will probably miserably fails,
+perhaps months after we set up the tests suite.  A foresight worthy of
+Cassandra (not to be confused with the notorious nosqldb).
 
 ## Enter fixture
 
-To address this problem `clojure.test` support the concept of
-*fixture*. The primary purpose of fixtures is to mantain a consistent
-context on which exercise tests, which means don't let the tests results
-depend on an uncontrolled world.
+To address this problem `clojure.test` supports the concept of
+*fixture*. The primary purpose of fixtures is to offer a consistent
+context on which exercise tests, which means don't let the results of
+tests depend on an uncontrolled world.
 
 A fixture is an HFO (Higher Order Function) which:
 
@@ -71,18 +71,20 @@ A fixture is an HFO (Higher Order Function) which:
 ### Exit fixture
 
 > ATTENTION: I tried more times to use fixtures, but sometimes I observe
-> unstable behaviour, so I decided to manage internally to the
-> `test-exclude-file-names` function the creation and the desctruction of
-> a mutable world of directories and file of CLJS source code.
+> unstable behaviour, so I decided to manage the scenario creation and
+> destruction inside `test-exclude-file-names` function. The only really
+> nice feature of *fixture* is the sharing attribute, which allows
+> (`:once`) or not allow (`:each`) to share the scenario while stepping
+> from one test to the next.
 
 ### Plan the world
 
 Let's start by predisposing the seeds of the mutable world we are going
-to create as the context against which evalute the assertions to be
-tested.
+to create. That world will be the context against which evalute `false` or
+`true` all the assertions to be tested.
 
-We're going to define a CLJS source directory and two literal vectors
-to represent files and directories contained in it.
+We'll define two literal vectors to represent files and directories
+contained in it.
 
 Open the `compiler_test.cljs` file from `test/clj/cljs` directory and
 edit its content as follows.
@@ -108,10 +110,10 @@ edit its content as follows.
 ### Create the world
 
 As mentioned above, instead of defining a *fixuture*, we're going to
-insert the creation and destruction of the mutable world in the
-`test-exclude-file-names` function itself. Before doing that we define
-two new functions `create-context` and `clear-context` whose names speck
-for themself.
+insert the creation and destruction of the not so more changeable world
+in the `test-exclude-file-names` function itself. Before doing that we
+define two new functions `create-context` and `clear-context` whose
+names speck for themself.
 
 ```clojure
 (defn create-context []
@@ -126,12 +128,12 @@ for themself.
 We used `doall` to force the realization of each element of the involved
 sequences (i.e. `@dir-names` and `@file-names`).
 
-### Respect the new mutable world
+### Respect for the new not so more mutable world
 
-We configurated the seeds of the mutable world and defined the functions
-that are going to create and destroy it after a while. We now need to
-insert the two functions in the `test-exclude-file-names` and review the
-assertions already wrote.
+We configurated the seeds and defined the functions that are going to
+create and destroy our not so more mutable world. We now need to insert
+the two functions in the `test-exclude-file-names` and review the
+assertions already wrote (i.e. `"src/cljs"` `"__dir"`).
 
 ```clojure
 (t/deftest test-exclude-file-names
@@ -185,17 +187,17 @@ user=>
 ```
 
 Great, we have not destroyed what was working before the injection of a
-mutable world.
+not so mutable world.
 
 ## Crossing the border
 
-All the made assertions are going to be true in every possibile mutable
-world, even the one in which both `__dir` and `__dir/dir1` do not
-exist. It's now time to be less abstract and start asserting facts
-regarding the world we frabricated by ourself, a world made of real
-directories and files.
+All the declared assertions are going to be true in every mutable
+possibile world, even the one in which both `__dir` and `__dir/dir1` do
+not exist. It's now time to be less abstract and start asserting facts
+regarding the world we frabricated by ourself, a world made termporarly
+real in the file system.
 
-Let's start asking few real use cases of exclusion from compilation:
+Let's start asking few real use cases of CLJS source file exclusion from compilation to JS:
 
 1. exclude a single existent CLJS file (standard)
 2. exclude a single directory (standard)
@@ -206,9 +208,8 @@ Let's start asking few real use cases of exclusion from compilation:
 in the main source directory (border).
 
 To convert those use cases in assertions we need some helper vars and
-functions to dinamically predispose the expected results of the
-`exclude-file-names` calls to be compared with the actual values
-calculate by `exclude-file-names`.
+functions to dinamically calculate the expected results for each call execution of
+`exclude-file-names`.
 
 Here is the interested code snippet.
 
