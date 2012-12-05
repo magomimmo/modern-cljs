@@ -352,7 +352,7 @@ the mutable world of the file system.
 To test our `exclude-file-names` function on a real scenario we're
 initially going to use the CLJS code base itself as our mutable world.
 
-This time we start from the tests. Open `compile_test.clj` and add some
+This time we start coding from the test. Open `compile_test.clj` and add some
 reasonable assertions to `test-exclude-file-names`.
 
 ```clojure

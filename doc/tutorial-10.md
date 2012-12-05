@@ -363,15 +363,15 @@ moment after it passed the test.
 
 ## Confidence
 
-We're now more confident about `exclude-file-names` behavior even if we
-still know it needs some refactoring (i.e. regex). At the moment we're
-happy with what we have. Now should be the time to fly up towards the
+We are now more confident about `exclude-file-names` behavior. Even if we
+still know it needs some refactoring (i.e. regex), at the moment we are
+happy with what we have. Now it should be the time to fly up towards the
 *external-interfaces* of CLJS compiler. We have more choices:
 
-* we can fill bottom-up the entire gap between `exclude-file-names` and
+* bottom-up: we can fill the entire gap between `exclude-file-names` and
 `cljsc` script, passing through `compiler-root` and `compile-dir`
 functions;
-* or we could just jump up directly on testing `cljsc` script.
+* top-down: we could just jump up directly on testing `cljsc` script.
 
 When me, [Federico][3] and [Francesco][4] started to think about the
 CLJS patch, we immediately sow that `cljsc.clj`, which is called by
