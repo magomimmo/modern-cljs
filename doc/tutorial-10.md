@@ -118,16 +118,16 @@ names speck for themself.
 
 ```clojure
 (defn create-context []
-  (doall (map #(.mkdir (io/file %)) @dir-names))
-  (doall (map #(.createNewFile (io/file %)) @file-names)))
+  (doall (map #(.mkdir (io/file %)) dir-names))
+  (doall (map #(.createNewFile (io/file %)) file-names)))
 
 (defn clear-context []
-  (doall (map #(.delete (io/file %)) @file-names))
-  (doall (map #(.delete (io/file %)) (reverse @dir-names))))
+  (doall (map #(.delete (io/file %)) file-names))
+  (doall (map #(.delete (io/file %)) (reverse dir-names))))
 ```
 
 We used `doall` to force the realization of each element of the involved
-sequences (i.e. `@dir-names` and `@file-names`).
+sequences (i.e. `dir-names` and `file-names`).
 
 ### Respect for the new not so more mutable world
 
@@ -216,10 +216,10 @@ functions to dinamically calculate the expected results for each call execution 
 Here is the interested code snippet.
 
 ```clojure
-(def files (map #(io/file %) @file-names))
+(def files (map #(io/file %) file-names))
 
 (def file-paths (map #(str (.getCanonicalPath ^java.io.File (io/file ".")) java.io.File/separator %)
-                     @file-names))
+                     file-names))
 
 (defn get-file-names [coll indeces]
   (map #(nth coll %) indeces))
