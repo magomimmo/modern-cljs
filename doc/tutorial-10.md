@@ -102,7 +102,7 @@ edit its content as follows.
                 "__dir/dir2/dir21"])
 
 (def file-names ["__dir/file1.cljs"
-	             "__dir/dir1/file11.cljs"
+                     "__dir/dir1/file11.cljs"
                  "__dir/dir2/file21.cljs"
                  "__dir/dir2/file22.cljs"
                  "__dir/dir2/dir21/file211.cljs"])
@@ -110,11 +110,11 @@ edit its content as follows.
 
 ### Create the world
 
-As mentioned above, instead of defining a *fixuture*, we're going to
+As mentioned above, instead of defining a *fixture*, we're going to
 insert the creation and destruction of the not so more changeable world
 in the `test-exclude-file-names` function itself. Before doing that we
 define two new functions `create-context` and `clear-context` whose
-names speck for themself.
+names speack for themself.
 
 ```clojure
 (defn create-context []
