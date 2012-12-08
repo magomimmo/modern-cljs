@@ -95,6 +95,27 @@ mutable world of the file system.
 
 TO BE DONE
 
+# Appendices
+
+In this section of the tutorial I collected any content that would have
+weight down the individual tutorial.
+
+## Appendix A - TBD
+
+TO BE DONE
+
+## Appendix B - TBD
+
+TO BE DONE
+
+## Appendix C - TBD
+
+TO BE DONE
+
+## Appendix X - TBD
+
+TO BE DONE
+
 # License
 
 Copyright © Mimmo Cosenza, 2012. Released under the Eclipse Public
