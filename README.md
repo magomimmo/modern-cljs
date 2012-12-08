@@ -97,8 +97,8 @@ TO BE DONE
 
 # Appendices
 
-In this section of the tutorial I collected any content that would have
-weight down the individual tutorial.
+In this section of the series I collected any content that would have
+weighted down any individual tutorials.
 
 ## Appendix A - TBD
 
