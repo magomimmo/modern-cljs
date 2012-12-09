@@ -9,7 +9,7 @@ This series of tutorials will guide you in creating, setting up and
 running simple CLJS projects. The series follows a progressive
 enhancement of projects themselves.
 
-Assuming you already have installed [leiningen][9], to run the last
+Assuming you already have installed [leiningen 2][9], to run the last
 available tutorial without coding:
 
 1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
@@ -97,7 +97,7 @@ TO BE DONE
 
 # Appendices
 
-In this section of the series I collected any content that would have
+In this section of the series I'll collect any content that would have
 weighted down any individual tutorials.
 
 ## Appendix A - TBD
