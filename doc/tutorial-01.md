@@ -16,7 +16,7 @@ named `mondern-cljs`.
 $ lein new modern-cljs
 ```
 
-I'm assuming that you add `lein` to your `$PATH` environment variable.
+I'm assuming that you added `lein` to your `$PATH` environment variable.
 
 ## Modify the project structure
 

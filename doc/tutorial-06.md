@@ -52,7 +52,7 @@ the `:compiler` keyword instructs CLS to save the compilation result
 in `"resources/public/js/modern.js`.
 
 I'm not going to explain every single detail of the CLJS/CLS pair of
-compilers. The only detail that is useful for investigation and
+compilers. The only detail that is useful for investigating and
 eventually solving the above issue is that the pair of
 compilers generates a **single** JS file
 (e.g. `"resources/public/js/modern.js"`) from **all** of the CLJS files
@@ -211,9 +211,10 @@ The careful reader will have noticed that the `init` function defined
 in the `modern-cljs.login` namespace and the one defined in the
 `modern-cljs.shopping` namespace are almost identical. They differ
 only in the form `id` and the function assigned to the `onsubmit`
-event. We can define a more general (i.e. abstracted) `init`
-function which, receiving both a form `id` and a function as argments,
-handles the implementation of both `init` function, and reduces code duplication.
+event. We can define a more general (i.e. abstracted) `init` function
+which, receiving both a form `id` and a function as argments, handles
+the implementation of both `init` functions and reduces code
+duplication.
 
 The abstracted `init` function, being common to both `login.cljs` and
 `shopping.cljs`, will be created in a new namespace, named
