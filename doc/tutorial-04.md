@@ -30,11 +30,11 @@ knowing much about Clojure and/or ClojureScript themselves.
 > only to use, as server-side devs, but for smart client-side devs as
 > well.  Application logic is moving fast from server-side to
 > client-side and all of us, as server-side devs, never had much love
-> for that LISP dressed in C running in the browser. We now have the
-> opportunity to see the best LISP ever *running in the browser* and we
-> should try to bring client-side programmers with us. Otherwise, we
-> risk seeing said LISP in C's clothing *running on the server-side*
-> too.
+> for that LISP dressed in C running in the browser and name JS. We now
+> have the opportunity to see the best LISP ever *running in the
+> browser* and we should try to bring client-side programmers with
+> us. Otherwise, we risk seeing said LISP in C's clothing *running on
+> the server-side* too.
 
 ## Registration form
 
@@ -381,7 +381,7 @@ make our login form validation more clojure-ish.
 
 # License
 
-Copyright ¬© Mimmo Cosenza, 2012. Released under the Eclipse Public
+Copyright ¬© Mimmo Cosenza, 2012-13. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
