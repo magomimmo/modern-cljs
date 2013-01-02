@@ -74,7 +74,7 @@ structures?
 From the above discussion the reader could infer that that CLJS is good only
 for a *single page browser application*. Indeed, there is a very modest solution
 to the above conflict between more calls setting the same `onload` property of
-the JS `window` object: duplication!
+the JS `window` object: code duplication!
 
 You have to duplicate the directory structure and the corresponding
 build options for each html page that is going to include the single
@@ -194,9 +194,6 @@ And here is the related fragment of `shopping.html`
   <script>modern_cljs.shopping.init();</script>
 ```
 
-> NOTE 3: See NOTE 2 above for an explanation of exposing
-> functions from CLJS to JS.
-
 You can now run everything as usual:
 
 ```bash
@@ -252,13 +249,22 @@ Here is the related `login.html` fragment
 > NOTE 4: CLS compiler translates "-" in "_". So
 > `modern-cljs.common.init` becomes `mondern_cljs.common.init` and
 > `modern-cljs.login.validate-form` becomes
-> `modern_cljs.login.validate_form`
+> `modern_cljs.login.validate_form`.
 
+> NOTE 5: Sadly, for reasons unknown to me, you still need to change the name of
+> the function from 'validate-form' to 'validate'.
+
+```html
+    <script src="js/modern.js"></script>
+    <script>
+      modern_cljs.common.init('loginForm', modern_cljs.login.validate);
+    </script>
+```
 
 And here is the related `login.cljs` fragment
 
 ```clojure
-(defn ^:export validate-form []
+(defn ^:export validate []
   ;; get email and password element using (by-id id)
   (let [email (by-id "email")
         password (by-id "password")]
@@ -270,20 +276,18 @@ And here is the related `login.cljs` fragment
           false))))
 ```
 
-> NOTE 5: You need to `:export` the `validate-form` function name to
-> protect it from eventual CLS compiler renaming caused by the `:simple` or
-> the more aggressive `:advanced` optimization.
+> NOTE 6: You need to `:export` the `validate` function name to protect
+> it from eventual CLS compiler renaming caused by the `:simple` or the
+> more aggressive `:advanced` optimization.
 
 Here is the related `shopping.html` fragment
 
 ```html
     <script src="js/modern.js"></script>
     <script>
-      modern_cljs.common.init('shoppingForm', modern_cljs.shopping.validate_form);
+      modern_cljs.common.init('shoppingForm', modern_cljs.shopping.calculate);
     </script>
 ```
-
-> NOTE 6: See NOTE 4.
 
 And here is the related `shopping.cljs` fragment
 
@@ -299,8 +303,6 @@ And here is the related `shopping.cljs` fragment
                                     (.toFixed 2)))
     false))
 ```
-
-> NOTE 7: See NOTE 5
 
 If you have not kept everything running in the terminals from our last
 session, you can restart everything as usual:
@@ -322,7 +324,7 @@ using the usual `lein-cljsbuild` plugin of `leiningen`.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
@@ -333,4 +335,3 @@ License, the same as Clojure.
 [6]: https://github.com/levand/domina#event-handling
 [7]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
-
