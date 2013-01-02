@@ -86,29 +86,34 @@ the updated version of `project.clj`
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  ; clojure source code path
+
+  ;; clojure source code path
   :source-paths ["src/clj"]
+
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 ; compojure dependency
                  [compojure "1.1.3"]
-                 ; domina dependency
                  [domina "1.0.0"]]
+
   :plugins [; cljsbuild plugin
-            [lein-cljsbuild "0.2.9"]
-            ; ring plugin
+            [lein-cljsbuild "0.2.10"]
             [lein-ring "0.7.5"]]
-  ; ring tasks configuration
+
+  ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
-  ; cljsbuild tadks configuration
+
+  ;; cljsbuild tasks configuration
   :cljsbuild {:builds
-              [{; clojurescript source code path
+              [{;; clojurescript source code path
                 :source-path "src/cljs"
-                ; Google Closure Compiler options
-                :compiler {; the name of emitted JS script file
+
+                ;; Google Closure Compiler options
+                :compiler {;; the name of emitted JS script file
                            :output-to "resources/public/js/modern.js"
-                           ; minimum optimization
+
+                           ;; minimum optimization
                            :optimizations :whitespace
-                           ; prettyfying emitted JS
+
+                           ;; prettyfying emitted JS
                            :pretty-print true}}]})
 ```
 
@@ -342,27 +347,18 @@ type into it the following code
         price (value (by-id "price"))
         tax (value (by-id "tax"))
         discount (value (by-id "discount"))]
-    ;; bad CLJ style
-    ;; (set-value! (by-id "total")
-    ;;             (.toFixed (- (* (+ 1 (/ tax 100))
-    ;;                             (* quantity price))
-    ;;                          discount)
-    ;;                       2))
-    ;; better CLJ style
     (set-value! (by-id "total") (-> (* quantity price)
                                     (* (+ 1 (/ tax 100)))
                                     (- discount)
                                     (.toFixed 2)))
     false))
 
-;; the same as the previous sample
 (defn init []
   (if (and js/document
            (.-getElementById js/document))
     (let [theForm (.getElementById js/document "shoppingForm")]
       (set! (.-onsubmit theForm) calculate))))
 
-;; the same as the previous sample
 (set! (.-onload js/window) init)
 ```
 
@@ -441,7 +437,7 @@ ClojureScript:modern-cljs.shopping> (.-onload js/window)
 ClojureScript:modern-cljs.shopping>
 ```
 
-Oops, the `init` function assigned as value for the `window` `onload`
+Ops, the `init` function assigned as value for the `window` `onload`
 property is not the one we just defined, but the `init` function we
 defined to initialize the previous `loginForm`.
 
@@ -477,7 +473,7 @@ different ways the problem we just met.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/levand/domina
