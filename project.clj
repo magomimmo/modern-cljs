@@ -8,9 +8,14 @@
   ;; clojure source code path
   :source-paths ["src/clj"]
 
-  :dependencies [[org.clojure/clojure "1.4.0"]]
+  :dependencies [[org.clojure/clojure "1.4.0"]
+                 [compojure "1.1.3"]]
 
-  :plugins [[lein-cljsbuild "0.2.9"]]
+  :plugins [[lein-cljsbuild "0.2.9"]
+            [lein-ring "0.7.5"]]
+
+  ;; ring tasks configuration
+  :ring {:handler modern-cljs.core/handler}
 
   ;; cljsbuild tasks configuration
   :cljsbuild {:builds
