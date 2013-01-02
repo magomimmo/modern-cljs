@@ -1,7 +1,7 @@
 # Tutorial 3 - CLJ based http-server
 
 In this tutorial you are going to substitute the external http-server
-that we configured in [tutorial 2][2] with [ring][1], a CLJ based
+that we configured in [tutorial 2][1] with [ring][2], a CLJ based
 http-server.
 
 ## Introduction
@@ -10,7 +10,7 @@ Until we only play with CLJS code that, once compiled to JS, runs on the
 browser side, we needn't a CLJ enabled http-server. But we love clojure
 and we want to learn more about it too.
 
-[Ring][1] is one of the foundamental building-blocks of any CLJ based
+[Ring][2] is one of the foundamental building-blocks of any CLJ based
 stack of libraries to develop web based application in CLJ programming
 language and we're going to use it instead of any other http-server
 based.
@@ -19,8 +19,8 @@ based.
 
 We already saw how `lein-cljsbuild` plugin helped us in managing the
 build, the configuration and the running of CLJS code. In a similar way,
-we're going to use [lein-ring][7] plugin to manage and automate common
-[ring][1] tasks.
+we're going to use [lein-ring][3] plugin to manage and automate common
+[ring][2] tasks.
 
 To install `lein-ring`, add it as a plugin to your `project.clj`. As for
 `lein-cljsbuild`, if you're going to use it in every CLJ project, you
@@ -41,25 +41,33 @@ configuration we talked about.
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  ; clojure source code pathname
+  ;; clojure source code pathname
   :source-paths ["src/clj"]
+
   :dependencies [[org.clojure/clojure "1.4.0"]]
-  :plugins [; cljsbuild plugin
+
+  :plugins [;; cljsbuild plugin
             [lein-cljsbuild "0.2.9"]
-            ; ring plugin
+
+            ;; ring plugin
             [lein-ring "0.7.5"]]
-  ; ring tasks configuration
+
+  ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
-  ; cljsbuild tasks configuration
+
+  ;; cljsbuild tasks configuration
   :cljsbuild {:builds
-              [{; clojurescript source code path
+              [{;; clojurescript source code path
                 :source-path "src/cljs"
-                ; Google Closure Compiler options
-                :compiler {; the name of the emitted JS file
+
+                ;; Google Closure Compiler options
+                :compiler {;; the name of the emitted JS file
                            :output-to "resources/public/js/modern.js"
-                           ; use minimal optimization CLS directive
+
+                           ;; use minimal optimization CLS directive
                            :optimizations :whitespace
-                           ; prettyfying emitted JS
+
+                           ;; prettyfying emitted JS
                            :pretty-print true}}]})
 ```
 
@@ -69,11 +77,11 @@ A ring handler is just a function that receives a request as an
 argument and produces a response. Both request and response are
 regular clojure map. Instead of using low-level [Ring API][4], we're
 going to add another very common library to our `project.clj`:
-[compojure][3].
+[compojure][5].
 
-[Compojure][3] is a small routing library for [Ring][1] that allows
+[Compojure][5] is a small routing library for [Ring][2] that allows
 web applications to be composed of small and independent parts, using
-a concise DSL (Domain Specific Language) to generate [Ring][1]
+a concise DSL (Domain Specific Language) to generate [Ring][2]
 handler.
 
 In this tutorial our goal is to set up an http-server able to serve
@@ -91,7 +99,7 @@ change it's content as follows.
 
 ;; defroutes macro defines a function that chains individual route
 ;; functions together. The request map is passed to each function in
-;; turn, until a non-nil response is returned.    
+;; turn, until a non-nil response is returned.
 (defroutes app-routes
   ; to serve document root address
   (GET "/" [] "<p>Hello from compojure</p>")
@@ -118,27 +126,32 @@ follows:
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  ; clojure source code pathname
+  ;; clojure source code pathname
   :source-paths ["src/clj"]
+
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 ; compojure dependency
                  [compojure "1.1.3"]]
-  :plugins [; cljsbuild plugin
+
+  :plugins [;; cljsbuild plugin
             [lein-cljsbuild "0.2.9"]
-            ; ring plugin
             [lein-ring "0.7.5"]]
-  ; ring tasks configuration
+
+  ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
-  ; cljsbuild tasks configuration
+
+  ;; cljsbuild tasks configuration
   :cljsbuild {:builds
-              [{; clojurescript source code path
+              [{;; clojurescript source code path
                 :source-path "src/cljs"
-                ; Google Closure Compiler options
-                :compiler {; the name of the emitted JS file
+
+                ;; Google Closure Compiler options
+                :compiler {;; the name of the emitted JS file
                            :output-to "resources/public/js/modern.js"
-                           ; minimum optimization
+
+                           ;; minimum optimization
                            :optimizations :whitespace
-                           ; prettyfying emitted JS
+
+                           ;; prettyfying emitted JS
                            :pretty-print true}}]})
 ```
 
@@ -161,21 +174,21 @@ like so: `$ lein ring server 8888`.
 You can also check that the browser connected repl is still working by
 launching again `$ lein trampoline cljsbuild repl-listen` command on a
 new terminal (remember to cd to `/path/to/modern-cljs`) and visiting
-[simple.html][5] page.
+[simple.html][6] page.
 
 ## Next step
 
-In the [next tutorial 4][6] we're going to have some fun introducing form validation in CLJS.
+In the [next tutorial 4][7] we're going to have some fun introducing form validation in CLJS.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/mmcgrana/ring.git
-[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
-[3]: https://github.com/weavejester/compojure.git
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[2]: https://github.com/mmcgrana/ring.git
+[3]: https://github.com/weavejester/lein-ring
 [4]: http://ring-clojure.github.com/ring/
-[5]: http://localhost:3000/simple.html
-[6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
-[7]: https://github.com/weavejester/lein-ring
+[5]: https://github.com/weavejester/compojure.git
+[6]: http://localhost:3000/simple.html
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
