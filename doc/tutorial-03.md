@@ -47,7 +47,7 @@ configuration we talked about.
   :dependencies [[org.clojure/clojure "1.4.0"]]
 
   :plugins [;; cljsbuild plugin
-            [lein-cljsbuild "0.2.9"]
+            [lein-cljsbuild "0.2.10"]
 
             ;; ring plugin
             [lein-ring "0.7.5"]]
@@ -133,7 +133,7 @@ follows:
                  [compojure "1.1.3"]]
 
   :plugins [;; cljsbuild plugin
-            [lein-cljsbuild "0.2.9"]
+            [lein-cljsbuild "0.2.10"]
             [lein-ring "0.7.5"]]
 
   ;; ring tasks configuration
