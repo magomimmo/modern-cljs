@@ -13,7 +13,7 @@ Assuming you already have installed [leiningen 2][2], to run the last
 available tutorial without coding:
 
 1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
-2. `$ cd modern-cljs/compiler`
+2. `$ cd modern-cljs`
 3. ` $ lein ring server`
 4. open a new terminal and cd in modern-cljs
 5. `$ lein cljsbuild once`
