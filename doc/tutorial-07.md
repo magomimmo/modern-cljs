@@ -7,11 +7,10 @@ discover a trouble we do not know how to manage yet.
 ## Introduction
 
 In the [last tutorial][1] we came in contact with `:export` directive
-been attached to `init`, `validate` and `calulate` functions. That
-directive had the scope to protect the above functions from being
-evantually renamed by the Google Closure (CLS) compiler when used with
-more aggressive compilation mode than `:whitespace`, namely `:simple`
-and `:advanced`.
+been attached to `init` function. That directive had the scope to
+protect the above function from being evantually renamed by the Google
+Closure (CLS) compiler when used with more aggressive compilation mode
+than `:whitespace`, namely `:simple` and `:advanced`.
 
 ## Being aggressive as all the others
 
@@ -260,7 +259,7 @@ Now edit `login-dbg.htnl`, `login-pre.html`, `shopping-dbg.html` and
 ...
     <script src="js/modern_dbg.js"></script>
     <script>
-      modern_cljs.common.init('loginForm', modern_cljs.login.validate);
+      modern_cljs.login.init();
     </script>
 </body>
 </html>
@@ -281,7 +280,7 @@ Now edit `login-dbg.htnl`, `login-pre.html`, `shopping-dbg.html` and
 
     <script src="js/modern_pre.js"></script>
     <script>
-      modern_cljs.common.init('loginForm', modern_cljs.login.validate);
+      modern_cljs.login.init();
     </script>
 </body>
 </html>
@@ -302,7 +301,7 @@ Now edit `login-dbg.htnl`, `login-pre.html`, `shopping-dbg.html` and
 
   <script src="js/modern_dbg.js"></script>
   <script>
-    modern_cljs.common.init('shoppingForm', modern_cljs.shopping.calculate);
+    modern_cljs.shopping.init();
   </script>
 </body>
 </html>
@@ -323,7 +322,7 @@ Now edit `login-dbg.htnl`, `login-pre.html`, `shopping-dbg.html` and
 
   <script src="js/modern_pre.js"></script>
   <script>
-    modern_cljs.common.init('shoppingForm', modern_cljs.shopping.calculate);
+    modern_cljs.shopping.init();
   </script>
 </body>
 </html>
