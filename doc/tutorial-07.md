@@ -8,7 +8,7 @@ discover a trouble we do not know how to manage yet.
 
 In the [last tutorial][1] we came in contact with `:export` directive
 been attached to `init` function. That directive had the scope to
-protect the above function from being evantually renamed by the Google
+protect that function from being evantually renamed by the Google
 Closure (CLS) compiler when used with more aggressive compilation mode
 than `:whitespace`, namely `:simple` and `:advanced`.
 
