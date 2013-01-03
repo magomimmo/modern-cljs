@@ -10,7 +10,7 @@
 
   :dependencies [[org.clojure/clojure "1.4.0"]]
 
-  :plugins [[lein-cljsbuild "0.2.9"]]
+  :plugins [[lein-cljsbuild "0.2.10"]]
 
   ;; cljsbuild tasks configuration
   :cljsbuild {:builds
