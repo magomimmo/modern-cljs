@@ -20,14 +20,34 @@
 
   ;; cljsbuild tasks configuration
   :cljsbuild {:builds
-              [{;; clojurescript source code path
+              {:dev
+               {;; clojurescript source code path
                 :source-path "src/cljs"
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
-                           :output-to "resources/public/js/modern.js"
+                           :output-to "resources/public/js/modern_dbg.js"
 
                            ;; minimum optimization
                            :optimizations :whitespace
                            ;; prettyfying emitted JS
-                           :pretty-print true}}]})
+                           :pretty-print true}}
+               :pre-prod
+               {;; same path as above
+                :source-path "src/cljs"
+
+                :compiler {;; different JS output name
+                           :output-to "resources/public/js/modern_pre.js"
+
+                           ;; simple optimization
+                           :optimizations :whitespace}}
+               :prod
+               {;; same path as above
+                :source-path "src/cljs"
+
+                :compiler {;; different JS output name
+                           :output-to "resources/public/js/modern.js"
+
+                           ;; advanced optimization
+                           :optimizations :advanced}}
+               }})
