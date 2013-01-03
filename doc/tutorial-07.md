@@ -51,8 +51,8 @@ emitted JS code by the CLJS compiler. As a lot of others minifiers, it
 basically produces a minified JS code by simplifying expressions and
 renaming local variables within functions. Nothing very new.
 
-To activate `:simple` compilation mode, all you have to do is just
-change `:optmizations` value from `:whitespace` to `:simple`.
+To activate `:simple` compilation mode all you have to do is to change
+`:optmizations` value from `:whitespace` to `:simple`.
 
 Instead of just substituting `:simple` directive to the `:whitespace`
 one, as documentated in [sample.project.clj][2], `lein-cljsbuild` is so
@@ -355,7 +355,7 @@ and testing phases, but for security reasons it would be better not to
 have it in a production envirinoment. Aside from the fact that, as we
 have just seen, the `:advanced` compilation mode left hanging the brepl
 connection, it would be nice to have a way to explicitly **exclude** the
-`connect.cljs` file contening the connection call from the build
+`connect.cljs` file containing the connection call from the build
 (i.e. `:prod`) dedicated to the production environment. Sadly, both
 [`lein-cljsbuild`][6] and [`clojurescript`][7] do not offer this kind of
 feature and, more generally, the eventuality to exclude any CLJS file
