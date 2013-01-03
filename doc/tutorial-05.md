@@ -173,13 +173,12 @@ do the following:
 ```bash
 $ cd /path/to/modern-cljs
 $ lein ring server
-$ lein cljsbuild once # or auto to trigger automatic recompilation
+$ lein cljsbuild once # in a new terminal and after having cd in modern-cljs
 $ lein trampoline cljsbuild repl-listen
 ```
 
 > Note 3: be sure to `cd` in the home directory of the project in each
-> terminal you open (at least 2, if you run `$ lein cljsbuild once`
-> command - at least 3 if you run `$ lein cljsbuild auto` command.
+> terminal you open
 
 Open your browser at `localhost:3000/login.html` and after few moments,
 when the CLJS repl becomes responsive having established the connection
@@ -396,8 +395,8 @@ false
 ClojureScript:modern-cljs.shopping>
 ```
 
-The `calculate` functions correctly returns `false`, but the funny thing
-is that the `Total` shown by the calculator form is right.
+The `calculate` functions correctly returns `false` and the `Total`
+shown by the calculator form is correct too.
 
 ![Total][11]
 
