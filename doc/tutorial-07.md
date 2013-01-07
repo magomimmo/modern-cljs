@@ -372,9 +372,11 @@ a maintenance headache due to code duplication.
 > we have time to submit the patch, we hope it will be merged in a next
 > `lein-cljsbuild` release.
 
-# Next step - TO BE DONE
+# Next step - Introducing Domina events.
 
-TO BE DONE
+In the next [Tutorial 8][9] we're going to introduce domina events
+which, by wrapping Google Closure Library event management, allows to
+follow a more clojure-ish approach in handing DOM events.
 
 # License
 

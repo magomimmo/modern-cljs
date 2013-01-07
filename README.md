@@ -70,9 +70,11 @@ In this tutorial we're going to explore CLJS/CLS compilation modes by
 using the usual `lein-cljsbuild` plugin of `leiningen`, but we'll
 discover a trouble we do not know how to manage yet.
 
-## Tutorial 8 - TO BE DONE
+## [Tutorial 8 - Introducing Domina events][16]
 
-TO BE DONE
+In this Tutorial we're going to introduce domina events which, by
+wrapping Google Closure Library event management, allows to follow a
+more clojure-ish approach in handing DOM events.
 
 # License
 
@@ -94,3 +96,4 @@ License, the same as Clojure.
 [13]: https://github.com/levand/domina
 [14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
 [15]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
+[16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
