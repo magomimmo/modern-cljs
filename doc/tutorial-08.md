@@ -1,538 +1,493 @@
-# Tutorial 8 - Learn by contributing
+# Tutorial 8 - Handling events using Domina
 
-In this tutorial we're going to learn more about CLJS by trying to
-patch it for solving the problem we found in the [last tutorial][1].
+Starting from [Tutorial 5][1], we introduced [domina library][2] to
+approach CLJS programming in a more closjre-ish way if compared with
+just using CLJS/JS interop features.
 
-> NOTE 1: The content of this tutorial is not specifically dedicated
-> to CLJS. If you're not interested in understanding how to patch the
-> CLJS compiler you can safely jump to a subsequent tutorial.
+We touched `domina` surface by using `by-id` to select
+individual elements from DOM, `value` and `set-value!` to get/set the
+value of a form field.
+
+It's now time to see what domina library has to offer for substitutuing
+CLJS/JS interop features in managing events.
 
 ## Introduction
 
-Let's recap the problem we met in the [previous tutorial][1]. We
-declared three different project builds, namely `:dev`, `:pre-prod`
-and `:prod`, corresponding to three different compilation mode, namely
-`:whitespace`, `:simple` and `:advanced`. Each build got the CLJS
-source code to be compiled from the same source directory configured
-by setting `:source-path` option in the corresponding section of the
-options of the build.
+Let's go back to the [shopping calculator form][3] we introduce in
+Tutorial 5.
 
-We then considered that having an active brepl connection in the
-production build could expose our application to security weakness and
-we did not find any better way to exclude the brepl connection than
-duplicate the entire code base, but the file cointaining the
-connection iteself (i.e. "modern_cljs/connect.clj").
+First of all, by been cloned from the orginal HTML code of
+[Modern JavaScript: Develop and Desing][4], the shopping form used a
+`submit` type of button instead of a `button` type. As the shopping
+calculator data need not to be sent to a server-side script to be
+elaborated, we think it's more appropriate to use a `button` type and
+remove both `action` and `method` attributes from the corresponding
+`form` tag.
 
-This code duplication is going to create a maintenance nigthmare we'd
-like to avoid by trying to patch `lein-cljsbuild`. Where we have to
-start from?
+Here is the updated html code.
 
-## Top-down approach
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Shopping Calculator</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- shopping.html -->
+  <form id="shoppingForm" novalidate>
+    <legend> Shopping Calculator</legend>
+    <fieldset>
 
-By flying at 10 thousand feet from ground, we could consider the
-`lein-cljsbuild` plugin as a very nice interface to drive the
-underlying CLJS compiler. Solving the code duplication problem means
-to patch the underlying CLJS compiler and to substitute in
-`lein-cljsbuild` the original CLJS compiler with the patched one.
+      <div>
+        <label for="quantity">Quantity</label>
+        <input type="number"
+               name="quantity"
+               id="quantity"
+               value="1"
+               min="1" required>
+      </div>
 
-The wiki of `lein-cljsbuild` [documents][3] how to set up a project to
-enable the use of an arbitrary version of the CLJS compiler.
+      <div>
+        <label for="price">Price Per Unit</label>
+        <input type="text"
+               name="price"
+               id="price"
+               value="1.00"
+               required>
+      </div>
 
-We need to:
-* create a directory in the project home
-* checkout a CLJS compiler in that directory
-* configure `project.clj` to use that CLJS compiler
+      <div>
+        <label for="tax">Tax Rate (%)</label>
+        <input type="text"
+               name="tax"
+               id="tax"
+               value="0.0"
+               required>
+      </div>
 
-### Create a new directory in the project home
+      <div>
+        <label for="discount">Discount</label>
+        <input type="text"
+               name="discount"
+               id="discount"
+               value="0.00" required>
+      </div>
 
-```bash
-$ cd path/to/modern-cljs # cd in the project home directory
-$ mkdir compiler
-$ cd compiler
+      <div>
+        <label for="total">Total</label>
+        <input type="text"
+               name="total"
+               id="total"
+               value="0.00">
+      </div>
+      <br><br>
+      <div>
+        <input type="button"
+               value="Calculate"
+               id="calc">
+      </div>
+
+    </fieldset>
+  </form>
+  <script src="js/modern_dbg.js"></script>
+  <script>
+    modern_cljs.shopping.init();
+  </script>
+</body>
+</html>
 ```
 
-### Checkout a CLJS compiler in the new directory
-
-```bash
-$ git clone git://github.com/clojure/clojurescript.git
-$ cd clojurescript
-$ ./script/bootstrap
-```
-
-### Configure project.clj
-
-Here is the interested code snippet of `project.clj`.
-
-```clojure
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :source-paths ["src/clj"
-                 "compiler/clojurescript/src/clj"
-                 "compiler/clojurescript/src/cljs"]
-  ...
-  ...)
-```
-
-Notice that we added both `clj` and `cljs` source code directories to
-lein `:source-paths` option.
-
-### Sanity check
-
-To verify that everything is still working, do as follows:
-
-```bash
-$ cd path/to/modern-cljs # cd in the project home directory
-$ lein cljsbuild clean # delete any previous CLJS compilation
-$ lein cljsbuild once # launch all builds using the selected CLJS compiler
-$ lein ring server
-$ lein trampoline cljsbuild repl-listen # from project home in a new terminal
-```
-
-You can now visit `http://localhost:3000/login-dbg.html" to verify
-that the brepl is stil working as expected.
-
-> NOTE 2: you should receive a lot of wornings during the cljsbuild
-> compilation of domina. Don't warry about them.
-
-## Requirements specification
-
-Before proceeding with any patch, we need to specity the requirements to
-be satisfied for solving our code duplication problem. Let's go back to
-the portion of `project.clj` where we declared each build.
-
-```clojure
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  ...
-
-  :cljsbuild {:builds
-              {
-               :dev
-               {:source-path "src/cljs"
-                :compiler {:output-to "resources/public/js/modern_dbg.js"
-                           :optimizations :whitespace
-                           :pretty-print true}}
-               :prod
-               {:source-path "src/cljs"
-                :compiler {:output-to "resources/public/js/modern.js"
-                           :optimizations :advanced}}
-               :pre-prod
-               {:source-path "src/cljs"
-                :compiler {:output-to "resources/public/js/modern_pre.js"
-                           :optimizations :simple
-                       ...}}}})
-```
-
-Now imagine for a moment to have an available option to exclude a CLJS
-source file from a build. Ask yourself in which section of the build
-you would like to configure it. There are few alternatives.
-
-We could set an `:exclude` option at the same hierarchical level of
-the `:source-path` option.
-
-```clojure
-            :prod
-               {:source-path "src/cljs"
-                :exclude "modern_cljs/connect.clj"
-                :compiler {:output-to "resources/public/js/modern.js"
-                           :optimizations :advanced}}
-```
-
-Or we could set the `:exclude` option at the same hierarchical level of
-the `:output-to` option.
-
-```clojure
-            :prod
-               {:source-path "src/cljs"
-                :compiler {:output-to "resources/public/js/modern.js"
-                           :exclude "modern_cljs/connect.clj"
-                           :optimizations :advanced}}
-```
-
-> NOTE 3: Even if I personally consider the former alternative more
-> ergonomic, we're going to choose the latter because, as we'll see
-> later, it requires to patch CLJS compiler only
-
-Are we sure that in the future we would always need to exclude one
-file only from compilation? I'm not sure at all. We're not going to
-pay just for asking and we could then be more demanding. Pretend that
-we could exclude a list of source files or even a list of source
-files and source directories like in the following hypothetical
-sample.
-
-```clojure
-            :prod
-               {:source-path "src/cljs"
-                :compiler {:output-to "resources/public/js/modern.js"
-                           :exclude ["modern_cljs/connect.cljs"
-                                                             "modern_cljs/exclude_dir"]
-                           :optimizations :advanced}}
-```
-
-Starting from an accurate requirement, we can now think on how to
-connect our envisioned `:exclude` compilation option with the
-underlying CLJS compiler.
-
-## CLJS compiler
-
-In the CLJS [Quick Start][2] guide you can read the following
-
-> cljsc is convenient when a command-line tool is required or when a file
-> or project only needs to be compiled once. While developing, it is much
-> faster to use the build function from the Clojure (not ClojureScript)
-> REPL:
-
-```clojure
-(require '[cljs.closure :as cljsc])
-(doc cljsc/build)
--------------------------
-cljs.closure/build
-([source opts])
-  Given a source which can be compiled, produce runnable JavaScript.
-```
-
-It seems that if we want to patch the CLJS compiler, the `build`
-function defined in the `cljs.closure` namespace is the first one we
-should take care of. Indeed, by observing the following `build` call
-sample, it can be seen that it accepts a CLJS source and an options
-map, the same options map we already met in `lein-cljsbuild`.
-
-```clojure
-(cljsc/build "hello.cljs" {:optimizations :advanced :output-to "hello.js"})
-```
-
-Take a look at the `build` function definition to see where the
-source compilation really happens. Here is the interested code snippet
-from  `compiler/clojurescript/src/clj/cljs/closure.clj`.
-
-
-```clojure
-(defn build
-  "Given a source which can be compiled, produce runnable JavaScript."
-  [source opts]
-  ...
-  ...
-  (let [...
-        ...]
-        (let [compiled (-compile source all-opts)
-              ...]
-                                 ....)
-```
-
-### compile-dir
-
-The private `compile` function behaviour, which is responsable for the
-CLJS compilation, depends on the `source` argument type, as we can
-verify by looking at the following extensions of `Compilable` protocol
-defined in the same file
-
-```clojure
-(extend-protocol Compilable
-
-  File
-  (-compile [this opts]
-    (if (.isDirectory this)
-      (compile-dir this opts)
-      (compile-file this opts)))
-  ...
-  ...)
-```
-
-`compile-dir`, called when `source` argument is a directory, is the
-next function we need to follow the definition of.
-
-```clojure
-(defn compile-dir
-  "Recursively compile all cljs files under the given source
-  directory. Return a list of JavaScriptFiles."
-  [^File src-dir opts]
-  (let [out-dir (output-directory opts)]
-    (map compiled-file
-         (comp/compile-root src-dir out-dir))))
-```
-
-`compile-dir` accepts as arguments a source directory and a map of
-compilation options. It next calls `compile-root`, defined in the
-`compiler.clj`, by passing it the received source directory and the
-output directory extracted from the received option maps (defaulted to
-"out" directory).
-
-`compile-dir` is the first function we need to patch to support the
-envisioned `:exclude` compilation option. We have to change its
-implementation by passing the value of `:exclude` keyword as third
-argument to the internally called `compile-root` function. Here is the
-updated definition of `compile-dir` that has to be substituted to the
-original one in `closure.clj` which resides in the
-`compiler/clojurescript/src/clj` directory.
-
-```clojure
-(defn compile-dir
-  "Recursively compile all cljs files, but the excluded ones,
-  under the given source directory. Return a list of JavaScriptFiles."
-  [^File src-dir opts]
-  (let [out-dir (output-directory opts)
-        exclude (:exclude opts)]
-    (map compiled-file
-         (comp/compile-root src-dir out-dir exclude))))
-```
-
-> NOTE 4: `(:exclude opts)` is `nil` when `:exclude` option is not set
-> in the options map.
-
-### compile-root
-
-Take now a look at `compile-root` which is defined in
-`compiler.clj`. Here is the orginal definition of `compile-root`.
-
-```clojure
-(defn compile-root
-  "Looks recursively in src-dir for .cljs files and compiles them to
-   .js files. If target-dir is provided, output will go into this
-   directory mirroring the source directory structure. Returns a list
-   of maps containing information about each file which was compiled
-   in dependency order."
-  ([src-dir]
-     (compile-root src-dir "out"))
-  ([src-dir target-dir]
-     (let [src-dir-file (io/file src-dir)]
-       (loop [cljs-files (cljs-files-in src-dir-file)
-              output-files []]
-         (if (seq cljs-files)
-           (let [cljs-file (first cljs-files)
-                 output-file ^java.io.File (to-target-file src-dir-file target-dir cljs-file)
-                 ns-info (compile-file cljs-file output-file)]
-             (recur (rest cljs-files) (conj output-files (assoc ns-info :file-name (.getPath output-file)))))
-           output-files)))))
-```
-
-Notice that `compile-root` is not declared private to its namespace,
-which means we should try our best to maintain stable its
-interface. `compile-root` is already defined with multiple arities and
-we're going to add a third one which accepts a vector of source files
-and/or source directories to be excluded as last argument.  Here is
-the new `compile-root` definition to be substituted to the orginal
-one.
-
-```clojure
-(defn compile-root
-  "Looks recursively in src-dir for .cljs files, but the excluded
-   ones, and compiles them to .js files. If target-dir is provided,
-   output will go into this directory mirroring the source directory
-   structure. Returns a list of maps containing information about each
-   file which was compiled in dependency order."
-  ([src-dir]
-     (compile-root src-dir "out"))
-  ([src-dir target-dir]
-     (compile-root src-dir target-dir nil))
-  ([src-dir target-dir exclude]
-     (let [src-dir-file (io/file src-dir)]
-       (loop [cljs-files (cljs-files-in src-dir-file (exclude-file-names src-dir exclude))
-              output-files []]
-         (if (seq cljs-files)
-           (let [cljs-file (first cljs-files)
-                 output-file ^java.io.File (to-target-file src-dir-file target-dir cljs-file)
-                 ns-info (compile-file cljs-file output-file)]
-             (recur (rest cljs-files) (conj output-files (assoc ns-info :file-name (.getPath output-file)))))
-           output-files)))))
-```
-
-As you can observe, we modified `compile-root` by:
-
-* adding a new arity which accepts as third argument the value of
-`:exclude` option passed by `compile-dir`;
-* changing the call to `cljs-files-in`, which now receives the
-  expasion produced by `exclude-file-names` as second argument.
-
-### exclude-file-names
-
-`exclude-file-names` is a new function which accept a source-dir and a
-vector of source files and/or directories as arguments and produces
-their expansion as a complete set of source files which live in
-source-dir and are to be excluded from compilation.
-
-Here is `exclude-file-names` definition.
-
-```clojure
-(defn exclude-file-names
-  "Return a set of absolute paths of files that must be excluded"
-  [dir exclude-vec]
-  (set (filter #(.endsWith ^String % ".cljs")
-          (map #(.getAbsolutePath ^java.io.File %)
-               (mapcat #(let [dir-path (.getAbsolutePath ^java.io.File dir)]
-                          (file-seq (io/file (str dir java.io.File/separator %))))
-                       exclude-vec)))))
-```
-
-> The previous definition of `exclude-file-names` contains a inattention
-> error (which doesn't shows itself when run) and could be implemented by
-> reducing the number of times it traverses the excluce vector of source
-> files and/or directories.
+> NOTE 1: In [Tutorial 7][5] we set `:cljsbuild` configuration options to
+> generate three different builds: `:dev`, `:pre-prod` and `:prod` which
+> emitted three differents JS (i.e. `modern_dbg.js`, `modern_pre.js` and
+> `modern.js`). Then we had to replicate three html
+> (i.e. `shopping-dbg.html`, `shopping-pre.html` and `shopping.html`) to
+> include the appropriate JS file emitted by the three different builds.
 >
-> In the subsequent tutorial we're going to implement `eclude-file-names`
-> in a better way. This is a typical scenario in which, even if you're not
-> fanatic about testing the code (so do I), you should appreciate to have
-> some test: same interface, different implementation (not to be confused
-> with the usual concept of polymorphism).
+> You should replicate the above modification in each shopping html file.
 
-### cljs-files-in
+Here is the updated shopping calculator form rendered by the browser.
 
-`cljs-files-in` is the last function we have to update to support the
-envisioned `:exclude` option. Here is the updated definition.
+[!Shopping calculator][6]
+
+## Domina events
+
+As you perhaps remember, to manage the shopping calculator we defined
+the `calculate` function and the `init` function to attach it to the
+`submit` button of the `shoppingForm`.
+
+domina.events namespace offers a `listen!` function to attach an
+handling function (e.g. `calculate`) to a DOM event type (e.g. `click`,
+`mouseover`, `mouseout`, etc).
+
+Let's update `shopping.cljs` by requiring `domina.events` namespace and
+by substituting `.-onsubmit` JS interop with `listen!` function as
+follows:
+
+```clojure-mode
+(ns modern-cljs.shopping
+  (:require [domina :as dom]
+            [domina.events :as ev]))
+
+(defn calculate []
+  (let [quantity (dom/value (dom/by-id "quantity"))
+        price (dom/value (dom/by-id "price"))
+        tax (dom/value (dom/by-id "tax"))
+        discount (dom/value (dom/by-id "discount"))]
+    (dom/set-value! (dom/by-id "total") (-> (* quantity price)
+                                    (* (+ 1 (/ tax 100)))
+                                    (- discount)
+                                    (.toFixed 2)))))
+
+(defn ^:export init []
+  (if (and js/document
+           (.-getElementById js/document))
+    (let [theButton (dom/by-id "calc")]
+      (ev/listen! theButton :click calculate))))
+```
+
+> NOTE 2: We now `:require` `domina` instead of just `:use` it as in previous
+> tutorials. Note that we also deleted the returned `false` value from `calculate`
+> because, when using `button` input type instead of `submit`
+> input type, it's not needed any more to return the control to the form
+> itself.
+
+> NOTE 3: A usual, the `init` function has been exported to protect its
+> name from been changed by Google Closure Compiler aggressive compilation
+> used in `:dev` build.
+
+You can now run the project as usual:
+
+```bash
+$ lein ring server # from modern-cljs home
+$ lein cljsbuild auto dev # from modern-cljs home in a new terminal
+```
+
+If you want interact with the bREPL, just execute the usual command to
+run the bREPL.
+
+```bash
+$ lein trampoline cljsbuild repl-listen # from modern-cljs home in a new terminal
+```
+
+Verify that everithing is still working as espected by visiting
+[`shopping-dbg.html][7] page.
+
+Domina library supports both `bubbling` and `capture` event models. The
+`listen!` function supports `bubbling` method. If you want to use the
+`capture` method, you just need to substitute `capture!` function to
+`listen!` one in the `init` function definition and you're done.
+
+## Reset button
+
+To improve our shopping calculator we're now going to add it a second
+button which allows the user to reset the input values to their
+defaults.
+
+You first need to add a new button to `shopping-dbg.html` file (and to
+`shopping-pre.html` and `shopping.html` too), like so:
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Shopping Calculator</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- shopping.html -->
+  <form id="shoppingForm" novalidate>
+    <legend> Shopping Calculator</legend>
+    <fieldset>
+      ...
+      ...
+      <div>
+        <input type="button"
+               value="Calculate"
+               id="calc">               id="calc">
+      </div>
+
+      <div>
+        <input type="button"
+               value="Reset"
+               id="reset">
+      </div>
+
+    </fieldset>
+  </form>
+  <script src="js/modern_dbg.js"></script>
+  <script>
+    modern_cljs.shopping.init();
+  </script>
+</body>
+</html>
+```
+
+Here is the updated shopping calculator rendered by the browser.
+
+[!Shopping calculator][7]
+
+We than need to define a function which reset any input field to its
+default.
 
 ```clojure
-(defn cljs-files-in
-  "Return a sequence of all .cljs files in the given directory."
-  ([dir] (cljs-files-in dir nil))
-  ([dir exclude-set]
-     (filter #(let [name (.getName ^java.io.File %)
-                    path (.getAbsolutePath ^java.io.File %)]
-                (and (.endsWith name ".cljs")
-                     (not= \. (first name))
-                     (not (contains? cljs-reserved-file-names name))
-                     (not (contains? exclude-set path))))
-             (file-seq dir))))
+
 ```
 
-As you can see, we added a new arity to manage the expanded set of
-CLJS source files to be excluded from compilation. The files exclusion
-is obtained by adding a new `and` clause to the anonymous function
-passed to `filter` HFO.
+## A mouseover/mouseout event
 
-### project.clj
+Together with the calculate and reset feature associated with the
+click, we want to add a mouseover/mousout event which print on the
+form the behavior of the buttons *Calcuate* and *Reset*, that is
 
-To test our patched CLJS compiler we first need to add the `:exclude`
-option to the `:compiler` mode in the `:prod` build. Here is the final
-`project.cljs`
+![Shopping events][7]
 
-```clojure
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-  ; clojure source code path
-  :source-paths ["src/clj"
-                 "compiler/clojurescript/src/clj"
-                 "compiler/clojurescript/src/cljs"]
-  :dependencies [[org.clojure/clojure "1.4.0"]
-                 ; compojure dependency
-                 [compojure "1.1.3"]
-                 ; domina dependency
-                 [domina "1.0.0"]]
-  :plugins [; cljsbuild plugin
-            [lein-cljsbuild "0.2.9"]
-            ; ring plugin
-            [lein-ring "0.7.5"]]
-  ; ring tasks configuration
-  :ring {:handler modern-cljs.core/handler}
-  ; cljsbuild tasks configuration
-  :cljsbuild {:builds
-              {
-               :dev
-               {; clojurescript source code path
-                :source-path "src/cljs"
-                ; Google Closure Compiler options
-                :compiler {; the name of emitted JS script file
-                           :output-to "resources/public/js/modern_dbg.js"
-                           ; minimum optimization
-                           :optimizations :whitespace
-                           ; prettyfying emitted JS
-                           :pretty-print true}}
-               :prod
-               {; clojurescript source code path
-                :source-path "src/cljs"
-                ; Google Closure Compiler options
-                :compiler {; the name of emitted JS script file
-                           :output-to "resources/public/js/modern.js"
-                           ; the name of the CLJS source file to be
-                           ; excluded from compilation
-                           :exclude ["modern_cljs/connect.cljs"]
-                           ;advanced optimization
-                           :optimizations :advanced}}
-               :pre-prod
-               {; some path as above
-                :source-path "src/cljs"
-                :compiler {; different output name
-                           :output-to "resources/public/js/modern_pre.js"
-                           ; simple optmization
-                           :optimizations :simple
-                           ; no need prettyfication
-                           }}}})
+To do this, we define the functions `addcalclauncher` and
+`addresetlauncher`, that handle the events associated with the
+calcuate and reset events of *Calcuate* and *Reset* buttons. The
+following code handles within a unique function the three
+behaviors concerning the *Calcuate* button.
+
+```clj
+(defn addcalclauncher []
+  (doall
+   [(evts/listen! (dom/by-id "calculate") :mouseover (fn [evt] (appendinfo)))
+    (evts/listen! (dom/by-id "calculate") :mouseout (fn [evt] (removeinfo)))
+    (evts/listen! (dom/by-id "calculate") :click  (fn [evt] (calculate)))]))
+
+(defn ^:export init []
+  (if (and js/document
+           (.-getElementById js/document))
+     (addcalclauncher)))
 ```
 
-## Sanity check
+provided that we have included the domina library running
 
-We can now run `lein-cljsbuild` to check the patched CLJS compiler.
-
-```bash
-$ cd path/to/modern-cljs # cd in modern-cljs project home directory
-$ lein cljsbuild clean # delete any previous compilation
-$ lein cljsbuild once # compile all builds in project.clj
+```clj
+(ns event-ex-one.reset
+        (:require [domina :as dom]
+                  [domina.events :as evts]))
 ```
 
-> NOTE 5: you should receive a lot of wornings during the cljsbuild
-> compilation of domina. Don't warry about them.
+Here `calculate` is the "calculator" routine specified in the previous
+tutorials. The functions `appendinfo`, `removeinfo` are responsible to
+the information printing on the form. To manipulate the underlining
+HTML we proceed as follows
 
-To verify that `:dev` and `:pre-prod` builds still contain the generated
-code to create the client-side connection with the brepl, do as follows:
+```cljs
+(defn appendinfo []
+  (dom/append! (xdom/xpath "//body/form") (hsc/html [:div {:id "txtcalc"} "Click to calculate"])))
 
-```bash
-$ tail -n 1 resources/public/js/modern_dbg.js
-clojure.browser.repl.connect.call(null, "http://localhost:9000/repl");
-$ tail -n 1 resources/public/js/modern_pre.js
-clojure.browser.repl.connect.call(null, "http://localhost:9000/repl");
-$
+(defn removeinfo []
+  (dom/destroy! (dom/by-id "txtcalc")))
 ```
 
-As you can see both `modern_dgb.js` and `modern_pre.js` files emitted
-by the patched CLJS compiler still have the call to connect the
-browser with the brepl server.
+The `dom/append!` and `dom/destroy!` functions respectively add and
+delete a specified DOM element. A review of the specifications which
+can be passed to these function can be found in the
+[domina readme][1]. Since `dom/append!` receives as second argument a
+string which contains the HTML code to be appended, we want to have a
+more "clojurish" approach to generate HTML code. To this aim, we use
+[hiccups library][2]. It provides the function `hsc/html` which
+return a string containing an HTML source code defined by a standard
+"hiccups" syntax (see [hiccups readme][2] for a complete review).
 
-On the contrary, `modern.js`, which as been emitted by excluding
-`modern_cljs/connect.cljs` form compilation, does not contain anymore
-the connection with the brepl server as you can verify by yourself.
+Similary, we hook to the *Reset* buttons the similar events.
 
-```bash
-$ tail resources/public/js/modern.js
-  return v(v(c) ? document.getElementById : c) ? document.getElementById(a).onsubmit = b : l
-});
-da("modern_cljs.login.validate_form", function() {
-  var a = se(Rd("email")), b = se(Rd("password"));
-  if((a = 0 < Fb(lf(a))) ? 0 < Fb(lf(b)) : a) {
-    return g
-  }
-  alert("Please, complete the form!");
-  return m
-});
-$
+```clj
+(defn addresetlauncher []
+  (doall
+   [(evts/listen! (dom/by-id "reset") :mouseover (fn [evt] (appendinfor)))
+    (evts/listen! (dom/by-id "reset") :mouseout (fn [evt] (removeinfor)))
+    (evts/listen! (dom/by-id "reset") :click  (fn [evt] (resetform)))]))
+
+;; the same as the previous sample
+(defn ^:export init []
+  (if (and js/document
+           (.-getElementById js/document))
+     (addresetlauncher)))
 ```
 
-## Final notes
+Here `reset` is the function that reset the form.
 
-> NOTE 6: To complete the CLJS compiler patch we should modify
-> `compiler/clojurescript/bin/cljsc.clj` as well, but for the purpose of
-> this tutorial this last code change is not needed.
+```clj
+(defn resetform []
+  (dom/set-value! (dom/by-id "total") "0.00")
+  (dom/set-value! (dom/by-id "price") "0.00")
+  (dom/set-value! (dom/by-id "tax") "0.0")
+  (dom/set-value! (dom/by-id "discount") "0.00")
+  (dom/set-value! (dom/by-id "quantity") "1")
+  false)
+```
 
-> NOTE 7: The content of this tutorial is the result of the work of
-> [Federico Boniardi][4] and [Francesco Agozzino][5] during their
-> efforts in learning CLJ/CLJS under my direction. I want to thank
-> them for the good job they did.
+As shown in [tutorial 6][8], to make the produced JavaScript actually
+runnable, we need to add in the HTML `shopping.html` the following
+lines
 
-# Next step - It's better to be safe than sorry (Part.1)
+```HTML
+<script>modern_cljs.shopping.init();</script>
+<script>modern_cljs.reset.init();</script>
+```
 
-In the [next tutorial][6] we're going find the motivation and the room for testing.
+> Since the events are hooked both to the DOM element and its
+> response, there is no behavior difference between the bubble-phase
+> and the capture-phase, anyway domina allows the user follow both the
+> approaches.
 
-# License
+## Another approach for building the page
 
-Copyright © Mimmo Cosenza, 2012. Released under the Eclipse Public
-License, the same as Clojure.
+We have seen above how [domina][1] and [hiccups][2] can be expolited
+for HTML pages manipulations. Anyway a different approach is possible,
+that is we can build an html page entirely in the ClojureScript code
+and declaring only a minimal skeleton in our HTML. To do so we employ
+the [c2 library][9].
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
-[2]: https://github.com/clojure/clojurescript/wiki/Quick-Start
-[3]: https://github.com/emezeske/lein-cljsbuild/wiki/Using-a-Git-Checkout-of-the-ClojureScript-Compiler
-[4]: https://github.com/federico-b
-[5]: https://github.com/agofilo
-[6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
+The HTML page is now the following.
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Shopping Calculator</title>
+    <!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <form action="" method="post" id="shoppingForm" novalidate></form>
+  <script src="js/modern_dbg.js"></script>
+</body>
+</html>
+```
+
+and the shopping form can be initialized using the `bind!` macro of
+`c2.util`, which must be imported by the usual `use-macro`
+declaration.
+
+```clj
+(bind! "#shoppingForm"
+       [:form
+        [:legend "Shopping Calculator"]
+        [:fieldset
+         [:div [:label {:for "quantity"} "Quantity"
+                [:input#quantity {:type "number"
+                                  :name "quantity"
+                                  :value "1"
+                                  :min "1"
+                                  :required true}]]]
+         [:div [:label {:for "price"} "Price Per Unit"
+                [:input#price {:type "text"
+                               :name "price"
+                               :value "1.00"
+                               :required true}]]]
+         [:div [:label {:for "tax"} "Tax Rate (%)"
+                [:input#tax {:type "text"
+                             :name "tax"
+                             :value "0.0"
+                             :requried true}]]]
+         [:div [:label {:for "discount"} "Discount"
+                [:input#discount {:type "text"
+                                  :name "discount"
+                                  :value "0.0"
+                                  :required true}]]]
+         [:div [:label {:for "total"} "Total"
+                [:input#total {:type "text"
+                               :name "total"
+                               :value "0.00"
+                               :required true}]]]
+         [:div [:input#calculateButton {:type "button"
+                                         :value "Calculate"}]]
+         [:div [:input#resetButton {:type "button"
+                               :value "Reset"}]]]])
+
+```
+
+> Observe that the basic difference between this approach goes beyond
+> the language we use to build a HTML page. Following this approach
+> the actions associated with the DOM elements don't require to be
+> initialized (see the *init* functions in the previous tutorials) and
+> so, no CLJS functions must be exported, as we shall see below.
+
+We see now how the events discussed in the previous section can be
+handled with *c2*.
+
+## The mouseover/mouseout event with c2
+
+We recall that we want to attach to the *Calculate* button a mouseover
+event which prints on the form some information about the behavior of
+the button, which must disappear when the mouse moves out the
+button. Similary for the *Reset* button.
+
+Here the code for the calculation
+
+```clj
+        (c2event/on-raw "#calculateButton" :click calculate)
+        (c2event/on-raw "#calculateButton" :mouseover (fn [] (add-info "#shoppingForm" "calculate")))
+        (c2event/on-raw "#calculateButton" :mouseout (fn [] (remove-info "#calculate")))
+```
+
+and the code for the reset action
+
+```clj
+        (c2event/on-raw "#resetButton" :click reset-form)
+        (c2event/on-raw "#resetButton" :mouseover (fn [] (add-info "#shoppingForm" "reset")))
+        (c2event/on-raw "#resetButton" :mouseout (fn [] (remove-info "#reset")))
+```
+
+where `calculate`, `reset`, `add-info` and `remove-info` are now defined as follows
+
+```clj
+        (defn calculate []
+                (let [quantity (c2dom/val "#quantity")
+                        price (c2dom/val "#price")
+                        tax (c2dom/val "#tax")
+                        discount (dom/val "#discount")]
+                (c2dom/val "#total" (-> (* quantity price)
+                                        (* (+ 1 (/ tax 100)))
+                                                        (- discount)
+                                                        (.toFixed 2)))))
+
+        (defn reset-form []
+                (let [fields ["#quantity" "#price" "#tax" "#discount" "#total"]
+                          init ["1" "1.00" "0.0" "0.0" "0.00"]]
+                  (dorun (map c2dom/val fields init))))
+
+        (defn add-info [el name]
+                (c2dom/append! el [:div {:id name} (str "Click to " name)]))
+
+        (defn remove-info [el]
+                (c2dom/remove! el))
+```
+
+which are slightly different since they use the *c2 library* functions
+(actually those are not the only differences, we wanted to show other
+possible implementations).
+
+> As mentioned above, no ^:export tags must be provided.
+
+
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
+[2]: https://github.com/levand/domina
+[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md#shopping-calculator-sample
+
+[4]: https://github.com/magomimmo/domina/blob/master/src/cljs/domina/events.cljs
+
+[2]: https://github.com/teropa/hiccups
+[4]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
+[5]: http://www.larryullman.com/
+[6]: https://raw.github.com/magomimmo/modern-cljs/tut-11/doc/images/form-idle.png
+[7]: https://raw.github.com/magomimmo/modern-cljs/tut-11/doc/images/form-events.png
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
+[9]: https://github.com/lynaghk/c2.git
+[10]: https://github.com/lynaghk/c2/blob/master/README.markdown
