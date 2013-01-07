@@ -213,5 +213,5 @@ License, the same as Clojure.
 [4]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 [5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
 [6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-reviewed.png
-[7]: https://github.com/magomimmo/modern-cljs/blob/master/src/cljs/modern_cljs/shopping.cljs
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md#modify-validate-form
 [8]: http://localhost:3000/shopping-dbg.html
