@@ -52,7 +52,7 @@ with [ring][8], a CLJ based http-server.
 
 In this tutorial we start having some fun with CLJS form validation, by
 porting from JS to CLJS the login form example of
-[Modern Javascript: Development and desing][10] by [Larry Ullman][11].
+[Modern Javascript: Development and design][10] by [Larry Ullman][11].
 
 ## [Tutorial 5 - Introducing Domina][12]
 
