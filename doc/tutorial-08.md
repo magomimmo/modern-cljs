@@ -114,7 +114,7 @@ Here is the updated html code.
 
 Here is the updated shopping calculator form rendered by the browser.
 
-[!Shopping calculator][6]
+![Shopping calculator][6]
 
 ### Domina events
 
