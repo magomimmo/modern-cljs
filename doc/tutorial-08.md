@@ -158,9 +158,9 @@ namespace and by substituting the `.-onsubmit` JS interop with the
 > `button` input type instead of `submit` input type, we need not to
 > return the control to the form itself.
 
-> NOTE 3: A usual, the `init` function has been exported to protect its
+> NOTE 3: As usual, the `init` function has been exported to protect its
 > name from been changed by Google Closure Compiler aggressive compilation
-> used in `:dev` build (i.e. `:advanced`).
+> used in `:prod` build (i.e. `:advanced`).
 
 You can now compile and run the project as usual:
 
