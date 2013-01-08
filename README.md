@@ -76,6 +76,12 @@ In this Tutorial we're going to introduce domina events which, by
 wrapping Google Closure Library event management, allows to follow a
 more clojure-ish approach in handing DOM events.
 
+## [Tutorial 9 - DOM Manipulation][17]
+
+In this tutorial we'are going to face the need to programmatically
+manipulate DOM elements as a result of the occurrance of some DOM
+events.
+
 # License
 
 Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
@@ -97,3 +103,4 @@ License, the same as Clojure.
 [14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
 [15]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
+[17]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md

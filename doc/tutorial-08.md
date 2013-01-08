@@ -198,9 +198,11 @@ call and you're done.
            (.-getElementById js/document))
     (ev/capture! (dom/by-id "calc") :click calculate)))
 ```
-# Next step - TO BE DONE
+# [Tutorial 9 - DOM Manipulation][9]
 
-TO BE DONE
+In the next tutorial we'are going to face the need to programmatically
+manipulate DOM elements as a result of the occurrance of some DOM
+event (e.g. `mouseover`, `mouseout`, etc.).
 
 # License
 
@@ -215,3 +217,4 @@ License, the same as Clojure.
 [6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-reviewed.png
 [7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md#modify-validate-form
 [8]: http://localhost:3000/shopping-dbg.html
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
