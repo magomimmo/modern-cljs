@@ -1,4 +1,4 @@
-# Tutorial 10 - DOM manipulation
+# Tutorial 09 - DOM manipulation
 
 In the [last tutorial][1] we introduced `domina.events` namespace to
 make our events management a little bit more clojure-ish than just
@@ -28,7 +28,9 @@ face again and again in yuor CLJS programming.
 Let's start by adding a `mouseover` handler to the `Calculate`
 button. The first step is to write a function, named `add-help`, wich
 append a text paragraph to the shopping calculator DOM. To do that
-we're are going to experience the domana library again by using its `append!` function from `domina` namespace. The documentation attached to `append!` functionssays that:
+we're are going to experience the domana library again by using its
+`append!` function from `domina` namespace. The documentation attached
+to `append!` functionssays that:
 
 > Given a parent and child contents, appends each of the children to all
 > of the parents. If there is more than one node in the parent content,
