@@ -1,4 +1,5 @@
 (ns modern-cljs.shopping
+  (:require-macros [hiccups.core :as h])
   (:require [domina :as dom]
             [domina.events :as ev]))
 
@@ -14,14 +15,14 @@
 
 (defn add-help []
   (dom/append! (dom/by-id "shoppingForm")
-               "<div class='help'>Click to calculate</div>"))
+               (h/html [:div.help "Click to calculate"])))
 
 (defn remove-help []
   (dom/destroy! (dom/by-class "help")))
 
 (defn ^:export init []
   (when (and js/document
-             (.-getElementById js/document))
+             (aget js/document "getElementById"))
     (ev/listen! (dom/by-id "calc") :click calculate)
     (ev/listen! (dom/by-id "calc") :mouseover add-help)
     (ev/listen! (dom/by-id "calc") :mouseout remove-help)))
