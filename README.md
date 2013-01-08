@@ -79,7 +79,7 @@ more clojure-ish approach in handing DOM events.
 ## [Tutorial 9 - DOM Manipulation][17]
 
 In this tutorial we'are going to face the need to programmatically
-manipulate DOM elements as a result of the occurrance of some DOM
+manipulate DOM elements as a result of the occurrence of some DOM
 events.
 
 # License
