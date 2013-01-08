@@ -76,7 +76,7 @@ In this Tutorial we're going to introduce domina events which, by
 wrapping Google Closure Library event management, allows to follow a
 more clojure-ish approach in handing DOM events.
 
-## [Tutorial 10 - DOM Manipulation][17]
+## [Tutorial 9 - DOM Manipulation][17]
 
 In this tutorial we'are going to face the need to programmatically
 manipulate DOM elements as a result of the occurrance of some DOM
