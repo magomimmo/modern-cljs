@@ -4,24 +4,24 @@ In the [last tutorial][1] we introduced `domina.events` namespace to
 make our events management a little bit more clojure-ish than just
 using CLJS/JS interop. In this tutorial we'are going to face the need
 to programmatically manipulate DOM elements as a result of the
-occurrence of most DOM events (e.g. `mouseover`, `mouseout`, etc.).
+occurrence of some DOM events (e.g. `mouseover`, `mouseout`, etc.).
 
 # Introduction
 
 As we already saw, [domina library][2] has a lot to offer for managing
 the selection of DOM elements and for handling almost any DOM
 event. Let's go on by using it to verify how it could help us in
-managing the manipulation of DOM elements which is one of the most
-important features of any good JS library and/or framework.
+managing the manipulation of DOM elements, which is one of the most
+important feature of any good JS library and/or framework.
 
-To follow that goal we're going to use again our old shopping
+To reach this goal, we're going to use again our old shopping
 calculator example by adding to its `Calculate` button both a
 `mouseover` and a `mouseout` event handlers.  The `mouseover` handler
-reacts by adding a simple text, saying "Click to calculate", to the
-form itself. The `mouseout` handler, instead, reacts by deleting that
-paragraph.  I know, the requirement is very stupid but, as you will
-see, pretty representative of a kind of problem you're going to face
-again and again in yuor CLJS programming.
+reacts by adding "Click to calculate" to the form itself. The
+`mouseout` handler, instead, reacts by deleting that text.  Yes, I
+know, the requirement is very stupid but, as you will see, pretty
+representative of a kind of problem you're going to face again and
+again in yuor CLJS programming.
 
 # Mouseover event
 
@@ -46,7 +46,7 @@ And here is a simple example of `append!` usage from [domina readme][3].
 
 which appends a `div` node to the end of the `body` node. It uses
 `xpath` to select a single parent (i.e. `body`) and a `string` to
-represent a single `div` fragment to be added to the parent.
+represent a single `div` child to be added to the parent.
 
 I don't know about you, but I don't feel to be at home with `xpath`
 and I limit myself to use it just where CSS selector will fail
@@ -94,7 +94,7 @@ $ lein cljsbuild auto dev # from modern-cljs home in a new terminal
 ```
 
 you will see that every time you move your mouse over the `Calculate`
-button, a new text saying "Click to calculate" is going be added to
+button, a new text saying *Click to calculate* is going be added to
 the end of the shopping calculator form.
 
 ![Shopping calculator][5]
@@ -105,10 +105,11 @@ What we now need is a way to delete that text anytime the mouse moves
 out of the `Calculate` button. Thankfully, `domina.events` namespace
 support `mouseout` event as well.
 
-We need to define a new function, named `remove-help`, which deletes
-the DOM node previously added by `add-help` to the form, and then we
-need to attach that function to the `mouseout` event of the
-`Calculate` button. Here is the complete `shopping.cljs` source file.
+We need to define a new function, named `remove-help`, which, by using
+`destroy!`  fuction from  `domina` namespace,  deletes the  `div` node
+previously added  by `add-help`  to the form.  Next we need  to attach
+that function to the `mouseout`  event of the `Calculate` button. Here
+is the complete `shopping.cljs` source file.
 
 ```clojure
 (ns modern-cljs.shopping
@@ -157,18 +158,19 @@ a string like we did when we manipulated the DOM by adding a `div` to
 the `shoppingForm` form.
 
 If there is a thing that I don't like about domina library is that it
-requires the child/children argument to be passed to `append!` and
-other DOM manipulation functions as a string containing a true HTML
-fragment, not a CLJ data structure. That's way I searched around to
+requires the child/children argument to be passed to `append!`, and to
+otherr DOM manipulation functions, as a string containing a true HTML
+fragment, not a CLJ data structure. That's why I searched around to
 see if someone else, having my same pain, solved it.
 
 ## hiccups
 
 The first CLJS library I found to relieve my pain was
-[hiccups][6]. It's just a CLJS port of [hiccup][7] that uses vectors
-to represent tags and maps to represent a tag's attrbutes.
+[hiccups][6]. It's just an incomplete port of [hiccup][7] on CLJS. It
+uses vectors to represent tags and maps to represent a tag's
+attrbutes.
 
-Here are some basic examples of hiccups usage:
+Here are some basic documented examples of hiccups usage:
 
 ```clojure
 (html [:span {:class "foo"} "bar"])
@@ -189,9 +191,9 @@ hiccups also provides a CSS-like shortcut for denoting `id` and
 ;; emits "<div id=\"foo\" class=\"bar baz\">bang</div>"
 ```
 
-which brings us to solve our problem of converting to CLJ data
-structure the `"<div class=/"help/">Click to calculate</div>"` string
-we previously passed to `append!` function
+which brings us to solve our problem of representing the string `"<div
+class=/"help/">Click to calculate</div>"` as CLJ data structures to be
+passed to `append!` function
 
 ```clojure
 (html [:div#.help "Click to calculate"])
@@ -297,8 +299,8 @@ And here is the updated `shopping.cljs` source file.
     (ev/listen! (dom/by-id "calc") :mouseout remove-help)))
 ```
 
-> NOTE 2: this is the first time we met macros in CLJS. CLJS macros are
-> written in CLojure and are referenced via the `:require-macros`
+> NOTE 2: this is the first time we met macros in CLJS. CLJS macros
+> are written in CLJ and are referenced via the `:require-macros`
 > keyword in the namespace declaration where the `:as` prefix is
 > required. It has to be noted that the code generated by macros must
 > target the capability of CLJS (see [Difference from Clojure][8])
@@ -319,7 +321,7 @@ in the `init` function which can be very easly removed by just using
 ```
 
 Update the `shopping.cljs` source file as above, save it, clean and
-recompile everytng as usual and finnaly run the project as usual
+recompile everything and finnaly run the project as usual
 
 ```bash
 $ lein cljsbuild clean # from modern-cljs home dir
@@ -329,11 +331,11 @@ $ lein ring server
 $ lein trampoline cljsbuils repl-listen # from modern home dir in a new terminal
 ```
 
-And visit [`shopping-dbg.html`][4]. Then visit [`shopping-pre.html`][9] and
+Next visit [`shopping-dbg.html`][4], [`shopping-pre.html`][9] and
 [`shopping.html`][10] to verify that all the builds still work.
 
-As homework I suggest you to code modify `login.cljs` accordingly to
-what we did for `shopping.cljs` in this and in the
+As homework I suggest you to modify `login.cljs` accordingly to
+the approach used for `shopping.cljs` in this and in the
 [previous tutorial][1].
 
 # Next step - TO BE DONE

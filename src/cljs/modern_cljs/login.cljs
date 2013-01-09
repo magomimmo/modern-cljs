@@ -1,5 +1,6 @@
 (ns modern-cljs.login
-  (:use [domina :only [by-id value]]))
+  (:require [domina :refer [by-id value]]
+            [domina.events :refer [listen!]]))
 
 (defn validate-form []
   ;; get email and password element using (by-id id)
@@ -21,5 +22,4 @@
            (.-getElementById js/document))
     ;; get loginForm by element id and set its onsubmit property to
     ;; our validate-form function
-    (let [login-form (.getElementById js/document "loginForm")]
-      (set! (.-onsubmit login-form) validate-form))))
+    (set! (.-onsubmit (by-id "loginForm")) validate-form)))
