@@ -7,6 +7,18 @@ In the first tutorial you are going to create and configure a very basic
 projects. [lein-cljsbuild][3] is a leiningen plugin specialized in
 managing CLJS projects.
 
+> NOTE 1: `modern-cljs` has been tested with **lein version
+> 2.0.0-preview10**. On January 10th 2013 lein reached version
+> **2.0.0-RC1** which seems to break **lein-ring** plugin included in
+> `modern-cljs`'s `project.clj` and I had no time to investigate the
+> issue.  If you already updgraded (or installed) to lein 2.0.0-RC1, you
+> should rollback to lein version 2.0.0-preview10 by running the
+> following command at terminal prompt:
+> 
+> ```bash
+> $ lein upgrade "2.0.0-preview10"
+> ```
+
 ## Create a Clojure (CLJ) project
 
 If not already done, install [leiningen][2] and create a new project
@@ -30,7 +42,7 @@ $ mkdir -p src/{clj,cljs/modern_cljs}
 $ mv src/modern_cljs/ src/clj/
 ```
 
-> Note: due to [java difficulties][4] in managing hyphen "-" (or other
+> NOTE 2: due to [java difficulties][4] in managing hyphen "-" (or other
 > special characters) in package names, substitute any hyphen with
 > underscore in corresponding directory names.
 
