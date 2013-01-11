@@ -23,15 +23,14 @@ available tutorial without coding:
 
 > NOTE 1: `modern-cljs` has been tested with **lein version
 > 2.0.0-preview10**. On January 10th 2013 lein reached version
-> **2.0.0-RC1** which seems to break **lein-ring** plugin included in
-> `modern-cljs`'s `project.clj` and I had no time to investigate the
-> issue.  If you already updgraded (or installed) to lein 2.0.0-RC1, you
-> should rollback to lein version 2.0.0-preview10 by running the
-> following command at terminal prompt:
-> 
-> ```bash
-> $ lein upgrade "2.0.0-preview10"
-> ```
+> **2.0.0-RC1**. Due to lein-ring 0.7.5 depending from leinjacker
+> version 0.2.0, lein 2.0.0-RC1 does not work. If you still want to
+> use RC1 version of lein, you need to update modern-cljs dependencies
+> with **lein-ring 0.8.0-SNAPSHOT** which includes **leinjacker
+> 0.4.1** as updated dependency. If, instead, you prefer to stay with
+> **lein-ring 0.7.5** you neeed to downgrade to version
+> 2.0.0-preview10 of lein by running the following command at terminal
+> prompt: `$ lein upgrade "2.0.0-preview10"`
 
 > NOTE 2: If you want to access the code of any single tutorial because
 > you don't want to `copy&paste` it or you don't want to write it

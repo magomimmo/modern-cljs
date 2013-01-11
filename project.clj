@@ -14,7 +14,7 @@
                  [hiccups "0.1.1"]]
 
   :plugins [[lein-cljsbuild "0.2.10"]
-            [lein-ring "0.8.0"]]
+            [lein-ring "0.8.0-SNAPSHOT"]]
 
   ;; enable cljsbuild tasks support
   :hooks [leiningen.cljsbuild]
