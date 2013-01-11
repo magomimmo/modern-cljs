@@ -28,9 +28,9 @@ available tutorial without coding:
 > use RC1 version of lein, you need to update modern-cljs dependencies
 > with **lein-ring 0.8.0-SNAPSHOT** which includes **leinjacker
 > 0.4.1** as updated dependency. If, instead, you prefer to stay with
-> **lein-ring 0.7.5** you neeed to downgrade to version
-> 2.0.0-preview10 of lein by running the following command at terminal
-> prompt: `$ lein upgrade "2.0.0-preview10"`
+> version 2.0.0-preview10 of lein, you need to downgrade lein by
+> running the following command at terminal prompt: `$ lein upgrade
+> "2.0.0-preview10"`
 
 > NOTE 2: If you want to access the code of any single tutorial because
 > you don't want to `copy&paste` it or you don't want to write it
