@@ -21,7 +21,19 @@ available tutorial without coding:
 7. visit [login-dbg.html][3] and/or [shopping-dbg.html][4]
 8. play with the repl connected to the browser
 
-> NOTE: If you want to access the code of any single tutorial because
+> NOTE 1: `modern-cljs` has been tested with **lein version
+> 2.0.0-preview10**. On January 10th 2013 lein reached version
+> **2.0.0-RC1** which seems to break **lein-ring** plugin included in
+> `modern-cljs`'s `project.clj` and I had no time to investigate the
+> issue.  If you already updgraded (or installed) to lein 2.0.0-RC1, you
+> should rollback to lein version 2.0.0-preview10 by running the
+> following command at terminal prompt:
+> 
+> ```bash
+> $ lein upgrade "2.0.0-preview10"
+> ```
+
+> NOTE 2: If you want to access the code of any single tutorial because
 > you don't want to `copy&paste` it or you don't want to write it
 > yourself, do as follows:
 >
