@@ -14,8 +14,11 @@
                  [hiccups "0.1.1"]]
 
   :plugins [[lein-cljsbuild "0.2.10"]
-            [lein-ring "0.7.5"]]
+            [lein-ring "0.8.0"]]
 
+  ;; enable cljsbuild tasks support
+  :hooks [leiningen.cljsbuild]
+  
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
 
