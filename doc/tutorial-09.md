@@ -86,7 +86,7 @@ We can now add `add-help` handler to the `mouseover` event of the
     (ev/listen! (dom/by-id "calc") :mouseover add-help)))
 ```
 
-If you now compile, run and visit [`shopping-dbg.html`][4] page 
+If you now compile, run and visit [`shopping-dbg.html`][4] page
 
 ```bash
 $ lein ring server # from modern-cljs home dir
@@ -196,7 +196,7 @@ class=/"help/">Click to calculate</div>"` as CLJ data structures to be
 passed to `append!` function
 
 ```clojure
-(html [:div#.help "Click to calculate"])
+(html [:div.help "Click to calculate"])
 ```
 
 We are now ready to use hiccups by:
@@ -205,7 +205,7 @@ We are now ready to use hiccups by:
 * require `hiccups.core` macro namespace
 * use hiccups syntax to generate the HTML string to be passed to
   domina `append!` function
-  
+
 Here is the complete `project.cljs` which now includes the hiccups
 dependency
 
@@ -327,7 +327,7 @@ recompile everything and finnaly run the project as usual
 $ lein cljsbuild clean # from modern-cljs home dir
 $ lein clean
 $ lein cljsbuild once
-$ lein ring server 
+$ lein ring server
 $ lein trampoline cljsbuils repl-listen # from modern home dir in a new terminal
 ```
 
