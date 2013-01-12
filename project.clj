@@ -12,7 +12,7 @@
                  [compojure "1.1.3"]]
 
   :plugins [[lein-cljsbuild "0.2.10"]
-            [lein-ring "0.7.5"]]
+            [lein-ring "0.8.0-SNAPSHOT"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
