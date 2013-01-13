@@ -125,4 +125,4 @@ License, the same as Clojure.
 [15]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
 [17]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
-[18]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-010.md
+[18]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md

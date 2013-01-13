@@ -1,7 +1,5 @@
 # Tutorial 10 - Introducing Ajax
 
-
-
 # Next step - Tutorial 11 - TBD
 
 TO BE DONE
