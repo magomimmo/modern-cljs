@@ -1,8 +1,8 @@
 (ns modern-cljs.core
-  (:use compojure.core)
-  (:require [compojure.handler :as handler]
-            [compojure.route :as route]
-            [cemerick.shoreleave.rpc :as rpc]))
+  (:require [compojure.core :refer [defroutes GET]]
+            [compojure.route :refer [resources not-found]]
+            [compojure.handler :refer [site]]
+            [cemerick.shoreleave.rpc :refer [defremote wrap-rpc]]))
 
 ;; defroutes macro defines a function that chains individual route
 ;; functions together. The request map is passed to each function in
@@ -11,20 +11,20 @@
   ; to serve document root address
   (GET "/" [] "<p>Hello from compojure</p>")
   ; to server static pages saved in resources/public directory
-  (route/resources "/")
+  (resources "/")
   ; if page is not found
-  (route/not-found "Page non found"))
+  (not-found "Page non found"))
 
 ;; site function create an handler suitable for a standard website,
 ;; adding a bunch of standard ring middleware to app-route:
 (def handler
-  (handler/site app-routes))
+  (site app-routes))
 
-(rpc/defremote calculate [quantity price tax discount]
+(defremote calculate [quantity price tax discount]
   (-> (* quantity price)
       (* (+ 1 (/ tax 100)))
       (- discount)))
 
 (def app (-> #'handler
-             rpc/wrap-rpc
-             handler/site))
+             wrap-rpc
+             site))
