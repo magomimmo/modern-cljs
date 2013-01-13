@@ -93,6 +93,16 @@ In this tutorial we'are going to face the need to programmatically
 manipulate DOM elements as a result of the occurrence of some DOM
 events.
 
+## [Tutorial 10 - Introducing Ajax][18]
+
+In this tutorial we're going to extend our comprehension of CLJS by
+introducing Ajax to let the CLJS client side code to communicate with
+the CLJ server side code.
+
+## Tutorial 11 - TBD
+
+TO BE DONE
+
 # License
 
 Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
@@ -115,3 +125,4 @@ License, the same as Clojure.
 [15]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
 [17]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
+[18]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-010.md

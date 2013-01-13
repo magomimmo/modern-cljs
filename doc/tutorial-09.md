@@ -338,7 +338,7 @@ As homework I suggest you to modify `login.cljs` accordingly to
 the approach used for `shopping.cljs` in this and in the
 [previous tutorial][1].
 
-# Next step - TO BE DONE
+# Next step - [Tutorial 10 - Intorducing Ajax][11]
 
 TO BE DONE
 

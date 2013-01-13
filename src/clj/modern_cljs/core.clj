@@ -1,7 +1,8 @@
 (ns modern-cljs.core
   (:use compojure.core)
   (:require [compojure.handler :as handler]
-            [compojure.route :as route]))
+            [compojure.route :as route]
+            [cemerick.shoreleave.rpc :as rpc]))
 
 ;; defroutes macro defines a function that chains individual route
 ;; functions together. The request map is passed to each function in
@@ -18,3 +19,12 @@
 ;; adding a bunch of standard ring middleware to app-route:
 (def handler
   (handler/site app-routes))
+
+(rpc/defremote calculate [quantity price tax discount]
+  (-> (* quantity price)
+      (* (+ 1 (/ tax 100)))
+      (- discount)))
+
+(def app (-> #'handler
+             rpc/wrap-rpc
+             handler/site))
