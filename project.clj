@@ -18,7 +18,7 @@
 
   ;; enable cljsbuild tasks support
   :hooks [leiningen.cljsbuild]
-  
+
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
 
@@ -44,7 +44,7 @@
                            :output-to "resources/public/js/modern_pre.js"
 
                            ;; simple optimization
-                           :optimizations :whitespace}}
+                           :optimizations :simple}}
                :prod
                {;; same path as above
                 :source-path "src/cljs"
