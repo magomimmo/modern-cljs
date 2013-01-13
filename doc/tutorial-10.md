@@ -242,7 +242,73 @@ First you need to update the namespace declaration by adding the
 > namespace declaration. The reason why of will became clear when updating
 > the client-side `calculate` function.
 
-Then you have to update the `calculate` definition in such a way that
+Let's now finish the work by updating the `calculate` function.
+
+```clojure
+(defn calculate []
+  (let [quantity (read-string (dom/value (dom/by-id "quantity")))
+        price (read-string (dom/value (dom/by-id "price")))
+        tax (read-string (dom/value (dom/by-id "tax")))
+        discount (read-string (dom/value (dom/by-id "discount")))]
+    (rpc/remote-callback :calculate
+                         [quantity price tax discount]
+                         #(dom/set-value! (dom/by-id "total") (.toFixed % 2)))))
+```
+
+### The arithmetic is note the same
+
+First take a look at the `let` form. We wrapped all input field value
+readings inside a `read-string` form which returns the JS object from
+read string. That's because CLJS's has the same arithmetic semantics as
+JS, which is different from the corresponding CLJ arithmetic semantic on
+the JVM. Try to launch the rhino repl from `modern-cljs` home directory
+and then evaluate a multiplication passing it two stringfied numbers:
+
+```clojure
+$ lein trampoline cljsbuild repl-rhino
+Running Rhino-based ClojureScript REPL.
+"Type: " :cljs/quit " to quit"
+ClojureScript:cljs.user> (* "6" "7")
+42
+ClojureScript:cljs.user>
+```
+
+As you can see it implicitly converts the string to numbers and then
+applies the multiplication.
+
+Now trie the same thing in a regula CLJ repl:
+
+```clojure
+$ lein repl
+Compiling ClojureScript.
+nREPL server started on port 53127
+REPL-y 0.1.4
+Clojure 1.4.0
+    Exit: Control+D or (exit) or (quit)
+Commands: (user/help)
+    Docs: (doc function-name-here)
+          (find-doc "part-of-name-here")
+  Source: (source function-name-here)
+          (user/sourcery function-name-here)
+ Javadoc: (javadoc java-object-or-class-here)
+Examples from clojuredocs.org: [clojuredocs or cdoc]
+          (user/clojuredocs name-here)
+          (user/clojuredocs "ns-here" "name-here")
+user=> (* "6" "7")
+ClassCastException java.lang.String cannot be cast to java.lang.Number  clojure.lang.Numbers.multiply (Numbers.java:146)
+
+user=>
+```
+
+As you can see and should already know, CLJ throws an ClassCastException
+because it can't cast a String to a Number.
+
+It should be now clear why we add `cljs.reader` namespace to
+`modern-cljs.shopping` namespace declaration for using `read-string`
+function.
+
+### The remote callback
+
 
 
 # Next step - Tutorial 11 TBD
