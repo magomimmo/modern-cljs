@@ -1,5 +1,6 @@
 (ns modern-cljs.shopping
-  (:require-macros [hiccups.core :as h])
+  (:require-macros [hiccups.core :as h]
+                   [shoreleave.remotes.macros :as macros])
   (:require [domina :as dom]
             [domina.events :as ev]
             [shoreleave.remotes.http-rpc :as rpc]

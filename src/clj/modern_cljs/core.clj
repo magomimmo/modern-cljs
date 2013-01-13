@@ -15,15 +15,15 @@
   ; if page is not found
   (not-found "Page non found"))
 
-;; site function create an handler suitable for a standard website,
-;; adding a bunch of standard ring middleware to app-route:
-(def handler
-  (site app-routes))
-
 (defremote calculate [quantity price tax discount]
   (-> (* quantity price)
       (* (+ 1 (/ tax 100)))
       (- discount)))
+
+;; site function create an handler suitable for a standard website,
+;; adding a bunch of standard ring middleware to app-route:
+(def handler
+  (site app-routes))
 
 (def app (-> #'handler
              wrap-rpc
