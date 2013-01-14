@@ -300,7 +300,8 @@ ClojureScript:cljs.user>
 
 As you can see, CLJS implicitly casts strings to numbers when applies
 some arithmetic functions, but not all them. As an example try to add
-two strigified numbers in the same shell.
+two stringified numbers and them multiply the result by 2 (stringified
+or not its the same).
 
 ```clojure
 ClojureScript:cljs.user> (+ "1" "2")
@@ -312,8 +313,9 @@ ClojureScript:cljs.user> (* "2" (+ "1" "2"))
 ClojureScript:cljs.user> 
 ```
 
-So, you have been warned. If you start a computation from a sum, you
-are asking for troubles.
+So, you have been warned. If you start a computation from a sum of
+stringified numbers, you are asking for troubles, because you start
+from a string concatenation. 
 
 Now try the same thing in a regular CLJ repl:
 
