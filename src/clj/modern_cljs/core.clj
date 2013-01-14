@@ -18,5 +18,3 @@
 ;; adding a bunch of standard ring middleware to app-route:
 (def handler
   (site app-routes))
-
-
