@@ -9,7 +9,7 @@
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [compojure "1.1.3"]
+                 [compojure "1.1.5"]
                  [domina "1.0.0"]
                  [hiccups "0.1.1"]
                  [com.cemerick/shoreleave-remote-ring "0.0.2"]
