@@ -22,7 +22,7 @@
   :hooks [leiningen.cljsbuild]
 
   ;; ring tasks configuration
-  :ring {:handler modern-cljs.core/app}
+  :ring {:handler modern-cljs.remotes/app}
 
   ;; cljsbuild tasks configuration
   :cljsbuild {:builds
