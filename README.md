@@ -96,8 +96,8 @@ events.
 ## [Tutorial 10 - Introducing Ajax][18]
 
 In this tutorial we're going to extend our comprehension of CLJS by
-introducing Ajax to let the CLJS client side code to communicate with
-the CLJ server side code.
+introducing Ajax to let the CLJS client-side code to communicate with
+the CLJ server-side code.
 
 ## Tutorial 11 - TBD
 
