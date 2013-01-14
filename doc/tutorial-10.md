@@ -123,78 +123,104 @@ calculation from `quantity`, `price`, `tax` and `discount` input. The
 like `defn` macro plus the registration of the definig function in a
 registry of implemented as a map.
 
-Here is the definition of the remote `calculate` function. Add it to
-`core.clj` file. Remember to add `cemerick.shoreleave.rpc` namespace to
-the `modern-cljs.core` namespace declaration.
+Create a new CLJ file named `remotes.clj` in the `src/clj/modern_cljs`
+directory and write the following code:
 
 ```clojure
-(ns modern-cljs.core
-  (:require [compojure.core :refer [defroutes GET]]
-            [compojure.route :refer [resources not-found]]
-            [compojure.handler :refer [site]]
-            [cemerick.shoreleave.rpc :refer [defremote]]))
+(ns modern-cljs.remotes
+  (:require [cemerick.shoreleave.rpc :refer [defremote]]))
 
 (defremote calculate [quantity price tax discount]
   (-> (* quantity price)
       (* (+ 1 (/ tax 100)))
       (- discount)))
-```
+``` 
+
+As you can see we first declared the new `modern-cljs.remotes`
+namespace and required the `cemerick.shoreleave.rpc`namespace
+referring `defremote` macro.
+
+Then we used the previously cited `defremote` macro to define the
+`calculate` funtion.
 
 > NOTE 1: If you compare the remote `calculate` function with the one
 > originally defined in `shopping.cljs` client code in the [last tutorial][1],
 > you should note that the call to `.toFixed` CLJS function interop has
 > been removed.
 
-> NOTE 2: The namespace declaration uses now only `:require` and
-> `:refer` specifications just to make the code more readable. Generally
-> speaking I prefer to use `:require` with `:as` specification, because
-> it always allows me to immediatly see in the code in which namespace a
-> symbol is defined.
+> NOTE 2: The namespace declaration now uses the `:require` form with
+> the `:refer` specification.
 
 ### Update the handler
 
-As you perhaps remember, when we introduced [Compojure][18] in
-[Tutorial 3][19] we defined the `handler` symbol by attaching to it the
-result of calling the `site` function from the `compojure.handler`
-namespace. The `site` function accepts routes defined by `defroutes`
-macro included in `compojure.core` namespace and adds a set of *ring
-middleware* suitables for a standard site (i.e. `wrap-session`,
-`wrap-flash`, `wrap-coockies`, `wrap-multipart-params`, `wrap-params`,
-`wrap-nested-params` and `wrap-keyword-params`.
-
-We now need to add to the `handler` a middleware able to receive and
-manage an rpc request coming from the browser.
+When we introduced [Compojure][18] in [Tutorial 3][19] we defined an
+handler which used the `site` wrapper to add a set of standard
+*ring-middlewares* suitables for a regular web site. Here is the
+content of `core.clj`
 
 ```clojure
 (ns modern-cljs.core
   (:require [compojure.core :refer [defroutes GET]]
             [compojure.route :refer [resources not-found]]
-            [compojure.handler :refer [site]]
-            [cemerick.shoreleave.rpc :refer [defremote wrap-rpc]]))
+            [compojure.handler :refer [site]]))
+
+;; defroutes macro defines a function that chains individual route
+;; functions together. The request map is passed to each function in
+;; turn, until a non-nil response is returned.
+(defroutes app-routes
+  ; to serve document root address
+  (GET "/" [] "<p>Hello from compojure</p>")
+  ; to server static pages saved in resources/public directory
+  (resources "/")
+  ; if page is not found
+  (not-found "Page non found"))
+
+;; site function create an handler suitable for a standard website,
+;; adding a bunch of standard ring middleware to app-route:
+(def handler
+  (site app-routes))
+
 ```
 
-You should note that we added the symbol `wrap-rpc` in the list of the
-referred symbols from `cemerick.shoreleave.rpc` namespace.
-Now define the new handler `app` as follows:
+`shoreleave-remote-ring` requires that you add the `wrap-rpc` to the
+top level handler in such a way that it will be ready to receive ajax
+calls. Open the `remotes.clj` file again and add both the required
+namespaces in the `modern-cljs.remotes` namespace declaration and the
+definition of the new handler which wraps the original one with
+`wrap-rpc`. Here is the complete `remotes.clj` content.
 
 ```clojure
-(def app (-> #'handler
-             wrap-rpc
-             site))
+(ns modern-cljs.remotes
+  (:require [modern-cljs.core :refer [handler]]
+            [compojure.handler :refer [site]]
+            [cemerick.shoreleave.rpc :refer [defremote wrap-rpc]]))
+
+(defremote calculate [quantity price tax discount]
+  (-> (* quantity price)
+      (* (+ 1 (/ tax 100)))
+      (- discount)))
+
+(def app (-> (var handler)
+             (wrap-rpc)
+             (site)))
 ```
 
-The last thing to be done for the server-side part of the reworking is
-to update the `:ring` task configuration in the `project.clj`.
+> NOTE 3: We required `modern-cljs.core` and `compojure.handler`
+> namespaces to refer `handler` and `site` symbols and we added
+> `wrap-rpc` to `cemerick.shoreleave.rpc` namespace `:refer`
+> specitifcation.
+
+The last thing to be done on the server-side is to update the `:ring`
+task configuration in the `project.clj` by substituting `modern-cljs.core/hanlder` handler with the new one (i.e. `app`).
 
 ```clojure
 ;;; old :ring task configuration
 ;;; :ring {:handler modern-cljs.core/handler}
 
 ;;; new :ring task configuration
-:ring {:handler modern-cljs.core/app}
+:ring {:handler modern-cljs.remotes/app}
 ```
-
-The server-side is done. We now have to fix the client side code,
+Great: the server-side is done. We now have to fix the client side code,
 which means the `shopping.cljs` file.
 
 ## The client side
@@ -216,38 +242,24 @@ Open the `shopping.cljs` file from the [last tutorial][1].
                                             (* (+ 1 (/ tax 100)))
                                             (- discount)
                                             (.toFixed 2)))))
-
-(defn add-help []
-  (dom/append! (dom/by-id "shoppingForm")
-               (h/html [:div.help "Click to calculate"])))
-
-(defn remove-help []
-  (dom/destroy! (dom/by-class "help")))
-
-(defn ^:export init []
-  (when (and js/document
-             (aget js/document "getElementById"))
-    (ev/listen! (dom/by-id "calc") :click calculate)
-    (ev/listen! (dom/by-id "calc") :mouseover add-help)
-    (ev/listen! (dom/by-id "calc") :mouseout remove-help)))
+;;; rest of the code
 ```
 
-First you need to update the namespace declaration by adding the
-`shoreleave.remotes.macros` and `shoreleave.remotes.http-rpc`.
+First you need to update the namespace declaration by requiring the
+`shoreleave.remotes.http-rpc` namespace to refer to `remote-callback`.
 
 ```clojure
 (ns modern-cljs.shopping
-  (:require-macros [hiccups.core :as h]
-                   [shoreleave.remotes.macros :as macros])
+  (:require-macros [hiccups.core :as h])
   (:require [domina :as dom]
             [domina.events :as ev]
-            [shoreleave.remotes.http-rpc :as rpc]
+            [shoreleave.remotes.http-rpc :refer [remote-callback]]
             [cljs.reader :refer [read-string]]))
 ```
 
-> NOTE 3: note that we also added `cljs.reader` namespace to
-> `modern-cljs.shopping` namespace declaration. The reason why of this
-> will became clear when we'll fix the client-side `calculate` function.
+> NOTE 3: We also added `cljs.reader` namespace to refer to
+> `read-string`. The reason will became clear when we'll fix the
+> client-side `calculate` function.
 
 Let's now finish the work by modifying the `calculate` function.
 
@@ -257,9 +269,9 @@ Let's now finish the work by modifying the `calculate` function.
         price (read-string (dom/value (dom/by-id "price")))
         tax (read-string (dom/value (dom/by-id "tax")))
         discount (read-string (dom/value (dom/by-id "discount")))]
-    (rpc/remote-callback :calculate
-                         [quantity price tax discount]
-                         #(dom/set-value! (dom/by-id "total") (.toFixed % 2)))))
+    (remote-callback :calculate
+                     [quantity price tax discount]
+                     #(dom/set-value! (dom/by-id "total") (.toFixed % 2)))))
 ```
 
 ### The arithmetic is not always the same
@@ -281,8 +293,8 @@ ClojureScript:cljs.user> (* "6" "7")
 ClojureScript:cljs.user>
 ```
 
-As you can see CLJS implicitly casts the strings to numbers and then
-applies the multiplication.
+As you can see, CLJS implicitly casts strings to numbers when applies
+arithmetic functions.
 
 Now try the same thing in a regular CLJ repl:
 
@@ -307,16 +319,64 @@ ClassCastException java.lang.String cannot be cast to java.lang.Number  clojure.
 user=>
 ```
 
-As you can see, and you should already know, CLJ throws a
-`ClassCastException` because it can't cast a `String` to a `Number`.
+As you can see CLJ repl throws the `ClassCastException` because it
+can't cast a `String` to a `Number`.
 
-It should be now clear why we add `cljs.reader` namespace to
-`modern-cljs.shopping` namespace declaration for using `read-string`
-function.
+It should be now clear why we added `cljs.reader` namespace to
+`modern-cljs.shopping` namespace declaration for refering to
+`read-string` function.
 
 ### The remote callback
 
+Take again a look at the `calculate` definition
 
+```clojure
+(defn calculate []
+  (let [quantity (read-string (dom/value (dom/by-id "quantity")))
+        price (read-string (dom/value (dom/by-id "price")))
+        tax (read-string (dom/value (dom/by-id "tax")))
+        discount (read-string (dom/value (dom/by-id "discount")))]
+    (remote-callback :calculate
+                     [quantity price tax discount]
+                     #(dom/set-value! (dom/by-id "total") (.toFixed % 2)))))
+```
+
+After having read the values from the input fields of the shopping
+form, the client `calculate` function calls the `remote-callback` one,
+which accepts:
+
+* the keywordized remote function name (i.e. `:calculate`); 
+* a vector of the arguments to be passed to the remote function
+  (i.e. `[quantity price tax discount]`;
+* an anonymous function which receives the result (i.e. %) from the
+  remote calclation through the `remote-callback` call, then formats the
+  result (i.e. `.toFixed`) and finally manipulates the DOM by setting the
+  value of the `total` input field (i.e. `set-value!`) to the formatted one.
+  
+# Play&Pray  
+
+Now cross your finger and do as follows:
+
+* clean any previous compilation from `modern-cljs` home directory;
+* compile the `dev` build;
+* run the ring server.
+
+```bash
+$ cd /path/to/modern-cljs
+$ lein cljsbuild clean 
+$ lein cljsbuild once dev 
+$ lein ring server-headless 
+```
+
+Now visit [shopping-dbg][20] and click the `Calculate`
+button. Congratulation! You implemented a very simple yet pretty
+representative ajax web application by using CLJS on the client-side
+and CLJ on the server-side.
+
+# Make you a favor
+
+Let's finally see if, by using a browser development tool, we can see
+the ajax communication running. 
 
 # Next step - Tutorial 11 TBD
 
@@ -346,3 +406,4 @@ License, the same as Clojure.
 [17]: https://github.com/cemerick
 [18]: https://github.com/weavejester/compojure
 [19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[20]: http://localhost:3000/shopping-dbg.html
