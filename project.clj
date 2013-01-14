@@ -11,7 +11,7 @@
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [compojure "1.1.5"]
                  [domina "1.0.0"]
-                 [hiccups "0.1.1"]
+                 [hiccups "0.2.0"]
                  [com.cemerick/shoreleave-remote-ring "0.0.2"]
                  [shoreleave/shoreleave-remote "0.2.2"]]
 
