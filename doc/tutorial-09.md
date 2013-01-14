@@ -341,8 +341,8 @@ the approach used for `shopping.cljs` in this and in the
 # Next step - [Tutorial 10 - Introducing Ajax][11]
 
 In the next tutorial we're going to extend our comprehension of CLJS by
-introducing Ajax to let the CLJS client side code to communicate with
-the CLJ server side code.
+introducing Ajax to let the CLJS client-side code to communicate with
+the CLJ server-side code.
 
 # License
 
