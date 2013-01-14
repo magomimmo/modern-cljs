@@ -1,17 +1,18 @@
 (ns modern-cljs.shopping
   (:require-macros [hiccups.core :as h])
   (:require [domina :as dom]
-            [domina.events :as ev]))
+            [domina.events :as ev]
+            [shoreleave.remotes.http-rpc :refer [remote-callback]]
+            [cljs.reader :refer [read-string]]))
 
 (defn calculate []
-  (let [quantity (dom/value (dom/by-id "quantity"))
-        price (dom/value (dom/by-id "price"))
-        tax (dom/value (dom/by-id "tax"))
-        discount (dom/value (dom/by-id "discount"))]
-    (dom/set-value! (dom/by-id "total") (-> (* quantity price)
-                                            (* (+ 1 (/ tax 100)))
-                                            (- discount)
-                                            (.toFixed 2)))))
+  (let [quantity (read-string (dom/value (dom/by-id "quantity")))
+        price (read-string (dom/value (dom/by-id "price")))
+        tax (read-string (dom/value (dom/by-id "tax")))
+        discount (read-string (dom/value (dom/by-id "discount")))]
+    (remote-callback :calculate
+                     [quantity price tax discount]
+                     #(dom/set-value! (dom/by-id "total") (.toFixed % 2)))))
 
 (defn add-help []
   (dom/append! (dom/by-id "shoppingForm")

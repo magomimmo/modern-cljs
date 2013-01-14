@@ -338,9 +338,11 @@ As homework I suggest you to modify `login.cljs` accordingly to
 the approach used for `shopping.cljs` in this and in the
 [previous tutorial][1].
 
-# Next step - TO BE DONE
+# Next step - [Tutorial 10 - Introducing Ajax][11]
 
-TO BE DONE
+In the next tutorial we're going to extend our comprehension of CLJS by
+introducing Ajax to let the CLJS client-side code to communicate with
+the CLJ server-side code.
 
 # License
 
@@ -357,3 +359,4 @@ License, the same as Clojure.
 [8]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
 [9]: http://localhost:3000/shopping-pre.html
 [10]: http://localhost:3000/shopping.html
+[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
