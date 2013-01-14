@@ -365,20 +365,57 @@ Now cross your finger and do as follows:
 $ cd /path/to/modern-cljs
 $ lein cljsbuild clean 
 $ lein cljsbuild once dev 
-$ lein ring server-headless 
+$ lein ring server-headless
+$ lein trampoline cljsbuild repl-listen # optional - in a new terminal 
 ```
 
-Now visit [shopping-dbg][20] and click the `Calculate`
-button. Congratulation! You implemented a very simple yet pretty
+Now visit [shopping-dbg.html][20] and click the `Calculate` button and
+verify that the shopping calculator returns you the total.
+
+Congratulation! You implemented a very simple yet pretty
 representative ajax web application by using CLJS on the client-side
 and CLJ on the server-side.
 
 # Make you a favor
 
-Let's finally see if, by using a browser development tool, we can see
-the ajax communication running. 
+Let's finally verify our running ajax application by using the browser
+development tools. I'm using Google Chrome Canary, but you can choose
+whatever browser you want which provide development tools comparable
+with the ones available into Google Chrome Canary.
 
-# Next step - Tutorial 11 TBD
+* If you have stopped the running ring server from the previous
+  paragraph, just run it again as explained above;
+* Open the development tools (i.e. `Tools->Developer->Developer
+  Tools`);
+* Select the `Network` pane;
+* Visit [shopping-dbg.html][20] page or reload it.
+
+Your browser should look as in the following image.
+
+![network-01][21]
+
+Click the `Calculator` button. If you concetrate your eyes in the
+`Network` pane, you should now see something similar to the following
+image.
+
+![network-02][22]
+
+Now click `_fetch` from the `Name/Path` column. If the `Header`
+subpane is not alreay selected, select it and scroll until you can see
+`Form Data` area. You should now see the following view which reports
+the `calculate` as the value of the `remote` key and `[1 2 3 4]` as
+the value of the passed params to it.
+
+![network-03][23]
+
+Now select the `Response` subpane. You should see the returned value
+from the remote `calculate` function like in the following image.
+
+![network-04][24]
+
+That's it folks
+
+# Next step - Tutorial
 
 TO BE DONE
 
@@ -407,3 +444,7 @@ License, the same as Clojure.
 [18]: https://github.com/weavejester/compojure
 [19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
 [20]: http://localhost:3000/shopping-dbg.html
+[21]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-01.png
+[22]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-02.png
+[23]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-03.png
+[24]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-04.png
