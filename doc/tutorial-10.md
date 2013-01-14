@@ -10,8 +10,8 @@ client-side validation of HTML forms. The same thing we did from
 [Tutorial 4][3] to [Tutorial 9][1].
 
 Then, thanks to the introduction of [XmlHttpRequest][4] JS obejct and
-the wide spread of gmail and google maps, the terms **ajax* and *web
-2.0* became the most used web buzzwords all over the places and in a
+the wide spread of gmail and google maps, the terms **ajax** and **web
+2.0** became the most used web buzzwords all over the places and in a
 very short time too.
 
 # Introduction
@@ -23,11 +23,11 @@ protocols. Ajax expoits more [web techniques][5]:
 * HTML and CSS for presentation
 * DOM for dynamic display and interaction with data
 * XML/JSON for the data representation
-* XMLHttpRequest obecjt for aynchronous communication
-* JAvaScript to bring all the above techniques together
+* XMLHttpRequest object for aynchronous communication
+* JavaScript to bring all the above techniques together
 
-Following is a sequence diagram which visualizes the above techniques
-interaction applied to a form page example.
+A sequence diagram which visualizes the above techniques interaction
+applied to a form page example is shown in the next picture.
 
 ![Ajax Diagram][6]
 
@@ -46,8 +46,8 @@ page to be shown by the browser to the user.
 If CLJS did not have a way to implement ajax interaction model, it would
 be dead before to be born. As usual, CLJS could exploit Google Closure
 Library which includes the `goog.net` package to abstract the plain
-`XmlHttpRequest` JS obecjt for supporting ajax communications with a
-server from a web browser.
+`XmlHttpRequest` object for supporting ajax communications with a server
+from a web browser.
 
 That said, directly interacting with `XmlHttpRequest` or with
 `goog.net.XhrIo` and `goog.net.XhrManager` objects could easly become an
@@ -73,13 +73,13 @@ integrated libraries that focuses on
 * ClojureScript's advantages
 
 and it builds upon efforts found in other ClojureScript projects, such
-as Fetch and [ClojureScriptOne][15] which is like to say that it stands
+as [fetch][11] and [ClojureScriptOne][15] which is like to say that it stands
 on the shoulders of giants.
 
 ## KISS (Keep It Small and Stupid)
 
 To keep things simple enough we're going to stay with our boring
-shopping calculator form as a reference case to be implemented by using
+[shopping calculator][20] form as a reference case to be implemented by using
 shoreleave.
 
 What we'd like to do is to move the calculation from the client side code
@@ -120,8 +120,8 @@ As usual we have first to add `shoreleave-remote-ring` library to
 The next step is to define the remote function that implements the
 calculation from `quantity`, `price`, `tax` and `discount` input. The
 `shoreleave-remote-ring` library offers `defremote` macro which is just
-like `defn` macro plus its registration in a registry of remote
-functions implemented as a map.
+like `defn` macro plus the registration of the definig function in a
+registry of implemented as a map.
 
 Here is the definition of the remote `calculate` function. Add it to
 `core.clj` file. Remember to add `cemerick.shoreleave.rpc` namespace to
@@ -155,7 +155,7 @@ the `modern-cljs.core` namespace declaration.
 
 As you perhaps remember, when we introduced [Compojure][18] in
 [Tutorial 3][19] we defined the `handler` symbol by attaching to it the
-result of calling the `site` function defined the `compojure.handler`
+result of calling the `site` function from the `compojure.handler`
 namespace. The `site` function accepts routes defined by `defroutes`
 macro included in `compojure.core` namespace and adds a set of *ring
 middleware* suitables for a standard site (i.e. `wrap-session`,
@@ -163,9 +163,7 @@ middleware* suitables for a standard site (i.e. `wrap-session`,
 `wrap-nested-params` and `wrap-keyword-params`.
 
 We now need to add to the `handler` a middleware able to receive and
-manage an rpc request coming from the browser. Add the symbol `wrap-rpc`
-to the `:refer` vector of the `cemerick.shoreleave.rpc` namespace required
-in the namespce declaration.
+manage an rpc request coming from the browser.
 
 ```clojure
 (ns modern-cljs.core
@@ -175,7 +173,9 @@ in the namespce declaration.
             [cemerick.shoreleave.rpc :refer [defremote wrap-rpc]]))
 ```
 
-Then define  new symbol (e.g. `app`) as follows:
+You should note that we added the symbol `wrap-rpc` in the list of the
+referred symbols from `cemerick.shoreleave.rpc` namespace.
+Now define the new handler `app` as follows:
 
 ```clojure
 (def app (-> #'handler
@@ -183,11 +183,18 @@ Then define  new symbol (e.g. `app`) as follows:
              site))
 ```
 
-and creating a
-new symbol which will become the new handler to be configured in the
-`project.clj`
+The last thing to be done for the server-side part of the reworking is
+to update the `:ring` task configuration in the `project.clj`.
 
-The server-side is done. We now have to manage the client side code,
+```clojure
+;;; old :ring task configuration
+;;; :ring {:handler modern-cljs.core/handler}
+
+;;; new :ring task configuration
+:ring {:handler modern-cljs.core/app}
+```
+
+The server-side is done. We now have to fix the client side code,
 which means the `shopping.cljs` file.
 
 ## The client side
@@ -238,11 +245,11 @@ First you need to update the namespace declaration by adding the
             [cljs.reader :refer [read-string]]))
 ```
 
-> NOTE 3: note that we also added cljs-reader to `modern-cljs.shopping`
-> namespace declaration. The reason why of will became clear when updating
-> the client-side `calculate` function.
+> NOTE 3: note that we also added `cljs.reader` namespace to
+> `modern-cljs.shopping` namespace declaration. The reason why of this
+> will became clear when we'll fix the client-side `calculate` function.
 
-Let's now finish the work by updating the `calculate` function.
+Let's now finish the work by modifying the `calculate` function.
 
 ```clojure
 (defn calculate []
@@ -255,14 +262,15 @@ Let's now finish the work by updating the `calculate` function.
                          #(dom/set-value! (dom/by-id "total") (.toFixed % 2)))))
 ```
 
-### The arithmetic is note the same
+### The arithmetic is not always the same
 
-First take a look at the `let` form. We wrapped all input field value
-readings inside a `read-string` form which returns the JS object from
-read string. That's because CLJS's has the same arithmetic semantics as
-JS, which is different from the corresponding CLJ arithmetic semantic on
-the JVM. Try to launch the rhino repl from `modern-cljs` home directory
-and then evaluate a multiplication passing it two stringfied numbers:
+First take a look at the `let` form. We wrapped the reading of all the
+input field values inside a `read-string` form, which returns the JS
+object from the read string. That's because CLJS has the same arithmetic
+semantics as JS, which is different from the corresponding one of the
+CLJ on the JVM. Try to launch the rhino repl from `modern-cljs` home
+directory and then evaluate a multiplication function by passing it two
+stringfied numbers:
 
 ```clojure
 $ lein trampoline cljsbuild repl-rhino
@@ -273,14 +281,13 @@ ClojureScript:cljs.user> (* "6" "7")
 ClojureScript:cljs.user>
 ```
 
-As you can see it implicitly converts the string to numbers and then
+As you can see CLJS implicitly casts the strings to numbers and then
 applies the multiplication.
 
-Now trie the same thing in a regula CLJ repl:
+Now try the same thing in a regular CLJ repl:
 
 ```clojure
 $ lein repl
-Compiling ClojureScript.
 nREPL server started on port 53127
 REPL-y 0.1.4
 Clojure 1.4.0
@@ -300,8 +307,8 @@ ClassCastException java.lang.String cannot be cast to java.lang.Number  clojure.
 user=>
 ```
 
-As you can see and should already know, CLJ throws an ClassCastException
-because it can't cast a String to a Number.
+As you can see, and you should already know, CLJ throws a
+`ClassCastException` because it can't cast a `String` to a `Number`.
 
 It should be now clear why we add `cljs.reader` namespace to
 `modern-cljs.shopping` namespace declaration for using `read-string`
