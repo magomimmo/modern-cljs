@@ -97,7 +97,7 @@ calculate the total.
 
 Thanks to [Chas Emerick][17], which is one of the most active and
 fruitful clojurist, we can exploit [shoreleave-remote-ring][10] by
-definig a remote calculate function which will return out the result
+defining a remote calculate function which will return out the result
 (i.e. `total`) from the passed input (i.e. `quantity`, `price`, `tax`
 and `discount`).
 
@@ -119,9 +119,10 @@ As usual we have first to add `shoreleave-remote-ring` library to
 
 The next step is to define the remote function that implements the
 calculation from `quantity`, `price`, `tax` and `discount` input. The
-`shoreleave-remote-ring` library offers `defremote` macro which is just
-like `defn` macro plus the registration of the definig function in a
-registry of implemented as a map.
+`shoreleave-remote-ring` library offers `defremote` macro which is
+just like `defn` macro plus the registration of the defining function
+in a registry implemented as a reference type map (i.e. `(def remotes
+(atom {}))`).
 
 Create a new CLJ file named `remotes.clj` in the `src/clj/modern_cljs`
 directory and write the following code:
@@ -137,11 +138,11 @@ directory and write the following code:
 ``` 
 
 As you can see we first declared the new `modern-cljs.remotes`
-namespace and required the `cemerick.shoreleave.rpc`namespace
-referring `defremote` macro.
+namespace and required the `cemerick.shoreleave.rpc`namespace refering
+the `defremote` macro.
 
-Then we used the previously cited `defremote` macro to define the
-`calculate` funtion.
+Then we used the cited `defremote` macro to define the `calculate`
+funtion.
 
 > NOTE 1: If you compare the remote `calculate` function with the one
 > originally defined in `shopping.cljs` client code in the [last tutorial][1],
@@ -149,7 +150,9 @@ Then we used the previously cited `defremote` macro to define the
 > been removed.
 
 > NOTE 2: The namespace declaration now uses the `:require` form with
-> the `:refer` specification.
+> the `:refer` specification, which is something that I prefer to both
+> the `:use :only` visibility specifications and the `:require :as`
+> one.
 
 ### Update the handler
 
@@ -182,12 +185,13 @@ content of `core.clj`
 
 ```
 
-`shoreleave-remote-ring` requires that you add the `wrap-rpc` to the
-top level handler in such a way that it will be ready to receive ajax
-calls. Open the `remotes.clj` file again and add both the required
-namespaces in the `modern-cljs.remotes` namespace declaration and the
-definition of the new handler which wraps the original one with
-`wrap-rpc`. Here is the complete `remotes.clj` content.
+The `shoreleave-remote-ring` library requires that you add the
+`wrap-rpc` wrapper to the top level handler in such a way that it will
+be ready to receive ajax calls. Open the `remotes.clj` file again and
+add both the required namespaces in the `modern-cljs.remotes`
+namespace declaration and the definition of the new handler which
+wraps the original one with `wrap-rpc`. Here is the complete
+`remotes.clj` content.
 
 ```clojure
 (ns modern-cljs.remotes
@@ -207,11 +211,12 @@ definition of the new handler which wraps the original one with
 
 > NOTE 3: We required `modern-cljs.core` and `compojure.handler`
 > namespaces to refer `handler` and `site` symbols and we added
-> `wrap-rpc` to `cemerick.shoreleave.rpc` namespace `:refer`
-> specitifcation.
+> `wrap-rpc` to the `:refer` specification of the already required
+> `cemerick.shoreleave.rpc` namespace.
 
 The last thing to be done on the server-side is to update the `:ring`
-task configuration in the `project.clj` by substituting `modern-cljs.core/hanlder` handler with the new one (i.e. `app`).
+task configuration in the `project.clj` by substituting
+`modern-cljs.core/handler` handler with the new one (i.e. `app`).
 
 ```clojure
 ;;; old :ring task configuration
@@ -278,11 +283,11 @@ Let's now finish the work by modifying the `calculate` function.
 
 First take a look at the `let` form. We wrapped the reading of all the
 input field values inside a `read-string` form, which returns the JS
-object from the read string. That's because CLJS has the same arithmetic
-semantics as JS, which is different from the corresponding one of the
-CLJ on the JVM. Try to launch the rhino repl from `modern-cljs` home
-directory and then evaluate a multiplication function by passing it two
-stringfied numbers:
+object coded in the passed string. That's because CLJS has the same
+arithmetic semantics as JS, which is different from the corresponding
+one of the CLJ on the JVM. Try to launch the rhino repl from
+`modern-cljs` home directory and then evaluate a multiplication
+function by passing it two stringified numbers:
 
 ```clojure
 $ lein trampoline cljsbuild repl-rhino
@@ -323,7 +328,7 @@ As you can see CLJ repl throws the `ClassCastException` because it
 can't cast a `String` to a `Number`.
 
 It should be now clear why we added `cljs.reader` namespace to
-`modern-cljs.shopping` namespace declaration for refering to
+`modern-cljs.shopping` namespace declaration for refering to the CLJS
 `read-string` function.
 
 ### The remote callback
@@ -347,11 +352,12 @@ which accepts:
 
 * the keywordized remote function name (i.e. `:calculate`); 
 * a vector of the arguments to be passed to the remote function
-  (i.e. `[quantity price tax discount]`;
+  (i.e. `[quantity price tax discount]`);
 * an anonymous function which receives the result (i.e. %) from the
-  remote calclation through the `remote-callback` call, then formats the
-  result (i.e. `.toFixed`) and finally manipulates the DOM by setting the
-  value of the `total` input field (i.e. `set-value!`) to the formatted one.
+  remote calculation through the `remote-callback` call, then formats
+  the result (i.e. `.toFixed`) and finally manipulates the DOM by
+  setting the value of the `total` input field (i.e. `set-value!`) to
+  the formatted one.
   
 # Play&Pray  
 
@@ -369,11 +375,12 @@ $ lein ring server-headless
 $ lein trampoline cljsbuild repl-listen # optional - in a new terminal 
 ```
 
-Now visit [shopping-dbg.html][20] and click the `Calculate` button and
-verify that the shopping calculator returns you the total.
+Now visit [shopping-dbg.html][20], click the `Calculate` button and
+verify that the shopping calculator returns the expected `total`
+value.
 
-Congratulation! You implemented a very simple yet pretty
-representative ajax web application by using CLJS on the client-side
+Congratulation! You implemented a very simple, yet pretty
+representative ajax web application, by using CLJS on the client-side
 and CLJ on the server-side.
 
 # Make you a favor
@@ -402,9 +409,9 @@ image.
 
 Now click `_fetch` from the `Name/Path` column. If the `Header`
 subpane is not alreay selected, select it and scroll until you can see
-`Form Data` area. You should now see the following view which reports
-the `calculate` as the value of the `remote` key and `[1 2 3 4]` as
-the value of the passed params to it.
+the `Form Data` area. You should now see the following view which
+reports `calculate` as the value of the `remote` key and `[1 2 3 4]`
+as the value of the passed params to it.
 
 ![network-03][23]
 
@@ -415,7 +422,7 @@ from the remote `calculate` function like in the following image.
 
 That's it folks
 
-# Next step - Tutorial
+# Next step - TBD
 
 TO BE DONE
 
