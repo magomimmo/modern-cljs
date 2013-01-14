@@ -1,8 +1,7 @@
 (ns modern-cljs.core
   (:require [compojure.core :refer [defroutes GET]]
             [compojure.route :refer [resources not-found]]
-            [compojure.handler :refer [site]]
-            [cemerick.shoreleave.rpc :refer [defremote wrap-rpc]]))
+            [compojure.handler :refer [site]]))
 
 ;; defroutes macro defines a function that chains individual route
 ;; functions together. The request map is passed to each function in
@@ -15,16 +14,9 @@
   ; if page is not found
   (not-found "Page non found"))
 
-(defremote calculate [quantity price tax discount]
-  (-> (* quantity price)
-      (* (+ 1 (/ tax 100)))
-      (- discount)))
-
 ;; site function create an handler suitable for a standard website,
 ;; adding a bunch of standard ring middleware to app-route:
 (def handler
   (site app-routes))
 
-(def app (-> #'handler
-             wrap-rpc
-             site))
+
