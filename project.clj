@@ -15,7 +15,7 @@
                  [com.cemerick/shoreleave-remote-ring "0.0.2"]
                  [shoreleave/shoreleave-remote "0.2.2"]]
 
-  :plugins [[lein-cljsbuild "0.2.10"]
+  :plugins [[lein-cljsbuild "0.2.9"]
             [lein-ring "0.8.0-SNAPSHOT"]]
 
   ;; enable cljsbuild tasks support
