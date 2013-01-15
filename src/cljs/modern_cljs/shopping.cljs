@@ -19,9 +19,9 @@
                (html [:div.help "Click to calculate"])))
 
 (defn remove-help []
-  ;;(destroy! (by-class "help")))
+  ;;(destroy! (by-class  "name")))
   (destroy! (.getElementsByClassName js/document "help")))
-  
+
 (defn ^:export init []
   (when (and js/document
              (aget js/document "getElementById"))
