@@ -117,7 +117,7 @@ As usual we have first to add `shoreleave-remote-ring` library to
 ```
 
 > NOTE 1: We also added  the `shoreleave-remote` library to the
-> dependencies of the project. This lib it's needed later for the
+> dependencies of the project. This lib will be used later for the
 > client-side code.
 
 
