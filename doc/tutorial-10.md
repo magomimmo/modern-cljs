@@ -58,7 +58,7 @@ alleviate a sure PITA.
 
 After a brief github search, my collegues [Federico Boliardi][7] and
 [Francesco Agozzino][8] found [shoreleave-remote][9] and
-[shoreleave-remote-ring][10] libraries.  They seem immediatly to be
+[shoreleave-remote-ring][10] libraries.  They appreared immediatly to be
 really promising in helping our ajax experiments if compared with
 [fetch][11] library, which was the one I was aware of and that depends
 on [noir][12] that has been recently [deprecated][13].
@@ -112,8 +112,14 @@ As usual we have first to add `shoreleave-remote-ring` library to
                  [compojure "1.1.3"]
                  [domina "1.0.0"]
                  [hiccups "0.1.1"]
-                 [com.cemerick/shoreleave-remote-ring "0.0.2"]]
+                 [com.cemerick/shoreleave-remote-ring "0.0.2"]
+                 [shoreleave/shoreleave-remote "0.2.2"]]
 ```
+
+> NOTE 1: We also added  the `shoreleave-remote` library to the
+> dependencies of the project. This lib it's needed later for the
+> client-side code.
+
 
 ### defremote
 
@@ -135,7 +141,7 @@ directory and write the following code:
   (-> (* quantity price)
       (* (+ 1 (/ tax 100)))
       (- discount)))
-``` 
+```
 
 As you can see we first declared the new `modern-cljs.remotes`
 namespace and required the `cemerick.shoreleave.rpc`namespace refering
@@ -144,12 +150,12 @@ the `defremote` macro.
 Then we used the cited `defremote` macro to define the `calculate`
 funtion.
 
-> NOTE 1: If you compare the remote `calculate` function with the one
+> NOTE 2: If you compare the remote `calculate` function with the one
 > originally defined in `shopping.cljs` client code in the [last tutorial][1],
 > you should note that the call to `.toFixed` CLJS function interop has
 > been removed.
 
-> NOTE 2: The namespace declaration now uses the `:require` form with
+> NOTE 3: The namespace declaration now uses the `:require` form with
 > the `:refer` specification, which is something that I prefer to both
 > the `:use :only` visibility specifications and the `:require :as`
 > one.
@@ -262,7 +268,7 @@ First you need to update the namespace declaration by requiring the
             [cljs.reader :refer [read-string]]))
 ```
 
-> NOTE 3: We also added `cljs.reader` namespace to refer to
+> NOTE 4: We also added `cljs.reader` namespace to refer to
 > `read-string`. The reason will became clear when we'll fix the
 > client-side `calculate` function.
 
@@ -306,16 +312,16 @@ or not its the same).
 ```clojure
 ClojureScript:cljs.user> (+ "1" "2")
 "12"
-ClojureScript:cljs.user> 1       
+ClojureScript:cljs.user> 1
 1
 ClojureScript:cljs.user> (* "2" (+ "1" "2"))
 24
-ClojureScript:cljs.user> 
+ClojureScript:cljs.user>
 ```
 
 So, you have been warned. If you start a computation from a sum of
 stringified numbers, you are asking for troubles, because you start
-from a string concatenation. 
+from a string concatenation.
 
 Now try the same thing in a regular CLJ repl:
 
@@ -366,7 +372,7 @@ After having read the values from the input fields of the shopping
 form, the client `calculate` function calls the `remote-callback` one,
 which accepts:
 
-* the keywordized remote function name (i.e. `:calculate`); 
+* the keywordized remote function name (i.e. `:calculate`);
 * a vector of the arguments to be passed to the remote function
   (i.e. `[quantity price tax discount]`);
 * an anonymous function which receives the result (i.e. %) from the
@@ -374,8 +380,8 @@ which accepts:
   the result (i.e. `.toFixed`) and finally manipulates the DOM by
   setting the value of the `total` input field (i.e. `set-value!`) to
   the formatted one.
-  
-# Play&Pray  
+
+# Play&Pray
 
 Now cross your finger and do as follows:
 
@@ -385,10 +391,10 @@ Now cross your finger and do as follows:
 
 ```bash
 $ cd /path/to/modern-cljs
-$ lein cljsbuild clean 
-$ lein cljsbuild once dev 
+$ lein cljsbuild clean
+$ lein cljsbuild once dev
 $ lein ring server-headless
-$ lein trampoline cljsbuild repl-listen # optional - in a new terminal 
+$ lein trampoline cljsbuild repl-listen # optional - in a new terminal
 ```
 
 Now visit [shopping-dbg.html][20], click the `Calculate` button and
