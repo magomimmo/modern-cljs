@@ -6,18 +6,20 @@
 > previous ones, the inclusion of [domina 1.0.0 version][25] in the
 > project dependencies. The code, instead, has been upgraded to
 > [domina 1.0.2-SNAPSHOT][26]. Due to an [apparent bug][28] of the
-> [by-class][27] function, in the definition of the `remove-help!`
-> function I substituted `by-class` call with `getElementsByClassName`
-> JS function. In the `shopping.cljs` code for this tutorial I also
-> subtituted `:as` with `:refer` in the namespace declaration while in
-> tutorial text the `:as` specification is still used.
+> [by-class][27] function in version `"1.0.2-SNAPSHOT"` of domina, in
+> the definition of the `remove-help!` function I substituted `by-class`
+> call with `getElementsByClassName` JS functio call. In the
+> `shopping.cljs` code for this tutorial I also subtituted `:as` with
+> `:refer` in the namespace declaration while in the tutorial text the
+> `:as` specification is still used.
 
 ***
 
 > ATTENTION NOTE 2: Because of [domina 1.0.2-SNAPSHOT][26] upgrade, I also
 > had to downgrade lein-cljsbuild from version 0.2.10 to version 0.2.9 to
 > eliminate a very annoying waiting time for `$ lein cljasbuild one dev`
-> command to return after successfull CLJS compilation.
+> command to return after successfull CLJS compilation. I also commented
+> out lein `:hooks` option.
 
 ***
 
