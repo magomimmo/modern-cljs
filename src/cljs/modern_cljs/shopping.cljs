@@ -1,6 +1,6 @@
 (ns modern-cljs.shopping
   (:require-macros [hiccups.core :refer [html]])
-  (:require [domina :refer [by-id value set-value! append! destroy!]]
+  (:require [domina :refer [by-id value by-class set-value! append! destroy!]]
             [domina.events :refer [listen!]]
             [shoreleave.remotes.http-rpc :refer [remote-callback]]
             [cljs.reader :refer [read-string]]))
@@ -18,7 +18,8 @@
   (append! (by-id "shoppingForm")
                (html [:div.help "Click to calculate"])))
 
-(defn remove-help! []
+(defn remove-help![]
+  ;;(destroy! (by-class "help")))
   (destroy! (.getElementsByClassName js/document "help")))
 
 (defn ^:export init []
