@@ -1,13 +1,14 @@
 # Tutorial 10 - Introducing Ajax
 
-> ATTENTION NOTE 1: The text of this tutorial assumes, as all the previous
-> ones, the inclusion of [domina 1.0.0 version][25] in the project
-> dependencies. The code, instead, has been upgraded to
+> ATTENTION NOTE 1: The text of this tutorial assumes, as all the
+> previous ones, the inclusion of [domina 1.0.0 version][25] in the
+> project dependencies. The code, instead, has been upgraded to
 > [domina 1.0.2-SNAPSHOT][26]. Due to an apparent bug of the
 > [by-class][27] function, in the definition of the `remove-help!`
-> function I substituted `by-class` call with [getElementsByClassName][28]
-> function wich is defined in the `goog.dom` namespace from
-> [Google Closure Library][29].
+> function I substituted `by-class` call with `getElementsByClassName`
+> `js/document` function. In the `shopping.cljs` code for this tutorial
+> I also subtituted `:as` with `:refer` in the namespace declaration
+> while in tutorial text the `:as` specification is still used.
 
 ***
 
