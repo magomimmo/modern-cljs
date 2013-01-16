@@ -8,7 +8,7 @@
 > [domina 1.0.2-SNAPSHOT][26]. Due to an [apparent bug][28] of the
 > [by-class][27] function, in the definition of the `remove-help!`
 > function I substituted `by-class` call with `getElementsByClassName`
-> `JS function. In the `shopping.cljs` code for this tutorial I also
+> JS function. In the `shopping.cljs` code for this tutorial I also
 > subtituted `:as` with `:refer` in the namespace declaration while in
 > tutorial text the `:as` specification is still used.
 
