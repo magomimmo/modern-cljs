@@ -19,7 +19,7 @@
             [lein-ring "0.8.0-SNAPSHOT"]]
 
   ;; enable cljsbuild tasks support
-  :hooks [leiningen.cljsbuild]
+  ;; :hooks [leiningen.cljsbuild]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.remotes/app}
