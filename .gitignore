@@ -12,3 +12,4 @@ pom.xml
 .lein-failures
 .lein-plugins
 .lein-cljsbuild*
+.lein-repl*

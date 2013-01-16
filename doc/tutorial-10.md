@@ -1,5 +1,28 @@
 # Tutorial 10 - Introducing Ajax
 
+***
+
+> ATTENTION NOTE 1: The text of this tutorial assumes, as all the
+> previous ones, the inclusion of [domina 1.0.0 version][25] in the
+> project dependencies. The code, instead, has been upgraded to
+> [domina 1.0.2-SNAPSHOT][26]. Due to an [apparent bug][28] of the
+> [by-class][27] function in version `"1.0.2-SNAPSHOT"` of domina, in
+> the definition of the `remove-help!` function I substituted `by-class`
+> call with `getElementsByClassName` JS functio call. In the
+> `shopping.cljs` code for this tutorial I also subtituted `:as` with
+> `:refer` in the namespace declaration while in the tutorial text the
+> `:as` specification is still used.
+
+***
+
+> ATTENTION NOTE 2: Because of [domina 1.0.2-SNAPSHOT][26] upgrade, I also
+> had to downgrade lein-cljsbuild from version 0.2.10 to version 0.2.9 to
+> eliminate a very annoying waiting time for `$ lein cljasbuild one dev`
+> command to return after successfull CLJS compilation. I also commented
+> out lein `:hooks` option.
+
+***
+
 In the [last tutorial][1] we were happy enough with the reached results
 in terms of [separation of concerns][2], functional programming style
 and elimination of any direct use of CLJS/JS interop.
@@ -444,6 +467,7 @@ from the remote `calculate` function like in the following image.
 
 That's it folks
 
+
 # Next step - TBD
 
 TO BE DONE
@@ -477,3 +501,7 @@ License, the same as Clojure.
 [22]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-02.png
 [23]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-03.png
 [24]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-04.png
+[25]: https://github.com/levand/domina/tree/1.0.0
+[26]: https://github.com/levand/domina
+[27]: https://github.com/levand/domina/blob/master/src/cljs/domina.cljs#L125
+[28]: https://github.com/levand/domina/pull/43
