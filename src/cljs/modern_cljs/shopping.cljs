@@ -1,8 +1,6 @@
 (ns modern-cljs.shopping
   (:require-macros [hiccups.core :refer [html]])
-  (:require [domina :refer [by-id by-class value set-value! append! destroy!]]
-            ;; in the mean time submitted patch will be merged
-            [goog.dom :refer [getElementsByClassName]]
+  (:require [domina :refer [by-id value set-value! append! destroy!]]
             [domina.events :refer [listen!]]
             [shoreleave.remotes.http-rpc :refer [remote-callback]]
             [cljs.reader :refer [read-string]]))
@@ -16,16 +14,16 @@
                      [quantity price tax discount]
                      #(set-value! (by-id "total") (.toFixed % 2)))))
 
-(defn add-help []
+(defn add-help! []
   (append! (by-id "shoppingForm")
                (html [:div.help "Click to calculate"])))
 
-(defn remove-help []
-  (destroy! (getElementsByClassName "help")))
+(defn remove-help! []
+  (destroy! (.getElementsByClassName js/document "help")))
 
 (defn ^:export init []
   (when (and js/document
              (aget js/document "getElementById"))
     (listen! (by-id "calc") :click calculate)
-    (listen! (by-id "calc") :mouseover add-help)
-    (listen! (by-id "calc") :mouseout remove-help)))
+    (listen! (by-id "calc") :mouseover add-help!)
+    (listen! (by-id "calc") :mouseout remove-help!)))
