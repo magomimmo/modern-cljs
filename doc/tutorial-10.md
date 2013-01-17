@@ -444,9 +444,10 @@ from the remote `calculate` function like in the following image.
 
 That's it folks
 
-# Next step - TBD
+# [Next step - More Ajax][25]
 
-TO BE DONE
+In next tutorial we're going to apply what we just learnt and extend its
+application to the login form we introduced in [Tutorial 4][3].
 
 # License
 
