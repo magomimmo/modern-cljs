@@ -1,7 +1,114 @@
 # Tutorial 11 - More Ajax
 
-Percorso:
+In the [latest tutorial][1] we introduced the ajax model of
+communication between the browser and the server by exploiting the
+[shoreleave-remote-ring][2] and [shoreleave-remote][3] libraries.
 
+In this tutorial we're going to strengthen our ajax understanding by
+extending its usage to the `Login Form` we faced starting from the
+[4th Tutorial][4].
+
+# Introduction
+
+The following picture shows our old `Login Form` friend.
+
+![Login Form][5]
+
+As you perhaps remember from the [4th Tutorial], we want to adhere to
+the [progressive enhancement][6] strategy which allows any browser to
+access our login form, regardless of the browser capabilities.
+
+The lowest experience is the one offered by a web application when the
+browser does not support JS (or it has been disabled by the user). The
+highest experience is the one offered by a web application when the
+the browser support JS and the application uses the Ajax communication
+model.
+
+Generally speaking, you should always start by implementing the
+application by supportingthe lowest user experience, then step to the
+next layer by supporting JS and finally step to the ajax model of
+communication for supporting the highest user experience.
+
+Been this series of tutorials mostly about CLJS and not about CLJ, we
+jumped over the layer representating the lowest experienced. Yet, as
+we will see in successive paragraphs, we're going to fill that gap.
+
+# Line up Login Form with Shopping Calculator Form
+
+The [9th tutorial][7] left to the smart user the exercise of applying
+to the `Login Form` the same kind of DOM manipoluation used in
+implenting the `Shopping Calculator`.
+
+Let's now make this homework together. We tart by reviewing the html
+code of the login page.
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Script 2.2 - login.html -->
+    <form action="login.php" method="post" id="loginForm" novalidate>
+        <fieldset>
+            <legend>Login</legend>
+
+            <div>
+              <label for="email">Email Address</label>
+              <input type="email" name="email" id="email" required>
+            </div>
+
+            <div>
+              <label for="password">Password</label>
+              <input type="password" name="password" id="password" required>
+            </div>
+
+	    <br>
+            <div>
+              <label for="submit"></label>
+              <input type="submit" value="Login &rarr;" id="submit">
+            </div>
+
+        </fieldset>
+    </form>
+    <script src="js/modern_dbg.js"></script>
+    <script>
+      modern_cljs.login.init();
+    </script>
+</body>
+</html>
+```
+
+As you remember we started by changing the type of the Shopping form's
+button from `submit` to `button`. By having decided to adhere to
+progressive enhancement strategy, this is not something that we should
+have done, because a simple [button type][8] is not going anywhere
+without the JS been enbled. So we have to stay with the `submit` type
+of botton.
+
+## First try
+
+Let's start by updating the `login.cljs` source code by lining it up
+with the programing style we adopted for the Shopping
+Calculator. First we want to substitute any JS interop call with a
+more clojure-ish one, which uses [domina][9] library.
+
+```clojure
+
+```
+
+without loosing any browser not supporting JS (or any user
+which disabled it). 
+
+to the `Login Form` the same  
+
+Just to summarize, we defined a CLJ remote function implementing the calcula
 A) porting di login all'ultimo stato di shopping prima di manipolazone
 del dom e di ajax
 
@@ -473,20 +580,21 @@ application to the login form we introduced in [Tutorial 4][3].
 Copyright © Mimmo Cosenza, 2012-13. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
-[2]: http://en.wikipedia.org/wiki/Separation_of_concerns#HTML.2C_CSS.2C_JavaScript
-[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
-[4]: http://en.wikipedia.org/wiki/XMLHttpRequest
-[5]: http://en.wikipedia.org/wiki/Ajax_(programming)#Technologies
-[6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/ajax.png
-[7]: https://github.com/federico-b
-[8]: https://github.com/agofilo
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
+[2]: https://github.com/shoreleave/shoreleave-remote-ring
+[3]: https://github.com/shoreleave/shoreleave-remote#shoreleave 
+[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
+[5]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/login-form.png
+[6]: http://en.wikipedia.org/wiki/Progressive_enhancement
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-9.md
+[8]: http://stackoverflow.com/questions/290215/difference-between-input-type-button-and-input-type-submit
+
 [9]: https://github.com/shoreleave/shoreleave-remote
-[10]: https://github.com/shoreleave/shoreleave-remote-ring
+
 [11]: https://github.com/ibdknox/fetch
 [12]: https://github.com/ibdknox/noir
 [13]: https://groups.google.com/forum/#!msg/clj-noir/AbAvQuikjGk/x8lKLKoomM0J
-[14]: https://github.com/shoreleave/shoreleave-remote#shoreleave
+
 [15]: https://github.com/brentonashworth/one
 [16]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-ajax.png
 [17]: https://github.com/cemerick
