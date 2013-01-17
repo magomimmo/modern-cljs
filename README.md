@@ -99,7 +99,13 @@ In this tutorial we're going to extend our comprehension of CLJS by
 introducing Ajax to let the CLJS client-side code to communicate with
 the CLJ server-side code.
 
-## Tutorial 11 - TBD
+## [Tutorial 11 - More Ajax][19]
+
+In this tutorial we're going to apply what we learnt in the previous one
+and extend its application to the login form we introduced in
+[Tutorial 4][9].
+
+## Next tutorial - TDB
 
 TO BE DONE
 
