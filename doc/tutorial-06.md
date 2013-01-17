@@ -1,11 +1,11 @@
 # Tutorial 6 - Easy made Complex and Simple made Easy
 
 In this tutorial we are going to investigate the issue we met in the
-[last tutorial][1] and try to solve it.
+[latest tutorial][1] and try to solve it.
 
 ## Introduction
 
-Our last tutorial ended with a not so nice issue. Just to recap we did as
+Our latest tutorial ended with a not so nice issue. Just to recap we did as
 follows:
 
 * created the `login.html` page and the corresponding `login.cljs`

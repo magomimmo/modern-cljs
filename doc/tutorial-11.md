@@ -1,6 +1,6 @@
 # Tutorial 10 - Introducing Ajax
 
-In the [last tutorial][1] we were happy enough with the reached results
+In the [lastest tutorial][1] we were happy enough with the reached results
 in terms of [separation of concerns][2], functional programming style
 and elimination of any direct use of CLJS/JS interop.
 
@@ -151,7 +151,7 @@ Then we used the cited `defremote` macro to define the `calculate`
 funtion.
 
 > NOTE 2: If you compare the remote `calculate` function with the one
-> originally defined in `shopping.cljs` client code in the [last tutorial][1],
+> originally defined in `shopping.cljs` client code in the [latest tutorial][1],
 > you should note that the call to `.toFixed` CLJS function interop has
 > been removed.
 
@@ -236,7 +236,7 @@ which means the `shopping.cljs` file.
 
 ## The client side
 
-Open the `shopping.cljs` file from the [last tutorial][1].
+Open the `shopping.cljs` file from the [latest tutorial][1].
 
 ```clojure
 (ns modern-cljs.shopping

@@ -1,6 +1,6 @@
 # Tutorial 09 - DOM manipulation
 
-In the [last tutorial][1] we introduced `domina.events` namespace to
+In the [latest tutorial][1] we introduced `domina.events` namespace to
 make our events management a little bit more clojure-ish than just
 using CLJS/JS interop. In this tutorial we'are going to face the need
 to programmatically manipulate DOM elements as a result of the

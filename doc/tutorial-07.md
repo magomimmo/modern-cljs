@@ -6,7 +6,7 @@ discover a trouble we do not know how to manage yet.
 
 ## Introduction
 
-In the [last tutorial][1] we came in contact with `:export` directive
+In the [latest tutorial][1] we came in contact with `:export` directive
 been attached to `init` function. That directive had the scope to
 protect that function from being evantually renamed by the Google
 Closure (CLS) compiler when used with more aggressive compilation mode

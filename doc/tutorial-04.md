@@ -23,7 +23,7 @@ Modern ClojureScript.
 
 So let's start by migrating his first example to CLJS, a login form,
 because it's very instructive both in explaining the evolution of the use
-of JS in the last decade, and in starting CLJS programming without
+of JS in the latest decade, and in starting CLJS programming without
 knowing much about Clojure and/or ClojureScript themselves.
 
 > NOTE 1: I'm of the opinion that CLJS should be easier to set up not
