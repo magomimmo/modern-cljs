@@ -1,4 +1,23 @@
-# Tutorial 10 - Introducing Ajax
+# Tutorial 11 - More Ajax
+
+Percorso:
+
+A) porting di login all'ultimo stato di shopping prima di manipolazone
+del dom e di ajax
+
+- sostituire .getElementById con aget (fatto)
+- valorizzare con "" l'action della form (fatto)
+- sostituire il button type dell form da submit a button (fatto)
+- sostituire l'assegnazione dell'evento onsubmit con listen! (fatto)
+- aggiungere un log quando gli input sono valorizzati (fatto)
+
+B) porting di login da A) a manipolazione del dom
+
+- aggiungere un messaggio come ultimo div della form
+- tre tipi di messaggio: sia login che password da valorizzare; manca password, manca login;
+
+
+
 
 In the [lastest tutorial][1] we were happy enough with the reached results
 in terms of [separation of concerns][2], functional programming style
