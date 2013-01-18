@@ -79,7 +79,7 @@ alleviate a sure PITA.
 
 # Introducing shoreleave
 
-After a brief github search, my collegues [Federico Boliardi][7] and
+After a brief github search, my collegues [Federico Boniardi][7] and
 [Francesco Agozzino][8] found [shoreleave-remote][9] and
 [shoreleave-remote-ring][10] libraries.  They appreared immediatly to be
 really promising in helping our ajax experiments if compared with
