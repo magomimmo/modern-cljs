@@ -1,18 +1,14 @@
 (ns modern-cljs.login
-  (:require-macros [domina.macros :refer [defined?]])
-  (:require [domina :refer [by-id value log]]
-            [domina.events :refer [listen!
-                                   prevent-default]]))
+  (:require [domina :refer [by-id value]]
+            [domina.events :refer [listen! prevent-default]]))
 
 (defn validate-form [e]
-  ;; get email and password element using (by-id id)
   (let [email (value (by-id "email"))
         password (value (by-id "password"))
-        email? (not (empty? email))
-        password? (not (empty? password?))]
-    (if (and email? password?)
-      true
-      (do
+        blank-email? (empty? email)
+        blank-password? (empty? password?)]
+    (if (or blank-email? blank-password?)
+      (do 
         (prevent-default e)
         (js/alert "Please insert your email and password"))
       false)))
