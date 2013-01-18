@@ -99,11 +99,10 @@ In this tutorial we're going to extend our comprehension of CLJS by
 introducing Ajax to let the CLJS client-side code to communicate with
 the CLJ server-side code.
 
-## [Tutorial 11 - A deeper undertanding of domina][19]
+## [Tutorial 11 - A deeper understanding of Domina events][19]
 
-In this tutorial we're going to apply what we learnt in the previous one
-and extend its application to the login form we introduced in
-[Tutorial 4][9].
+In this tutorial we're going to enrich our understanding of Domina events
+by applying them to the `login form` example we introduced in the [4th Tutorial][9].
 
 ## Next tutorial - TDB
 
