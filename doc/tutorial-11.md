@@ -6,7 +6,7 @@ communication between the browser and the server by exploiting the
 
 In this tutorial, prior to extend our comprehension of ajax in the
 CLJS/CLJ context, we're going to get a better and deeper understanding
-of events and DOM manipolution features provided by
+of the features of DOM events management provided by
 [domina library][4].
 
 To fullfill this objective, we're first going to line up the login
@@ -18,11 +18,11 @@ Shopping Calculator example.
 
 > NOTE 1: Starting from this tutorial on, we dicided to directly
 > include the `1.0.2-SNAPSHOT` of [domina][4] source code in the
-> `modern-cljs` code. We then removed `[domina "1.0.2-SNAPSHOT"]` from
-> the project dependencies. We also upgraded `lein-cljsbuild` to
-> `0.2.10` version, even if we know that there is an open issue about
-> a very boring and apparently useless waiting time after cljsbuild
-> complete any CLJS compilation.
+> `modern-cljs` code. Consequently, we removed
+> `[domina "1.0.2-SNAPSHOT"]` from the project dependencies. We also
+> upgraded `lein-cljsbuild` to `0.2.10` version, even if we know that
+> there is an open issue about a very boring and apparently useless
+> waiting time after cljsbuild complete any CLJS compilation.
 
 The following picture shows our old `Login Form` friend.
 
@@ -46,17 +46,19 @@ introducing the ajax model of communication between the browser and the server.
 
 Been this series of tutorials mostly about CLJS and not about CLJ, we
 jumped over the layer representating the lowest user experience wich
-requires CLJ only. Yet, we promise to fill this gap in successives
-tutorials more specific to the usage of CLJ on the server-side.
+requires CLJ only. Yet, we promise to fill this gap in successives and
+more specific tutorials explaining the usage of CLJ on the
+server-side.
 
 # Line up Login Form with Shopping Calculator Form
 
 The [9th tutorial][8] left to the smart user the exercise of applying
-to the `Login Form` the same kind of DOM manipoluation used in
-implenting the `Shopping Calculator`.
+to the *Login Form* the same kind of DOM manipoluation used in
+implementing the *Shopping Calculator*.
 
-Let's now make together the first step of a not so easy homework. We
-start by reviewing the html code of the `login-dbg.html`.
+Let's now work together on the first step of the not so easy homework
+we previously left to you. We start by reviewing the html code of the
+`login-dbg.html`.
 
 ```html
 <!doctype html>
@@ -148,7 +150,7 @@ your attention to the private `create-listener-function`. This is were
 you can find a beautiful clojure-ish programming style.  It uses the
 anonymous reification idiom which allows you to attach a predefined
 protocol to any data/structured data you want. Take your time to study
-it. I promise you will be rewared.
+it. I promise you will be rewarded.
 
 Anyway, we're not here to discuss programming elegance, but to solve
 the problem of preventing the `action` attached to the login form to
@@ -183,14 +185,13 @@ the `validate-form` listener as follows:
 > section for `domina.events` in the namespace declaration.
 
 > NOTE 4: We took adantage of the need to update the `validate-form`
-> function for improving its clojure-ish style. The meaning of is now
-> almost in fluent english language:
+> function for improving its clojure-ish style. The meaning of the function is now more clear:
 > 
 > * get the values of email and password
 > * if one of the two is empty, prevent the form action form being
 >   fired, raise the alert window asking the user to compile the
->   email and the password and return the control to the form;
-> * otherwise return `true` to pass the controll to the `default`
+>   email and the password and finally return the control to the form;
+> * otherwise return `true` to pass the control to the `default`
 >   action of the form.
 
 One last code modification in the `init` function and we're done.
@@ -204,11 +205,13 @@ One last code modification in the `init` function and we're done.
     (listen! (by-id "submit") :click (fn [e] (validate-form e)))))
 ```
 
-Here we just wrap inside an anonymous function the `validate-form` listener by passing it the fired `event` (i.e. :click).
+Here we just wrap inside an anonymous function the `validate-form`
+listener by passing it the fired `event` (i.e.`:click`).
 
-As usual let's verify our work by visiting the [login-dbg.html][12]
-page. If you have stopped the previous application run, execute again
-the usual commands from the terminal prior to visit the [login page][12].
+As usual, let's now verify our work by visiting the
+[login-dbg.html][12] page. If you have stopped the previous
+application run, execute again the usual commands from the terminal
+prior to visit the [login page][12].
 
 ```bash
 $ lein cljsbuild auto dev
