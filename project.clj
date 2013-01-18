@@ -10,12 +10,13 @@
 
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [compojure "1.1.5"]
-                 [domina "1.0.2-SNAPSHOT"]
+                 ;;[domina "1.0.2-SNAPSHOT"]
+                 ;;[domina "1.0.0"]
                  [hiccups "0.2.0"]
                  [com.cemerick/shoreleave-remote-ring "0.0.2"]
                  [shoreleave/shoreleave-remote "0.2.2"]]
 
-  :plugins [[lein-cljsbuild "0.2.9"]
+  :plugins [[lein-cljsbuild "0.2.10"]
             [lein-ring "0.8.0-SNAPSHOT"]]
 
   ;; enable cljsbuild tasks support

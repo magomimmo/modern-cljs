@@ -1,12 +1,12 @@
-# Tutorial 11 - More Ajax
+# Tutorial 11 - A deeper understanding of Domina Events
 
 In the [latest tutorial][1] we introduced the ajax model of
 communication between the browser and the server by exploiting the
 [shoreleave-remote-ring][2] and [shoreleave-remote][3] libraries.
 
-In this tutorial we're going to strengthen our ajax understanding by
-extending its usage to the `Login Form` we faced starting from the
-[4th Tutorial][4].
+In this and the successive tutorials we're going to strengthen our ajax
+understanding by extending its usage to the `Login Form` we faced
+starting from the [4th Tutorial][4].
 
 # Introduction
 
@@ -14,7 +14,7 @@ The following picture shows our old `Login Form` friend.
 
 ![Login Form][5]
 
-As you perhaps remember from the [4th Tutorial], we want to adhere to
+As you perhaps remember from the [4th Tutorial][9], we want to adhere to
 the [progressive enhancement][6] strategy which allows any browser to
 access our login form, regardless of the browser capabilities.
 
@@ -31,7 +31,7 @@ communication for supporting the highest user experience.
 
 Been this series of tutorials mostly about CLJS and not about CLJ, we
 jumped over the layer representating the lowest experienced. Yet, as
-we will see in successive paragraphs, we're going to fill that gap.
+we will see in successives tutorials, we're going to fill that gap.
 
 # Line up Login Form with Shopping Calculator Form
 
@@ -39,37 +39,23 @@ The [9th tutorial][7] left to the smart user the exercise of applying
 to the `Login Form` the same kind of DOM manipoluation used in
 implenting the `Shopping Calculator`.
 
-Let's now make this homework together. We tart by reviewing the html
-code of the login page.
+Let's now make together the first part of that not so easy homework. We
+start by reviewing the html code of the `login-dbg.html`.
 
 ```html
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Login</title>
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link rel="stylesheet" href="css/styles.css">
+...
+...
 </head>
 <body>
-    <!-- Script 2.2 - login.html -->
+    <!-- Script 2.2 - login-dbg.html -->
     <form action="login.php" method="post" id="loginForm" novalidate>
         <fieldset>
             <legend>Login</legend>
-
-            <div>
-              <label for="email">Email Address</label>
-              <input type="email" name="email" id="email" required>
-            </div>
-
-            <div>
-              <label for="password">Password</label>
-              <input type="password" name="password" id="password" required>
-            </div>
-
-	    <br>
+            ...
+            ...
             <div>
               <label for="submit"></label>
               <input type="submit" value="Login &rarr;" id="submit">
@@ -85,495 +71,123 @@ code of the login page.
 </html>
 ```
 
-As you remember we started by changing the type of the Shopping form's
-button from `submit` to `button`. By having decided to adhere to
-progressive enhancement strategy, this is not something that we should
-have done, because a simple [button type][8] is not going anywhere
-without the JS been enbled. So we have to stay with the `submit` type
-of botton.
+As you remember, when we reviewd the Shopping Calculator code, we started
+by changing the `type` attribute of the Shopping form's button from
+`submit` to `button`. By having decided to adhere to progressive
+enhancement strategy, this is not something that we should have done,
+because a plain [button type][8] is not going anywhere without JS been
+enabled in the browser. So we have to stay with the `submit` type of
+botton.
 
 ## First try
 
-Let's start by updating the `login.cljs` source code by lining it up
-with the programing style we adopted for the Shopping
-Calculator. First we want to substitute any JS interop call with a
-more clojure-ish one, which uses [domina][9] library.
+Let's start by lining up the `login.cljs` with the programming style we
+adopted for the Shopping Calculator. First we want to substitute any JS
+interop call with a more clojure-ish one by using domina library. Open
+`login.cljs` file and change the `init` function as follows.
 
 ```clojure
-
+(defn ^:export init []
+  ;; verify that js/document exists and that it has a getElementById
+  ;; property
+  (if (and js/document
+           (aget js/document "getElementById"))
+    (listen! (by-id "submit") :click validate-form)))
 ```
 
-without loosing any browser not supporting JS (or any user
-which disabled it). 
-
-to the `Login Form` the same  
-
-Just to summarize, we defined a CLJ remote function implementing the calcula
-A) porting di login all'ultimo stato di shopping prima di manipolazone
-del dom e di ajax
-
-- sostituire .getElementById con aget (fatto)
-- valorizzare con "" l'action della form (fatto)
-- sostituire il button type dell form da submit a button (fatto)
-- sostituire l'assegnazione dell'evento onsubmit con listen! (fatto)
-- aggiungere un log quando gli input sono valorizzati (fatto)
-
-B) porting di login da A) a manipolazione del dom
-
-- aggiungere un messaggio come ultimo div della form
-- tre tipi di messaggio: sia login che password da valorizzare; manca password, manca login;
-
-
-
-
-In the [lastest tutorial][1] we were happy enough with the reached results
-in terms of [separation of concerns][2], functional programming style
-and elimination of any direct use of CLJS/JS interop.
-
-As we said in [Tutorial 4][3], the very first reason why JS adoption
-became so intense had to do with its ability to easily support
-client-side validation of HTML forms. The same thing we did from
-[Tutorial 4][3] to [Tutorial 9][1].
-
-Then, thanks to the introduction of [XmlHttpRequest][4] JS obejct and
-the wide spread of gmail and google maps, the terms **ajax** and **web
-2.0** became the most used web buzzwords all over the places and in a
-very short time too.
-
-# Introduction
-
-Ajax is not something magic, it's just a kind of client-server
-communication, eventually asyncronous, mainly using http/htts
-protocols. Ajax expoits more [web techniques][5]:
-
-* HTML and CSS for presentation
-* DOM for dynamic display and interaction with data
-* XML/JSON for the data representation
-* XMLHttpRequest object for aynchronous communication
-* JavaScript to bring all the above techniques together
-
-A sequence diagram which visualizes the above techniques interaction
-applied to a form page example is shown in the next picture.
-
-![Ajax Diagram][6]
-
-As you can see, when a click event is raised, the corresponding event
-handler calls the XHR object and registers a callback function, which
-will be later notified with the response. The XHR object creates the
-http request and sends it to the web server which selects and calls the
-appropriate server side handler (i.e. application logic). The server
-side handler then returns the response to the XHR object which parses
-the response and notifies the result to the registered callback. The
-callback function then will manipulate the DOM and/or the CSS of the
-page to be shown by the browser to the user.
-
-# No Ajax, no party
-
-If CLJS did not have a way to implement ajax interaction model, it would
-be dead before to be born. As usual, CLJS could exploit Google Closure
-Library which includes the `goog.net` package to abstract the plain
-`XmlHttpRequest` object for supporting ajax communications with a server
-from a web browser.
-
-That said, directly interacting with `XmlHttpRequest` or with
-`goog.net.XhrIo` and `goog.net.XhrManager` objects could easly become an
-hard work to be done. Let's see if CLJS community has done something to
-alleviate a sure PITA.
-
-# Introducing shoreleave
-
-After a brief github search, my collegues [Federico Boliardi][7] and
-[Francesco Agozzino][8] found [shoreleave-remote][9] and
-[shoreleave-remote-ring][10] libraries.  They appreared immediatly to be
-really promising in helping our ajax experiments if compared with
-[fetch][11] library, which was the one I was aware of and that depends
-on [noir][12] that has been recently [deprecated][13].
-
-As you can read from its [readme][14], Shoreleave is a collection of
-integrated libraries that focuses on
-
-* Security
-* Idiomatic interfaces
-* Common client-side strategies
-* HTML5 capabilities
-* ClojureScript's advantages
-
-and it builds upon efforts found in other ClojureScript projects, such
-as [fetch][11] and [ClojureScriptOne][15] which is like to say that it stands
-on the shoulders of giants.
-
-## KISS (Keep It Small and Stupid)
-
-To keep things simple enough we're going to stay with our boring
-[shopping calculator][20] form as a reference case to be implemented by using
-shoreleave.
-
-What we'd like to do is to move the calculation from the client side code
-(i.e. CLJS) to the server side code (i.e. CLJ) and then let the former
-asks the latter to produce the result to be then manipulated by CLJS.
-
-The following sequence diagram visualizes our requirements.
-
-![Shopping Ajax][16]
-
-The first thing we want to do it's to implement the remote function to
-calculate the total.
-
-## The server side
-
-Thanks to [Chas Emerick][17], which is one of the most active and
-fruitful clojurist, we can exploit [shoreleave-remote-ring][10] by
-defining a remote calculate function which will return out the result
-(i.e. `total`) from the passed input (i.e. `quantity`, `price`, `tax`
-and `discount`).
-
-### Update dependencies
-
-As usual we have first to add `shoreleave-remote-ring` library to
-`project.clj`. Here is the corresponging code fragment.
-
-```clojure
-
-  :dependencies [[org.clojure/clojure "1.4.0"]
-                 [compojure "1.1.3"]
-                 [domina "1.0.0"]
-                 [hiccups "0.1.1"]
-                 [com.cemerick/shoreleave-remote-ring "0.0.2"]
-                 [shoreleave/shoreleave-remote "0.2.2"]]
-```
-
-> NOTE 1: We also added  the `shoreleave-remote` library to the
-> dependencies of the project. This lib will be used later for the
-> client-side code.
-
-
-### defremote
-
-The next step is to define the remote function that implements the
-calculation from `quantity`, `price`, `tax` and `discount` input. The
-`shoreleave-remote-ring` library offers `defremote` macro which is
-just like `defn` macro plus the registration of the defining function
-in a registry implemented as a reference type map (i.e. `(def remotes
-(atom {}))`).
-
-Create a new CLJ file named `remotes.clj` in the `src/clj/modern_cljs`
-directory and write the following code:
-
-```clojure
-(ns modern-cljs.remotes
-  (:require [cemerick.shoreleave.rpc :refer [defremote]]))
-
-(defremote calculate [quantity price tax discount]
-  (-> (* quantity price)
-      (* (+ 1 (/ tax 100)))
-      (- discount)))
-```
-
-As you can see we first declared the new `modern-cljs.remotes`
-namespace and required the `cemerick.shoreleave.rpc`namespace refering
-the `defremote` macro.
-
-Then we used the cited `defremote` macro to define the `calculate`
-funtion.
-
-> NOTE 2: If you compare the remote `calculate` function with the one
-> originally defined in `shopping.cljs` client code in the [latest tutorial][1],
-> you should note that the call to `.toFixed` CLJS function interop has
-> been removed.
-
-> NOTE 3: The namespace declaration now uses the `:require` form with
-> the `:refer` specification, which is something that I prefer to both
-> the `:use :only` visibility specifications and the `:require :as`
-> one.
-
-### Update the handler
-
-When we introduced [Compojure][18] in [Tutorial 3][19] we defined an
-handler which used the `site` wrapper to add a set of standard
-*ring-middlewares* suitables for a regular web site. Here is the
-content of `core.clj`
-
-```clojure
-(ns modern-cljs.core
-  (:require [compojure.core :refer [defroutes GET]]
-            [compojure.route :refer [resources not-found]]
-            [compojure.handler :refer [site]]))
-
-;; defroutes macro defines a function that chains individual route
-;; functions together. The request map is passed to each function in
-;; turn, until a non-nil response is returned.
-(defroutes app-routes
-  ; to serve document root address
-  (GET "/" [] "<p>Hello from compojure</p>")
-  ; to server static pages saved in resources/public directory
-  (resources "/")
-  ; if page is not found
-  (not-found "Page non found"))
-
-;; site function create an handler suitable for a standard website,
-;; adding a bunch of standard ring middleware to app-route:
-(def handler
-  (site app-routes))
-
-```
-
-The `shoreleave-remote-ring` library requires that you add the
-`wrap-rpc` wrapper to the top level handler in such a way that it will
-be ready to receive ajax calls. Open the `remotes.clj` file again and
-add both the required namespaces in the `modern-cljs.remotes`
-namespace declaration and the definition of the new handler which
-wraps the original one with `wrap-rpc`. Here is the complete
-`remotes.clj` content.
-
-```clojure
-(ns modern-cljs.remotes
-  (:require [modern-cljs.core :refer [handler]]
-            [compojure.handler :refer [site]]
-            [cemerick.shoreleave.rpc :refer [defremote wrap-rpc]]))
-
-(defremote calculate [quantity price tax discount]
-  (-> (* quantity price)
-      (* (+ 1 (/ tax 100)))
-      (- discount)))
-
-(def app (-> (var handler)
-             (wrap-rpc)
-             (site)))
-```
-
-> NOTE 3: We required `modern-cljs.core` and `compojure.handler`
-> namespaces to refer `handler` and `site` symbols and we added
-> `wrap-rpc` to the `:refer` specification of the already required
-> `cemerick.shoreleave.rpc` namespace.
-
-The last thing to be done on the server-side is to update the `:ring`
-task configuration in the `project.clj` by substituting
-`modern-cljs.core/handler` handler with the new one (i.e. `app`).
-
-```clojure
-;;; old :ring task configuration
-;;; :ring {:handler modern-cljs.core/handler}
-
-;;; new :ring task configuration
-:ring {:handler modern-cljs.remotes/app}
-```
-Great: the server-side is done. We now have to fix the client side code,
-which means the `shopping.cljs` file.
-
-## The client side
-
-Open the `shopping.cljs` file from the [latest tutorial][1].
-
-```clojure
-(ns modern-cljs.shopping
-  (:require-macros [hiccups.core :as h])
-  (:require [domina :as dom]
-            [domina.events :as ev]))
-
-(defn calculate []
-  (let [quantity (dom/value (dom/by-id "quantity"))
-        price (dom/value (dom/by-id "price"))
-        tax (dom/value (dom/by-id "tax"))
-        discount (dom/value (dom/by-id "discount"))]
-    (dom/set-value! (dom/by-id "total") (-> (* quantity price)
-                                            (* (+ 1 (/ tax 100)))
-                                            (- discount)
-                                            (.toFixed 2)))))
-;;; rest of the code
-```
-
-First you need to update the namespace declaration by requiring the
-`shoreleave.remotes.http-rpc` namespace to refer to `remote-callback`.
-
-```clojure
-(ns modern-cljs.shopping
-  (:require-macros [hiccups.core :as h])
-  (:require [domina :as dom]
-            [domina.events :as ev]
-            [shoreleave.remotes.http-rpc :refer [remote-callback]]
-            [cljs.reader :refer [read-string]]))
-```
-
-> NOTE 4: We also added `cljs.reader` namespace to refer to
-> `read-string`. The reason will became clear when we'll fix the
-> client-side `calculate` function.
-
-Let's now finish the work by modifying the `calculate` function.
-
-```clojure
-(defn calculate []
-  (let [quantity (read-string (dom/value (dom/by-id "quantity")))
-        price (read-string (dom/value (dom/by-id "price")))
-        tax (read-string (dom/value (dom/by-id "tax")))
-        discount (read-string (dom/value (dom/by-id "discount")))]
-    (remote-callback :calculate
-                     [quantity price tax discount]
-                     #(dom/set-value! (dom/by-id "total") (.toFixed % 2)))))
-```
-
-### The arithmetic is not always the same
-
-First take a look at the `let` form. We wrapped the reading of all the
-input field values inside a `read-string` form, which returns the JS
-object coded in the passed string. That's because CLJS has the same
-arithmetic semantics as JS, which is different from the corresponding
-one of the CLJ on the JVM. Try to launch the rhino repl from
-`modern-cljs` home directory and then evaluate a multiplication
-function by passing it two stringified numbers:
-
-```clojure
-$ lein trampoline cljsbuild repl-rhino
-Running Rhino-based ClojureScript REPL.
-"Type: " :cljs/quit " to quit"
-ClojureScript:cljs.user> (* "6" "7")
-42
-ClojureScript:cljs.user>
-```
-
-As you can see, CLJS implicitly casts strings to numbers when applies
-some arithmetic functions, but not all them. As an example try to add
-two stringified numbers and them multiply the result by 2 (stringified
-or not its the same).
-
-```clojure
-ClojureScript:cljs.user> (+ "1" "2")
-"12"
-ClojureScript:cljs.user> 1
-1
-ClojureScript:cljs.user> (* "2" (+ "1" "2"))
-24
-ClojureScript:cljs.user>
-```
-
-So, you have been warned. If you start a computation from a sum of
-stringified numbers, you are asking for troubles, because you start
-from a string concatenation.
-
-Now try the same thing in a regular CLJ repl:
-
-```clojure
-$ lein repl
-nREPL server started on port 53127
-REPL-y 0.1.4
-Clojure 1.4.0
-    Exit: Control+D or (exit) or (quit)
-Commands: (user/help)
-    Docs: (doc function-name-here)
-          (find-doc "part-of-name-here")
-  Source: (source function-name-here)
-          (user/sourcery function-name-here)
- Javadoc: (javadoc java-object-or-class-here)
-Examples from clojuredocs.org: [clojuredocs or cdoc]
-          (user/clojuredocs name-here)
-          (user/clojuredocs "ns-here" "name-here")
-user=> (* "6" "7")
-ClassCastException java.lang.String cannot be cast to java.lang.Number  clojure.lang.Numbers.multiply (Numbers.java:146)
-
-user=>
-```
-
-As you can see CLJ repl throws the `ClassCastException` because it
-can't cast a `String` to a `Number`.
-
-It should be now clear why we added `cljs.reader` namespace to
-`modern-cljs.shopping` namespace declaration for refering to the CLJS
-`read-string` function.
-
-### The remote callback
-
-Take again a look at the `calculate` definition
-
-```clojure
-(defn calculate []
-  (let [quantity (read-string (dom/value (dom/by-id "quantity")))
-        price (read-string (dom/value (dom/by-id "price")))
-        tax (read-string (dom/value (dom/by-id "tax")))
-        discount (read-string (dom/value (dom/by-id "discount")))]
-    (remote-callback :calculate
-                     [quantity price tax discount]
-                     #(dom/set-value! (dom/by-id "total") (.toFixed % 2)))))
-```
-
-After having read the values from the input fields of the shopping
-form, the client `calculate` function calls the `remote-callback` one,
-which accepts:
-
-* the keywordized remote function name (i.e. `:calculate`);
-* a vector of the arguments to be passed to the remote function
-  (i.e. `[quantity price tax discount]`);
-* an anonymous function which receives the result (i.e. %) from the
-  remote calculation through the `remote-callback` call, then formats
-  the result (i.e. `.toFixed`) and finally manipulates the DOM by
-  setting the value of the `total` input field (i.e. `set-value!`) to
-  the formatted one.
-
-# Play&Pray
-
-Now cross your finger and do as follows:
-
-* clean any previous compilation from `modern-cljs` home directory;
-* compile the `dev` build;
-* run the ring server.
+First you should note that domina and the underlying Google Closure
+Library do not directly support the `:submit` event. We then had to
+attach the `validate-form` to the `:click` event of the `submit` button
+instead of attaching it to the `loginForm` as before.
+
+Now compile and run the application as usual
 
 ```bash
-$ cd /path/to/modern-cljs
-$ lein cljsbuild clean
-$ lein cljsbuild once dev
-$ lein ring server-headless
-$ lein trampoline cljsbuild repl-listen # optional - in a new terminal
+$ lein cljsbuild clean # to clean any previous CLJS compilation
+$ lein cljsbuild once dev # to compile just the `dev` build
+$ lein ring server-headless #to lunch the ring/compjure server
 ```
 
-Now visit [shopping-dbg.html][20], click the `Calculate` button and
-verify that the shopping calculator returns the expected `total`
-value.
+Then visit [login-dbg.html][10] and do not fill any field (or fill just
+one of them). The application reacts by showing you the usual `alert`
+window that remember you to complete the form. Click the `OK` button and
+be prepared to an unexpected result. Instead of showing again the
+`loginForm` to allow the user to complete it, the process flows directly
+to the default `action` attribute of the form which, by calling an
+inesitent server-side script (i.e. `login.php`) return the `Page not
+found` message generated by the ring/compjure server.
 
-Congratulation! You implemented a very simple, yet pretty
-representative ajax web application, by using CLJS on the client-side
-and CLJ on the server-side.
+## Prevent the default
 
-# Make you a favor
+Take a look at the [domina.events][11] source code by pointing your
+attention to the private `create-listener-function`, you will understand
+a wonderful clojure-ish programming style which, by using the anonymous
+reification, allows you to attach a predefined protocol, that means a
+set of functions, to whatever you want. Just beatuful. Anyway, we're not
+here to discuss programming style, we're here to solve the problem of
+preventing the `action` attached to a form to be fired when the user has
+not filled the required field. First we have to modify the `init`
+function as follows:
 
-Let's finally verify our running ajax application by using the browser
-development tools. I'm using Google Chrome Canary, but you can choose
-whatever browser you want which provide development tools comparable
-with the ones available into Google Chrome Canary.
+```clojure
+(defn ^:export init []
+  (if (and js/document
+           (aget js/document "getElementById"))
+    (listen! (by-id "submit") :click (fn [e] (validate-form e)))))
+```
 
-* If you have stopped the running ring server from the previous
-  paragraph, just run it again as explained above;
-* Open the development tools (i.e. `Tools->Developer->Developer
-  Tools`);
-* Select the `Network` pane;
-* Visit [shopping-dbg.html][20] page or reload it.
+We passed an event argument to the `validate-form` by wrapping it
+inside an anonymous function.
 
-Your browser should look as in the following image.
+Let's now see the new `validate-form` definition:
 
-![network-01][21]
+```clojure
+(defn validate-form [e]
+  (let [email (by-id "email")
+        password (by-id "password")]
+    (if (and (> (count (value email)) 0)
+             (> (count (value password)) 0))
+      true
+      (do
+        (prevent-default e)
+        (js/alert "Please, complete the form!")
+        false))))
+```
 
-Click the `Calculator` button. If you concetrate your eyes in the
-`Network` pane, you should now see something similar to the following
-image.
+We added the `prevent-default` function call and passed to it the event
+`e` which, thanks to the anounymous reification implemented in the
+`create-listener-function`, is now compliant whith the `Event`
+protocol. Note that the call to the `prevent-default` function has been
+positioned in the `false` branch of the `if` condition. If both `email`
+and `password` pass the test condition, the `action` attached to the
+`loginForm` will still be fired.
 
-![network-02][22]
+As usual let's test what we did, but before that, remeber to udpate the
+namespace declaration by adding the `prevent-default` symbol to the
+`:refer` section of `domina.events` namespace.
 
-Now click `_fetch` from the `Name/Path` column. If the `Header`
-subpane is not alreay selected, select it and scroll until you can see
-the `Form Data` area. You should now see the following view which
-reports `calculate` as the value of the `remote` key and `[1 2 3 4]`
-as the value of the passed params to it.
+```clojure
+(ns modern-cljs.login
+  (:require [domina :refer [by-id value log]]
+            [domina.events :refer [listen! event-type prevent-default]]))
+```
 
-![network-03][23]
+You can now procede with the verification.
 
-Now select the `Response` subpane. You should see the returned value
-from the remote `calculate` function like in the following image.
+```bash
+$ lein cljsbuild once dev
+$ lein ring server-headless
+```
 
-![network-04][24]
+Now visit `login-dbg.html` and verify that everything now works as
+expected.
 
-That's it folks
+The approach followed in this tutorial has to be applied anytime you want
+to adhere with the prograssive enhancement strategy.
 
-# [Next step - More Ajax][25]
+# Next step - TBD
 
-In next tutorial we're going to apply what we just learnt and extend its
-application to the login form we introduced in [Tutorial 4][3].
+TBD
 
 # License
 
@@ -582,26 +196,13 @@ License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
 [2]: https://github.com/shoreleave/shoreleave-remote-ring
-[3]: https://github.com/shoreleave/shoreleave-remote#shoreleave 
+[3]: https://github.com/shoreleave/shoreleave-remote#shoreleave
 [4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
 [5]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/login-form.png
 [6]: http://en.wikipedia.org/wiki/Progressive_enhancement
 [7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-9.md
 [8]: http://stackoverflow.com/questions/290215/difference-between-input-type-button-and-input-type-submit
-
-[9]: https://github.com/shoreleave/shoreleave-remote
-
-[11]: https://github.com/ibdknox/fetch
-[12]: https://github.com/ibdknox/noir
-[13]: https://groups.google.com/forum/#!msg/clj-noir/AbAvQuikjGk/x8lKLKoomM0J
-
-[15]: https://github.com/brentonashworth/one
-[16]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-ajax.png
-[17]: https://github.com/cemerick
-[18]: https://github.com/weavejester/compojure
-[19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
-[20]: http://localhost:3000/shopping-dbg.html
-[21]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-01.png
-[22]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-02.png
-[23]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-03.png
-[24]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-04.png
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-4.md
+[10]: bbb
+[11]: http://localhost:3000/login-dbg.html
+[12]: https://github.com/levand/domina/blob/master/src/cljs/domina/events.cljs
