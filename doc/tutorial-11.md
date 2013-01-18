@@ -171,11 +171,12 @@ the `validate-form` listener as follows:
 (defn validate-form [e]
   (let [email (value (by-id "email"))
         password (value (by-id "password"))]
-    (if (or (empty? email) (empty? password)
+    (if (or (empty? email) (empty? password))
       (do 
         (prevent-default e)
-        (js/alert "Please insert your email and password"))
-      false)))
+        (js/alert "Please insert your email and password")
+        false)
+      true)))
 ```
 
 > NOTE 3: Remeber to add `prevent-default` symbol to the `:refer`
@@ -187,10 +188,10 @@ the `validate-form` listener as follows:
 > 
 > * get the values of email and password
 > * if one of the two is empty, prevent the form action form being
->   fired, and raise the alert window asking the user to compile the
->   email and the password;
+>   fired, raise the alert window asking the user to compile the
+>   email and the password and return the control to the form;
 > * otherwise return `true` to pass the controll to the `default`
->   action.
+>   action of the form.
 
 One last code modification in the `init` function and we're done.
 
@@ -206,8 +207,8 @@ One last code modification in the `init` function and we're done.
 Here we just wrap inside an anonymous function the `validate-form` listener by passing it the fired `event` (i.e. :click).
 
 As usual let's verify our work by visiting the [login-dbg.html][12]
-page. If you have stopped the previous application run, execute again the
-usual commands form the terminal prior to visit the login page.
+page. If you have stopped the previous application run, execute again
+the usual commands from the terminal prior to visit the [login page][12].
 
 ```bash
 $ lein cljsbuild auto dev
@@ -216,9 +217,11 @@ $ lein ring server-headless
 
 ## Conlusions
 
-The approach followed in this tutorial to manage `submit` events has
-to be always applied anytime you want to adhere with the progressive
-enhancement strategy. 
+The approach followed in this tutorial to manage `submit` events can
+be easly applied when you want to be compliant with the progressive
+enhancement strategy. In the next tutorials we're going to adorn the
+login form with more DOM events and manipulation to be prepared for
+*ajaxinig* it.
 
 # Next step - TBD
 
