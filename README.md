@@ -14,14 +14,22 @@ available tutorial without coding:
 
 1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
 2. `$ cd modern-cljs`
-3. ` $ lein ring server`
+3. ` $ lein ring server-headless`
 4. open a new terminal and cd in modern-cljs
 5. `$ lein cljsbuild once`
 6. `$ lein trampoline cljsbuild repl-listen`
 7. visit [login-dbg.html][3] and/or [shopping-dbg.html][4]
 8. play with the repl connected to the browser
 
-> NOTE 1: `modern-cljs` has been tested with **lein version
+> LATEST NEWS: Starting from the [11th tutorial][19], we dicided to
+> directly include the `1.0.2-SNAPSHOT` of [domina][4] source code in
+> the `modern-cljs` code. Consequently, we removed
+> `[domina "1.0.2-SNAPSHOT"]` from the project dependencies. We also
+> upgraded `lein-cljsbuild` to `0.2.10` version, even if we know that
+> there is an open issue about a very boring and apparently useless
+> waiting time after cljsbuild has completed any CLJS compilation.
+
+> PREVIOUS NOTE 1: `modern-cljs` has been tested with **lein version
 > 2.0.0-preview10**. On January 10th 2013 lein reached version
 > **2.0.0-RC1**. Due to lein-ring 0.7.5 depending from leinjacker
 > version 0.2.0, lein 2.0.0-RC1 does not work. If you still want to
@@ -131,3 +139,4 @@ License, the same as Clojure.
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
 [17]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
 [18]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
+[19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-11.md
