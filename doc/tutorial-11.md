@@ -41,10 +41,10 @@ the Ajax communication model.
 
 Generally speaking, you should always start by supporting the lowest
 user experience. Then you step to the next layer by supporting JS and
-finally you make your last user experience enhancement by introducing
+finally you realize your last user experience enhancement by introducing
 the ajax model of communication between the browser and the server.
 
-Been this series of tutorials mostly about CLJS and not about CLJ, we
+Being this series of tutorials mostly about CLJS and not about CLJ, we
 skypped the layer representating the lowest user experience wich is
 based on CLJ only. Yet, we promise to fill this gap in successives
 tutorials explaining the usage of CLJ libraries on the server-side.
@@ -118,7 +118,7 @@ function as follows.
 > `submit` type of event does not bubble up, and we then needed to
 > attach the listener function (i.e. `validate-form`) to the `:click`
 > event of the `submit` button, instead of attaching it to the
-> `submitForm` as it was before.
+> `loginForm` as it was before.
 
 Now compile and run the application as usual.
 
