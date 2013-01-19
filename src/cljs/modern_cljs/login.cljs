@@ -8,8 +8,7 @@
     (if (or (empty? email) (empty? password))
       (do
         (prevent-default e)
-        (js/alert "Please insert your email and password")
-        false)
+        (js/alert "Please insert your email and password"))
       true)))
 
 (defn ^:export init []
