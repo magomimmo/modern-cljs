@@ -241,6 +241,23 @@ using the following code:
 (def builtin-events (set (map keyword (gobj/getValues events/EventType))))
 ```
 
+That means that if you run the brepl and evaluates `builtin-events`
+symbol you get the `set` of all the supported events.
+
+```clojure
+$ lein ring server-headless
+$ lein cljs-build auto dev # from a new terminal
+$ lein trampoline cljs-build repl-listen # from a new terminal
+Running ClojureScript REPL, listening on port 9000.
+"Type: " :cljs/quit " to quit"
+ClojureScript:cljs.user> domina.events/builtin-events
+#{:submit :unload :DOMFocusOut :help :dragstart :cut :losecapture :mousedown :touchmove :touchcancel :keypress :paste :mouseover :propertychange :pageshow :popstate :contextmenu :offline :beforecut :resize :mouseout :dragover :click :error :selectstart :load :touchend :blur :change :hashchange :webkitTransitionEnd :focus :keydown :connect :mouseup :touchstart :dragleave :drop :pagehide :message :keyup :online :mousemove :scroll :input :deactivate :beforecopy :beforepaste :copy :DOMFocusIn :select :dblclick :dragenter :readystatechange}
+ClojureScript:cljs.user>
+```
+
+Remeber to visit [login-dbg.html][12] to activate the brepl before to
+evaluate any expression in the brepl.
+
 # Next step - TBD
 
 TBD
