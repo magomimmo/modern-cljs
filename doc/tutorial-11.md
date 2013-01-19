@@ -244,10 +244,12 @@ using the following code:
 That means that if you run the brepl and evaluates `builtin-events`
 symbol you get the `set` of all the supported events.
 
-```clojure
+```bash
 $ lein ring server-headless
 $ lein cljs-build auto dev # from a new terminal
 $ lein trampoline cljs-build repl-listen # from a new terminal
+```
+```clojure
 Running ClojureScript REPL, listening on port 9000.
 "Type: " :cljs/quit " to quit"
 ClojureScript:cljs.user> domina.events/builtin-events
