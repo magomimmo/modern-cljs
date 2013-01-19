@@ -257,15 +257,7 @@ $ lein cljsbuild auto dev
 $ lein ring server-headless
 ```
 
-## Conlusions
-
-The approach followed in this tutorial to manage `submit` events can
-be easly applied when you want to be compliant with the progressive
-enhancement strategy. In the next tutorials we're going to adorn the
-login form with more DOM events and manipulation to be prepared for
-*ajaxinig* it.
-
-# Appendix - Event Types
+## Event Types
 
 If you're interested in knowing all the event types supported by
 [Domina][4], here is the native code [goog.events.eventtypes.js][15]
@@ -313,6 +305,15 @@ ClojureScript:cljs.user>
 
 Remeber to visit [login-dbg.html][12] to activate the brepl before to
 evaluate any expression in the brepl.
+
+# Conlusions
+
+The approach followed in this tutorial to manage `submit` events can
+be easly applied when you want to be compliant with the progressive
+enhancement strategy. In the next tutorials we're going to adorn the
+login form with more DOM events and manipulation to be prepared for
+*ajaxinig* it.
+
 
 # Next step - TBD
 
