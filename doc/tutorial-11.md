@@ -1,5 +1,13 @@
 # Tutorial 11 - A deeper understanding of Domina Events
 
+> LATEST NEWS: Starting from this tutorial on, we dicided to directly
+> include the `1.0.2-SNAPSHOT` of [domina][4] source code in the
+> `modern-cljs` code. Consequently, we removed
+> `[domina "1.0.2-SNAPSHOT"]` from the project dependencies. We also
+> upgraded `lein-cljsbuild` to `0.2.10` version, even if we know that
+> there is an open issue about a very boring and apparently useless
+> waiting time after cljsbuild complete any CLJS compilation.
+
 In the [latest tutorial][1] we introduced the ajax model of
 communication between the browser and the server by exploiting the
 [shoreleave-remote-ring][2] and [shoreleave-remote][3] libraries.
@@ -15,14 +23,6 @@ programming style already adopted in the previous tutorials about the
 Shopping Calculator example.
 
 # Introduction
-
-> NOTE 1: Starting from this tutorial on, we dicided to directly
-> include the `1.0.2-SNAPSHOT` of [domina][4] source code in the
-> `modern-cljs` code. Consequently, we removed
-> `[domina "1.0.2-SNAPSHOT"]` from the project dependencies. We also
-> upgraded `lein-cljsbuild` to `0.2.10` version, even if we know that
-> there is an open issue about a very boring and apparently useless
-> waiting time after cljsbuild complete any CLJS compilation.
 
 The following picture shows our old `Login Form` friend.
 
@@ -109,7 +109,7 @@ function as follows.
     (listen! (by-id "submit") :click validate-form)))
 ```
 
-> NOTE 2: The [domina.events library][11] contains a robust event
+> NOTE 1: The [domina.events library][11] contains a robust event
 > handling API that wraps the Google Closure event handling code, while
 > exposing it in a idiomatic functional way for both the `bubbling`
 > event propagation phase and the `capture` phase one.  In our login
@@ -218,10 +218,10 @@ follows:
       true)))
 ```
 
-> NOTE 3: Remeber to add `prevent-default` symbol to the `:refer`
+> NOTE 2: Remeber to add `prevent-default` symbol to the `:refer`
 > section for `domina.events` in the namespace declaration.
 
-> NOTE 4: We took adantage of the necessity to update the `validate-form`
+> NOTE 3: We took adantage of the necessity to update the `validate-form`
 > function for improving its clojure-ish style. The semantic of the
 > `validation-form` is now much more clear than before:
 >
@@ -232,11 +232,11 @@ follows:
 > * otherwise return `true` to pass the control to the `default`
 >   action of the form.
 
-> NOTE 5: If you carefully watch the `validate-form` implementation you
+> NOTE 4: If you carefully watch the `validate-form` implementation you
 > should note that the `if` branch traversed when its condition is
 > `true` (i.e. when or the `email` or the `password` are empty), it does
 > not return the `false` value regularly used to block the event
-> propagation to the `action` attibute of the form. That's because
+> propagation to the `action` attribute of the form. That's because
 > `validate-form` is now internally calling `prevent-default` function
 > and a returnig `false` would become reduntant.
 

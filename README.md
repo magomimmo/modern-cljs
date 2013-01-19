@@ -21,7 +21,7 @@ available tutorial without coding:
 7. visit [login-dbg.html][3] and/or [shopping-dbg.html][4]
 8. play with the repl connected to the browser
 
-> LATEST NEWS: Starting from the [11th tutorial][19], we dicided to
+> LATEST NEWS: Starting from the [11th tutorial][19], we decided to
 > directly include the `1.0.2-SNAPSHOT` of [domina][4] source code in
 > the `modern-cljs` code. Consequently, we removed
 > `[domina "1.0.2-SNAPSHOT"]` from the project dependencies. We also
@@ -29,7 +29,7 @@ available tutorial without coding:
 > there is an open issue about a very boring and apparently useless
 > waiting time after cljsbuild has completed any CLJS compilation.
 
-> PREVIOUS NOTE 1: `modern-cljs` has been tested with **lein version
+> PREVIOUS NEWS: `modern-cljs` has been tested with **lein version
 > 2.0.0-preview10**. On January 10th 2013 lein reached version
 > **2.0.0-RC1**. Due to lein-ring 0.7.5 depending from leinjacker
 > version 0.2.0, lein 2.0.0-RC1 does not work. If you still want to
@@ -40,7 +40,7 @@ available tutorial without coding:
 > running the following command at terminal prompt: `$ lein upgrade
 > "2.0.0-preview10"`
 
-> NOTE 2: If you want to access the code of any single tutorial because
+> NOTE 1: If you want to access the code of any single tutorial because
 > you don't want to `copy&paste` it or you don't want to write it
 > yourself, do as follows:
 >
