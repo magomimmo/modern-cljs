@@ -6,12 +6,12 @@ communication between the browser and the server by exploiting the
 
 In this tutorial, prior to extend our comprehension of ajax in the
 CLJS/CLJ context, we're going to get a better and deeper understanding
-of the features of DOM events management provided by
+of few features of DOM events management provided by
 [domina library][4].
 
 To fullfill this objective, we're first going to line up the login
 example introduced in the [4th Tutorial][5] with the more clojure-ish
-programming style already adopted in the previous tutorials with the
+programming style already adopted in the previous tutorials about the
 Shopping Calculator example.
 
 # Introduction
@@ -39,25 +39,24 @@ user). The highest user experience is the one offered by a web
 application when the the browser support JS and the application uses
 the Ajax communication model.
 
-Generally speaking, you should always start the implementation by
-supporting the lowest user experience. Then you step to the next layer
-by supporting JS and finally you make your last user experience enhancement by
-introducing the ajax model of communication between the browser and the server.
+Generally speaking, you should always start by supporting the lowest
+user experience. Then you step to the next layer by supporting JS and
+finally you make your last user experience enhancement by introducing
+the ajax model of communication between the browser and the server.
 
 Been this series of tutorials mostly about CLJS and not about CLJ, we
-jumped over the layer representating the lowest user experience wich
-requires CLJ only. Yet, we promise to fill this gap in successives and
-more specific tutorials explaining the usage of CLJ on the
-server-side.
+skypped the layer representating the lowest user experience wich is
+based on CLJ only. Yet, we promise to fill this gap in successives
+tutorials explaining the usage of CLJ libraries on the server-side.
 
 # Line up Login Form with Shopping Calculator Form
 
-The [9th tutorial][8] left to the smart user the exercise of applying
-to the *Login Form* the same kind of DOM manipoluation used in
-implementing the *Shopping Calculator*.
+The [9th tutorial][8] left to the smart user the charge of applying to
+the *Login Form* the same kind of DOM manipulation used in implementing
+the *Shopping Calculator*.
 
-Let's now work together on the first step of the not so easy homework
-we previously left to you. We start by reviewing the html code of the
+Let's now work together on the first step of this not so easy task we
+previously left to you. We start by reviewing the html code of the
 `login-dbg.html`.
 
 ```html
@@ -98,15 +97,13 @@ botton.
 
 ## First try
 
-Let's start by making the programming style of `login.cljs` more
-clojure-ish. First we want to update any CLJS/JS interop call by using
+Start by making the programming style of `login.cljs` more
+clojure-ish. First we want to remove any CLJS/JS interop call by using
 [domina library][4]. Open the `login.cljs` file and change the `init`
 function as follows.
 
 ```clojure
 (defn ^:export init []
-  ;; verify that js/document exists and that it has a getElementById
-  ;; property
   (if (and js/document
            (aget js/document "getElementById"))
     (listen! (by-id "submit") :click validate-form)))
@@ -126,16 +123,16 @@ function as follows.
 Now compile and run the application as usual.
 
 ```bash
-$ lein cljsbuild clean # to clean any previous CLJS compilation
-$ lein cljsbuild auto dev # to compile just the `dev` build
-$ lein ring server-headless #to lunch the ring/compjure server
+$ lein cljsbuild clean # clean any previous CLJS compilation
+$ lein cljsbuild auto dev # compile just the `dev` build
+$ lein ring server-headless # lunch the server from a new terminal
 ```
 
 Then visit [login-dbg.html][12] and do not fill any field (or fill
 just one of them). The application reacts by showing you the usual
 `alert` window that remember you to complete the form
 compilation. Click the `OK` button and be prepared to an unexpected
-result. 
+result.
 
 Instead of showing the `loginForm` to allow the user to complete it,
 the process flows directly to the default `action` attribute of the
@@ -145,25 +142,26 @@ the ring/compjure server.
 
 ## Prevent the default
 
-Take a look at the [domina/events.cljs][13] source code and direct
-your attention to the private `create-listener-function`. This is were
-you can find a beautiful clojure-ish programming style.  It uses the
-anonymous reification idiom which allows you to attach a predefined
-protocol to any data/structured data you want. Take your time to study
-it. I promise you will be rewarded.
+Take a look at the [domina/events.cljs][13] source code and direct your
+attention to `Event` protocol and to the the private [HOF][14]
+`create-listener-function`. This is were you can find a beautiful
+clojure-ish programming style.  It uses the anonymous reification idiom
+to attach predefined protocols (i.e. `Event` and `ILookup`) to any
+data/structured data you want. Take your time to study it. I promise you
+will be rewarded.
 
-Anyway, we're not here to discuss programming elegance, but to solve
-the problem of preventing the `action` attached to the login form to
-be fired when the user has not filled the required fields. 
+Anyway, we're not here to discuss programming elegance, but to solve the
+problem of preventing the `action` login form from being fired when the
+user has not filled the required fields.
 
 Thanks to the programming idiom cited above, we now know that the
 `Event` protocol supports, among others, the `prevent-default`
 function which is what we need to interupt the process of passing the
-control from the `submit` button to the form `action` attribute. 
+control from the `submit` button to the form `action` attribute.
 
-This application of the anonymous reification idiom to the `Event`
-protocol requires that the fired event (i.e. `:click`) is passed to
-the `validate-form` listener as follows:
+This application of the anonymous reification idiom requires that the
+fired event (i.e. `:click`) is passed to the `validate-form` listener as
+follows:
 
 ```clojure
 (ns modern-cljs.login
@@ -174,7 +172,7 @@ the `validate-form` listener as follows:
   (let [email (value (by-id "email"))
         password (value (by-id "password"))]
     (if (or (empty? email) (empty? password))
-      (do 
+      (do
         (prevent-default e)
         (js/alert "Please insert your email and password")
         false)
@@ -184,9 +182,10 @@ the `validate-form` listener as follows:
 > NOTE 3: Remeber to add `prevent-default` symbol to the `:refer`
 > section for `domina.events` in the namespace declaration.
 
-> NOTE 4: We took adantage of the need to update the `validate-form`
-> function for improving its clojure-ish style. The meaning of the function is now more clear:
-> 
+> NOTE 4: We took adantage of the necessity to update the `validate-form`
+> function for improving its clojure-ish style. The semantic of the
+> `validation-form` is now much more clear than before:
+>
 > * get the values of email and password
 > * if one of the two is empty, prevent the form action form being
 >   fired, raise the alert window asking the user to compile the
@@ -248,5 +247,4 @@ License, the same as Clojure.
 [11]: https://github.com/levand/domina#event-handling
 [12]: http://localhost:3000/login-dbg.html
 [13]: https://github.com/levand/domina/blob/master/src/cljs/domina/events.cljs
-
-
+[14]: http://en.wikipedia.org/wiki/Higher-order_function

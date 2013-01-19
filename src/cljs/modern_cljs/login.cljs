@@ -6,7 +6,7 @@
   (let [email (value (by-id "email"))
         password (value (by-id "password"))]
     (if (or (empty? email) (empty? password))
-      (do 
+      (do
         (prevent-default e)
         (js/alert "Please insert your email and password")
         false)
