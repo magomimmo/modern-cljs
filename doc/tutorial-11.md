@@ -225,6 +225,22 @@ enhancement strategy. In the next tutorials we're going to adorn the
 login form with more DOM events and manipulation to be prepared for
 *ajaxinig* it.
 
+# Appendix - Event Types
+
+If you're interested in knowing all the event types supported by
+[Domina][4], here is the native code [goog.events.eventtypes.js][15]
+which enumerates all supported events. Take into account that Google
+Closure uses string as the event keys and Domina makes its best to
+convert their keywords representation to strings for lookup purposes
+using the following code:
+
+```clojure
+;; goog.events native namespace required as `events`
+;; goog.object native namespace required as `gobj`
+
+(def builtin-events (set (map keyword (gobj/getValues events/EventType))))
+```
+
 # Next step - TBD
 
 TBD
@@ -248,3 +264,4 @@ License, the same as Clojure.
 [12]: http://localhost:3000/login-dbg.html
 [13]: https://github.com/levand/domina/blob/master/src/cljs/domina/events.cljs
 [14]: http://en.wikipedia.org/wiki/Higher-order_function
+[15]: https://code.google.com/p/closure-library/source/browse/trunk/closure/goog/events/eventtype.js?r=469
