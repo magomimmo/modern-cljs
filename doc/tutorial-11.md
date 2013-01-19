@@ -264,6 +264,22 @@ $ lein cljsbuild auto dev
 $ lein ring server-headless
 ```
 
+## Catch early react istantly
+
+It's now time to see how we can improve the user experience of the
+`loginForm` by using some more DOM events and DOM manipulations features
+of Domina.
+
+One of the first lesson I learnt 30 years ago, when I first started
+programming, it was that any error has to be catch and managed as soon
+as it manifests itself. For the `loginForm` example, *as soon as
+possible* it means as soon as the email input field loses the focus
+(i.e. *blur*).
+
+Open the `login.cljs` source file and update it as follow:
+
+
+
 ## Event Types
 
 If you're interested in knowing all the event types supported by
@@ -346,3 +362,4 @@ License, the same as Clojure.
 [13]: https://github.com/levand/domina/blob/master/src/cljs/domina/events.cljs
 [14]: http://en.wikipedia.org/wiki/Higher-order_function
 [15]: https://code.google.com/p/closure-library/source/browse/trunk/closure/goog/events/eventtype.js?r=469
+[16]: http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address
