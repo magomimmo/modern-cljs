@@ -239,6 +239,13 @@ using the following code:
 ;; goog.object native namespace required as `gobj`
 
 (def builtin-events (set (map keyword (gobj/getValues events/EventType))))
+
+
+(defn- find-builtin-type
+  [evt-type]
+  (if (contains? builtin-events evt-type)
+    (name evt-type)
+    evt-type))
 ```
 
 That means that if you run the brepl and evaluates `builtin-events`
