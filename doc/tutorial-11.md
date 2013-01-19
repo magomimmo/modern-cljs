@@ -251,7 +251,14 @@ $ lein trampoline cljs-build repl-listen # from a new terminal
 Running ClojureScript REPL, listening on port 9000.
 "Type: " :cljs/quit " to quit"
 ClojureScript:cljs.user> domina.events/builtin-events
-#{:submit :unload :DOMFocusOut :help :dragstart :cut :losecapture :mousedown :touchmove :touchcancel :keypress :paste :mouseover :propertychange :pageshow :popstate :contextmenu :offline :beforecut :resize :mouseout :dragover :click :error :selectstart :load :touchend :blur :change :hashchange :webkitTransitionEnd :focus :keydown :connect :mouseup :touchstart :dragleave :drop :pagehide :message :keyup :online :mousemove :scroll :input :deactivate :beforecopy :beforepaste :copy :DOMFocusIn :select :dblclick :dragenter :readystatechange}
+#{:submit :unload :DOMFocusOut :help :dragstart :cut :losecapture
+ :mousedown :touchmove :touchcancel :keypress :paste :mouseover
+ :propertychange :pageshow :popstate :contextmenu :offline :beforecut
+ :resize :mouseout :dragover :click :error :selectstart :load :touchend
+ :blur :change :hashchange :webkitTransitionEnd :focus :keydown :connect
+ :mouseup :touchstart :dragleave :drop :pagehide :message :keyup :online
+ :mousemove :scroll :input :deactivate :beforecopy :beforepaste :copy
+ :DOMFocusIn :select :dblclick :dragenter :readystatechange}
 ClojureScript:cljs.user>
 ```
 
