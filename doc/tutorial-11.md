@@ -143,12 +143,52 @@ the ring/compjure server.
 ## Prevent the default
 
 Take a look at the [domina/events.cljs][13] source code and direct your
-attention to `Event` protocol and to the the private [HOF][14]
-`create-listener-function`. This is were you can find a beautiful
-clojure-ish programming style.  It uses the anonymous reification idiom
-to attach predefined protocols (i.e. `Event` and `ILookup`) to any
-data/structured data you want. Take your time to study it. I promise you
-will be rewarded.
+attention to `Event` protocol and to the private [HOF][14]
+`create-listener-function`.
+
+```clojure
+(defprotocol Event
+  (prevent-default [evt] "Prevents the default action, for example a link redirecting to a URL")
+  (stop-propagation [evt] "Stops event propagation")
+  (target [evt] "Returns the target of the event")
+  (current-target [evt] "Returns the object that had the listener attached")
+  (event-type [evt] "Returns the type of the the event")
+  (raw-event [evt] "Returns the original GClosure event"))
+
+(defn- create-listener-function
+  [f]
+  (fn [evt]
+    (f (reify
+
+         Event
+
+         (prevent-default [_] (.preventDefault evt))
+         (stop-propagation [_] (.stopPropagation evt))
+         (target [_] (.-target evt))
+         (current-target [_] (.-currentTarget evt))
+         (event-type [_] (.-type evt))
+         (raw-event [_] evt)
+
+         ILookup
+
+         (-lookup [o k]
+           (if-let [val (aget evt k)]
+             val
+             (aget evt (name k))))
+         (-lookup [o k not-found] (or (-lookup o k)
+                                      not-found))))
+    true))
+
+(defn listen!
+  ([type listener] (listen! root-element type listener))
+  ([content type listener]
+     (listen-internal! content type listener false false)))
+```
+
+This is were you can find a beautiful clojure-ish programming style.  It
+uses the anonymous reification idiom to attach predefined protocols
+(i.e. `Event` and `ILookup`) to any data/structured data you want. Take
+your time to study it. I promise you will be rewarded.
 
 Anyway, we're not here to discuss programming elegance, but to solve the
 problem of preventing the `action` login form from being fired when the
