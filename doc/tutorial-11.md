@@ -214,8 +214,7 @@ follows:
     (if (or (empty? email) (empty? password))
       (do
         (prevent-default e)
-        (js/alert "Please insert your email and password")
-        false)
+        (js/alert "Please insert your email and password"))
       true)))
 ```
 
@@ -232,6 +231,14 @@ follows:
 >   email and the password and finally return the control to the form;
 > * otherwise return `true` to pass the control to the `default`
 >   action of the form.
+
+> NOTE 5: If you carefully watch the `validate-form` implementation you
+> should note that the `if` branch traversed when its condition is
+> `true` (i.e. when or the `email` or the `password` are empty), it does
+> not return the `false` value regularly used to block the event
+> propagation to the `action` attibute of the form. That's because
+> `validate-form` is now internally calling `prevent-default` function
+> and a returnig `false` would become reduntant.
 
 One last code modification in the `init` function and we're done.
 
