@@ -292,16 +292,16 @@ showing a red message, refocusing the email input field and making its
 border red;
 
 2. A soon as the password input field loses the focus, check its
-syntactical correctness by matching its length against the mininum
-accepted length; if the validation does not pass, make some evidence of
-the error to the user.
+syntactical correctness by matching its value against one of the several
+[password regex validator+]; if the validation does not pass, make some
+evidence of the error to the user.
 
 Although a nice looking implementation of the above specifications are
 left to you, let's show at least a very rude sample from wich to start
 from.
 
-> NOTE 5: Take a look to [this post][23] for a contemporary approach to password
-> validation.
+> NOTE 5: Take a look at the end of [this post][23] for a HTML5
+> compliant approach to password validation.
 
 Open the `login.cljs` source file and start by adding two
 [dynamic vars][17] to be used for the `email` and `password` fields
@@ -555,3 +555,4 @@ License, the same as Clojure.
 [21]: https://github.com/teropa/hiccups
 [22]: https://github.com/cemerick/friend
 [23]: http://www.the-art-of-web.com/javascript/validate-password/#.UPvsHaGjejI
+[24]: http://regexlib.com/Search.aspx?k=password&c=-1&m=-1&ps=20
