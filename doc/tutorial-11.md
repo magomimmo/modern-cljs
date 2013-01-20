@@ -308,10 +308,11 @@ Open the `login.cljs` source file and start by adding two
 validation:
 
 ```clojure
-(def ^:dynamic *min-password-length* 8)
 
-(def ^:dynamic *email-re*
-     #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
+;;; 4 to 8, at least one numeric digit.
+(def ^:dynamic *password-re* #"^(?=.*\d).{4,8}$")
+
+(def ^:dynamic *email-re* #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
 ```
 
 Now add the `:blur` event listener to both the `email` and `password`
@@ -347,7 +348,7 @@ Now define the validators. Here is a very rude implementation of them.
 
 (defn validate-password [password]
   (destroy! (by-class "password"))
-  (if (< (count (value password)) *min-password-length*)
+  (if (not (re-matches *password-re* (value password)))
     (do
       (append! (by-id "loginForm") (html [:div.help.password "Wrong password"]))
       false)
@@ -393,10 +394,9 @@ uptated namespace declaration as well for referencing the introduced
   (:require [domina :refer [by-id by-class value append! prepend! destroy! log]]
             [domina.events :refer [listen! prevent-default]]))
 
-(def ^:dynamic *min-password-length* 8)
+(def ^:dynamic *password-re* #"^(?=.*\d).{4,8}$")
 
-(def ^:dynamic *email-re*
-     #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
+(def ^:dynamic *email-re* #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
 
 (defn validate-email [email]
   (destroy! (by-class "email"))
@@ -408,7 +408,7 @@ uptated namespace declaration as well for referencing the introduced
 
 (defn validate-password [password]
   (destroy! (by-class "password"))
-  (if (< (count (value password)) *min-password-length*)
+  (if (not (re-matches *password-re* (value password)))
     (do
       (append! (by-id "loginForm") (html [:div.help.password "Wrong password"]))
       false)
