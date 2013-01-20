@@ -454,7 +454,9 @@ the input fields and the login button. You should see something like
 the following pictures.
 
 ![Email Help][18]
+
 ![Password Help][19]
+
 ![Complete the form][20]
 
 ## Event Types
