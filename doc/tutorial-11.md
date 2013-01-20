@@ -267,18 +267,105 @@ $ lein ring server-headless
 ## Catch early react istantly
 
 It's now time to see how we can improve the user experience of the
-`loginForm` by using some more DOM events and DOM manipulations features
-of Domina.
+`loginForm` by using some more DOM events and DOM manipulations
+features of Domina.
 
 One of the first lesson I learnt 30 years ago, when I first started
 programming, it was that any error has to be catch and managed as soon
-as it manifests itself. For the `loginForm` example, *as soon as
-possible* it means as soon as the email input field loses the focus
-(i.e. *blur*).
+as it manifests itself. 
 
-Open the `login.cljs` source file and update it as follow:
+Thanks to JS/Ajax that lesson can be relatively easily approached in
+our `loginForm` case. Here, *as soon as possible* it means that the
+syntactical correctness of the email and password typed in by the user
+can be verified ad soon as their input fields lose focus (i.e.
+*blur*). 
 
+### Email/Password validators 
 
+A pretty short specification could be the following:
+
+1. As soon as the email input field loses the focus, we can check its
+syntactical correctness by matching its value against one of the
+several [email regex validators][16] available on the net; if the validation
+return true, then we should make some evidence of the error to the
+user (e.g. by refocusing the email input field, making its border red
+and adding a red help/error message close to it;
+
+2. A soon as the password input filed loses the focus, we can check
+its syntactical correctness by matching its length against the mininum
+accepted length; if the validation return true, then we should make
+some evidence of the error to the user (e.g. by refocusing the password
+input field, making its border red and adding a red help/error message
+close to it.
+
+Although the detailed implementation of those functional
+speicifications are left to you, we're going to show at least a very
+rude sample from wich to start from.
+
+Let's start by adding to `login.cljs` two [dynamic vars][17]:
+
+```clojure
+(def ^:dynamic *min-password-length* 8)
+
+(def ^:dynamic *email-re* 
+     #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
+```
+
+Now add to the `init` function the `:blur` event listener to both the
+`email` and `password` input fields.
+
+```clojure
+(defn ^:export init []
+  (if (and js/document
+           (aget js/document "getElementById"))
+    (let [email (by-id "email")
+          password (by-id "password")]
+      (listen! (by-id "submit") :click (fn [evt] (validate-form evt)))
+      (listen! email :blur (fn [evt] (validate-email evt (value email))))
+      (listen! password :blur (fn [evt] (validate-password evt (value password)))))))
+```
+
+Note that we passed to both the listeners the interested event and the
+value of the input field, in such a way that their corresponding
+validators already have the pertinent information to be vierified.
+
+The last work to be done is to define the validators. Here is a very
+rude implementaion of them which only log an help/error message in the
+JS console.
+
+```clojure
+(defn validate-email [evt email]
+  (if (not (re-matches *email-re* email))
+    (log (str "Please type a valid email address."))
+    true))
+
+(defn validate-password [evt password]
+  (if (< (count password) 8)
+    (log (str "The password has to be longer."))
+    true))
+``` 
+
+To approach the objective of complete the work, we have to review the
+`validate-form` as follows:
+
+```clojure
+(defn validate-form [evt]
+  (let [email (value (by-id "email"))
+        password (value (by-id "password"))]
+    (if (or (empty? email) (empty? password))
+      (do
+        (prevent-default evt)
+        (js/alert "Please insert your email and "))
+      (if (and (validate-email evt email)
+               (validate-password evt password))
+        true
+        (prevent-default evt)))))
+```
+
+Note that the `validate-form` now calls the validator functions define
+above and if they do not both return the `true` value, it calls again
+the `prevent-default` function to block the action of the `loginForm`
+to be fired.
 
 ## Event Types
 
@@ -337,7 +424,6 @@ enhancement strategy. In the next tutorials we're going to adorn the
 login form with more DOM events and manipulation to be prepared for
 *ajaxinig* it.
 
-
 # Next step - TBD
 
 TBD
@@ -363,3 +449,4 @@ License, the same as Clojure.
 [14]: http://en.wikipedia.org/wiki/Higher-order_function
 [15]: https://code.google.com/p/closure-library/source/browse/trunk/closure/goog/events/eventtype.js?r=469
 [16]: http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address
+[17]: http://clojure.org/vars
