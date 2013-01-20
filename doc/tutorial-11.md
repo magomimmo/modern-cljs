@@ -546,7 +546,7 @@ License, the same as Clojure.
 [16]: http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address
 [17]: http://clojure.org/vars
 [18]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/help-01.png
-[19]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/completetheform-01.png
+[19]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/completheform-01.png
 [20]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/allhelp.png
 [21]: https://github.com/teropa/hiccups
 [22]: https://github.com/cemerick/friend
