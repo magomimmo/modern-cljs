@@ -49,6 +49,7 @@ skypped the layer representating the lowest user experience wich is
 based on CLJ only. Yet, we promise to fill this gap in successives
 tutorials explaining the usage of CLJ libraries on the server-side.
 
+
 # Line up Login Form with Shopping Calculator Form
 
 The [9th tutorial][8] left to the smart user the charge of applying to
@@ -298,6 +299,9 @@ the error to the user.
 Although a nice looking implementation of the above specifications are
 left to you, let's show at least a very rude sample from wich to start
 from.
+
+> NOTE 5: Take a look to [this post][23] for a contemporary approach to password
+> validation.
 
 Open the `login.cljs` source file and start by adding two
 [dynamic vars][17] to be used for the `email` and `password` fields
@@ -550,3 +554,4 @@ License, the same as Clojure.
 [20]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/allhelp.png
 [21]: https://github.com/teropa/hiccups
 [22]: https://github.com/cemerick/friend
+[23]: http://www.the-art-of-web.com/javascript/validate-password/#.UPvsHaGjejI
