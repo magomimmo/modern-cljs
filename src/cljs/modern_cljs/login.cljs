@@ -8,42 +8,42 @@
 (def ^:dynamic *email-re*
      #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
 
-(defn validate-email [email-node]
+(defn validate-email [email]
   (destroy! (by-class "email"))
-  (if (not (re-matches *email-re* (value email-node)))
+  (if (not (re-matches *email-re* (value email)))
     (do
       (prepend! (by-id "loginForm") (html [:div.help.email "Wrong email"]))
       false)
     true))
 
-(defn validate-password [password-node]
+(defn validate-password [password]
   (destroy! (by-class "password"))
-  (if (< (count (value password-node)) 8)
+  (if (< (count (value password)) *min-password-length*)
     (do
       (append! (by-id "loginForm") (html [:div.help.password "Wrong password"]))
       false)
     true))
 
 (defn validate-form [evt]
-  (let [email-node (by-id "email")
-        password-node (by-id "password")
-        email-val (value email-node)
-        password-val (value password-node)]
+  (let [email (by-id "email")
+        password (by-id "password")
+        email-val (value email)
+        password-val (value password)]
     (if (or (empty? email-val) (empty? password-val))
       (do
         (destroy! (by-class "help"))
         (prevent-default evt)
         (append! (by-id "loginForm") (html [:div.help "Please complete the form"])))
-      (if (and (validate-email email-node)
-               (validate-password password-node))
+      (if (and (validate-email email)
+               (validate-password password))
         true
         (prevent-default evt)))))
 
 (defn ^:export init []
   (if (and js/document
            (aget js/document "getElementById"))
-    (let [email-node (by-id "email")
-          password-node (by-id "password")]
+    (let [email (by-id "email")
+          password (by-id "password")]
       (listen! (by-id "submit") :click (fn [evt] (validate-form evt)))
-      (listen! email-node :blur (fn [evt] (validate-email email-node)))
-      (listen! password-node :blur (fn [evt] (validate-password password-node))))))
+      (listen! email :blur (fn [evt] (validate-email email)))
+      (listen! password :blur (fn [evt] (validate-password password))))))

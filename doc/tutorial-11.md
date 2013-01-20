@@ -266,43 +266,42 @@ $ lein ring server-headless
 
 ## Catch early react istantly
 
-It's now time to see how we can improve the user experience of the
-`loginForm` by using few more DOM events and DOM manipulations features
-of Domina.
+It's now time to see if we can improve the user experience of the
+`loginForm` by introducing few more DOM events and DOM manipulations
+features of Domina.
 
-One of the first lesson I learnt when I first started programming, it
-was that any error has to be catch and managed as soon as it manifests
+One of the first lesson I learnt when I first started programming was
+that any error has to be catch and managed as soon as it manifests
 itself.
 
-That lesson can be relatively easily approached in our `loginForm`
-case. Here, *as soon as possible* it means that the syntactical
-correctness of the email and password typed in by the user should be
-verified as soon as their input fields lose focus (i.e.  *blur*).
+In our `loginForm` context, *as soon as possible* it means that the
+syntactical correctness of the email and password typed in by the user
+has to be verified as soon as their input fields lose focus (i.e.
+*blur*).
 
 ### Email/Password validators
 
-A pretty short specification could be the following:
+A pretty short specification of our desire could be the following:
 
-1. As soon as the email input field loses the focus, we can check its
-syntactical correctness by matching its value against one of the
-several [email regex validators][16] available on the net; if the validation
-return true, then we should make some evidence of the error to the
-user (e.g. by refocusing the email input field, making its border red
-and adding a red help/error message close to it;
+1. As soon as the email input field loses the focus, check its
+syntactical correctness by matching its value against one of the several
+[email regex validators][16] available on the net; if the validation
+does not pass, make some evidence of the error to help the user (e.g. by
+showing a red message, refocusing the email input field and making its
+border red;
 
-2. A soon as the password input field loses the focus, we can check
-its syntactical correctness by matching its length against the mininum
-accepted length; if the validation return true, then we should make
-some evidence of the error to the user (e.g. by refocusing the password
-input field, making its border red and adding a red help/error message
-close to it.
+2. A soon as the password input field loses the focus, check its
+syntactical correctness by matching its length against the mininum
+accepted length; if the validation does not pass, make some evidence of
+the error to the user.
 
-Although a nice looking implementation of those functional
-speicifications are left to you, we're going to show at least a very
-rude sample from wich to start from.
+Although a nice looking implementation of the above specifications are
+left to you, let's show at least a very rude sample from wich to start
+from.
 
-Let's start by adding to `login.cljs` two [dynamic vars][17] against
-wich make the validation of the `email` and the `password` fields:
+Open the `login.cljs` source file and start by adding two
+[dynamic vars][17] to be used for the `email` and `password` fields
+validation:
 
 ```clojure
 (def ^:dynamic *min-password-length* 8)
@@ -318,72 +317,71 @@ input fields in the `init` function:
 (defn ^:export init []
   (if (and js/document
            (aget js/document "getElementById"))
-    (let [email-node (by-id "email")
-          password-node (by-id "password")]
+    (let [email (by-id "email")
+          password (by-id "password")]
       (listen! (by-id "submit") :click (fn [evt] (validate-form evt)))
-      (listen! email-node :blur (fn [evt] (validate-email email-node)))
-      (listen! password-node :blur (fn [evt] (validate-password password-node))))))
+      (listen! email :blur (fn [evt] (validate-email email)))
+      (listen! password :blur (fn [evt] (validate-password password))))))
 ```
 
-Note that we have not passed to the new listeners the event because we
-do not need to provent any default action or stop the propagation of the
-event. Instead, we passed them the corresponding input fields (or nodes)
-that will be later used to apply the validation.
+We have not passed the event to the new two listeners because, on the
+contrary of the previous `validate-form` case, it is not needed to
+provent any default action or to stop the propagation of the
+event. Instead, we passed them the element on which the blur event
+occurred.
 
-The last work to be done is to define the validators. Here is a very
-rude implementaion of them.
+Now define the validators. Here is a very rude implementation of them.
 
 ```clojure
-(defn validate-email [email-node]
+(defn validate-email [email]
   (destroy! (by-class "email"))
-  (if (not (re-matches *email-re* (value email-node)))
+  (if (not (re-matches *email-re* (value email)))
     (do
       (prepend! (by-id "loginForm") (html [:div.help.email "Wrong email"]))
       false)
     true))
 
-(defn validate-password [password-node]
+(defn validate-password [password]
   (destroy! (by-class "password"))
-  (if (< (count (value password-node)) 8)
+  (if (< (count (value password)) *min-password-length*)
     (do
       (append! (by-id "loginForm") (html [:div.help.password "Wrong password"]))
       false)
     true))
 ```
 
-I'm very bad both in HTML and CSS. So, don't tale this as something to
-be proud of. Anyone of you can do things better than me. I just added
-few CSS classes (i.e. `help`, `email` and `password`) using
-[hiccups library][17] in such a way that I can manage the email and
-password help messages.
+I'm very bad both in HTML and CSS. So, don't take this as something to
+be proud of. Anyone can do better than me. I just added few CSS classes
+(i.e. `help`, `email` and `password`) using [hiccups library][21] to
+manage the email and password help messages.
 
-To complete the coding we now have to review the `validate-form`
-function as follows:
+To complete the coding, review the `validate-form` function as follows:
 
 ```clojure
 (defn validate-form [evt]
-  (let [email-node (by-id "email")
-        password-node (by-id "password")
-        email-val (value email-node)
-        password-val (value password-node)]
+  (let [email (by-id "email")
+        password (by-id "password")
+        email-val (value email)
+        password-val (value password)]
     (if (or (empty? email-val) (empty? password-val))
       (do
         (destroy! (by-class "help"))
         (prevent-default evt)
         (append! (by-id "loginForm") (html [:div.help "Please complete the form"])))
-      (if (and (validate-email email-node)
-               (validate-password password-node))
+      (if (and (validate-email email)
+               (validate-password password))
         true
         (prevent-default evt)))))
 ```
 
-Note that the `validate-form` now calls the validator functions defined
-above and if they do not both return the `true` value, it calls again
-the `prevent-default` function to block the action of the `loginForm`
-to be fired.
+Note that now the `validate-form` internally calls the two just defined
+validator and if they do not both return the `true` value, it calls
+again the `prevent-default` function to block the `action` attached to
+the `loginForm` to be fired.
 
-Following is the complete `login.cljs` source code where we updated the
-namespace declaration as well.
+Following is the complete `login.cljs` source code containing the
+uptated namespace declaration as well for referencing the introduced
+[hiccups library][21].
 
 ```clojure
 (ns modern-cljs.login
@@ -396,61 +394,59 @@ namespace declaration as well.
 (def ^:dynamic *email-re*
      #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
 
-(defn validate-email [email-node]
+(defn validate-email [email]
   (destroy! (by-class "email"))
-  (if (not (re-matches *email-re* (value email-node)))
+  (if (not (re-matches *email-re* (value email)))
     (do
       (prepend! (by-id "loginForm") (html [:div.help.email "Wrong email"]))
       false)
     true))
 
-(defn validate-password [password-node]
+(defn validate-password [password]
   (destroy! (by-class "password"))
-  (if (< (count (value password-node)) 8)
+  (if (< (count (value password)) *min-password-length*)
     (do
       (append! (by-id "loginForm") (html [:div.help.password "Wrong password"]))
       false)
     true))
 
 (defn validate-form [evt]
-  (let [email-node (by-id "email")
-        password-node (by-id "password")
-        email-val (value email-node)
-        password-val (value password-node)]
+  (let [email (by-id "email")
+        password (by-id "password")
+        email-val (value email)
+        password-val (value password)]
     (if (or (empty? email-val) (empty? password-val))
       (do
         (destroy! (by-class "help"))
         (prevent-default evt)
         (append! (by-id "loginForm") (html [:div.help "Please complete the form"])))
-      (if (and (validate-email email-node)
-               (validate-password password-node))
+      (if (and (validate-email email)
+               (validate-password password))
         true
         (prevent-default evt)))))
 
 (defn ^:export init []
   (if (and js/document
            (aget js/document "getElementById"))
-    (let [email-node (by-id "email")
-          password-node (by-id "password")]
+    (let [email (by-id "email")
+          password (by-id "password")]
       (listen! (by-id "submit") :click (fn [evt] (validate-form evt)))
-      (listen! email-node :blur (fn [evt] (validate-email email-node)))
-      (listen! password-node :blur (fn [evt] (validate-password password-node))))))
+      (listen! email :blur (fn [evt] (validate-email email)))
+      (listen! password :blur (fn [evt] (validate-password password))))))
 ```
 
-The help messages can be written in red by adding the following CSS rule
+To make the help messages more evident to the user, add the following CSS rule
 to the `styles.css` which resides in `resources/public/css` directory.
 
 ```css
-.help {
-    color: red;
-}
+.help { color: red; }
 ```
 
 Now compile and run the application as usual:
 
 ```bash
 $ lein cljsbuild auto dev
-$ lein ring server-headless
+$ lein ring server-headless # in a new terminal
 ```
 
 Then visit the [login-dbg.html][12] to verify the result by playing with
@@ -467,10 +463,10 @@ the following pictures.
 
 If you're interested in knowing all the event types supported by
 [Domina][4], here is the native code [goog.events.eventtypes.js][15]
-which enumerates all supported events. Take into account that Google
-Closure uses string as the event keys and Domina makes its best to
-convert their keywords representation to strings for lookup purposes
-using the following code:
+which enumerates all supported events by Google Closure native code on
+whioch Domina is based on. Take into account that while Google Closure
+uses string as the event keys, Domina, by using keywords, has to manage
+their conversion.
 
 ```clojure
 ;; goog.events native namespace required as `events`
@@ -486,14 +482,19 @@ using the following code:
     evt-type))
 ```
 
-That means that if you run the brepl and evaluates `builtin-events`
-symbol you get the `set` of all the supported events.
+A more comfortable way to know which events are supported by Domina is
+to run the brepl and evaluates `builtin-events`
+symbol. Run the brepl as usual.
 
 ```bash
 $ lein ring server-headless
 $ lein cljs-build auto dev # from a new terminal
 $ lein trampoline cljs-build repl-listen # from a new terminal
 ```
+
+Evaluate `builtin-events` by prepending it with the
+`domina.events` namespace in wich the symbol is defined.
+
 ```clojure
 Running ClojureScript REPL, listening on port 9000.
 "Type: " :cljs/quit " to quit"
@@ -511,6 +512,12 @@ ClojureScript:cljs.user>
 
 Remember to visit [login-dbg.html][12] to activate the brepl before to
 evaluate any expression in the brepl.
+
+To complete the application of the progressive enhancement strategy to
+the `loginForm`, in successive tutorials we'll introduce [friend][22]
+and line up the `loginForm` to the `shoppingForm` approach adopted in
+the [10th tutorial][1] to allow the browser to communicate via ajax with
+the server.
 
 # Next step - TBD
 
@@ -541,3 +548,5 @@ License, the same as Clojure.
 [18]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/help-01.png
 [19]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/completetheform-01.png
 [20]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/allhelp.png
+[21]: https://github.com/teropa/hiccups
+[22]: https://github.com/cemerick/friend
