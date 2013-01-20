@@ -15,7 +15,7 @@
                  [shoreleave/shoreleave-remote "0.2.2"]]
 
   :plugins [[lein-cljsbuild "0.2.10"]
-            [lein-ring "0.8.0-SNAPSHOT"]]
+            [lein-ring "0.8.2"]]
 
   ;; enable cljsbuild tasks support
   ;; :hooks [leiningen.cljsbuild]
