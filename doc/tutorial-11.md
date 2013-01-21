@@ -49,7 +49,6 @@ skypped the layer representating the lowest user experience wich is
 based on CLJ only. Yet, we promise to fill this gap in successives
 tutorials explaining the usage of CLJ libraries on the server-side.
 
-
 # Line up Login Form with Shopping Calculator Form
 
 The [9th tutorial][8] left to the smart user the charge of applying to
@@ -87,6 +86,11 @@ previously left to you. We start by reviewing the html code of the
 </html>
 ```
 
+> NOTE 1: The original and non existent `login.php` server script is
+> still attached to the form `action` attribute. In a successive
+> tutorial we're going to substitute it with a corresponding service
+> implemented in CLJ.
+
 As you remember, when we reviewed the `Shopping Calculator` code to
 make it more clojure-ish, we started by changing the `type` attribute
 of the Shopping form's button from `type="submit"` to
@@ -110,7 +114,7 @@ function as follows.
     (listen! (by-id "submit") :click validate-form)))
 ```
 
-> NOTE 1: The [domina.events library][11] contains a robust event
+> NOTE 2: The [domina.events library][11] contains a robust event
 > handling API that wraps the Google Closure event handling code, while
 > exposing it in a idiomatic functional way for both the `bubbling`
 > event propagation phase and the `capture` phase one.  In our login
@@ -219,10 +223,10 @@ follows:
       true)))
 ```
 
-> NOTE 2: Remeber to add `prevent-default` symbol to the `:refer`
+> NOTE 3: Remeber to add `prevent-default` symbol to the `:refer`
 > section for `domina.events` in the namespace declaration.
 
-> NOTE 3: We took adantage of the necessity to update the `validate-form`
+> NOTE 4: We took adantage of the necessity to update the `validate-form`
 > function for improving its clojure-ish style. The semantic of the
 > `validation-form` is now much more clear than before:
 >
@@ -233,7 +237,7 @@ follows:
 > * otherwise return `true` to pass the control to the `default`
 >   action of the form.
 
-> NOTE 4: If you carefully watch the `validate-form` implementation you
+> NOTE 5: If you carefully watch the `validate-form` implementation you
 > should note that the `if` branch traversed when its condition is
 > `true` (i.e. when or the `email` or the `password` are empty), it does
 > not return the `false` value regularly used to block the event
@@ -293,14 +297,14 @@ border red;
 
 2. A soon as the password input field loses the focus, check its
 syntactical correctness by matching its value against one of the several
-[password regex validator+]; if the validation does not pass, make some
+[password regex validator][24]; if the validation does not pass, make some
 evidence of the error to the user.
 
 Although a nice looking implementation of the above specifications are
 left to you, let's show at least a very rude sample from wich to start
 from.
 
-> NOTE 5: Take a look at the end of [this post][23] for a HTML5
+> NOTE 6: Take a look at the end of [this post][23] for a HTML5
 > compliant approach to password validation.
 
 Open the `login.cljs` source file and start by adding two
