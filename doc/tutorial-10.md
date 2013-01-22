@@ -501,7 +501,7 @@ License, the same as Clojure.
 [22]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-02.png
 [23]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-03.png
 [24]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-04.png
-[25]: https://github.com/levand/domina/tree/1.0.0
+[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-11.md
 [26]: https://github.com/levand/domina
 [27]: https://github.com/levand/domina/blob/master/src/cljs/domina.cljs#L125
 [28]: https://github.com/levand/domina/pull/43
