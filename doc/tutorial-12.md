@@ -11,30 +11,105 @@ the Ajax layer and the *pure* server side layer.
 # Introduction
 
 In this and the next tutorials we're going to cover the two deeper
-missing layers of our `loginForm` example, leaving the *superficial*
-HTML5 layer to anyone who likes to play with it. The only two exceptions
-regard the new `title` and `pattern` HTML5 attributes which are going to
-be used instead of the corresponding patterns and help messages we
-previously screwed in the `validate-email` and `validate-passord`
-functions.
+missing layers from `loginForm` example, leaving a detailed care of the
+*superficial* HTML5 layer to anyone who likes to play with it. The only
+two exceptions are the new `title` and `pattern` HTML5 attributes which
+we are going to use instead of the corresponding patterns and help
+messages we previously screwed in the `validate-email` and
+`validate-password` functions.
 
-Here ithe update `login-dbg` html.
+Here is the interested fragment of the updated `login-dbg.html`.
 
 ```html
+<html>
+...
+    <form action="login.php" method="post" id="loginForm">
+           ...
+            <div>
+              <label for="email">Email Address</label>
+              <input type="email" name="email" id="email"
+                     placeholder="email"
+                     title="Type a well formed email!"
+                     pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
+                     required>
+            </div>
 
+            <div>
+              <label for="password">Password</label>
+              <input type="password" name="password" id="password"
+                     placeholder="password"
+                     pattern="^(?=.*\d).{4,8}$"
+                     title="Password is from 4 to 8 chars with 1 number!"
+                     required>
+            </div>
+...
+</html>
 ```
-We're going to
-use the to
-extract from the email and password validator functions both the email
-and password regular expressions and the corresponding help messages to
-be communicated to the user when the provided email and password do not
-match them.
 
+> NOTE 1: remember to make the same modification to both
+> `login-pre.html` and `login.html` which serve respectively the
+> `pre-prod` and the `prod` builds defined in the `project.clj` file.
 
-adding few attributes to the input fields of the `loginForm`, then we'll
-step over the already implemented javascript layer to add the third
-layer, the Ajax one. Finally, we're going to implement the server side
-the, the one that we all started from in the 90's.
+As you can see we removed the `novalidate` HTML5 attribute from the form
+and added `placeholder`, `title` and `pattern` HTML5 attributes to bot
+`email` and `password` HTML5 `input` field elements of the form.
+
+Uhm, the kind of code duplication we don't like at all. So, let's modify
+the `validate-email` and `validate-password` handlers in such a way that
+instead of having those patterns and help messages screwed in the source
+code, we can get them from the input elements attributes by using the
+`attr` function defined in the `domina` namespace. Following is the
+fragment of the updated code from `login.cljs`.
+
+```clojure
+(ns modern-cljs.login
+  (:require-macros [hiccups.core :refer [html]])
+  (:require [domina :refer [by-id by-class value append! prepend! destroy! attr log]]
+            [domina.events :refer [listen! prevent-default]]
+            [hiccups.runtime :as hiccupsrt]))
+
+(defn validate-email [email]
+  (destroy! (by-class "email"))
+  (if (not (re-matches (re-pattern "\\d+" (attr email :pattern)) (value email)))
+    (do
+      (prepend! (by-id "loginForm") (html [:div.help.email (attr email :title)]))
+      false)
+    true))
+
+(defn validate-password [password]
+  (destroy! (by-class "password"))
+  (if (not (re-matches (re-pattern "\\d+" (attr password :password)) (value password)))
+    (do
+      (append! (by-id "loginForm") (html [:div.help.password (attr password :title)]))
+      false)
+    true))
+```
+
+NOTE 2: by using a CLJS expression inside the `html` macro from
+[hiccups][2] library you're now force to required the `hiccups.runtime`
+namespace even if we do explicitly use any function from it.
+
+NOTE 3: We used `re-pattern` function to convert the  read in strings from
+`:tile` and `:pattern` attributes as regular expressions to be passed to `re-matches`.
+
+As usual, we have to check our progression by running the application.
+
+```bash
+$ lein cljsbuild clean # sometimes it is needed
+$ lein cljsbuild auto dev
+$ lein ring server-headless # from a new terminal
+```
+
+Visit [login-dbg.html][3] and verify the `:blur` and the `:click`
+handlers are still working has expected.
+
+Now disable the JavaScript of your browser, reload the page and click
+the `Login` button without having typed in anything in the email and
+in the password fields. If you have an HTML5 browser you should see a
+message saying you to fill out the field and the value of the title
+attribute we previously set up in the form. Note the input validator do
+not get fired when an input field loses focus, but just when you click
+the `login` button to submit the form.
 
 # The HTML5 layer
 
