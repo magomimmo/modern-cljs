@@ -10,18 +10,26 @@
 </head>
 <body>
     <!-- Script 2.2 - login.html -->
-    <form action="login.php" method="post" id="loginForm" novalidate>
+    <form action="login.php" method="post" id="loginForm">
         <fieldset>
             <legend>Login</legend>
 
             <div>
               <label for="email">Email Address</label>
-              <input type="email" name="email" id="email" required>
+              <input type="email" name="email" id="email"
+                     placeholder="email"
+                     title="Type a well formed email!"
+                     pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
+                     required>
             </div>
 
             <div>
               <label for="password">Password</label>
-              <input type="password" name="password" id="password" required>
+              <input type="password" name="password" id="password"
+                     placeholder="password"
+                     pattern="^(?=.*\d).{4,8}$"
+                     title="Password is from 4 to 8 chars with 1 number!"
+                     required>
             </div>
 
             <div>
