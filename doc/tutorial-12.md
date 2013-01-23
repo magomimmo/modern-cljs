@@ -51,8 +51,9 @@ Here is the interested fragment of the updated `login-dbg.html`.
 > `pre-prod` and the `prod` builds defined in the `project.clj` file.
 
 As you can see we removed the `novalidate` HTML5 attribute from the form
-and added `placeholder`, `title` and `pattern` HTML5 attributes to bot
-`email` and `password` HTML5 `input` field elements of the form.
+and added `placeholder`, `title` and `pattern` HTML5 attributes to both
+`email` and `password` HTML5 `input` field elements of the
+form.
 
 Uhm, the kind of code duplication we don't like at all. So, let's modify
 the `validate-email` and `validate-password` handlers in such a way that
@@ -85,67 +86,43 @@ fragment of the updated code from `login.cljs`.
     true))
 ```
 
-NOTE 2: by using a CLJS expression inside the `html` macro from
-[hiccups][2] library you're now force to required the `hiccups.runtime`
-namespace even if we do explicitly use any function from it.
+> NOTE 2: by using a CLJS expression inside the `html` macro from
+> [hiccups][2] library you're now forced to require the `hiccups.runtime`
+> namespace even if you do not explicitly use any function from it.
 
-NOTE 3: We used `re-pattern` function to convert the  read in strings from
-`:tile` and `:pattern` attributes as regular expressions to be passed to `re-matches`.
+> NOTE 3: We used `re-pattern` function to convert the strings got from
+> the `:title` and the `:pattern` attributes in regular expressions to be
+> passed to `re-matches`.
 
-As usual, we have to check our progression by running the application.
+As usual, check your progression by running the application.
 
 ```bash
-$ lein cljsbuild clean # sometimes it is needed
-$ lein cljsbuild auto dev
+$ lein cljsbuild clean # at times it is needed
+$ lein cljsbuild auto dev # dev build only
 $ lein ring server-headless # from a new terminal
 ```
 
 Visit [login-dbg.html][3] and verify the `:blur` and the `:click`
-handlers are still working has expected.
+handlers are still working as in the [previous tutorial][4].
 
 Now disable the JavaScript of your browser, reload the page and click
-the `Login` button without having typed in anything in the email and
-in the password fields. If you have an HTML5 browser you should see a
-message saying you to fill out the field and the value of the title
-attribute we previously set up in the form. Note the input validator do
-not get fired when an input field loses focus, but just when you click
-the `login` button to submit the form.
+the `Login` button without having filled the email and the password
+fields. If you're using an HTML5 browser you should see a message saying
+you to fill out the email field with the added text of the `title`
+attribute previously set up in the form. If you don't use an HTML5
+browser, the new attributes are just ignored and the process goes on by
+calling the still inexistent `login.php` server-side script and you get
+the usual `not found page`.
 
-# The HTML5 layer
+It's now time to take care of it by implementing the server-side login
+service which represents the deepest and default layer of the
+progressive enhancement strategy.
 
-As you already now I'm really far away from being an HTML designer. So,
-don't ask me to be what I'm not and what I don't want to be anyway.
+# The deepest layer
 
-HTML5 has a lot of new stuff. Here we intend just to add the `pattern`
-attribute of the `email` and `password` field of the `loginForm`.
-
-This attribute allows to incorporate a regular expression validator with
-those input field and when the user type is his `email` and his
-`password` the browser takes care of matchig them with the provided
-regular expression as soon as the input fields lose the focus
-(i.e. blur).
-
-Here is the updated `login-dbg.html` html code.
-
-```html
-
-```
-
-
-the test in the field, that text is
-matched against the provided regular expression. If the match does not
-pass, then the browser makes to the user same evidence of that and it
-blocks any progression towards the underlying layers, beeing those the
-javascript layer, the ajax one or the server-side action script attached
-to the form.
-
-
-
-rexex,  to verify that it satisfy
-Specifically, by accurately used the `prevent-default` function inside
-the `submit` button's event handlers, we were able to interrupt the
-process esclalation of the event from the `submit` button itself to the
-`action` attribute of the `loginForm`.
+As you already know, this is a CLJS tutorial, not a CLJ tutorial. There
+are already a quite large numbers of very good tutorials on CLJ web
+application develpment.
 
 
 
