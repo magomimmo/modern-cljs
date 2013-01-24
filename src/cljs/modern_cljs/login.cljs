@@ -1,25 +1,22 @@
 (ns modern-cljs.login
   (:require-macros [hiccups.core :refer [html]])
-  (:require [domina :refer [by-id by-class value append! prepend! destroy! log]]
-            [domina.events :refer [listen! prevent-default]]))
-
-(def ^:dynamic *password-re* #"^(?=.*\d).{4,8}$")
-
-(def ^:dynamic *email-re* #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
+  (:require [domina :refer [by-id by-class value append! prepend! destroy! attr log]]
+            [domina.events :refer [listen! prevent-default]]
+            [hiccups.runtime :as hiccupsrt]))
 
 (defn validate-email [email]
   (destroy! (by-class "email"))
-  (if (not (re-matches *email-re* (value email)))
+  (if (not (re-matches (re-pattern (attr email :pattern)) (value email)))
     (do
-      (prepend! (by-id "loginForm") (html [:div.help.email "Wrong email"]))
+      (prepend! (by-id "loginForm") (html [:div.help.email (attr email :title)]))
       false)
     true))
 
 (defn validate-password [password]
   (destroy! (by-class "password"))
-  (if (not (re-matches *password-re* (value password)))
+  (if (not (re-matches (re-pattern (attr password :pattern)) (value password)))
     (do
-      (append! (by-id "loginForm") (html [:div.help.password "Wrong password"]))
+      (append! (by-id "loginForm") (html [:div.help.password (attr password :title)]))
       false)
     true))
 
