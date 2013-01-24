@@ -6,7 +6,7 @@
 
 (defn validate-email [email]
   (destroy! (by-class "email"))
-  (if (not (re-matches (re-pattern "\\d+" (attr email :pattern)) (value email)))
+  (if (not (re-matches (re-pattern (attr email :pattern)) (value email)))
     (do
       (prepend! (by-id "loginForm") (html [:div.help.email (attr email :title)]))
       false)
@@ -14,7 +14,7 @@
 
 (defn validate-password [password]
   (destroy! (by-class "password"))
-  (if (not (re-matches (re-pattern "\\d+" (attr password :password)) (value password)))
+  (if (not (re-matches (re-pattern (attr password :pattern)) (value password)))
     (do
       (append! (by-id "loginForm") (html [:div.help.password (attr password :title)]))
       false)
