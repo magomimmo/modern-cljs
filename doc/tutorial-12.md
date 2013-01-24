@@ -260,7 +260,7 @@ field by typing a password length between 4 and 8 digit with at least 1
 numeric digit. Do it and click the `Login` button again.
 
 If everything has gone well, the browser should show you a message
-saying something like this: *mimmo.cosenza@gmail.com and mimmo1 passed
+saying something like this: *xxxx.yyyy@gmail.com and zzzz1 passed
 the formal validation, but you still have to be authenticated*.
 
 Great. We got what we expected.
