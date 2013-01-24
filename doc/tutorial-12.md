@@ -285,7 +285,7 @@ of the 4 layers of the progressive enhancement approch for web
 application development. And we used clojure on the server-side and
 clojurescript on the client-side. Not bad so long.
 
-We already know from the [10th Tutorial][10] how to implement the ajax
+We already know from the [10th Tutorial][8] how to implement the ajax
 layer. Before doing that by miming the Shopping Calculator sample
 already done, in the next couple of tutorials we're going to cover a
 couple of entirely new topics.
