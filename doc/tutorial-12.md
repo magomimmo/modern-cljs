@@ -211,7 +211,7 @@ copy to it the following code.
 ```clojure
 (ns modern-cljs.login)
 
-(def ^:dinamic *re-email*
+(def ^:dynamic *re-email*
   #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
 
 (def ^:dynamic *re-password*
