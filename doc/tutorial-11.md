@@ -527,9 +527,10 @@ and line up the `loginForm` to the `shoppingForm` approach adopted in
 the [10th tutorial][1] to allow the browser to communicate via ajax with
 the server.
 
-# Next step - TBD
+# [Next Step: Tutorial 12 - The highest and the deepest layers]
 
-TBD
+In the next tutorial we're going to cover the highest and the deepest
+layers of the progressive enhancement strategy to the Login Form.
 
 # License
 
@@ -560,3 +561,4 @@ License, the same as Clojure.
 [22]: https://github.com/cemerick/friend
 [23]: http://www.the-art-of-web.com/javascript/validate-password/#.UPvsHaGjejI
 [24]: http://regexlib.com/Search.aspx?k=password&c=-1&m=-1&ps=20
+[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-12.md
