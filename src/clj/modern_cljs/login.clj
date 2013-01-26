@@ -1,26 +1,13 @@
 (ns modern-cljs.login
-  (:require [valip.core :refer [validate]]
-            [valip.predicates :refer [present? email-address? matches]]))
-
-(def ^:dynamic *re-password*
-  #"^(?=.*\d).{4,8}$")
-
-(defn validate-email [email]
-  (validate {:email email}
-            [:email present? "Email can't be empty"]
-            [:email email-address? "The provided email is invalid"]))
-
-(defn validate-password [password]
-  (validate {:password password}
-            [:password present? "Password can't be empty"]
-            [:password (matches *re-password*) "The provided password is invalid"]))
+  (:require [modern-cljs.login.validators :refer [validate-user-credential]]))
 
 (defn authenticate-user [email password]
-  (let [email-errors (validate-email email)
-        passwd-errors (validate-password password)]
-    (println email-errors passwd-errors)
-    (if (and (empty? email-errors)
-             (empty? passwd-errors))
+  (let [{email-messages :email
+         password-messages :password} (validate-user-credential email password)]
+    (println email-messages)
+    (println password-messages)
+    (if (and (empty? email-messages)
+             (empty? password-messages))
       (str email " and " password
            " passed the formal validation, but we still have to authenticate you")
-      (str "Please complete the form"))))
+      (str "Please complete the form."))))
