@@ -2,21 +2,22 @@
   (:require-macros [hiccups.core :refer [html]])
   (:require [domina :refer [by-id by-class value append! prepend! destroy! attr log]]
             [domina.events :refer [listen! prevent-default]]
-            [hiccups.runtime :as hiccupsrt]))
+            [hiccups.runtime :as hiccupsrt]
+            [modern-cljs.login.validators :refer [user-credential-errors]]))
 
 (defn validate-email [email]
   (destroy! (by-class "email"))
-  (if (not (re-matches (re-pattern (attr email :pattern)) (value email)))
+  (if-let [{errors :email} (user-credential-errors (value email) nil)]
     (do
-      (prepend! (by-id "loginForm") (html [:div.help.email (attr email :title)]))
+      (prepend! (by-id "loginForm") (html [:div.help.email (first errors)]))
       false)
     true))
 
 (defn validate-password [password]
   (destroy! (by-class "password"))
-  (if (not (re-matches (re-pattern (attr password :pattern)) (value password)))
+  (if-let [{errors :password} (user-credential-errors nil (value password))]
     (do
-      (append! (by-id "loginForm") (html [:div.help.password (attr password :title)]))
+      (append! (by-id "loginForm") (html [:div.help.password (first errors)]))
       false)
     true))
 
@@ -29,11 +30,10 @@
       (do
         (destroy! (by-class "help"))
         (prevent-default evt)
-        (append! (by-id "loginForm") (html [:div.help "Please complete the form"])))
-      (if (and (validate-email email)
-               (validate-password password))
-        true
-        (prevent-default evt)))))
+        (append! (by-id "loginForm") (html [:div.help "Please complete the form."])))
+      (if (user-credential-errors email-val password-val)
+        (prevent-default evt)
+        true))))
 
 (defn ^:export init []
   (if (and js/document
