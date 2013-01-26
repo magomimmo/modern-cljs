@@ -1,6 +1,6 @@
 (ns modern-cljs.login.validators
   (:require [valip.core :refer [validate]]
-            [valip.predicates :refers [present? matches email-address?]]))
+            [valip.predicates :refer [present? matches email-address?]]))
 
 (def ^:dynamic *re-password* #"^(?=.*\d).{4,8}$")
 
