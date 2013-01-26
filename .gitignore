@@ -13,3 +13,4 @@ pom.xml
 .lein-plugins
 .lein-cljsbuild*
 .lein-repl*
+.crossover-cljs
