@@ -290,9 +290,14 @@ layer. Before doing that by miming the Shopping Calculator sample
 already done, in the next couple of tutorials we're going to cover a
 couple of entirely new topics.
 
-# Next step - TBD
+# [Next Step: Tutorial 13 - Don't Repeat Yourself when you cross the border][9]
 
-TBD
+One of our long term objectives is to eliminate any code duplication
+from our web applications.  That's like to say we want firmly stay as
+compliant as possible with the Don't Repeat Yourself (DRY) principle. [In
+the [next tutorial][9] we're going to exercise the DRY principle while
+adding a validator library to the project.
+
 
 # License
 
@@ -307,3 +312,4 @@ License, the same as Clojure.
 [6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
 [7]: https://github.com/magomimmo/ring
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-13.md
