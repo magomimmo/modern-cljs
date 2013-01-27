@@ -489,12 +489,13 @@ the so called *pure HTML template system*.
 # Suggested Homework
 
 If you want to extend the work that we've done here you could try to
-introduce the `valid-email-domain?` in the server validation code. Then,
-by using the approach we already explained in the [ajax tutorial][16], you
-could try to attach the email domain validation to the `blur` event of the
-`email` element of the `loginForm`. In this way you'll reach a very good
-user interaction for a login form, by validating the email domain via
-ajax call which bypasses the browser cross domain limitation.
+introduce the `valid-email-domain?` predicate in the server validation
+code. Then, by using the approach we already explained in the
+[ajax tutorial][16], you could try to attach the email domain validation
+to the `blur` event of the `email` element of the `loginForm`. In this
+way you'll reach a very good user interaction for a login form, by
+validating the email domain as soon as possible via an ajax call which
+bypasses the browser cross domain limitation.
 
 # Next step - TBD
 
