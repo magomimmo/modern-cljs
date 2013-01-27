@@ -4,8 +4,6 @@
 (defn authenticate-user [email password]
   (let [{email-errors :email
          password-errors :password} (user-credential-errors email password)]
-    (println email-errors)
-    (println password-errors)
     (if (and (empty? email-errors)
              (empty? password-errors))
       (str email " and " password
