@@ -413,10 +413,10 @@ have reached. Now we are just returning any email validation error and
 passing the first of them to the `prepend!` function for manipulating
 the DOM.
 
-> NOTE 5: Here we use two clojure specific expressione: the map
+> NOTE 5: Here we used two clojure specific expressions: the map
 > destructoring idiom and the `if-let` form. If you don't understand
 > them, I strongly suggest you to search the web for their
-> usage. Generally speaking, [ClojureDocs][13] is a good stop.
+> usage. Generally speaking, [ClojureDocs][17] is a [good stop][13].
 
 The next function to be reviewed is `validate-password`. As you can see,
 the modifications are almost identical.
@@ -431,27 +431,42 @@ the modifications are almost identical.
     true))
 ```
 
-Finally, we have to review the `validate-form` function.
+> NOTE 6: As an exercise, you can define a new function, named
+> `validate-dom-element`, which bubbles up an abstraction from
+> `validate-email` and `validate-password` structure definition. It's just
+> another application of the DRY principle. Then, this could be the starting
+> point of a CLJS validation library based on `defprotocol` and
+> incorporating the CLJ/CLJS shared part of the validation: the data
+> validation. A validation process could be seen as two parts: the data
+> validation part and the user interface rendering part. By separating
+> che concerns you can even end up with something practical for the
+> clojure-ist community.
+
+Finally, we have to review the `validate-form` and the `init` function.
 
 ```clojure
-(defn validate-form [evt]
-  (let [email (by-id "email")
-        password (by-id "password")
-        email-val (value email)
-        password-val (value password)]
-    (if (or (empty? email-val) (empty? password-val))
+(defn validate-form [evt email password]
+  (if-let [{e-errs :email p-errs :password} (user-credential-errors (value email) (value password))]
+    (if (or e-errs p-errs)
       (do
         (destroy! (by-class "help"))
         (prevent-default evt)
         (append! (by-id "loginForm") (html [:div.help "Please complete the form."])))
-      (if (user-credential-errors email-val password-val)
-        (prevent-default evt)
-        true))))
+      (prevent-default evt))
+    true))
+
+(defn ^:export init []
+  (if (and js/document
+           (aget js/document "getElementById"))
+    (let [email (by-id "email")
+          password (by-id "password")]
+      (listen! (by-id "submit") :click (fn [evt] (validate-form evt email password)))
+      (listen! email :blur (fn [evt] (validate-email email)))
+      (listen! password :blur (fn [evt] (validate-password password))))))
 ```
 
-> NOTE 6: To maintain the same behaviour as before, we did not refactor
-> the `validate-form` to much. We just changed the last `if` form by using
-> the shared `user-credential-error` function.
+> NOTE 7: To maintain the same behaviour as before, we did not refactor
+> the `validate-form` to much.
 
 Aren't you curious like me to see if everything is still working? Let's
 run the application as usual:
@@ -521,4 +536,5 @@ License, the same as Clojure.
 [13]: http://clojuredocs.org/clojure_core/clojure.core/if-let
 [14]:https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-12.md#first-try
 [15]: https://github.com/emezeske/lein-cljsbuild
-[16]:https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
+[16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
+[17]: http://clojuredocs.org/clojure_core/clojure.core/let#example_878
