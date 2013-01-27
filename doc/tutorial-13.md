@@ -464,7 +464,7 @@ $ lein cljsbuild auto dev
 $ lein ring server-headless # in a new terminal
 ```
 
-Now visit as usual the [login-dpg.html][7] page and exercise all the
+Now visit as usual the [login-dbg.html][7] page and exercise all the
 interaction test we already did in this and in the [previous tutorial][14].
 
 Great, really great! We satisfied all the four requirements we started
@@ -485,6 +485,16 @@ The only residual violation of the DRY principle regards the HTML5
 validations which are still duplicated in the `login-dbg.html`
 page. This will be solved in successive tutorial when we will introduce
 the so called *pure HTML template system*.
+
+# Suggested Homework
+
+If you want to extend the work that we've done here you could try to
+introduce the `valid-email-domain?` in the server validation code. Then,
+by using the approach we already explained in the [ajax tutorial][16], you
+could try to attach the email domain validation to the `blur` event of the
+`email` element of the `loginForm`. In this way you'll reach a very good
+user interaction for a login form, by validating the email domain via
+ajax call which bypasses the browser cross domain limitation.
 
 # Next step - TBD
 
@@ -510,3 +520,4 @@ License, the same as Clojure.
 [13]: http://clojuredocs.org/clojure_core/clojure.core/if-let
 [14]:https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-12.md#first-try
 [15]: https://github.com/emezeske/lein-cljsbuild
+[16]:https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
