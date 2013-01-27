@@ -290,7 +290,7 @@ layer. Before doing that by miming the Shopping Calculator sample
 already done, in the next couple of tutorials we're going to cover a
 couple of entirely new topics.
 
-# [Next Step: Tutorial 13 - Don't Repeat Yourself when you cross the border][9]
+# [Next Step: Tutorial 13 - Don't Repeat Yourself while corssing the border][9]
 
 One of our long term objectives is to eliminate any code duplication
 from our web applications.  That's like to say we want firmly stay as

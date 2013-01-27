@@ -117,7 +117,7 @@ by applying them to the `login form` example we introduced in the [4th Tutorial]
 In this tutorial we're going to cover the highest and the deepest layers
 of the Login Form example we started to cover in the [previous tutorial][20].
 
-## [Tutorial 13 - Don't Repeat Yourself when you cross the border][21]
+## [Tutorial 13 - Don't Repeat Yourself while crossing the border][21]
 
 One of our long term objectives is to eliminate any code duplication
 from our web applications.  That's like to say we want firmly stay as

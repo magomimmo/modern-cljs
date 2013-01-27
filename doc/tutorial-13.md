@@ -1,4 +1,4 @@
-# Tutorial 13 - Don't Repeat Yourself when you cross the border
+# Tutorial 13 - Don't Repeat Yourself while crossing the border
 
 In the [latest tutorial][1] we implemented a very rude server-side
 validator for the `loginForm` which exercises the same kind of
