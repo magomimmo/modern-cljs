@@ -117,7 +117,13 @@ by applying them to the `login form` example we introduced in the [4th Tutorial]
 In this tutorial we're going to cover the highest and the deepest layers
 of the Login Form example we started to cover in the [previous tutorial][20].
 
-## Next tutorial - TDB
+## [Tutorial 13 - Don't Repeat Yourself when you cross the border][21]
+
+One of our long term objectives is to eliminate any code duplication
+from our web applications.  That's like to say we want firmly stay as
+compliant as possible with the Don't Repeat Yourself (DRY) principle.
+
+## Next Tutorial
 
 TO BE DONE
 
@@ -146,3 +152,4 @@ License, the same as Clojure.
 [18]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
 [19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-11.md
 [20]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-12.md
+[21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-13.md
