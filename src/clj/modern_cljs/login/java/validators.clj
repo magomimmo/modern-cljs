@@ -2,6 +2,6 @@
   (:require [valip.core :refer [validate]]
             [valip.java.predicates :refer [valid-email-domain?]]))
 
-(defn email-domain? [email]
+(defn email-domain-errors [email]
   (validate {:email email}
-            [:email valid-email-domain? "Email domain doesn't exists"]))
+            [:email valid-email-domain? "The domain of the email doesn't exist."]))
