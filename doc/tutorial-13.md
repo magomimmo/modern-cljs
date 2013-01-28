@@ -52,7 +52,7 @@ owners and it already runs on both CLJ and CLJS.
 # The server side validation
 
 Let's start by using Valip on the server-side first. [Valip][2] usage is
-damn simple and well documented in the [readme][6] file which I
+dead simple and well documented in the [readme][6] file which I
 encourage you to read.
 
 First, Valip provides you a `validate` function from the `valip.core`
@@ -60,7 +60,7 @@ namespace. It accepts a map and one or more vectors. Each vector
 consists of a key, a predicate function and an error string, like so:
 
 ```clojure
-(validate {:key-1 value-1 :key-2 value-2 ... :key-n value-n
+(validate {:key-1 value-1 :key-2 value-2 ... :key-n value-n}
   [key-1 predicate-1 error-1]
   [key-2 predicate-2 error-2]
   ...
@@ -79,13 +79,14 @@ To keep things simple, we are going to apply the Valip lib to our old
   [:password (matches *re-password*) "Invalid password format"])
 ```
 
-As you can see you can attach more one or more predicate/function to the
-same key.  If no predicate fails, `nil` is returned. That's important to
-be remember when you'll exercise the `validate` function. If at least
-one predicate fails, a map of keys to error values is returned. Again,
-to make things easier to be understood, suppose for a moment that the
-email value passed to `validate` was not well formed and that the
-password was empty. You would get a result like the following:
+As you can see, you can attach more one or more predicate/function to
+the same key.  If no predicate fails, `nil` is returned. That's
+important to be remember when you'll exercise the `validate`
+function. If at least one predicate fails, a map of keys to error values
+is returned. Again, to make things easier to be understood, suppose for
+a moment that the email value passed to `validate` was not well formed
+and that the password was empty. You would get a result like the
+following:
 
 ```clojure
 ;;; the sample call
@@ -229,8 +230,8 @@ credential (i.e `email` and `password`).
 > NOTE 3: The original [Valip][3] also provides the built-in
 > `valid-domain-email?` predicate which, by running a DNS lookup, verify
 > even the validity of the email domain. This is not a portable
-> predicates and as such it leaves in the `valip.java.predicates`
-> namespace og the [forked by Chas Emerick Valip library][2].
+> predicate and as such it leaves in the `valip.java.predicates`
+> namespace of the [forked by Chas Emerick Valip library][2].
 
 We know need to update the `login.clj` by calling the just defined
 `user-credential-errors` function.  Open the `login.clj` file from the
@@ -241,15 +242,10 @@ We know need to update the `login.clj` by calling the just defined
   (:require [modern-cljs.login.validators :refer [user-credential-errors]]))
 
 (defn authenticate-user [email password]
-  (let [{email-errors :email
-         password-errors :password} (user-credential-errors email password)]
-    (println email-errors)
-    (println password-errors)
-    (if (and (empty? email-errors)
-             (empty? password-errors))
-      (str email " and " password
-           " passed the formal validation, but we still have to authenticate you")
-      (str "Please complete the form."))))
+  (if (boolean (user-credential-errors email password))
+    (str "Please complete the form.")
+    (str email " and " password
+           " passed the formal validation, but we still have to authenticate you")))
 ```
 
 > NOTE 4: Even if we could have returned back to the user more detailed
@@ -263,8 +259,7 @@ use of a validator library seems to be effective, at least in terms of
 code clarity and readability.
 
 Anyway, let's run the application as usual to verify that the
-interaction with the just added validator is working as expected,
-that means as at the end of the [latest tutorial][14].
+interaction with the just added validator is working as expected.
 
 ```bash
 $ rm -rf out # it's better to be safe than sorry
@@ -275,7 +270,7 @@ $ lein ring server-headless # in a new terminal
 ```
 
 Visit [login-dbg.html][7] page and repeat all the interactiion tests we
-executed in the [latest tutorial][1]. Remeber to first disabled the JS
+executed in the [latest tutorial][14]. Remeber to first disabled the JS
 of the browser.
 
 When you submit the [login-dbg.html][7] page you should receive a `Please
@@ -433,14 +428,14 @@ the modifications are almost identical.
 
 > NOTE 6: As an exercise, you can define a new function, named
 > `validate-dom-element`, which bubbles up an abstraction from
-> `validate-email` and `validate-password` structure definition. It's just
-> another application of the DRY principle. Then, this could be the starting
-> point of a CLJS validation library based on `defprotocol` and
+> `validate-email` and `validate-password` structure definition. It's
+> just another application of the DRY principle. This could be the
+> starting point of a CLJS validation library based on `defprotocol` and
 > incorporating the CLJ/CLJS shared part of the validation: the data
-> validation. A validation process could be seen as two parts: the data
-> validation part and the user interface rendering part. By separating
-> che concerns you can even end up with something practical for the
-> clojure-ist community.
+> validation. A validation process could be seen as two parts process:
+> the data validation part and the user interface rendering part. By
+> separating che concerns you can even end up with something practical
+> for the clojure-ist community.
 
 Finally, we have to review the `validate-form` and the `init` function.
 
@@ -492,9 +487,8 @@ from:
   client code
 * exercise the defined validators on the server and cliente code.
 
-Best of all were able to follow the DRY and the separation of concernes
-principles while adhering to the progressive enhancement strategy. I
-can't be more happy.
+Best of all were able to follow the DRY and the separation of concerns
+principles while adhering to the progressive enhancement strategy.
 
 The only residual violation of the DRY principle regards the HTML5
 validations which are still duplicated in the `login-dbg.html`
