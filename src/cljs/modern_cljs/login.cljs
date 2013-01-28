@@ -5,25 +5,27 @@
             [domina.events :refer [listen! prevent-default]]
             [hiccups.runtime :as hiccupsrt]
             [modern-cljs.login.validators :refer [user-credential-errors]]
-            [shoreleave.remotes.http-rpc :as rpc]))
+            [shoreleave.remotes.http-rpc :refer [remote-callback]]))
 
 
-(defn validate-domain [email]
-  (shore-macros/rpc (email-domain-remote? email) [err] 
-                    (if (boolean (:email err))
+(defn validate-email-domain [email]
+  (remote-callback :email-domain-errors
+                   [email]
+                   #(if %
                       (do
-                        (prepend! (by-id "loginForm") (html [:div.help.email "Email domain is not valid"]))
+                        (prepend! (by-id "loginForm")
+                                  (html [:div.help.email "The email domain doesn't exist."]))
                         false)
                       true)))
-                          
+
 (defn validate-email [email]
   (destroy! (by-class "email"))
-  (let [ {errors :email} (user-credential-errors (value email) nil)]
-    (if (first errors)
-      (do
-        (prepend! (by-id "loginForm") (html [:div.help.email (first errors)]))
-        false)   
-      (validate-domain (value email)))))
+  (let [{errors :email} (user-credential-errors (value email) nil)]
+     (if errors
+       (do
+         (prepend! (by-id "loginForm") (html [:div.help.email (first errors)]))
+         false)
+       (validate-email-domain (value email)))))
 
 (defn validate-password [password]
   (destroy! (by-class "password"))
