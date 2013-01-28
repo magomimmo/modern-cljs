@@ -1,17 +1,29 @@
 (ns modern-cljs.login
-  (:require-macros [hiccups.core :refer [html]])
+  (:require-macros [hiccups.core :refer [html]]
+                   [shoreleave.remotes.macros :as shore-macros])
   (:require [domina :refer [by-id by-class value append! prepend! destroy! attr log]]
             [domina.events :refer [listen! prevent-default]]
             [hiccups.runtime :as hiccupsrt]
-            [modern-cljs.login.validators :refer [user-credential-errors]]))
+            [modern-cljs.login.validators :refer [user-credential-errors]]
+            [shoreleave.remotes.http-rpc :as rpc]))
 
+
+(defn validate-domain [email]
+  (shore-macros/rpc (email-domain-remote? email) [err] 
+                    (if (boolean (:email err))
+                      (do
+                        (prepend! (by-id "loginForm") (html [:div.help.email "Email domain is not valid"]))
+                        false)
+                      true)))
+                          
 (defn validate-email [email]
   (destroy! (by-class "email"))
-  (if-let [{errors :email} (user-credential-errors (value email) nil)]
-    (do
-      (prepend! (by-id "loginForm") (html [:div.help.email (first errors)]))
-      false)
-    true))
+  (let [ {errors :email} (user-credential-errors (value email) nil)]
+    (if (first errors)
+      (do
+        (prepend! (by-id "loginForm") (html [:div.help.email (first errors)]))
+        false)   
+      (validate-domain (value email)))))
 
 (defn validate-password [password]
   (destroy! (by-class "password"))
