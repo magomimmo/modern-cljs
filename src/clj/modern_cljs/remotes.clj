@@ -1,6 +1,6 @@
 (ns modern-cljs.remotes
   (:require [modern-cljs.core :refer [handler]]
-            [modern-cljs.login.java.validators :refer [email-domain?]]
+            [modern-cljs.login.java.validators :as v]
             [compojure.handler :refer [site]]
             [cemerick.shoreleave.rpc :refer [defremote wrap-rpc]]))
 
@@ -9,11 +9,9 @@
       (* (+ 1 (/ tax 100)))
       (- discount)))
 
-(defremote email-domain-remote? [email]
-  (email-domain? email))
+(defremote email-domain-errors [email]
+  (v/email-domain-errors email))
 
 (def app (-> (var handler)
              (wrap-rpc)
              (site)))
-
-
