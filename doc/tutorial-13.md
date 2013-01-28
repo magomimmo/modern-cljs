@@ -32,15 +32,15 @@ follow it step by step.
 # The selection process
 
 If you search GitHub for a CLJ validator library you'll find quite a
-large number of results, but if you restrict the search to CLJS library
-only, you currently get just one result: [valip][2]. [Valip][2] is a
-fork of the [original CLJ valip][3] to make it portable on CLJS
-platform. This is already a good result by itself, becasue it
-demonstrates that we share our long term objective with someone else. If
-you then take a look at the owners of those two Github repos, you'll
-discover that they are two of the most prolific and active clojure-ists:
-[Chas Emerick][4] and [James Reeves][5]. I'd love that the motto *Smart
-people think alike* was true.
+large number of results, but if you restrict the search to CLJS
+library only, you currently get just one result: [Valip][2]. Valip has
+been forked from the [original CLJ Valip][3] to make it portable on
+CLJS platform. This is already a good result by itself, becasue it
+demonstrates that we share our long term objective with someone
+else. If you then take a look at the owners of those two Github repos,
+you'll discover that they are two of the most prolific and active
+clojure-ists: [Chas Emerick][4] and [James Reeves][5]. I'd love that
+the motto *Smart people think alike* was true.
 
 We will eventually search for others CLJ validator libraries later. For
 the moment, by following the Keep It Small and Stupid (KISS) pragmatic
@@ -51,7 +51,7 @@ owners and it already runs on both CLJ and CLJS.
 
 # The server side validation
 
-Let's start by using Valip on the server-side first. [Valip][2] usage is
+Let's start by using Valip on the server-side first. Valip usage is
 dead simple and well documented in the [readme][6] file which I
 encourage you to read.
 
@@ -79,18 +79,22 @@ To keep things simple, we are going to apply the Valip lib to our old
   [:password (matches *re-password*) "Invalid password format"])
 ```
 
-As you can see, you can attach more one or more predicate/function to
-the same key.  If no predicate fails, `nil` is returned. That's
-important to be remember when you'll exercise the `validate`
-function. If at least one predicate fails, a map of keys to error values
-is returned. Again, to make things easier to be understood, suppose for
-a moment that the email value passed to `validate` was not well formed
-and that the password was empty. You would get a result like the
-following:
+As you can see, you can attach one or more predicates/functions to the
+same key.  If no predicate fails, `nil` is returned. That's important
+to be remember when you'll exercise the `validate` function because
+could become misleading. If at least one predicate fails, a map of
+keys to error values is returned. Again, to make things easier to be
+understood, suppose for a moment that the email value passed to
+`validate` was not well formed and that the password was empty. You
+would get a result like the following:
 
 ```clojure
 ;;; the sample call
-(validate {:email "zzzz" :password nil})
+(validate {:email "zzzz" :password nil}
+  [:email present? "Email can't be empty"]
+  [:email email-address? "Invalid email format"]
+  [:password present? "Password can't be empty"]
+  [:password (matches *re-password*) "Invalid password format"])
 
 ;;; will returns
 
@@ -112,7 +116,7 @@ too.
 
 A predicate accepts a single argument and returns `true` or `false`. A
 function returning a predicate accepts a single argument and returns a
-function which accept a single argument and returns `true` or
+function which accepts a single argument and returns `true` or
 `false`.
 
 Nothing new for any clojure-ist which knows about HOF (Higher Order
@@ -228,9 +232,9 @@ credential (i.e `email` and `password`).
 > `*re-email*` regular expression is not needed anymore.
 
 > NOTE 3: The original [Valip][3] also provides the built-in
-> `valid-domain-email?` predicate which, by running a DNS lookup, verify
-> even the validity of the email domain. This is not a portable
-> predicate and as such it leaves in the `valip.java.predicates`
+> `valid-domain-email?` predicate which, by running a DNS lookup,
+> verify even the validity of the email domain. This is not a portable
+> predicate and as such it now leaves in the `valip.java.predicates`
 > namespace of the [forked by Chas Emerick Valip library][2].
 
 We know need to update the `login.clj` by calling the just defined
@@ -322,13 +326,13 @@ beginning of this series of short tutorials on ClojureScript.
 
 ## Thanks to Evan Mezeske
 
-[Evan Mezaske][11] made a great job by donating [lein-cljsbuild][15] to the
+[Evan Mezeske][11] made a great job by donating [lein-cljsbuild][15] to the
 clojurescript community. I suspect that without it I would never been
 able even to launch the CLJS compiler. Big, really big thanks to him and
 to all the others who helps him in keeping it updated with the frequent
 CLJS and Google Closure Compiler releases.
 
-[Lein-cljsbuild][15] plugin has a `:crossovers` option which allows to
+[Lein-cljsbuild][15] plugin has a `:crossovers` option which allows
 CLJ and CLJS to share any code that is not specific to the CLJ/CLJS
 underlying virtual machines (i.e. JVM and JSVM).
 
@@ -359,7 +363,7 @@ project. It's quicker to do than it's to say. Here is the interested
   ;; other code follows
 ```
 
-As you can seed we added three namespaces to the `:crossovers` option:
+As you can see, we added three namespaces to the `:crossovers` option:
 
 * `valip.core` namespace which includes the portable CLJ/CLJS core code
   of the library;
@@ -374,7 +378,7 @@ strongly recommend you to read the [original documentation][12].
 
 ## The magic of the Don't Repeat Yourself principle
 
-Here we are. We reached the point. Let's see it the magic works.
+Here we are. We reached the point. Let's see if the magic works.
 
 Open the `login.cljs` file from the `src/cljs/modern-cljs/` directory
 and start by first adding the `modern-cljs.login.validators` namespace
