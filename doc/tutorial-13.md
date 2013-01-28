@@ -438,7 +438,7 @@ the modifications are almost identical.
 > incorporating the CLJ/CLJS shared part of the validation: the data
 > validation. A validation process could be seen as two parts process:
 > the data validation part and the user interface rendering part. By
-> separating che concerns you can even end up with something practical
+> separating the concerns you can even end up with something practical
 > for the clojure-ist community.
 
 Finally, we have to review the `validate-form` and the `init` function.
@@ -464,8 +464,9 @@ Finally, we have to review the `validate-form` and the `init` function.
       (listen! password :blur (fn [evt] (validate-password password))))))
 ```
 
-> NOTE 7: To maintain the same behaviour as before, we did not refactor
-> the `validate-form` to much.
+> NOTE 7: To maintain the same behaviour as before, we did not
+> refactor the `validate-form` to much and just added `email` and
+> `password` DOM elements to `validate-form` itself.
 
 Aren't you curious like me to see if everything is still working? Let's
 run the application as usual:
@@ -491,7 +492,7 @@ from:
   client code
 * exercise the defined validators on the server and cliente code.
 
-Best of all were able to follow the DRY and the separation of concerns
+Best of all, we were able to follow the DRY and the separation of concerns
 principles while adhering to the progressive enhancement strategy.
 
 The only residual violation of the DRY principle regards the HTML5
