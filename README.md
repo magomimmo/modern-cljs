@@ -121,7 +121,10 @@ of the Login Form example we started to cover in the [previous tutorial][20].
 
 One of our long term objectives is to eliminate any code duplication
 from our web applications.  That's like to say we want firmly stay as
-compliant as possible with the Don't Repeat Yourself (DRY) principle.
+compliant as possible with the Don't Repeat Yourself (DRY)
+principle. In this tutorial we're going to respect the DRY principle
+by sharing validators between the client (i.e. CLJS) and the server
+(i.e. CLJ).
 
 ## Next Tutorial
 

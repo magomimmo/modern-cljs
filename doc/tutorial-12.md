@@ -294,9 +294,9 @@ couple of entirely new topics.
 
 One of our long term objectives is to eliminate any code duplication
 from our web applications.  That's like to say we want firmly stay as
-compliant as possible with the Don't Repeat Yourself (DRY) principle. [In
-the [next tutorial][9] we're going to exercise the DRY principle while
-adding a validator library to the project.
+compliant as possible with the Don't Repeat Yourself (DRY)
+principle. In the [next tutorial][9] we're going to exercise the DRY
+principle while adding a validator library to the project.
 
 
 # License
