@@ -704,4 +704,4 @@ License, the same as Clojure.
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
 [17]: http://clojuredocs.org/clojure_core/clojure.core/let#example_878
 [18]: https://github.com/shoreleave
-[10]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/remote-validator.png
+[19]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/remote-validator.png
