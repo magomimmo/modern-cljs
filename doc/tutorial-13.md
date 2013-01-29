@@ -628,6 +628,15 @@ Open the `login.cljs` file from `src/cljs/modern-cljs/` directory and
 update its content as follows:
 
 ```clojure
+(ns modern-cljs.login
+  (:require-macros [hiccups.core :refer [html]]
+                   [shoreleave.remotes.macros :as shore-macros])
+  (:require [domina :refer [by-id by-class value append! prepend! destroy! attr log]]
+            [domina.events :refer [listen! prevent-default]]
+            [hiccups.runtime :as hiccupsrt]
+            [modern-cljs.login.validators :refer [user-credential-errors]]
+            [shoreleave.remotes.http-rpc :refer [remote-callback]]))
+
 (defn validate-email-domain [email]
   (remote-callback :email-domain-errors
                    [email]
