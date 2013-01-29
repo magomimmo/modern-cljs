@@ -500,16 +500,180 @@ validations which are still duplicated in the `login-dbg.html`
 page. This will be solved in successive tutorial when we will introduce
 the so called *pure HTML template system*.
 
-# Suggested Homework
+# Let's dance on the crossing border
 
-If you want to extend the work that we've done here you could try to
-introduce the `valid-email-domain?` predicate in the server validation
-code. Then, by using the approach we already explained in the
-[ajax tutorial][16], you could try to attach the email domain validation
-to the `blur` event of the `email` element of the `loginForm`. In this
-way you'll reach a very good user interaction for a login form, by
-validating the email domain as soon as possible via an ajax call which
-bypasses the browser cross domain limitation.
+As a last paragraph of this tutorial we're going to extend what we've
+already done by introducing a server-side only validator which will be
+called also via ajax from the client code.
+
+As we said, most valip predicates are portable between CLJ and CLJS. But
+non all of them. Just to make an example, the `valip.java.predicates`
+includes a `valid-email-domain?` which verify the existence of the
+domain of an email address passed by the user. Because it's implemented
+in terms of java native code, `valid-email-domain?` is not available on
+the CLJS platform.
+
+Often it happens that some validations are not executable directly on
+the client-side. However, thanks to ajax machinery, you can bring the
+result of a server-side only validation on the the client-side. The
+`valid-email-domain` is one of such a case. Let's see how.
+
+## First step - Create a server only validator
+
+First, you have to define a new validator which will not be shared with
+CLJS. By remembering how `lein-cljsbuild` crossovers magic works, you
+have to define a new namespace that will not be added to the
+`:crossover` option in the `project.clj`.
+
+Create a new `java` directory under the `src/clj/modern_cljs/login`
+directory. Then create a new `validators.clj` file in it and next define
+the new server-side validator only as follows:
+
+```clojure
+(ns modern-cljs.login.java.validators
+  (:require [valip.core :refer [validate]]
+            [valip.java.predicates :refer [valid-email-domain?]]))
+
+(defn email-domain-errors [email]
+  (validate {:email email}
+            [:email valid-email-domain? "The domain of the email doesn't exist."]))
+```
+
+Have you noted that we required the `valip.java.predicates` which is
+only available to CLJ code? The definition of the new server-side only
+validator is very simple. It uses the valip predefined
+`valid-email-domain?` we talked about few lines above.
+
+Now we have to call the new server-side-only validator in the
+`authenticate-user` function which resides in the `login.clj` file.
+
+```clojure
+(ns modern-cljs.login
+  (:require [modern-cljs.login.validators :refer [user-credential-errors]]
+            [modern-cljs.login.java.validators :refer [email-domain-errors]]))
+
+(defn authenticate-user [email password]
+  (if (or (boolean (user-credential-errors email password)) (boolean (email-domain-errors email)))
+    (str "Please complete the form.")
+    (str email " and " password
+           " passed the formal validation, but we still have to authenticate you")))
+```
+
+As usual we have to add the newly created namespace in the namespace
+declaration for using the `email-domain-errors` validator inside the
+`authenticate-user` function.
+
+```clojure
+(ns modern-cljs.login
+  (:require [modern-cljs.login.validators :refer [user-credential-errors]]
+            [modern-cljs.login.java.validators :refer [email-domain-errors]]))
+
+(defn authenticate-user [email password]
+  (if (or (boolean (user-credential-errors email password)) (boolean (email-domain-errors email)))
+    (str "Please complete the form.")
+    (str email " and " password
+           " passed the formal validation, but we still have to authenticate you")))
+```
+
+> NOTE 8: To maintain the previous behaviour of the server-side validation
+> we're using the validators as if they were predicates which return just
+> `true` or `false`.
+
+If you now run the application and test it as usual by visiting the
+[login-dbg.html][7] you will see that if you provide a well formed email
+address whose domain doesn't exist, you'll pass the client-side
+validator, but you'll fail the server-side-only validator. So far so
+good.
+
+## Second step - Remotize the server-side-only validator
+
+Has we already know from the [10th Tutorial][16] we can easly remotize a
+function by using [shoreleave][18] machinery. Open the `remote.clj`
+file and update the namespace declaration by requiring the
+`modern-cljs.login.java.validators` namespace, where we newly defined th
+`email-domain-errors` server-side-only validator. Next define the new
+remote function as you already made in the [10th Tutorial][16] with the
+`calculate` function. Here is the updated content of `remote.clj`
+
+```clojure
+(ns modern-cljs.remotes
+  (:require [modern-cljs.core :refer [handler]]
+            [modern-cljs.login.java.validators :as v]
+            [compojure.handler :refer [site]]
+            [cemerick.shoreleave.rpc :refer [defremote wrap-rpc]]))
+
+(defremote calculate [quantity price tax discount]
+  (-> (* quantity price)
+      (* (+ 1 (/ tax 100)))
+      (- discount)))
+
+(defremote email-domain-errors [email]
+  (v/email-domain-errors email))
+
+(def app (-> (var handler)
+             (wrap-rpc)
+             (site)))
+```
+
+> NOTE 9: Note as we now `:require` the namespce by using the `:as` option instead
+> of the `:refer` option because we want to use the same name for the
+> server-side-only validator and its remotization.
+
+## Third step - Call the remotized validator
+
+The last step consist in calling from the client-side code (i.e. CLJS)
+the newly remotized function.
+
+Open the `login.cljs` file from `src/cljs/modern-cljs/` directory and
+update its content as follows:
+
+```clojure
+(defn validate-email-domain [email]
+  (remote-callback :email-domain-errors
+                   [email]
+                   #(if %
+                      (do
+                        (prepend! (by-id "loginForm")
+                                  (html [:div.help.email "The email domain doesn't exist."]))
+                        false)
+                      true)))
+
+(defn validate-email [email]
+  (destroy! (by-class "email"))
+  (let [{errors :email} (user-credential-errors (value email) nil)]
+     (if errors
+       (do
+         (prepend! (by-id "loginForm") (html [:div.help.email (first errors)]))
+         false)
+       (validate-email-domain (value email)))))
+```
+
+We added a new `validate-email-domain` function which wraps the
+remotized `email-domain-errors` function via the shoreleave
+`remote-callback` function and manipulates the DOM of the
+`loginForm` with a new error/help message to the user.
+
+We then updated the previoulsy defined `validate-mail` function by
+adding the call to the newly defined `validate-email-domain` function.
+
+## Last step - Test the magic again
+
+We can now compile, run and test again the magic provided to CLJ and
+CLJS from the lein-cljsbuild `:crossovers` option and the shoreleave
+library.
+
+```bash
+$ rm -rf out # it's better to be safe than sorry
+$ lein clean # it's better to be safe than sorry
+$ lein cljsbuild clean # it's better to be safe than sorry
+$ lein cljsbuild auto dev
+$ lein ring server-headless # in a new terminal
+```
+
+As usual visit the [login-dbg.html][7] page and see what happens when
+you provide a well formed email address whose domain doesn't esist.
+
+Stay tuned for the next tutorial.
 
 # Next step - TBD
 
@@ -537,3 +701,4 @@ License, the same as Clojure.
 [15]: https://github.com/emezeske/lein-cljsbuild
 [16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
 [17]: http://clojuredocs.org/clojure_core/clojure.core/let#example_878
+[18]: https://github.com/shoreleave
