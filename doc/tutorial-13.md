@@ -659,7 +659,7 @@ adding the call to the newly defined `validate-email-domain` function.
 ## Last step - Test the magic again
 
 We can now compile, run and test again the magic provided to CLJ and
-CLJS from the lein-cljsbuild `:crossovers` option and the shoreleave
+CLJS by the lein-cljsbuild `:crossovers` option and the shoreleave
 library.
 
 ```bash
