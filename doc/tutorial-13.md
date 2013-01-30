@@ -559,21 +559,9 @@ Now we have to call the new server-side-only validator in the
            " passed the formal validation, but we still have to authenticate you")))
 ```
 
-As usual we have to add the newly created namespace in the namespace
+As usual we had to add the newly created namespace in the namespace
 declaration for using the `email-domain-errors` validator inside the
 `authenticate-user` function.
-
-```clojure
-(ns modern-cljs.login
-  (:require [modern-cljs.login.validators :refer [user-credential-errors]]
-            [modern-cljs.login.java.validators :refer [email-domain-errors]]))
-
-(defn authenticate-user [email password]
-  (if (or (boolean (user-credential-errors email password)) (boolean (email-domain-errors email)))
-    (str "Please complete the form.")
-    (str email " and " password
-           " passed the formal validation, but we still have to authenticate you")))
-```
 
 > NOTE 8: To maintain the previous behaviour of the server-side validation
 > we're using the validators as if they were predicates which return just
@@ -657,9 +645,10 @@ update its content as follows:
        (validate-email-domain (value email)))))
 ```
 
-We added a new `validate-email-domain` function which wraps the
-remotized `email-domain-errors` function via the shoreleave
-`remote-callback` function and manipulates the DOM of the
+After having required the `shoreleave.remotes.http-rpc` namespace in the
+namespace declaration, we added a new `validate-email-domain` function
+which wraps the remotized `email-domain-errors` function via the
+shoreleave `remote-callback` function and manipulates the DOM of the
 `loginForm` with a new error/help message to the user.
 
 We then updated the previoulsy defined `validate-mail` function by
