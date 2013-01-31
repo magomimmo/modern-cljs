@@ -20,16 +20,16 @@
 
 (defn validate-email [email]
   (destroy! (by-class "email"))
-  (let [{errors :email} (user-credential-errors (value email) nil)]
-     (if errors
-       (do
-         (prepend! (by-id "loginForm") (html [:div.help.email (first errors)]))
-         false)
-       (validate-email-domain (value email)))))
+  (if-let [errors (:email (user-credential-errors (value email) nil))]
+    (do
+      (prepend! (by-id "loginForm") (html [:div.help.email (first errors)]))
+      false)
+    (validate-email-domain (value email))))
+
 
 (defn validate-password [password]
   (destroy! (by-class "password"))
-  (if-let [{errors :password} (user-credential-errors nil (value password))]
+  (if-let [errors (:password (user-credential-errors nil (value password)))]
     (do
       (append! (by-id "loginForm") (html [:div.help.password (first errors)]))
       false)
