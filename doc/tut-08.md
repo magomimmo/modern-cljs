@@ -419,7 +419,7 @@ option to the `:compiler` mode in the `:prod` build. Here is the final
                  "compiler/clojurescript/src/cljs"]
   :dependencies [[org.clojure/clojure "1.4.0"]
                  ; compojure dependency
-                 [compojure "1.1.3"]
+                 [compojure "1.1.5"]
                  ; domina dependency
                  [domina "1.0.0"]]
   :plugins [; cljsbuild plugin
