@@ -61,7 +61,7 @@ configuration we talked about.
             [lein-cljsbuild "0.2.10"]
 
             ;; ring plugin
-            [lein-ring "0.8.0-SNAPSHOT"]]
+            [lein-ring "0.8.2"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
@@ -141,11 +141,11 @@ follows:
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [compojure "1.1.3"]]
+                 [compojure "1.1.5"]]
 
   :plugins [;; cljsbuild plugin
             [lein-cljsbuild "0.2.10"]
-            [lein-ring "0.8.0-SNAPSHOT"]]
+            [lein-ring "0.8.2"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
