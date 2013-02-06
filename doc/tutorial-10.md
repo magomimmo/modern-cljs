@@ -8,7 +8,7 @@
 > [domina 1.0.2-SNAPSHOT][26]. Due to an [apparent bug][28] of the
 > [by-class][27] function in version `"1.0.2-SNAPSHOT"` of domina, in
 > the definition of the `remove-help!` function I substituted `by-class`
-> call with `getElementsByClassName` JS functio call. In the
+> call with `getElementsByClassName` JS function call. In the
 > `shopping.cljs` code for this tutorial I also subtituted `:as` with
 > `:refer` in the namespace declaration while in the tutorial text the
 > `:as` specification is still used.
@@ -32,7 +32,7 @@ became so intense had to do with its ability to easily support
 client-side validation of HTML forms. The same thing we did from
 [Tutorial 4][3] to [Tutorial 9][1].
 
-Then, thanks to the introduction of [XmlHttpRequest][4] JS obejct and
+Then, thanks to the introduction of [XmlHttpRequest][4] JS object and
 the wide spread of gmail and google maps, the terms **ajax** and **web
 2.0** became the most used web buzzwords all over the places and in a
 very short time too.
@@ -40,7 +40,7 @@ very short time too.
 # Introduction
 
 Ajax is not something magic, it's just a kind of client-server
-communication, eventually asyncronous, mainly using http/htts
+communication, eventually asynchronous, mainly using http/htts
 protocols. Ajax expoits more [web techniques][5]:
 
 * HTML and CSS for presentation
@@ -171,7 +171,7 @@ namespace and required the `cemerick.shoreleave.rpc`namespace refering
 the `defremote` macro.
 
 Then we used the cited `defremote` macro to define the `calculate`
-funtion.
+function.
 
 > NOTE 2: If you compare the remote `calculate` function with the one
 > originally defined in `shopping.cljs` client code in the [last tutorial][1],

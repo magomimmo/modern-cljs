@@ -352,7 +352,7 @@ the client side of the connection itself.
 
 Having an active brepl connection is a great thing during development
 and testing phases, but for security reasons it would be better not to
-have it in a production envirinoment. Aside from the fact that, as we
+have it in a production environment. Aside from the fact that, as we
 have just seen, the `:advanced` compilation mode left hanging the brepl
 connection, it would be nice to have a way to explicitly **exclude** the
 `connect.cljs` file containing the connection call from the build
