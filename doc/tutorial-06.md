@@ -105,14 +105,14 @@ And here is the modified fragment of `project.clj`
     {:source-path "src/cljs/login"
      :compiler
      {:output-to "resources/public/js/login.js"
-      :optmizations :whitespace
+      :optimizations :whitespace
       :pretty-print true}}
     ;; shopping.js build
     :shopping
     {:source-path "src/cljs/shopping"
      :compiler
      {:output-to "resources/public/js/shopping.js"
-      :optmizations :whitespace
+      :optimizations :whitespace
       :pretty-print true}}}})
 ```
 

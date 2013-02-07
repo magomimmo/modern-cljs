@@ -21,7 +21,7 @@ reacts by adding "Click to calculate" to the form itself. The
 `mouseout` handler, instead, reacts by deleting that text.  Yes, I
 know, the requirement is very stupid but, as you will see, pretty
 representative of a kind of problem you're going to face again and
-again in yuor CLJS programming.
+again in your CLJS programming.
 
 # Mouseover event
 
@@ -51,7 +51,7 @@ represent a single `div` child to be added to the parent.
 I don't know about you, but I don't feel to be at home with `xpath`
 and I limit myself to use it just where CSS selector will fail
 (e.g. ancestor selection) or become to complex to be managed and/or
-maintened.
+maintained.
 
 Anyway, domina offers you three options for nodes selection:
 

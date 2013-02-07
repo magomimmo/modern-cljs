@@ -19,7 +19,7 @@ Let's go back to the [shopping calculator form][3] we introduce in
 Tutorial 5.
 
 First of all, by been cloned from the orginal HTML code of
-[Modern JavaScript: Develop and Desing][4], the shopping form used a
+[Modern JavaScript: Develop and Design][4], the shopping form used a
 `submit` type of button. As the shopping calculator data need not to
 be sent to a server-side script to be elaborated, we think it's more
 appropriate to use a `button` type and remove both `action` and
@@ -176,7 +176,7 @@ run the bREPL.
 $ lein trampoline cljsbuild repl-listen # from modern-cljs home in a new terminal
 ```
 
-Verify that everithing is still working as espected by visiting
+Verify that everything is still working as expected by visiting
 [`shopping-dbg.html][8] page.
 
 ### Bubbling and capture models
