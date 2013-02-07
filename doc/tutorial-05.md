@@ -120,7 +120,7 @@ the updated version of `project.clj`
 ## Domina selectors
 
 [Domina][1] offers several selector functions: `xpath`, in the `domina.xpath`
-namespace, and `sel`, in the `domina.css` namaspace. But it also features the
+namespace, and `sel`, in the `domina.css` namespace. But it also features the
 `by-id`, `value` and `set-value!` functions defined in the `domina` core
 namespace, which is the one we're going to use.
 
@@ -222,7 +222,7 @@ ClojureScript:modern-cljs.login>
 
 Fill both the `Email Address` and `Password` fields of the login
 form. At the CLJS repl prompt, call `(validate-form)` again. You should
-now see `(validate-form)` returning `true`, passing the controll to the
+now see `(validate-form)` returning `true`, passing the control to the
 [original][6] server-side script which we're going to implement in a
 subsequent tutorial using CLJ.
 
@@ -331,7 +331,7 @@ need to read few values from the calculator form:
 * discount
 
 We then have to calculate the total, write back the result in the form
-and return the `false` value because there is no a server-side scritp to
+and return the `false` value because there is no a server-side script to
 which submit any data.
 
 Create the `shopping.cljs` file in `src/cljs/modern_cljs` directory and
@@ -410,7 +410,7 @@ nil
 ClojureScript:modern-cljs.shopping>
 ```
 
-Ops, the `onsubmit` property of `shoppingForm` form element has no
+Oops, the `onsubmit` property of `shoppingForm` form element has no
 value. `calculate` should have been set as its value by `init`
 function which, in turn, should have been set as the value of the
 `onload` property of the `window` object. Let's know see what's the
@@ -436,7 +436,7 @@ ClojureScript:modern-cljs.shopping> (.-onload js/window)
 ClojureScript:modern-cljs.shopping>
 ```
 
-Ops, the `init` function assigned as value for the `window` `onload`
+Oops, the `init` function assigned as value for the `window` `onload`
 property is not the one we just defined, but the `init` function we
 defined to initialize the previous `loginForm`.
 
