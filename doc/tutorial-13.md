@@ -273,8 +273,8 @@ $ lein cljsbuild auto dev
 $ lein ring server-headless # in a new terminal
 ```
 
-Visit [login-dbg.html][7] page and repeat all the interactiion tests we
-executed in the [latest tutorial][14]. Remeber to first disabled the JS
+Visit [login-dbg.html][7] page and repeat all the interaction tests we
+executed in the [latest tutorial][14]. Remember to first disable the JS
 of the browser.
 
 When you submit the [login-dbg.html][7] page you should receive a `Please
@@ -412,10 +412,9 @@ have reached. Now we are just returning any email validation error and
 passing the first of them to the `prepend!` function for manipulating
 the DOM.
 
-> NOTE 5: Here we used two clojure specific expressions: the map
-> destructoring idiom and the `if-let` form. If you don't understand
-> them, I strongly suggest you to search the web for their
-> usage. Generally speaking, [ClojureDocs][17] is a [good stop][13].
+> NOTE 5: Here we used the `if-let` form. If you don't understand
+> it, I strongly suggest you to search the web for their
+> usage. Generally speaking, [ClojureDocs][17] is a [good stop][13]. 
 
 The next function to be reviewed is `validate-password`. As you can see,
 the modifications are almost identical.
