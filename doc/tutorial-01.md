@@ -10,7 +10,7 @@ managing CLJS projects.
 ## Create a Clojure (CLJ) project
 
 If not already done, install [leiningen][2] and create a new project
-named `mondern-cljs`.
+named `modern-cljs`.
 
 ```bash
 $ lein new modern-cljs
