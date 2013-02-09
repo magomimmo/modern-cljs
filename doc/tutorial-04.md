@@ -4,7 +4,7 @@ In this tutorial we're going to start the porting of a few JavaScript (JS)
 samples from the book [Modern JavaScript: Development and Design][1] by
 [Larry Ullman][2]. You can download the code from the book [here][3].
 
-The reason I chose it as a reference is because it starts smoothly, but
+The reason I choose it as a reference is because it starts smoothly, but
 keeps a robust approach to JS coding. I think that bringing Larry's
 approach from JS into ClojureScript (CLJS) could be helpful to anyone
 not yet fluent in CLJS.
