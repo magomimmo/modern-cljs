@@ -243,7 +243,7 @@ calculate the total of an order, including tax, and minus any discount.
 Here is the `shopping.html` content which is in line with
 [clojurescriptone approach][4] and [Larry Ullman][6] to keep the design
 of the HTML/CSS/images separated from the code is going to implement its
-behaviour. Save it in `src/resources/public` directory.
+behaviour. Save it in `resources/public` directory.
 
 ```html
 <!doctype html>
