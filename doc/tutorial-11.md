@@ -527,9 +527,9 @@ and line up the `loginForm` to the `shoppingForm` approach adopted in
 the [10th tutorial][1] to allow the browser to communicate via ajax with
 the server.
 
-# [Next Step: Tutorial 12 - The highest and the deepest layers]
+# [Next Step: Tutorial 12 - The highest and the deepest layers][25]
 
-In the next tutorial we're going to cover the highest and the deepest
+In the [next tutorial][25] we're going to cover the highest and the deepest
 layers of the progressive enhancement strategy to the Login Form.
 
 # License
