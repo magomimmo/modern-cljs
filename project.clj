@@ -15,7 +15,7 @@
                  [shoreleave/shoreleave-remote "0.2.2"]
                  [com.cemerick/valip "0.3.2"]]
 
-  :plugins [[lein-cljsbuild "0.2.10"]
+  :plugins [[lein-cljsbuild "0.3.0"]
             [lein-ring "0.8.2"]]
 
   ;; enable cljsbuild tasks support
@@ -27,10 +27,10 @@
   ;; cljsbuild tasks configuration
   :cljsbuild {:crossovers [valip.core valip.predicates modern-cljs.login.validators]
               :builds
-              {:dev
-               {;; clojurescript source code path
-                :source-path "src/cljs"
-
+              [{;; build id
+                :id "dev"
+                :source-paths ["src/cljs"]
+                
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
                            :output-to "resources/public/js/modern_dbg.js"
@@ -39,22 +39,19 @@
                            :optimizations :whitespace
                            ;; prettyfying emitted JS
                            :pretty-print true}}
-               :pre-prod
-               {;; same path as above
-                :source-path "src/cljs"
-
+               {;; build id
+                :id "pre-prod"
+                :source-paths ["src/cljs"]
                 :compiler {;; different JS output name
                            :output-to "resources/public/js/modern_pre.js"
 
                            ;; simple optimization
                            :optimizations :simple}}
-               :prod
-               {;; same path as above
-                :source-path "src/cljs"
-
+               {;; build id
+                :id "prod"
+                :source-paths ["src/cljs"]
                 :compiler {;; different JS output name
                            :output-to "resources/public/js/modern.js"
 
                            ;; advanced optimization
-                           :optimizations :advanced}}
-               }})
+                           :optimizations :advanced}}]})

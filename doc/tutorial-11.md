@@ -3,10 +3,7 @@
 > LATEST NEWS: Starting from this tutorial on, we dicided to directly
 > include the `1.0.2-SNAPSHOT` of [domina][4] source code in the
 > `modern-cljs` code. Consequently, we removed
-> `[domina "1.0.2-SNAPSHOT"]` from the project dependencies. We also
-> upgraded `lein-cljsbuild` to `0.2.10` version, even if we know that
-> there is an open issue about a very boring and apparently useless
-> waiting time after cljsbuild complete any CLJS compilation.
+> `[domina "1.0.2-SNAPSHOT"]` from the project dependencies. 
 
 In the [latest tutorial][1] we introduced the ajax model of
 communication between the browser and the server by exploiting the

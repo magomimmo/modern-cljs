@@ -350,7 +350,7 @@ project. It's quicker to do than it's to say. Here is the interested
               :builds
               {:dev
                {;; clojurescript source code path
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file

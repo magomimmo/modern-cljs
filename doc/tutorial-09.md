@@ -225,7 +225,7 @@ dependency
                  [domina "1.0.0"]
                  [hiccups "0.1.1"]]
 
-  :plugins [[lein-cljsbuild "0.2.10"]
+  :plugins [[lein-cljsbuild "0.3.0"]
             [lein-ring "0.8.2"]]
 
   ;; ring tasks configuration

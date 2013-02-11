@@ -13,16 +13,6 @@
 > `:refer` in the namespace declaration while in the tutorial text the
 > `:as` specification is still used.
 
-***
-
-> ATTENTION NOTE 2: Because of [domina 1.0.2-SNAPSHOT][26] upgrade, I also
-> had to downgrade lein-cljsbuild from version 0.2.10 to version 0.2.9 to
-> eliminate a very annoying waiting time for `$ lein cljasbuild one dev`
-> command to return after successfull CLJS compilation. I also commented
-> out lein `:hooks` option.
-
-***
-
 In the [last tutorial][1] we were happy enough with the reached results
 in terms of [separation of concerns][2], functional programming style
 and elimination of any direct use of CLJS/JS interop.

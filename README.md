@@ -25,20 +25,7 @@ available tutorial without coding:
 > directly include the `1.0.2-SNAPSHOT` of [domina][4] source code in
 > the `modern-cljs` code. Consequently, we removed
 > `[domina "1.0.2-SNAPSHOT"]` from the project dependencies. We also
-> upgraded `lein-cljsbuild` to `0.2.10` version, even if we know that
-> there is an open issue about a very boring and apparently useless
-> waiting time after cljsbuild has completed any CLJS compilation.
-
-> PREVIOUS NEWS: `modern-cljs` has been tested with **lein version
-> 2.0.0-preview10**. On January 10th 2013 lein reached version
-> **2.0.0-RC1**. Due to lein-ring 0.7.5 depending from leinjacker
-> version 0.2.0, lein 2.0.0-RC1 does not work. If you still want to
-> use RC1 version of lein, you need to update modern-cljs dependencies
-> with **lein-ring 0.8.0-SNAPSHOT** which includes **leinjacker
-> 0.4.1** as updated dependency. If, instead, you prefer to stay with
-> version 2.0.0-preview10 of lein, you need to downgrade lein by
-> running the following command at terminal prompt: `$ lein upgrade
-> "2.0.0-preview10"`
+> upgraded `lein-cljsbuild` to `0.3.0` version.
 
 > NOTE 1: If you want to access the code of any single tutorial because
 > you don't want to `copy&paste` it or you don't want to write it
