@@ -1,8 +1,7 @@
 # Tutorial 12 - The highest and the deepest layers
 
-In the [latest tutorial][1] we saw few Domina features about DOM events
-which helped us to the desire of adhering to the progressive
-enhancement strategy in developing a clojurean web application.  By
+In the [previous tutorial][1], we used DOM events to further the
+progressive enhancement strategy of our clojurean web application. By
 implementing, via CLJS, the *javascript* layer, in the previous
 tutorial we only covered one the four typical layers of that
 stategy. We still need to implement the top most layer, the HTML5
@@ -13,8 +12,8 @@ side layer.
 
 In this tutorial we're going to cover the highest and the deepest layers
 of the `loginForm` example we started to cover in the
-[latest tutorial][1]. We leave a detailed care of the highest layer
-(i.e. HTML5) to anyone who likes to play with it. Here we want only
+[previous tutorial][1]. We leave detailed care of the highest layer
+(i.e. HTML5) to anyone who wants to play with it. Here we want only
 introduce the new `title` and `pattern` HTML5 attributes, which we are
 going to use by pairing the corresponding patterns and help messages we
 previously screwed in the `validate-email` and `validate-password`
