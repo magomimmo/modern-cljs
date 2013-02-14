@@ -1,6 +1,6 @@
 # Tutorial 11 - A deeper understanding of Domina Events
 
-> LATEST NEWS: Starting from this tutorial on, we dicided to directly
+> LATEST NEWS: Starting from this tutorial on, we decided to directly
 > include the `1.0.2-SNAPSHOT` of [domina][4] source code in the
 > `modern-cljs` code. Consequently, we removed
 > `[domina "1.0.2-SNAPSHOT"]` from the project dependencies. We also
@@ -45,7 +45,7 @@ finally you realize your last user experience enhancement by introducing
 the ajax model of communication between the browser and the server.
 
 Being this series of tutorials mostly about CLJS and not about CLJ, we
-skypped the layer representating the lowest user experience wich is
+skipped the layer representating the lowest user experience wich is
 based on CLJ only. Yet, we promise to fill this gap in successives
 tutorials explaining the usage of CLJ libraries on the server-side.
 
@@ -269,17 +269,17 @@ $ lein cljsbuild auto dev
 $ lein ring server-headless
 ```
 
-## Catch early react istantly
+## Catch early react instantly
 
 It's now time to see if we can improve the user experience of the
 `loginForm` by introducing few more DOM events and DOM manipulations
 features of Domina.
 
-One of the first lesson I learnt when I first started programming was
-that any error has to be catch and managed as soon as it manifests
+One of the first lessons I learned when I started programming was
+that any error has to be caught and managed as soon as it manifests
 itself.
 
-In our `loginForm` context, *as soon as possible* it means that the
+In our `loginForm` context, *as soon as possible* means that the
 syntactical correctness of the email and password typed in by the user
 has to be verified as soon as their input fields lose focus (i.e.
 *blur*).
@@ -389,7 +389,7 @@ again the `prevent-default` function to block the `action` attached to
 the `loginForm` to be fired.
 
 Following is the complete `login.cljs` source code containing the
-uptated namespace declaration as well for referencing the introduced
+updated namespace declaration as well for referencing the introduced
 [hiccups library][21].
 
 ```clojure
@@ -472,7 +472,7 @@ the following pictures.
 If you're interested in knowing all the event types supported by
 [Domina][4], here is the native code [goog.events.eventtypes.js][15]
 which enumerates all supported events by Google Closure native code on
-whioch Domina is based on. Take into account that while Google Closure
+which Domina is based on. Take into account that while Google Closure
 uses string as the event keys, Domina, by using keywords, has to manage
 their conversion.
 
@@ -491,8 +491,7 @@ their conversion.
 ```
 
 A more comfortable way to know which events are supported by Domina is
-to run the brepl and evaluates `builtin-events`
-symbol. Run the brepl as usual.
+to run brepl and evaluate the `builtin-events` symbol.
 
 ```bash
 $ lein ring server-headless
