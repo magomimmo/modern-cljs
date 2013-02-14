@@ -124,7 +124,7 @@ namespace, and `sel`, in the `domina.css` namespace. But it also features the
 `by-id`, `value` and `set-value!` functions defined in the `domina` core
 namespace, which is the one we're going to use.
 
-The nice thing about domina `(by-id id)`, inherited by the underlying
+The nice thing about domina `(by-id id)`, inherited from the underlying
 Google Closure library on which `domina` is implemented, is that it
 takes care of verifying if the passed argument is a string. As we
 anticipated, the `domina` core namespace offers other useful functions we're
@@ -180,9 +180,8 @@ $ lein trampoline cljsbuild repl-listen
 > Note 3: be sure to `cd` in the home directory of the project in each
 > terminal you open
 
-Open your browser at `localhost:3000/login.html` and after few moments,
-when the CLJS repl becomes responsive having established the connection
-with the browser, try the following at the REPL prompt:
+Open <http://localhost:3000/login.html>, and when the CLJS repl becomes responsive,
+having established a connection with the browser, try the following at the REPL prompt:
 
 ```bash
 ClojureScript:cljs.user> (in-ns 'modern-cljs.login)
