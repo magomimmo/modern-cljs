@@ -105,7 +105,7 @@ JS script. This choice has to do with the so called *progressive
 enhancement* and *unobtrusive JS* that Larry Ullman clearly explains in
 his book.
 
-The following [sequence diagrams][4] show his approach in action.
+The following [sequence diagrams][4] show this approach in action.
 
 #### Server-side only validation
 
@@ -218,7 +218,7 @@ Now let's write some CLJS code. Create the file `login.cljs` in the
           false))))
 
 ;; define the function to attach validate-form to onsubmit event of
-;;the form
+;; the form
 (defn init []
   ;; verify that js/document exists and that it has a getElementById
   ;; property
@@ -317,7 +317,7 @@ Compiling "resources/public/js/modern.js" from "src/cljs"...
 Successfully compiled "resources/public/js/modern.js" in 5.075248 seconds.
 $
 ```
-If you want trigger automatic JS recompilation whenever you change
+If you want to trigger automatic JS recompilation whenever you change
 CLJS source code, just replace the command `once` with `auto` like so:
 
 ```bash
@@ -376,7 +376,7 @@ you'll see the `Not found page` we set up with compojure in
 
 # Next Tutorial
 
-In the [next tutorial][18] we're going to use [domina library][18] to
+In the [next tutorial][18] we're going to use [domina library][19] to
 make our login form validation more clojure-ish.
 
 # License
