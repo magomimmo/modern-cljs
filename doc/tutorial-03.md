@@ -197,7 +197,7 @@ Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
-[2]: https://github.com/mmcgrana/ring.git
+[2]: https://github.com/ring-clojure/ring
 [3]: https://github.com/weavejester/lein-ring
 [4]: http://ring-clojure.github.com/ring/
 [5]: https://github.com/weavejester/compojure.git
