@@ -6,7 +6,7 @@ discover a trouble we do not know how to manage yet.
 
 ## Introduction
 
-In the [latest tutorial][1] we came in contact with `:export` directive
+In the [previous tutorial][1] we came in contact with `:export` directive
 been attached to `init` function. That directive had the scope to
 protect that function from being evantually renamed by the Google
 Closure (CLS) compiler when used with more aggressive compilation mode
@@ -234,7 +234,7 @@ size of the jquery minified and gzipped version, which is 32KB.
 We now have three different JS generated files, which means we should have
 three different versions for each html page of our small CLJS samples
 and each of them should have a `script` tag pointing to the right JS
-version. Not a big deal, but still something to care of.
+version. Not a big deal, but still something to take care of.
 
 ```bash
 $ cp resources/public/login.html resources/public/login-dbg.html
