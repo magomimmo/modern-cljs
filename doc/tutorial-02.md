@@ -5,18 +5,18 @@ In this tutorial you are going to set up a browser connected CLJS REPL
 
 ## Introduction
 
-One of the main reason to use a LISP dialect like CLJ is its REPL (Real
+One of the main reasons to use a LISP dialect like CLJ is its REPL (Read
 Eval Print Loop), which enables a very interactive style of
-programming. CLJS communities worked a lot to bring the same REPL-based
-programming experience in CLJS, creating a way to connect a CLJS REPL to
+programming. CLJS communities worked very hard to bring the same REPL-based
+programming experience to CLJS, creating a way to connect a CLJS REPL to
 the JS engine embedded in the browser. This style of programming allows
 you to evaluate CLJS forms in the REPL and have immediate feedback in the
 browser to which the REPL is connected.
 
-Due to browser imposed limitations to prevent [cross site scripting][1]
+Due to browser-imposed limitations to prevent [cross site scripting][1]
 attacks, the REPL connection with the browser embedded JS engine has to
-be set up respecting the [Same Origin Policy][2]. This means that, if we
-want to enable a browser connected CLJS REPL (brepl), we need to set up
+respect the [Same Origin Policy][2]. This means that, if we
+want to enable a browser-connected CLJS REPL (brepl), we need to set up
 a local http-server.
 
 You can use any http-server. In this tutorial we're going to use the
@@ -38,7 +38,7 @@ should be similar options for others OSs.
 
 ## Install, configure and run MAMP
 
-Follow MAMP documentation to install MAMP. Start MAPM and click the
+Follow MAMP documentation to install MAMP. Start MAMP and click the
 Preferences button of its Admin GUI.
 
 ![MAMP Admin Panel][6]
@@ -51,9 +51,9 @@ machine at port `8888`. Visit [simple.html][7] you created in
 [Tutorial 1 - The Basic][8] using `http://localhost:8888/simple.html`
 to verify that everything is ok.  
 
-## Setting a browser connected CLJS REPL (brepl)
+## Setting up a browser connected CLJS REPL (brepl)
 
-To setting a brepl, we need to follow few steps:
+To set up a brepl, we need to follow a few steps:
 
 * create a CLJS file to create the connection between the browser and
   the brepl
@@ -77,16 +77,16 @@ Save the file as `connect.cljs`.
 
 As you can see, to connect from the browser to the brepl we have to call
 the `connect` function defined in the `clojure.browser.repl`
-namespace. We set `9000` as a port of the brepl to be connected to,
+namespace. We set `9000` as a port of the brepl to connect to,
 because this is the default port used by the brepl server when we'll
 start it.
 
 ### Compile the CLJS file
 
 Now we need compile the new CLJS file. [Google Closure Compiler][9] (CLS)
-has few compilation options we already set up in our `project.clj`
-during [Tutorial 1][8] and we can leave that options as we have already
-configured. Now Call the CLJS compilation task:
+has a few compilation options we already set up in our `project.clj`
+during [Tutorial 1][8], and we can leave those options as we have already
+configured. Now call the CLJS compilation task:
 
 ```bash
 $ lein cljsbuild once
