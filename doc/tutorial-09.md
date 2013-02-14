@@ -16,7 +16,7 @@ important feature of any good JS library and/or framework.
 
 To reach this goal, we're going to use again our old shopping
 calculator example by adding to its `Calculate` button both a
-`mouseover` and a `mouseout` event handlers.  The `mouseover` handler
+`mouseover` and a `mouseout` event handler.  The `mouseover` handler
 reacts by adding "Click to calculate" to the form itself. The
 `mouseout` handler, instead, reacts by deleting that text.  Yes, I
 know, the requirement is very stupid but, as you will see, pretty
@@ -28,7 +28,7 @@ again in your CLJS programming.
 Let's start by adding a `mouseover` handler to the `Calculate`
 button. The first step is to write a function, named `add-help`, which
 appends a `div` and the *Click to calculate* inner text to the end of
-the `shoppingForm` DOM node. To do that, we're are going to experience
+the `shoppingForm` DOM node. To do that, we are going to experience
 the domina library by using its `append!` function from `domina`
 namespace. The documentation attached to `append!` function says that:
 
