@@ -229,6 +229,9 @@ $
 We reached 183KB and, if you gzip it, you'll reach 41KB, almost the same
 size of the jquery minified and gzipped version, which is 32KB.
 
+> NOTE 2: Serving gzipped files is outside the scope of this tutorial. You can
+> read about this topic [here][10] and [here][11].
+
 ## Housekeeping
 
 We now have three different JS generated files, which means we should have
@@ -392,3 +395,5 @@ License, the same as Clojure.
 [7]: http://dev.clojure.org/jira/browse/CLJS-419
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
 [9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
+[10]: http://cemerick.com/2011/04/22/adding-gzip-compression-to-a-clojure-webapp-in-30-seconds/
+[11]: http://docs.codehaus.org/display/JETTY/GZIP+Compression
