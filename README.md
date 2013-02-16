@@ -22,7 +22,7 @@ available tutorial without coding:
 8. play with the repl connected to the browser
 
 > LATEST NEWS: Starting from the [11th tutorial][19], we decided to
-> directly include the `1.0.2-SNAPSHOT` of [domina][4] source code in
+> directly include the `1.0.2-SNAPSHOT` of [domina][13] source code in
 > the `modern-cljs` code. Consequently, we removed
 > `[domina "1.0.2-SNAPSHOT"]` from the project dependencies. We also
 > upgraded `lein-cljsbuild` to `0.2.10` version, even if we know that
