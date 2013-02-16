@@ -139,6 +139,9 @@ ClojureScript:cljs.user> (js/alert "Hello from a browser connected repl")
 ```
 ![Alert Window][10]
 
+You will note that there is no command history or editing ability in this REPL.  You can add it if you wish by installing [rlwrap][12] and following the instructions 
+[here][13].  
+
 ## Next step
 
 In the next [tutorial][11] we're going to substitute the external
@@ -162,3 +165,6 @@ License, the same as Clojure.
 [9]: https://developers.google.com/closure/compiler/
 [10]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/alert.png
 [11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[12]: http://utopia.knoware.nl/~hlub/rlwrap/#rlwrap
+[13]: https://github.com/emezeske/lein-cljsbuild/wiki/Using-Readline-with-REPLs-for-Better-Editing
+
