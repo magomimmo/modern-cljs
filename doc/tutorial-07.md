@@ -345,6 +345,11 @@ paragraph.
 
 ## Get in trouble
 
+> LATEST NEWS: lein-cljsbuild has been recently updated to `0.3.0`
+> version which now allows to solve the trouble explained in this
+> paragraph. As soon as I have time I'll update the tutorials.
+
+
 In [tutorial 2][4] and [tutorial 3][5] we introduced the browser
 connected repl (brepl) as a CLJS evalutation environment enabling a very
 productive and interactive style of programming. To reach this objective
