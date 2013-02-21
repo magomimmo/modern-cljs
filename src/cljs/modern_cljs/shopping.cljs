@@ -1,7 +1,8 @@
 (ns modern-cljs.shopping
   (:require-macros [hiccups.core :as h])
   (:require [domina :as dom]
-            [domina.events :as ev]))
+            [domina.events :as ev]
+            [hiccups.runtime]))
 
 (defn calculate []
   (let [quantity (dom/value (dom/by-id "quantity"))
