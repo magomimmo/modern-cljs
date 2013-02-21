@@ -134,7 +134,7 @@ As usual we have first to add `shoreleave-remote-ring` library to
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [compojure "1.1.5"]
                  [domina "1.0.0"]
-                 [hiccups "0.1.1"]
+                 [hiccups "0.2.0"]
                  [com.cemerick/shoreleave-remote-ring "0.0.2"]
                  [shoreleave/shoreleave-remote "0.2.2"]]
 ```
@@ -265,6 +265,7 @@ Open the `shopping.cljs` file from the [last tutorial][1].
 (ns modern-cljs.shopping
   (:require-macros [hiccups.core :as h])
   (:require [domina :as dom]
+            [hiccups.runtime]
             [domina.events :as ev]))
 
 (defn calculate []
@@ -286,6 +287,7 @@ First you need to update the namespace declaration by requiring the
 (ns modern-cljs.shopping
   (:require-macros [hiccups.core :as h])
   (:require [domina :as dom]
+            [hiccups.runtime]
             [domina.events :as ev]
             [shoreleave.remotes.http-rpc :refer [remote-callback]]
             [cljs.reader :refer [read-string]]))
