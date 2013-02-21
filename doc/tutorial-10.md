@@ -265,7 +265,7 @@ Open the `shopping.cljs` file from the [last tutorial][1].
 (ns modern-cljs.shopping
   (:require-macros [hiccups.core :as h])
   (:require [domina :as dom]
-            [hiccups.runtime]
+            [hiccups.runtime :as hiccupsrt]
             [domina.events :as ev]))
 
 (defn calculate []
@@ -287,7 +287,7 @@ First you need to update the namespace declaration by requiring the
 (ns modern-cljs.shopping
   (:require-macros [hiccups.core :as h])
   (:require [domina :as dom]
-            [hiccups.runtime]
+            [hiccups.runtime :as hiccupsrt]
             [domina.events :as ev]
             [shoreleave.remotes.http-rpc :refer [remote-callback]]
             [cljs.reader :refer [read-string]]))
