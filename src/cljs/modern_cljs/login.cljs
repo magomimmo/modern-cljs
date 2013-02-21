@@ -1,7 +1,8 @@
 (ns modern-cljs.login
   (:require-macros [hiccups.core :refer [html]])
   (:require [domina :refer [by-id by-class value append! prepend! destroy! log]]
-            [domina.events :refer [listen! prevent-default]]))
+            [domina.events :refer [listen! prevent-default]]
+            [hiccups.runtime]))
 
 (def ^:dynamic *password-re* #"^(?=.*\d).{4,8}$")
 
