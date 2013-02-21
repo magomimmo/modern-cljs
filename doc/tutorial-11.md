@@ -396,7 +396,7 @@ updated namespace declaration as well for referencing the introduced
 (ns modern-cljs.login
   (:require-macros [hiccups.core :refer [html]])
   (:require [domina :refer [by-id by-class value append! prepend! destroy! log]]
-            [hiccups.runtime]
+            [hiccups.runtime :as hiccupsrt]
             [domina.events :refer [listen! prevent-default]]))
 
 (def ^:dynamic *password-re* #"^(?=.*\d).{4,8}$")
