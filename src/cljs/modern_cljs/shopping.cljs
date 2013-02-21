@@ -2,6 +2,7 @@
   (:require-macros [hiccups.core :refer [html]])
   (:require [domina :refer [by-id value set-value! append! destroy!]]
             [domina.events :refer [listen!]]
+            [hiccups.runtime]
             [shoreleave.remotes.http-rpc :refer [remote-callback]]
             [cljs.reader :refer [read-string]]))
 
