@@ -273,7 +273,7 @@ And here is the updated `shopping.cljs` source file.
 (ns modern-cljs.shopping
   (:require-macros [hiccups.core :as h])
   (:require [domina :as dom]
-            [hiccups.runtime]
+            [hiccups.runtime :as hiccupsrt]
             [domina.events :as ev]))
 
 (defn calculate []
