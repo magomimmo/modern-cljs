@@ -21,7 +21,7 @@ Tutorial 5.
 First of all, by been cloned from the orginal HTML code of
 [Modern JavaScript: Develop and Design][4], the shopping form used a
 `submit` type of button. As the shopping calculator data need not to
-be sent to a server-side script to be elaborated, we think it's more
+be sent to a server-side script to be validated, we think it's more
 appropriate to use a `button` type and remove both `action` and
 `method` attributes from the corresponding `form` tag.
 
@@ -184,7 +184,7 @@ Verify that everything is still working as expected by visiting
 Domina library supports both *bubbling* and *capture* event models. In
 the above shopping calculator example we used the domina `listen!`
 function for handling the mouse `click` event on the *Calculate*
-button. `listen!` is member of a group of functions defined by domina
+button. `listen!` is a member of a group of functions defined by domina
 to use the *bubbling* method of handling DOM events. If you want to
 experience the *capture* method you have just to substitute in the
 `init` definition the `listen!` call with the corresponding `capture!`

@@ -34,13 +34,13 @@ client-side validation of HTML forms. The same thing we did from
 
 Then, thanks to the introduction of [XmlHttpRequest][4] JS object and
 the wide spread of gmail and google maps, the terms **ajax** and **web
-2.0** became the most used web buzzwords all over the places and in a
+2.0** became the most used web buzzwords all over the place and in a
 very short time too.
 
 # Introduction
 
 Ajax is not something magic, it's just a kind of client-server
-communication, eventually asynchronous, mainly using http/htts
+communication, eventually asynchronous, mainly using http/https
 protocols. Ajax expoits more [web techniques][5]:
 
 * HTML and CSS for presentation
@@ -67,13 +67,13 @@ page to be shown by the browser to the user.
 # No Ajax, no party
 
 If CLJS did not have a way to implement ajax interaction model, it would
-be dead before to be born. As usual, CLJS could exploit Google Closure
+be dead before it was born. As usual, CLJS could exploit Google Closure
 Library which includes the `goog.net` package to abstract the plain
 `XmlHttpRequest` object for supporting ajax communications with a server
 from a web browser.
 
 That said, directly interacting with `XmlHttpRequest` or with
-`goog.net.XhrIo` and `goog.net.XhrManager` objects could easly become an
+`goog.net.XhrIo` and `goog.net.XhrManager` objects could easily become an
 hard work to be done. Let's see if CLJS community has done something to
 alleviate a sure PITA.
 
@@ -107,20 +107,20 @@ shoreleave.
 
 What we'd like to do is to move the calculation from the client side code
 (i.e. CLJS) to the server side code (i.e. CLJ) and then let the former
-asks the latter to produce the result to be then manipulated by CLJS.
+ask the latter to produce the result to be then manipulated by CLJS.
 
 The following sequence diagram visualizes our requirements.
 
 ![Shopping Ajax][16]
 
-The first thing we want to do it's to implement the remote function to
+The first thing we want to do is to implement the remote function to
 calculate the total.
 
 ## The server side
 
-Thanks to [Chas Emerick][17], which is one of the most active and
+Thanks to [Chas Emerick][17], who is one of the most active and
 fruitful clojurist, we can exploit [shoreleave-remote-ring][10] by
-defining a remote calculate function which will return out the result
+defining a remote calculate function which will return back the result
 (i.e. `total`) from the passed input (i.e. `quantity`, `price`, `tax`
 and `discount`).
 
@@ -185,7 +185,7 @@ function.
 
 ### Update the handler
 
-When we introduced [Compojure][18] in [Tutorial 3][19] we defined an
+When we introduced [Compojure][18] in [Tutorial 3][19] we defined a
 handler which used the `site` wrapper to add a set of standard
 *ring-middlewares* suitables for a regular web site. Here is the
 content of `core.clj`
