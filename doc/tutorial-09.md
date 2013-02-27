@@ -1,6 +1,6 @@
 # Tutorial 09 - DOM manipulation
 
-In the [latest tutorial][1] we introduced `domina.events` namespace to
+In the [last tutorial][1] we introduced the `domina.events` namespace to
 make our events management a little bit more clojure-ish than just
 using CLJS/JS interop. In this tutorial we'are going to face the need
 to programmatically manipulate DOM elements as a result of the
@@ -49,8 +49,8 @@ which appends a `div` node to the end of the `body` node. It uses
 represent a single `div` child to be added to the parent.
 
 I don't know about you, but I don't feel to be at home with `xpath`
-and I limit myself to use it just where CSS selector will fail
-(e.g. ancestor selection) or become to complex to be managed and/or
+and I limit myself to use it just where a CSS selector will fail
+(e.g. ancestor selection) or become too complex to be managed and/or
 maintained.
 
 Anyway, domina offers you three options for nodes selection:
@@ -329,7 +329,7 @@ in the `init` function which can be very easly removed by just using
 ```
 
 Update the `shopping.cljs` source file as above, save it, clean and
-recompile everything and finnaly run the project as usual
+recompile everything and finaly run the project as usual
 
 ```bash
 $ lein cljsbuild clean # from modern-cljs home dir
