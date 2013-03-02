@@ -6,8 +6,8 @@ http-server.
 
 ## Introduction
 
-Until we only play with CLJS code that, once compiled to JS, runs on the
-browser side, we needn't a CLJ enabled http-server. But we love clojure
+So far we have only played with CLJS code that, once compiled to JS, runs on the
+browser side, and have not needed a CLJ enabled http-server. But we love clojure
 and we want to learn more about it too.
 
 [Ring][2] is one of the foundamental building-blocks of any CLJ based
