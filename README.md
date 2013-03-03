@@ -73,7 +73,8 @@ ways the not so nice issue we met in the last tutorial.
 
 In this tutorial we're going to explore CLJS/CLS compilation modes by
 using the usual `lein-cljsbuild` plugin of `leiningen`, but we'll
-discover a trouble we do not know how to manage yet.
+discover a trouble we'll solve by using a new feature of the `0.3.0` of
+`lein-cljsbuild` plugin.
 
 ## [Tutorial 8 - Introducing Domina events][16]
 
