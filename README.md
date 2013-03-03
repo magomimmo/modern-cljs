@@ -14,7 +14,7 @@ available tutorial without coding:
 
 1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
 2. `$ cd modern-cljs`
-3. ` $ lein ring server-headless`
+3. `$ lein ring server-headless`
 4. open a new terminal and cd in modern-cljs
 5. `$ lein cljsbuild once`
 6. `$ lein trampoline cljsbuild repl-listen`
@@ -23,7 +23,7 @@ available tutorial without coding:
 
 > LATEST NEWS: I'm in the process of updating the series of tutorials to
 > latest versions of the used libs and plugins. At the moment I updated
-> the series up to tutorial-07. I should be able to update the rest of the
+> the series up to tutorial-08. I should be able to update the rest of the
 > series in a couple of days. Sorry for any inconvenience.
 
 > NOTE 1: If you want to access the code of any single tutorial because
