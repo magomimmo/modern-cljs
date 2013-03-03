@@ -17,17 +17,6 @@ based.
 
 ## Add lein-ring plugin to our project.clj
 
-> NOTE 1: `modern-cljs` has been tested with **lein version
-> 2.0.0-preview10**. On January 10th 2013 lein reached version
-> **2.0.0-RC1**. Due to lein-ring 0.7.5 depending from leinjacker
-> version 0.2.0, lein 2.0.0-RC1 does not work. If you still want to
-> use RC1 version of lein, you need to update modern-cljs dependencies
-> with **lein-ring 0.8.0-SNAPSHOT** which includes **leinjacker
-> 0.4.1** as updated dependency. If, instead, you prefer to stay with
-> version 2.0.0-preview10 of lein, you need to downgrade lein by
-> running the following command at terminal prompt: `$ lein upgrade
-> "2.0.0-preview10"`
-
 We already saw how `lein-cljsbuild` plugin helped us in managing the
 build, the configuration and the running of CLJS code. In a similar way,
 we're going to use [lein-ring][3] plugin to manage and automate common
@@ -58,7 +47,7 @@ configuration we talked about.
   :dependencies [[org.clojure/clojure "1.4.0"]]
 
   :plugins [;; cljsbuild plugin
-            [lein-cljsbuild "0.2.10"]
+            [lein-cljsbuild "0.3.0"]
 
             ;; ring plugin
             [lein-ring "0.8.2"]]
@@ -69,7 +58,7 @@ configuration we talked about.
   ;; cljsbuild tasks configuration
   :cljsbuild {:builds
               [{;; clojurescript source code path
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of the emitted JS file
@@ -144,7 +133,7 @@ follows:
                  [compojure "1.1.5"]]
 
   :plugins [;; cljsbuild plugin
-            [lein-cljsbuild "0.2.10"]
+            [lein-cljsbuild "0.3.0"]
             [lein-ring "0.8.2"]]
 
   ;; ring tasks configuration
@@ -153,7 +142,7 @@ follows:
   ;; cljsbuild tasks configuration
   :cljsbuild {:builds
               [{;; clojurescript source code path
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of the emitted JS file
