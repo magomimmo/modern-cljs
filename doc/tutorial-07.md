@@ -1,8 +1,9 @@
 # Tutorial 7 - Being doubly aggressive
 
 In this tutorial we're going to explore CLS compiler optimizations by
-using the usual `lein-cljsbuild` plugin of `leiningen`, but we'll
-discover a trouble we do not know how to manage yet.
+using the usual `lein-cljsbuild` plugin of `leiningen` and we'll
+discover a trouble we'll solve by using the latest release of
+lein-cljsbuild (i.e. lein-cljsbuild 0.3.0).
 
 ## Introduction
 
@@ -25,7 +26,7 @@ process, by instructing `:cljsbuild` keyword with the following value:
 
 :cljsbuild {:builds
               [{;; clojurescript source code path
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
@@ -73,10 +74,10 @@ named `:pre-prod`, which uses `:simple` compilation mode.
 
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [compojure "1.1.5"]
-                 [domina "1.0.0"]]
+                 [domina "1.0.2-SNAPSHOT"]]
 
   :plugins [; cljsbuild plugin
-            [lein-cljsbuild "0.2.10"]
+            [lein-cljsbuild "0.3.0"]
             [lein-ring "0.8.2"]]
 
   ;; ring tasks configuration
@@ -87,7 +88,7 @@ named `:pre-prod`, which uses `:simple` compilation mode.
               {
                :dev
                {;; clojurescript source code path
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
@@ -100,7 +101,7 @@ named `:pre-prod`, which uses `:simple` compilation mode.
                            :pretty-print true}}
                :pre-prod
                {;; same path as above
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 :compiler {;; different output name
                            :output-to "resources/public/js/modern_pre.js"
@@ -132,9 +133,9 @@ cljsbuild once` or `lein cljsbuild auto` commands from the terminal.
 $ cd /path/to/modern-cljs
 $ lein cljsbuild once
 Compiling ClojureScript.
-Compiling "resources/public/js/modern_pre.js" from "src/cljs"...
+Compiling "resources/public/js/modern_pre.js" from ["src/cljs"]...
 Successfully compiled "resources/public/js/modern_pre.js" in 15.169253 seconds.
-Compiling "resources/public/js/modern_dbg.js" from "src/cljs"...
+Compiling "resources/public/js/modern_dbg.js" from ["src/cljs"]...
 Successfully compiled "resources/public/js/modern_dbg.js" in 3.202557 seconds.
 $
 ```
@@ -145,7 +146,7 @@ de-keywordized build name as follows:
 ```bash
 $ lein cljsbuild once pre-prod
 Compiling ClojureScript.
-Compiling "resources/public/js/modern_pre.js" from "src/cljs"...
+Compiling "resources/public/js/modern_pre.js" from ["src/cljs"]...
 Successfully compiled "resources/public/js/modern_pre.js" in 14.51913 seconds.
 $
 ```
@@ -178,7 +179,7 @@ code snippet.
               {
                :dev
                {;; clojurescript source code path
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
@@ -191,7 +192,7 @@ code snippet.
                            :pretty-print true}}
                :prod
                {;; clojurescript source code path
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
@@ -201,7 +202,7 @@ code snippet.
                            :optimizations :advanced}}
                :pre-prod
                {;; some path as above
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
                 :compiler {;; different output name
                            :output-to "resources/public/js/modern_pre.js"
 
@@ -345,11 +346,6 @@ paragraph.
 
 ## Get in trouble
 
-> LATEST NEWS: lein-cljsbuild has been recently updated to `0.3.0`
-> version which now allows to solve the trouble explained in this
-> paragraph. As soon as I have time I'll update the tutorials.
-
-
 In [tutorial 2][4] and [tutorial 3][5] we introduced the browser
 connected repl (brepl) as a CLJS evalutation environment enabling a very
 productive and interactive style of programming. To reach this objective
@@ -364,10 +360,120 @@ have it in a production environment. Aside from the fact that, as we
 have just seen, the `:advanced` compilation mode left hanging the brepl
 connection, it would be nice to have a way to explicitly **exclude** the
 `connect.cljs` file containing the connection call from the build
-(i.e. `:prod`) dedicated to the production environment. Sadly, both
-[`lein-cljsbuild`][6] and [`clojurescript`][7] do not offer this kind of
-feature and, more generally, the eventuality to exclude any CLJS file
-from a build driven by `lein-cljsbuild`.
+(i.e. `:prod`) dedicated to the production environment.
+
+## Solve the trouble
+
+The `0.3.0` release of [lein-cljsbuild][6] has a new feature which can
+be used to easily solve the above trouble. [Lein-cljsbuild][6] now
+allows to specify more than one CLJS source directory in the
+`:source-paths` compilation option. To **exclude** the `connect.cljs`
+file from the production build we have to move it from the `src/cljs`
+directory to a new one and add the newly created directory only to the
+development and pre-production builds.
+
+Create a new directory/subdirectory in the `src` directory of
+modern-cljs project
+
+```bash
+$ mkdir -p src/brepl/modern_cljs
+```
+
+Now move the `connect.cljs` file from `src/cljs/modern_cljs` to the new
+`src/brepl/modern_cljs` directory.
+
+```bash
+$ mv src/cljs/modern_cljs/connect.cljs src/brepl/modern_cljs/
+```
+
+Next update the `project.clj` file by adding the `"src/brepl"` directory
+to the `:source-paths` of the `:dev` and the `:pre-prod` builds, leaving
+the `:prod` build as it was. The content of the updated `project.clj` is
+as follows.
+
+```clojure
+(defproject modern-cljs "0.1.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :url "http://example.com/FIXME"
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :min-lein-version "2.0.0"
+
+  ;; clojure source code path
+  :source-paths ["src/clj"]
+
+  :dependencies [[org.clojure/clojure "1.4.0"]
+                 [compojure "1.1.5"]
+                 [domina "1.0.2-SNAPSHOT"]]
+
+  :plugins [[lein-cljsbuild "0.3.0"]
+            [lein-ring "0.8.2"]]
+
+  ;; ring tasks configuration
+  :ring {:handler modern-cljs.core/handler}
+
+  ;; cljsbuild tasks configuration
+  :cljsbuild {:builds
+              {:dev
+               {;; clojurescript source code path
+                :source-paths ["src/brepl" "src/cljs"] ;;; added "src/brepl"
+
+                ;; Google Closure Compiler options
+                :compiler {;; the name of emitted JS script file
+                           :output-to "resources/public/js/modern_dbg.js"
+
+                           ;; minimum optimization
+                           :optimizations :whitespace
+                           ;; prettyfying emitted JS
+                           :pretty-print true}}
+               :pre-prod
+               {;; same path as above
+                :source-paths ["src/brepl" "src/cljs"] ;;; added "src/brepl"
+
+                :compiler {;; different JS output name
+                           :output-to "resources/public/js/modern_pre.js"
+
+                           ;; simple optimization
+                           :optimizations :simple}}
+               :prod
+               {;; same path as above
+                :source-paths ["src/cljs"]
+
+                :compiler {;; different JS output name
+                           :output-to "resources/public/js/modern.js"
+
+                           ;; advanced optimization
+                           :optimizations :advanced}}
+               }})
+```
+
+You can run the usual commands to recompile all the builds and run the
+`modern-cljs` project.
+
+```bash
+$ lein clean
+$ lein cljsbuild clean
+$ lein cljsbuild once
+```
+
+One nice consequence of the `connect.cljs` exclusion from the `:prod`
+build is that now the size of the generated `modern.js` is even smaller
+than before.
+
+```bash
+$ ls -
+```
+
+solved this trouble by
+allowing to add more than one CLJS source directory in the
+`:source-paths` compilation option. This new feature allows
+
+Create a new directory named `brepl` in the `src` directory
+a new CLJS source directory to
+
+Sadly, both [`lein-cljsbuild`][6] and [`clojurescript`][7]
+do not offer this kind of feature and, more generally, the eventuality
+to exclude any CLJS file from a build driven by `lein-cljsbuild`.
 
 The main consequence of this missing feature is that you can't share the
 same CLJS code base (i.e. `:source-path "src/cljs"`) and simultaneously
