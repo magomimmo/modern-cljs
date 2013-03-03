@@ -17,7 +17,7 @@
             [lein-ring "0.8.2"]]
 
   ;; enable cljsbuild tasks support
-  :hooks [leiningen.cljsbuild]
+  ;;:hooks [leiningen.cljsbuild]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
