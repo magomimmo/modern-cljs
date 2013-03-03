@@ -75,7 +75,7 @@ configurations
   :dependencies [[org.clojure/clojure "1.4.0"]]
 
   ;; lein-cljsbuild plugin to build a CLJS project
-  :plugins [[lein-cljsbuild "0.2.10"]]
+  :plugins [[lein-cljsbuild "0.3.0"]]
 
   ;; cljsbuild options configuration
   :cljsbuild {:builds
