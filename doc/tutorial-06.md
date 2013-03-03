@@ -39,14 +39,14 @@ options:
 (defproject ....
   ...
   :cljsbuild {:builds
-              [{:source-path "src/cljs"
+              [{:source-paths ["src/cljs"]
                 :compiler {:output-to "resources/public/js/modern.js"
                            :optimizations :whitespace
                             :pretty-print true}}]})
 
 ```
 
-The `:source-path` option instructs CLS to look for any CLJS source
+The `:source-paths` option instructs CLS to look for any CLJS source
 code in the `src/cljs` directory structure. The `:output-to` option of
 the `:compiler` keyword instructs CLS to save the compilation result
 in `"resources/public/js/modern.js`.
@@ -102,14 +102,14 @@ And here is the modified fragment of `project.clj`
 
    ;; login.js build
    {:login
-    {:source-path "src/cljs/login"
+    {:source-paths ["src/cljs/login"]
      :compiler
      {:output-to "resources/public/js/login.js"
       :optimizations :whitespace
       :pretty-print true}}
     ;; shopping.js build
     :shopping
-    {:source-path "src/cljs/shopping"
+    {:source-paths ["src/cljs/shopping"]
      :compiler
      {:output-to "resources/public/js/shopping.js"
       :optimizations :whitespace
