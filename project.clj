@@ -9,11 +9,11 @@
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [compojure "1.1.3"]
-                 [domina "1.0.0"]]
+                 [compojure "1.1.5"]
+                 [domina "1.0.2-SNAPSHOT"]]
 
-  :plugins [[lein-cljsbuild "0.2.10"]
-            [lein-ring "0.8.0-SNAPSHOT"]]
+  :plugins [[lein-cljsbuild "0.3.0"]
+            [lein-ring "0.8.2"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
@@ -22,7 +22,7 @@
   :cljsbuild {:builds
               {:dev
                {;; clojurescript source code path
-                :source-path "src/cljs"
+                :source-paths ["src/brepl" "src/cljs"]
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
@@ -34,7 +34,7 @@
                            :pretty-print true}}
                :pre-prod
                {;; same path as above
-                :source-path "src/cljs"
+                :source-paths ["src/brepl" "src/cljs"]
 
                 :compiler {;; different JS output name
                            :output-to "resources/public/js/modern_pre.js"
@@ -43,7 +43,7 @@
                            :optimizations :simple}}
                :prod
                {;; same path as above
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 :compiler {;; different JS output name
                            :output-to "resources/public/js/modern.js"
