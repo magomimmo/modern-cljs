@@ -80,7 +80,7 @@ configurations
   ;; cljsbuild options configuration
   :cljsbuild {:builds
               [{;; CLJS source code path
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 ;; Google Closure (CLS) options configuration
                 :compiler {;; CLS generated JS script filename
