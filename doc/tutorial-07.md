@@ -456,35 +456,31 @@ $ lein cljsbuild clean
 $ lein cljsbuild once
 ```
 
-One nice consequence of the `connect.cljs` exclusion from the `:prod`
-build is that now the size of the generated `modern.js` is even smaller
-than before.
+One very nice consequence of the `connect.cljs` exclusion from the
+`:prod` build is that now the size of the generated `modern.js` is even
+smaller than before.
 
 ```bash
-$ ls -
+$ ls -lah resources/public/js/
+total 3880
+drwxr-xr-x   5 mimmo  staff   170B Mar  3 19:50 .
+drwxr-xr-x  11 mimmo  staff   374B Mar  3 19:48 ..
+-rw-r--r--   1 mimmo  staff   107K Mar  3 19:50 modern.js
+-rw-r--r--   1 mimmo  staff   1.1M Mar  3 19:49 modern_dbg.js
+-rw-r--r--   1 mimmo  staff   747K Mar  3 19:49 modern_pre.js
+$
 ```
 
-solved this trouble by
-allowing to add more than one CLJS source directory in the
-`:source-paths` compilation option. This new feature allows
+If you zip it you reach and amazing size of 22K. Finally you can run as
+usual the `modern-cljs` project.
 
-Create a new directory named `brepl` in the `src` directory
-a new CLJS source directory to
+```bash
+$ lein ring server
+```
 
-Sadly, both [`lein-cljsbuild`][6] and [`clojurescript`][7]
-do not offer this kind of feature and, more generally, the eventuality
-to exclude any CLJS file from a build driven by `lein-cljsbuild`.
-
-The main consequence of this missing feature is that you can't share the
-same CLJS code base (i.e. `:source-path "src/cljs"`) and simultaneously
-have more builds that differently filter the code base istself, causing
-a maintenance headache due to code duplication.
-
-> FINAL NOTE: Me and my students Federico Boniardi and Francesco Agozzino
-> patched `lein-cljsbuild` to extend its build options in such a way that
-> it's able to exclude CLJS files-or-dirs from been compiled. As soon as
-> we have time to submit the patch, we hope it will be merged in a next
-> `lein-cljsbuild` release.
+Now visit the `login.html` or the `shopping.html` pages, which include
+the `modern.js` file emitted by the CLJS compiler and test them to see
+if they are still working as expected.
 
 # Next step - Introducing Domina events.
 
