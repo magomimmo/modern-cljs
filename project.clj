@@ -10,12 +10,12 @@
 
   :dependencies [[org.clojure/clojure "1.4.0"]]
 
-  :plugins [[lein-cljsbuild "0.2.10"]]
+  :plugins [[lein-cljsbuild "0.3.0"]]
 
   ;; cljsbuild tasks configuration
   :cljsbuild {:builds
               [{;; clojurescript source code path
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
