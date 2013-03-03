@@ -92,10 +92,10 @@ the updated version of `project.clj`
 
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [compojure "1.1.5"]
-                 [domina "1.0.0"]]
+                 [domina "1.0.2-SNAPSHOT"]]
 
   :plugins [; cljsbuild plugin
-            [lein-cljsbuild "0.2.10"]
+            [lein-cljsbuild "0.3.0"]
             [lein-ring "0.8.2"]]
 
   ;; ring tasks configuration
@@ -104,7 +104,7 @@ the updated version of `project.clj`
   ;; cljsbuild tasks configuration
   :cljsbuild {:builds
               [{;; clojurescript source code path
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
