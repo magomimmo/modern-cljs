@@ -342,7 +342,7 @@ Now let's play with the form:
 password fields you should see the alert window popping up and asking
 you to complete the form;
 * if you click the login button after having filled both email and
-  passoword fields you should see the usual browser error message
+  password fields you should see the usual browser error message
   saying that the page
   `/path/to/modern-cljs/resources/public/login.php` could not be
   found. That's because the action attribute of the html form
