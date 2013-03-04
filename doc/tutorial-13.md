@@ -188,8 +188,9 @@ dependencies.
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
-                 [com.cemerick/shoreleave-remote-ring "0.0.2"]
-                 [shoreleave/shoreleave-remote "0.2.2"]
+				 [domina "1.0.2-SNAPSHOT"]
+                 [shoreleave/shoreleave-remote-ring "0.3.0"]
+                 [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]]
 ```
 
@@ -348,10 +349,10 @@ project. It's quicker to do than it's to say. Here is the interested
   ;; cljsbuild tasks configuration
   :cljsbuild {:crossovers [valip.core valip.predicates modern-cljs.login.validators]
               :builds
-              {:dev
-               {;; clojurescript source code path
-                :source-path "src/cljs"
-
+              [{;; build id
+                :id "dev"
+                :source-paths ["src/brepl" "src/cljs"]
+                
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
                            :output-to "resources/public/js/modern_dbg.js"
@@ -587,7 +588,7 @@ remote function as you already made in the [10th Tutorial][16] with the
   (:require [modern-cljs.core :refer [handler]]
             [modern-cljs.login.java.validators :as v]
             [compojure.handler :refer [site]]
-            [cemerick.shoreleave.rpc :refer [defremote wrap-rpc]]))
+            [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]))
 
 (defremote calculate [quantity price tax discount]
   (-> (* quantity price)
