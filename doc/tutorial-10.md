@@ -409,6 +409,11 @@ and CLJ on the server-side.
 
 # Make you a favor
 
+> NOTE 5: This paragraph has been written while using a previous
+> version of `shoreleave` libs. *Mutatis Mutandis* (e.g. `_shoreleave`
+> instead of `_fetch`), everything should be almost the same even by
+> using the latest available `shoreleave` version.
+
 Let's finally verify our running ajax application by using the browser
 development tools. I'm using Google Chrome Canary, but you can choose
 whatever browser you want which provide development tools comparable
