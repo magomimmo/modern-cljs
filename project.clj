@@ -11,12 +11,13 @@
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
-                 [com.cemerick/shoreleave-remote-ring "0.0.2"]
-                 [shoreleave/shoreleave-remote "0.2.2"]
+                 [domina "1.0.2-SNAPSHOT"]
+                 [shoreleave/shoreleave-remote-ring "0.3.0"]
+                 [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]]
 
   :plugins [[lein-cljsbuild "0.3.0"]
-            [lein-ring "0.8.2"]]
+            [lein-ring "0.8.3"]]
 
   ;; enable cljsbuild tasks support
   ;; :hooks [leiningen.cljsbuild]
@@ -29,7 +30,7 @@
               :builds
               [{;; build id
                 :id "dev"
-                :source-paths ["src/cljs"]
+                :source-paths ["src/brepl" "src/cljs"]
                 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
@@ -41,7 +42,8 @@
                            :pretty-print true}}
                {;; build id
                 :id "pre-prod"
-                :source-paths ["src/cljs"]
+                :source-paths ["src/brepl" "src/cljs"]
+
                 :compiler {;; different JS output name
                            :output-to "resources/public/js/modern_pre.js"
 
