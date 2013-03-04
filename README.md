@@ -23,7 +23,7 @@ available tutorial without coding:
 
 > LATEST NEWS: I'm in the process of updating the series of tutorials to
 > latest versions of the used libs and plugins. At the moment I updated
-> the series up to tutorial-11. I should be able to update the rest of the
+> the series up to tutorial-12. I should be able to update the rest of the
 > series in a couple of days. Sorry for any inconvenience.
 
 > NOTE 1: If you want to access the code of any single tutorial because
