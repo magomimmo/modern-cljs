@@ -1,29 +1,6 @@
 # Tutorial 10 - Introducing Ajax
 
-***
-
-> ATTENTION NOTE 1: The text of this tutorial assumes, as all the
-> previous ones, the inclusion of [domina 1.0.0 version][25] in the
-> project dependencies. The code, instead, has been upgraded to
-> [domina 1.0.2-SNAPSHOT][26]. Due to an [apparent bug][28] of the
-> [by-class][27] function in version `"1.0.2-SNAPSHOT"` of domina, in
-> the definition of the `remove-help!` function I substituted `by-class`
-> call with `getElementsByClassName` JS function call. In the
-> `shopping.cljs` code for this tutorial I also subtituted `:as` with
-> `:refer` in the namespace declaration while in the tutorial text the
-> `:as` specification is still used.
-
-***
-
-> ATTENTION NOTE 2: Because of [domina 1.0.2-SNAPSHOT][26] upgrade, I also
-> had to downgrade lein-cljsbuild from version 0.2.10 to version 0.2.9 to
-> eliminate a very annoying waiting time for `$ lein cljasbuild one dev`
-> command to return after successfull CLJS compilation. I also commented
-> out lein `:hooks` option.
-
-***
-
-In the [last tutorial][1] we were happy enough with the reached results
+In the [latest tutorial][1] we were happy enough with the reached results
 in terms of [separation of concerns][2], functional programming style
 and elimination of any direct use of CLJS/JS interop.
 
@@ -133,10 +110,10 @@ As usual we have first to add `shoreleave-remote-ring` library to
 
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [compojure "1.1.5"]
-                 [domina "1.0.0"]
+                 [domina "1.0.2-SNAPSHOT"]
                  [hiccups "0.2.0"]
-                 [com.cemerick/shoreleave-remote-ring "0.0.2"]
-                 [shoreleave/shoreleave-remote "0.2.2"]]
+                 [shoreleave/shoreleave-remote-ring "0.3.0"]
+                 [shoreleave/shoreleave-remote "0.3.0"]]
 ```
 
 > NOTE 1: We also added  the `shoreleave-remote` library to the
@@ -158,7 +135,7 @@ directory and write the following code:
 
 ```clojure
 (ns modern-cljs.remotes
-  (:require [cemerick.shoreleave.rpc :refer [defremote]]))
+  (:require [shoreleave.middleware.rpc :refer [defremote]]))
 
 (defremote calculate [quantity price tax discount]
   (-> (* quantity price)
@@ -167,16 +144,16 @@ directory and write the following code:
 ```
 
 As you can see we first declared the new `modern-cljs.remotes`
-namespace and required the `cemerick.shoreleave.rpc`namespace refering
-the `defremote` macro.
+namespace and required the `shoreleave.middleware.rpc`namespace
+refering the `defremote` macro.
 
 Then we used the cited `defremote` macro to define the `calculate`
 function.
 
 > NOTE 2: If you compare the remote `calculate` function with the one
-> originally defined in `shopping.cljs` client code in the [last tutorial][1],
-> you should note that the call to `.toFixed` CLJS function interop has
-> been removed.
+> originally defined in `shopping.cljs` client code in the
+> [latest tutorial][1], you should note that the call to `.toFixed`
+> CLJS function interop has been removed.
 
 > NOTE 3: The namespace declaration now uses the `:require` form with
 > the `:refer` specification, which is something that I prefer to both
@@ -226,7 +203,7 @@ wraps the original one with `wrap-rpc`. Here is the complete
 (ns modern-cljs.remotes
   (:require [modern-cljs.core :refer [handler]]
             [compojure.handler :refer [site]]
-            [cemerick.shoreleave.rpc :refer [defremote wrap-rpc]]))
+            [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]))
 
 (defremote calculate [quantity price tax discount]
   (-> (* quantity price)
@@ -241,7 +218,7 @@ wraps the original one with `wrap-rpc`. Here is the complete
 > NOTE 3: We required `modern-cljs.core` and `compojure.handler`
 > namespaces to refer `handler` and `site` symbols and we added
 > `wrap-rpc` to the `:refer` specification of the already required
-> `cemerick.shoreleave.rpc` namespace.
+> `shoreleave.middleware.rpc` namespace.
 
 The last thing to be done on the server-side is to update the `:ring`
 task configuration in the `project.clj` by substituting
@@ -259,7 +236,7 @@ which means the `shopping.cljs` file.
 
 ## The client side
 
-Open the `shopping.cljs` file from the [last tutorial][1].
+Open the `shopping.cljs` file from the [latest tutorial][1].
 
 ```clojure
 (ns modern-cljs.shopping
