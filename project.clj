@@ -13,7 +13,7 @@
                  [domina "1.0.2-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "0.3.0"]
-            [lein-ring "0.8.2"]]
+            [lein-ring "0.8.3"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
