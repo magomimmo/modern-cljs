@@ -1,7 +1,7 @@
 (ns modern-cljs.remotes
   (:require [modern-cljs.core :refer [handler]]
             [compojure.handler :refer [site]]
-            [cemerick.shoreleave.rpc :refer [defremote wrap-rpc]]))
+            [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]))
 
 (defremote calculate [quantity price tax discount]
   (-> (* quantity price)
