@@ -49,7 +49,7 @@
                            :optimizations :simple}}
                :prod
                {;; same path as above
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 :compiler {;; different JS output name
                            :output-to "resources/public/js/modern.js"
