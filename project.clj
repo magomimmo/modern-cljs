@@ -12,8 +12,8 @@
                  [compojure "1.1.5"]
                  [domina "1.0.2-SNAPSHOT"]
                  [hiccups "0.2.0"]
-                 [com.cemerick/shoreleave-remote-ring "0.0.2"]
-                 [shoreleave/shoreleave-remote "0.2.2"]]
+                 [shoreleave/shoreleave-remote-ring "0.3.0"]
+                 [shoreleave/shoreleave-remote "0.3.0"]]
 
   :plugins [[lein-cljsbuild "0.3.0"]
             [lein-ring "0.8.3"]]
@@ -28,7 +28,7 @@
   :cljsbuild {:builds
               {:dev
                {;; clojurescript source code path
-                :source-path "src/cljs"
+                :source-paths ["src/brepl" "src/cljs"]
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
@@ -40,7 +40,7 @@
                            :pretty-print true}}
                :pre-prod
                {;; same path as above
-                :source-path "src/cljs"
+                :source-paths ["src/brepl" "src/cljs"]
 
                 :compiler {;; different JS output name
                            :output-to "resources/public/js/modern_pre.js"
@@ -49,7 +49,7 @@
                            :optimizations :simple}}
                :prod
                {;; same path as above
-                :source-path "src/cljs"
+                :source-paths ["src/cljs"]
 
                 :compiler {;; different JS output name
                            :output-to "resources/public/js/modern.js"
