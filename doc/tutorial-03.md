@@ -50,7 +50,7 @@ configuration we talked about.
             [lein-cljsbuild "0.3.0"]
 
             ;; ring plugin
-            [lein-ring "0.8.2"]]
+            [lein-ring "0.8.3"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
@@ -134,7 +134,7 @@ follows:
 
   :plugins [;; cljsbuild plugin
             [lein-cljsbuild "0.3.0"]
-            [lein-ring "0.8.2"]]
+            [lein-ring "0.8.3"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
