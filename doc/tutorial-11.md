@@ -215,10 +215,10 @@ follows:
       true)))
 ```
 
-> NOTE 3: Remeber to add `prevent-default` symbol to the `:refer`
+> NOTE 3: Remember to add `prevent-default` symbol to the `:refer`
 > section for `domina.events` in the namespace declaration.
 
-> NOTE 4: We took adantage of the necessity to update the `validate-form`
+> NOTE 4: We took advantage of the necessity to update the `validate-form`
 > function for improving its clojure-ish style. The semantic of the
 > `validation-form` is now much more clear than before:
 >
