@@ -119,8 +119,8 @@ function returning a predicate accepts a single argument and returns a
 function which accepts a single argument and returns `true` or
 `false`.
 
-Nothing new for any clojure-ist which knows about HOF (Higher Order
-Function), but another nice feature to have in your hands.
+Nothing new for any clojure-ist who knows about HOF (Higher Order
+Functions), but another nice feature to have in your hands.
 
 If you need to take some inspiration when defining your own predicates
 and functions, here are the definitions of the built-in `presence?`
@@ -143,7 +143,7 @@ predicate and the `matches` function which returns a predicate.
 ## A doubt to be cleared
 
 If there is a thing that it does not intrigue me about the original
-original [Valip][3] library is its dependency from a lot of java
+original [Valip][3] library is its dependency on a lot of java
 packages in the `valip.predicates` namespace.
 
 ```clojure
@@ -161,23 +161,22 @@ packages in the `valip.predicates` namespace.
                                            DoubleValidator]))
 ```
 
-This is not a suprise if you take into account that it has been created
-more that two years ago, when CLJS was eventually floating just in few
+This is not a suprise if you take into account that it was made
+more than two years ago, when CLJS was eventually floating just in few
 clojure-ist minds.
 
-The surprise is that Chas Emerick has choosen it just five months ago,
+The surprise is that Chas Emerick chose it just five months ago,
 when CLJS was already been reified from a very smart idea into a
 programming language. So, if the original [Valip][3] library was so
-dependent on the JVM, why Chas Cemerick choose it when he decided to
-port a validator from CLJ to CLJS instead of choofing a CLJ validator
-less compromised with the underlaying JVM? I don't know. Maybe the
+dependent on the JVM, why would Chas Cemerick choose it over other,
+less-compromised CLJ validation libraries? I don't know. Maybe the
 answer is just that the predefined predicates and functions were
 confined in the `valip.predicates` namespace and most of them were
 easily redefinable in portable terms.
 
 ## First try
 
-We already talked to much. Let's see the [Valip][2] lib at work by
+We already talked too much. Let's see the [Valip][2] lib at work by
 validating our old `loginForm` friend.
 
 First you have to add the [forked Valip][2] library to the project
@@ -238,7 +237,7 @@ credential (i.e `email` and `password`).
 > predicate and as such it now leaves in the `valip.java.predicates`
 > namespace of the [forked by Chas Emerick Valip library][2].
 
-We know need to update the `login.clj` by calling the just defined
+We now need to update the `login.clj` by calling the just defined
 `user-credential-errors` function.  Open the `login.clj` file from the
 `src/clj/modern_cljs/` directory and modify it as follows:
 
@@ -253,7 +252,7 @@ We know need to update the `login.clj` by calling the just defined
            " passed the formal validation, but we still have to authenticate you")))
 ```
 
-> NOTE 4: Even if we could have returned back to the user more detailed
+> NOTE 4: Even if we could have returned to the user more detailed
 > messages from the validator result, to maintain the same behaviour of
 > the previous server-side login version we only return the *Please
 > complete the form.* message when the user typed something wrong in the
@@ -264,7 +263,7 @@ use of a validator library seems to be effective, at least in terms of
 code clarity and readability.
 
 Anyway, let's run the application as usual to verify that the
-interaction with the just added validator is working as expected.
+interaction with the just-added validator is working as expected.
 
 ```bash
 $ rm -rf out # it's better to be safe than sorry
@@ -288,7 +287,7 @@ the validator rules, you should receive the following message:
 *xxx.yyy@gmail.com and zzzx1 passed the formal validation, but we still
 have to authenticate you*. So far, so good.
 
-It's now time to take seriusly Chas Emerick and try to use the [Valip][2]
+It's now time to take Chas Emerick seriously, and try to use the [Valip][2]
 library on the client-side.
 
 # Cross the border
@@ -330,10 +329,10 @@ beginning of this series of short tutorials on ClojureScript.
 [Evan Mezeske][11] made a great job by donating [lein-cljsbuild][15] to the
 clojurescript community. I suspect that without it I would never been
 able even to launch the CLJS compiler. Big, really big thanks to him and
-to all the others who helps him in keeping it updated with the frequent
+to all the others who help him in keeping it updated with the frequent
 CLJS and Google Closure Compiler releases.
 
-[Lein-cljsbuild][15] plugin has a `:crossovers` option which allows
+The [lein-cljsbuild][15] plugin has a `:crossovers` option which allows
 CLJ and CLJS to share any code that is not specific to the CLJ/CLJS
 underlying virtual machines (i.e. JVM and JSVM).
 
@@ -375,7 +374,7 @@ As you can see, we added three namespaces to the `:crossovers` option:
   client-side of our web application.
 
 To have a much better understanding of the `:crossovers` option I
-strongly recommend you to read the [original documentation][12].
+strongly recommend you read the [original documentation][12].
 
 ## The magic of the Don't Repeat Yourself principle
 
@@ -480,9 +479,9 @@ $ lein ring server-headless # in a new terminal
 ```
 
 Now visit as usual the [login-dbg.html][7] page and exercise all the
-interaction test we already did in this and in the [previous tutorial][14].
+interaction tests we already did in this and in the [previous tutorial][14].
 
-Great, really great! We satisfied all the four requirements we started
+Great, really great! We satisfied all the five requirements we started
 from:
 
 * select a good server-side validator library
@@ -575,12 +574,12 @@ good.
 
 ## Second step - Remotize the server-side-only validator
 
-Has we already know from the [10th Tutorial][16] we can easly remotize a
+As we already know from the [10th Tutorial][16], we can easly remotize a
 function by using [shoreleave][18] machinery. Open the `remote.clj`
 file and update the namespace declaration by requiring the
 `modern-cljs.login.java.validators` namespace, where we newly defined th
 `email-domain-errors` server-side-only validator. Next define the new
-remote function as you already made in the [10th Tutorial][16] with the
+remote function as you already did in the [10th Tutorial][16] with the
 `calculate` function. Here is the updated content of `remote.clj`
 
 ```clojure
@@ -609,8 +608,8 @@ remote function as you already made in the [10th Tutorial][16] with the
 
 ## Third step - Call the remotized validator
 
-The last step consist in calling from the client-side code (i.e. CLJS)
-the newly remotized function.
+The last step consists in calling from the client-side code (i.e. CLJS)
+the newly-remotized function.
 
 Open the `login.cljs` file from `src/cljs/modern-cljs/` directory and
 update its content as follows:
@@ -650,7 +649,7 @@ which wraps the remotized `email-domain-errors` function via the
 shoreleave `remote-callback` function and manipulates the DOM of the
 `loginForm` with a new error/help message to the user.
 
-We then updated the previoulsy defined `validate-mail` function by
+We then updated the previously-defined `validate-mail` function by
 adding the call to the newly defined `validate-email-domain` function.
 
 ## Last step - Test the magic again
@@ -668,7 +667,7 @@ $ lein ring server-headless # in a new terminal
 ```
 
 As usual visit the [login-dbg.html][7] page and see what happens when
-you provide a well formed email address whose domain doesn't exist.
+you provide a well-formed email address whose domain doesn't exist.
 
 ![ajax validator][19]
 
