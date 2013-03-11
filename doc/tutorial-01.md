@@ -59,6 +59,9 @@ Here is the original leiningen generated `project.clj`
   :dependencies [[org.clojure/clojure "1.5.1"]])
 ```
 
+> NOTE 3: Clojure dependency has been manually updated to version 1.5.1
+> which has been recently released.
+
 And here is the updated version where we added added the
 `lein-cljsbuild` plugin, the `:cljsbuild` and the `:source-paths`
 configurations
