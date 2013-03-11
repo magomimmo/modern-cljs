@@ -108,7 +108,7 @@ As usual we have first to add `shoreleave-remote-ring` library to
 
 ```clojure
 
-  :dependencies [[org.clojure/clojure "1.4.0"]
+  :dependencies [[org.clojure/clojure "1.5.1"]
                  [compojure "1.1.5"]
                  [domina "1.0.2-SNAPSHOT"]
                  [hiccups "0.2.0"]
@@ -331,7 +331,7 @@ Now try the same thing in a regular CLJ repl:
 $ lein repl
 nREPL server started on port 53127
 REPL-y 0.1.4
-Clojure 1.4.0
+Clojure 1.5.1
     Exit: Control+D or (exit) or (quit)
 Commands: (user/help)
     Docs: (doc function-name-here)

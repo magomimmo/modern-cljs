@@ -90,7 +90,7 @@ the updated version of `project.clj`
   ;; clojure source code path
   :source-paths ["src/clj"]
 
-  :dependencies [[org.clojure/clojure "1.4.0"]
+  :dependencies [[org.clojure/clojure "1.5.1"]
                  [compojure "1.1.5"]
                  [domina "1.0.2-SNAPSHOT"]]
 

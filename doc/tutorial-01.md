@@ -56,7 +56,7 @@ Here is the original leiningen generated `project.clj`
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.4.0"]])
+  :dependencies [[org.clojure/clojure "1.5.1"]])
 ```
 
 And here is the updated version where we added added the
@@ -72,7 +72,7 @@ configurations
 
   ;; CLJ source code path
   :source-paths ["src/clj"]
-  :dependencies [[org.clojure/clojure "1.4.0"]]
+  :dependencies [[org.clojure/clojure "1.5.1"]]
 
   ;; lein-cljsbuild plugin to build a CLJS project
   :plugins [[lein-cljsbuild "0.3.0"]]
