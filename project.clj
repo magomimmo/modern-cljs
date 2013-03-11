@@ -8,7 +8,7 @@
   ;; clojure source code path
   :source-paths ["src/clj"]
 
-  :dependencies [[org.clojure/clojure "1.4.0"]]
+  :dependencies [[org.clojure/clojure "1.5.1"]]
 
   :plugins [[lein-cljsbuild "0.3.0"]]
 
