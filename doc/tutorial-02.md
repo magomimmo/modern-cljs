@@ -140,7 +140,14 @@ ClojureScript:cljs.user> (js/alert "Hello from a browser connected repl")
 ![Alert Window][10]
 
 You will note that there is no command history or editing ability in this REPL.  You can add it if you wish by installing [rlwrap][12] and following the instructions 
-[here][13].  
+[here][13]. 
+
+## ATTENTION 
+
+Due to an [open issue][14] currently affecting [lein-cljsbuild][15]
+you could experience the hanging of the brepl. In such a case you
+should add `[org.clojure/clojurescript "0.0-1586"]` to the project
+`:dependencies`.
 
 ## Next step
 
@@ -167,4 +174,6 @@ License, the same as Clojure.
 [11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
 [12]: http://utopia.knoware.nl/~hlub/rlwrap/#rlwrap
 [13]: https://github.com/emezeske/lein-cljsbuild/wiki/Using-Readline-with-REPLs-for-Better-Editing
+[14]: https://github.com/emezeske/lein-cljsbuild/issues/186
+[15]: https://github.com/emezeske/lein-cljsbuild
 
