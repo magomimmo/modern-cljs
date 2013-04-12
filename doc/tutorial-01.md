@@ -31,11 +31,11 @@ $ mv src/modern_cljs/ src/clj/
 ```
 
 > NOTE 2: due to [java difficulties][4] in managing hyphen "-" (or other
-> special characters) in package names, substitute any hyphen with
-> underscore in corresponding directory names.
+> special characters) in package names, substitute an underscore for any hyphen
+> in corresponding directory names.
 
 Create a directory structure to host static resources of the project
-(i.e. html pages, js script files, css stylesheet files, etc.)
+(i.e., html pages, js script files, css stylesheet files, etc.)
 
 ```bash
 $ mkdir -p resources/public/{js,css}
@@ -45,7 +45,7 @@ $ mkdir -p resources/public/{js,css}
 
 You now need to edit `project.clj` to:
 
-* update source-paths of CLJ source code of the project;
+* update the source-paths of CLJ source code of the project;
 * add and configure [lein-cljsbuild][3] plugin in `project.clj`.
 
 Here is the original leiningen generated `project.clj`
