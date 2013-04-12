@@ -7,13 +7,12 @@ http-server.
 ## Introduction
 
 So far we have only played with CLJS code that, once compiled to JS, runs on the
-browser side, and have not needed a CLJ enabled http-server. But we love clojure
+browser side, and have not needed a CLJ-enabled http-server. But we love clojure
 and we want to learn more about it too.
 
-[Ring][2] is one of the foundamental building-blocks of any CLJ based
-stack of libraries to develop web based application in CLJ programming
-language and we're going to use it instead of any other http-server
-based.
+[Ring][2] is one of the fundamental building-blocks of any CLJ-based
+stack of libraries to develop web based applications. We're going to use it
+instead of any other http-server.
 
 ## Add lein-ring plugin to our project.clj
 
@@ -75,13 +74,13 @@ configuration we talked about.
 
 A ring handler is just a function that receives a request as an
 argument and produces a response. Both request and response are
-regular clojure map. Instead of using low-level [Ring API][4], we're
+regular clojure maps. Instead of using low-level [Ring API][4], we're
 going to add another very common library to our `project.clj`:
 [compojure][5].
 
 [Compojure][5] is a small routing library for [Ring][2] that allows
 web applications to be composed of small and independent parts, using
-a concise DSL (Domain Specific Language) to generate [Ring][2]
+a concise DSL (Domain Specific Language) to generate a [Ring][2]
 handler.
 
 In this tutorial our goal is to set up an http-server able to serve
@@ -89,7 +88,7 @@ static html pages (e.g. simple.html) saved in the `resources/public`
 directory.
 
 Open the file `core.clj` from `src/clj/modern_cljs` directory and
-change it's content as follows.
+change its content as follows.
 
 ```clojure
 (ns modern-cljs.core
@@ -117,7 +116,7 @@ change it's content as follows.
 ## Add compojure to project.clj
 
 Before running our new CLJ based http-server, we need to add `compojure`
-to `project.clj` dependencies section. The new `project.clj` is as
+to the `project.clj` dependencies section. The new `project.clj` is as
 follows:
 
 ```clojure
@@ -171,8 +170,8 @@ You should see a page with a paragraph saying
 on port `3000`. Optionally, you can pass it a different port number,
 like so: `$ lein ring server 8888`.
 
-You can also check that the browser connected repl is still working by
-launching again `$ lein trampoline cljsbuild repl-listen` command on a
+You can also check that the browser-connected repl is still working by
+again launching the `$ lein trampoline cljsbuild repl-listen` command on a
 new terminal (remember to cd to `/path/to/modern-cljs`) and visiting
 [simple.html][6] page.
 
