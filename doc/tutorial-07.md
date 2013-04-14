@@ -2,14 +2,14 @@
 
 In this tutorial we're going to explore CLS compiler optimizations by
 using the usual `lein-cljsbuild` plugin of `leiningen` and we'll
-discover a trouble we'll solve by using the latest release of
+discover a trouble which we will solve by using the latest release of
 lein-cljsbuild (i.e. lein-cljsbuild 0.3.0).
 
 ## Introduction
 
 In the [previous tutorial][1] we came in contact with `:export` directive
-been attached to `init` function. That directive had the scope to
-protect that function from being evantually renamed by the Google
+been attached to `init` function. That directive had the role of
+protecting the function from being eventually renamed by the Google
 Closure (CLS) compiler when used with more aggressive compilation mode
 than `:whitespace`, namely `:simple` and `:advanced`.
 
@@ -43,7 +43,7 @@ The `:whitespace` compilation mode of the CLS compiler removes all
 comments and whitespaces from the JS code emitted by the CLJS
 compiler. When paired with `:pretty-print true` directive, `:whitespace`
 compilation mode is very effective in supporting programmers during the
-development phase, because it prettyfies the emitted JS code in such a
+development phase, because it prettifies the emitted JS code in such a
 way that you can read it and eventually set breakpoints during debugging
 sessions with a browser development tool activated.
 
@@ -152,8 +152,8 @@ $
 ```
 
 If you now list your `resources/public/js` directory you can immediately
-see the size difference of `modern_dbg.js` and `modern_pre.js`, being the
-last 30% less than the former, but still more than 700KB.
+see the size difference of `modern_dbg.js` and `modern_pre.js`, the latter being
+30% less than the former, but still more than 700KB.
 
 ```bash
 $ ls -lah resources/public/js/
@@ -246,7 +246,7 @@ $ cp resources/public/login.html resources/public/login-pre.html
 $ cp resources/public/shopping.html resources/public/shopping-dbg.html
 $ cp resources/public/shopping.html resources/public/shopping-pre.html
 ```
-Now edit `login-dbg.htnl`, `login-pre.html`, `shopping-dbg.html` and
+Now edit `login-dbg.html`, `login-pre.html`, `shopping-dbg.html` and
 `shopping-pre.html` to update the corresponding `script` tag as follows:
 
 `login-dbg.html`
@@ -351,8 +351,8 @@ connected repl (brepl) as a CLJS evalutation environment enabling a very
 productive and interactive style of programming. To reach this objective
 we created a `connect.cljs` file where we called `(repl/connect
 "http://localhost:9000/repl")` to establish the server side of the
-brepl connection, being the JavaScript virtual machine of the browser
-the client side of the connection itself.
+brepl connection: the JavaScript virtual machine of the browser client
+itself.
 
 Having an active brepl connection is a great thing during development
 and testing phases, but for security reasons it would be better not to
@@ -362,7 +362,7 @@ connection, it would be nice to have a way to explicitly **exclude** the
 `connect.cljs` file containing the connection call from the build
 (i.e. `:prod`) dedicated to the production environment.
 
-## Solve the trouble
+## Solve the problem
 
 The `0.3.0` release of [lein-cljsbuild][6] has a new feature which can
 be used to easily solve the above trouble. [Lein-cljsbuild][6] now
