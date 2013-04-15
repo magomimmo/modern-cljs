@@ -1,26 +1,26 @@
 # Tutorial 8 - Introducing Domina events
 
-Starting from [Tutorial 5][1], we introduced [domina library][2] to
-approach CLJS programming in a more clojure-ish way if compared with
+Starting from [Tutorial 5][1], we introduced the [domina library][2] to
+approach CLJS programming in a more clojure-ish way, rather than
 using CLJS/JS interop features.
 
 ## Introduction
 
-We touched `domina` surface by using `by-id` to select individual
-elements from DOM, `value` and `set-value!` to get/set the value of a
+We touched `domina` superficially by using `by-id` to select individual
+elements from the DOM, and `value` and `set-value!` to get/set the value of a
 form field.
 
-It's now time to see what domina library has to offer for substitutuing
+It's now time to see what the domina library has to offer for substituting
 CLJS/JS interop features in managing events.
 
 ## Listen to events
 
-Let's go back to the [shopping calculator form][3] we introduce in
+Let's go back to the [shopping calculator form][3] we introduced in
 Tutorial 5.
 
-First of all, by been cloned from the orginal HTML code of
+First of all, by having been cloned from the orginal HTML code of
 [Modern JavaScript: Develop and Design][4], the shopping form used a
-`submit` type of button. As the shopping calculator data need not to
+`submit` type of button. As the shopping calculator data does not need to
 be sent to a server-side script to be validated, we think it's more
 appropriate to use a `button` type and remove both `action` and
 `method` attributes from the corresponding `form` tag.
@@ -103,16 +103,16 @@ Here is the updated html code.
 </html>
 ```
 
-> NOTE 1: In [Tutorial 7][5] we set `:cljsbuild` configuration options
+> NOTE 1: In [Tutorial 7][5] we set the `:cljsbuild` configuration options
 > to generate three different builds: `:dev`, `:pre-prod` and `:prod`
-> which emitted three differents JS (i.e. `modern_dbg.js`,
+> which emitted three differents JS (`modern_dbg.js`,
 > `modern_pre.js` and `modern.js`). Then we replicated three html file
 > (i.e. `shopping-dbg.html`, `shopping-pre.html` and `shopping.html`)
 > to include the appropriate JS file emitted by the three different
 > builds.  You should replicate the above modification in each
 > shopping html file.
 
-Here is the updated shopping calculator form rendered by the browser.
+Here is the updated shopping calculator form as rendered by the browser.
 
 ![Shopping calculator][6]
 
@@ -127,7 +127,7 @@ events. One of them is the `listen!` function, wich allows to attach
 an handling function (e.g. `calculate`) to a DOM event type
 (e.g. `click`, `mouseover`, `mouseout`, etc). 
 
-Let's now update `shopping.cljs` by requiring `domina.events`
+Let's now update `shopping.cljs` by requiring the `domina.events`
 namespace and by substituting the `.-onsubmit` JS interop with the
 `listen!` function as follows:
 
@@ -155,7 +155,7 @@ namespace and by substituting the `.-onsubmit` JS interop with the
 > NOTE 2: We now `:require` `domina` instead of just `:use` it as in
 > [previous tutorials][7]. Note that we also deleted the returned
 > `false` value from `calculate` definition because, when using
-> `button` input type instead of `submit` input type, we need not to
+> `button` input type instead of `submit` input type, we do not need to
 > return the control to the form itself.
 
 > NOTE 3: As usual, the `init` function has been exported to protect its
@@ -202,7 +202,7 @@ call and you're done.
 
 In the next tutorial we'are going to face the need to programmatically
 manipulate DOM elements as a result of the occurrance of some DOM
-event (e.g. `mouseover`, `mouseout`, etc.).
+events (e.g., `mouseover`, `mouseout`, etc.).
 
 # License
 

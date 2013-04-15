@@ -1,6 +1,6 @@
 # Tutorial 4 - Modern ClojureScript
 
-In this tutorial we're going to start the porting of a few JavaScript (JS)
+In this tutorial we're going to start by porting a few JavaScript (JS)
 samples from the book [Modern JavaScript: Development and Design][1] by
 [Larry Ullman][2]. You can download the code from the book [here][3].
 
@@ -11,7 +11,7 @@ not yet fluent in CLJS.
 
 ## Introduction
 
-As everybody knows, in the 1990s JS had been prevalently used for
+As everybody knows, in the 1990s JS was primarily used for
 improving and validating HTML forms. Then, in the second half of the
 2000s, JS started to be used to make asynchronous requests to a server
 side resource and within a few months, we had two new buzzwords, Ajax
@@ -126,24 +126,24 @@ bring us to the second sequence diagram.
 
 If the client-side (i.e. JS) validation passes, we still have to ask the
 server-side validation for security reasons. But if the client-side
-validation does not pass, we need not to make a round-trip to the
+validation does not pass, we do not need to make a round-trip to the
 server and we can immediately return the errors to the user.
 
 But we still have some problems. The client-side validation cannot
-verify if the username is registered. This bring us to Ajax and
+check if the username is registered. This bring us to Ajax and
 the third sequence diagram.
 
 #### Ajax in action
 
 ![login Form Seq DIA 3][10]
 
-The user experience has been now much more enhanced. The Ajax call
-communicates with the server (e.g. to verify if the email address does
+The user experience has now been much more enhanced. The Ajax call
+communicates with the server (e.g., to verify if the email address does
 exist) resulting in a more efficient and responsive process.
 
-In this tutorial we are going to limit ourselves to the client-side
+In this tutorial, we are going to limit ourselves to the client-side
 validation scenario without implementing the server-side validation
-or the Ajax call to the server, which will be implemented in
+or the Ajax call to the server. We will implement those in
 subsequent more advanced tutorials.
 
 ## JavaScript
@@ -245,7 +245,7 @@ and ".-" JS interop to call JS native functions
 (e.g. `.getElementById`) and to get/set JS object properties
 (i.e. `.-value`) or functions we want as value (e.g. `.-getElementById`
 and `.-onsubmit`), rather than execute. This is one of the
-[differences between CLJS from CLJ][12] that depends on the underlying
+[differences between CLJS and CLJ][12] that depends on the underlying
 host virtual machine (i.e. JSVM versus JVM).
 
 Copy the `login.html` file from [ch02 of Modern JS Code][3] to
