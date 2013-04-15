@@ -1,13 +1,13 @@
 # Tutorial 10 - Introducing Ajax
 
-In the [latest tutorial][1] we were happy enough with the reached results
-in terms of [separation of concerns][2], functional programming style
-and elimination of any direct use of CLJS/JS interop.
+In the [latest tutorial][1] we were happy enough with the results we
+achieved in terms of [separation of concerns][2], functional programming
+style and elimination of any direct use of CLJS/JS interop.
 
 As we said in [Tutorial 4][3], the very first reason why JS adoption
 became so intense had to do with its ability to easily support
-client-side validation of HTML forms. The same thing we did from
-[Tutorial 4][3] to [Tutorial 9][1].
+client-side validation of HTML forms. This is the same thing we did
+from [Tutorial 4][3] to [Tutorial 9][1].
 
 Then, thanks to the introduction of [XmlHttpRequest][4] JS object and
 the wide spread of gmail and google maps, the terms **ajax** and **web
@@ -57,9 +57,9 @@ alleviate a sure PITA.
 # Introducing shoreleave
 
 After a brief github search, my collegues [Federico Boniardi][7] and
-[Francesco Agozzino][8] found [shoreleave-remote][9] and
-[shoreleave-remote-ring][10] libraries.  They appreared immediatly to be
-really promising in helping our ajax experiments if compared with
+[Francesco Agozzino][8] found the [shoreleave-remote][9] and
+[shoreleave-remote-ring][10] libraries.  They appreared immediately to be
+really promising in helping our ajax experiments, as compared with
 [fetch][11] library, which was the one I was aware of and that depends
 on [noir][12] that has been recently [deprecated][13].
 
@@ -73,7 +73,7 @@ integrated libraries that focuses on
 * ClojureScript's advantages
 
 and it builds upon efforts found in other ClojureScript projects, such
-as [fetch][11] and [ClojureScriptOne][15] which is like to say that it stands
+as [fetch][11] and [ClojureScriptOne][15] which is like saying that it stands
 on the shoulders of giants.
 
 ## KISS (Keep It Small and Stupid)
@@ -96,7 +96,7 @@ calculate the total.
 ## The server side
 
 Thanks to [Chas Emerick][17], who is one of the most active and
-fruitful clojurist, we can exploit [shoreleave-remote-ring][10] by
+fruitful clojurists, we can exploit [shoreleave-remote-ring][10] by
 defining a remote calculate function which will return back the result
 (i.e. `total`) from the passed input (i.e. `quantity`, `price`, `tax`
 and `discount`).
@@ -124,9 +124,9 @@ As usual we have first to add `shoreleave-remote-ring` library to
 ### defremote
 
 The next step is to define the remote function that implements the
-calculation from `quantity`, `price`, `tax` and `discount` input. The
-`shoreleave-remote-ring` library offers `defremote` macro which is
-just like `defn` macro plus the registration of the defining function
+calculation from the `quantity`, `price`, `tax` and `discount` input. The
+`shoreleave-remote-ring` library offers the `defremote` macro which is
+just like `defn` macro plus includes the registration of the defining function
 in a registry implemented as a reference type map (i.e. `(def remotes
 (atom {}))`).
 
@@ -144,14 +144,14 @@ directory and write the following code:
 ```
 
 As you can see we first declared the new `modern-cljs.remotes`
-namespace and required the `shoreleave.middleware.rpc`namespace
+namespace and required the `shoreleave.middleware.rpc` namespace
 refering the `defremote` macro.
 
 Then we used the cited `defremote` macro to define the `calculate`
 function.
 
 > NOTE 2: If you compare the remote `calculate` function with the one
-> originally defined in `shopping.cljs` client code in the
+> originally defined in the `shopping.cljs` client code in the
 > [latest tutorial][1], you should note that the call to `.toFixed`
 > CLJS function interop has been removed.
 
@@ -221,7 +221,7 @@ wraps the original one with `wrap-rpc`. Here is the complete
 > `shoreleave.middleware.rpc` namespace.
 
 The last thing to be done on the server-side is to update the `:ring`
-task configuration in the `project.clj` by substituting
+task configuration in the `project.clj` by replacing the
 `modern-cljs.core/handler` handler with the new one (i.e. `app`).
 
 ```clojure
@@ -411,13 +411,13 @@ and CLJ on the server-side.
 
 > NOTE 5: This paragraph has been written while using a previous
 > version of `shoreleave` libs. *Mutatis Mutandis* (e.g. `_shoreleave`
-> instead of `_fetch`), everything should be almost the same even by
+> instead of `_fetch`), everything should be almost the same when
 > using the latest available `shoreleave` version.
 
 Let's finally verify our running ajax application by using the browser
 development tools. I'm using Google Chrome Canary, but you can choose
 whatever browser you want which provide development tools comparable
-with the ones available into Google Chrome Canary.
+with the ones available in Google Chrome Canary.
 
 * If you have stopped the running ring server from the previous
   paragraph, just run it again as explained above;
@@ -426,11 +426,11 @@ with the ones available into Google Chrome Canary.
 * Select the `Network` pane;
 * Visit [shopping-dbg.html][20] page or reload it.
 
-Your browser should look as in the following image.
+Your browser should look like the following image.
 
 ![network-01][21]
 
-Click the `Calculator` button. If you concetrate your eyes in the
+Click the `Calculator` button. If you focus on the
 `Network` pane, you should now see something similar to the following
 image.
 
@@ -439,7 +439,7 @@ image.
 Now click `_fetch` from the `Name/Path` column. If the `Header`
 subpane is not alreay selected, select it and scroll until you can see
 the `Form Data` area. You should now see the following view which
-reports `calculate` as the value of the `remote` key and `[1 2 3 4]`
+reports `calculate` as the value of the `remote` key, and `[1 2 3 4]`
 as the value of the passed params to it.
 
 ![network-03][23]
