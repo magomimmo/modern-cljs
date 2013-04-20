@@ -10,7 +10,7 @@ So far we have only played with CLJS code that, once compiled to JS, runs on the
 browser side, and have not needed a CLJ enabled http-server. But we love clojure
 and we want to learn more about it too.
 
-[Ring][2] is one of the foundamental building-blocks of any CLJ based
+[Ring][2] is one of the fundamental building-blocks of any CLJ based
 stack of libraries to develop web based application in CLJ programming
 language and we're going to use it instead of any other http-server
 based.
