@@ -381,7 +381,7 @@ make our login form validation more clojure-ish.
 
 # License
 
-Copyright ¬© Mimmo Cosenza, 2012-13. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-13. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
