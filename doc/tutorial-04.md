@@ -357,7 +357,7 @@ you to complete the form;
 ## The fun part
 
 In this last paragraph of the tutorial you can start to have some fun
-with the brepl and the CLJ http-server we introduced in [tutorial 3][16]
+with the repl and the CLJ http-server we introduced in [tutorial 3][16]
 
 0. launch the compile task in auto mode: `$ lein cljsbuild auto`
 1. launch the brepl: `$ lein trampoline cljsbuild repl-listen`
