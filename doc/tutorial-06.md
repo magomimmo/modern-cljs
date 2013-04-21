@@ -63,7 +63,7 @@ it finds in the `"src/cljs"` directory and subdirectories
 ## Is mutability evil?
 
 Both `login.cljs` and `shopping.cljs` had a final call to `(set!
-(.-onload js/window) init)`, which is then called two times: once from
+(.-onload js/window) init)`, which is therefore called twice: once from
 `login.cljs` and once from `shopping.cljs`. The order of these calls
 doesn't matter, because whichever comes first, the other is going to
 mutate its previous value: a clear case against JS mutable data

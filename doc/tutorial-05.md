@@ -6,8 +6,8 @@ the [previous tutorial][2].
 
 ## Introduction
 
-In the [previous tutorial][2] we started coding in CLJS directly
-translating from JS to CLJS by using [JS interop][7] features of CLJS. Now
+In the [previous tutorial][2] we started coding in CLJS, directly
+translating from JS to CLJS by using the [JS interop][7] features of CLJS. Now
 it's time to try something better.
 
 > [Domina][1] is a jQuery inspired DOM manipulation library for
@@ -177,8 +177,8 @@ $ lein cljsbuild once # in a new terminal and after having cd in modern-cljs
 $ lein trampoline cljsbuild repl-listen
 ```
 
-> Note 3: be sure to `cd` in the home directory of the project in each
-> terminal you open
+> Note 3: be sure to `cd` to the home directory of the project in each
+> terminal you open.
 
 Open <http://localhost:3000/login.html>, and when the CLJS repl becomes responsive,
 having established a connection with the browser, try the following at the REPL prompt:
@@ -241,8 +241,8 @@ calculate the total of an order, including tax, and minus any discount.
 
 Here is the `shopping.html` content which is in line with
 [clojurescriptone approach][4] and [Larry Ullman][6] to keep the design
-of the HTML/CSS/images separated from the code is going to implement its
-behaviour. Save it in `resources/public` directory.
+of the HTML/CSS/images separated from the code which is going to implement
+its behaviour. Save it in `resources/public` directory.
 
 ```html
 <!doctype html>
