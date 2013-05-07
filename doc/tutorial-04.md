@@ -274,7 +274,7 @@ Finally, set the `src` script tag attribute value to
 </head>
 <body>
     <!-- login.html -->
-    <form action="login.php" method="post" id="loginForm" novalidate>
+    <form action="login.php" method="post" id="loginForm" novalidate="">
         <fieldset>
             <legend>Login</legend>
 
