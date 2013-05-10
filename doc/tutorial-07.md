@@ -471,7 +471,7 @@ drwxr-xr-x  11 mimmo  staff   374B Mar  3 19:48 ..
 $
 ```
 
-If you zip it you reach and amazing size of 22K. Finally you can run as
+If you zip it you reach an amazing size of 22K. Finally you can run as
 usual the `modern-cljs` project.
 
 ```bash
