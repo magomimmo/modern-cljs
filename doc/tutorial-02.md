@@ -143,13 +143,6 @@ You will note that there is no command history or editing ability in this
 REPL.  You can add it if you wish by installing [rlwrap][12] and following
 the instructions [here][13].
 
-## ATTENTION
-
-Due to an [open issue][14] currently affecting [lein-cljsbuild][15]
-you could experience the hanging of the brepl. In such a case you
-should add `[org.clojure/clojurescript "0.0-1586"]` to the project
-`:dependencies`.
-
 ## Next step
 
 In the next [tutorial][11] we're going to substitute the external
