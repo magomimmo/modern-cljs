@@ -159,7 +159,7 @@ the `shoppingForm` form.
 
 If there is a thing that I don't like about domina library is that it
 requires the child/children argument to be passed to `append!`, and to
-otherr DOM manipulation functions, as a string containing a true HTML
+other DOM manipulation functions, as a string containing a true HTML
 fragment, not a CLJ data structure. That's why I searched around to
 see if someone else, having my same pain, solved it.
 
