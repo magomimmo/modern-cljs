@@ -339,7 +339,7 @@ $ lein cljsbuild clean # from modern-cljs home dir
 $ lein clean
 $ lein cljsbuild once
 $ lein ring server
-$ lein trampoline cljsbuils repl-listen # from modern home dir in a new terminal
+$ lein trampoline cljsbuild repl-listen # from modern home dir in a new terminal
 ```
 
 Next visit [`shopping-dbg.html`][4], [`shopping-pre.html`][9] and
