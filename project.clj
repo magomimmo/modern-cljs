@@ -3,14 +3,14 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :min-lein-version "2.0.0"
+  :min-lein-version "2.1.2"
 
   ;; clojure source code path
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]]
 
-  :plugins [[lein-cljsbuild "0.3.0"]]
+  :plugins [[lein-cljsbuild "0.3.2"]]
 
   ;; cljsbuild tasks configuration
   :cljsbuild {:builds
