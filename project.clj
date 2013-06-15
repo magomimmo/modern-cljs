@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :min-lein-version "2.0.0"
+  :min-lein-version "2.1.2"
 
   ;; clojure source code path
   :source-paths ["src/clj"]
@@ -15,8 +15,8 @@
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]]
 
-  :plugins [[lein-cljsbuild "0.3.0"]
-            [lein-ring "0.8.3"]]
+  :plugins [[lein-cljsbuild "0.3.2"]
+            [lein-ring "0.8.5"]]
 
   ;; enable cljsbuild tasks support
   ;; :hooks [leiningen.cljsbuild]
