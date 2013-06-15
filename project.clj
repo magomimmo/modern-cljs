@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :min-lein-version "2.0.0"
+  :min-lein-version "2.1.2"
 
   ;; clojure source code path
   :source-paths ["src/clj"]
@@ -12,8 +12,8 @@
                  [compojure "1.1.5"]
                  [domina "1.0.2-SNAPSHOT"]]
 
-  :plugins [[lein-cljsbuild "0.3.0"]
-            [lein-ring "0.8.3"]]
+  :plugins [[lein-cljsbuild "0.3.2"]
+            [lein-ring "0.8.5"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
