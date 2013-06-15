@@ -11,8 +11,8 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [compojure "1.1.5"]]
 
-  :plugins [[lein-cljsbuild "0.3.0"]
-            [lein-ring "0.8.3"]]
+  :plugins [[lein-cljsbuild "0.3.2"]
+            [lein-ring "0.8.5"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
