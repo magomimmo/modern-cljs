@@ -46,10 +46,10 @@ configuration we talked about.
   :dependencies [[org.clojure/clojure "1.5.1"]]
 
   :plugins [;; cljsbuild plugin
-            [lein-cljsbuild "0.3.0"]
+            [lein-cljsbuild "0.3.2"]
 
             ;; ring plugin
-            [lein-ring "0.8.3"]]
+            [lein-ring "0.8.5"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
@@ -132,8 +132,8 @@ follows:
                  [compojure "1.1.5"]]
 
   :plugins [;; cljsbuild plugin
-            [lein-cljsbuild "0.3.0"]
-            [lein-ring "0.8.3"]]
+            [lein-cljsbuild "0.3.2"]
+            [lein-ring "0.8.5"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
