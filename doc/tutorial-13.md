@@ -506,7 +506,7 @@ already done by introducing a server-side only validator which will be
 called also via ajax from the client code.
 
 As we said, most valip predicates are portable between CLJ and CLJS. But
-non all of them. Just to make an example, the `valip.java.predicates`
+not all of them. Just to make an example, the `valip.java.predicates`
 includes a `valid-email-domain?` which verify the existence of the
 domain of an email address passed by the user. Because it's implemented
 in terms of java native code, `valid-email-domain?` is not available on
