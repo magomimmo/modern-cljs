@@ -12,10 +12,10 @@ I started programming almost 30 years ago and I had the luckiness of
 starting with Prolog and then on a wonderful Lisp Machine, which I
 still miss a lot today. I never started a program from a test that has
 to fail to progress until it succeeds. That's because I had my Lisp
-REPL to follow my thoughs and to correct them on the fly. Nowaday, by
+REPL to follow my thoughts and to correct them on the fly. Nowadayy, by
 using CLJ/CLJS, with immutability included, unit tests are very easy
 to be implemented because most of the time you have to do with pure
-functions, whose outputs depends only by the passed inputs. That said,
+functions, whose outputs depends only by the past inputs. That said,
 when you're aged like I'm, you can't change your habits. So, who's
 religious about TDD/BDD (Test Driven Development and Behavioural
 Driven Development), has to be forgiven with me.
@@ -25,7 +25,7 @@ Driven Development), has to be forgiven with me.
 In the last [tutorial][1] I hope you had some fun in seeing the DRY
 principle at work, while adhering to the progressive enhancement
 strategy. Before to go ahead by affording the problem of testing your
-CLJ/CLJS code, we have to fullfill something we left behind. In the
+CLJ/CLJS code, we have to fulfill something we left behind. In the
 [tutorial 10 - Introducing Ajax][2] we implemented a Shopping
 Calculator by using the Ajax style of communication between the
 browser and the server: said otherwise, between ClojureScript on the
@@ -38,9 +38,9 @@ Ajax. After all this is a series of tutorial on CLJS not on CLJ, but
 by doing this, we have broken the first principle of the progressive
 enhancement strategy, which dictates to start developing your web
 application by implementing it as if JavaScript would not be available
-on the browser of the users. 
+on the browser of the users.
 
-The main advantage of CLJ and CLJS is that you have an unified
+The main advantage of CLJ and CLJS is that you have a unified
 language for both sides of the world, and this language is, in my
 humble opinion, much better and fun than the JS/Node.js pair. So, we
 need to fill the gap, even if this means to move ourself from CLJS to
@@ -60,7 +60,7 @@ $ lein ring server-headless # in a new terminal from modern-cljs dir
 ```
 
 Now visit the [shopping.html][3] page, and click the `Calculate`
-button. The `Total` field is updated with the result of the calculation
+button. The `Total` field has been updated with the result of the calculation
 executed via Ajax on the server-side. As you can see the `shopping.html`
 page showed in the address bar of the browser does not change. Only the
 result of the `Total` field has been updated, even if the calculation
@@ -71,7 +71,7 @@ opening the `Developer Tools` panel of your browser (I'm using Google
 Chrome) and by taking a look at the Network tab after having reload the
 [shopping.html][3] page, you should see the network activities. Any time
 you click the `Calculate` button a new `_shoreleave` POST method request
-is submited to the server which responds with the HTTP/1.1 202 status
+is submitted to the server which responds with the HTTP/1.1 202 status
 code (i.e. Accepted).
 
 ![AjaxNetwork][5]
@@ -94,8 +94,8 @@ Take a look at the `shopping.html` file which is under the
 <!doctype html>
 <html lang="en">
 <head>
-	...
-	...
+        ...
+        ...
 </head>
 <body>
   <!-- shopping.html -->
@@ -112,13 +112,13 @@ Take a look at the `shopping.html` file which is under the
     </fieldset>
   </form>
     ...
-	...
+        ...
 </body>
 </html>
 ```
 
-As you can see the `form` tag has no `action` and `method` setted and
-the `type` attribute of the Calculate `input` is setted to `"button"`
+As you can see the `form` tag has no `action` and `method` set and
+the `type` attribute of the Calculate `input` is set to `"button"`
 value, which means that when JavaScript is disabled and the `form`
 does not respond to any event.
 
@@ -172,7 +172,7 @@ which explains us why we received the `Page not found` page: our
 server does not know anything about the `/shopping` URL we are now
 passing as the value of the `action` of the Shopping Calculator form.
 
-Furthermore, by having setted the `method` attribute of the `form` to
+Furthermore, by having set the `method` attribute of the `form` to
 `post` and the `type` attribute of the Calculate `input` to `submit`, we
 asked the browser to send to the server a POST request with the
 `"/shopping"` URL whenever the user clicks the Calculate button.
@@ -182,7 +182,7 @@ asked the browser to send to the server a POST request with the
 By modifying the `shopping.html` and disabling the JavaScript from the
 browser, we have just exercized a kind of TDD (Test Driver
 Development). So the first step is to fix the problem we just met by
-adding a fictious route to the [compojure][7] `defroutes` macro.
+adding a fictional route to the [compojure][7] `defroutes` macro.
 
 Open the `src/clj/modern_cljs/core.clj` file and add a POST route for
 the `"/shopping"` URL as follows.
@@ -221,7 +221,7 @@ By having changed the `Calculate` input from `type="button"` to
 `type="submit"`, when now the user clicks it, the control passes to
 the `action="/shopping"` which is called as a POST request to the server.
 
-We already afforded this problem in a [previuos tutorial][10]
+We already afforded this problem in a [previous tutorial][10]
 dedicated to the `login` example and we solved it by preventing the
 click event to be passes to the action associated to the form.
 
@@ -275,7 +275,7 @@ follows.
             [cljs.reader :refer [read-string]]))
 ```
 
-If you had not stop the `cljsbuild` auto compilation from the previuos
+If you had not stop the `cljsbuild` auto compilation from the previous
 run you should see the CLJS/Google Closure Compiler running again to
 produce the optimized `modern.js` script file.
 
@@ -293,15 +293,15 @@ and set the last as the active branch in preparation of the next work.
 
 In the Step 1 of this tutorial we prepared the field for introducing
 [Enlive][11], one of the most famous CLJ libs in the clojurean
-community. There are already
-[few Enlive tutorials availbale online][12] and I'm not going to
-compete with who is more knowledgeable than me on this topic. In this
-step of the tutorial I'm only going to introduce the few things that
-will allow us to implement a very simple server-side only Shopping
-Calculator in accordance with the progressive enhamvement principle.
+community. There are already [few Enlive tutorials available online][12]
+and I'm not going to compete with who is more knowledgeable than me on
+this topic. In this step of the tutorial I'm only going to introduce the
+few things that will allow us to implement a very simple server-side
+Shopping Calculator in accordance with the progressive enhancement
+principle.
 
 The reasons why I choose Enlive are very well motivated by
-[David Nolen][13] in its [bestseller tutorial][14] on Enlive:
+[David Nolen][13] in its [nice tutorial][14] on Enlive:
 
 > Enlive gives you the advantages of designer accessible templates
 > (since they’re just HTML) without losing the power of function
@@ -310,26 +310,176 @@ The reasons why I choose Enlive are very well motivated by
 > your pages from any combination of their designs.
 
 This is similar to [Domina][15] separation of concern which allows the
-designer to play its role and the programmer too.
+designer and the programmer to play thier roles without too many
+impedance mismatches.
 
 Our needs are very easy to be described. We have to:
 
-* Read a pure HTML page which represents the Shopping Calculator 
-* Extract from the HTTP request the parameters typed-in by the user in
+1. Read a pure HTML page which represents the Shopping Calculator
+2. Extract from the HTTP request the parameters typed-in by the user in
 the Shopping form
-* make the calculation of the total 
-* update the total field with the calcultated result
-* show the updated Shopping Calculator to the user
+3. make the calculation of the total
+4. update the total input field with the calculated result
+5. send the updated Shopping Calculator to the user
 
-The following picture shows a sequence diagram of the above descriptio.
+The following picture shows a sequence diagram of the above description.
 
 ![Shopping-server][16]
 
-Obiouvsly we have to validate all inputs, but this is something we'll
+Obviously we have to validate all inputs, but this is something we'll
 take care of later.
 
 
+### Enter Enlive
 
+As we said above the first step for serving the Shopping Calculator is
+to read a pure HTML template of the page.
+
+Enlive offers the `html-resource` function which takes almost any kind
+of HTML resource (e.g. File), parses it and returns a sequence of
+nodes, which satisfys `1.`
+
+As we already know, the `compojure` `defroutes` is able to satisfy
+`2.` and `5.`
+
+Regarding `.3`, the `defremote` macro from `shoreleave` lib implicitely
+defines a function with the same name as the remote name.
+
+To update the result of the calculation in the HTML page, Enlive offers
+a
+  which seems to satysfy 3.
+
+
+
+
+Enlive offers the `deftemplate` macro which allows to complete almost
+all the above activities in just one step, which is the easiest way to
+use Enlive.
+
+As usual the very first step to use a CLJ lib is to add it to the
+dependencies section of the the `project.clj` file.
+
+```clojure
+(defproject modern-cljs "0.1.0-SNAPSHOT"
+  ...
+  ...
+  :dependencies [[org.clojure/clojure "1.5.1"]
+                 ...
+                 ...
+                 [com.cemerick/valip "0.3.2"]
+                 ;; add enlive dependency
+                 [enlive "1.1.1"]]
+  ...
+  ...
+  :cljsbuild {:crossovers [valip.core valip.predicates modern-cljs.login.validators]
+              :builds
+              [...
+               ...
+               {;; build id
+                :id "prod"
+                :source-paths ["src/cljs"]
+                :compiler {;; different JS output name
+                           :output-to "resources/public/js/modern.js"
+
+                           ;; advanced optimization
+                           :optimizations :advanced}}]})
+```
+
+We then have to decide where to create the CLJ file containing the
+template for the Shopping Calculator. Because I prefer to mantain a
+directory structure which mimics the locigal structure of an application
+I decided to create a new `templates` directory under the
+`src/clj/modern_cljs/` directory.
+
+```bash
+$ mkdir src/clj/modern_cljs/templates
+```
+
+Inside this directory I'm going to create the `shopping.clj` file where
+I'll define the Shopping Calculator template.
+
+The `deftemplate` macro creates a function with the same name and has
+four arguments:
+
+* the `name` of the template/function
+* a `source` which can be any resource
+* a `vector` of arguments to be passed to the function named `name`
+* a variable numbers of `forms`, where each form is composed of a left
+  hand side and right hand side. The left hand side is a vector of
+  CSS-like selectors and the right side is a function that will be
+  applied on each node selected by the left hand side selectors.
+
+In defining a template you should think:
+
+* from where you want to read the pure HTML source
+(p.e. `shopping.html`);
+* which are the arguments/parameters of the POST/GET request
+(e.g. `[quantity price tax discount]`;
+* which are the nodes of the HTML source you want to select;
+* what are the transformation you want to execute on each selected node.
+
+Following is the content of the `shopping.clj` file which contains the
+definition of the Shopping Calculator template
+
+```clojure
+(ns modern-cljs.shopping
+  (:require [net.cgrand.enlive-html :refer [deftemplate set-attr]]))
+
+(deftemplate shopping "public/shopping.html"
+  [quantity price tax discount]
+     [:input#quantity] (set-attr :value quantity)
+     [:input#price] (set-attr :value price)
+     [:input#tax] (set-attr :value tax)
+     [:input#discount] (set-attr :value discount)
+     [:input#total] (set-attr :value "0"))
+```
+
+The `net.cgrand.enlive-html` namespace offers a lot of
+functionalities. At the moment we're interested only in two of them. The
+`deftemplate` macro itself and the `set-attr` function which will be
+used to update node attributes.
+
+Note that we assign `shopping` as the name of the template/function
+definition.
+
+"shopping" as the URL
+of the
+
+
+ Now we can start using Enlive by de
+  fining a new template for the Shopping Calculator.
+
+Let's start by seeing a possible definition of a template for the
+Shopping Calculator.
+
+```clojure
+(deftemplate shopping "public/shopping.html"
+  [quantity price tax discount]
+     [:input#quantity] (set-attr :value quantity)
+     [:input#price] (set-attr :value price)
+     [:input#tax] (set-attr :value tax)
+     [:input#discount] (set-attr :value discount)
+     [:input#total] (set-attr :value
+                              (format "%,.2f" (calculate
+                                              quantity
+                                              price
+                                              tax
+                                              discount))))
+```
+
+`shopping` is the name of the template and there are a couple of reasons
+for that:
+
+1. the name of the template in a `deftemplate` call became the name of a
+function. If you rembember
+
+Let's see now the call to `deftemplate` which we have to
+The arguments of the `deftemplate` macro are the following:
+
+* the name of the template, which will be defined my the macro as a function
+* the source of the resource to be read and parsed (e.g. an HTML page)
+* the vector of the arguments to be passed to the defining function
+* the forms, composed by pair of selectors and
 
 # Next step - TBD
 
