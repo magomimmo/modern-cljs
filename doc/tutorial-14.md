@@ -223,7 +223,7 @@ the `action="/shopping"` which is called as a POST request to the server.
 
 We already afforded this problem in a [previous tutorial][10]
 dedicated to the `login` example and we solved it by preventing the
-click event to be passes to the action associated to the form.
+click event to be passed to the action associated to the form.
 
 We need to code the same thing in the
 `src/cljs/modern_cljs/shopping.cljs` file. Open the `shopping.cljs`
@@ -275,19 +275,23 @@ follows.
             [cljs.reader :refer [read-string]]))
 ```
 
-If you had not stop the `cljsbuild` auto compilation from the previous
+If you did not stop the `cljsbuild` auto compilation from the previous
 run you should see the CLJS/Google Closure Compiler running again to
 produce the optimized `modern.js` script file.
 
-Reload the [shopping.html][3] URL. You should now see the Ajax version
-of the Shopping Calculator working again as expected.
+Reload the [shopping.html][3]. You should now see the Ajax version of
+the Shopping Calculator working again as expected.
 
 Not so bad until now. I suggest you to commit now your work by issuing
 the following `git` command:
 
-```bash $ git commit -am "Step 1" $ git checkout -b tutorial-14-step-2
-``` The last `git` command is to clone the step-1 in the step-2 branch
-and set the last as the active branch in preparation of the next work.
+```bash 
+$ git commit -am "Step 1" 
+$ git checkout -b tutorial-14-step-2
+``` 
+
+The last `git` command is to clone the step-1 in the step-2 branch and
+set the last as the active branch in preparation of the next work.
 
 ## Step 2 - Enliving the server-side
 
@@ -310,16 +314,21 @@ The reasons why I choose Enlive are very well motivated by
 > your pages from any combination of their designs.
 
 This is similar to [Domina][15] separation of concern which allows the
-designer and the programmer to play thier roles without too many
+designer and the programmer to play their roles without too many
 impedance mismatches.
 
 Our needs are very easy to be described. We have to:
 
-1. Read a pure HTML page which represents the Shopping Calculator
-2. Extract from the HTTP request the parameters typed-in by the user in
-the Shopping form
+1. Read from the file system a pure HTML page which represents the
+Shopping Calculator
+
+2. Extract from the HTTP request the parameters typed-in by the user
+in the Shopping form
+
 3. make the calculation of the total
-4. update the total input field with the calculated result
+
+4. update the input fields of the form
+
 5. send the updated Shopping Calculator to the user
 
 The following picture shows a sequence diagram of the above description.
@@ -329,11 +338,50 @@ The following picture shows a sequence diagram of the above description.
 Obviously we have to validate all inputs, but this is something we'll
 take care of later.
 
-
 ### Enter Enlive
 
-As we said above the first step for serving the Shopping Calculator is
-to read a pure HTML template of the page.
+The steps `2.` and `5.` are already satisfied by the `defroutes` macro
+from `compojure`.  The step `3.` - calculate the total - seems to be
+already satisfied by the the `defremote` macro call from `shoreleave`,
+which implicitely define a function with the same name.
+
+It seems that we need to implement just the step `1.` - read the
+`shopping.html` from the `resources/public` directory and the step
+`4.` - update the input fields of the form.
+
+Enlive offers a single macro, `deftemplate`, which allows to resolve
+both `1.` and `4.` in a single step.
+
+`deftemplate` accepts 4 arguments: 
+* `name`
+* `source`
+* `args`
+* `& forms`. 
+
+It creates a function with the same number of `args` and the same
+`name` of the template. The `source` can be an HTML file located in the
+`classpath` of the application. 
+
+Finally `&forms` is composed of pairs of a CSS-like selectors, left
+hand side, and a function, right hand side, to be applied on each node
+selected from the result of parsing the HTML `source`.
+
+
+classpath` command from the terminal. As you can see
+
+```bash 
+$ lein classpath
+...:/Users/mimmo/devel/modern-cljs/resources:...  
+$ ``` 
+
+the classpath contains the `resources` directory where the
+`shopping.html` source file lives under the `public` directory.
+
+S
+You will discover that even the `resources`
+directory is in the application classpath.  As we said above, the
+first step for serving the Shopping Calculator is to read a pure HTML
+template of the page.
 
 Enlive offers the `html-resource` function which takes almost any kind
 of HTML resource (e.g. File), parses it and returns a sequence of
