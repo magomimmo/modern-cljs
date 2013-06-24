@@ -440,16 +440,62 @@ dependencies.
 $ lein ring server-headless`
 ```
 
-Now disable again the JavaScript engien of your browser and visit again
-the [shopping.html][3] page.
+Now disable again the JavaScript engine of your browser and visit the
+[shopping.html][3] page.
 
 You should see the Shopping Calculator page showing the default field
-values again and again each time
-you press the `Calculate` button no matter what you typed in the value
-boxes of the fiels. This is exactly what we should expect, because we
-did not select any node and any transformation of the nodes.
+values again and again each time you press the `Calculate` button, no
+matter what you typed in the value boxes of the fiels. This is exactly
+what we should expect, because we did not select any node and any
+transformation of the nodes. So far so good.
 
-### Fix It Again Tony (FIAT)
+> NOTE 3: For reasons I'm too lazy to investigate, I needed to add the
+> `form="shoppingForm` attribute to the `fieldset` HTML tag, otherwise the
+> `enlive` parser of the HTML source would add a second one around the
+> input field of the form itself. I hope that some one explains me the
+> motivation.
+
+Here is interested snippet of code
+
+```html
+<!doctype html>
+<html lang="en">
+...
+...
+<body>
+  <!-- shopping.html -->
+  <form action="/shopping" method="post" id="shoppingForm" novalidate>
+    <fieldset form="shoppingForm">
+      <legend> Shopping Calculator</legend>
+...
+...
+      <script src="js/modern.js"></script>
+      <script>
+        modern_cljs.shopping.init();
+      </script>
+    </fieldset>
+  </form>
+</body>
+</html>
+
+````
+
+### Select and transform
+
+It's now time to fill the gap, the two `nil`, we left behind in the `deftemplate`
+definition.
+
+For a depth understanding of the left hand selection clause in the `&
+forms` arg of `deftemplate` call, you need to understand CSS
+selectors. You should know them even if you want to use [domina][] or
+[jquery][]. So, even if we'd like to have an unified language all over
+the places, you can't avoid a little bit of HTML and CSS. That's the
+life we have to leave with.
+
+A selector in `enlive` is almost identical to the corresponding CSS
+selector. If you want to select the the `input` element with an
+`id="quantity` in CSS you write something like this.
+
 
 
 
