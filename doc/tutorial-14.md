@@ -8,37 +8,37 @@ test coverage. I'm not going to open those kind of discussions which
 have a never ending story and go nowhere. Code testing is a need, full
 stop. How much coverage? It depends.
 
-I started programming almost 30 years ago and I had the luckiness of
-starting with Prolog and then on a wonderful Lisp Machine, which I
-still miss a lot today. I never started a program from a test that has
-to fail to progress until it succeeds. That's because I had my Lisp
-REPL to follow my thoughts and to correct them on the fly. Nowadayy, by
-using CLJ/CLJS, with immutability included, unit tests are very easy
-to be implemented because most of the time you have to do with pure
-functions, whose outputs depends only by the past inputs. That said,
+I started programming almost 30 years ago and I had the fortune of
+starting with Prolog and then I swithed on a wonderful Lisp Machine,
+which I still miss a lot today. I never departed a program from a test
+that has to fail to progress until it succeeds. That's because I had my
+Lisp REPL to follow my thoughts and to correct them on the
+fly. Nowadays, by using CLJ/CLJS, with immutability included, unit tests
+are very easy to be implemented because most of the time you manage pure
+functions, whose outputs depends only by the passed inputs. That said,
 when you're aged like I'm, you can't change your habits. So, who's
-religious about TDD/BDD (Test Driven Development and Behavioural
-Driven Development), has to be forgiven with me.
+religious about TDD/BDD (Test Driven Development and Behavioural Driven
+Development), has to be forgiven with me.
 
 ## Introduction
 
 In the last [tutorial][1] I hope you had some fun in seeing the DRY
-principle at work, while adhering to the progressive enhancement
-strategy. Before to go ahead by affording the problem of testing your
-CLJ/CLJS code, we have to fulfill something we left behind. In the
-[tutorial 10 - Introducing Ajax][2] we implemented a Shopping
-Calculator by using the Ajax style of communication between the
+(dont' Repeat Yourself) principle at work, while adhering to the
+progressive enhancement strategy. Before to go ahead by affording the
+problem of testing your CLJ/CLJS code, we have to fulfill something we
+left behind. In the [tutorial 10 - Introducing Ajax][2] we implemented a
+Shopping Calculator by using the Ajax style of communication between the
 browser and the server: said otherwise, between ClojureScript on the
-client side and Clojure on the server side. Obviously, nobody will
-never implement that kind of stupid widget by using Ajax, if all the
-information he needs to make the calculation are already in his hands
-on the browser side. By moving the calculation from the client side to
-the server side, we found an excuse to gently introduce you to
-Ajax. After all this is a series of tutorial on CLJS not on CLJ, but
-by doing this, we have broken the first principle of the progressive
-enhancement strategy, which dictates to start developing your web
-application by implementing it as if JavaScript would not be available
-on the browser of the users.
+client side and Clojure on the server side. Obviously, nobody will never
+implement that kind of stupid widget by using Ajax, if all the
+information he needs to make the calculation are already in his hands on
+the browser side. By moving the calculation from the client side to the
+server side, we found an excuse to gently introduce you to Ajax. After
+all, this is a series of tutorial on CLJS not on CLJ, but by omitting a
+server-side only Shopping Calculator, we have broken the first principle
+of the progressive enhancement strategy, which dictates to start
+developing your web application by implementing it as if JavaScript
+would not be available on the browser of the users.
 
 The main advantage of CLJ and CLJS is that you have a unified
 language for both sides of the world, and this language is, in my
@@ -54,8 +54,8 @@ Let's start by reviewing the Shopping Calculator program. Do as follows:
 $ git clone https://github.com/magomimmo/modern-cljs.git
 $ cd modern-cljs
 $ git checkout tutorial-13
-$ git checkout -b tutorial-14-step-1  # to clone the branch
-$ lein cljsbuild auto prod
+$ git checkout -b tutorial-14-step-1  # to clone the branch in a new one
+$ lein cljsbuild auto prod # To compile CLJS
 $ lein ring server-headless # in a new terminal from modern-cljs dir
 ```
 
@@ -68,7 +68,7 @@ has been executed by the server.
 
 As you already know from the [Tutorial 10 - Introducing Ajax][2], by
 opening the `Developer Tools` panel of your browser (I'm using Google
-Chrome) and by taking a look at the Network tab after having reload the
+Chrome) and by taking a look at the Network tab after having reloaded the
 [shopping.html][3] page, you should see the network activities. Any time
 you click the `Calculate` button a new `_shoreleave` POST method request
 is submitted to the server which responds with the HTTP/1.1 202 status
@@ -76,10 +76,11 @@ code (i.e. Accepted).
 
 ![AjaxNetwork][5]
 
-But what happens if you disable JavaScript? Disable the JavaScript
-engine on Google Chrome by clicking on the Setting's icon positioned
-in the very right bottom of the `Developer tool` window. It opens a
-panel from where you can mark the `Disable JavaScript` check-box.
+But what happens if you disable JavaScript? Let's try. Disable the
+JavaScript engine on Google Chrome by clicking on the Setting's icon
+positioned in the very right bottom of the `Developer tool` window. It
+opens a panel from where you can mark the `Disable JavaScript`
+check-box.
 
 ![DisableJavaScript][6]
 
@@ -117,10 +118,10 @@ Take a look at the `shopping.html` file which is under the
 </html>
 ```
 
-As you can see the `form` tag has no `action` and `method` set and
-the `type` attribute of the Calculate `input` is set to `"button"`
-value, which means that when JavaScript is disabled and the `form`
-does not respond to any event.
+As you can see the `form` tag has no `action` and `method` set and the
+`type` attribute of the Calculate `input` is set to `"button"` value,
+which means that when JavaScript is disabled the `form` does not respond
+to any event.
 
 ## Step 1 - Break the Shopping Calculator
 
@@ -181,7 +182,7 @@ asked the browser to send to the server a POST request with the
 
 By modifying the `shopping.html` and disabling the JavaScript from the
 browser, we have just exercized a kind of TDD (Test Driver
-Development). So the first step is to fix the problem we just met by
+Development). So the first step is now to fix the failure we just met by
 adding a fictional route to the [compojure][7] `defroutes` macro.
 
 Open the `src/clj/modern_cljs/core.clj` file and add a POST route for
@@ -202,18 +203,18 @@ fields of the Shopping Calculator form.
 
 ![FictionShopping][8]
 
-Let's know go back for a while and see what happens if we enable again
-the JavaScript engine of the browser: open again the Setting of the
+Let's know go back for a while and see what happens if we re-enable the
+JavaScript engine of the browser: open again the Setting of the
 Developer Tools and enable the JavaScript engine by unmarking the
-Disable JavaScript check-box.
+`Disable JavaScript` check-box.
 
-Next reload the [shopping.html][3] URL and finally click the `Calculate`
+Next reload the [shopping.html][3] page and finally click the `Calculate`
 button again.
 
 ![FictionShopping2][9]
 
 Ops, it seems that the Ajax version of the Shopping Calculator does not
-work anymore as expected. What's happening?
+work anymore as expected. What did happen?
 
 ### Fix the failed virtual test
 
@@ -261,9 +262,9 @@ Shopping form as follows.
 As you can see, after having called the `remote-callback` we added the
 call to the `prevent-default` function, which is defined in the
 `domina.events` namespace. The last modification we have to introduce is
-to add the `prevent-default` function in the `:refer` section of the
-`domina.events` requirement in the `modern-cljs.shopping` namespace as
-follows.
+then to add the `prevent-default` function in the `:refer` section of
+the `domina.events` requirement in the `modern-cljs.shopping` namespace
+as follows.
 
 ```clojure
 (ns modern-cljs.shopping
@@ -285,13 +286,14 @@ the Shopping Calculator working again as expected.
 Not so bad until now. I suggest you to commit now your work by issuing
 the following `git` command:
 
-```bash 
-$ git commit -am "Step 1" 
+```bash
+$ git commit -am "Step 1"
 $ git checkout -b tutorial-14-step-2
-``` 
+```
 
-The last `git` command is to clone the step-1 in the step-2 branch and
-set the last as the active branch in preparation of the next work.
+The last `git` command clones the step-1 in the step-2 branch and
+sets the latter as the active branch in preparation of the next work we
+have to do.
 
 ## Step 2 - Enliving the server-side
 
@@ -319,16 +321,12 @@ impedance mismatches.
 
 Our needs are very easy to be described. We have to:
 
-1. Read from the file system a pure HTML page which represents the
+1. Read from the file system a pure HTML template/page which represents the
 Shopping Calculator
-
 2. Extract from the HTTP request the parameters typed-in by the user
 in the Shopping form
-
 3. make the calculation of the total
-
 4. update the input fields of the form
-
 5. send the updated Shopping Calculator to the user
 
 The following picture shows a sequence diagram of the above description.
@@ -352,27 +350,28 @@ It seems that we need to implement just the step `1.` - read the
 Enlive offers a single macro, `deftemplate`, which allows to resolve
 both `1.` and `4.` in a single step.
 
-`deftemplate` accepts 4 arguments: 
+`deftemplate` accepts 4 arguments:
 * `name`
 * `source`
 * `args`
-* `& forms`. 
+* `& forms`.
 
-It creates a function with the same number of `args` and the same
-`name` of the template. The `source` can be an HTML file located in the
-`classpath` of the application. 
+It creates a function with the same number of `args` and the same `name`
+of the template. The `source` can be any HTML file located in the
+`classpath` of the application.
 
 Finally `&forms` is composed of pairs of a CSS-like selectors, left
 hand side, and a function, right hand side, to be applied on each node
 selected from the result of parsing the HTML `source`.
 
+In you inspect the application classpath by issuing `$ lein classpath`
+command from the terminal, you can verify that the `resources` directory
+is in the application classptu.
 
-classpath` command from the terminal. As you can see
-
-```bash 
+```bash
 $ lein classpath
-...:/Users/mimmo/devel/modern-cljs/resources:...  
-$ ``` 
+...:/Users/mimmo/devel/modern-cljs/resources:...
+$ ```
 
 the classpath contains the `resources` directory where the
 `shopping.html` source file lives under the `public` directory.
