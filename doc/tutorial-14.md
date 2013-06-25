@@ -532,12 +532,19 @@ It's now time to make the calculation and to set the result in the
 
 ### Evolve by refactoring the code
 
+> By continuously improving the design of code, we make it easier and
+> easier to work with. This is in sharp contrast to what typically
+> happens: little refactoring and a great deal of attention paid to
+> expediently adding new features. If you get into the hygienic habit
+> of refactoring continuously, you'll find that it is easier to extend
+> and maintain code.  Joshua Kerievsky, Refactoring to Patterns
+
 As you should remember, we defined a remote `calculation` function in
 the [Tutorial 10 - Introducing Ajax][] by calling the `defremote`
-macro. The `defremote` function implicetely define a function with
-same name and that's good, because we hate any kind of code
-duplication. We could immediately use it to calculate the result of
-the Shopping Calculator form by just parsing the
+macro. The `defremote` function implicitly define a function with the
+same name of the remote function and that's good, because we hate any
+kind of code duplication. We could immediately use it to calculate the
+result of the Shopping Calculator form by just parsing the
 `[quantity price tax discount]` passed to the `deftemplate` call. But
 wait a minute. [We already parsed those arguments][] on the CLJS side
 of the `calculation` function and we don't want to parse them
@@ -560,16 +567,17 @@ the client side `calculate` function.
 
 ```
 
-As you can see, to parse the input string from the form, we used the
-`read-string` from the `cljs.reader` lib of CLJS. We're falling again
-in the [Features Expression Problem][] we met in the previous
+As you can see, to parse the input string from the submitted form, we
+used the `read-string` from the `cljs.reader` lib of CLJS. We're
+falling again in the [Features Expression Problem][] we met in the
+previous
 [Tutorial 13 - Don't Repeat Yourself while crossing the border][].
 
-On CLJ and CLJS you have different ways to parse a string and
-different ways to convert a stringfied integer or double number. As
-usual [Chas Emerick][] is going to help us again a lot. In the context
-of his [valip][] lib we already used in the [Tutorial 10][], he
-defined the following portable functions in the [valip.predicates][]
+CLJ and CLJS have different ways to parse a string and different ways
+to convert a stringfied integer or double number. As usual
+[Chas Emerick][] is going to help us a lot again. In the context of
+his [valip][] lib we already used in the [Tutorial 10][], he defined
+the following portable functions in the [valip.predicates][]
 namespace:
 
 ```clojure
@@ -597,15 +605,14 @@ Clojure implementations."
     (read-string x)))
 ```
 
-But wait a minute. Why have we to define portable functions if we have
-to use them only on the server-side? Good question. <TBD> Write the answer.</TBD>
+### Poratable functions
 
-By taking inspiration from [Chas Emerick][] we are first going to
-create an `utils.clj` file containing the definition of few useful
-functions to help us in parsing the inputs of the Shopping Claculator
-form.
+By taking inspiration from [Chas Emerick][], we are going to create an
+`utils.clj` file containing the definition of few useful functions to
+help us in parsing the inputs of the Shopping Claculator form.
 
-Create the `utils.clj` file in the `src/clj/modern_cljs` directory. Following is its content.
+Create the `utils.clj` file in the `src/clj/modern_cljs`
+directory. Following is its content.
 
 ```clojure
 (ns modern-cljs.utils
@@ -613,22 +620,23 @@ Create the `utils.clj` file in the `src/clj/modern_cljs` directory. Following is
   (:refer-clojure :exclude [read-string]))
 
 (defn parse-integer [s]
-   (if (and (string? s) (re-matches #"\s*[+-]?\d+\s*" s))
-      (read-string s)))
+  (if (and (string? s) (re-matches #"\s*[+-]?\d+\s*" s))
+    (read-string s)))
 
 (defn parse-double [s]
-  (if (and (string? s) (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" s)
+  (if (and (string? s) (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" s))
     (read-string s)))
-	
+
 (defn parse-number [x]
   (if (and (string? x) (re-matches #"\s*[+-]?\d+(\.\d+M|M|N)?\s*" x))
     (read-string x)))
 ```
 
-> NOTE 4: This is the first time we see the `:refer-clojure` section in
-> a namespace declaration. Its objective is to prevent namespace
-> conflicts. In our scenario it prevents the CLJS `read-string` function
-> to conflict with the corresponding CLJ `read-string` function.
+> NOTE 4: This is the first time we see the `:refer-clojure` section
+> in a namespace declaration. Its objective is to prevent namespace
+> conflicts. In our scenario, by using the `:exclude` keyword, we
+> prevent the CLJS `read-string` function to conflict with the
+> corresponding CLJ `read-string` function.
 
 We now have three portable functions to parse a generic number, an
 integer and a double, which means we'll be free to use them both in
@@ -664,15 +672,179 @@ local `calculate` function as follows:
 ```
 
 Now the `calculate remote-callback` function accepts strings as
-arguments and we need to refactor it as well. Open the 
+arguments and we need to refactor it as well. Open the `remote.clj`
+file under the `src/clj/modern_cljs` directory and modifty it by
+requiring `modern-cljs.utils` in the namespace declaration and by
+adding the `parse-number` call in the `defremote` definition of
+`calculate`.
 
-> By continuously improving the design of code, we make it easier and
-> easier to work with. This is in sharp contrast to what typically
-> happens: little refactoring and a great deal of attention paid to
-> expediently adding new features. If you get into the hygienic habit
-> of refactoring continuously, you'll find that it is easier to extend
-> and maintain code.  Joshua Kerievsky, Refactoring to Patterns
+```clojure
+(ns modern-cljs.remotes
+  (:require [modern-cljs.core :refer [handler]]
+            [modern-cljs.login.java.validators :as v]
+            [modern-cljs.utils :refer [parse-integer parse-double]]
+            [compojure.handler :refer [site]]
+            [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]))
 
+(defremote calculate [quantity price tax discount]
+  (let [q (parse-integer quantity)
+        p (parse-double price)
+        t (parse-double tax)
+        d (parse-double discount)]
+  (-> (* q p)
+      (* (+ 1 (/ t 100)))
+      (- d))))
+
+;;; the rest as before
+```
+
+### Dont' Repeat Yourself while crossing the border
+
+We're now ready to add the `calculate` function to the template
+definition in the `shopping.clj` file under the
+`src/clj/modern_clj/templates` directory.
+
+Open and modify the above file as follows:
+
+```clojure
+(ns modern-cljs.templates.shopping
+  (:require [net.cgrand.enlive-html :refer [deftemplate set-attr]]
+            [modern-cljs.remotes :refer [calculate]]))
+
+(deftemplate shopping "public/shopping.html"
+  [quantity price tax discount]
+  [:#quantity] (set-attr :value quantity)
+  [:#price] (set-attr :value price)
+  [:#tax] (set-attr :value tax)
+  [:#discount] (set-attr :value discount)
+  [:#total] (set-attr :value 
+                      (format "%.2f" (calculate quantity price tax discount))))
+```
+
+> NOTE 5: We added the `format` call to format the Total value with two
+> digits after the decimal point.
+
+Assuming that you have stopped the `$ lein ring server-headless`
+command from the terminal, if you now try to launch the command again
+you receive a compilation error:
+
+```bash
+$ lein ring server-headless
+Exception in thread "main" java.lang.Exception: Cyclic load dependency: [ /modern_cljs/remotes ]->/modern_cljs/templates/shopping->/modern_cljs/core->[ /modern_cljs/remotes ]
+...
+...
+Subprocess failed
+```
+
+### FIAT - Fix It Again Tony
+
+Too bad. We just met a cyclic namespaces dependency. Generally
+speaking to solve a cyclic namespace dependency, which are not allowed
+in CLJ, you need to refactor the code.
+
+Our scenario is simple enough. We need to remove the
+`modern-cljs.core` reference from the `modern-cljs.remotes` namespace
+declaration. There, we only referenced the `handler` symbol from the
+`modern-cljs.core` namespace in the `app` definition. By moving the
+`app` definition to the `modern-cljs.core` namespace we should be able
+to resolve the cyclic namespace dependency.
+
+Here is the modified content of the `remotes.clj` file where we have
+removed both the reference to the `modern-cljs.core` namespace and the
+`app` symbol definition.
+
+```clojure
+(ns modern-cljs.remotes
+  (:require 
+   ;;       [modern-cljs.core :refer [handler]]
+            [modern-cljs.login.java.validators :as v]
+            [modern-cljs.utils :refer [parse-integer parse-double]]
+            [compojure.handler :refer [site]]
+            [shoreleave.middleware.rpc :refer [defremote]]))
+
+(defremote calculate [quantity price tax discount]
+  (let [q (parse-integer quantity)
+        p (parse-double price)
+        t (parse-double tax)
+        d (parse-double discount)]
+  (-> (* q p)
+      (* (+ 1 (/ t 100)))
+      (- d))))
+
+(defremote email-domain-errors [email]
+  (v/email-domain-errors email))
+```
+
+> NOTE 6: We also removed the reference to the `wrap-rpc` symbol from
+> the `shoreleave.middleware.rpc` requirement because it is not used
+> anymore by other definitions.
+
+Next, we need to add the `app` symbol definition in the
+`modern-cljs.core` namespace and the `shoreleave.middleware.rpc`
+requirement for referencing the `wrap-rpc` symbol in the `app`
+definition. Following is the modified content of the `core.clj` file.
+
+```clojure
+(ns modern-cljs.core
+  (:require [compojure.core :refer [defroutes GET POST]]
+            [compojure.route :refer [resources not-found]]
+            [compojure.handler :refer [site]]
+            [modern-cljs.login :refer [authenticate-user]]
+            [modern-cljs.templates.shopping :refer [shopping]]
+            [shoreleave.middleware.rpc :refer [wrap-rpc]]))
+
+;; defroutes macro defines a function that chains individual route
+;; functions together. The request map is passed to each function in
+;; turn, until a non-nil response is returned.
+(defroutes app-routes
+  ;; to serve document root address
+  (GET "/" [] "<p>Hello from compojure</p>")
+  ;; to authenticate the user
+  (POST "/login" [email password] (authenticate-user email password))
+  ;; to server shopping command
+  (POST "/shopping" [quantity price tax discount]
+        (shopping quantity price tax discount))
+  ;; to server static pages saved in resources/public directory
+  (resources "/")
+  ;; if page is not found
+  (not-found "Page non found"))
+
+;;; site function create an handler suitable for a standard website,
+;;; adding a bunch of standard ring middleware to app-route:
+(def handler
+  (site app-routes))
+
+(def app (-> (var handler)
+             (wrap-rpc)
+             (site)))
+```
+
+Last, but not least, we have to modified the `project.clj` file to
+update the namespace of the `app` symbol in the `:ring` section.
+
+```closure
+(defproject modern-cljs "0.1.0-SNAPSHOT"
+  ...
+  ...
+  ;; ring tasks configuration
+  :ring {:handler modern-cljs.core/app}
+  ...
+  ...
+)
+```
+
+We are now ready to rebuild and run everything as follows:
+
+```bash
+$ lein clean # it's better to be safe than sorry
+$ lein cljsbuild clean # it's better to be safe than sorry
+$ lein cljsbuild once prod
+$ lein ring server-headless
+```
+
+Now visit [http://localhost:3000/shopping.html][] page and play with
+the Shopping Calculator by enabling and disabling the JavaScript
+engine of your browser. Everything should now work as expected.
 
 # Next
 
