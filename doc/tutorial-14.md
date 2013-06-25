@@ -493,11 +493,44 @@ the places, you can't avoid a little bit of HTML and CSS. That's the
 life we have to leave with.
 
 A selector in `enlive` is almost identical to the corresponding CSS
-selector. If you want to select the the `input` element with an
-`id="quantity` in CSS you write something like this.
+selector. Generally speaking you just need to wrap the CSS selector
+inside a vector and prepend the seclector with the colon `:`.
 
+For example, if you want to select a tag with an `id="quantity"`, you
+just need to write `[:#quantity]` which corresponds to the `#quantity`
+CSS selector.
 
+> NOTE 4: I strongly suggest you to read the enlive
+> [syntax for selector][] at least to have a decent understanding of its
+> differences from CSS selectors.
 
+But what about the transformation functions? `enlive` offers you a lot
+of them and this is not a tutorial on `enlive`, which means I'm going to
+use the only `enlive` function we really need in our context: the
+`(set-attr &kvs)` function which accepts keyword/value pairs where the
+keywords are the names of the attroibutes you want to set. In our
+context, the only attribute we are going to set is the `value` attribute
+of each `input` field. So let's start by adding to the `deftemplate`
+both the selector clause and the trasformation function as follows:
+
+```clojure
+(deftemplate shopping "public/shopping.html"
+  [quantity price tax discount]
+  [:#quantity] (set-attr :value quantity)
+  [:#price] (set-attr :value price)
+  [:#tax] (set-attr :value tax)
+  [:#discount] (set-attr :value discount))
+```
+
+If you now reload the [shopping.html][3] page and change the values of
+the input fields of the Shopping Calculator form, by clicking the
+`Calculate` button you'll receive a form with every value
+set with the same values you previously typed in.
+
+It's now time to make the calculation and to set the result in the
+`Total`.
+
+### Evolve by refactoring the code
 
 
 # Next step - TBD
