@@ -482,36 +482,36 @@ Here is interested snippet of code
 
 ### Select and transform
 
-It's now time to fill the gap, the two `nil`, we left behind in the `deftemplate`
-definition.
+It's now time to fill the gap we left behind in the `deftemplate` call
+by not defining any selector/transformation pair.
 
 For a depth understanding of the left hand selection clause in the `&
 forms` arg of `deftemplate` call, you need to understand CSS
 selectors. You should know them even if you want to use [domina][] or
-[jquery][]. So, even if we'd like to have an unified language all over
+[jquery][]. So, even if we'd like to have a unified language all over
 the places, you can't avoid a little bit of HTML and CSS. That's the
-life we have to leave with.
+life we have to live with.
 
 A selector in `enlive` is almost identical to the corresponding CSS
 selector. Generally speaking you just need to wrap the CSS selector
-inside a vector and prepend the seclector with the colon `:`.
+inside a CLJ vector and prepend the CSS selector with the colon `:`.
 
-For example, if you want to select a tag with an `id="quantity"`, you
-just need to write `[:#quantity]` which corresponds to the `#quantity`
-CSS selector.
+For example, if you want to select a tag with an `id="quantity"`
+attribute, you just need to write `[:#quantity]` which corresponds to
+the `#quantity` CSS selector.
 
 > NOTE 4: I strongly suggest you to read the enlive
-> [syntax for selector][] at least to have a decent understanding of its
-> differences from CSS selectors.
+> [syntax for selector][] at least to have a decent understanding of it
 
 But what about the transformation functions? `enlive` offers you a lot
-of them and this is not a tutorial on `enlive`, which means I'm going to
+of them. This is not a tutorial on `enlive`, which means I'm going to
 use the only `enlive` function we really need in our context: the
 `(set-attr &kvs)` function which accepts keyword/value pairs where the
 keywords are the names of the attroibutes you want to set. In our
-context, the only attribute we are going to set is the `value` attribute
-of each `input` field. So let's start by adding to the `deftemplate`
-both the selector clause and the trasformation function as follows:
+context, the only attribute we are going to set is the `value`
+attribute of each `input` field. So let's start by adding to the
+`deftemplate` call both the selector clause and the trasformation
+function as follows:
 
 ```clojure
 (deftemplate shopping "public/shopping.html"
@@ -532,8 +532,151 @@ It's now time to make the calculation and to set the result in the
 
 ### Evolve by refactoring the code
 
+As you should remember, we defined a remote `calculation` function in
+the [Tutorial 10 - Introducing Ajax][] by calling the `defremote`
+macro. The `defremote` function implicetely define a function with
+same name and that's good, because we hate any kind of code
+duplication. We could immediately use it to calculate the result of
+the Shopping Calculator form by just parsing the
+`[quantity price tax discount]` passed to the `deftemplate` call. But
+wait a minute. [We already parsed those arguments][] on the CLJS side
+of the `calculation` function and we don't want to parse them
+again. To reach this objective we need to refactor the code by moving
+the parsing of the values of the Shopping form from the client side to
+the server side.
 
-# Next step - TBD
+Let's take a look at the CLJS `shopping.cljs` file where we defined
+the client side `calculate` function.
+
+```clojure
+(defn calculate []
+  (let [quantity (read-string (value (by-id "quantity")))
+        price (read-string (value (by-id "price")))
+        tax (read-string (value (by-id "tax")))
+        discount (read-string (value (by-id "discount")))]
+    (remote-callback :calculate
+                     [quantity price tax discount]
+                     #(set-value! (by-id "total") (.toFixed % 2)))))
+
+```
+
+As you can see, to parse the input string from the form, we used the
+`read-string` from the `cljs.reader` lib of CLJS. We're falling again
+in the [Features Expression Problem][] we met in the previous
+[Tutorial 13 - Don't Repeat Yourself while crossing the border][].
+
+On CLJ and CLJS you have different ways to parse a string and
+different ways to convert a stringfied integer or double number. As
+usual [Chas Emerick][] is going to help us again a lot. In the context
+of his [valip][] lib we already used in the [Tutorial 10][], he
+defined the following portable functions in the [valip.predicates][]
+namespace:
+
+```clojure
+(ns valip.predicates
+  "Predicates useful for validating input strings, such as ones from HTML forms.
+All predicates in this namespace are considered portable between different
+Clojure implementations."
+  (:require [clojure.string :as str]
+            [cljs.reader :refer [read-string]])
+  (:refer-clojure :exclude [read-string]))
+  
+(defn integer-string?
+  "Returns true if the string represents an integer."
+  [s]
+  (boolean (re-matches #"\s*[+-]?\d+\s*" s)))
+
+(defn decimal-string?
+  "Returns true if the string represents a decimal number."
+  [s]
+  (boolean (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" s)))
+
+;; private
+(defn- parse-number [x]
+  (if (and (string? x) (re-matches #"\s*[+-]?\d+(\.\d+M|M|N)?\s*" x))
+    (read-string x)))
+```
+
+But wait a minute. Why have we to define portable functions if we have
+to use them only on the server-side? Good question. <TBD> Write the answer.</TBD>
+
+By taking inspiration from [Chas Emerick][] we are first going to
+create an `utils.clj` file containing the definition of few useful
+functions to help us in parsing the inputs of the Shopping Claculator
+form.
+
+Create the `utils.clj` file in the `src/clj/modern_cljs` directory. Following is its content.
+
+```clojure
+(ns modern-cljs.utils
+  (:require [cljs.reader :refer [read-string]])
+  (:refer-clojure :exclude [read-string]))
+
+(defn parse-integer [s]
+   (if (and (string? s) (re-matches #"\s*[+-]?\d+\s*" s))
+      (read-string s)))
+
+(defn parse-double [s]
+  (if (and (string? s) (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" s)
+    (read-string s)))
+	
+(defn parse-number [x]
+  (if (and (string? x) (re-matches #"\s*[+-]?\d+(\.\d+M|M|N)?\s*" x))
+    (read-string x)))
+```
+
+> NOTE 4: This is the first time we see the `:refer-clojure` section in
+> a namespace declaration. Its objective is to prevent namespace
+> conflicts. In our scenario it prevents the CLJS `read-string` function
+> to conflict with the corresponding CLJ `read-string` function.
+
+We now have three portable functions to parse a generic number, an
+integer and a double, which means we'll be free to use them both in
+the CLJS side and the CLJ side application code. Not bad.
+
+Let's now refactor the `calculate` functions we have defined both in
+CLJS and CLJ.
+
+Open the `shopping.cljs` file under the `src/cljs/modern_cljs`
+directory and modify it by removing the `cljs.reader` from the
+namespace requirements and removing the calls to `read-string` in the
+local `calculate` function as follows:
+
+```clojure
+(ns modern-cljs.shopping
+  (:require-macros [hiccups.core :refer [html]])
+  (:require [domina :refer [by-id value by-class set-value! append! destroy!]]
+            [domina.events :refer [listen! prevent-default]]
+            [hiccups.runtime :as hiccupsrt]
+            [shoreleave.remotes.http-rpc :refer [remote-callback]]))
+
+(defn calculate [evt]
+  (let [quantity (value (by-id "quantity"))
+        price (value (by-id "price"))
+        tax (value (by-id "tax"))
+        discount (value (by-id "discount"))]
+    (remote-callback :calculate
+                     [quantity price tax discount]
+                     #(set-value! (by-id "total") (.toFixed % 2)))
+    (prevent-default evt)))
+
+;;; the rest as before
+```
+
+Now the `calculate remote-callback` function accepts strings as
+arguments and we need to refactor it as well. Open the 
+
+> By continuously improving the design of code, we make it easier and
+> easier to work with. This is in sharp contrast to what typically
+> happens: little refactoring and a great deal of attention paid to
+> expediently adding new features. If you get into the hygienic habit
+> of refactoring continuously, you'll find that it is easier to extend
+> and maintain code.  Joshua Kerievsky, Refactoring to Patterns
+
+
+# Next
+
+step - TBD
 
 TO BE DONE
 
