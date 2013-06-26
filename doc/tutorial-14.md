@@ -9,14 +9,14 @@ test coverage. I'm not going to open those kind of discussions which
 have a never ending story and go nowhere. Code testing is a need, full
 stop. How much coverage? It depends.
 
-I have to admint that I never departed a program from a unit test that
+I have to admit that I never departed a program from a unit test that
 has to fail to progress until it succeeds. When you're aged like I'm,
 you can't change your habits. So, who's religious about TDD/BDD (Test
 Driven Development and Behavioural Driven Development), has to be
 forgiven with me.
 
 Nowadays, by using functional programming languages like CLJ/CLJS, the
-unit tests are much easier to be implemented in compared with
+unit tests are much easier to be implemented when compared with
 imperative and object-oriented programming languages, becuse most of
 the time you have to deal with pure functions, whose output depends
 only on the passed input.
@@ -51,7 +51,7 @@ prepared to pay a little attention anytime you cross the border in
 both directions.
 
 And remember, you can even move the border, if this is usuful for any
-reason. My moving the border I mean that you could habilitate pieces
+reason. By moving the border I mean that you could habilitate pieces
 of your code to be movable at will from one side or the other of the
 border.
 
