@@ -108,6 +108,16 @@ principle. In this tutorial we're going to respect the DRY principle
 by sharing validators between the client (i.e. CLJS) and the server
 (i.e. CLJ).
 
+## [Tutorial 14 - It's better to be safe than sorry (Part 1)][22]
+
+In this tutorial we are going to prepare the playground for affording
+the unit testing topic. We'll also introduce the `Enlive` template
+sytem to implement a server-side only version of the Shopping
+Calculator aimed at adhering to the progressive enanchement
+implementation strategy. We'll even see how to exercize code
+refactoring to satisfy the DRY principle and to solve a cyclic
+namespaces dependency.
+
 ## Next Tutorial
 
 TO BE DONE
@@ -138,3 +148,4 @@ License, the same as Clojure.
 [19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-11.md
 [20]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-12.md
 [21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-13.md
+[22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-14.md
