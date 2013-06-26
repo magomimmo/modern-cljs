@@ -673,9 +673,18 @@ you provide a well-formed email address whose domain doesn't exist.
 
 Stay tuned for the next tutorial.
 
-# Next step - TBD
+# Next step - Tutorial 14 - It's better to be safe than sorry (Part 1)
 
-TO BE DONE
+In the [next Tutorial][20] we are going to prepare the playground for
+affording the unit testing topic. We'll also introduce the `Enlive`
+template sytem to implement a server-side only version of the Shopping
+Calculator aimed at adhering to the progressive enanchement
+implementation strategy. We'll even see how to exercize code
+refactoring to satisfy the DRY principle:
+
+1. while crossing again the border between the client and the server
+side of a CLJS/CLJ web application;
+2. to solve a cyclic namespaces dependency we'll encounter.
 
 # License
 
@@ -701,3 +710,4 @@ License, the same as Clojure.
 [17]: http://clojuredocs.org/clojure_core/clojure.core/let#example_878
 [18]: https://github.com/shoreleave
 [19]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/remote-validator.png
+[20]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-14.md
