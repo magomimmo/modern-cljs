@@ -1,3 +1,5 @@
+TO BE DONE
+
 # Tutorial 14 - It's better to be safe than sorry (Part 1)
 
 In this part 1 of the tutorial we're going to prepare the field for
@@ -479,36 +481,6 @@ matter what you typed in the value boxes of the fiels. This is exactly
 what we should expect, because we did not select any node and any
 transformation of the nodes. So far so good.
 
-> NOTE 4: For reasons I'm too lazy to investigate, I needed to add the
-> `form="shoppingForm` attribute to the `fieldset` HTML tag, otherwise
-> the `enlive` parser of the HTML source would add a second `fieldset`
-> tag around the input fields of the form itself. 
-
-Here is interested snippet of code
-
-```html
-<!doctype html>
-<html lang="en">
-...
-...
-<body>
-  <!-- shopping.html -->
-  <form action="/shopping" method="post" id="shoppingForm" novalidate>
-    <fieldset form="shoppingForm">
-      <legend> Shopping Calculator</legend>
-...
-...
-      <script src="js/modern.js"></script>
-      <script>
-        modern_cljs.shopping.init();
-      </script>
-    </fieldset>
-  </form>
-</body>
-</html>
-
-````
-
 ### Select and transform
 
 It's now time to fill the gap we left behind in the `deftemplate` call
@@ -872,11 +844,35 @@ Now visit [shopping][2] URI and play with the form by enabling and
 disabling the JavaScript engine of your browser. Everything should now
 work as expected in both scenarios.
 
-# Next
+## ATTENTION - FINAL NOTES
 
-step - TBD
+To be able to run all the `modern-cljs` builds (i.e. `:dev`, `:prod`
+and `:dev`), you have to update the `shopping-dbg.html` and
+`shopping-prod.html` files with the same modification we did in the
+`shopping.html` file.
 
-TO BE DONE
+Then submit the following commands in the terminal from the main
+`modern-cljs` directory.
+
+```bash
+$ lein clean
+$ lein cljsbuild clean
+$ lein cljsbuild once # to compile all builds
+$ lein ring server-headless
+```
+
+Now visit any version of the Shopping Calculator
+(i.e. `shopping-dbg.html`, `shopping-pre.html` or `shopping.html`) to
+see all of them still working equally, even if the Enlive template has
+been defined starting from the `shopping.html` file. This is because
+the different script tags in each version of the page are read only
+when the JavaScript engine is active.
+
+# Next - Tutorial 15 - It's better to be safe than sorry (Part 2)
+
+In this tutorial we prepared the playground for the next tutorial in
+which, after having added the validators for the `shoppingForm`, we're
+going to introduce unit testing.
 
 # License
 
