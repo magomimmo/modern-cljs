@@ -9,50 +9,67 @@ have a never ending story and go nowhere. Code testing is a need, full
 stop. How much coverage? It depends.
 
 I started programming almost 30 years ago and I had the fortune of
-starting with Prolog and passing many years programming with wonderful
-Lisp Machine, which I still miss a lot today. I never departed a program
-from a test that has to fail to progress until it succeeds. That's
-because I had my Lisp REPL to follow my thoughts and to correct them on
-the fly. Nowadays, by using CLJ/CLJS, immutability included, unit tests
-are very easy to be implemented because most of the time you manage pure
-functions, whose outputs depends only by the passed inputs. That said,
-when you're aged like I'm, you can't change your habits. So, who's
-religious about TDD/BDD (Test Driven Development and Behavioural Driven
-Development), has to be forgiven with me.
+starting with Prolog. Then I passed many years programming with a
+wonderful Lisp Machine, which I still miss a lot today, I mean a lot.
+
+I never departed a program from a unit test that has to fail to progress
+until it succeeds. I'm not that kind of guy which believes that you
+learn from your failures. I prefer to think of myself to be still able
+to learn from the success of the others, if not mine. First rule: be
+inspired by the very good ones.
+
+That's because I had my Editor to structure my thoughts and then the
+REPL to correct them on the fly when needed.  The Editor and the REPL
+were just the same thing.
+
+Nowadays, by using CLJ/CLJS, immutability included, unit tests are very
+easy to be implemented.  Most of the time you manage pure functions,
+whose output depends only on the passed input. That said, when you're
+aged like I'm, you can't change your habits. So, who's religious about
+TDD/BDD (Test Driven Development and Behavioural Driven Development),
+has to be forgiven with me.
 
 ## Introduction
 
-In the last [tutorial][1] I hope you had some fun in seeing the DRY
-(dont' Repeat Yourself) principle at work, while adhering to the
-progressive enhancement strategy. Before to go ahead by affording the
-problem of testing your CLJ/CLJS code, we have to fulfill something we
-left behind. In the [tutorial 10 - Introducing Ajax][2] we implemented a
-Shopping Calculator by using the Ajax style of communication between the
-browser and the server: said otherwise, between ClojureScript on the
-client side and Clojure on the server side. Obviously, nobody will never
-implement that kind of stupid widget by using Ajax, if all the
-information he needs to make the calculation from are already in his
-hands on the browser side. By moving the calculation from the client
-side to the server side, we found an excuse to gently introduce you to
-Ajax. After all, this is a series of tutorial on CLJS not on
-CLJ. Nonetheless, by omitting to implement also a server-side only
-Shopping Calculator, we have broken the first principle of the
-progressive enhancement strategy, which dictates:
+I hope you had some fun with the latest [Tutorial][1] when seeing the
+DRY (Dont' Repeat Yourself) principle at work, while trying to adhering
+to the progressive enhancement strategy.
 
-> NOTE 1: start developing your web application by implementing it as if
-> JavaScript would not be available on the browser of the users.
+Before to go ahead in affording the problem of testing your CLJ/CLJS
+code, we have to fulfill something we left behind. In the
+[Tutorial 10 - Introducing Ajax - ][2] we implemented a Shopping
+Calculator by using the Ajax style of communication between the browser
+and the server: said otherwise, between ClojureScript on the client side
+and Clojure on the server side.
 
-But we own the treasure of having the same language on both sides, so it
-will not be a PITA to go from one side to the other and viceversa. Just
-be prepared to pay a little attention anytime you cross the border in
-any direction. And remember, you can even move the border, if this is
-usuful for some reason, which means you can move code from server side
-to client side and viceversa. So, let's dance.
+Obviously, nobody will never implement that kind of stupid widget by
+using Ajax, if all the information he needs to make the calculation from
+the input are already in his hands on the browser side.
+
+By moving the calculation of the Total from the client side to the
+server side, we found an excuse to gently introduce a little bit of Ajax
+in CLJS/CLJ. This is a series of tutorial on CLJS, not on
+CLJ.
+
+Nonetheless, by omitting to implement the server-side only Shopping
+Calculator, we have broken the first principle of the progressive
+enhancement strategy, which dictates:
+
+> Start to develop the front-end by ignoring JavaScript for a while.
+
+We have the same language on both sides. It should not be a PITA to go
+from one side to the other and viceversa. Just be prepared to pay a
+little attention anytime you cross the border in both directions.
+
+And remember, you can even move the border, if this is usuful for any
+reason. It means you could habilitate pieces of your code for being
+moved at will from one side or the other of the border. This is were I
+take inspiration from Chas Emerick
 
 ## Review the Shopping Calculator
 
-Start by reviewing the Shopping Calculator program. If you take track of
-your steps ahead do as follows:
+Start by reviewing the Shopping Calculator program. If you want to keep
+the track of your steps ahead do as follows:
 
 ```bash
 $ git clone https://github.com/magomimmo/modern-cljs.git
@@ -63,20 +80,24 @@ $ lein cljsbuild auto prod
 $ lein ring server-headless # in a new terminal from modern-cljs dir
 ```
 
-Now visit the [shopping.html][3] page, and click the `Calculate`
-button. The `Total` field is updated with the result of the calculation
-executed via Ajax on the server-side. As you can see, the
-`shopping.html` page showed in the address bar of the browser stays the
-same. Only the result of the `Total` field has been updated, even if the
-calculation has been executed by the server. That's the beauty of ajax.
+Now visit the [localhost:3000/shopping.html][3] page, and click the
+`Calculate` button. The `Total` field is valued with the result of the
+calculation executed via Ajax on the server-side.
 
-As you already know from the [Tutorial 10 - Introducing Ajax][2], by
-opening the `Developer Tools` panel of your browser (I'm using Google
-Chrome) and by taking a look at the Network tab, after having reloaded
-the [shopping.html][3] page, you should see the network activities. Any
-time you click the `Calculate` button a new `_shoreleave` POST method
-request is submitted to the server which responds with the HTTP/1.1 202
-status code (i.e. Accepted, that means asynchronous).
+The `shopping.html` page showed in the address bar of the browser stays
+there.  Only the value of the `Total` field has been updated, even if
+the calculation has been executed by the server. That's the beauty of
+ajax.
+
+As you already know from the [Tutorial 10 - Introducing Ajax - ][2] you
+can open the `Developer Tools` panel of your browser (I'm using Google
+Chrome) and take a look at the Network tab. After having reloaded the
+[localhost:3000/shopping.html][3] page, you should see the network
+activities.
+
+Any time you click the `Calculate` button a new `_shoreleave` POST
+method request is submitted to the server which responds with the
+HTTP/1.1 202 status code (i.e. Accepted, that means asynchronous).
 
 ![AjaxNetwork][5]
 
@@ -88,7 +109,7 @@ check-box.
 
 ![DisableJavaScript][6]
 
-Now close the Setting's panel and reload the [shopping.html][3] page.
+Now close the Setting's panel and reload the [shopping page][3].
 If you move the mouse cursor over the `Calculate` button nothing happens
 and nothing happens even if you click it.
 
@@ -122,17 +143,17 @@ Take a look at the `shopping.html` file which is under the
 </html>
 ```
 
-As you can see the `form` tag has no `action` and `method` set and the
-`type` attribute of the Calculate `input` is set to `"button"` value,
-which means that when JavaScript is disabled and the `form` does not
-respond to any event.
+As you can see the `form` tag has no `action` and `method` attributes
+and has the `type` attribute of the Calculate `calc` input set to
+`button`. This means that when JavaScript is disabled the `form` does
+not respond to any event.
 
 ## Step 1 - Break the Shopping Calculator
 
 Now modify the `form` by adding the `action="/shopping"` and the
-`method="POST"` attributes/values. Next change the Calculate `input
-type` from `type="button"` to `type="submit"`. Following is the
-interested snippet of the modified HTML code.
+`method="POST"` attributes/values. Next, change the `calc` input from
+`type="button"` to `type="submit"`. Following is the interested snippet
+of the modified HTML code.
 
 ```html
   ...
@@ -153,12 +174,12 @@ interested snippet of the modified HTML code.
 </html>
 ```
 
-Reload the [shopping.html][3] page and click the `Calculate` button
-again. You should receive a `Page not found` message from the server
-and see the `localhost:3000/shopping` URI in the address bar of your
-browser instead of the previous `localhost:3000/shopping.html` URL.
+Reload the [shopping page][3] and click the `Calculate` button
+again. You receive a plain `Page not found` text from the server and read
+`localhost:3000/shopping` in the address bar of your browser instead of
+the previous `localhost:3000/shopping.html`.
 
-As you remember from the [Tutorial 3 - CLJ based http-server][4], we
+As you remember from the [Tutorial 3 - CLJ based http-server - ][4] we
 defined the application's routes as follows
 
 ```clojure
@@ -174,23 +195,25 @@ defined the application's routes as follows
 ```
 
 which explains us why we received the `Page not found` page: our server
-does not know anything about the `/shopping` URL now requested by the
-the Shopping Calculator form.
+does not know anything about the `/shopping` URL requested by the
+`Calculate` button.
 
-Furthermore, by having set the `method` attribute of the `form` to
-`POST` and the `type` attribute of the Calculate `input` to `submit`, we
-asked the browser to send to the server a POST request with the
-`"/shopping"` URL whenever the user clicks the Calculate button.
+Furthermore, by setting the `method` attribute of the `form` to `POST`
+and the `type` attribute of the `calc` input to `submit`, we are asking
+the browser to send a POST request with the `"/shopping"` URL whenever
+the user clicks the Calculate button.
 
 ### A kind of TDD
 
 By modifying the `shopping.html` and disabling the JavaScript from the
 browser, we have just exercized a kind of TDD (Test Driver
-Development). So the first step is now to fix the failure we just met by
-adding a fictional route to the [compojure][7] `defroutes` macro.
+Development).
 
-Open the `src/clj/modern_cljs/core.clj` file and add a POST route for
-the `"/shopping"` URL as follows.
+The first step is now to fix the failure we just met. Add a fictional
+route to the [compojure][7] `defroutes` macro.
+
+Open the `src/clj/modern_cljs/core.clj` file and add the "/shopping"
+POST route as follows.
 
 ```clojure
 (defroutes app-routes
@@ -201,14 +224,13 @@ the `"/shopping"` URL as follows.
 )
 ```
 
-> NOTE 2: In the Restful community, which I'm starting to appreciated a
-> lot, that whould be a blasphemy, because the Shopping Calculator is an
+> NOTE 1: In the Restful communitoes, which I appreciated a lot, that
+> whould be a blasphemy, because the Shopping Calculator is an
 > application resource which is safe and idempotent, in Restful
 > parlance, and we should have used the default GET verb/method.
 
 Now reload the `shopping.html` page and click again the `Calculate`
-button. You should now receive a message with the values of the input
-fields of the Shopping Calculator form.
+button. You should receive a plain text of the input values of the form.
 
 ![FictionShopping][8]
 
@@ -229,16 +251,17 @@ work anymor. What did happen?
 
 By having changed the `Calculate` input from `type="button"` to
 `type="submit"`, when now the user clicks it, the control passes to the
-`action="/shopping"` which sumits a POST request to the server.
+`action="/shopping"` which submits a POST request to the server.
 
 We already afforded this problem in a [previous tutorial][10]
 dedicated to the `login` example and we solved it by preventing the
 above to happen.
 
 We need to code the same thing in the
-`src/cljs/modern_cljs/shopping.cljs` file. Open the `shopping.cljs`
-file and modify the function associated to the `click` event as
-follows.
+`src/cljs/modern_cljs/shopping.cljs` file.
+
+Open the `shopping.cljs` file and modify the function associated to the
+`click` event as follows.
 
 ```clojure
 (defn ^:export init []
@@ -249,8 +272,8 @@ follows.
     (listen! (by-id "calc") :mouseout remove-help!)))
 ```
 
-As you can see we wrapped the original `calculate` function inside an
-anonymous function, which now receive the event as an argument.
+We wrapped the `calculate` function inside an anonymous function, which
+now receives the event as argument.
 
 Now we need to modify the `calculate` function definition to be able
 to prevenet the `click` event to be passed to the `action` of the
@@ -268,11 +291,12 @@ Shopping form as follows.
     (prevent-default evt)))
 ```
 
-As you can see, after having called the `remote-callback :calculate` we
-added the call to the `prevent-default` function, which is defined in
-the `domina.events` namespace. The last modification we have to
-introduce is to add the `prevent-default` function in the `:refer`
-section of the `domina.events` requirement as follows:
+We update the arguments of `calculate` and added the `(prevent-default
+evt)` as the last call its definition.
+
+The last modification we have to introduce is to add the
+`prevent-default` symbol to the `:refer` section of the `domina.events`
+requirement as follows:
 
 ```clojure
 (ns modern-cljs.shopping
@@ -285,8 +309,8 @@ section of the `domina.events` requirement as follows:
 ```
 
 If you did not stop the `cljsbuild` auto compilation from the previous
-run you should see the CLJS/Google Closure Compiler running again to
-produce the optimized `modern.js` script file.
+run, you should see the CLJS compiler producing the `modern.js` script
+file.
 
 Reload the [shopping.html][3]. You should now see the Ajax version of
 the Shopping Calculator working again as expected.
@@ -299,18 +323,19 @@ $ git commit -am "Step 1"
 $ git checkout -b tutorial-14-step-2
 ```
 
-This `git` command clones the step-1 in the step-2 branch and sets the
-latter as the active branch in preparation of the next work we have to
-do.
+The latest `git` command clones the step-1 in the step-2 branch and sets
+the latter as the active branch in preparation of the next work to be
+done.
 
 ## Step 2 - Enliving the server-side
 
-In the Step 1 of this tutorial we prepared the field for introducing
-[Enlive][11], one of the most famous CLJ libs in the clojurean
-community. There are already [few Enlive tutorials available online][12]
-and I'm not going to add anything, but the simplest use case which
-allows us to implement the server-side only Shopping Calculator in
-accordance with the progressive enhancement principle.
+During the first step of this tutorial we prepared the field for
+introducing [Enlive][11], one of the most famous CLJ libs in the
+clojurean community. There are already
+[few Enlive tutorials available online][12] and I'm not going to add
+anything, but the simplest use case which allows us to implement the
+server-side only Shopping Calculator in accordance with the progressive
+enhancement principle.
 
 The reasons why I choose Enlive are very well motivated by
 [David Nolen][13] in its [nice tutorial][14] on Enlive:
@@ -588,7 +613,7 @@ Clojure implementations."
   (:require [clojure.string :as str]
             [cljs.reader :refer [read-string]])
   (:refer-clojure :exclude [read-string]))
-  
+
 (defn integer-string?
   "Returns true if the string represents an integer."
   [s]
@@ -717,7 +742,7 @@ Open and modify the above file as follows:
   [:#price] (set-attr :value price)
   [:#tax] (set-attr :value tax)
   [:#discount] (set-attr :value discount)
-  [:#total] (set-attr :value 
+  [:#total] (set-attr :value
                       (format "%.2f" (calculate quantity price tax discount))))
 ```
 
@@ -755,7 +780,7 @@ removed both the reference to the `modern-cljs.core` namespace and the
 
 ```clojure
 (ns modern-cljs.remotes
-  (:require 
+  (:require
    ;;       [modern-cljs.core :refer [handler]]
             [modern-cljs.login.java.validators :as v]
             [modern-cljs.utils :refer [parse-integer parse-double]]
