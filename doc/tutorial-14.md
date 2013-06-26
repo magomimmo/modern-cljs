@@ -18,22 +18,22 @@ learn from your failures. I prefer to think of myself to be still able
 to learn from the success of the others, if not mine. First rule: be
 inspired by the very good ones.
 
-That's because I had my Editor to structure my thoughts and then the
-REPL to correct them on the fly when needed.  The Editor and the REPL
-were just the same thing.
+Moreover, I had my Editor to structure and organize my thoughts and then
+the REPL to correct them on the fly when needed.  The Editor and the
+REPL were just the same thing.
 
-Nowadays, by using CLJ/CLJS, immutability included, unit tests are very
-easy to be implemented.  Most of the time you manage pure functions,
-whose output depends only on the passed input. That said, when you're
-aged like I'm, you can't change your habits. So, who's religious about
-TDD/BDD (Test Driven Development and Behavioural Driven Development),
-has to be forgiven with me.
+Nowadays, by using CLJ/CLJS, immutability included, unit tests should be
+very easy to be implemented.  Most of the time you manage pure
+functions, whose output depends only on the passed input. That said,
+when you're aged like I'm, you can't change your habits. So, who's
+religious about TDD/BDD (Test Driven Development and Behavioural Driven
+Development), has to be forgiven with me.
 
 ## Introduction
 
-I hope you had some fun with the latest [Tutorial][1] when seeing the
-DRY (Dont' Repeat Yourself) principle at work, while trying to adhering
-to the progressive enhancement strategy.
+I hope you had some fun with the latest [Tutorial][1] by seeing the DRY
+(Dont' Repeat Yourself) principle at work, while trying to adhering to
+the progressive enhancement strategy.
 
 Before to go ahead in affording the problem of testing your CLJ/CLJS
 code, we have to fulfill something we left behind. In the
@@ -55,7 +55,8 @@ Nonetheless, by omitting to implement the server-side only Shopping
 Calculator, we have broken the first principle of the progressive
 enhancement strategy, which dictates:
 
-> Start to develop the front-end by ignoring JavaScript for a while.
+> Start to develop the front-end by ignoring the JavaScript existance
+> for a while.
 
 We have the same language on both sides. It should not be a PITA to go
 from one side to the other and viceversa. Just be prepared to pay a
@@ -63,36 +64,40 @@ little attention anytime you cross the border in both directions.
 
 And remember, you can even move the border, if this is usuful for any
 reason. It means you could habilitate pieces of your code for being
-moved at will from one side or the other of the border. This is were I
-take inspiration from Chas Emerick
+moved at will from one side or the other of the border.
 
 ## Review the Shopping Calculator
 
 Start by reviewing the Shopping Calculator program. If you want to keep
-the track of your steps ahead do as follows:
+track of your steps ahead do as follows:
 
 ```bash
 $ git clone https://github.com/magomimmo/modern-cljs.git
 $ cd modern-cljs
 $ git checkout tutorial-13
 $ git checkout -b tutorial-14-step-1
+```
+
+Then compile and run `modern-cljs` as usual:
+
+```bash
 $ lein cljsbuild auto prod
 $ lein ring server-headless # in a new terminal from modern-cljs dir
 ```
 
-Now visit the [localhost:3000/shopping.html][3] page, and click the
-`Calculate` button. The `Total` field is valued with the result of the
-calculation executed via Ajax on the server-side.
+Now visit the [shopping page][3], and click the `Calculate` button. The
+`Total` field is valued with the result of the calculation executed via
+Ajax on the server-side.
 
-The `shopping.html` page showed in the address bar of the browser stays
-there.  Only the value of the `Total` field has been updated, even if
-the calculation has been executed by the server. That's the beauty of
-ajax.
+Note that the `localhost:3000/shopping.html` URI showed in the address
+bar of the browser does not change.  Only the value of the `Total` field
+has been updated, even if the calculation has been executed by the
+server. That's the beauty of ajax.
 
 As you already know from the [Tutorial 10 - Introducing Ajax - ][2] you
 can open the `Developer Tools` panel of your browser (I'm using Google
 Chrome) and take a look at the Network tab. After having reloaded the
-[localhost:3000/shopping.html][3] page, you should see the network
+[localhost:3000/shopping.html][3] URI, you should see the network
 activities.
 
 Any time you click the `Calculate` button a new `_shoreleave` POST
@@ -145,7 +150,7 @@ Take a look at the `shopping.html` file which is under the
 
 As you can see the `form` tag has no `action` and `method` attributes
 and has the `type` attribute of the Calculate `calc` input set to
-`button`. This means that when JavaScript is disabled the `form` does
+`button`. This means that, when JavaScript is disabled, the `form` does
 not respond to any event.
 
 ## Step 1 - Break the Shopping Calculator
@@ -175,9 +180,9 @@ of the modified HTML code.
 ```
 
 Reload the [shopping page][3] and click the `Calculate` button
-again. You receive a plain `Page not found` text from the server and read
-`localhost:3000/shopping` in the address bar of your browser instead of
-the previous `localhost:3000/shopping.html`.
+again. You receive a plain `Page not found` text from the server. You
+also see the `localhost:3000/shopping` URI in the address bar of your
+browser instead of the previous `localhost:3000/shopping.html` URI.
 
 As you remember from the [Tutorial 3 - CLJ based http-server - ][4] we
 defined the application's routes as follows
@@ -195,22 +200,22 @@ defined the application's routes as follows
 ```
 
 which explains us why we received the `Page not found` page: our server
-does not know anything about the `/shopping` URL requested by the
-`Calculate` button.
+does not know anything about the `localhost:3000/shopping` URI requested
+by the `Calculate` button.
 
 Furthermore, by setting the `method` attribute of the `form` to `POST`
 and the `type` attribute of the `calc` input to `submit`, we are asking
-the browser to send a POST request with the `"/shopping"` URL whenever
-the user clicks the Calculate button.
+the browser to send a POST request with the `localhost:3000/shopping`
+URI whenever the user clicks the Calculate button.
 
 ### A kind of TDD
 
-By modifying the `shopping.html` and disabling the JavaScript from the
-browser, we have just exercized a kind of TDD (Test Driver
+By modifying the `shopping.html` file and disabling the JavaScript from
+the browser, we have just exercized a kind of TDD (Test Driver
 Development).
 
-The first step is now to fix the failure we just met. Add a fictional
-route to the [compojure][7] `defroutes` macro.
+The first step is now to fix the failure we just met by adding a
+fictional route to the [compojure][7] `defroutes` macro.
 
 Open the `src/clj/modern_cljs/core.clj` file and add the "/shopping"
 POST route as follows.
@@ -229,18 +234,18 @@ POST route as follows.
 > application resource which is safe and idempotent, in Restful
 > parlance, and we should have used the default GET verb/method.
 
-Now reload the `shopping.html` page and click again the `Calculate`
+Now reload the [shopping page][3] and click again the `Calculate`
 button. You should receive a plain text of the input values of the form.
 
 ![FictionShopping][8]
 
 Let's know go back for a while and see what happens if we re-enable the
-JavaScript engine of the browser: open again the Setting of the
+JavaScript engine of the browser. Open again the Setting of the
 Developer Tools and enable the JavaScript engine by unmarking the
 `Disable JavaScript` check-box.
 
-Next, reload the [shopping.html][3] page and finally click the
-`Calculate` button again.
+Next, reload the [shopping page][3] and finally click the `Calculate`
+button again.
 
 ![FictionShopping2][9]
 
@@ -291,8 +296,8 @@ Shopping form as follows.
     (prevent-default evt)))
 ```
 
-We update the arguments of `calculate` and added the `(prevent-default
-evt)` as the last call its definition.
+We update the signature of the `calculate` function and added the
+`(prevent-default evt)` as the last call in its definition.
 
 The last modification we have to introduce is to add the
 `prevent-default` symbol to the `:refer` section of the `domina.events`
@@ -312,7 +317,7 @@ If you did not stop the `cljsbuild` auto compilation from the previous
 run, you should see the CLJS compiler producing the `modern.js` script
 file.
 
-Reload the [shopping.html][3]. You should now see the Ajax version of
+Reload the [shopping page][3]. You should now see the Ajax version of
 the Shopping Calculator working again as expected.
 
 Not so bad until now. I suggest you to commit now your work by issuing
@@ -323,9 +328,9 @@ $ git commit -am "Step 1"
 $ git checkout -b tutorial-14-step-2
 ```
 
-The latest `git` command clones the step-1 in the step-2 branch and sets
-the latter as the active branch in preparation of the next work to be
-done.
+The latest `git` command clones the step-1 into the step-2 branch and
+sets the latter as the active branch in preparation of the next work to
+be done.
 
 ## Step 2 - Enliving the server-side
 
