@@ -14,16 +14,14 @@
                  [domina "1.0.2-SNAPSHOT"]
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]
-                 [com.cemerick/valip "0.3.2"]]
+                 [com.cemerick/valip "0.3.2"]
+                 [enlive "1.1.1"]]
 
   :plugins [[lein-cljsbuild "0.3.2"]
             [lein-ring "0.8.5"]]
 
-  ;; enable cljsbuild tasks support
-  ;; :hooks [leiningen.cljsbuild]
-
   ;; ring tasks configuration
-  :ring {:handler modern-cljs.remotes/app}
+  :ring {:handler modern-cljs.core/app}
 
   ;; cljsbuild tasks configuration
   :cljsbuild {:crossovers [valip.core valip.predicates modern-cljs.login.validators]
