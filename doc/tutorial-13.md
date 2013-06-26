@@ -43,7 +43,7 @@ clojure-ists: [Chas Emerick][4] and [James Reeves][5]. I'm happy that
 the motto *Smart people think alike* was true.
 
 We will eventually search for others CLJ validator libraries. For
-the moment, by following the Keep It Small and Stupid (KISS) pragmatic
+the moment, by following the Keep It Simple, Stupid ([KISS](https://en.wikipedia.org/wiki/KISS_principle)) pragmatic
 approach, we will stay with the [Valip][2] library which already seems to
 satisfy the first three intermediate requirements we just listed in the
 introduction: its quality should be guaranteed by the quality of its
