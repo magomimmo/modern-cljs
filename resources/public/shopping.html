@@ -10,10 +10,9 @@
 </head>
 <body>
   <!-- shopping.html -->
-  <form id="shoppingForm" novalidate>
-    <legend> Shopping Calculator</legend>
+<form action="/shopping" method="post" id="shoppingForm" novalidate>
     <fieldset>
-
+      <legend> Shopping Calculator</legend>
       <div>
         <label for="quantity">Quantity</label>
         <input type="number"
@@ -59,11 +58,10 @@
 
       <br><br>
       <div>
-        <input type="button"
+        <input type="submit"
                value="Calculate"
                id="calc">
       </div>
-
     </fieldset>
   </form>
   <script src="js/modern.js"></script>
