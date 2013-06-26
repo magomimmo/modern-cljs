@@ -1,5 +1,3 @@
-TO BE DONE
-
 # Tutorial 14 - It's better to be safe than sorry (Part 1)
 
 In this part 1 of the tutorial we're going to prepare the field for
@@ -606,7 +604,7 @@ Clojure implementations."
     (read-string x)))
 ```
 
-### Poratable functions
+### Portable functions
 
 By taking inspiration from there, we are going to create an
 `utils.clj` file containing the definition of few useful functions to
