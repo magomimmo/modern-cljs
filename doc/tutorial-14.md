@@ -481,37 +481,37 @@ transformation of the nodes. So far so good.
 
 ### Select and transform
 
-It's now time to fill the gap we left behind in the `deftemplate` call
-by not defining any selector/transformation pair.
+It's now time to fill the gap in the `deftemplate` call by adding the
+appropriate selector/transformation pairs.
 
-For a depth understanding of the selection expressions accepted by
+For a depth understanding of the CSS-like selectors accepted by
 `deftemplate`, you need to understand CSS selectors. You should know
-them even if you want to use [Domina][18] or [jquery][19]. So, even if
+them even if you want to use [Domina][18] or [JQuery][19]. So, even if
 we'd like to have a unified language all over the places, you can't
-avoid to learn a little bit of HTML, CSS and JS. That's the life we
-have to live with.
+avoid to learn a little bit of HTML, CSS and JS to use
+CLJ/CLJS. That's the life we have to live with.
 
-A selector in [Enlive][9] is almost identical to the corresponding CSS
+A selector in [Enlive][9] is almost identical to a corresponding CSS
 selector. Generally speaking you just need to wrap the CSS selector
-inside a CLJ vector and prepend any CSS selector with the colon `:`
-(i.e. kewordize the selectors).
+inside a CLJ vector and prefix it with the colon `:` (i.e. keywordize
+the CSS selectors).
 
 For example, if you want to select a tag with an `id="quantity"`
-attribute, you just need to write `[:#quantity]` which corresponds to
-the `#quantity` CSS selector.
+attribute, you need to write `[:#quantity]` which corresponds to the
+`#quantity` CSS selector.
 
 > NOTE 4: I strongly suggest you to read the enlive
 > [syntax for selector][20] at least to have a decent understanding of
 > it.
 
-But what about the transformation functions? Even id Enlive offers you
-a lot of them, this is not a tutorial on Enlive, and I'm going to use
-the only function we need in our context: the `(set-attr &kvs)`
-function.  It accepts keyword/value pairs where the keywords are the
-names of the attributes you want to set. In our sample, the only
-attribute we are going to set is the `value` attribute of each `input`
-field. So let's start by adding to the `deftemplate` call both the
-selector clause and the trasformation function as follows:
+But what about the transformation functions? Even id [Enlive][9]
+offers you a lot of them, this is not a tutorial on [Enlive][9], and I'm
+going to use the only function we need in our context: the `(set-attr
+&kvs)` function.  It accepts keyword/value pairs where the keywords
+are the names of the attributes you want to set. In our sample, the
+only attribute we are going to set is the `value` attribute of each
+`input` field. So let's start by adding to the `deftemplate` call both
+the selector clause and the trasformation function as follows:
 
 ```clojure
 (deftemplate shopping "public/shopping.html"
@@ -523,9 +523,9 @@ selector clause and the trasformation function as follows:
 ```
 
 Reload the [shopping][2] URI and change the values of the input fields
-of the form. By clicking the `Calculate` button you'll receive a form
-with every value set with the same values you previously typed in. So
-far so good.
+of the Shopping Calculator form. By clicking the `Calculate` button
+you'll receive the form with the same values you previously typed
+in. So far so good.
 
 It's now time to make the calculation and to set the result in the
 `Total` field of the `shoppingForm`.
@@ -548,9 +548,9 @@ of the Shopping Calculator by just parsing the
 `[quantity price tax discount]` passed to the `deftemplate` call. But
 wait a minute. [We already parsed those arguments][21] on the CLJS
 side of the `calculation` function and we don't want to parse them
-again. To reach this objective we need to refactor the code by moving
-the parsing code of the fields values from the client side to the
-server side.
+again. To reach this DRY objective we need to refactor the code by
+moving the parsing code of the fields values from the client side to
+the server side.
 
 Let's take a look at the CLJS `shopping.cljs` file where we defined
 the client side `calculate` function.
@@ -607,8 +607,8 @@ Clojure implementations."
 ### Portable functions
 
 By taking inspiration from there, we are going to create an
-`utils.clj` file containing the definition of few useful functions to
-help us in parsing the inputs of the `shoppingForm`.
+`utils.clj` file containing the definition of few useful and portable
+functions to help us in parsing the input of the `shoppingForm`.
 
 Create the `utils.clj` file in the `src/clj/modern_cljs`
 directory and write the following content:
@@ -717,8 +717,8 @@ Open and modify the above file as follows:
                       (format "%.2f" (calculate quantity price tax discount))))
 ```
 
-> NOTE 6: We added the `format` call to format the Total value with two
-> digits after the decimal point.
+> NOTE 6: We added the `format` call to format the `Total` value with
+> two digits after the decimal point.
 
 Assuming that you have stopped the `$ lein ring server-headless`
 command from the terminal, if you now try to launch the command again
@@ -734,7 +734,7 @@ Subprocess failed
 
 ### FIAT - Fix It Again Tony
 
-Too bad. We just met a cyclic namespaces dependency. Generally
+Too bad. We just met a cyclic namespaces dependency problem. Generally
 speaking to solve a cyclic namespace dependency, which are not allowed
 in CLJ, you need to refactor the code.
 
@@ -742,12 +742,11 @@ Our scenario is simple enough. Remove the `modern-cljs.core` reference
 from the `modern-cljs.remotes` namespace declaration. There, we only
 referenced the `handler` symbol from the `modern-cljs.core` namespace
 in the `app` definition. By moving the `app` definition to the
-`modern-cljs.core` namespace we should be able to resolve the cyclic
-namespace dependency.
+`modern-cljs.core` namespace we should be able to resolve the cyclic issue.
 
-Here is the modified content of the `remotes.clj` file where we have
-removed both the reference to the `modern-cljs.core` namespace and the
-`app` symbol definition.
+Following is the modified content of the `remotes.clj` file where we
+have removed both the reference to the `modern-cljs.core` namespace
+and the `app` symbol definition.
 
 ```clojure
 (ns modern-cljs.remotes
@@ -773,7 +772,7 @@ removed both the reference to the `modern-cljs.core` namespace and the
 
 > NOTE 7: We also removed the reference to the `wrap-rpc` symbol from
 > the `shoreleave.middleware.rpc` requirement because it is not used
-> anymore.
+> anymore by any functions defined in the file.
 
 Next, we need to add the `app` symbol definition in the
 `modern-cljs.core` namespace and add the `shoreleave.middleware.rpc`
