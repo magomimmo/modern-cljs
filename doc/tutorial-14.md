@@ -817,7 +817,7 @@ definition. Following is the modified content of the `core.clj` file.
 Last, but not least, we have to modified the `project.clj` file to
 update the namespace of the `app` symbol in the `:ring` section.
 
-```closure
+```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
   ...
