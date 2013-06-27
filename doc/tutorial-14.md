@@ -1,13 +1,11 @@
 # Tutorial 14 - It's better to be safe than sorry (Part 1)
 
-In this part 1 of the tutorial we're going to prepare the field for
-one of the main topic in the software development lifle cycle: code
-testing.
-
-Code testing is a kind of continuum which goes from zero to almost full
-test coverage. I'm not going to open those kind of discussions which
-have a never ending story and go nowhere. Code testing is a need, full
-stop. How much coverage? It depends.
+In this part 1 of the tutorial we're going to prepare the field for one
+of the main topic in the software development lifle cycle: *code
+testing*. Code testing is a kind of continuum which goes from zero to
+almost full test coverage. I'm not going to open those kind of
+discussions which have a never ending story and go nowhere. Code testing
+is a need, full stop. How much coverage? It depends.
 
 I have to admit that I never departed a program from a unit test that
 has to fail to progress until it succeeds. When you're aged like I'm,
@@ -30,13 +28,10 @@ Calculator by using the Ajax style of communication between the
 browser (i.e. ClojureScript) and the server (i.e. Clojure).
 
 Obviously, nobody will never implement that kind of stupid widget by
-using Ajax, because all the information he needs to make the
-calculation from the input are already in his hands on the browser
-side.
-
-By moving the calculation of the `Total` from the client side to the
-server side, we found an excuse to gently introduce a little bit of Ajax
-in CLJS/CLJ. 
+using Ajax, because all the information he needs to make the calculation
+from the input are already in his hands on the browser side. By moving
+the calculation of the `Total` from the client side to the server side,
+we found an excuse to gently introduce a little bit of Ajax in CLJS/CLJ.
 
 Nonetheless, by omitting to implement the server-side only Shopping
 Calculator, we have broken the first principle of the progressive
@@ -58,7 +53,7 @@ border.
 ## Review the Shopping Calculator
 
 Start by reviewing the Shopping Calculator program. If you want to keep
-track of your next steps ahead do as follows:
+track of your steps do as follows:
 
 ```bash
 $ git clone https://github.com/magomimmo/modern-cljs.git
@@ -78,16 +73,16 @@ Now visit the [shopping URI][2], and click the `Calculate` button. The
 `Total` field is valued with the result of the calculation executed via
 Ajax on the server-side.
 
-Note that the `localhost:3000/shopping.html` URI showed in the address
+Note that the `localhost:3000/shopping.html` URI shown in the address
 bar of the browser does not change when you click the `Calculate`
-button. Only the value of the `Total` field will be updated, even if
-the calculation has been executed by the server. That's one of the
-beauty of Ajax.
+button. Only the value of the `Total` field will be updated, even if the
+calculation has been executed by the server. That's one of the beauty of
+Ajax.
 
-As you already know from the [Tutorial 10 - Introducing Ajax - ][1]
-you can open the `Developer Tools` panel of your browser (I'm using
-Google Chrome) and take a look at the Network tab. After having
-reloaded the [shopping URI][2], take a look at the Network panel.
+As you already know from the [Tutorial 10 - Introducing Ajax - ][1] you
+can open the `Developer Tools` panel of your browser (I'm using Google
+Chrome) and take a look at the Network tab ffter having reloaded the
+[shopping URI][2].
 
 Any time you click the `Calculate` button a new `_shoreleave` POST
 method request is submitted to the server which responds with the
