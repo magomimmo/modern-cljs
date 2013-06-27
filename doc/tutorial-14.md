@@ -1,7 +1,7 @@
 # Tutorial 14 - It's better to be safe than sorry (Part 1)
 
 In this part 1 of the tutorial we're going to prepare the field for one
-of the main topic in the software development lifle cycle: *code
+of the main topic in the software development life cycle: *code
 testing*. Code testing is a kind of continuum which goes from zero to
 almost full test coverage. I'm not going to open those kind of
 discussions which have a never ending story and go nowhere. Code testing
@@ -11,27 +11,29 @@ I have to admit that I never departed a program from a unit test that
 has to fail to progress until it succeeds. When you're aged like I'm,
 you can't change your habits. So, who's religious about TDD/BDD (Test
 Driven Development and Behavioural Driven Development), has to be
-forgiven with me.
+forgiving with me.
 
 Nowadays, by using functional programming languages like CLJ/CLJS, the
 unit tests are much easier to be implemented when compared with
-imperative and object-oriented programming languages, becuse most of
-the time you have to deal with pure functions, whose output depends
+imperative and object-oriented programming languages, because most of
+the time you have to deal with pure functions, whose output depend
 only on the passed input.
 
 ## Introduction
 
-Before to go ahead in affording the problem of testing your CLJ/CLJS
-code, we have to fulfill something we left behind. In the
-[Tutorial 10 - Introducing Ajax - ][1] we implemented a Shopping
-Calculator by using the Ajax style of communication between the
-browser (i.e. ClojureScript) and the server (i.e. Clojure).
+Before to go ahead by affording the problem of testing your CLJ/CLJS
+code, we have to fulfill something we left behind in the previous
+tutorials. In the [Tutorial 10 - Introducing Ajax - ][1] we
+implemented a Shopping Calculator by using the Ajax style of
+communication between the browser (i.e. ClojureScript) and the server
+(i.e. Clojure).
 
 Obviously, nobody will never implement that kind of stupid widget by
-using Ajax, because all the information he needs to make the calculation
-from the input are already in his hands on the browser side. By moving
-the calculation of the `Total` from the client side to the server side,
-we found an excuse to gently introduce a little bit of Ajax in CLJS/CLJ.
+using Ajax, because all the information she/he needs to make the
+calculation from the input are already in her/his hands on the browser
+side. By moving the calculation of the `Total` from the client side to
+the server side, we found an excuse to gently introduce a little bit
+of Ajax in CLJS/CLJ.
 
 Nonetheless, by omitting to implement the server-side only Shopping
 Calculator, we have broken the first principle of the progressive
@@ -40,10 +42,10 @@ enhancement strategy, which dictates:
 > Start to develop the front-end by ignoring the JavaScript existance
 > for a while.
 
-Don't forget that we have the same language on both sides. It should
-not be a PITA to go from one side to the other and viceversa. Just be
-prepared to pay a little attention anytime you cross the border in
-both directions.
+But we're in a good position to cover the missing step, because we
+have the same language on both sides. It should not be a PITA to go
+from one side to the other and viceversa. Just be prepared to pay a
+little attention anytime you cross the border in both directions.
 
 And remember, you can even move the border, if this is usuful for any
 reason. By moving the border I mean that you could habilitate pieces
@@ -81,12 +83,12 @@ Ajax.
 
 As you already know from the [Tutorial 10 - Introducing Ajax - ][1] you
 can open the `Developer Tools` panel of your browser (I'm using Google
-Chrome) and take a look at the Network tab ffter having reloaded the
+Chrome) and take a look at the Network tab after having reloaded the
 [shopping URI][2].
 
 Any time you click the `Calculate` button a new `_shoreleave` POST
-method request is submitted to the server which responds with the
-HTTP/1.1 202 status code (i.e. Accepted).
+asynchronous method request is submitted to the server which responds
+with the HTTP/1.1 202 status code (i.e. Accepted).
 
 ![AjaxNetwork][3]
 
