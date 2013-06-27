@@ -134,16 +134,16 @@ Take a look at the `shopping.html` file which is under the
 </html>
 ```
 
-As you can see the `form` tag has no `action` and `method` attributes
-and the `type` attribute of the Calculate `calc` input is set to
+As you can see, the `form` tag has no `action` and `method` attributes
+and the `type` attribute of the Calculate input is set to
 `button`. This means that, when JavaScript is disabled, the `form`
 does not respond to any event.
 
 ## Step 1 - Break the Shopping Calculator
 
-Now modify the `form` by adding the `action="/shopping"` and the
-`method="POST"` attribute/value pairs. Next, change the `calc` input
-from `type="button"` to `type="submit"` attribute/value
+Now modify the `shoppingForm` by adding the `action="/shopping"` and
+the `method="POST"` attribute/value pairs. Next, change the Calculate
+input from `type="button"` to `type="submit"` attribute/value
 pair. Following is the interested snippet of the modified HTML code.
 
 ```html
@@ -198,12 +198,13 @@ button and this URI does not exist.
 ### A kind of TDD
 
 By modifying the `shopping.html` file and disabling the JavaScript
-from the browser, we have just exercized a kind of TDD (Test Driven
-Development) simulation.
+from the browser, we have just exercized a kind of virtual TDD (Test
+Driven Development) simulation.
 
-To fix the failure we just met, we need to add a fictional route to
-the `defroutes` macro call. Open the `src/clj/modern_cljs/core.clj`
-file and add the "/shopping" POST route as follows.
+To fix the failure we just met, we need to add a route for the
+"/shopping" request to the `defroutes` macro call. Open the
+`src/clj/modern_cljs/core.clj` file and add the "/shopping" POST route
+as follows.
 
 ```clojure
 (defroutes app-routes
@@ -245,10 +246,10 @@ work anymore. What happened?
 ### Fix the failed test
 
 By having changed the `Calculate` input from `type="button"` to
-`type="submit"`, when now the user clicks it, the control passes to the
-`action="/shopping"` and it submits a POST request to the server which
-responds by calling the handler function now attached to the POST
-"/shopping" route.
+`type="submit"`, when the user now clicks it, the control passes to
+the `action="/shopping"` and it submits a POST request to the
+server. The server then responds by calling the handler function which
+is now associated with the POST "/shopping" route.
 
 We already afforded this problem in a [previous tutorial][8]
 dedicated to the `login` example and we solved it by preventing the
@@ -269,7 +270,7 @@ Open the `shopping.cljs` file and modify the function associated to the
     (listen! (by-id "calc") :mouseout remove-help!)))
 ```
 
-We wrapped the `calculate` function inside an anonymous function,
+Here we wrapped the `calculate` function inside an anonymous function,
 which now receives an event as the sole argument.
 
 Now we need to modify the `calculate` function definition to be able
@@ -288,9 +289,9 @@ Shopping form as follows.
     (prevent-default evt)))
 ```
 
-We update the signature of the `calculate` function to accept an event
-and added the `(prevent-default evt)` as the last call in its
-definition.
+We update the signature of the `calculate` function to accept the
+event and added the `(prevent-default evt)` as the last call in its
+definition, which interrupts the flow.
 
 The last modification we have to introduce is to add the
 `prevent-default` symbol to the `:refer` section of the `domina.events`
@@ -307,8 +308,8 @@ requirement as follows:
 ```
 
 If you did not stop the `cljsbuild` auto compilation from the previous
-run, you should see the CLJS compiler producing the `modern.js` script
-file.
+run, as soon as you save the file you should see the CLJS compiler
+producing an updated version of `modern.js` script file.
 
 Reload the [shopping URI][2]. You should now see the Ajax version of
 the Shopping Calculator working again as expected.
@@ -321,21 +322,21 @@ $ git commit -am "Step 1"
 $ git checkout -b tutorial-14-step-2
 ```
 
-The second `git` command clones the tutorial-14-step-1 into the
-tutorial-14-step-2 branch and sets the latter as the active branch in
-preparation of the next work to be done.
+The second `git` command clones the `tutorial-14-step-1` branch into
+the `tutorial-14-step-2` branch and sets the latter as the active
+branch in preparation of the next work to be done.
 
 ## Step 2 - Enliving the server-side
 
-In the previous pragraphs of this tutorial we prepared the field for
+In the previous pragraphs of this tutorial we prepared the stage for
 introducing [Enlive][9], one of the most famous CLJ libs in the
-clojurean community. There are already few
-[Enlive tutorials][10] available online and I'm not going to add
-anything, but the simplest use case which allows us to implement the
-server-side only Shopping Calculator in accordance with the
-progressive enhancement principle.
+Clojure communities. There are already few [Enlive tutorials][10]
+available online and I'm not going to add anything new, but the
+simplest use case which allows us to implement the server-side only
+Shopping Calculator in accordance with the progressive enhancement
+principle.
 
-The reasons why I choose Enlive are very well motivated by
+The reasons why I choose [Enlive][9] are very well motivated by
 [David Nolen][11] in its [nice tutorial][12] on Enlive:
 
 > Enlive gives you the advantages of designer accessible templates
