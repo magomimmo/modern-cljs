@@ -865,11 +865,18 @@ been defined starting from the `shopping.html` file. This is because
 the different script tags in each version of the page are read only
 when the JavaScript engine is active.
 
+As a very last step, if everything is working as expected, I suggest you
+to commit the changes as follows:
+
+```bash
+$ git add .
+$ git commit -m "finished step-2"
+```
+
 # Next - Tutorial 15 - It's better to be safe than sorry (Part 2)
 
-In this tutorial we prepared the playground for the next tutorial in
-which, after having added the validators for the `shoppingForm`, we're
-going to introduce unit testing.
+In the next tutorial, after having added the validators for the
+`shoppingForm`, we're going to introduce unit testing.
 
 # License
 
