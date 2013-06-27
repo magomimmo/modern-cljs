@@ -329,12 +329,12 @@ branch in preparation of the next work to be done.
 ## Step 2 - Enliving the server-side
 
 In the previous pragraphs of this tutorial we prepared the stage for
-introducing [Enlive][9], one of the most famous CLJ libs in the
-Clojure communities. There are already few [Enlive tutorials][10]
-available online and I'm not going to add anything new, but the
-simplest use case which allows us to implement the server-side only
-Shopping Calculator in accordance with the progressive enhancement
-principle.
+introducing [Enlive][9] by [Christophe Grand][27], one of the most
+famous CLJ libs in the Clojure communities. There are already few
+[Enlive tutorials][10] available online and I'm not going to add
+anything new, but the simplest use case which allows us to implement
+the server-side only Shopping Calculator in accordance with the
+progressive enhancement principle.
 
 The reasons why I choose [Enlive][9] are very well motivated by
 [David Nolen][11] in its [nice tutorial][12] on Enlive:
@@ -902,3 +902,4 @@ License, the same as Clojure.
 [24]: https://github.com/cemerick/valip
 [25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-13.md#the-selection-process
 [26]: https://github.com/cemerick/valip/blob/master/src/valip/predicates.clj
+[27]: https://github.com/cgrand
