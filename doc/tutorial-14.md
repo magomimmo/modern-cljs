@@ -363,8 +363,8 @@ The following picture shows a sequence diagram of the above description.
 
 ![Shopping-server][14]
 
-Obviously we should validate all inputs, but this is something we'll
-take care of later.
+Obviously we should also validate all inputs, but this is something
+we'll take care of later in the next tutorial.
 
 ### Enter Enlive
 
@@ -390,15 +390,16 @@ It creates a function with the same number of `args` and the same `name`
 of the template. The `source` can be any HTML file located in the
 `classpath` of the application.
 
-Finally `&forms` is composed by pairs of a vector of CSS-like selector
-expressions, which selects elements/nodes from the parsed HTML source,
-and a function which is applied to transform any selected
+Finally `&forms` is composed by sequence of pairs. The left hand of
+the pair is a vector of CSS-like selectors, used to select the
+interested elements/nodes from the parsed HTML source. The right hand
+of the pair is a function which is applied to transform each selected
 element/node.
 
 If you issue the `$ lein classpath` command from the terminal, you can
 verify that the `resources` directory is a member of the application
-`classpath`. This means that we can set as `source` arg the
-`public/shopping.html` file.
+`classpath`. This means that we can pass to `deftemplate` the
+`public/shopping.html` file as the `source` arg.
 
 As the `name` arg, we're going to use the same name of the POST route
 (i.e. `shopping`) previously defined inside the `defroutes` macro.
@@ -406,13 +407,14 @@ As the `name` arg, we're going to use the same name of the POST route
 Then, the `args` to be passed to `deftemplate` are the same we defined
 in the `(POST "/shopping" [quantity price tax discount] ...)` route.
 
-Finally, regarding the `& forms`, start by instantiating it with two
-`nil` values, which means no selectors and no transfomrations. I would expect
-that the source will be rendered exactly as the original HTML source.
+Finally, regarding the `& forms` rg, start by instantiating it with
+two `nil` values, which means no selectors and no transfomrations. I
+now expect that the source will be rendered exactly as the original
+HTML source.
 
 ### Let's code
 
-First, as usual, we need to add the `enlive` lib to the
+First, as usual, we need to add the [Enlive][9] lib to the
 `project.clj`.
 
 ```clojure
@@ -465,7 +467,7 @@ $ lein ring server-headless`
 
 > NOTE 3: We need to stop the running ring server because we added the
 > [Enlive][9] lib to the proeject dependencies. Thanks to
-> [Chas Emerick][16] we can now add new dependencies in the REPL to a
+> [Chas Emerick][16] we could add new dependencies in the REPL to a
 > running project by using the [Pomegranate][17] lib.
 
 Now disable again the JavaScript engine of your browser and visit the
@@ -474,7 +476,7 @@ Now disable again the JavaScript engine of your browser and visit the
 You should see the Shopping Calculator page showing the default field
 values again and again each time you press the `Calculate` button, no
 matter what you typed in the value boxes of the fiels. This is exactly
-what we should expect, because we did not select any node and any
+what we expected, because we did not select any node and any
 transformation of the nodes. So far so good.
 
 ### Select and transform
