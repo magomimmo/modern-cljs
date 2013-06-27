@@ -337,7 +337,7 @@ server-side only Shopping Calculator in accordance with the
 progressive enhancement principle.
 
 The reasons why I chose [Enlive][9] are very well motivated by
-[David Nolen][11] in its [nice tutorial][12] on Enlive:
+[David Nolen][11] in his [nice tutorial][12] on Enlive:
 
 > Enlive gives you the advantages of designer accessible templates
 > (since they’re just HTML) without losing the power of function
@@ -370,8 +370,9 @@ we'll take care of later in the next tutorial.
 
 The steps `2.` and `5.` are already satisfied by the `defroutes` macro
 from [Compojure][6]. The step `3.` - calculate the total - seems to be
-already satisfied by the the `defremote` macro call from [Shoreleave][15],
-which implicitely define a function with the same name.
+already satisfied by the the `defremote` macro call from
+[Shoreleave][15], which implicitly defines a function with the same
+name.
 
 It seems that we just need to implement the step `1.` - read the
 `shopping.html` file from the `resources/public` directory and the
@@ -540,14 +541,14 @@ It's now time to make the calculation and to set the result in the
 > and maintain code.   - Joshua Kerievsky, Refactoring to Patterns
 
 In the [Tutorial 10 - Introducing Ajax][1] we defined the remote
-`calculation` function by calling the `defremote` macro. The
-`defremote` function implicitly define a function with the same name
+`calculate` function by calling the `defremote` macro. The
+`defremote` call implicitly define a function with the same name
 of the remote function and that's good, because we hate any kind of
 code duplication. We could immediately use it to calculate the result
 of the Shopping Calculator by just parsing the
 `[quantity price tax discount]` passed to the `deftemplate` call. But
-wait a minute. We already parsed those arguments][21] on the CLJS
-side of the `calculation` function and we don't want to parse them
+wait a minute. We [already parsed those arguments][21] on the CLJS
+side of the `calculate` function and we don't want to parse them
 again. To reach this DRY objective we need to refactor the code by
 moving the parsing code of the fields values from the client side to
 the server side.
