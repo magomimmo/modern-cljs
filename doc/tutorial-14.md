@@ -243,10 +243,10 @@ work anymore. What happened?
 ### Fix the failed test
 
 By having changed the `Calculate` input from `type="button"` to
-`type="submit"`, when now the user clicks it, the control passes to
-the `action="/shopping"` and submits a POST request to the server
-which responds with by calling the handler function just attached to
-the POST "/shopping" route.
+`type="submit"`, when now the user clicks it, the control passes to the
+`action="/shopping"` and it submits a POST request to the server which
+responds by calling the handler function now attached to the POST
+"/shopping" route.
 
 We already afforded this problem in a [previous tutorial][8]
 dedicated to the `login` example and we solved it by preventing the
@@ -319,9 +319,9 @@ $ git commit -am "Step 1"
 $ git checkout -b tutorial-14-step-2
 ```
 
-The second `git` command clones the step-1 into the step-2 branch and
-sets the latter as the active branch in preparation of the next work
-to be done.
+The second `git` command clones the tutorial-14-step-1 into the
+tutorial-14-step-2 branch and sets the latter as the active branch in
+preparation of the next work to be done.
 
 ## Step 2 - Enliving the server-side
 
