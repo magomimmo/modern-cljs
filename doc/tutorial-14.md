@@ -504,7 +504,7 @@ attribute, you need to write `[:#quantity]` which corresponds to the
 > [syntax for selector][20] at least to have a decent understanding of
 > it.
 
-But what about the transformation functions? Even id [Enlive][9]
+But what about the transformation functions? Even if [Enlive][9]
 offers you a lot of them, this is not a tutorial on [Enlive][9], and I'm
 going to use the only function we need in our context: the `(set-attr
 &kvs)` function.  It accepts keyword/value pairs where the keywords
