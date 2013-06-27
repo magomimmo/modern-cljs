@@ -838,8 +838,8 @@ $ lein ring server-headless
 ```
 
 Now visit [shopping][2] URI and play with the form by enabling and
-disabling the JavaScript engine of your browser. Everything should now
-work as expected in both scenarios.
+disabling the JavaScript engine of your browser. Everything should
+work as expected in both the scenarios.
 
 ## ATTENTION - FINAL NOTES
 

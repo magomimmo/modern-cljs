@@ -110,13 +110,12 @@ by sharing validators between the client (i.e. CLJS) and the server
 
 ## [Tutorial 14 - It's better to be safe than sorry (Part 1)][22]
 
-In this tutorial we are going to prepare the playground for affording
-the unit testing topic. We'll also introduce the `Enlive` template
-sytem to implement a server-side only version of the Shopping
-Calculator aimed at adhering to the progressive enanchement
-implementation strategy. We'll even see how to exercize code
-refactoring to satisfy the DRY principle and to solve a cyclic
-namespaces dependency.
+In this tutorial we are going to prepare the stage for affording the
+unit testing topic. We'll also introduce the `Enlive` template sytem
+to implement a server-side only version of the Shopping Calculator
+aimed at adhering to the progressive enanchement implementation
+strategy. We'll even see how to exercize code refactoring to satisfy
+the DRY principle and to solve a cyclic namespaces dependency problem.
 
 ## Next Tutorial
 

@@ -675,16 +675,13 @@ Stay tuned for the next tutorial.
 
 # Next step - Tutorial 14 - It's better to be safe than sorry (Part 1)
 
-In the [next Tutorial][20] we are going to prepare the playground for
+In the [next Tutorial][20] we are going to prepare the stage for
 affording the unit testing topic. We'll also introduce the `Enlive`
-template system to implement a server-side only version of the Shopping
-Calculator aimed at adhering to the progressive enhancement
+template system to implement a server-side only version of the
+Shopping Calculator aimed at adhering to the progressive enhancement
 implementation strategy. We'll even see how to exercise code
-refactoring to satisfy the DRY principle:
-
-1. while crossing again the border between the client and the server
-side of a CLJS/CLJ web application;
-2. to solve a cyclic namespaces dependency we'll encounter.
+refactoring to satisfy the DRY principle and to resolve a cyclic
+namespaces dependency problem we'll meet on the way.
 
 # License
 
