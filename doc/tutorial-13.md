@@ -43,7 +43,7 @@ clojure-ists: [Chas Emerick][4] and [James Reeves][5]. I'm happy that
 the motto *Smart people think alike* was true.
 
 We will eventually search for others CLJ validator libraries. For
-the moment, by following the Keep It Small and Stupid (KISS) pragmatic
+the moment, by following the Keep It Simple, Stupid ([KISS](https://en.wikipedia.org/wiki/KISS_principle)) pragmatic
 approach, we will stay with the [Valip][2] library which already seems to
 satisfy the first three intermediate requirements we just listed in the
 introduction: its quality should be guaranteed by the quality of its
@@ -394,7 +394,7 @@ where we defined the `user-credential-errors` validator.
 ```
 
 Then we just have to review the code by injecting the validators shared
-with the server-side code. We start by reviewing the `validate-mail`
+with the server-side code. We start by reviewing the `validate-email`
 definition.
 
 ```clojure
@@ -575,12 +575,12 @@ good.
 ## Second step - Remotize the server-side-only validator
 
 As we already know from the [10th Tutorial][16], we can easly remotize a
-function by using the [shoreleave][18] machinery. Open the `remote.clj`
+function by using the [shoreleave][18] machinery. Open the `remotes.clj`
 file and update the namespace declaration by requiring the
 `modern-cljs.login.java.validators` namespace, where we newly defined the
 `email-domain-errors` server-side-only validator. Next define the new
 remote function as you already did in the [10th Tutorial][16] with the
-`calculate` function. Here is the updated content of `remote.clj`
+`calculate` function. Here is the updated content of `remotes.clj`
 
 ```clojure
 (ns modern-cljs.remotes
@@ -649,7 +649,7 @@ which wraps the remotized `email-domain-errors` function via the
 shoreleave `remote-callback` function and manipulates the DOM of the
 `loginForm` with a new error/help message to the user.
 
-We then updated the previously-defined `validate-mail` function by
+We then updated the previously-defined `validate-email` function by
 adding the call to the newly defined `validate-email-domain` function.
 
 ## Last step - Test the magic again
@@ -677,9 +677,9 @@ Stay tuned for the next tutorial.
 
 In the [next Tutorial][20] we are going to prepare the playground for
 affording the unit testing topic. We'll also introduce the `Enlive`
-template sytem to implement a server-side only version of the Shopping
-Calculator aimed at adhering to the progressive enanchement
-implementation strategy. We'll even see how to exercize code
+template system to implement a server-side only version of the Shopping
+Calculator aimed at adhering to the progressive enhancement
+implementation strategy. We'll even see how to exercise code
 refactoring to satisfy the DRY principle:
 
 1. while crossing again the border between the client and the server
