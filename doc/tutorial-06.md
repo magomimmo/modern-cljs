@@ -85,7 +85,7 @@ Here are the bash commands you should enter in the terminal.
 ```bash
 $ mkdir -p src/cljs/{login/modern_cljs,shopping/modern_cljs}
 $ mv src/cljs/modern_cljs/login.cljs src/cljs/login/modern_cljs/
-$ mv src/cljs/modern_clsj/shopping.cljs src/cljs/shopping/modern_cljs/
+$ mv src/cljs/modern_cljs/shopping.cljs src/cljs/shopping/modern_cljs/
 $ cp src/cljs/modern_cljs/connect.cljs src/cljs/login/modern_cljs/
 $ cp src/cljs/modern_cljs/connect.cljs src/cljs/shopping/modern_cljs/
 $ rm -rf src/cljs/modern_cljs
