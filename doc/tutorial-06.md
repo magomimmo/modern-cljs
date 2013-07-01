@@ -3,6 +3,18 @@
 In this tutorial we are going to investigate the issue we met in the
 [latest tutorial][1] and try to solve it.
 
+## Preamble
+
+If you want to start working from the end of the [previous tutorial][1],
+assuming you've [git][9] installed, do as follows.
+
+```bash
+$ git clone https://github.com/magomimmo/modern-cljs.git
+$ cd modern-cljs
+$ git checkout tutorial-05
+$ git checkout -b tutorial-06-step-1
+```
+
 ## Introduction
 
 Our latest tutorial ended with a not so nice issue. Just to recap we did as
@@ -202,6 +214,13 @@ $ lein cljsbuild auto # from the project home directory in a new terminal
 $ lein trampoline cljsbuild repl-listen # from the project home directory in a new terminal
 ```
 
+If you created a new git branch as suggested in the preamble of this
+tutorial, I suggest you to commit the changes as follows
+
+```bash
+$ git commit -am "Introducing domina"
+```
+
 In a subsequent tutorial we'll introduce [domina event][6] management
 to further improve our functional style in porting
 [Modern JavaScript samples][7] to CLJS.
@@ -224,3 +243,4 @@ License, the same as Clojure.
 [6]: https://github.com/levand/domina#event-handling
 [7]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
+[9]: https://help.github.com/articles/set-up-git
