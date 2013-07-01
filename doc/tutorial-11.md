@@ -14,7 +14,19 @@ example introduced in the [4th Tutorial][5] with the more clojure-ish
 programming style already adopted in the previous tutorials about the
 Shopping Calculator example.
 
-# Introduction
+## Preamble
+
+If you want to start working from the end of the [previous tutorial][1],
+assuming you've [git][26] installed, do as follows.
+
+```bash
+$ git clone https://github.com/magomimmo/modern-cljs.git
+$ cd modern-cljs
+$ git checkout tutorial-10
+$ git checkout -b tutorial-11-step-1
+```
+
+## Introduction
 
 The following picture shows our old `Login Form` friend.
 
@@ -519,6 +531,13 @@ and line up the `loginForm` to the `shoppingForm` approach adopted in
 the [10th tutorial][1] to allow the browser to communicate via ajax with
 the server.
 
+If you created a new git branch as suggested in the preamble of this
+tutorial, I suggest you to commit the changes as follows
+
+```bash
+$ git commit -am "deeper understanding"
+```
+
 # [Next Step: Tutorial 12 - The highest and the deepest layers][25]
 
 In the [next tutorial][25] we're going to cover the highest and the deepest
@@ -554,3 +573,4 @@ License, the same as Clojure.
 [23]: http://www.the-art-of-web.com/javascript/validate-password/#.UPvsHaGjejI
 [24]: http://regexlib.com/Search.aspx?k=password&c=-1&m=-1&ps=20
 [25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-12.md
+[26]: https://help.github.com/articles/set-up-git
