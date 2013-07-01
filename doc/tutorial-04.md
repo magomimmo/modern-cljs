@@ -36,6 +36,18 @@ knowing much about Clojure and/or ClojureScript themselves.
 > us. Otherwise, we risk seeing said LISP in C's clothing *running on
 > the server-side* too.
 
+## Preamble
+
+If you want to start working from the end of the [previous tutorial][16],
+assuming you've [git][20] installed, do as follows.
+
+```bash
+$ git clone https://github.com/magomimmo/modern-cljs.git
+$ cd modern-cljs
+$ git checkout tutorial-03
+$ git checkout -b tutorial-04-step-1
+```
+
 ## Registration form
 
 If you downloaded the [Modern JS][3] code samples, you'll find `login.html`,
@@ -374,6 +386,13 @@ If you fill both the email and password and click the login button,
 you'll see the `Not found page` we set up with compojure in
 [Tutorial 3][16]
 
+If you created a new git branch as suggested in the preamble of this
+tutorial, I suggest you to commit the changes as follows
+
+```bash
+$ git commit -am "modern javascript"
+```
+
 # Next Tutorial
 
 In the [next tutorial][18] we're going to use [domina library][19] to
@@ -402,3 +421,4 @@ License, the same as Clojure.
 [17]: https://developers.google.com/closure/compiler/
 [18]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
 [19]: https://github.com/levand/domina
+[20]: https://help.github.com/articles/set-up-git
