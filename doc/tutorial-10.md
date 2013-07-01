@@ -470,7 +470,6 @@ tutorial, I suggest you to commit the changes as follows
 $ git commit -am "introducing ajax"
 ```
 
-
 # [Next step - More Ajax][25]
 
 In next tutorial we're going to apply what we just learnt and extend its
