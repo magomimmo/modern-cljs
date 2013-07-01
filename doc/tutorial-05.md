@@ -4,6 +4,18 @@ In this tutorial we're going to introduce [Domina][1] to improve the
 idiomaticity of the login form validation we presented in
 the [previous tutorial][2].
 
+## Preamble
+
+If you want to start working from the end of the [previous tutorial][2],
+assuming you've [git][13] installed, do as follows.
+
+```bash
+$ git clone https://github.com/magomimmo/modern-cljs.git
+$ cd modern-cljs
+$ git checkout tutorial-04
+$ git checkout -b tutorial-05-step-1
+```
+
 ## Introduction
 
 In the [previous tutorial][2] we started coding in CLJS, directly
@@ -464,6 +476,13 @@ ClojureScript:modern-cljs.shopping>
 You can now use the *Shopping Calculator* form clicking its
 *Calculate* button.
 
+If you created a new git branch as suggested in the preamble of this
+tutorial, I suggest you to commit the changes as follows
+
+```bash
+$ git commit -am "introducing domina"
+```
+
 # Next Step
 
 In the [next tutorial][12] we're going to investigate and solve in two
@@ -486,3 +505,4 @@ License, the same as Clojure.
 [10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
 [11]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/total.png
 [12]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
+[13]: https://help.github.com/articles/set-up-git
