@@ -36,6 +36,21 @@ should be similar options for others OSs.
 >
 > Thanks to [Max Penet][5] for the suggestion.
 
+## Preamble
+
+If you want to start working from the end of the [previous tutorial][8],
+assuming you've [git][16] installed, do as follows.
+
+```bash
+$ git clone https://github.com/magomimmo/modern-cljs.git
+$ cd modern-cljs
+$ git checkout tutorial-01
+$ git checkout -b tutorial-02-step-1
+```
+
+This way you're cloning the tutorial-01 branch into a new branch to
+start working with.
+
 ## Install, configure and run MAMP
 
 Follow MAMP documentation to install MAMP. Start MAMP and click the
@@ -143,6 +158,13 @@ You will note that there is no command history or editing ability in this
 REPL.  You can add it if you wish by installing [rlwrap][12] and following
 the instructions [here][13].
 
+If you created a new git branch as suggested in the preamble of this
+tutorial, I suggest you to commit the changes as follows
+
+```bash
+$ git commit -am "brepl enabled"
+```
+
 ## Next step
 
 In the next [tutorial][11] we're going to substitute the external
@@ -170,4 +192,4 @@ License, the same as Clojure.
 [13]: https://github.com/emezeske/lein-cljsbuild/wiki/Using-Readline-with-REPLs-for-Better-Editing
 [14]: https://github.com/emezeske/lein-cljsbuild/issues/186
 [15]: https://github.com/emezeske/lein-cljsbuild
-
+[16]: https://help.github.com/articles/set-up-git
