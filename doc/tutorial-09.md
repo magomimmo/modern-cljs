@@ -1,10 +1,22 @@
 # Tutorial 09 - DOM manipulation
 
-In the [last tutorial][1] we introduced the `domina.events` namespace to
+In the [latest tutorial][1] we introduced the `domina.events` namespace to
 make our events management a little bit more clojure-ish than just
 using CLJS/JS interop. In this tutorial we'are going to face the need
 to programmatically manipulate DOM elements as a result of the
 occurrence of some DOM events (e.g., `mouseover`, `mouseout`, etc.).
+
+## Preamble
+
+If you want to start working from the end of the [previous tutorial][1],
+assuming you've [git][12] installed, do as follows.
+
+```bash
+$ git clone https://github.com/magomimmo/modern-cljs.git
+$ cd modern-cljs
+$ git checkout tutorial-08
+$ git checkout -b tutorial-09-step-1
+```
 
 # Introduction
 
@@ -349,6 +361,13 @@ As homework I suggest you to modify `login.cljs` according to
 the approach used for `shopping.cljs` in this and in the
 [previous tutorial][1].
 
+If you created a new git branch as suggested in the preamble of this
+tutorial, I suggest you to commit the changes as follows
+
+```bash
+$ git commit -am "DOM manipulation"
+```
+
 # Next step - [Tutorial 10 - Introducing Ajax][11]
 
 In the next tutorial we're going to extend our comprehension of CLJS by
@@ -371,3 +390,4 @@ License, the same as Clojure.
 [9]: http://localhost:3000/shopping-pre.html
 [10]: http://localhost:3000/shopping.html
 [11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
+[12]: https://help.github.com/articles/set-up-git
