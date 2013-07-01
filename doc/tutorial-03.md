@@ -14,6 +14,18 @@ and we want to learn more about it too.
 stack of libraries to develop web based applications. We're going to use it
 instead of any other http-server.
 
+## Preamble
+
+If you want to start working from the end of the [previous tutorial][1],
+assuming you've [git][8] installed, do as follows.
+
+```bash
+$ git clone https://github.com/magomimmo/modern-cljs.git
+$ cd modern-cljs
+$ git checkout tutorial-02
+$ git checkout -b tutorial-03-step-1
+```
+
 ## Add lein-ring plugin to our project.clj
 
 We already saw how `lein-cljsbuild` plugin helped us in managing the
@@ -175,6 +187,13 @@ again launching the `$ lein trampoline cljsbuild repl-listen` command on a
 new terminal (remember to cd to `/path/to/modern-cljs`) and visiting
 [simple.html][6] page.
 
+If you created a new git branch as suggested in the preamble of this
+tutorial, I suggest you to commit the changes as follows
+
+```bash
+$ git commit -am "added ring and compojure"
+```
+
 ## Next step
 
 In the [next tutorial 4][7] we're going to have some fun introducing form validation in CLJS.
@@ -191,3 +210,4 @@ License, the same as Clojure.
 [5]: https://github.com/weavejester/compojure.git
 [6]: http://localhost:3000/simple.html
 [7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
+[8]: https://help.github.com/articles/set-up-git
