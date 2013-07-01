@@ -4,6 +4,18 @@ Starting from [Tutorial 5][1], we introduced the [domina library][2] to
 approach CLJS programming in a more clojure-ish way, rather than
 using CLJS/JS interop features.
 
+## Preamble
+
+If you want to start working from the end of the [previous tutorial][5],
+assuming you've [git][10] installed, do as follows.
+
+```bash
+$ git clone https://github.com/magomimmo/modern-cljs.git
+$ cd modern-cljs
+$ git checkout tutorial-07
+$ git checkout -b tutorial-08-step-1
+```
+
 ## Introduction
 
 We touched `domina` superficially by using `by-id` to select individual
@@ -198,6 +210,14 @@ call and you're done.
            (.-getElementById js/document))
     (ev/capture! (dom/by-id "calc") :click calculate)))
 ```
+
+If you created a new git branch as suggested in the preamble of this
+tutorial, I suggest you to commit the changes as follows
+
+```bash
+$ git commit -am "introducing domina events"
+```
+
 # [Tutorial 9 - DOM Manipulation][9]
 
 In the next tutorial we'are going to face the need to programmatically
@@ -218,3 +238,4 @@ License, the same as Clojure.
 [7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md#modify-validate-form
 [8]: http://localhost:3000/shopping-dbg.html
 [9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
+[10]: https://help.github.com/articles/set-up-git
