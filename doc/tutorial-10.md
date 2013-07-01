@@ -14,6 +14,18 @@ the wide spread of gmail and google maps, the terms **ajax** and **web
 2.0** became the most used web buzzwords all over the place and in a
 very short time too.
 
+## Preamble
+
+If you want to start working from the end of the [previous tutorial][1],
+assuming you've [git][30] installed, do as follows.
+
+```bash
+$ git clone https://github.com/magomimmo/modern-cljs.git
+$ cd modern-cljs
+$ git checkout tutorial-09
+$ git checkout -b tutorial-10-step-1
+```
+
 # Introduction
 
 Ajax is not something magic, it's just a kind of client-server
@@ -449,7 +461,15 @@ from the remote `calculate` function like in the following image.
 
 ![network-04][24]
 
-That's it folks
+That's it folks.
+
+If you created a new git branch as suggested in the preamble of this
+tutorial, I suggest you to commit the changes as follows
+
+```bash
+$ git commit -am "introducing ajax"
+```
+
 
 # [Next step - More Ajax][25]
 
@@ -490,3 +510,4 @@ License, the same as Clojure.
 [27]: https://github.com/levand/domina/blob/master/src/cljs/domina.cljs#L125
 [28]: https://github.com/levand/domina/pull/43
 [29]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-11.md
+[30]: https://help.github.com/articles/set-up-git
