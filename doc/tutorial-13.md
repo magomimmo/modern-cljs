@@ -8,6 +8,18 @@ One of our long term objectives is to eliminate any code duplication
 from our web applications.  That's like saying that we want to stay as
 compliant as possible with the Don't Repeat Yourself (DRY) principle.
 
+## Preamble
+
+If you want to start working from the end of the [previous tutorial][1],
+assuming you've [git][21] installed, do as follows.
+
+```bash
+$ git clone https://github.com/magomimmo/modern-cljs.git
+$ cd modern-cljs
+$ git checkout tutorial-12
+$ git checkout -b tutorial-13-step-1
+```
+
 # Introduction
 
 In this tutorial of the *modern-cljs* series we're going to respect the
@@ -671,6 +683,13 @@ you provide a well-formed email address whose domain doesn't exist.
 
 ![ajax validator][19]
 
+If you created a new git branch as suggested in the preamble of this
+tutorial, I suggest you to commit the changes as follows
+
+```bash
+$ git commit -am "DRY while crossing the border"
+```
+
 Stay tuned for the next tutorial.
 
 # Next step - Tutorial 14 - It's better to be safe than sorry (Part 1)
@@ -708,3 +727,4 @@ License, the same as Clojure.
 [18]: https://github.com/shoreleave
 [19]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/remote-validator.png
 [20]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-14.md
+[21]: https://help.github.com/articles/set-up-git
