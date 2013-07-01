@@ -5,6 +5,18 @@ using the usual `lein-cljsbuild` plugin of `leiningen` and we'll
 discover a trouble which we will solve by using the latest release of
 lein-cljsbuild (i.e. lein-cljsbuild 0.3.0).
 
+## Preamble
+
+If you want to start working from the end of the [previous tutorial][1],
+assuming you've [git][12] installed, do as follows.
+
+```bash
+$ git clone https://github.com/magomimmo/modern-cljs.git
+$ cd modern-cljs
+$ git checkout tutorial-06
+$ git checkout -b tutorial-07-step-1
+```
+
 ## Introduction
 
 In the [previous tutorial][1] we came in contact with `:export` directive
@@ -482,6 +494,13 @@ Now visit the `login.html` or the `shopping.html` pages, which include
 the `modern.js` file emitted by the CLJS compiler and test them to see
 if they are still working as expected.
 
+If you created a new git branch as suggested in the preamble of this
+tutorial, I suggest you to commit the changes as follows
+
+```bash
+$ git commit -am "being doubly aggressive"
+```
+
 # Next step - Introducing Domina events.
 
 In the next [Tutorial 8][9] we're going to introduce domina events
@@ -504,3 +523,4 @@ License, the same as Clojure.
 [9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
 [10]: http://cemerick.com/2011/04/22/adding-gzip-compression-to-a-clojure-webapp-in-30-seconds/
 [11]: http://docs.codehaus.org/display/JETTY/GZIP+Compression
+[12]: https://help.github.com/articles/set-up-git
