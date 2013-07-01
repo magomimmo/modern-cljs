@@ -8,6 +8,18 @@ stategy. We still need to implement the topmost layer, the HTML5
 layer, and the two lowest ones: the Ajax layer and the *pure* server
 side layer.
 
+## Preamble
+
+If you want to start working from the end of the [previous tutorial][1],
+assuming you've [git][10] installed, do as follows.
+
+```bash
+$ git clone https://github.com/magomimmo/modern-cljs.git
+$ cd modern-cljs
+$ git checkout tutorial-11
+$ git checkout -b tutorial-12-step-1
+```
+
 # Introduction
 
 In this tutorial we're going to cover the highest and lowest layers
@@ -289,6 +301,13 @@ layer. Before doing that by copying the Shopping Calculator sample
 already done, in the next couple of tutorials we're going to cover a
 couple of entirely new topics.
 
+If you created a new git branch as suggested in the preamble of this
+tutorial, I suggest you to commit the changes as follows
+
+```bash
+$ git commit -am "highest and deepest"
+```
+
 # [Next Step: Tutorial 13 - Don't Repeat Yourself while crossing the border][9]
 
 One of our long term objectives is to eliminate any code duplication
@@ -296,7 +315,6 @@ from our web applications.  That's like saying we want to stay as
 compliant as possible with the Don't Repeat Yourself (DRY)
 principle. In the [next tutorial][9] we're going to exercise the DRY
 principle while adding a validator library to the project.
-
 
 # License
 
@@ -312,3 +330,4 @@ License, the same as Clojure.
 [7]: https://github.com/magomimmo/ring
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
 [9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-13.md
+[10]: https://help.github.com/articles/set-up-git
