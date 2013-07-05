@@ -522,7 +522,7 @@ our first test.
     (testing "/ Value Range"
       (are [expected actual] (= expected actual)
            
-           "Quantity has to be positive"
+           "Quantity can't be negative"
            (first (:quantity (validate-shopping-form "-1" "0" "0" "0")))))))
 ```
 
