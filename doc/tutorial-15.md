@@ -212,7 +212,7 @@ First, we need to prepare the structure of the `test` directory to
 reflect the corresponding layout of the project `src` directory.
 
 Replicate the `src` directory structure into the `test` directory and
-remove the original `modern_cljs` directory create by the `$ lein new
+remove the original `modern_cljs` directory created by the `$ lein new
 modern-cljs` command at the very beggining of the `modern-cljs` series
 of tutorials.
 
@@ -284,7 +284,7 @@ testing session we previously made with the
 We started very easy. First in the
 `modern-cljs.shopping.validator-test` namespace declaration we
 required the `clojure.test` and the `modern-cljs.shopping.validators`
-namespaces. 
+namespaces.
 
 Then, by using the `deftest` and the `is` macros, we defined our first
 unit test named `validate-shopping-form-test`. As before, even if we
@@ -296,8 +296,8 @@ to test a function named `my-function`, I name the test
 The `is` macro allows to make assertions of any arbitrary
 expression. The code `(is (= nil (validate-shopping-form "1" "0" "0"
 "0")))` is saying that the acutal evaluation of the
-`(validate-shopping-form "1" "0" "0" "0")` form is expected to be
-equal to `nil` because all the input are valid. There we're just
+`(validate-shopping-form "1" "0" "0" "0")` form is expected to be equal
+to `nil` because all the input are valid. At the moment, we're just
 testing the happy path.
 
 ### On getting less bored
@@ -335,7 +335,7 @@ number of `is/are` assertions.
 (ns modern-cljs.shopping.validators-test
   (:require [clojure.test :refer [deftest are testing]]
             [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
-			
+
 (deftest validate-shopping-form-test
   (testing "Shopping Form Validation"
     (are [expected actual] (= expected actual)
@@ -373,11 +373,11 @@ Tests failed.
 $
 ```
 
-As you can see, the `$ lein test` command failed because was not able
-to find the `validators_test.clj` file in the project `classpath`. To
-fix this problem we have to add a `:test-paths` section into the
-`project.clj` to reflect the file structure for unit testing of we
-defined above.
+As you can see, the `$ lein test` command failed because was not able to
+find the `validators_test.clj` file in the project `classpath`. To fix
+this problem we have to add a `:test-paths` section into the
+`project.clj` to reflect the file structure for unit testing we defined
+above.
 
 ```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -469,7 +469,7 @@ the assertions succeed.
 ### Do not cover only the happy path
 
 The coded test includes only few assertions regarding the happy-path
-of the `validate-shopping-form` calls. Generally speaking, you should
+of the `validate-shopping-form` calls. Generally speaking you should
 cover also the *alternative/exception paths*. Let's add few of them in
 our first test.
 
@@ -485,43 +485,43 @@ our first test.
            nil (validate-shopping-form "1" "0" "0" "0")
            nil (validate-shopping-form "1" "0.0" "0.0" "0.0")
            nil (validate-shopping-form "100" "100.25" "8.25" "123.45")))
-    
+
     (testing "/ No presence"
       (are [expected actual] (= expected actual)
-           
-           "Quantity can't be empty" 
+
+           "Quantity can't be empty"
            (first (:quantity (validate-shopping-form "" "0" "0" "0")))
-           
-           "Price can't be empty" 
+
+           "Price can't be empty"
            (first (:price (validate-shopping-form "1" "" "0" "0")))
-           
-           "Tax can't be empty" 
+
+           "Tax can't be empty"
            (first (:tax (validate-shopping-form "1" "0" "" "0")))
-           
-           "Discount can't be empty" 
+
+           "Discount can't be empty"
            (first (:discount (validate-shopping-form "1" "0" "0" "")))))
-    
+
     (testing "/ Value Type"
       (are [expected actual] (= expected actual)
-           
-           "Quantity has to be an integer number" 
+
+           "Quantity has to be an integer number"
            (first (:quantity (validate-shopping-form "foo" "0" "0" "0")))
-           
-           "Quantity has to be an integer number" 
+
+           "Quantity has to be an integer number"
            (first (:quantity (validate-shopping-form "1.1" "0" "0" "0")))
-           
-           "Price has to be a number" 
+
+           "Price has to be a number"
            (first (:price (validate-shopping-form "1" "foo" "0" "0")))
-           
-           "Tax has to be a number" 
+
+           "Tax has to be a number"
            (first (:tax (validate-shopping-form "1" "0" "foo" "0")))
-           
-           "Discount has to be a number" 
+
+           "Discount has to be a number"
            (first (:discount (validate-shopping-form "1" "0" "0" "foo")))))
-    
+
     (testing "/ Value Range"
       (are [expected actual] (= expected actual)
-           
+
            "Quantity can't be negative"
            (first (:quantity (validate-shopping-form "-1" "0" "0" "0")))))))
 ```
@@ -542,9 +542,8 @@ $ git commit -am "Step 1"
 ```
 
 In the next tutorial of the series we're going to complete the
-server-side only Shopping Calculator by manipulating with [Enlive][2]
-the `shoppingForm` to notify the user about eventual invalid input
-values.
+server-side only Shopping Calculator by manipulating the `shoppingForm`
+with [Enlive][2] to notify the user about eventual invalid input values.
 
 # Next - It's better to be safe than sorry (Part 3)
 
