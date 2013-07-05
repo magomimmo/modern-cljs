@@ -875,7 +875,7 @@ $ git commit -m "finished step-2"
 
 # Next - Tutorial 15 - It's better to be safe than sorry (Part 2)
 
-In the next tutorial, after having added the validators for the
+In the [next tutorial][28], after having added the validators for the
 `shoppingForm`, we're going to introduce unit testing.
 
 # License
@@ -910,3 +910,4 @@ License, the same as Clojure.
 [25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-13.md#the-selection-process
 [26]: https://github.com/cemerick/valip/blob/master/src/valip/predicates.clj
 [27]: https://github.com/cgrand
+[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md
