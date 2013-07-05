@@ -7,6 +7,8 @@
 
   ;; clojure source code path
   :source-paths ["src/clj"]
+  ;; clojure source test path
+  :test-paths ["test/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [compojure "1.1.5"]
@@ -24,7 +26,10 @@
   :ring {:handler modern-cljs.core/app}
 
   ;; cljsbuild tasks configuration
-  :cljsbuild {:crossovers [valip.core valip.predicates modern-cljs.login.validators]
+  :cljsbuild {:crossovers [valip.core 
+                           valip.predicates 
+                           modern-cljs.login.validators
+                           modern-cljs.shopping.validators]
               :builds
               {:dev
                {;; clojurescript source code path
