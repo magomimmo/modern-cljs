@@ -119,7 +119,8 @@ the DRY principle and to solve a cyclic namespaces dependency problem.
 
 ## [Tutorial 15 - It's better to be safe than sorry (Part 2)][23]
 
-TO BE DONE
+In this tutorial, after having added the validators for the
+`shoppingForm`, we're going to introduce unit testing.
 
 # License
 
@@ -148,4 +149,4 @@ License, the same as Clojure.
 [20]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-12.md
 [21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-13.md
 [22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-14.md
-[23]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-14.md
+[23]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md
