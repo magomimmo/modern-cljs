@@ -56,9 +56,9 @@ button.
 ![ServerNullPointer][5]
 
 You received a `java.lang.NullPonterException` and the Network
-activities panel shows the server returning the error 500.  That's
-because the remote `calculate` function accepts only stringified numbers
-to make any calculation. Too bad.
+activities panel shows the server returning the error 500 with a full
+Ring stacktrace.  That's because the remote `calculate` function
+accepts only stringified numbers to make any calculation. Too bad.
 
 Now let's see what happens if we redeem the JavaScript engine by
 unmarking the `Disable JavaScript` check-box from the Settings of the
@@ -69,9 +69,9 @@ page.
 ![AjaxServerError][6]
 
 This time, due to the Ajax communication, even if the server returned
-the same 500 error code as before, the browser does not show the call
-trace. It's not so bad as before, but still unacceptable for being
-called a professional web programmer.
+the same 500 error code as before, the browser does not show the Ring
+stacktrace. It's not so bad as before, but still unacceptable
+for being called a professional web programmer.
 
 What's asking us the Shopping Calculator before investing time and
 efforts in unit testing? It's asking for input validation. Both for
