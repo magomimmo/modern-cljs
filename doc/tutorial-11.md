@@ -463,7 +463,7 @@ the following pictures.
 ## Event Types
 
 If you're interested in knowing all the event types supported by
-[Domina][4], here is the native code [goog.eventtypes.js][15]
+[Domina][4], here is the native code [goog.events.eventtypes.js][15]
 which enumerates all events supported by the Google Closure native code on
 which Domina is based on. Take into account that while Google Closure
 uses string as the event keys, Domina, by using keywords, has to manage
