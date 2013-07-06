@@ -562,7 +562,7 @@ License, the same as Clojure.
 [12]: http://localhost:3000/login-dbg.html
 [13]: https://github.com/levand/domina/blob/master/src/cljs/domina/events.cljs
 [14]: http://en.wikipedia.org/wiki/Higher-order_function
-[15]: https://code.google.com/p/closure-library/source/browse/trunk/closure/goog/events/eventtype.js?r=469
+[15]: https://code.google.com/p/closure-library/source/browse/trunk/closure/goog/events/eventtype.js
 [16]: http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address
 [17]: http://clojure.org/vars
 [18]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/help-01.png
