@@ -541,13 +541,14 @@ command at the terminal.
 $ git commit -am "Step 1"
 ```
 
-In the next tutorial of the series we're going to complete the
-server-side only Shopping Calculator by manipulating the `shoppingForm`
-with [Enlive][2] to notify the user about eventual invalid input values.
+Stay tuned!
 
-# Next - It's better to be safe than sorry (Part 3)
+# Turorial 16 - It's better to be safe than sorry (Part 3)
 
-TO BE DONE
+In the [next Tutorial][11] of the series we're going to make the
+`modern-cljs.shopping.validators-test` runnable from CLJS too.  To
+reach this objective, we'll introduce the [clojurescript.test][12] lib
+by [Chas Emerick][8] and the [cljx][13] lein plugin by [Kevin Lynagh][14].
 
 # License
 
@@ -564,3 +565,7 @@ License, the same as Clojure.
 [8]: https://github.com/cemerick
 [9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-14.md
 [10]: https://github.com/cgrand
+[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md
+[12]: https://github.com/cemerick/clojurescript.test
+[13]: https://github.com/lynaghk/cljx
+[14]: https://github.com/lynaghk

@@ -122,6 +122,16 @@ the DRY principle and to solve a cyclic namespaces dependency problem.
 In this tutorial, after having added the validators for the
 `shoppingForm`, we're going to introduce unit testing.
 
+## [Tutorial 16 - It's better to be safe than sorry (Part 3)][24]
+
+In this tutorial we make unit testing portable from CLJ to CLJS (and
+vice-versa) by using the `clojurescript.test` lib and the `cljx` lein
+plugin.
+
+## Tuturial 17 - TO BE DONE
+
+TO BE DONE
+
 # License
 
 Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
@@ -150,3 +160,4 @@ License, the same as Clojure.
 [21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-13.md
 [22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-14.md
 [23]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md
+[24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md
