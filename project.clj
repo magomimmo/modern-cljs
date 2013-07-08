@@ -7,9 +7,7 @@
 
   ;; clojure source code path
   :source-paths ["src/clj"]
-  ;; clojure source test path
-  :test-paths ["test/clj"]
-
+  :test-paths ["target/test/clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
@@ -17,23 +15,43 @@
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
-                 [enlive "1.1.1"]]
+                 [enlive "1.1.1"]
+                 [com.cemerick/clojurescript.test "0.0.4"]]
 
   :plugins [[lein-cljsbuild "0.3.2"]
-            [lein-ring "0.8.5"]]
+            [lein-ring "0.8.6"]
+            [com.keminglabs/cljx "0.2.2"]]
+
+  :cljx {:builds [{:source-paths ["test/cljx"]
+                   :output-path "target/test/clj"
+                   :rules cljx.rules/clj-rules}
+
+                  {:source-paths ["test/cljx"]
+                   :output-path "target/test/cljs"
+                   :extension "cljs"
+                   :rules cljx.rules/cljs-rules}]}
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/app}
 
   ;; cljsbuild tasks configuration
-  :cljsbuild {:crossovers [valip.core 
-                           valip.predicates 
+  :cljsbuild {:crossovers [valip.core
+                           valip.predicates
                            modern-cljs.login.validators
                            modern-cljs.shopping.validators]
+              ;; for unit testing with phantomjs
+              :test-commands {"phantomjs-whitespace"
+                              ["runners/phantomjs.js" "resources/public/js/modern_dbg.js"]
+
+                              "phantomjs-simple"
+                              ["runners/phantomjs.js" "resources/public/js/modern_pre.js"]
+
+                              "phantomjs-advanced"
+                              ["runners/phantomjs.js" "resources/public/js/modern.js"]}
               :builds
               {:dev
                {;; clojurescript source code path
-                :source-paths ["src/brepl" "src/cljs"]
+                :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
@@ -45,7 +63,7 @@
                            :pretty-print true}}
                :pre-prod
                {;; same path as above
-                :source-paths ["src/brepl" "src/cljs"]
+                :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
 
                 :compiler {;; different JS output name
                            :output-to "resources/public/js/modern_pre.js"
@@ -54,11 +72,10 @@
                            :optimizations :simple}}
                :prod
                {;; same path as above
-                :source-paths ["src/cljs"]
+                :source-paths ["src/cljs" "target/test/cljs"]
 
                 :compiler {;; different JS output name
                            :output-to "resources/public/js/modern.js"
 
                            ;; advanced optimization
-                           :optimizations :advanced}}
-               }})
+                           :optimizations :advanced}}}})
