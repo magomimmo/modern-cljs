@@ -18,7 +18,7 @@ client-side of the web app even the complementary
 `modern-cljs.shopping.validators-test` namespace which tests the
 `modern-cljs.shopping.validators` namespace. 
 
-## Don't Repeat Yourself while crossing the border
+## Repeating the DRY principle
 
 We insisted so many times on adhering to the DRY principle, that I'm
 pretty sure you remember we used the [portable version of the Valip][2]

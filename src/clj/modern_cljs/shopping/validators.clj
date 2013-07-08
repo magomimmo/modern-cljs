@@ -24,7 +24,7 @@
 
             ;; validate range
 
-            [:quantity (gt 0) "Quantity has to be positive"]
+            [:quantity (gt 0) "Quantity can't be negative"]
 
             ;; cross validations (not at the moment)
 
