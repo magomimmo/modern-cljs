@@ -785,7 +785,7 @@ $ git commit -m "step-2 done"
 ```
 
 Stay tuned. In the next tutorial we're going to complete the
-server-side `shoppingForm` by manipulating its HTML via [Enlive][] to
+server-side `shoppingForm` by manipulating its HTML via [Enlive][20] to
 notify the user when she/he typed in invalid values.
 
 # Next - TO BE DONE
@@ -816,3 +816,4 @@ License, the same as Clojure.
 [17]: https://github.com/lynaghk
 [18]: https://github.com/emezeske/lein-cljsbuild
 [19]: https://github.com/technomancy/leiningen
+[20]: https://github.com/cgrand/enlive
