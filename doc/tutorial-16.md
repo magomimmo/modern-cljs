@@ -16,7 +16,7 @@ it movable on the client-side too.
 In this tutorial of the series we are going to make movable to the
 client-side of the web app even the complementary
 `modern-cljs.shopping.validators-test` namespace which tests the
-`modern-cljs.shopping.validators` namespace. 
+`modern-cljs.shopping.validators` namespace.
 
 ## Repeating the DRY principle
 
@@ -275,7 +275,7 @@ duplication issue for the unit testing code.
 
 Forget for a moment about the DRY principle and do by hand what the
 `lein-cljsbuild` `:crossovers` would have done for us if the
-`clojurescript.test` was a portable CLJS/CLJ lib instead a lib ported
+`clojurescript.test` was a portable CLJS/CLJ lib instead of a lib ported
 from CLJ to CLJS.
 
 Copy the `validators_test.clj` file from the
@@ -552,7 +552,7 @@ Finally we have to:
 * update the `:test-paths` keyword of the project
 * update the `:source-paths` compiler option for each CLJS build
 
-Following is the interested code snippets from the `project.clj`
+Following is the interested code snippet from the `project.clj`
 
 ```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -581,7 +581,7 @@ Following is the interested code snippets from the `project.clj`
               :builds
               {:dev
                {;; added "target/test/cljs" to include cljx generated code
-			    :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
+                            :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
 
                 :compiler {:output-to "resources/public/js/modern_dbg.js"
                            :optimizations :whitespace
@@ -589,13 +589,13 @@ Following is the interested code snippets from the `project.clj`
 
                :pre-prod
                {;; added "target/test/cljs" to include cljx generated code
-			    :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
+                            :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
                 :compiler {:output-to "resources/public/js/modern_pre.js"
                            :optimizations :simple}}
 
                :prod
                {;; added "target/test/cljs" to include cljx generated code
-			    :source-paths ["src/cljs" "target/test/cljs"]
+                            :source-paths ["src/cljs" "target/test/cljs"]
                 :compiler {:output-to "resources/public/js/modern.js"
                            :optimizations :advanced}}}})
 ```
@@ -660,6 +660,9 @@ In the `:cljx` task configuration we defined two `cljx` generators
   starting from any `cljx` file in the `test/cljx` directory by
   applying the `cljx.rules/cljs-rules` rule
 
+> NOTE 5: It you do not specify the `:extension` option, `cljx` assume the
+> `clj`file extension by default.
+
 Both the `cljx.rules/clj-rules` and the `cljx.rules/cljs-rules` rules
 have been predefined by `cljx` plugin in the `cljx.rules` namespace
 and they remove from the generated code any definition marked
@@ -669,7 +672,7 @@ rispectively as `:^cljs` and `^:clj`.
 
 It's now time to verify that everthing is working as expected.
 
-First we want to start from a clean codebase
+First, start from a clean codebase.
 
 ```bash
 $ lein cljsbuild clean
@@ -687,12 +690,12 @@ Rewriting test/cljx to target/test/cljs (cljs) with 5 rules.
 $
 ```
 
-> NOTE 5: `cljx` offers both `once` and `auto` subtask (the default is
-> once) and their behavior is the same of the corresponding `once` and
-> `auto` subtask of `cljsbuild`: any change in any `cljx` file will
-> trigger a regeneration of the `clj` and `cljs` files.
+> NOTE 6: `cljx` offers both `once` and `auto` subtask (the default is
+> `once`) and their behavior is the same of the corresponding `once` and
+> `auto` subtask of `cljsbuild`: in `auto` mode any change in any `cljx`
+> file will trigger a regeneration of the `clj` and `cljs` files.
 
-> NOTE 6: You can even automatically run `cljx` task by adding `:hooks
+> NOTE 7: You can even automatically run `cljx` task by adding `:hooks
 > [cljx.hooks]` in your `project.clj` file.
 
 You end up with the following structure of files
