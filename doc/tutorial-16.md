@@ -1,9 +1,9 @@
 # Tutorial 16 - It's better to be safe than sorry (Part 3)
 
-> DEDICATION: I'd like to dedicate this tutorial to [Chas Emerick][3]
-> for the amazing stuff he's able to realize for all of us. Without
-> his hard work on a lot of CLJ/CLJS libs, I would never been able to
-> write this series of tutorials. Thanks Chas!
+> DEDICATION: I dedicate this tutorial to [Chas Emerick][3] for the
+> amazing stuff he's able to realize for all of us. Without his hard
+> work on a lot of CLJ/CLJS libs, I would never been able to write
+> this series of tutorials. Thanks Chas!
 
 In the [previous tutorial][1] we introduced the `clojure.test` lib to
 automate the testing of the `modern-cljs.shopping.validators`
@@ -776,7 +776,8 @@ the client and the server side of `modern-cljs` web app.
 
 ## Final note
 
-If you decided to follow the suggestion in NOTE 1, you can now commit your work with the following `git` commands;
+If you decided to follow the suggestion in NOTE 1, you can now commit
+your work with the following `git` commands;
 
 ```bash
 $ git add .
