@@ -15,7 +15,7 @@ it movable on the client-side too.
 
 In this tutorial of the series we are going to make movable to the
 client-side of the web app even the complementary
-`modern-cljs.shopping.validators-test` namespace which tests the
+`modern-cljs.shopping.validators-test` namespace, which tests the
 `modern-cljs.shopping.validators` namespace.
 
 ## Repeating the DRY principle
@@ -36,8 +36,9 @@ CLJ/CLJS. This to says that he recentely wrote the
 [clojurescript.test][4] testing lib with the goal of being a maximal
 port of `clojure.test` to CLJS.
 
-The motivation he gives us in the [Why Paragraph][5] of the lib is the
-same we articulated for our `modern-cljs.shopping.validators` namespace.
+The motivation he gave in the [Why Paragraph][5] of the lib is the
+same we articulated for our `modern-cljs.shopping.validators`
+namespace.
 
 > I want to be able to write portable tests to go along with my
 > portable Clojure[Script], and clojure.test's model is Good Enough
@@ -189,7 +190,8 @@ file, instead, is emitted by considering the CLJS files from the
 
 In the [previous tutorial][1] we already arranged the `test` directory
 to host `cljs` code by creating the `test/cljs` directory, which now
-we have to add the `:source-paths` section of each build as follows:
+we have to add to the `:source-paths` section of each build as
+follows:
 
 ```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -199,35 +201,19 @@ we have to add the `:source-paths` section of each build as follows:
               ...
               :builds
               {:dev
-               {;; clojurescript source code path
-                :source-paths ["src/brepl" "src/cljs" "text/cljs"]
+               {:source-paths [... ... "text/cljs"]
+                ...
+				...}}
 
-                ;; Google Closure Compiler options
-                :compiler {;; the name of emitted JS script file
-                           :output-to "resources/public/js/modern_dbg.js"
-
-                           ;; minimum optimization
-                           :optimizations :whitespace
-                           ;; prettyfying emitted JS
-                           :pretty-print true}}
                :pre-prod
-               {;; same path as above
-                :source-paths ["src/brepl" "src/cljs" "text/cljs"]
+               {:source-paths [... ... text/cljs"]
+                ...
+				...}}
 
-                :compiler {;; different JS output name
-                           :output-to "resources/public/js/modern_pre.js"
-
-                           ;; simple optimization
-                           :optimizations :simple}}
                :prod
-               {;; same path as above
-                :source-paths ["src/cljs" "text/cljs"]
-
-                :compiler {;; different JS output name
-                           :output-to "resources/public/js/modern.js"
-
-                           ;; advanced optimization
-                           :optimizations :advanced}}}})
+               {:source-paths [... ... "text/cljs"]
+                ...
+				...}}}})
 ```
 
 This way, the CLJS/GCLS compilers will include any CLJS test file
@@ -241,9 +227,9 @@ by just adding the `modern-cljs.shopping.validators-test` namespace to
 the `:crossovers` section of the `:cljsbuild` project task, as we
 already did for the portable validators we defined in the project
 
-Unfortunately there is an issue. The fact that `clojurescript.test` lib
-is a maximal port of the `clojure.test` lib on CLJS does not mean that
-**it is a portable lib**.
+Unfortunately there is an issue. The fact that `clojurescript.test`
+lib is a maximal *port* of the `clojure.test` lib on CLJS does not
+mean that **it is a portable lib**.
 
 Take a look at the namespace declaration of the [usage sample][12]
 included with the `clojurescript.test` lib.
@@ -362,6 +348,22 @@ the `test/cljs` directory and then it sequentially executed the
 `phantomjs-advanced` commands we defined in the `:test-commands`
 section of the `:cljsbuild` task. So far so good.
 
+> NOTE 3: If you want to run the tests just for one build do as follows:
+> 
+> ```bash
+> $ lein cljsbuild test phantomjs-whitespace
+> Compiling ClojureScript.
+> Running ClojureScript test: phantomjs-whitespace
+> Testing modern-cljs.shopping.validators-test
+> 
+> Ran 1 tests containing 13 assertions.
+> 
+> 0 failures, 0 errors.
+> 
+> {:fail 0, :pass 13, :test 1, :type :summary, :error 0}
+> $
+> ```
+
 Now let's see if the the CLJ version of the tests are still working
 after the implemented changes.
 
@@ -381,9 +383,9 @@ test` command to see how it reports the failure.
 
 ```clj
 (deftest validate-shopping-form-test
-  (testing "Shopping Form Validation"
-    (testing "/ Happy Path"
-      (are [expected actual] (= expected actual)
+  (testing ...
+    (testing ...
+      (are [... ...] (= ... ...)
            nil (validate-shopping-form "foo" "0" "0" "0") ; force a failure
            ...
            ...))))
@@ -453,7 +455,7 @@ It worked again as expected. Because of the code change into the
 builds before launching the three `:test-commands` and it finally
 reports the assertion error for each of the build.
 
-> NOTE 3: If you followed the suggestion in the previous NOTE 1, I now
+> NOTE 4: If you followed the suggestion in the previous NOTE 1, I now
 > suggest you to commit the changes by issuing the following `git`
 > command at the terminal.
 >
@@ -512,10 +514,11 @@ with **ported** (e.g. [clojurescript.test][4]).
 
 ### Dancing with a chaperone while crossing the border
 
-We start using [cljx][4] by moving the `modern_cljs` directory from
-the `test/clj` to a new `test/cljx` directory and then by renaming the
-`validators_test.clj` as `validators_test.cljx` (note the new `.cljx`
-file extension to denote annotated-metadata files).
+So, let's dance with [cljx][16]. We start using it by moving the
+`modern_cljs` directory from the `test/clj` to a new `test/cljx`
+directory and then by renaming the `validators_test.clj` as
+`validators_test.cljx` (note the new `.cljx` file extension to denote
+annotated-metadata files).
 
 ```clj
 $ mv test/clj/modern_cljs/ test/cljx
@@ -549,8 +552,9 @@ Finally we have to:
 
 * add the [cljx plugin][16] to the project
 * configure the `:cljx` task
-* update the `:test-paths` keyword of the project
-* update the `:source-paths` compiler option for each CLJS build
+* consequentely update the `:test-paths` keyword of the project
+* consequentely update the `:source-paths` compiler option for each
+  CLJS build
 
 Following is the interested code snippet from the `project.clj`
 
@@ -580,24 +584,22 @@ Following is the interested code snippet from the `project.clj`
               ...
               :builds
               {:dev
-               {;; added "target/test/cljs" to include cljx generated code
-                            :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
-
-                :compiler {:output-to "resources/public/js/modern_dbg.js"
-                           :optimizations :whitespace
-                           :pretty-print true}}
+               {:source-paths [... ..."target/test/cljs"]
+                ...
+				...
+                }
 
                :pre-prod
-               {;; added "target/test/cljs" to include cljx generated code
-                            :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
-                :compiler {:output-to "resources/public/js/modern_pre.js"
-                           :optimizations :simple}}
+               {:source-paths [... ... "target/test/cljs"]
+			    ...
+				...
+                }
 
                :prod
-               {;; added "target/test/cljs" to include cljx generated code
-                            :source-paths ["src/cljs" "target/test/cljs"]
-                :compiler {:output-to "resources/public/js/modern.js"
-                           :optimizations :advanced}}}})
+               {:source-paths [... "target/test/cljs"]
+			    ...
+				...
+                }}})
 ```
 
 Let's debrief the newly updated `project.clj` file.
@@ -624,7 +626,7 @@ defaults to the `target` directory in the main directory of the
 project, the `$ lein clean` command will deleted any `cljx` generated
 files.
 
-> NOTE 4: Many thanks to [Chas Emerick][3] for having suggested me this
+> NOTE 5: Many thanks to [Chas Emerick][3] for having suggested me this
 > smart trick.
 
 Accordingly to the above choice, we had to modify the leiningen
@@ -660,8 +662,8 @@ In the `:cljx` task configuration we defined two `cljx` generators
   starting from any `cljx` file in the `test/cljx` directory by
   applying the `cljx.rules/cljs-rules` rule
 
-> NOTE 5: It you do not specify the `:extension` option, `cljx` assume the
-> `clj`file extension by default.
+> NOTE 6: It you do not specify the `:extension` option, `cljx` assume the
+> `clj` file extension by default.
 
 Both the `cljx.rules/clj-rules` and the `cljx.rules/cljs-rules` rules
 have been predefined by `cljx` plugin in the `cljx.rules` namespace
@@ -690,15 +692,16 @@ Rewriting test/cljx to target/test/cljs (cljs) with 5 rules.
 $
 ```
 
-> NOTE 6: `cljx` offers both `once` and `auto` subtask (the default is
-> `once`) and their behavior is the same of the corresponding `once` and
-> `auto` subtask of `cljsbuild`: in `auto` mode any change in any `cljx`
-> file will trigger a regeneration of the `clj` and `cljs` files.
+> NOTE 7: `cljx` offers both `once` and `auto` subtask (the default is
+> `once`) and their behavior is the same of the corresponding `once`
+> and `auto` subtask of `cljsbuild`. In `auto` mode any change in any
+> `cljx` file will trigger a regeneration of the `clj` and `cljs`
+> files.
 
-> NOTE 7: You can even automatically run `cljx` task by adding `:hooks
+> NOTE 8: You can even automatically run `cljx` task by adding `:hooks
 > [cljx.hooks]` in your `project.clj` file.
 
-You end up with the following structure of files
+You end up with the following structure for the test files
 
 ```bash
 $ tree target/test
@@ -787,9 +790,7 @@ $ git add .
 $ git commit -m "step-2 done"
 ```
 
-Stay tuned. In the next tutorial we're going to complete the
-server-side `shoppingForm` by manipulating its HTML via [Enlive][20] to
-notify the user when she/he typed in invalid values.
+Stay tuned for the next tutorial.
 
 # Next - TO BE DONE
 
