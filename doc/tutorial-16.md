@@ -206,7 +206,7 @@ follows:
 				...}}
 
                :pre-prod
-               {:source-paths [... ... text/cljs"]
+               {:source-paths [... ... "text/cljs"]
                 ...
 				...}}
 
@@ -338,7 +338,7 @@ Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
 
 {:fail 0, :pass 13, :test 1, :type :summary, :error 0}
-mimmo$
+$
 ```
 
 Yes, it worked. The `lein cljsbuild test` command compiled all the
