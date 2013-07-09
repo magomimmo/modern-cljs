@@ -1,15 +1,43 @@
-# Tutorial 17 - TO BE DEFINED
+# Tutorial 17 - Less is more
 
-In the [previous tutorial][1] we reach an important milestone. We were
-able to make both the `modern-cljs.shopping.validators` namespace and
-the corresponding `modern-cljs.shopping.validators-test` testing
-namespace portable from the server-side to the client side.
+In the [previous tutorial][1] we reached an important milestone on our
+path towards the elimination of as much as possibile code
+duplication. Indeed, we were able to share the same form validation
+and corresponding unit testing codebase between the client and
+server. Anytime in the future we should need to update the validation
+rules, we'll do it in one shared place only and the corresponding unit
+tests too.
 
 ## Introduction
 
-In this tutorial we're going to integrate into the Shopping Calculator
-form the validator functions we made portable in the latestes couple
-of tutorials of the series.
+In this tutorial we're going to integrate the validators for the
+Shopping Calculator into the corresponding WUI (Web User Interface) in
+such a way that the user will be notified with some error messages when
+the she/he types in invalid values in the form.
+
+We have two options. We can start from integrating the validators into
+the server-side code and then integrating them into che client-side
+code or the opposite.
+
+To show any error message to the user from the server-side, we need to
+implement some kind of HTML transformation. To show an error message
+to the user from the client-side, we need to implement some kind of
+DOM manipulation. I don't know why the people call them
+differentely. To me HTML transformation or DOM manipulation express
+the same concept.
+ 
+
+
+
+On the server-side we'll need to implement some kind of HTML
+transformation. On the client-side we'll need to implement some kind
+of DOM manipulation.
+
+We implemented the client-side of the Shopping Calculator by using the
+[Domina][2] lib and the server-side by using the [Enilve][3] lib. Wouldn't be great if we could 
+
+Wouldn't be great if we could share the integration code too.
+
 
 
 In this tutorial of the series we are going to make movable to the
