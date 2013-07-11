@@ -12,7 +12,7 @@
   [:#price] (update-attr price (first (:price errors)))
   [:#tax] (update-attr tax (first (:tax errors)))
   [:#discount] (update-attr discount (first (:discount errors)))
-  [:#total] (set-attr :value 
+  [:#total] (set-attr :value
                       (format "%.2f" (calculate quantity price tax discount))))
 
 (defn shopping [q p t d]

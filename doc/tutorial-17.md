@@ -2,12 +2,11 @@
 
 In the [previous tutorial][1] we reached an important milestone on our
 path towards the elimination of as much as possibile code
-duplication. Indeed, we were able to share the same form validation
-and corresponding unit testing codebase between the client and
+duplication. Indeed, we were able to share the same form validation and
+corresponding unit testing codebase between the client and
 server. Anytime in the future we should need to update the validation
-rules and the corresponding unit testing too, we'll do it in one
-shared place only, which is a big plus in terms of maintenence time
-and costs.
+rules and the corresponding unit testing, we'll do it in one shared
+place only, which is a big plus in terms of maintenance time and costs.
 
 ## Introduction
 
@@ -26,7 +25,7 @@ the server-side code first, and forget for a while about CLJS/JS code.
 
 > NOTE 1: I suggest you to keep track of your work by issuing the
 > following commands at the terminal:
-> 
+>
 > ```bash
 > $ git clone https://github.com/magomimmo/modern-cljs.git
 > $ cd modern-cljs
@@ -34,14 +33,14 @@ the server-side code first, and forget for a while about CLJS/JS code.
 > $ git checkout -b tutorial-17-step-1
 > ```
 
-We already used the [Envlive][2] lib in the
+We already used the [Enlive][2] lib in the
 [Tutorial 14 - It's better to be safe than sorry (Part 1) - ][3] to
 implement the server-side only Shopping Calculator. Even if we were a
-little bit stingy in explaining the [Enlive][2] mechanics, we were
-able to directly connect the `/shopping` action coming from the
+little bit stingy in explaining the [Enlive][2] mechanics, we were able
+to directly connect the `/shopping` action coming from the
 `shoppingForm` submission to the `shopping` template by exploiting the
-fact the `deftemplate` macro implicitly define a function with the
-same name of the defining template.
+fact the `deftemplate` macro implicitly define a function with the same
+name of the defining template.
 
 ```clj
 ;; src/clj/modern_cljs/core.clj
@@ -59,14 +58,14 @@ same name of the defining template.
   [:#price] (set-attr :value price)
   [:#tax] (set-attr :value tax)
   [:#discount] (set-attr :value discount)
-  [:#total] (set-attr :value 
+  [:#total] (set-attr :value
                       (format "%.2f" (calculate quantity price tax discount))))
 ```
 
 However, as we saw in the
-[Tutorial 15 - It's better to be safe than sorry (Part 2) - ][4], we
-can break the `shoppingForm` by just typing in the form a value that's
-not a numeber, because the `calculate` function is able to deal with
+[Tutorial 15 - It's better to be safe than sorry (Part 2) - ][4], we can
+break the `shoppingForm` by just typing in the form a value that's not a
+number, because the `calculate` function is able to deal with
 stringified numbers only.
 
 ![ServerNullPointer][5]
@@ -82,10 +81,10 @@ the `shoppingForm` form.
 
 #### Step 1
 
-So, instead of directly associate to the `POST "/shopping` request the
-corresponding function implicitly defined by the `deftemplate` macro,
-we are going to associate to it a new function, which intermediates
-the call for rendering HTML page by first getting the result from the
+So, instead of directly associate the `POST "/shopping` request with the
+corresponding function implicitly defined by the `deftemplate` macro, we
+are going to associate it with a new function, which intermediates the
+call for rendering HTML page by first getting the result from the
 `validate-shopping-form` validation function.
 
 Open the `shopping.clj` source file from the
@@ -103,7 +102,7 @@ Open the `shopping.clj` source file from the
   [:#price] (set-attr :value price)
   [:#tax] (set-attr :value tax)
   [:#discount] (set-attr :value discount)
-  [:#total] (set-attr :value 
+  [:#total] (set-attr :value
                       (format "%.2f" (calculate quantity price tax discount))))
 
 (defn shopping [q p t d]
@@ -114,14 +113,9 @@ First we added the `modern-cljs.shopping.validators`
 namespace requirement to be able to refer the `validate-shopping-form`
 function.
 
-Then we defined a new `shopping` function which receives the arguments
-from the `POST "/shopping"` request. The new `shopping` function calls
-a new `shopping-template` function, implicitly defined by
-`deftemplate`, by passing to it all the received args *PLUS* the
-result of the `validate-shopping-form` validators.
-
-Finally we renamed the template from `shopping` to `shopping-template`
-and added as a fifth argument the result of the form input validation.
+Then we renamed the Enlive template definition and added to it a fifth
+errors argument feeded by a new `shopping` function which directly
+receives the arguments from the `POST "/shopping"` request.
 
 > NOTE 1: By defining the new intermediate function with the same name
 > (i.e. `shopping`) previoulsly associate with the `POST "/shopping"`
@@ -136,9 +130,7 @@ which receives both the value typed in by the user and, if the value
 was invalid, the corresponding error message produced by the
 `validate-shopping-form` validation function.
 
-In the same `shopping.clj` source file modify the content by adding a
-new `update-attr` function definition and by updating the
-`shopping-template` defintion as follows:
+Modify again the source file as follows.
 
 ```clj
 (defn update-attr [value error]
@@ -150,7 +142,7 @@ new `update-attr` function definition and by updating the
   [:#price] (update-attr price (first (:price errors)))
   [:#tax] (update-attr tax (first (:tax errors)))
   [:#discount] (update-attr discount (first (:discount errors)))
-  [:#total] (set-attr :value 
+  [:#total] (set-attr :value
                       (format "%.2f" (calculate quantity price tax discount))))
 ```
 
@@ -159,51 +151,30 @@ function and substitutes all its occurrences, but the last one, in the
 `shopping-template` definition. This is because we want to verify that
 the code refactoring done until now does not break the application.
 
-Now run the server as usual
+Now run the server as usual.
 
 ```bash
 $ lein ring server-headless
 ```
 
-and disable the JavaScript engine of your browser. Then visit the
-[shopping.html][10] URL, fill the form with valid values and click the
+Disable the JavaScript engine of your browser and visit the
+[shopping.html][10] URL. Fill the form with valid values and click the
 `Calculate` function. Everything should still work as before the code
-refactoring.
+refactoring. So far so good.
 
 ## HTML transformation
 
-In [Tutorial 14 - It's better to be safe than sorry - ][3] we
-introduced [Enlive][2], but we did not say to much about it, both
-because there are already good tutorials available online and because
-this series of tutorial is about CLJS more than about CLJ.
-
-### Don't panic
-
-While the [Enlive][2] `deftemplate` macro seems to be very easy to be
-used, is has a very convoluted definition. In fact it is a
-[syntactic sugar][6] used to make it esier for the programmer to
-express in a more readable form for a very convoluted sequence of
-activities.
-
-The `deftemplate` macro does a lot of things:
-
-1. reads a static resource (e.g. an HTML source file)
-   and parses it in a sequence of nodes; 
-2. defines a function with the same name and the same arguments of the template;
-4. for each CSS-like selectors form selects the matching nodes from
-   the resulted sequence of nodes from the parsing of the HTML source
-5. apply each transformation form to each node selected from the
-   corresponding CSS-like selectors form.
-
-Moreover, each transformation is both a [closure][7] and a
-[HOF][8]. It's difficult to not panic with such a complex structure to
-be uderstood, but if we stay focused to our intent we can afford it.
+It's now time to take care of the error messages notification to the
+user by adding the needed HTML transformation to the `update-attr`
+function which at the moment does only set the value of the selected
+input node.
 
 First we should clarify to ourself what kind of transformation we want
 to operate on the HTML page when there is any input value that is
 invalid.
 
-We start from the following HTML snippet of code from the `shopping.html` file which resides in the `resources/public` directory.
+We start from the following HTML snippet of code from the
+`shopping.html` file which resides in the `resources/public` directory.
 
 ```html
 <div>
@@ -277,4 +248,3 @@ License, the same as Clojure.
 [17]: https://github.com/lynaghk
 [18]: https://github.com/emezeske/lein-cljsbuild
 [19]: https://github.com/technomancy/leiningen
-
