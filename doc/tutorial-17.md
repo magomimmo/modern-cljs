@@ -146,10 +146,19 @@ Modify again the source file as follows.
                       (format "%.2f" (calculate quantity price tax discount))))
 ```
 
-At the moment the `update-attr` is just calling the `set-attr`
-function and substitutes all its occurrences, but the last one, in the
+> NOTE 2: As you should remember, the `validate-shopping-form` function
+> returs `nil` when all the input values of the `shoppingForm` are valid
+> and return a map of errors messages (e.g. `{:quantity
+> ["Quantity can't be negative"] :price ["Price ha to be a number"]}` when
+> any value is invalid. The value of each key of the returned map is
+> always a vector of messages, even when there is just one of them, and we
+> need to take the `first`.
+
+At the moment the `update-attr` is just calling the `set-attr` function
+and substitutes all its occurrences, but the last one, in the
 `shopping-template` definition. This is because we want to verify that
-the code refactoring done until now does not break the application.
+the code refactoring done until now does not break the `calculate` happy
+path.
 
 Now run the server as usual.
 
@@ -160,14 +169,15 @@ $ lein ring server-headless
 Disable the JavaScript engine of your browser and visit the
 [shopping.html][10] URL. Fill the form with valid values and click the
 `Calculate` function. Everything should still work as before the code
-refactoring. So far so good.
+refactoring. The `calculate` happy path is still working. So far so
+good.
 
 ## HTML transformation
 
 It's now time to take care of the error messages notification to the
-user by adding the needed HTML transformation to the `update-attr`
-function which at the moment does only set the value of the selected
-input node.
+user by adding the needed HTML transformation into the `update-attr`
+function definition which, at the moment, does only set the value of the
+selected input node.
 
 First we should clarify to ourself what kind of transformation we want
 to operate on the HTML page when there is any input value that is
@@ -205,8 +215,10 @@ notify the user of the invalid `price` value.
 ![priceError][9]
 
 Here we substituted the `content` of the `label` associated to the
-`price` input filed with the corresponding error massage received from
-the `validate-shopping-form`.
+`price` input field with the corresponding error massage received from
+the `validate-shopping-form` and kept the value typed in by user.
+
+
 
 # Next - TO BE DONE
 
