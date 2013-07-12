@@ -38,11 +38,11 @@ CLJS code.
 We already used the [Enlive][2] lib in the
 [Tutorial 14 - It's better to be safe than sorry (Part 1) - ][3] to
 implement the server-side only Shopping Calculator. Even if we were a
-little bit stingy in explaining the [Enlive][2] mechanics, we were able
-to directly connect the `/shopping` action coming from the
+little bit stingy in explaining the [Enlive][2] mechanics, we were
+able to directly connect the `/shopping` action coming from the
 `shoppingForm` submission to the `shopping` template by exploiting the
-fact the `deftemplate` macro implicitly define a function with the same
-name of the defining template.
+fact the `deftemplate` macro implicitly define a function with the
+same name of the defining template.
 
 ```clj
 ;; src/clj/modern_cljs/core.clj
@@ -65,14 +65,14 @@ name of the defining template.
 ```
 
 However, as we saw in the
-[Tutorial 15 - It's better to be safe than sorry (Part 2) - ][4], we can
-break the `shoppingForm` by just typing in the form a value that's not a
-number, because the `calculate` function is able to deal with
+[Tutorial 15 - It's better to be safe than sorry (Part 2) - ][4], we
+can break the `shoppingForm` by just typing in the form a value that's
+not a number, because the `calculate` function is able to deal with
 stringified numbers only.
 
 ![ServerNullPointer][5]
 
-### Refatoring to inject the form validators
+### Code Refactoring again
 
 To be able to inject the form validators into the the current
 server-side code, we need to refactor it again.
@@ -83,8 +83,9 @@ Instead of directly associate the `POST "/shopping` request with the
 corresponding `shopping` function, implicitly defined by the
 `deftemplate` macro, we are going to rename the template
 (e.g. `shopping-form-template`) and define a new `shopping` function
-which calls the new template by passing to it as an added argument the
-result of calling the `validate-shopping-form` validation function.
+which calls the new template by passing to it, as an added argument,
+the result of calling the `validate-shopping-form` validation
+function.
 
 Open the `shopping.clj` source file from the
 `src/clj/modern-cljs/templates` directory and modify it as follows.
@@ -114,7 +115,7 @@ Open the `shopping.clj` source file from the
 > request, we do not need to modify the `defroutes` macro call in the
 > `modern-cljs.core` namespace.
 
-The first refactoring step has been very easy.
+The first code refactoring step has been very easy.
 
 #### Step 2
 
@@ -123,12 +124,12 @@ eventual error message in the right place for each invalid input value
 typed in by the user.
 
 To make an example, if the user typed in "foo" as the value of the the
-`price` input field we'd like to show him the following notification.
+`price` input field we'd like to show to her/him the following
+notification.
 
 ![priceError][9]
 
-But we have a problem. Take a look at the following fragment of the
-`shoppingForm`
+The original HTML fragment
 
 ```html
 <div>
@@ -141,25 +142,43 @@ But we have a problem. Take a look at the following fragment of the
 </div>
 ```
 
-and think about the fact the there is no a parent selector in CSS and
-neither a previous sibling selector. Probably, the best thing to do
-would be to move in the HTML source `the `id` attribute from the `input`
-element to the `div` element (i.e. its parent), but we don't want to
-bother with the designer of the page. So, let's stay as we are and try
-to find a workaround.
+has to be transformed in the following HTML fragment
 
-[Enlive][2] is very powerful, but definetely is not so easy to work with
-at the beginning, even by following good tutorials. It's full of very
-smart macros and HOFs to be learnt. Take your time by experimenting its
-stuff in the REPl. But before repling around, make you a favor: add the
-the [hiccup][11] lib by [James Reeves][12] to the project
-dependencies. It will allow you to save an headache in writing string of
-HTML code to be used with Enlive.
+```html
+<div>
+   <label class="error" for="price">Price has to be a numebr</label>
+   <input type="text"
+          name="price"
+          id="price"
+          value="foo"
+          required>
+```
+
+As we quickly learnt in a [previous tutorial][4], [Enlive][2] is very
+powerful. By adopting a superset of CSS-like selectors and predefining
+a rich set of transformers it should allow us to make the needed HTML
+manipulation.
+
+##### Don't panic
+
+That said, [Enlive][2] is not so easy to work with at the beginning,
+even by following some [good tutorials][] available online. It's full
+of very smart and nested macros and HOFs. You need to take your time
+for learning them. Generally speacking, the best way to learn a new
+library in CLJ is to REPLing around.
+
+##### Learn bt REPLing
+
+Before doing that, make you a favor: add the the [hiccup][11] lib by
+[James Reeves][12] to the project dependencies. It will allow you to
+save an headache in writing string of HTML code to be used with
+Enlive.
 
 > NOTE 2: Even better, add the [Pomgranate][13], again by
 > [Chas Emerick][14], which allows you to dynamically modify the project
 > `classpath` in the REPL.
 
+Open your `project.clj` and add the [hiccup][11] dependency.
 
 ```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -189,82 +208,168 @@ Clojure 1.5.1
 user=>
 ```
 
-and start repling with Enlive and HICCUP.
+and start REPLing with [hiccup][11] and [Enlive][2].
 
 ```clj
-user=> (require '[net.cgrand.enlive-html :as e])
-nil
 user=> (require '[hiccup.core :refer [html]])
 nil
 user=>
 ```
 
-We start by reading and parsing the `shopping.html` source file by using
-the `e/html-resource` function.
+Hiccup is a very simple library to be used. It allows to represent
+HTML as Clojure data structure. It uses vectors to represent elements,
+and maps to represent an element's attributes.
+
+For example, if we want to create an HTML fragment representing the
+destination HTML for the `price` input field when the user typed in an
+invalid value (e.g. `foo`), we could issue the following Hiccup form
 
 ```clj
-user=> (def sp (e/html-resource "public/shopping.html"))
-#'user/sp
+user=> (html [:div [:label.error {:for "price"} "Price has to be a number"]
+                   [:input#price {:name "price"
+				                  :min "1"
+								  :value "foo"
+								  :required "true"}]])
+"<div>
+   <label class=\"error\" for=\"price\">Price has to be a number</label>
+   <input id=\"price\"
+          min=\"1\"
+		  name=\"price\"
+		  required=\"true\"
+		  value=\"foo\" />
+</div>"
 user=>
 ```
 
-If you `pprint` the just defined `sp` symbol you can see the nodes'
-structure created by the `html-resource` function.
+> NOTE 3: As you can see, Hiccup also provides a CSS-like shortcut for
+> denoting the `id` and `class` attributes.
 
-```cljs
-(pprint sp)
-({:type :dtd, :data ["html" nil nil]}
- {:tag :html,
-  :attrs {:lang "en"},
-  :content
-  ("\n"
-   ...
-   ...
-   "\n"
-   {:tag :body,
-    :attrs nil,
-    :content
-    ("\n  "
-     ...
-     ...
-     {:tag :form,
-      :attrs
-      {:novalidate "novalidate",
-       :id "shoppingForm",
-       :method "post",
-       :action "/shopping"},
-      :content
-      ("\n    "
-       {:tag :fieldset,
-        :attrs nil,
-        :content
-        ("\n      "
-         {:tag :legend, :attrs nil, :content (" Shopping Calculator")}
-         "\n      "
-         {:tag :div,
-          :attrs nil,
-          :content
-          ("\n        "
-           {:tag :label,
-            :attrs {:for "quantity"},
-            :content ("Quantity")}
-           "\n        "
-           {:tag :input,
-            :attrs
-            {:required "required",
-             :min "1",
-             :value "1",
-             :id "quantity",
-             :name "quantity",
-             :type "number"},
-            :content nil}
-           "\n      ")}
-         ...
-         ...
-)
+##### REPLing with Enlive
+
+[Christophe Grand][15], the author of [Enlive][2], was aware of the
+need of experimenting with his powerful and complex lib in the REPL
+and kindly defined a [sniptest][16] macro just for that.
+
+In the active REPL, now require the Enlive namaspace as follows,
+
+```clj
+user=> (require '[net.cgrand.enlive-html :as e])
 nil
 user=>
 ```
+
+and call the `sniptest` macro by passing it as a single argument the
+call of the Hiccup `html` function as follows
+
+```clj
+user> (e/sniptest (html [:div [:label {:for "price"} "Price"]]))
+"<div><label for=\"price\">Price</label></div>"
+user>
+```
+
+Here we used the `sniptest` macro without any selector/transformation
+form and it just returned the passed argument (i.e.  the stringified
+HTML fragment built by the Hiccup `html` function)
+
+Let's now try to select the `label` and change its content from `Price
+per Unit` to `Price has to be a number`.
+
+```clj
+user> (e/sniptest (html [:div [:label {:for "price"} "Price per Unit"]])
+		          [:label] (e/content "Price has to be a number"))
+"<div>
+     <label for=\"price\">Price has to be a number</label>
+ </div>"
+user>
+```
+
+We obtained what we were expecting. So far so good. But what if there
+are more `label` elements? Let's REPLing this scenario.
+
+```clj
+user> (e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
+				                   [:div [:label {:for "tax"} "Tax (%)"]]])
+		          [:label] (e/content "Price has to be a number"))
+"<fieldset>
+     <div>
+	      <label for=\"price\">Price has to be a number</label>
+	 </div>
+	 <div>
+	      <label for=\"tax\">Price has to be a number</label>
+	 </div>
+</fieldset>"
+user> 
+```
+
+The `[:label]` selector selected both `label` elements inside the
+`fieldset` element. The corresponding transformer consequentely
+changed the content of both of them. Luckly, Enlive offers a rich set
+of predicates which can be applied to be more specific within the
+selectors. One of them is `attr=`, which tests if an attribute has a
+specified value. Let's see how it works in our scenarion.
+
+```clj
+user> (e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
+				                   [:div [:label {:for "tax"} "Tax (%)"]]])
+		          [:label (e/attr= :for "price")] (e/content "Price has to be a number"))
+"<fieldset>
+     <div>
+	     <label for=\"price\">Price per Unit</label>
+	 </div>
+	 <div>
+	     <label for=\"tax\">Tax (%)</label>
+	 </div>
+ </fieldset>"
+user> 
+```
+
+Ops, it did not work. What happened?
+
+##### Pay attention when usign predicates
+
+This unexpected behaiour has to do with an Enlive selectors' rule to
+be used when applied to predicates. The
+`[:label (e/attr= :for "price")]` selector is going to match any
+element with a `for` attribute valued to `"price"` inside a `label`
+element.  In our scenario there are no other elements inside any
+`label` element, so the selector did not selected any node.  On the
+other hand, `[[:label (attr= :for "price")]]` is going to match any
+`label` with a `for` attribute valued to `"price"`, which is what we
+want.
+
+So, we need to put the whole selector in a nested vector. Let's see if
+it works.
+
+```clj
+user> (e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
+				                   [:div [:label {:for "tax"} "Tax (%)"]]])
+		          [[:label (e/attr= :for "price")]] (e/content "Price has to be a number"))
+"<fieldset>
+     <div>
+	     <label for=\"price\">Price has to be a number</label>
+	 </div>
+	 <div>
+	     <label for=\"tax\">Tax (%)</label>
+	 </div>
+</fieldset>"
+user> 
+```
+Ok, now it worked. 
+
+#### Ready to go
+
+
+As you probably know, there is no way in
+CSS to select a parent and neither an antecedent sibling.
+We should the fact the there is no a parent selector in CSS and
+neither a previous sibling selector. Probably, the best thing to do
+would be to move in the HTML source `the `id` attribute from the `input`
+element to the `div` element (i.e. its parent), but we don't want to
+bother with the designer of the page. So, let's stay as we are and try
+to find a workaround.
+
+
+
 
 
 
@@ -393,6 +498,11 @@ License, the same as Clojure.
 [12]: https://github.com/weavejester
 [13]: https://github.com/cemerick/pomegranate
 [14]: https://github.com/cemerick
+[15]: https://github.com/cgrand
+[16]: https://github.com/cgrand/enlive/blob/master/src/net/cgrand/enlive_html.clj#L959
+[17] :https://github.com/cgrand/enlive/blob/master/src/net/cgrand/enlive_html.clj#L538
+[18]: http://www.clojurebook.com/
+
 
 
 [2]: https://github.com/cemerick/valip
