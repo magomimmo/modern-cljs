@@ -16,10 +16,12 @@ such a way that the user will be notified with some error messages when
 the she/he types in invalid values in the form.
 
 We have two options. We can be religious about the progressive
-enhancement strategy or be more agnostic. Although this series of
-tutorials is mainly dedicated to CLJS, we decided to be less agnostic
-than usual and we're going to start by integrating the validators in
-the server-side code first, and forget for a while about CLJS/JS code.
+enhancement strategy and then start from the server-side. Or be more
+agnostic and then start from the client-side. Although this series of
+tutorials is mainly dedicated to CLJS, we decided, at least for this
+time, to be more religious than usual and start by integrating the
+validators in the server-side code first, and forget for a while about
+CLJS code.
 
 ## Prepare the field for the HTML transformation
 
@@ -72,20 +74,17 @@ stringified numbers only.
 
 ### Refatoring to inject the form validators
 
-We now need to refactor again the code. We want to insert a call to
-the `validate-shopping-form` validation function between the received
-request (i.e. `POST "/shopping"`) and the `shopping` function call, in
-such a way that when any typed in value is invalid we can notify the
-corresponding error message to the user by transforming/manipulting
-the `shoppingForm` form.
+To be able to inject the form validators into the the current
+server-side code, we need to refactor it again.
 
 #### Step 1
 
-So, instead of directly associate the `POST "/shopping` request with the
-corresponding function implicitly defined by the `deftemplate` macro, we
-are going to associate it with a new function, which intermediates the
-call for rendering HTML page by first getting the result from the
-`validate-shopping-form` validation function.
+Instead of directly associate the `POST "/shopping` request with the
+corresponding `shopping` function, implicitly defined by the
+`deftemplate` macro, we are going to rename the template
+(e.g. `shopping-form-template`) and define a new `shopping` function
+which calls the new template by passing to it as an added argument the
+result of calling the `validate-shopping-form` validation function.
 
 Open the `shopping.clj` source file from the
 `src/clj/modern-cljs/templates` directory and modify it as follows.
@@ -94,10 +93,11 @@ Open the `shopping.clj` source file from the
 (ns modern-cljs.templates.shopping
   (:require [net.cgrand.enlive-html :refer [deftemplate set-attr]]
             [modern-cljs.remotes :refer [calculate]]
+            ;; added the requirement for the form validators
             [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
 
-(deftemplate shopping-template "public/shopping.html"
-  [quantity price tax discount errors]
+(deftemplate shopping-form-template "public/shopping.html"
+  [quantity price tax discount errors] ; added errors argument
   [:#quantity] (set-attr :value quantity)
   [:#price] (set-attr :value price)
   [:#tax] (set-attr :value tax)
@@ -106,23 +106,173 @@ Open the `shopping.clj` source file from the
                       (format "%.2f" (calculate quantity price tax discount))))
 
 (defn shopping [q p t d]
-  (shopping-template q p t d (validate-shopping-form q p t d)))
+  (shopping-form-template q p t d (validate-shopping-form q p t d)))
 ```
-
-First we added the `modern-cljs.shopping.validators`
-namespace requirement to be able to refer the `validate-shopping-form`
-function.
-
-Then we renamed the Enlive template definition and added to it a fifth
-errors argument feeded by a new `shopping` function which directly
-receives the arguments from the `POST "/shopping"` request.
 
 > NOTE 1: By defining the new intermediate function with the same name
 > (i.e. `shopping`) previoulsly associate with the `POST "/shopping"`
-> request, we needn't to modify the `defroutes` macro call in the
+> request, we do not need to modify the `defroutes` macro call in the
 > `modern-cljs.core` namespace.
 
+The first refactoring step has been very easy.
+
 #### Step 2
+
+We now need to manipulate/transform the HTML source to inject the
+eventual error message in the right place for each invalid input value
+typed in by the user.
+
+To make an example, if the user typed in "foo" as the value of the the
+`price` input field we'd like to show him the following notification.
+
+![priceError][9]
+
+But we have a problem. Take a look at the following fragment of the
+`shoppingForm`
+
+```html
+<div>
+   <label for="price">Price Per Unit</label>
+   <input type="text"
+          name="price"
+          id="price"
+          value="1.00"
+          required>
+</div>
+```
+
+and think about the fact the there is no a parent selector in CSS and
+neither a previous sibling selector. Probably, the best thing to do
+would be to move in the HTML source `the `id` attribute from the `input`
+element to the `div` element (i.e. its parent), but we don't want to
+bother with the designer of the page. So, let's stay as we are and try
+to find a workaround.
+
+[Enlive][2] is very powerful, but definetely is not so easy to work with
+at the beginning, even by following good tutorials. It's full of very
+smart macros and HOFs to be learnt. Take your time by experimenting its
+stuff in the REPl. But before repling around, make you a favor: add the
+the [hiccup][11] lib by [James Reeves][12] to the project
+dependencies. It will allow you to save an headache in writing string of
+HTML code to be used with Enlive.
+
+> NOTE 2: Even better, add the [Pomgranate][13], again by
+> [Chas Emerick][14], which allows you to dynamically modify the project
+> `classpath` in the REPL.
+
+
+```clj
+(defproject modern-cljs "0.1.0-SNAPSHOT"
+  ...
+  ...
+  :dependencies [...
+                 ...
+                 [hiccup "1.0.3"]]
+  ...
+  ...
+)
+```
+
+Now run the REPL as usual
+
+```bash
+$ lein repl
+nREPL server started on port 49623
+REPL-y 0.2.0
+Clojure 1.5.1
+    Docs: (doc function-name-here)
+          (find-doc "part-of-name-here")
+  Source: (source function-name-here)
+ Javadoc: (javadoc java-object-or-class-here)
+    Exit: Control+D or (exit) or (quit)
+
+user=>
+```
+
+and start repling with Enlive and HICCUP.
+
+```clj
+user=> (require '[net.cgrand.enlive-html :as e])
+nil
+user=> (require '[hiccup.core :refer [html]])
+nil
+user=>
+```
+
+We start by reading and parsing the `shopping.html` source file by using
+the `e/html-resource` function.
+
+```clj
+user=> (def sp (e/html-resource "public/shopping.html"))
+#'user/sp
+user=>
+```
+
+If you `pprint` the just defined `sp` symbol you can see the nodes'
+structure created by the `html-resource` function.
+
+```cljs
+(pprint sp)
+({:type :dtd, :data ["html" nil nil]}
+ {:tag :html,
+  :attrs {:lang "en"},
+  :content
+  ("\n"
+   ...
+   ...
+   "\n"
+   {:tag :body,
+    :attrs nil,
+    :content
+    ("\n  "
+     ...
+     ...
+     {:tag :form,
+      :attrs
+      {:novalidate "novalidate",
+       :id "shoppingForm",
+       :method "post",
+       :action "/shopping"},
+      :content
+      ("\n    "
+       {:tag :fieldset,
+        :attrs nil,
+        :content
+        ("\n      "
+         {:tag :legend, :attrs nil, :content (" Shopping Calculator")}
+         "\n      "
+         {:tag :div,
+          :attrs nil,
+          :content
+          ("\n        "
+           {:tag :label,
+            :attrs {:for "quantity"},
+            :content ("Quantity")}
+           "\n        "
+           {:tag :input,
+            :attrs
+            {:required "required",
+             :min "1",
+             :value "1",
+             :id "quantity",
+             :name "quantity",
+             :type "number"},
+            :content nil}
+           "\n      ")}
+         ...
+         ...
+)
+nil
+user=>
+```
+
+
+
+input filed with the `id="price`"
+ selectors do not allow to select a parent of
+a node (i.e. CSS is not ascendent)
+Now the things are going to be more complicated, becasue there are more
+way to rea
 
 For each input field we now need to substitute in the `deftemplate`
 macro call the original transformer (i.e. `set-attr`) with a new one
@@ -212,7 +362,7 @@ notify the user of the invalid `price` value.
 </div>
 ```
 
-![priceError][9]
+
 
 Here we substituted the `content` of the `label` associated to the
 `price` input field with the corresponding error massage received from
@@ -239,7 +389,10 @@ License, the same as Clojure.
 [8]: http://en.wikipedia.org/wiki/Higher-order_function
 [9]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/price-error.png
 [10]: http://localhost:3000/shopping.html
-
+[11]: https://github.com/weavejester/hiccup
+[12]: https://github.com/weavejester
+[13]: https://github.com/cemerick/pomegranate
+[14]: https://github.com/cemerick
 
 
 [2]: https://github.com/cemerick/valip
