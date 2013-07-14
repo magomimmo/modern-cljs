@@ -1,20 +1,31 @@
 (ns modern-cljs.templates.shopping
-  (:require [net.cgrand.enlive-html :refer [deftemplate set-attr attr=]]
+  (:require [net.cgrand.enlive-html :refer [deftemplate content substitute do-> add-class set-attr attr=]]
             [modern-cljs.remotes :refer [calculate]]
             [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
 
-(defn update-shopping-form [q p t d errors]
-  (fn [node]
-    nil))
+(defmacro maybe-error [expr] 
+  `(if-let [x# ~expr] 
+     (do-> (add-class "error")
+           (content x#))
+     identity))
 
-(deftemplate shopping-form-template "public/shopping.html"
+(deftemplate update-shopping-form "public/shopping.html"
   [q p t d errors]
+  ;; select and transform input label
+  [[:label (attr= :for "quantity")]] (maybe-error (first (:quantity errors)))
+  [[:label (attr= :for "price")]] (maybe-error (first (:price errors)))
+  [[:label (attr= :for "tax")]] (maybe-error (first (:tax errors)))
+  [[:label (attr= :for "discount")]] (maybe-error (first (:discount errors)))
+  ;; select and transform input value
   [:#quantity] (set-attr :value q)
   [:#price] (set-attr :value p)
   [:#tax] (set-attr :value t)
   [:#discount] (set-attr :value d)
-  #{[:div :label] 
-    [:input#total]} (update-shopping-form q p t d e))
+
+  ;; select and teransform total
+  [:#total] (if errors
+              (set-attr :value "0.00")
+              (set-attr :value (format "%.2f" (calculate q p t d)))))
 
 (defn shopping [q p t d]
-  (shopping-form-template q p t d (validate-shopping-form q p t d)))
+  (update-shopping-form q p t d (validate-shopping-form q p t d)))
