@@ -161,7 +161,7 @@ has to be transformed in the following HTML fragment
           required>
 ```
 
-As we quickly learnt in a [previous tutorial][4], [Enlive][2] is very
+As we quickly learnt in a [previous tutorial][24], [Enlive][2] is very
 powerful. By adopting a superset of CSS-like selectors and predefining
 a rich set of transformers it should allow us to make the needed HTML
 transformation.
@@ -442,7 +442,7 @@ Let's debrief the above code. We already said about the
 trasformer says:
 
 > **IF** there is an error message pertaining the value for the
-> `quantity` input field (i.e. `(first (:quantity errors))`), **THEN*
+> `quantity` input field (i.e. `(first (:quantity errors))`), **THEN**
 > add the `"error"` class to the `label` element and set the error
 > message as the `content` of the `label`, **ELSE** do nothing
 > (i.e. `identity`).
@@ -589,7 +589,7 @@ License, the same as Clojure.
 [18]: http://www.clojurebook.com/
 [19]: https://github.com/lynaghk/cljx
 [20]: https://github.com/swannodette/enlive-tutorial/
-[21]: localhost:3000/shopping.html
+[21]: http://localhost:3000/shopping.html
 [22]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-invalid-values.png
 [23]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-with-invalid-messages.png
-
+[24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md
