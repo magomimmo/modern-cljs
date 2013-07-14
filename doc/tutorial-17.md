@@ -1,12 +1,13 @@
-# Tutorial 17 - Less is more
+# Tutorial 17 - Learn Enlive by REPling
 
 In the [previous tutorial][1] we reached an important milestone on our
 path towards the elimination of as much as possibile code
-duplication. Indeed, we were able to share the same form validation and
-corresponding unit testing codebase between the client and
+duplication. Indeed, we were able to share the same form validation
+and corresponding unit testing codebase between the client and
 server. Anytime in the future we should need to update the validation
 rules and the corresponding unit testing, we'll do it in one shared
-place only, which is a big plus in terms of maintenance time and costs.
+place only, which is a big plus in terms of maintenance time and
+costs.
 
 ## Introduction
 
@@ -63,18 +64,18 @@ same name of the defining template.
 
 However, as we saw in the
 [Tutorial 15 - It's better to be safe than sorry (Part 2) - ][4], we
-can break the `shoppingForm` by just typing in the form a value that
-is not a number, because the `calculate` function is able to deal with
-stringified numbers only.
+can easly break the `shoppingForm` by just typing in the form a value
+that is not a number, because the `calculate` function is able to deal
+with stringified numbers only.
 
 ![ServerNullPointer][5]
 
 To start fixing this bug we introduced form validators and we made
-portable from CLJ to CLJS by simply using the `:crossovers` feature of
-the `lein-cljsbuild` plugin. With the intent of covering as much as
-possibile number of usages for the Shopping Form we then introduced
-unit testing and, thanks to the [cljx][] lib, we made them portable
-too from CLJ to CLJS.
+them portable from CLJ to CLJS by simply using the `:crossovers`
+feature of the `lein-cljsbuild` plugin. With the intent of covering as
+much as possibile number of usages for the Shopping Form we then
+introduced unit testing and, thanks to the [cljx][19] lib, we made
+them portable too from CLJ to CLJS.
 
 ## Code Refactoring again
 
@@ -82,11 +83,11 @@ All this work it's not useful at all without injecting the form
 validators in the form they are intended to validate and to reach this
 goal we need to refactor the code again.
 
-### Step One - The middle man
+## Step One - The middle man
 
 Instead of directly associate the `POST "/shopping` request with the
-corresponding `shopping` function, we are going to intermediate the
-latter with a new function which pass to it the result of the
+corresponding `shopping` Enlive template, we are going to intermediate
+the latter with a new function which pass to it the result of the
 validators.
 
 Open the `shopping.clj` source file from the
@@ -114,15 +115,16 @@ Open the `shopping.clj` source file from the
   (shopping-form-template q p t d (validate-shopping-form q p t d)))
 ```
 
-> NOTE 1: By defining the new intermediate function with the same name
+> NOTE 2: By defining the new intermediate function with the same name
 > (i.e. `shopping`) previoulsly associate with the `POST "/shopping"`
 > request, we do not need to modify the `defroutes` macro call in the
-> `modern-cljs.core` namespace.
+> `modern-cljs.core` namespace. Obviously we had to rename the Enlive
+> template too.
 
 The first code refactoring step needed for injecting the validators in
 the form, has been very easy.
 
-### Step One and an half: Don't panic
+## Don't panic with Enlive
 
 We now need to manipulate/transform the HTML source to inject the
 eventual error message in the right place for each invalid input value
@@ -165,19 +167,18 @@ a rich set of transformers it should allow us to make the needed HTML
 transformation.
 
 That said, at the beginning [Enlive][2] is not so easy to work with,
-even by following some [good tutorials][] available online. It's full
-of very smartr macros and HOFs definitions which constitute a DSL
-(Domain Specific Language) for HTML/XML scraping and templating. You
-need to take your time to get working with the Enlive lib. Generally
-speacking, the best way to learn a new library in CLJ is by REPLing
-with it.
+even by following some [good tutorials][20] available online. Enlive
+is full of very smart macros and HOFs definitions which constitute a
+DSL (Domain Specific Language) for HTML/XML scraping and
+templating. You need to take your time to get working with the Enlive
+lib. Generally speacking, the best way to learn a new library in CLJ
+is by REPLing with it.
 
 ### REPLing with Hiccup
 
-Before to start REPLing around, make you a favor: add the the
-[hiccup][11] lib by [James Reeves][12] to the project dependencies,
-because it will save you a sure headache in writing stringified HTML
-at the repl. 
+Before to start REPLing around, make you a favor: add the [hiccup][11]
+lib by [James Reeves][12] to your `project.clj`, because it will save
+you a sure headache in writing stringified HTML at the repl.
 
 Open your `project.clj` and add the [hiccup][11] dependency.
 
@@ -192,10 +193,6 @@ Open your `project.clj` and add the [hiccup][11] dependency.
   ...
 )
 ```
-
-> NOTE 2: Even better, add the [Pomgranate][13] by [Chas Emerick][14]
-> which allows you to dynamically modify the project `classpath` in
-> the REPL.
 
 Now run the REPL as usual
 
@@ -253,9 +250,12 @@ user=>
 
 ### REPLing with Enlive
 
-[Christophe Grand][15], the author of [Enlive][2], was aware of the need
-of experimenting with his powerful and complex DSL in the REPL and
-kindly defined a [sniptest][16] macro just for that. 
+[Christophe Grand][15], the author of [Enlive][2], was aware of the
+need of experimenting with his powerful and complex DSL in the REPL
+and kindly defined a [sniptest][16] macro just for that. The
+`sniptest` receives a stringified HTML as a first argument and
+optionally one or more pairs of selectors/transformations. This allows
+it to mimic the `deftemplate` macro behaviour in the REPL.
 
 In the active REPL, now require the Enlive namaspace as follows,
 
@@ -279,9 +279,9 @@ Here we used the `sniptest` macro without any selector/transformation
 form and it just returned the passed argument (i.e.  the stringified
 HTML fragment built by the Hiccup `html` function)
 
-Let's now try to select the `label` and change its content from `Price
-per Unit` to `Price has to be a number`, by adding a pair of
-selector/transformation to the previous `sniptest` call.
+Let's now add a selector/transformation pair for selecting the `label`
+and changing its content from `Price per Unit` to `Price has to be a
+number`.
 
 ```clj
 user> (e/sniptest (html [:div [:label {:for "price"} "Price per Unit"]])
@@ -293,8 +293,8 @@ user>
 ```
 
 We obtained what we were expecting. So far so good. But what if there
-are more `label` elements in the passed stringified HTML code? Let's
-REPLing this scenario.
+are, as in our `shoppong.html` source, more `label` elements
+cointained in the `fieldset` element? Let's REPLing this scenario.
 
 ```clj
 user> (e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
@@ -335,21 +335,21 @@ user>
 
 Ops, it did not work. What happened?
 
-#### Pay attention when using Enlive predicates
+### Hierarchical and conjuction rules 
 
-This unexpected behaiour has to do with the Enlive selectors'
-rules. The `[:label (e/attr= :for "price")]` selector is going to
-match any element with a `for` attribute valued to `"price"` *inside*
-a `label` element (i.e. hierarchical rule).  In our scenario there
-were no other elements inside any `label` element, so the selector did
-not selected any node.
+This unexpected behaiour has to do with the Enlive DSL grammar's
+rules. The syntax of the `[:label (e/attr= :for "price")]` selector
+says to select any element with a `for` attribute valued to `"price"`
+*contained* in a `label` element (i.e. hierarchical rule). In our
+scenario there were no other elements contained inside any `label`
+element, so the selector did not selected any node and the trasformer
+does not do anything.
 
-On the other hand, `[[:label (attr= :for "price")]]` selector is going
-to match any `label` with a `for` attribute valued to `"price"`, which
-is what we want (i.e. conjunction rule).
-
-So, we need to put the whole selector in a nested vector. Let's see if
-it works.
+On the other hand, the syntax of the `[[:label (attr= :for "price")]]`
+selector is going to select any `label` wich has a `for` attribute
+valued to `"price"` (i.e. conjunction rule) and this is what we
+want. So, To activate the conjunction rule, we need to put the whole
+selector in a nested vector. Let's see if it works.
 
 ```clj
 user> (e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
@@ -365,127 +365,195 @@ user> (e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"
 </fieldset>"
 user>
 ```
-Ok, now it worked.
 
-#### Ready to go
+Good. It worked and we're now ready to apply what we just learnt by
+REPLing with the `sniptest` macro.
 
+### Select and transform
 
-
-As you probably know, there is no way in
-CSS to select a parent and neither an antecedent sibling.
-We should the fact the there is no a parent selector in CSS and
-neither a previous sibling selector. Probably, the best thing to do
-would be to move in the HTML source `the `id` attribute from the `input`
-element to the `div` element (i.e. its parent), but we don't want to
-bother with the designer of the page. So, let's stay as we are and try
-to find a workaround.
-
-
-
-
-
-
-input filed with the `id="price`"
- selectors do not allow to select a parent of
-a node (i.e. CSS is not ascendent)
-Now the things are going to be more complicated, becasue there are more
-way to rea
-
-For each input field we now need to substitute in the `deftemplate`
-macro call the original transformer (i.e. `set-attr`) with a new one
-which receives both the value typed in by the user and, if the value
-was invalid, the corresponding error message produced by the
-`validate-shopping-form` validation function.
-
-Modify again the source file as follows.
+Let's resume the `update-shopping-form` template definition we wrote
+in the first refactoring step.
 
 ```clj
-(defn update-attr [value error]
-  (set-attr :value value))
-
-(deftemplate shopping-template "public/shopping.html"
+(deftemplate update-shopping-form "public/shopping.html"
   [quantity price tax discount errors]
-  [:#quantity] (update-attr quantity (first (:quantity errors)))
-  [:#price] (update-attr price (first (:price errors)))
-  [:#tax] (update-attr tax (first (:tax errors)))
-  [:#discount] (update-attr discount (first (:discount errors)))
+  [:#quantity] (set-attr :value quantity)
+  [:#price] (set-attr :value price)
+  [:#tax] (set-attr :value tax)
+  [:#discount] (set-attr :value discount)
   [:#total] (set-attr :value
                       (format "%.2f" (calculate quantity price tax discount))))
 ```
 
-> NOTE 2: As you should remember, the `validate-shopping-form` function
-> returs `nil` when all the input values of the `shoppingForm` are valid
-> and return a map of errors messages (e.g. `{:quantity
-> ["Quantity can't be negative"] :price ["Price ha to be a number"]}` when
-> any value is invalid. The value of each key of the returned map is
-> always a vector of messages, even when there is just one of them, and we
-> need to take the `first`.
+Here, we defined five pairs of selectors/transformations, one for each
+input field of the form. Each transformer, but the last, just sets the
+corresponding input field value to the value typed in by the user. The
+`:#total` input field, instead, is set to the result value returned by
+the `calculate` function which throws the `NullPointer` exception when
+it receives a not stringified number as one of the argument.
 
-At the moment the `update-attr` is just calling the `set-attr` function
-and substitutes all its occurrences, but the last one, in the
-`shopping-template` definition. This is because we want to verify that
-the code refactoring done until now does not break the `calculate` happy
-path.
+First, change the last selector/transformation pair to call the
+`calculate` function only when there are no validation errors
+(i.e. when `validate-shopping-form` return `nil`).
 
-Now run the server as usual.
+```
+(deftemplate update-shopping-form "public/shopping.html"
+  [quantity price tax discount errors]
+  [:#quantity] (set-attr :value quantity)
+  [:#price] (set-attr :value price)
+  [:#tax] (set-attr :value tax)
+  [:#discount] (set-attr :value discount)
+  [:#total] (if errors
+              (set-attr :value "0.00")
+              (set-attr :value (format "%.2f" (calculate quantity price tax discount)))))
+```
+
+Now we have to substitute the  content of each `label` pertaining each
+input field  with the  corresponding error message  when its  value is
+invalid.  As we  learnt from  the  previous REPLing  session with  the
+`sniptest` macro, to  select a single `label` content, we  can use the
+`[[:label (attr=  :for <input-name>)]]`  selector. But what  about the
+corresponding transformer? We  want to transform the  `content` of the
+`label` and  set its `class  ` to  `"error"` only when  the pertaining
+input field value  is invalid, that is when there  is an error message
+for it.
+
+```clj
+(deftemplate update-shopping-form "public/shopping.html"
+  [quantity price tax discount errors]
+  ...
+  ...
+  [[:label (attr= :for "quantity")]] (if-let [err (first (:quantity errors))]
+                                        (do-> (add-class "error")
+					                          (content err))
+                                        identity)
+  ...
+  ...
+)
+```
+
+Let's debrief the above code. We already said about the
+`[[:label (attr= :for <input-name>)]]` selector. The corresponding
+trasformer says:
+
+> **IF** there is an error message pertaining the value for the
+> `quantity` input field (i.e. `(first (:quantity errors))`), **THEN*
+> add the `"error"` class to the `label` element and set the error
+> message as the `content` of the `label`, **ELSE** do nothing
+> (i.e. `identity`).
+
+As you can see we are using few more Enlive symbols:
+
+* `do->`: it often happens that you need to apply more transformations
+  to the same selected HTML node. The `do->` function chains
+  (i.e. composes) transformations sequencially from left to right.
+* `add-class`: it allows to add one or more CSS classes to a selected
+  HTML node;
+* `content`: it replaces the content of a selected HTML node with the
+  passed one.
+
+Note that when the value for the input field is valid, we use the CLJ
+`identity` predefined function to leave the content of the element how
+it was.
+
+### Syntactic sugar
+
+The above transformer is very boring to be repeated for each `label`
+of the corresponding `shoppingForm` input fields, but we're coding
+with a LISP programming language and we can express the above
+transformation with the following `maybe-error` simple macro which
+receives an expression and exapnds into the above convoluted code.
+
+```clj
+(defmacro maybe-error [expr] 
+  `(if-let [x# ~expr] 
+     (do-> (add-class "error")
+           (content x#))
+     identity))
+```
+
+### Step 2 - Ready to go
+
+We're now ready to finish our `deftemplate` definition. Following is
+the entire content of the `shopping.clj` source file.
+
+```clj
+(ns modern-cljs.templates.shopping
+  (:require [net.cgrand.enlive-html :refer [deftemplate content do-> add-class set-attr attr=]]
+            [modern-cljs.remotes :refer [calculate]]
+            [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
+
+(defmacro maybe-error [expr] 
+  `(if-let [x# ~expr] 
+     (do-> (add-class "error")
+           (content x#))
+     identity))
+
+(deftemplate update-shopping-form "public/shopping.html"
+  [q p t d errors]
+
+  ;; select and transform input label
+
+  [[:label (attr= :for "quantity")]] (maybe-error (first (:quantity errors)))
+  [[:label (attr= :for "price")]] (maybe-error (first (:price errors)))
+  [[:label (attr= :for "tax")]] (maybe-error (first (:tax errors)))
+  [[:label (attr= :for "discount")]] (maybe-error (first (:discount errors)))
+
+  ;; select and transform input value
+
+  [:#quantity] (set-attr :value q)
+  [:#price] (set-attr :value p)
+  [:#tax] (set-attr :value t)
+  [:#discount] (set-attr :value d)
+
+  ;; select and teransform total
+
+  [:#total] (if errors
+              (set-attr :value "0.00")
+              (set-attr :value (format "%.2f" (calculate q p t d)))))
+
+(defn shopping [q p t d]
+  (update-shopping-form q p t d (validate-shopping-form q p t d)))
+```
+
+### Play and Pray
+
+We're now ready to verity if our long refactoring session works. As
+usual run the web app with the following command.
 
 ```bash
 $ lein ring server-headless
 ```
 
-Disable the JavaScript engine of your browser and visit the
-[shopping.html][10] URL. Fill the form with valid values and click the
-`Calculate` function. Everything should still work as before the code
-refactoring. The `calculate` happy path is still working. So far so
-good.
+Then, after having disabled the JavaScript engine of your browser,
+visit the [Shopping Calculator][21] URL, fill the form with valid
+values and finally click the `Calculate` button. Everything should
+work as expected.
 
-## HTML transformation
+Let's now see what happens if you type into the form any invalid value,
+for example `1.2` as the value for the `Quantity` input field, `foo`
+as the value for `Price`, `bar` as the value for `Tax` and finally
+nothing as the value for `Discount`.
 
-It's now time to take care of the error messages notification to the
-user by adding the needed HTML transformation into the `update-attr`
-function definition which, at the moment, does only set the value of the
-selected input node.
+![Shopping with invalid values][22]
 
-First we should clarify to ourself what kind of transformation we want
-to operate on the HTML page when there is any input value that is
-invalid.
+You should receive the following feedback.
 
-We start from the following HTML snippet of code from the
-`shopping.html` file which resides in the `resources/public` directory.
+![Shopping  with error messages][23]
 
-```html
-<div>
-   <label for="price">Price Per Unit</label>
-   <input type="text"
-          name="price"
-          id="price"
-          value="1.00"
-          required>
-</div>
+Great, it works. We fixed the server-side code by refactoring it to
+inject the form validators into the Enlive template definition for the
+`shopping.html` page. And we also learnt a little bit more about the
+Enlive DSL.
+
+As a very last step, I suggest you to commit the changes as follows:
+
+```bash
+$ git add .
+$ git commit -m "finisched with the server-side shoppingForm"
 ```
 
-Even if I'm very bad both in HTML and CSS, I think that the following
-could be an acceptable transformation of the original HTML snippet to
-notify the user of the invalid `price` value.
-
-```html
-<div>
-   <label for="price" class="error">Price has to be a number</label>
-   <input type="text"
-          name="price"
-          id="price"
-          value="foo"
-          required>
-</div>
-```
-
-
-
-Here we substituted the `content` of the `label` associated to the
-`price` input field with the corresponding error massage received from
-the `validate-shopping-form` and kept the value typed in by user.
-
-
+Stay tuned!
 
 # Next - TO BE DONE
 
@@ -512,26 +580,11 @@ License, the same as Clojure.
 [14]: https://github.com/cemerick
 [15]: https://github.com/cgrand
 [16]: https://github.com/cgrand/enlive/blob/master/src/net/cgrand/enlive_html.clj#L959
-[17] :https://github.com/cgrand/enlive/blob/master/src/net/cgrand/enlive_html.clj#L538
+[17]: https://github.com/cgrand/enlive/blob/master/src/net/cgrand/enlive_html.clj#L538
 [18]: http://www.clojurebook.com/
+[19]: https://github.com/lynaghk/cljx
+[20]: https://github.com/swannodette/enlive-tutorial/
+[21]: localhost:3000/shopping.html
+[22]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-invalid-values.png
+[23]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-with-invalid-messages.png
 
-
-
-[2]: https://github.com/cemerick/valip
-[3]: https://github.com/cemerick
-[4]: https://github.com/cemerick/clojurescript.test
-[5]: https://github.com/cemerick/clojurescript.test#why
-[6]: https://github.com/cemerick/clojurescript.test#using-with-lein-cljsbuild
-[7]: http://phantomjs.org/
-[8]: http://en.wikipedia.org/wiki/WebKit
-[9]: http://phantomjs.org/download.html
-[10]: https://github.com/cemerick/clojurescript.test/blob/master/runners/phantomjs.js
-[11]: https://help.github.com/articles/fork-a-repo
-[12]: https://github.com/cemerick/clojurescript.test#usage
-[13]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
-[14]: https://github.com/emezeske
-[15]: https://github.com/emezeske/lein-cljsbuild/blob/0.3.2/doc/CROSSOVERS.md#sharing-macros-between-clojure-and-clojurescript
-[16]: https://github.com/lynaghk/cljx
-[17]: https://github.com/lynaghk
-[18]: https://github.com/emezeske/lein-cljsbuild
-[19]: https://github.com/technomancy/leiningen
