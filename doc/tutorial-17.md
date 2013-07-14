@@ -369,6 +369,11 @@ user>
 Good. It worked and we're now ready to apply what we just learnt by
 REPLing with the `sniptest` macro.
 
+> NOTE 4: Enlive selector syntax offers a disjunction rule too, but
+> we're not using it in this tutorial. This rule use the
+> `#{[selector 1][selector 2]...[selector n]}` set syntax for menaing
+> disjunction between selectors.
+
 ### Select and transform
 
 Let's resume the `update-shopping-form` template definition we wrote
