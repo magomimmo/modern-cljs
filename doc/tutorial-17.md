@@ -1,4 +1,4 @@
-# Tutorial 17 - Learn Enlive by REPling
+# Tutorial 17 - Enlive by REPling
 
 In the [previous tutorial][1] we reached an important milestone on our
 path towards the elimination of as much as possibile code
@@ -555,7 +555,7 @@ $ git commit -m "finisched with the server-side shoppingForm"
 
 Stay tuned!
 
-# Next - TO BE DONE
+# Next Step - TO BE DONE
 
 TO BE DONE
 
