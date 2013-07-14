@@ -792,9 +792,12 @@ $ git commit -m "step-2 done"
 
 Stay tuned for the next tutorial.
 
-# Next - TO BE DONE
+# [Next Step - Tutorial 17 - Enlive bt REPLing][21]
 
-TO BE DONE
+In the [next tutorial][21] we're going to integrate the validators for
+the Shopping Calculator into the corresponding WUI (Web User
+Interface) in such a way that the user will be notified with the right
+error messages when the she/he types in invalid values in the form.
 
 # License
 
@@ -821,3 +824,4 @@ License, the same as Clojure.
 [18]: https://github.com/emezeske/lein-cljsbuild
 [19]: https://github.com/technomancy/leiningen
 [20]: https://github.com/cgrand/enlive
+[21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-17.md
