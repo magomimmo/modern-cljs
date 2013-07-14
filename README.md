@@ -128,9 +128,14 @@ In this tutorial we make unit testing portable from CLJ to CLJS (and
 vice-versa) by using the `clojurescript.test` lib and the `cljx` lein
 plugin.
 
-## Tuturial 17 - TO BE DONE
+## [Tuturial 17 - Enlive by REPLing][25]
 
-TO BE DONE
+To be respectful with the progressive enhancement strategy, in this
+tutorial we're going to integrate the form validators for the
+server-side Shopping Calculator into the corresponding WUI (Web User
+Interface) in such a way that the user will be notified with the
+right error messages when the she/he types in invalid values
+in the form.
 
 # License
 
@@ -161,3 +166,4 @@ License, the same as Clojure.
 [22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-14.md
 [23]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md
 [24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md
+[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-17.md
