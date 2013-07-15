@@ -293,7 +293,7 @@ user>
 ```
 
 We obtained what we were expecting. So far so good. But what if there
-are, as in our `shoppong.html` source, more `label` elements
+are, as in our `shopping.html` source, more `label` elements
 cointained in the `fieldset` element? Let's REPLing this scenario.
 
 ```clj
@@ -348,7 +348,7 @@ does not do anything.
 On the other hand, the syntax of the `[[:label (attr= :for "price")]]`
 selector is going to select any `label` wich has a `for` attribute
 valued to `"price"` (i.e. conjunction rule) and this is what we
-want. So, To activate the conjunction rule, we need to put the whole
+want. So, to activate the conjunction rule, we need to put the whole
 selector in a nested vector. Let's see if it works.
 
 ```clj
@@ -413,14 +413,14 @@ First, change the last selector/transformation pair to call the
               (set-attr :value (format "%.2f" (calculate quantity price tax discount)))))
 ```
 
-Now we have to substitute the  content of each `label` pertaining each
-input field  with the  corresponding error message  when its  value is
-invalid.  As we  learnt from  the  previous REPLing  session with  the
-`sniptest` macro, to  select a single `label` content, we  can use the
-`[[:label (attr=  :for <input-name>)]]`  selector. But what  about the
-corresponding transformer? We  want to transform the  `content` of the
-`label` and  set its `class  ` to  `"error"` only when  the pertaining
-input field value  is invalid, that is when there  is an error message
+Now we have to substitute the content of each `label` pertaining each
+input field with the corresponding error message when its value is
+invalid.  As we learnt from the previous REPLing session with the
+`sniptest` macro, to select a single `label` content, we can use the
+`[[:label (attr= :for <input-name>)]]` selector. But what about the
+corresponding transformer? We want to transform the `content` of the
+`label` and set its `class ` to `"error"` only when the pertaining
+input field value is invalid, that is when there are no error messages
 for it.
 
 ```clj
@@ -451,7 +451,8 @@ As you can see we are using few more Enlive symbols:
 
 * `do->`: it often happens that you need to apply more transformations
   to the same selected HTML node. The `do->` function chains
-  (i.e. composes) transformations sequencially from left to right.
+  (i.e. composes) transformations sequencially from left to right
+  (i.e. top to bottom);
 * `add-class`: it allows to add one or more CSS classes to a selected
   HTML node;
 * `content`: it replaces the content of a selected HTML node with the
@@ -511,7 +512,7 @@ the entire content of the `shopping.clj` source file.
   [:#tax] (set-attr :value t)
   [:#discount] (set-attr :value d)
 
-  ;; select and teransform total
+  ;; select and transform total
 
   [:#total] (if errors
               (set-attr :value "0.00")
