@@ -193,11 +193,11 @@ your `~/.lein/profiles.clj` as follows
                   [lein-try "0.1.3"]]}}
 ```
 
-Open a terminal and run the following commands to run a REPL which
-includes both [hiccup][11] and [Enlive][2] libs,
+Open a terminal and run the following commands from the main modern-cljs directory to run a REPL which
+includes the [hiccup][11] lib,
 
 ```bash
-$ lein try [hiccup "1.0.3"] [enlive "1.1.1"]
+$ lein try [hiccup "1.0.3"]
 ...
 user=>
 ```
