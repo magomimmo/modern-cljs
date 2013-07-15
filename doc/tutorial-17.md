@@ -176,37 +176,36 @@ is by REPLing with it.
 
 ### REPLing with Hiccup
 
-Before to start REPLing around, make you a favor: add the [hiccup][11]
-lib by [James Reeves][12] to your `project.clj`, because it will save
+Before to start REPLing around, make you a favor: do you REPLing by
+using the [hiccup][11] lib by [James Reeves][12], because it will save
 you a sure headache in writing stringified HTML at the repl.
 
-Open your `project.clj` and add the [hiccup][11] dependency.
+[Ryan Neufeld][25] recently published [lein-try][26], a lein plugin
+for trying out libraries in the REPL whithout having to import them in
+a `project.clj`. To set up [lein-try][26], add `[lein-try "0.1.1"]` to
+your `~/.lein/profiles.clj` as follows
 
 ```clj
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  ...
-  :dependencies [...
-                 ...
-                 [hiccup "1.0.3"]]
-  ...
-  ...
-)
+;; ~/.lein/profiles.clj source file
+
+{:user {:plugins [...
+	              ...
+                  [lein-try "0.1.1"]]}}
 ```
 
-Now run the REPL as usual
+> NOTE 3: Due to an [open issue][27], at the moment the [lein-try][26]
+> plugin can't be used when you're inside a directory containing a
+> `project.clj` and you need to use it in a directory where you do not
+> have any `project.clj`.
+
+Open a terminal and run the following commands to run a REPL which
+includes both [hiccup][11] and [Enlive][2] libs,
 
 ```bash
-$ lein repl
-nREPL server started on port 49623
-REPL-y 0.2.0
-Clojure 1.5.1
-    Docs: (doc function-name-here)
-          (find-doc "part-of-name-here")
-  Source: (source function-name-here)
- Javadoc: (javadoc java-object-or-class-here)
-    Exit: Control+D or (exit) or (quit)
-
+$ mkdir -p ~/tmp/testing
+$ cd ~/tmp/testing
+$ lein try [hiccup "1.0.3"] [enlive "1.1.1"]
+...
 user=>
 ```
 
@@ -244,7 +243,7 @@ user=> (html [:div [:label.error {:for "price"} "Price has to be a number"]
 user=>
 ```
 
-> NOTE 3: As you can see, Hiccup also provides a CSS-like shortcut for
+> NOTE 4: As you can see, Hiccup also provides a CSS-like shortcut for
 > denoting the `id` and `class` attributes (e.g. `:input#price` and
 > `:label.error`)
 
@@ -369,7 +368,7 @@ user>
 Good. It worked and we're now ready to apply what we just learnt by
 REPLing with the `sniptest` macro.
 
-> NOTE 4: Enlive selector syntax offers a disjunction rule too, but
+> NOTE 5: Enlive selector syntax offers a disjunction rule too, but
 > we're not using it in this tutorial. This rule use the
 > `#{[selector 1][selector 2]...[selector n]}` set syntax for menaing
 > disjunction between selectors.
@@ -525,7 +524,8 @@ the entire content of the `shopping.clj` source file.
 ### Play and Pray
 
 We're now ready to verity if our long refactoring session works. As
-usual run the web app with the following command.
+usual run the web app with the following command from the main
+directory of the modern-cljs project.
 
 ```bash
 $ lein ring server-headless
@@ -535,6 +535,11 @@ Then, after having disabled the JavaScript engine of your browser,
 visit the [Shopping Calculator][21] URL, fill the form with valid
 values and finally click the `Calculate` button. Everything should
 work as expected.
+
+> NOTE 6: If you did not compile the CLJS component of the modern-cljs
+> project by issuing the `$ lein cljsbuild once` command you do not need
+> to disable the JavaScript engine of your browser to experiment the
+> server-side onyl Shopping Calculator.
 
 Let's now see what happens if you type into the form any invalid value,
 for example `1.2` as the value for the `Quantity` input field, `foo`
@@ -594,3 +599,6 @@ License, the same as Clojure.
 [22]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-invalid-values.png
 [23]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-with-invalid-messages.png
 [24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md
+[25]: https://github.com/rkneufeld
+[26]: https://github.com/rkneufeld/lein-try
+[27]: https://github.com/rkneufeld/lein-try/issues/3
