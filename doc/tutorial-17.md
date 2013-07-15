@@ -122,7 +122,7 @@ Open the `shopping.clj` source file from the
 > template too.
 
 The first code refactoring step needed for injecting the validators in
-the form, has been very easy.
+the form has been very easy.
 
 ## Don't panic with Enlive
 
@@ -171,12 +171,12 @@ even by following some [good tutorials][20] available online. Enlive
 is full of very smart macros and HOFs definitions which constitute a
 DSL (Domain Specific Language) for HTML/XML scraping and
 templating. You need to take your time to get working with the Enlive
-lib. Generally speacking, the best way to learn a new library in CLJ
+lib. Generally speaking, the best way to learn a new library in CLJ
 is by REPLing with it.
 
 ### REPLing with Hiccup
 
-Before to start REPLing around, make you a favor: do you REPLing by
+Before to start REPLing around, make you a favor: do your REPLing by
 using the [hiccup][11] lib by [James Reeves][12], because it will save
 you a sure headache in writing stringified HTML at the repl.
 
@@ -400,7 +400,7 @@ First, change the last selector/transformation pair to call the
 `calculate` function only when there are no validation errors
 (i.e. when `validate-shopping-form` return `nil`).
 
-```
+```clj
 (deftemplate update-shopping-form "public/shopping.html"
   [quantity price tax discount errors]
   [:#quantity] (set-attr :value quantity)
