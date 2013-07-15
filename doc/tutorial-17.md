@@ -190,7 +190,7 @@ your `~/.lein/profiles.clj` as follows
 
 {:user {:plugins [...
 	              ...
-                  [lein-try "0.1.1"]]}}
+                  [lein-try "0.1.3"]]}}
 ```
 
 Open a terminal and run the following commands to run a REPL which
