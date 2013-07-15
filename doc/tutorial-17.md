@@ -193,17 +193,10 @@ your `~/.lein/profiles.clj` as follows
                   [lein-try "0.1.1"]]}}
 ```
 
-> NOTE 3: Due to an [open issue][27], at the moment the [lein-try][26]
-> plugin can't be used when you're inside a directory containing a
-> `project.clj` and you need to use it in a directory where you do not
-> have any `project.clj`.
-
 Open a terminal and run the following commands to run a REPL which
 includes both [hiccup][11] and [Enlive][2] libs,
 
 ```bash
-$ mkdir -p ~/tmp/testing
-$ cd ~/tmp/testing
 $ lein try [hiccup "1.0.3"] [enlive "1.1.1"]
 ...
 user=>
@@ -243,7 +236,7 @@ user=> (html [:div [:label.error {:for "price"} "Price has to be a number"]
 user=>
 ```
 
-> NOTE 4: As you can see, Hiccup also provides a CSS-like shortcut for
+> NOTE 3: As you can see, Hiccup also provides a CSS-like shortcut for
 > denoting the `id` and `class` attributes (e.g. `:input#price` and
 > `:label.error`)
 
@@ -368,7 +361,7 @@ user>
 Good. It worked and we're now ready to apply what we just learnt by
 REPLing with the `sniptest` macro.
 
-> NOTE 5: Enlive selector syntax offers a disjunction rule too, but
+> NOTE 4: Enlive selector syntax offers a disjunction rule too, but
 > we're not using it in this tutorial. This rule use the
 > `#{[selector 1][selector 2]...[selector n]}` set syntax for menaing
 > disjunction between selectors.
@@ -536,7 +529,7 @@ visit the [Shopping Calculator][21] URL, fill the form with valid
 values and finally click the `Calculate` button. Everything should
 work as expected.
 
-> NOTE 6: If you did not compile the CLJS component of the modern-cljs
+> NOTE 5: If you did not compile the CLJS component of the modern-cljs
 > project by issuing the `$ lein cljsbuild once` command you do not need
 > to disable the JavaScript engine of your browser to experiment the
 > server-side only Shopping Calculator.
