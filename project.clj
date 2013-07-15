@@ -16,9 +16,7 @@
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
                  [enlive "1.1.1"]
-                 [com.cemerick/clojurescript.test "0.0.4"]
-                 ;; [hiccup "1.0.3"] 
-                 ]
+                 [com.cemerick/clojurescript.test "0.0.4"]]
 
   :plugins [[lein-cljsbuild "0.3.2"]
             [lein-ring "0.8.6"]
