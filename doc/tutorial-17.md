@@ -523,7 +523,7 @@ the entire content of the `shopping.clj` source file.
 
 ### Play and Pray
 
-We're now ready to verity if our long refactoring session works. As
+We're now ready to verify if our long refactoring session works. As
 usual run the web app with the following command from the main
 directory of the modern-cljs project.
 
@@ -539,7 +539,7 @@ work as expected.
 > NOTE 6: If you did not compile the CLJS component of the modern-cljs
 > project by issuing the `$ lein cljsbuild once` command you do not need
 > to disable the JavaScript engine of your browser to experiment the
-> server-side onyl Shopping Calculator.
+> server-side only Shopping Calculator.
 
 Let's now see what happens if you type into the form any invalid value,
 for example `1.2` as the value for the `Quantity` input field, `foo`
