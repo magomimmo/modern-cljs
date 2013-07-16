@@ -85,9 +85,9 @@ goal we need to refactor the code again.
 
 ## Step One - The middle man
 
-Instead of directly associate the `POST "/shopping` request with the
+Instead of directly associating the `POST "/shopping` request with the
 corresponding `shopping` Enlive template, we are going to intermediate
-the latter with a new function which pass to it the result of the
+the latter with a new function which passes to it the result of the
 validators.
 
 Open the `shopping.clj` source file from the
@@ -178,7 +178,7 @@ is by REPLing with it.
 
 Before to start REPLing around, make you a favor: do your REPLing by
 using the [hiccup][11] lib by [James Reeves][12], because it will save
-you a sure headache in writing stringified HTML at the repl.
+you a sure headache in writing stringified HTML at the REPL.
 
 [Ryan Neufeld][25] recently published [lein-try][26], a lein plugin
 for trying out libraries in the REPL whithout having to import them in
@@ -363,7 +363,7 @@ REPLing with the `sniptest` macro.
 
 > NOTE 4: Enlive selector syntax offers a disjunction rule too, but
 > we're not using it in this tutorial. This rule use the
-> `#{[selector 1][selector 2]...[selector n]}` set syntax for menaing
+> `#{[selector 1][selector 2]...[selector n]}` set syntax for meaning
 > disjunction between selectors.
 
 ### Select and transform
@@ -382,7 +382,7 @@ in the first refactoring step.
                       (format "%.2f" (calculate quantity price tax discount))))
 ```
 
-Here, we defined five pairs of selectors/transformations, one for each
+Here we defined five pairs of selectors/transformations, one for each
 input field of the form. Each transformer, but the last, just sets the
 corresponding input field value to the value typed in by the user. The
 `:#total` input field, instead, is set to the result value returned by
@@ -408,7 +408,7 @@ First, change the last selector/transformation pair to call the
 Now we have to substitute the content of each `label` pertaining each
 input field with the corresponding error message when its value is
 invalid.  As we learnt from the previous REPLing session with the
-`sniptest` macro, to select a single `label` content, we can use the
+`sniptest` macro, to select a single `label` content we can use the
 `[[:label (attr= :for <input-name>)]]` selector. But what about the
 corresponding transformer? We want to transform the `content` of the
 `label` and set its `class ` to `"error"` only when the pertaining
@@ -460,7 +460,7 @@ The above transformer is very boring to be repeated for each `label`
 of the corresponding `shoppingForm` input fields, but we're coding
 with a LISP programming language and we can express the above
 transformation with the following `maybe-error` simple macro which
-receives an expression and exapnds into the above convoluted code.
+receives an expression and expands into the above convoluted code.
 
 ```clj
 (defmacro maybe-error [expr] 
