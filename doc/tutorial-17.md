@@ -412,7 +412,7 @@ invalid.  As we learnt from the previous REPLing session with the
 `[[:label (attr= :for <input-name>)]]` selector. But what about the
 corresponding transformer? We want to transform the `content` of the
 `label` and set its `class ` to `"error"` only when the pertaining
-input field value is invalid, that is when there are no error messages
+input field value is invalid, that is when there are error messages
 for it.
 
 ```clj
