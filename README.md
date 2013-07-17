@@ -12,12 +12,12 @@ enhancement of projects themselves.
 Assuming you already have installed [leiningen 2][2], to run the last
 available tutorial without coding:
 
-1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
-2. `$ cd modern-cljs`
-3. `$ lein ring server-headless`
+1. `git clone https://github.com/magomimmo/modern-cljs.git`
+2. `cd modern-cljs`
+3. `lein ring server-headless`
 4. open a new terminal and cd in modern-cljs
-5. `$ lein cljsbuild once`
-6. `$ lein trampoline cljsbuild repl-listen`
+5. `lein cljsbuild once`
+6. `lein trampoline cljsbuild repl-listen`
 7. visit [login-dbg.html][3] and/or [shopping-dbg.html][4]
 8. play with the repl connected to the browser
 
@@ -25,9 +25,9 @@ available tutorial without coding:
 > you don't want to `copy&paste` it or you don't want to write it
 > yourself, do as follows:
 >
-> * `$ git clone https://github.com/magomimmo/modern-cljs.git`
-> * `$ cd modern-cljs`
-> * `$ git checkout tutorial-01 # for tutorial 1, tutorial-02 for tutorial 2 etc.`
+> * `git clone https://github.com/magomimmo/modern-cljs.git`
+> * `cd modern-cljs`
+> * `git checkout tutorial-01 # for tutorial 1, tutorial-02 for tutorial 2 etc.`
 >
 > That said, I suggest coding yourself the content of the tutorials. In
 > my experience is always the best choice if you are not already fluent
