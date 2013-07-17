@@ -554,7 +554,7 @@ As a very last step, I suggest you to commit the changes as follows:
 
 ```bash
 $ git add .
-$ git commit -m "finisched with the server-side shoppingForm"
+$ git commit -m "finished with the server-side shoppingForm"
 ```
 
 Stay tuned!
