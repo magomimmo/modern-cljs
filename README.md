@@ -16,10 +16,11 @@ available tutorial without coding:
 2. `$ cd modern-cljs`
 3. `$ lein ring server-headless`
 4. open a new terminal and cd in modern-cljs
-5. `$ lein cljsbuild once`
-6. `$ lein trampoline cljsbuild repl-listen`
-7. visit [login-dbg.html][3] and/or [shopping-dbg.html][4]
-8. play with the repl connected to the browser
+5. `$ lein cljx once`
+6. `$ lein cljsbuild once`
+7. `$ lein trampoline cljsbuild repl-listen`
+8. visit [login-dbg.html][3] and/or [shopping-dbg.html][4]
+9. play with the repl connected to the browser
 
 > NOTE 1: If you want to access the code of any single tutorial because
 > you don't want to `copy&paste` it or you don't want to write it
