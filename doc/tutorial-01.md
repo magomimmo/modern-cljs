@@ -104,7 +104,10 @@ After having configured `project.clj`, create a CLJS file inside
 (.write js/document "Hello, ClojureScript!")
 ```
 
-Save the file as `modern.cljs` —please note the file extension; *cljs*, not *clj*—.
+Save the file as `modern.cljs`.
+
+> NOTE 3: Please note that the filename extension for ClojureScript source
+> code is *cljs*, not *clj*.
 
 ## Create an HTML page
 
