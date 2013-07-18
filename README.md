@@ -18,9 +18,9 @@ run the latest available tutorial without coding:
 
 1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
 2. `$ cd modern-cljs`
-3. `$ lein cljx once` # from tutorial-16 forward
+3. `$ lein cljx once # from tutorial-16 forward`
 4. `$ lein ring server-headless`
-5. open a new terminal and cd in modern-cljs
+5. open a new terminal and cd in the modern-cljs main directory
 6. `$ lein cljsbuild once`
 7. `$ lein trampoline cljsbuild repl-listen`
 8. visit [login-dbg.html][3] and/or [shopping-dbg.html][4]
