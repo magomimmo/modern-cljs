@@ -7,14 +7,18 @@ A series of tutorials to guide you in creating and setting up
 
 This series of tutorials will guide you in creating, setting up and
 running simple CLJS projects. The series follows a progressive
-enhancement of projects themselves.
+enhancement of the project itself.
 
-Assuming you already have installed [leiningen 2][2], to run the last
-available tutorial without coding:
+> NOTE 1: I suggest to code yourself the content of the series. In my
+> experience it is always the best choice if you are not already fluent
+> with the programming language you have under your fingers.
+
+That said, assuming you already have installed [leiningen 2][2], to
+run the latest available tutorial without coding:
 
 1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
 2. `$ cd modern-cljs`
-3. `$ lein cljx once`
+3. `$ lein cljx once` # from tutorial-16 forward
 4. `$ lein ring server-headless`
 5. open a new terminal and cd in modern-cljs
 6. `$ lein cljsbuild once`
@@ -22,17 +26,13 @@ available tutorial without coding:
 8. visit [login-dbg.html][3] and/or [shopping-dbg.html][4]
 9. play with the repl connected to the browser
 
-> NOTE 1: If you want to access the code of any single tutorial because
+> NOTE 2: If you want to access the code of any single tutorial because
 > you don't want to `copy&paste` it or you don't want to write it
 > yourself, do as follows:
 >
 > * `$ git clone https://github.com/magomimmo/modern-cljs.git`
 > * `$ cd modern-cljs`
-> * `$ git checkout tutorial-01 # for tutorial 1, tutorial-02 for tutorial 2 etc.`
->
-> That said, I suggest coding yourself the content of the tutorials. In
-> my experience is always the best choice if you are not already fluent
-> in the programming language you have under your fingers.
+> * `$ git checkout tutorial-01 # for tutorial 1, tutorial-02 for tutorial 2 etc `
 
 ## [Tutorial 1 - The basic][5]
 
