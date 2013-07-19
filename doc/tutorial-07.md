@@ -243,7 +243,7 @@ drwxr-xr-x  7 mimmo  staff   238B Nov 17 00:39 ..
 $
 ```
 
-We reached 183KB and, if you gzip it, you'll reach 41KB, almost the same
+We reached 115KB and, if you gzip it, you'll reach 37KB, almost the same
 size of the jquery minified and gzipped version, which is 32KB.
 
 > NOTE 2: Serving gzipped files is outside the scope of this tutorial. You can
