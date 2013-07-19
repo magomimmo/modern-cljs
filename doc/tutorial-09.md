@@ -259,6 +259,7 @@ dependency
 
                            ;; minimum optimization
                            :optimizations :whitespace
+						   
                            ;; prettyfying emitted JS
                            :pretty-print true}}
                :pre-prod
@@ -269,7 +270,10 @@ dependency
                            :output-to "resources/public/js/modern_pre.js"
 
                            ;; simple optimization
-                           :optimizations :simple}}
+                           :optimizations :simple
+						   
+						   ;; no need prettyfication
+                           :pretty-print false}}
                :prod
                {;; same path as above
                 :source-paths ["src/cljs"]
@@ -278,8 +282,10 @@ dependency
                            :output-to "resources/public/js/modern.js"
 
                            ;; advanced optimization
-                           :optimizations :advanced}}
-               }})
+                           :optimizations :advanced
+						   
+						   ;; no need prettyfication
+                           :pretty-print false}}}})
 ```
 
 And here is the updated `shopping.cljs` source file.
