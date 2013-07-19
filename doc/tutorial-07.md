@@ -122,7 +122,7 @@ named `:pre-prod`, which uses `:simple` compilation mode.
                            :optimizations :simple
 
                            ;; no need prettyfication
-                           }}}})
+                           :pretty-print false}}}})
 
 ```
 
@@ -211,7 +211,10 @@ code snippet.
                            :output-to "resources/public/js/modern.js"
 
                            ;; advanced optimization
-                           :optimizations :advanced}}
+                           :optimizations :advanced
+						   
+                           ;; no need prettyfication
+                           :pretty-print false}}
                :pre-prod
                {;; some path as above
                 :source-paths ["src/cljs"]
@@ -220,8 +223,9 @@ code snippet.
 
                            ;; simple optmization
                            :optimizations :simple
+						   
                            ;; no need prettyfication
-                           }}}})
+                           :pretty-print false}}}})
 
 ```
 
@@ -446,7 +450,10 @@ as follows.
                            :output-to "resources/public/js/modern_pre.js"
 
                            ;; simple optimization
-                           :optimizations :simple}}
+                           :optimizations :simple
+						   
+						   ;; no need prettyfication
+                           :pretty-print false}}
                :prod
                {;; same path as above
                 :source-paths ["src/cljs"]
@@ -455,8 +462,10 @@ as follows.
                            :output-to "resources/public/js/modern.js"
 
                            ;; advanced optimization
-                           :optimizations :advanced}}
-               }})
+                           :optimizations :advanced
+						   
+						   ;; no need prettyfication
+                           :pretty-print false}}}})
 ```
 
 You can run the usual commands to recompile all the builds and run the
