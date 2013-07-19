@@ -237,9 +237,9 @@ $ ls -lah resources/public/js/
 total 3888
 drwxr-xr-x  5 mimmo  staff   170B Nov 17 20:46 .
 drwxr-xr-x  7 mimmo  staff   238B Nov 17 00:39 ..
--rw-r--r--  1 mimmo  staff   183K Nov 17 20:46 modern.js
--rw-r--r--  1 mimmo  staff   1.0M Nov 17 20:46 modern_dbg.js
--rw-r--r--  1 mimmo  staff   705K Nov 17 20:46 modern_pre.js
+-rw-r--r--  1 mimmo  staff   115K Nov 17 20:46 modern.js
+-rw-r--r--  1 mimmo  staff   1.1M Nov 17 20:46 modern_dbg.js
+-rw-r--r--  1 mimmo  staff   622K Nov 17 20:46 modern_pre.js
 $
 ```
 
