@@ -122,7 +122,7 @@ named `:pre-prod`, which uses `:simple` compilation mode.
                            :optimizations :simple
 
                            ;; no need prettyfication
-                           }}}})
+                           :pretty-print false}}}})
 
 ```
 
@@ -211,7 +211,10 @@ code snippet.
                            :output-to "resources/public/js/modern.js"
 
                            ;; advanced optimization
-                           :optimizations :advanced}}
+                           :optimizations :advanced
+						   
+                           ;; no need prettyfication
+                           :pretty-print false}}
                :pre-prod
                {;; some path as above
                 :source-paths ["src/cljs"]
@@ -220,8 +223,9 @@ code snippet.
 
                            ;; simple optmization
                            :optimizations :simple
+						   
                            ;; no need prettyfication
-                           }}}})
+                           :pretty-print false}}}})
 
 ```
 
@@ -233,13 +237,13 @@ $ ls -lah resources/public/js/
 total 3888
 drwxr-xr-x  5 mimmo  staff   170B Nov 17 20:46 .
 drwxr-xr-x  7 mimmo  staff   238B Nov 17 00:39 ..
--rw-r--r--  1 mimmo  staff   183K Nov 17 20:46 modern.js
--rw-r--r--  1 mimmo  staff   1.0M Nov 17 20:46 modern_dbg.js
--rw-r--r--  1 mimmo  staff   705K Nov 17 20:46 modern_pre.js
+-rw-r--r--  1 mimmo  staff   115K Nov 17 20:46 modern.js
+-rw-r--r--  1 mimmo  staff   1.1M Nov 17 20:46 modern_dbg.js
+-rw-r--r--  1 mimmo  staff   622K Nov 17 20:46 modern_pre.js
 $
 ```
 
-We reached 183KB and, if you gzip it, you'll reach 41KB, almost the same
+We reached 115KB and, if you gzip it, you'll reach 37KB, almost the same
 size of the jquery minified and gzipped version, which is 32KB.
 
 > NOTE 2: Serving gzipped files is outside the scope of this tutorial. You can
@@ -446,7 +450,10 @@ as follows.
                            :output-to "resources/public/js/modern_pre.js"
 
                            ;; simple optimization
-                           :optimizations :simple}}
+                           :optimizations :simple
+						   
+						   ;; no need prettyfication
+                           :pretty-print false}}
                :prod
                {;; same path as above
                 :source-paths ["src/cljs"]
@@ -455,8 +462,10 @@ as follows.
                            :output-to "resources/public/js/modern.js"
 
                            ;; advanced optimization
-                           :optimizations :advanced}}
-               }})
+                           :optimizations :advanced
+						   
+						   ;; no need prettyfication
+                           :pretty-print false}}}})
 ```
 
 You can run the usual commands to recompile all the builds and run the
@@ -477,13 +486,13 @@ $ ls -lah resources/public/js/
 total 3880
 drwxr-xr-x   5 mimmo  staff   170B Mar  3 19:50 .
 drwxr-xr-x  11 mimmo  staff   374B Mar  3 19:48 ..
--rw-r--r--   1 mimmo  staff   107K Mar  3 19:50 modern.js
+-rw-r--r--   1 mimmo  staff    62K Mar  3 19:50 modern.js
 -rw-r--r--   1 mimmo  staff   1.1M Mar  3 19:49 modern_dbg.js
--rw-r--r--   1 mimmo  staff   747K Mar  3 19:49 modern_pre.js
+-rw-r--r--   1 mimmo  staff   626K Mar  3 19:49 modern_pre.js
 $
 ```
 
-If you zip it you reach an amazing size of 22K. Finally you can run as
+If you zip it you reach an amazing size of 18K. Finally you can run as
 usual the `modern-cljs` project.
 
 ```bash

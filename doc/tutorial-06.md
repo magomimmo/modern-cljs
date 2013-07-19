@@ -69,8 +69,7 @@ eventually solving the above issue is that the pair of
 compilers generates a **single** JS file
 (e.g. `"resources/public/js/modern.js"`) from **all** of the CLJS files
 it finds in the `"src/cljs"` directory and subdirectories
-(e.g. `connect.cljs`, `login.cljs`, `modern.cljs` and
-`shopping.cljs`).
+(e.g. `connect.cljs`, `login.cljs`, and `shopping.cljs`).
 
 ## Is mutability evil?
 
@@ -146,7 +145,7 @@ downloaded one to locally serve all the others from the cache.
 
 Now the simple made easy way:
 
-* remove the call `(set! (.-onsubmit js/document) init)` from both
+* remove the call `(set! (.-onload js/window) init)` from both
   `login.cljs` and `shopping.cljs` files;
 * add the `:export` tag to the `init` function in both `login.cljs` and
   `shopping.cljs` files;
