@@ -486,13 +486,13 @@ $ ls -lah resources/public/js/
 total 3880
 drwxr-xr-x   5 mimmo  staff   170B Mar  3 19:50 .
 drwxr-xr-x  11 mimmo  staff   374B Mar  3 19:48 ..
--rw-r--r--   1 mimmo  staff   107K Mar  3 19:50 modern.js
+-rw-r--r--   1 mimmo  staff    62K Mar  3 19:50 modern.js
 -rw-r--r--   1 mimmo  staff   1.1M Mar  3 19:49 modern_dbg.js
--rw-r--r--   1 mimmo  staff   747K Mar  3 19:49 modern_pre.js
+-rw-r--r--   1 mimmo  staff   626K Mar  3 19:49 modern_pre.js
 $
 ```
 
-If you zip it you reach an amazing size of 22K. Finally you can run as
+If you zip it you reach an amazing size of 18K. Finally you can run as
 usual the `modern-cljs` project.
 
 ```bash
