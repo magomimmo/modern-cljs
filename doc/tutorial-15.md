@@ -2,27 +2,26 @@
 
 To adhere to the progressive enhancement strategy in the
 [latest tutorial][1] we introduced [Enlive][2] by
-[Christophe Grand][10] and used it for implementing the server-side
-only version of the Shopping Calculator. In doing that implementation
-we have been forced to refactor the code for two reasons:
+[Christophe Grand][10] and used it to implement the server-side-only
+version of the Shopping Calculator. In doing that implementation,
+we were forced to refactor the code for two reasons:
 
 * to apply the [DRY principle][3]
 * to resolve a cyclic namespaces dependency problem we met on the way.
 
-We also defined few utilies (i.e. `parse-number`, `parse-integer` and
+We also defined a few utilies (i.e. `parse-number`, `parse-integer` and
 `parse-double`) to make the `calculate` function portable from CLJ to
-CLJS, even if at the moment it lives only in the the server-side
-(i.e. CLJ).
+CLJS, even if, for now, it only lives in the server-side (i.e. CLJ).
 
 ## Introduction
 
 In this tutorial we're going to introduce *code testing*, but we first
-need to accomplish few other things.
+need to accomplish a few other things.
 
 ## Review the Shopping Calculator
 
-We start again by reviewing the Shopping Calculator. If you want to keep
-track of your next steps do as follows:
+We continue by reviewing the Shopping Calculator. You should do the
+following steps:
 
 ```bash
 $ git clone https://github.com/magomimmo/modern-cljs.git
@@ -40,17 +39,17 @@ $ lein ring server-headless
 
 Now disable the JavaScript engine of your browser, visit the
 [shopping URI][4], and click the `Calculate` button. The `Total` field
-is valued with the result of the calculation executed on the
+is filled with the result of the calculation executed on the
 server-side via the "/shopping" action associated to the
 `shoppingForm`. That's what we reached at the end of the
-[previous tutorial][1]. So far so good: this is the happy path.
+[previous tutorial][1]. So far so good.
 
 ## Break the Shopping Calculator again and again
 
 Now open the Developer Tools and click its Network tab to visualize
-the network activites (I'm using Google Chrome), and type in an
+the network activites (I'm using Google Chrome), and enter an
 unexpected value in the form, for example the string "foo", as the
-value of the `Price per Unit` field and finally click the `Calculate`
+value of the `Price per Unit` field. Finally, click the `Calculate`
 button.
 
 ![ServerNullPointer][5]
@@ -58,9 +57,9 @@ button.
 You received a `java.lang.NullPonterException` and the Network
 activities panel shows the server returning the error 500 with a full
 Ring stacktrace.  That's because the remote `calculate` function
-accepts only stringified numbers to make any calculation. Too bad.
+accepts only stringified numbers for its calculation. Too bad.
 
-Now let's see what happens if we redeem the JavaScript engine by
+Now let's see what happens if we reactivate the JavaScript engine by
 unmarking the `Disable JavaScript` check-box from the Settings of the
 `Developer Tools`. Try again to type "foo" instead of a number in one of
 the form fields and click `Calculate` after having reloaded the Shopping
@@ -68,20 +67,20 @@ page.
 
 ![AjaxServerError][6]
 
-This time, due to the Ajax communication, even if the server returned
+This time, due to the Ajax communication, even though the server returned
 the same 500 error code as before, the browser does not show the Ring
-stacktrace. It's not so bad as before, but still unacceptable
-for being called a professional web programmer.
+stacktrace. The result is not as bad as before, but still unacceptable
+for a professional web page.
 
-What's asking us the Shopping Calculator before investing time and
-efforts in unit testing? It's asking for input validation. Both for
-the server and the client sides, as usual.
+Before we invest time and effort in unit testing, let's understand
+what the Shopping Calculator lacks? It needs input validation: both
+for the server and the client sides, as usual.
 
 ## Server side validation
 
 We already used [Valip][7] lib by [Chas Emerick][8] in the
 [Tutorial-13 - Don't Repeat Yourself while crossing the border - ][9]
-to validate the `loginForm` fields and we already know how to apply
+to validate the `loginForm` fields, and we already know how to apply
 the same approach to the `shoppingForm` validation.
 
 Create the directory `shopping` under the `src/clj/modern_cljs/`
@@ -93,11 +92,11 @@ $ mkdir src/clj/modern_cljs/shopping`
 ```
 
 In the `shopping` directory create the file `validators.clj` where we're
-going to define the `validate-shopping-form` function which uses the
+going to define the `validate-shopping-form` function, which uses the
 portable `valip.core` and `valip.predicates` namespaces.
 
-At the beginning, to keep things simple we're going to consider only
-very basic validations:
+To keep things simple, at first we will consider only very basic
+validations:
 
 * no input can be empty
 * the value of `quantity` has to be a positve integer
@@ -139,18 +138,18 @@ Following is the content of the newly created `validators.clj` file.
             ))
 ```
 
-> NOTE 1: At the moment we don't take into account any issue regarding
-> internationalization and we're screwing the text messages in the
-> source code. In a next tutorial we'll eventually take care of this big
-> issue.
+> NOTE 1: At the moment we don't deal with any issues regarding
+> internationalization and we're hard-coding the text messages in the
+> source code. In a future tutorial we'll eventually take care of this
+> big issue.
 
 As you can see, we defined the `validate-shopping-form` function by
 using the `validate` function from the `valip.core` namespace and a
 bunch of predicates that [Chas Emerick][8] was so kind to have defined
 for us in the `valip.predicates` namespace.
 
-Both namespaces are portable on CLJS, which means that we could use
-the `validate-shopping-form` function on the client-side too by just
+Both namespaces are portable to CLJS. This means that we could use
+the `validate-shopping-form` function on the client-side too, by just
 adding the `modern-cljs.shopping.validators` namespace in the
 `:crossovers` section of the `project.clj` file as follows.
 
@@ -194,26 +193,26 @@ user>
 ```
 
 The above REPL session for testing the `validate-shopping-form`
-function does not substitute unit testing, because as soon as we stop
-the REPL all the tests are gone and if we need (and we'll need for
-sure) to repeat them, they have to be manually retyped.
+function does not substitute for unit testing, because as soon as we
+stop the REPL all the tests are gone. If we need to repeat them (Which
+we certainly will), they will have to be manually retyped.
 
 ## Unit testing with clojure.test
 
-I don't like any kind of code repetition and retyping similar
-expressions again and again in the REPL is something that is even
-worst to me. So, let's introduce the `clojure.test` namespace to
-automate at least the need of retyping in the REPL the same tests
-anytime we change something in the `validate-shopping-form`.
+I don't like any kind of code repetition. Retyping similar expressions
+again and again in the REPL is something that feels awful to me. So,
+let's introduce the `clojure.test` namespace to automate at least the
+need to retype the same tests anytime we change something in the
+`validate-shopping-form`.
 
-### Mirroring the projet structure
+### Mirroring the project structure
 
 First, we need to prepare the structure of the `test` directory to
 reflect the corresponding layout of the project `src` directory.
 
 Replicate the `src` directory structure into the `test` directory and
 remove the original `modern_cljs` directory created by the `$ lein new
-modern-cljs` command at the very beggining of the `modern-cljs` series
+modern-cljs` command at the very beginning of the `modern-cljs` series
 of tutorials.
 
 ```bash
@@ -236,17 +235,16 @@ test/
 
 ### Start testing at the borders
 
-Note that we already created the `shopping` directory where we're
-going to add our first unit test, the one aimed at testing the
+Note that we have created the `shopping` directory where we're going
+to add our first unit test: the one aimed at testing the
 `modern-cljs.shopping.validators` namespace. The reason why we choose
-this namespace to introduce unit testing is because it stays at the
-border of our application with the external world, being that external
-world a user to be notified about her/his mistyped input, or an
-attacker trying to leverage any useful information by breacking the
-Shopping Calculator.
+this namespace to introduce unit testing is because it sits at the
+interface of our application to the external world; be it a user to be
+notified about her/his mistyped input, or an attacker trying to
+leverage any useful information by breaking the Shopping Calculator.
 
 I prefer to talk about testing of namespaces instead of unit testing
-of functions. Generally speacking you should unit test the API of each
+of functions. Generally speaking you should unit test the API of each
 namespace, which means all the symbols which are not private in the
 namespace itself. If you want to unit test a private symbol, you
 should write the unit test code in the same file where you privatized
@@ -267,7 +265,7 @@ appending `_test` (e.g. `validators_test.clj`) to the file name of the
 namespace to be tested (e.g. `validators.clj`).
 
 Following is the initial unit test code that mimics the short REPL
-testing session we previously made with the
+testing session we did previously with the
 `modern-cljs.shopping.validators` namespace.
 
 ```clj
@@ -281,7 +279,7 @@ testing session we previously made with the
   (is (= nil (validate-shopping-form "100" "100.25" "8.25" "123.45"))))
 ```
 
-We started very easy. First in the
+We started very simple. First in the
 `modern-cljs.shopping.validator-test` namespace declaration we
 required the `clojure.test` and the `modern-cljs.shopping.validators`
 namespaces.
@@ -298,7 +296,7 @@ expression. The code `(is (= nil (validate-shopping-form "1" "0" "0"
 "0")))` is saying that the acutal evaluation of the
 `(validate-shopping-form "1" "0" "0" "0")` form is expected to be equal
 to `nil` because all the input are valid. At the moment, we're just
-testing the happy path.
+testing the working path.
 
 ### On getting less bored
 
@@ -325,7 +323,7 @@ represents the actual value. The `are` macro verifies that for each
 pair of an expected and actual values `[expected actual]`, the
 assertion `(= expected actual)` is true.
 
-### On helping the reading of failure reports
+### How to read of failure reports
 
 You can even document tests by wrapping your `are` form inside a
 `testing` macro, which takes a documentation string followed by any
@@ -344,9 +342,9 @@ number of `is/are` assertions.
          nil (validate-shopping-form "100" "100.25" "8.25" "123.45"))))
 ```
 
-The string "Shopping Fomr Validation" will be included in failure
-reports. Calls to `testing` macro may be nested too to allow a better
-reading of failure reports.
+The string "Shopping Form Validation" will be included in failure
+reports. Calls to `testing` macros may be nested too to allow better
+reporting of failure reports.
 
 ```clj
 (deftest validate-shopping-form-test
@@ -360,7 +358,7 @@ reading of failure reports.
 
 ### Running the test
 
-The easiest way to run the newly defined tests for the
+The easiest way to run the newly-defined tests for the
 `modern-cljs.shopping.validators` namespace is to use the `test` task
 of leiningen
 
@@ -402,7 +400,7 @@ Ran 1 tests containing 3 assertions.
 $
 ```
 
-The `lein test` command executes by default all the defined tests (at
+By default, the `lein test` command executes all the defined tests (at
 the moment just one test containing 3 assertions). If you want to run
 a specific test you have to pass its namespace to the `lein test`
 command as follows:
@@ -432,7 +430,7 @@ an assertion to produce a failure.
            nil (validate-shopping-form "100" "100.25" "8.25" "123.45")))))
 ```
 
-Now run the `lein test` command again a take a look at the failure
+Now run the `lein test` command again, and take a look at the failure
 report produced by the `calojure.test` framework.
 
 ```bash
@@ -459,16 +457,16 @@ file there is failed assertion because the actual value of the
 `nil`. Indeed, the actual value of this `validate-shop-form` call is
 equal to the `{:quantity [...]}` map.
 
-We have to admit the failure report has to be interpreted a little
-bit, but after a while you can grasp it quicker.
+The failure report does require a bit of interpretation at first, but
+after a while you can grasp it quicker.
 
-Now correct the failed assertion by rolling back to the previous one
-and rerun the `lein test` command from the terminal to verify that all
+Now correct the failed assertion by rolling back to the previous version.
+Rerun the `lein test` command from the terminal to verify that all
 the assertions succeed.
 
-### Do not cover only the happy path
+### Do not cover only the working path
 
-The coded test includes only few assertions regarding the happy-path
+The coded test includes only few assertions regarding the working path
 of the `validate-shopping-form` calls. Generally speaking you should
 cover also the *alternative/exception paths*. Let's add few of them in
 our first test.
