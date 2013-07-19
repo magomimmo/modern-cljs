@@ -40,7 +40,10 @@
                            :output-to "resources/public/js/modern_pre.js"
 
                            ;; simple optimization
-                           :optimizations :simple}}
+                           :optimizations :simple
+
+                           ;; no need prettification
+                           :pretty-print false}}
                :prod
                {;; same path as above
                 :source-paths ["src/cljs"]
@@ -49,5 +52,8 @@
                            :output-to "resources/public/js/modern.js"
 
                            ;; advanced optimization
-                           :optimizations :advanced}}
+                           :optimizations :advanced
+
+                           ;; no need prettification
+                           :pretty-print false}}
                }})
