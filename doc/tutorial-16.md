@@ -15,8 +15,10 @@ run on the client-side too.
 
 In this tutorial of the series we are going to make the complementary
 `modern-cljs.shopping.validators-test` namespace also be portable to
-the client side of the web app. Reminder: this namespace contains
-tests of the `modern-cljs.shopping.validators` namespace.
+the client side of the web app. 
+
+> NOTE 1: this namespace contains tests of the
+> `modern-cljs.shopping.validators` namespace.
 
 ## Repeating the DRY principle
 
@@ -47,7 +49,7 @@ namespace.
 
 ## Preparing the field to dance on the border again
 
-> NOTE 1: I suggest you to keep track of your work by issuing the
+> NOTE 2: I suggest you to keep track of your work by issuing the
 > following commands at the terminal:
 >
 > ```bash
@@ -135,7 +137,7 @@ var success = p.evaluate(function () {
 phantom.exit(success ? 0 : 1);
 ```
 
-> NOTE 2: I have the habit to [fork][11] any repository I use and I
+> NOTE 3: I have the habit to [fork][11] any repository I use and I
 > suggest you to do the same. Sooner or later you can even offer
 > help in fixing bugs, correcting the spelling/grammar or other minutiae
 > by directly using the `GitHub` pull requests facility.
@@ -347,7 +349,7 @@ the `test/cljs` directory and then it sequentially executed the
 `phantomjs-advanced` commands we defined in the `:test-commands`
 section of the `:cljsbuild` task. So far so good.
 
-> NOTE 3: If you want to run the tests just for one build do as follows:
+> NOTE 4: If you want to run the tests just for one build do as follows:
 > 
 > ```bash
 > $ lein cljsbuild test phantomjs-whitespace
@@ -454,7 +456,7 @@ It worked again as expected. Because of the code change into the
 builds before launching the three `:test-commands` and it finally
 reports the assertion error for each of the build.
 
-> NOTE 4: If you followed the suggestion in the previous NOTE 1, I now
+> NOTE 5: If you followed the suggestion in the previous NOTE 2, I now
 > suggest you to commit the changes by issuing the following `git`
 > command at the terminal.
 >
@@ -625,7 +627,7 @@ defaults to the `target` directory in the main directory of the
 project, the `$ lein clean` command will deleted any `cljx` generated
 files.
 
-> NOTE 5: Many thanks to [Chas Emerick][3] for having suggested me this
+> NOTE 6: Many thanks to [Chas Emerick][3] for having suggested me this
 > smart trick.
 
 Accordingly to the above choice, we had to modify the leiningen
@@ -661,7 +663,7 @@ In the `:cljx` task configuration we defined two `cljx` generators
   starting from any `cljx` file in the `test/cljx` directory by
   applying the `cljx.rules/cljs-rules` rule.
 
-> NOTE 6: It you do not specify the `:extension` option, `cljx` assume the
+> NOTE 7: It you do not specify the `:extension` option, `cljx` assume the
 > `clj` file extension by default.
 
 Both the `cljx.rules/clj-rules` and the `cljx.rules/cljs-rules` rules
@@ -691,13 +693,13 @@ Rewriting test/cljx to target/test/cljs (cljs) with 5 rules.
 $
 ```
 
-> NOTE 7: `cljx` offers both `once` and `auto` subtask (the default is
+> NOTE 8: `cljx` offers both `once` and `auto` subtask (the default is
 > `once`) and their behavior is the same of the corresponding `once`
 > and `auto` subtask of `cljsbuild`. In `auto` mode any change in any
 > `cljx` file will trigger a regeneration of the `clj` and `cljs`
 > files.
 
-> NOTE 8: You can even automatically run `cljx` task by adding `:hooks
+> NOTE 9: You can even automatically run `cljx` task by adding `:hooks
 > [cljx.hooks]` in your `project.clj` file.
 
 You end up with the following structure for the test files
@@ -781,7 +783,7 @@ the client and the server side of `modern-cljs` web app.
 
 ## Final note
 
-If you decided to follow the suggestion in NOTE 1, you can now commit
+If you decided to follow the suggestion in NOTE 2, you can now commit
 your work with the following `git` commands;
 
 ```bash
