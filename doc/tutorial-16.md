@@ -510,7 +510,7 @@ My personal opinion about the `:crossovers` option of the
 [lein-cljsbuild][18] and the [cljx][16] lein plugin is that the first
 is more convenient when you have to deal with **portable** libs
 (e.g. [valip][2]), the second is more convenient when you have to deal
-with **ported** (e.g. [clojurescript.test][4]).
+with **ported** libs (e.g. [clojurescript.test][4]).
 
 ### Dancing with a chaperone while crossing the border
 
