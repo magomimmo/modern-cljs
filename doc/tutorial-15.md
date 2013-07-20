@@ -194,7 +194,7 @@ user>
 
 The above REPL session for testing the `validate-shopping-form`
 function does not substitute for unit testing, because as soon as we
-stop the REPL all the tests are gone. If we need to repeat them (Which
+stop the REPL all the tests are gone. If we need to repeat them (which
 we certainly will), they will have to be manually retyped.
 
 ## Unit testing with clojure.test
