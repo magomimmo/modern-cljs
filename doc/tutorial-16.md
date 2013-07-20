@@ -182,12 +182,11 @@ pairs to be inserted in the map, one pair for each emitted JS file.
 
 ### Instructing lein-cljsbuild about CLJS test directory
 
-By taking a look at the `:builds` section of the `:cljsbuild` task,
-you can verify that the emitted `modern_dbg.js` and `modern_pre.js` JS
-files are generated, by looking for the CLJS code saved in the
-`src/cljs` and in the `src/brepl` directories. The `modern.js` JS
-file, instead, is emitted by considering the CLJS files from the
-`src/cljs` directory only.
+In the `:builds` section of the `:cljsbuild` task you can verify that
+the emitted `modern_dbg.js` and `modern_pre.js` JS files are generated
+by looking for the CLJS code saved in the `src/cljs` and in the
+`src/brepl` directories. The `modern.js` JS file, instead, is emitted
+by considering the CLJS files from the `src/cljs` directory only.
 
 In the [previous tutorial][1] we already arranged the `test` directory
 to host `cljs` code by creating the `test/cljs` directory. We now
