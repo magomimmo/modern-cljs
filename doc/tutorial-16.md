@@ -15,7 +15,7 @@ run on the client-side too.
 
 In this tutorial of the series we are going to make the complementary
 `modern-cljs.shopping.validators-test` namespace also be portable to
-the client side of the web app. 
+the client side of the web app.
 
 > NOTE 1: this namespace contains tests of the
 > `modern-cljs.shopping.validators` namespace.
@@ -203,17 +203,17 @@ follows:
               {:dev
                {:source-paths [... ... "text/cljs"]
                 ...
-				...}}
+                ...}}
 
                :pre-prod
                {:source-paths [... ... "text/cljs"]
                 ...
-				...}}
+                ...}}
 
                :prod
                {:source-paths [... ... "text/cljs"]
                 ...
-				...}}}})
+                ...}}}})
 ```
 
 This way, the CLJS/GCLS compilers will include any CLJS test file
@@ -586,19 +586,19 @@ Following is the interested code snippet from the `project.clj`
               {:dev
                {:source-paths [... ..."target/test/cljs"]
                 ...
-				...
+                ...
                 }
 
                :pre-prod
                {:source-paths [... ... "target/test/cljs"]
-			    ...
-				...
+                ...
+                ...
                 }
 
                :prod
                {:source-paths [... "target/test/cljs"]
-			    ...
-				...
+                ...
+                ...
                 }}})
 ```
 
