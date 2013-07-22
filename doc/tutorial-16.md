@@ -87,7 +87,7 @@ all is [PhantomJS][7] which is based on [WebKit][8].
 
 To install PhantomJS follow the [instruction][9] for your Operating
 System. On any *nix OS it should be enough to download the compressed
-file, uncompress it and add its `bin` directory to the `PATH` environment
+file, decompress it and add its `bin` directory to the `PATH` environment
 variable.
 
 ### Interfacing lein-cljsbuild with PhantomJS
@@ -552,8 +552,8 @@ Finally we have to:
 
 * add the [cljx plugin][16] to the project
 * configure the `:cljx` task
-* consequentely update the `:test-paths` keyword of the project
-* consequentely update the `:source-paths` compiler option for each
+* consequently update the `:test-paths` keyword of the project
+* consequently update the `:source-paths` compiler option for each
   CLJS build
 
 Following is the interested code snippet from the `project.clj`
@@ -607,7 +607,7 @@ Let's debrief the newly updated `project.clj` file.
 First, we added the `[com.keminglabs/cljx "0.2.2"]` to the `:plugins`
 section.
 
-Then, in the `:cljsx` task configuration we decided to save the `cljx`
+Then, in the `:cljx` task configuration we decided to save the `cljx`
 generated code for CLJ and CLJS respectively under the
 `target/test/clj` and `target/test/cljs` directory.
 
@@ -668,7 +668,7 @@ In the `:cljx` task configuration we defined two `cljx` generators
 Both the `cljx.rules/clj-rules` and the `cljx.rules/cljs-rules` rules
 have been predefined by `cljx` plugin in the `cljx.rules` namespace
 and they remove from the generated code any definition marked
-rispectively as `:^cljs` and `^:clj`.
+respectively as `:^cljs` and `^:clj`.
 
 ## Let's dance
 
@@ -678,7 +678,7 @@ First, start from a clean codebase.
 
 ```bash
 $ lein cljsbuild clean
-$ lean clean
+$ lein clean
 ```
 
 Next we need to generate the `clj` and `cljs` testing files starting
@@ -776,8 +776,8 @@ $
 
 We have reached our goal and we can't be happier! We now have a
 portable namespace (i.e. `modern-cljs.shopping.validators`) for the
-`shoppingForm` validators and a correponsing portable namespace
-(i.e. `modern-cljs.shopping.validators-test`) wich tests it on both
+`shoppingForm` validators and a corresponding portable namespace
+(i.e. `modern-cljs.shopping.validators-test`) which tests it on both
 the client and the server side of `modern-cljs` web app.
 
 ## Final note
@@ -792,7 +792,7 @@ $ git commit -m "step-2 done"
 
 Stay tuned for the next tutorial.
 
-# [Next Step - Tutorial 17 - Enlive bt REPLing][21]
+# [Next Step - Tutorial 17 - Enlive by REPLing][21]
 
 In the [next tutorial][21] we're going to integrate the validators for
 the Shopping Calculator into the corresponding WUI (Web User
