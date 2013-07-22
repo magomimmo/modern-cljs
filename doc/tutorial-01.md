@@ -3,7 +3,7 @@
 In the first tutorial you are going to create and configure a very basic
 [CLJS][1] project using [leiningen 2][2] and [lein-cljsbuild][3] plugin.
 
-[Leiningen][2] is a build managment system for CLJ
+[Leiningen][2] is a build management system for CLJ
 projects. [lein-cljsbuild][3] is a leiningen plugin specialized in
 managing CLJS projects.
 

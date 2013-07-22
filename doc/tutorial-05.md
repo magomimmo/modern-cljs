@@ -395,7 +395,7 @@ try the same thing by evaluating the `(calculate)` function we just
 defined in `modern-cljs.shopping` namespace.
 
 First, click the back button of your browser to show again
-`shopping.html` page and then evalutate the following CLJS expressions
+`shopping.html` page and then evaluate the following CLJS expressions
 in the brepl.
 
 ```bash
