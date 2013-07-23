@@ -1,8 +1,8 @@
-^:clj (ns modern-cljs.shopping.validators-test
+#+clj (ns modern-cljs.shopping.validators-test
         (:require [clojure.test :refer [deftest are testing]]
                   [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
 
-^:cljs (ns modern-cljs.shopping.validators-test
+#+cljs (ns modern-cljs.shopping.validators-test
          (:require-macros [cemerick.cljs.test :refer (deftest are testing)])
          (:require [cemerick.cljs.test :as t]
                    [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
