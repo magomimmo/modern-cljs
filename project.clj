@@ -22,16 +22,15 @@
 
   :plugins [[lein-cljsbuild "0.3.2"]
             [lein-ring "0.8.6"]
-            [com.keminglabs/cljx "0.2.2"]]
+            [com.keminglabs/cljx "0.3.0"]]
 
   :cljx {:builds [{:source-paths ["test/cljx"]
                    :output-path "target/test/clj"
-                   :rules cljx.rules/clj-rules}
+                   :rules :clj}
 
                   {:source-paths ["test/cljx"]
                    :output-path "target/test/cljs"
-                   :extension "cljs"
-                   :rules cljx.rules/cljs-rules}]}
+                   :rules :cljs}]}
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/app}
