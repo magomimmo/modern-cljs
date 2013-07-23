@@ -574,7 +574,7 @@ Following is the interested code snippet from the `project.clj`
                    :output-path "target/test/clj" ;; clj output
                    :rules :clj} ;; clj generation rules
 
-                  {:source-paths ["test/cljx"] ;; cljx source dire
+                  {:source-paths ["test/cljx"] ;; cljx source dir
                    :output-path "target/test/cljs" ;; cljs output
                    :rules :cljs}]} ;; cljs generation rules
   ...
@@ -660,12 +660,11 @@ In the `:cljx` task configuration we defined two `cljx` generators
   starting from any `cljx` file in the `test/cljx` directory by
   applying the `:cljs` rule.
 
-TBD
-Both the `:clj` and the `:cljs` rules have been predefined by `cljx`
-plugin in the `cljx.rules` namespace and they remove from the
-generated code any definition marked respectively as `:^cljs` and
-`^:clj`.
-TBD
+The `:clj` and the `:cljs` keyword map to the corresponding
+`clj-rules` and `cljs-rules` which have been defined by `cljx` in the
+`cljx.rules` namespace and they remove from the generated code any
+definition marked respectively as `#+cljs` and `#+clj`.
+
 
 ## Let's dance
 
@@ -682,14 +681,12 @@ Next we need to generate the `clj` and `cljs` testing files starting
 from the shared annotated `validators-test.cljx` file by specifying
 the `cljx` task in the `lein` command.
 
-TBD
 ```bash
 $ lein cljx once
-Rewriting test/cljx to target/test/clj (clj) with 2 rules.
-Rewriting test/cljx to target/test/cljs (cljs) with 5 rules.
+Rewriting test/cljx to target/test/clj (clj) with features #{clj} and 0 transformations.
+Rewriting test/cljx to target/test/cljs (cljs) with features #{cljs} and 1 transformations.
 $
 ```
-TBD
 
 > NOTE 7: `cljx` offers both `once` and `auto` subtask (the default is
 > `once`) and their behavior is the same of the corresponding `once`
