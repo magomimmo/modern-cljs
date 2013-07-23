@@ -534,15 +534,15 @@ $ rm -rf test/clj test/cljs
 ```
 
 We then need to modify the `validators_test.cljx` file by annotating the
-namespace declarations with the `^:clj` and the `^:cljs` metadata as
+namespace declarations with the `#+clj` and the `#+cljs` feature annotations as
 follows:
 
 ```clj
-^:clj (ns modern-cljs.shopping.validators-test
+#+clj (ns modern-cljs.shopping.validators-test
         (:require [clojure.test :refer [deftest are testing]]
                   [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
 
-^:cljs (ns modern-cljs.shopping.validators-test
+#+cljs (ns modern-cljs.shopping.validators-test
          (:require-macros [cemerick.cljs.test :refer (deftest are testing)])
          (:require [cemerick.cljs.test :as t]
                    [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
@@ -567,17 +567,16 @@ Following is the interested code snippet from the `project.clj`
   ...
   :plugins [...
             ...
-            [com.keminglabs/cljx "0.2.2"]] ;; cljx plugin
+            [com.keminglabs/cljx "0.3.0"]] ;; cljx plugin
 
   ;; cljx task configuration
   :cljx {:builds [{:source-paths ["test/cljx"] ;; cljx source dir
                    :output-path "target/test/clj" ;; clj output
-                   :rules cljx.rules/clj-rules} ;; generation rules
+                   :rules :clj} ;; clj generation rules
 
                   {:source-paths ["test/cljx"] ;; cljx source dire
                    :output-path "target/test/cljs" ;; cljs output
-                   :extension "cljs" ;; file extension for cljs
-                   :rules cljx.rules/cljs-rules}]} ;; generation rules
+                   :rules :cljs}]} ;; cljs generation rules
   ...
   ...
   :cljsbuild {...
@@ -604,7 +603,7 @@ Following is the interested code snippet from the `project.clj`
 
 Let's debrief the newly updated `project.clj` file.
 
-First, we added the `[com.keminglabs/cljx "0.2.2"]` to the `:plugins`
+First, we added the `[com.keminglabs/cljx "0.3.0"]` to the `:plugins`
 section.
 
 Then, in the `:cljx` task configuration we decided to save the `cljx`
@@ -645,30 +644,28 @@ In the `:cljx` task configuration we defined two `cljx` generators
 ```clj
   :cljx {:builds [{:source-paths ["test/cljx"]
                    :output-path "target/test/clj"
-                   :rules cljx.rules/clj-rules}
+                   :rules :clj}
 
                   {:source-paths ["test/cljx"]
                    :output-path "target/test/cljs"
-                   :extension "cljs"
-                   :rules cljx.rules/cljs-rules}]}
+                   :rules :cljs}]}
 ```
 
 * The first is configured to generate the CLJ files: The `clj` files
   will be generated into the `target/test/clj` directory starting from
   any `cljx` file in the `test/cljx` directory by applying the
-  `cljx.rules/cljs-rules` rule.
+  `:clj` rule.
 * The second is configured to generate the CLJS files: The `cljs`
   files will be generated into the `target/test/cljs` directory
   starting from any `cljx` file in the `test/cljx` directory by
-  applying the `cljx.rules/cljs-rules` rule.
+  applying the `:cljs` rule.
 
-> NOTE 7: It you do not specify the `:extension` option, `cljx` assume the
-> `clj` file extension by default.
-
-Both the `cljx.rules/clj-rules` and the `cljx.rules/cljs-rules` rules
-have been predefined by `cljx` plugin in the `cljx.rules` namespace
-and they remove from the generated code any definition marked
-respectively as `:^cljs` and `^:clj`.
+TBD
+Both the `:clj` and the `:cljs` rules have been predefined by `cljx`
+plugin in the `cljx.rules` namespace and they remove from the
+generated code any definition marked respectively as `:^cljs` and
+`^:clj`.
+TBD
 
 ## Let's dance
 
@@ -685,20 +682,22 @@ Next we need to generate the `clj` and `cljs` testing files starting
 from the shared annotated `validators-test.cljx` file by specifying
 the `cljx` task in the `lein` command.
 
+TBD
 ```bash
 $ lein cljx once
 Rewriting test/cljx to target/test/clj (clj) with 2 rules.
 Rewriting test/cljx to target/test/cljs (cljs) with 5 rules.
 $
 ```
+TBD
 
-> NOTE 8: `cljx` offers both `once` and `auto` subtask (the default is
+> NOTE 7: `cljx` offers both `once` and `auto` subtask (the default is
 > `once`) and their behavior is the same of the corresponding `once`
 > and `auto` subtask of `cljsbuild`. In `auto` mode any change in any
 > `cljx` file will trigger a regeneration of the `clj` and `cljs`
 > files.
 
-> NOTE 9: You can even automatically run `cljx` task by adding `:hooks
+> NOTE 8: You can even automatically run `cljx` task by adding `:hooks
 > [cljx.hooks]` in your `project.clj` file.
 
 You end up with the following structure for the test files
