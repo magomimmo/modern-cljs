@@ -4,17 +4,14 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.1.2"
-
-  ;; clojure source code path
-  :source-paths ["src/clj"]
-  :test-paths ["target/test/clj"]
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [compojure "1.1.5"]
+  
+  :dependencies [[compojure "1.1.5"]
                  [hiccups "0.2.0"]
                  [domina "1.0.2-SNAPSHOT"]
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
+<<<<<<< HEAD
                  [enlive "1.1.1"]
                  [com.cemerick/clojurescript.test "0.0.4"]]
 
@@ -84,3 +81,11 @@
 
                            ;; no need prettyfication
                            :pretty-print false}}}})
+=======
+                 [enlive "1.1.1"]]
+  
+  :plugins [[lein-ring "0.8.6"]]
+
+  ;; ring tasks configuration
+  :ring {:handler modern-cljs.core/app})
+>>>>>>> tutorial-18
