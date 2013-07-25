@@ -559,9 +559,12 @@ $ git commit -m "finished with the server-side shoppingForm"
 
 Stay tuned!
 
-# Next Step - TO BE DONE
+## Next Step - Tutorial 18 - Housekeeping
 
-TO BE DONE
+In the [next tutorial][28] we're going to digress about two topics. The setup of
+a more comfortable browser REPL based on nREPL. The setup of a more
+comfortable project structure by using the `profiles` features of
+[Leiningen][2]
 
 # License
 
@@ -595,3 +598,4 @@ License, the same as Clojure.
 [25]: https://github.com/rkneufeld
 [26]: https://github.com/rkneufeld/lein-try
 [27]: https://github.com/rkneufeld/lein-try/issues/3
+[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
