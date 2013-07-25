@@ -1,0 +1,658 @@
+# Tutorial 18 - Housekeeping 
+
+In the [previous tutorial][1] we injected the form validators into the
+corresponding WUI (Web User Interface) in such a way that the user
+will be notified with the corresponding error messages when she/he
+types in invalid values in the form. To be respectful with the
+progressive enhancement strategy, we started to inject the form
+validators into the server-side-only code first.
+
+## Introduction
+
+Instead of immediately going back to the client-side to inject the
+form validators into the CLJS code, in this tutorial we're going to
+digress about two topics:
+
+* the setup of a more comfortable browser REPL, if compared with the
+  one covered in previous tutorials (i.e. [Tutorial 2][2]
+  [Tutorial 3][3] and [Tutorial 7][4])
+* the setup of a more comfortable project structure by using the
+  `profiles` features of [Leiningen][5]
+
+> NOTE 1: I suggest you to keep track of your work by issuing the
+> following commands at the terminal:
+>
+> ```bash
+> $ git clone https://github.com/magomimmo/modern-cljs.git
+> $ cd modern-cljs
+> $ git checkout tutorial-17
+> $ git checkout -b tutorial-18-step-1
+> ```
+
+> NOTE 2: I also suggest you to quickly review the above tutorials if
+> you did not read them, or you don't remember the touched topics.
+
+## The need of a more comfortable bREPL experience
+
+In the [Tutorial 2][2], [Tutorial 3][2] and [Tutorial 7][4] we
+explained how to setup and use a browser connected REPL (i.e. bREPL)
+to enable an CLJS style of programming as interactive and closer as
+possibile to the still today incomparable dynamicity of a
+LISP-machine-based programming enevirnoment.
+
+That said, the above bREPL configuration is subject to a few
+limitations inherited from the underlaying default CLJS REPL,
+internally the [lein-cljsbuild][6] plugin.
+
+> NOTE 3: See [Piggieback README][7] for a brief discussion of its
+> motivation. Or see your experience with the default CLJS REPL to
+> enrich that list.
+
+In this tutorial we're going to introduce the setting up of a less
+limited bREPL to be run from the standard [nREPL][8] launched by
+[Leiningen][5] via the `lein repl` task.
+
+As pointed out by [Ian Eslick][9] in his very useful [tutorial][10] on
+setting up a Clojure debugging environment.
+
+> nREPL is a tooling framework for allowing editors (clients) to
+> connect to a running Clojure instances (servers) to utilize
+> information in the environment to navigate code, complete symbols,
+> and dynamically evaluate code...It also defines a middleware
+> framework to add functionality on top of the basic definitions of
+> transport and minimal methods to support a REPL
+
+[Chas Emerick][11] is the one that implemented one of that middleware:
+[Piggieback][12].
+
+Indeed, [Piggieback][12] is [nREPL middleware][19] which allows to
+launch a CLJS REPL (bRepl) session on top of an nREPL session to
+overtake the cited limitations of the default CLJS REP.
+
+## bREPL setup with Piggieback
+
+The setup of a bREPL based on [Piggieback][12] nREPL middleware is not
+cumbersome at all, but it requires to scrupulously follow few steps.
+
+The first of them, the creation of a pair of CLJS/HTML files which
+enable the connection between the JS engine of the browser and a REPL,
+has been already described in the [Tutorial 2][2] and updated in the
+tutorial [3][2] and [7][4] of this series. Be happy. It stays the same
+with an nREPL-based bREPL too.
+
+The second step consists of:
+
+* adding the [Piggieback][12] nREPL middleware to the project
+  dependencies, and
+* configuring the `:nrepl-options` of the project.
+
+The third and latest step requires:
+
+* to launch the nREPL via the `lein repl` task, and
+* to run the bREPL from the active nREPL session.
+
+### Step 2
+
+Open the `project.clj` file and update its dependencies as follows:
+
+```clj
+(defproject
+  ...
+  ...
+  :dependencies [...
+                 ...
+		         [org.clojure/clojurescript "0.0-1847"]
+                 [com.cemerick/piggieback "0.0.5"]
+                 ...
+                 ...]
+  ...
+  ...)
+```
+
+Note that we needed to add a version of CLJS which is equal or
+superior to the `"0.0-1835"` one. This is because, starting from the
+`"0.0.5"` version, [Piggieback][12] is no more compatible with the
+CLJS version implicitely used by the current stable version of the
+[Lein-cljsbuild][6] plugin.
+
+Then we have to configure the project `:nrepl-options` as follows:
+
+```clj
+(defproject
+  ...
+  ...
+  :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+  ...
+  ...)
+```
+
+Here we added the `cemerick.piggipack/wrap-cljs-repl` middleware into
+an apparently void stack of nREPL middleware used by `lein repl` when
+it starts an nREPL session.
+
+### Step 3 - Run the bREPL
+
+We can now run a bREPL session on top of a just launched nREPL
+session.
+
+First we need:
+
+* to start from a clean environment
+* to regenerate the unit tests for both CLJ and CLJS via the `cljx`
+  plugin
+* to recompile all the CLJS builds, and
+* to launch the ring server.
+
+```bash
+$ # clean up
+$ lein clean 
+$ lein cljsbuild clean
+$ # unit test generation for CLJ and CLJS via cljx
+$ lein cljx
+$ # CLJS compilations
+$ lein cljsbuild once
+$ # start the ring server
+$ lein ring server-headless
+```
+
+> NOTE 4: **At the moment** don't worry about the `*WARNING*` messages
+> you receive during the CLJS compilation.
+
+Next we launch the `lein repl` task to run a new nREPL session.
+
+```bash
+$ # open a new terminal command
+$ # cd into the modern-cljs main directory
+$ # launch the nREPL
+$ lein repl
+nREPL server started on port 52891
+REPL-y 0.2.0
+Clojure 1.5.1
+    Docs: (doc function-name-here)
+          (find-doc "part-of-name-here")
+  Source: (source function-name-here)
+ Javadoc: (javadoc java-object-or-class-here)
+    Exit: Control+D or (exit) or (quit)
+
+user=>
+```
+
+Ok. We have an active nREPL. Now we have to load the bREPL on top of
+it by following the [Piggieback][12] instruction:
+
+```clj
+user=> (require 'cljs.repl.browser)
+nil
+user=> (cemerick.piggieback/cljs-repl
+          :repl-env (doto (cljs.repl.browser/repl-env :port 9000)
+                          cljs.repl/-setup))
+Type `:cljs/quit` to stop the ClojureScript REPL
+nil
+cljs.user=>
+```
+
+The above CLJ code creates, configures and runs a browser-based REPL,
+named bREPL, which acts as the client side component of the connection
+with the JS engine hosted by your browser, which acts as the
+corresponding the serve-side component.
+
+The final step, as we already explained in the [Tutorial 2][2],
+consists in activating the bREPL session by visiting one of the pages
+(e.g. [shopping-dbg.html][]) relative to the development or the
+pre-production builds.
+
+> NOTE 5: In the [Tutorial 7][4] we explained how to exclude a bREPL
+> connection from a production CLJS build.
+
+Wait few moments to allow the client and the server components to
+establish the connection (port 9000) and then you can start REPLing
+with the browser again as you did in the past tutorials.
+
+To return the control to the underlying nREPL session, just exit the
+bREPL session.
+
+```cljs
+cljs.user=> :cljs/quit
+:cljs/quit
+user=>
+```
+
+To exit the nREPL just run `user=>(quit)`.
+
+### A little bit of bREPL automation
+
+Even if we have been able to create a bREPL session on top of an nREPL
+session, the need to require the `cljs.repl.browser` namespace and to
+programmatically create a new bREPL session each time we need to
+launch it is very boring.
+
+One possible solution for automating that boring activity is to use
+the `:injections` option of [Leiningen][5] as follows:
+
+```clj
+(defproject
+  ...
+  ...
+  :injections [(require '[cljs.repl.browser :as brepl]
+                        '[cemerick.piggieback :as pb])
+               (defn browser-repl []
+                 (pb/cljs-repl :repl-env
+                               (doto (brepl/repl-env :port 9000)
+                                     cljs.repl/-setup)))]
+  ...
+  ...)
+```
+
+The value of the `:injections` option is a vector of CLJ forms that
+are evaluated sequencially in the default CLJ namespace (i.e. `user`)
+immediately after the start of the nREPL session.
+
+After having required the `cljs.repl.browser` and the
+`cemerick.piggieback` namespaces, we defined the `broswer-repl`
+function which wraps the already discussec creation of a bREPL client
+session ready to connect with the waiting server counterpart living in
+the browser.
+
+If you did not quit the previous bREPL session, do it now, relaunch it
+and call the `browser-repl` function we define above in the
+`:injections` option of [Leiningen][5]
+
+```bash
+$ lein repl
+nREPL server started on port 50299
+REPL-y 0.2.0
+Clojure 1.5.1
+    Docs: (doc function-name-here)
+          (find-doc "part-of-name-here")
+  Source: (source function-name-here)
+ Javadoc: (javadoc java-object-or-class-here)
+    Exit: Control+D or (exit) or (quit)
+
+user=> (browser-repl)
+Type `:cljs/quit` to stop the ClojureScript REPL
+nil
+cljs.user=>
+```
+
+As usual, you activate the bREPL connection bREPL by visiting one of
+the pages from the `:dev` or the `:pre-prod` builds.
+
+## The need of a more comfortable project structure
+
+As we walked through the tutorials of the series we started adding
+plugins, dependencies and other esoteric options to the `project.clj`
+file which ended up to be long and confusing. Take a look at the
+latest change you made in the `project.clj` if you don't believe me.
+
+[Leiningen Profiles][14] offer a very handy and articulated approach
+for simplifying the writing, but mostly the reading of a project
+without loosing any expressive power of the map representing the full
+project.
+
+### Global profiles
+
+Say you want a set of plugins being available in all your lacally
+projects managed by `lein`. I always want to have few plugins.
+
+For example:
+
+* [lein-try][15]: for REPling with new libs without declaring them in
+  the projects' dependencies
+* [lein-pprint][16]: to pretty print the entire map representation of
+  the projects
+* [lein-ancient][17]: to check if there are available upgrades for the
+  components used in the projects
+* [lein-bikeshed][18]: to check the adherence of the project code to a
+  small set of established CLJ idioms that you can extend.
+
+All we have to do is to create a `profiles.clj` file inside the
+`~/.lein` directory and write the following declarations:
+
+```clj
+{:user {:plugins [[lein-try "0.2.0"]
+	              [lein-pprint "1.1.1"]
+                  [lein-ancient "0.4.2"]
+                  [lein-bikeshed "0.1.3"]]}}
+```
+
+If you now run the `lein pprint` command from a project home
+directory, you'll get the entire map of the project itself.
+
+You can then veritfy that the above plugins have been merged with the
+declaration you set in the `project.clj` file. Just remember that the
+eventual local profiles (e.g. inside a `project.clj`) take precedence
+on the global ones.
+
+## Local profiles
+
+I always try to keep in the `project.clj` file only what is absolutely
+needed to be easly read, but mostly what remains after having removed
+everthing has to do with the needed development libs/tools.
+
+Here is a cleaned version of the `project.clj` file corresponding to
+the latest mutable state we reached in the first part ot this
+tutorial.
+
+```clj
+(defproject modern-cljs "0.1.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :url "http://example.com/FIXME"
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :min-lein-version "2.1.2"
+  
+  :dependencies [[compojure "1.1.5"]
+                 [hiccups "0.2.0"]
+                 [domina "1.0.2-SNAPSHOT"]
+                 [shoreleave/shoreleave-remote-ring "0.3.0"]
+                 [shoreleave/shoreleave-remote "0.3.0"]
+                 [com.cemerick/valip "0.3.2"]
+                 [enlive "1.1.1"]]
+  
+  :plugins [[lein-ring "0.8.6"]]
+
+  ;; ring tasks configuration
+  :ring {:handler modern-cljs.core/app})
+```
+
+Do you think this cleaned version is more or less readable of the
+previous one? Do you think there are libs/tools to be moved away from
+here?
+
+That said, if you want to add a local `:profiles` section in the
+`project.clj` file you can do it, but you're going to dirty the
+readability of the content.
+
+## Project separated profiles
+
+Ok, we removed any lib/tool supporting the development phase, but
+where we put them?
+
+In a project specific `profiles.clj` hosted in the main directory of
+the project itself.
+
+Following is the content of the specific `profiles.clj` file
+containing all the components we removed from the initial version of
+the `project.clj` descriptor.
+
+```clj
+{:dev {:source-paths ["src/clj"]
+       :test-paths ["target/test/clj"]
+
+       :dependencies [[org.clojure/clojure "1.5.1"]
+                      [org.clojure/clojurescript "0.0-1847"]
+                      [com.cemerick/clojurescript.test "0.0.4"]
+                      [com.cemerick/piggieback "0.0.5"]]
+       
+       :plugins [[lein-cljsbuild "0.3.2"]
+                 [com.keminglabs/cljx "0.3.0"]]
+
+       :cljx {:builds [{:source-paths ["test/cljx"]
+                        :output-path "target/test/clj"
+                        :rules :clj}
+                       
+                       {:source-paths ["test/cljx"]
+                        :output-path "target/test/cljs"
+                        :rules :cljs}]}
+       
+       :cljsbuild {:crossovers [valip.core
+                                valip.predicates
+                                modern-cljs.login.validators
+                                modern-cljs.shopping.validators]
+
+                   :test-commands {"whitespace"
+                                   ["runners/phantomjs.js" 
+                                    "resources/public/js/modern_dbg.js"]
+                                   
+                                   "simple"
+                                   ["runners/phantomjs.js" 
+                                    "resources/public/js/modern_pre.js"]
+                                   
+                                   "advanced"
+                                   ["runners/phantomjs.js" 
+                                    "resources/public/js/modern.js"]}
+                   
+                   :builds
+
+                   {:dev
+                    {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
+                     :compiler {:output-to "resources/public/js/modern_dbg.js"
+                                :optimizations :whitespace
+                                :pretty-print true}}
+
+                    :pre-prod
+                    {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
+                     :compiler {:output-to "resources/public/js/modern_pre.js"
+                                :optimizations :simple
+                                :pretty-print false}}
+                    
+                    :prod
+                    {:source-paths ["src/cljs" "target/test/cljs"]
+                     :compiler {:output-to "resources/public/js/modern.js"
+                                :optimizations :advanced
+                                :pretty-print false}}}}
+       
+       :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+       
+       :injections [(require '[cljs.repl.browser :as brepl]
+                             '[cemerick.piggieback :as pb])
+                    (defn browser-repl []
+                      (pb/cljs-repl :repl-env
+                                    (doto (brepl/repl-env :port 9000)
+                                      cljs.repl/-setup)))]}}
+```
+
+Now, even the needed libs/tools and configurations for supporting the
+development activities are more readable than before. The only
+eventual surprise is to have a clear vision of how much more LOC you
+need to enable the develpoment (`profiles.clj`s) versus describing a
+project structure (`project.clj`). It remainds me a kind of incidental
+complexity I'll easly give up if I could.
+
+Always remember that the project specific `profiles.clj` takes
+precedence over the eventual `:profiles` declarations within the
+`project.clj` file which in turn take precedence over the global
+profiles in the `~/.lein/profiles.clj` file.
+
+Last but not least, as reported in the
+[leingen profiles documentation][14]
+
+> The `:user` profile is separate from `:dev`; the latter is intended
+> to be specified in the project itself. In order to avoid collisions,
+> the project should never define a :user profile, nor should a global
+> :dev profile be defined. Use the show-profiles task to see what's
+> available.
+
+You can check how different are the maps of the above two pre-defined
+profiles by issuing the following `lein with-profile` commands:
+
+```bash
+$ lein with-profile user pprint
+Performing task 'pprint' with profile(s): 'user'
+{...
+ ...
+ :dependencies
+ ([compojure/compojure "1.1.5"]
+  [hiccups/hiccups "0.2.0"]
+  [domina/domina "1.0.2-SNAPSHOT"]
+  [shoreleave/shoreleave-remote-ring "0.3.0"]
+  [shoreleave/shoreleave-remote "0.3.0"]
+  [com.cemerick/valip "0.3.2"]
+  [enlive/enlive "1.1.1"]),
+...
+ :source-paths ("/Users/mimmo/Developer/modern-cljs/src")
+...
+:eval-in :subprocess,
+ :plugins
+ ([lein-ring/lein-ring "0.8.6"]
+  [lein-pprint/lein-pprint "1.1.1"]
+  [lein-ancient/lein-ancient "0.4.2"]
+  [lein-bikeshed/lein-bikeshed "0.1.3"]
+  [lein-try/lein-try "0.2.0"]),
+ ...
+ ...}
+$
+```
+
+and
+
+```bash
+$ lein with-profile dev pprint
+Performing task 'pprint' with profile(s): 'dev'
+{...
+ ...
+ :repl-options
+ {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]},
+ :dependencies
+ ([compojure/compojure "1.1.5"]
+  [hiccups/hiccups "0.2.0"]
+  [domina/domina "1.0.2-SNAPSHOT"]
+  [shoreleave/shoreleave-remote-ring "0.3.0"]
+  [shoreleave/shoreleave-remote "0.3.0"]
+  [com.cemerick/valip "0.3.2"]
+  [enlive/enlive "1.1.1"]
+  [org.clojure/clojure "1.5.1"]
+  [org.clojure/clojurescript "0.0-1847"]
+  [com.cemerick/clojurescript.test "0.0.4"]
+  [com.cemerick/piggieback "0.0.5"]),
+ ...
+ :target-path "/Users/mimmo/Developer/modern-cljs/target/dev",
+ :source-paths
+ ("/Users/mimmo/Developer/modern-cljs/src/clj"
+  "/Users/mimmo/Developer/modern-cljs/src"),
+ ...
+ :cljsbuild
+ {:crossovers
+  [valip.core
+   valip.predicates
+   modern-cljs.login.validators
+   modern-cljs.shopping.validators],
+  :test-commands
+  {"whitespace"
+   ["runners/phantomjs.js" "resources/public/js/modern_dbg.js"],
+   "simple"
+   ["runners/phantomjs.js" "resources/public/js/modern_pre.js"],
+   "advanced"
+   ["runners/phantomjs.js" "resources/public/js/modern.js"]},
+  :builds
+  {:dev
+   {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"],
+    :compiler
+    {:output-to "resources/public/js/modern_dbg.js",
+     :optimizations :whitespace,
+     :pretty-print true}},
+   :pre-prod
+   {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"],
+    :compiler
+    {:output-to "resources/public/js/modern_pre.js",
+     :optimizations :simple,
+     :pretty-print false}},
+   :prod
+   {:source-paths ["src/cljs" "target/test/cljs"],
+    :compiler
+    {:output-to "resources/public/js/modern.js",
+     :optimizations :advanced,
+     :pretty-print false}}}},
+ :resource-paths ("/Users/mimmo/Developer/modern-cljs/resources"),
+ :uberjar-exclusions [#"(?i)^META-INF/[^/]*\.(SF|RSA|DSA)$"],
+ :min-lein-version "2.1.2",
+ :jvm-opts nil,
+ :eval-in :subprocess,
+ :cljx
+ {:builds
+  [{:source-paths ["test/cljx"],
+    :output-path "target/test/clj",
+    :rules :clj}
+   {:source-paths ["test/cljx"],
+    :output-path "target/test/cljs",
+    :rules :cljs}]},
+ :plugins
+ ([lein-ring/lein-ring "0.8.6"]
+  [lein-cljsbuild/lein-cljsbuild "0.3.2"]
+  [com.keminglabs/cljx "0.3.0"]),
+ :injections
+ [(require
+   '[cljs.repl.browser :as brepl]
+   '[cemerick.piggieback :as pb])
+  (defn
+   browser-repl
+   []
+   (pb/cljs-repl
+    :repl-env
+    (doto (brepl/repl-env :port 9000) cljs.repl/-setup)))],
+ ...
+ :test-paths
+ ("/Users/mimmo/Developer/modern-cljs/target/test/clj"
+  "/Users/mimmo/Developer/modern-cljs/test"),
+Giacomo-Cosenzas-iMac:modern-cljs mimmo$
+```
+
+## Light the fire
+
+Ok, enough words. Let's verify that everything is still working as
+expected by restarting again from a clean environment.
+
+```bash
+$ lein clean
+$ lein cljsbuild clean
+$ lein cljx
+$ lein cljsbuild once
+$ lein test
+$ lein cljsbuild test
+$ lein ring server-headless
+```
+
+Now open a new terminal command and `cd` into the main project
+directory
+
+```bash
+$ lein repl
+nREPL server started on port 50670
+REPL-y 0.2.0
+Clojure 1.5.1
+    Docs: (doc function-name-here)
+          (find-doc "part-of-name-here")
+  Source: (source function-name-here)
+ Javadoc: (javadoc java-object-or-class-here)
+    Exit: Control+D or (exit) or (quit)
+
+user=> (browser-repl)
+Type `:cljs/quit` to stop the ClojureScript REPL
+nil
+cljs.user=>
+```
+
+and activate the bREPL as usual by visiting a page containing the JS
+script generated by the `:dev` or the `:pre-prod` build.
+
+That's all. Stay tuned for the next tutorial of the series.
+
+# Next Step - TO BE DONE
+
+TO BE DONE
+
+# License
+
+Copyright © Mimmo Cosenza, 2012-13. Released under the Eclipse Public
+License, the same as Clojure.
+
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-17.md
+[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
+[5]: https://github.com/technomancy/leiningen
+[6]: https://github.com/emezeske/lein-cljsbuild
+[7]: https://github.com/cemerick/piggieback/blob/master/README.md
+[8]: https://github.com/clojure/tools.nrepl
+[9]: https://github.com/eslick
+[10]: http://ianeslick.com/2013/05/17/clojure-debugging-13-emacs-nrepl-and-ritz/
+[11]: https://github.com/cemerick
+[12]: https://github.com/cemerick/piggieback
+[13]: http://localhost:3000/shopping-dbg.html
+[14]: https://github.com/technomancy/leiningen/blob/stable/doc/PROFILES.md
+[15]: https://github.com/rkneufeld/lein-try
+[16]: https://github.com/technomancy/leiningen/tree/master/lein-pprint
+[17]: https://github.com/xsc/lein-ancient
+[18]: https://github.com/dakrone/lein-bikeshed
+[19]: https://github.com/clojure/tools.nrepl#middleware
+
