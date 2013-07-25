@@ -138,6 +138,13 @@ Interface) in such a way that the user will be notified with the
 right error messages when the she/he types in invalid values
 in the form.
 
+## [Tutorial 18 - Housekeeping][26]
+
+In this tutorial we're going to digress about two topics. The setup of
+a more comfortable browser REPL based on nREPL. The setup of a more
+comfortable project structure by using the `profiles` features of
+[Leiningen][2]
+
 # License
 
 Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
@@ -168,3 +175,4 @@ License, the same as Clojure.
 [23]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md
 [24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md
 [25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-17.md
+[26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
