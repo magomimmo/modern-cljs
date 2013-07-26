@@ -3,22 +3,16 @@
   (:require [domina :refer [by-id value by-class set-value! append! destroy!]]
             [domina.events :refer [listen! prevent-default]]
             [hiccups.runtime :as hiccupsrt]
-            [shoreleave.remotes.http-rpc :refer [remote-callback]]
-            [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
+            [shoreleave.remotes.http-rpc :refer [remote-callback]]))
 
 (defn calculate [evt]
   (let [quantity (value (by-id "quantity"))
         price (value (by-id "price"))
         tax (value (by-id "tax"))
-        discount (value (by-id "discount"))
-        errors (validate-shopping-form quantity
-                                       price
-                                       tax
-                                       discount)]
-    (if-not errors
-      (remote-callback :calculate
-                       [quantity price tax discount]
-                       #(set-value! (by-id "total") (.toFixed % 2))))
+        discount (value (by-id "discount"))]
+    (remote-callback :calculate
+                     [quantity price tax discount]
+                     #(set-value! (by-id "total") (.toFixed % 2)))
     (prevent-default evt)))
 
 (defn add-help! []
