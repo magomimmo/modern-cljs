@@ -352,7 +352,7 @@ phase.
   :ring {:handler modern-cljs.core/app})
 ```
 
-Judge by yourself is how much readble is this cleaned version of the
+Judge by yourself how much readble is this cleaned version of the
 `project.clj` file if compared with the previous one.
 
 That said, if you want to add a local `:profiles` section in the
@@ -446,11 +446,11 @@ the project structure itself (i.e. `project.clj`)? This remainds me a
 kind of incidental complexity that I'll easly give up if I could and
 I'm pretty sure that sooner or later someone will reduce it.
 
-Aloso note that in producing the final project description map the
-project specific `profiles.clj` takes precedence over the eventual
-`:profiles` declarations within the `project.clj` file, which in turn
-take precedence over the global profiles in the `~/.lein/profiles.clj`
-file.
+Note also that in producing the final project description map the
+project specific `profiles.clj` file takes precedence over the
+eventual `:profiles` declarations within the `project.clj` file, which
+in turn take precedence over the global profiles in the
+`~/.lein/profiles.clj` file.
 
 Last but not least, as reported in the
 [leingen profiles documentation][14]
@@ -462,7 +462,7 @@ Last but not least, as reported in the
 > available.
 
 You can check the content of the project map associated with a profile
-by issuing the following `lein with-profile` commands:
+by issuing the following `lein with-profile` command:
 
 ```bash
 $ lein with-profile user pprint
