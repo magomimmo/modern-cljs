@@ -1,11 +1,11 @@
 # Tutorial 18 - Housekeeping 
 
 In the [previous tutorial][1] we injected the form validators into the
-corresponding WUI (Web User Interface) in such a way that the user
-will be notified with the corresponding error messages when she/he
-types in invalid values. To be respectful with the progressive
-enhancement strategy, we started to inject the form validators into
-the server-side-only code first.
+relative WUI (Web User Interface) in such a way that the user will be
+notified with the corresponding error messages when she/he types in
+invalid values. To be respectful with the progressive enhancement
+strategy, we started to inject the form validators into the
+server-side-only code first.
 
 ## Introduction
 
@@ -247,7 +247,7 @@ immediately after the start of the nREPL session.
 
 After having required the `cljs.repl.browser` and the
 `cemerick.piggieback` namespaces, we defined the `broswer-repl`
-function which wraps the already discussec creation of a bREPL client
+function which wraps the already discussed creation of a bREPL client
 session ready to connect with the waiting server counterpart living in
 the browser.
 
@@ -283,7 +283,7 @@ file which ended up to be long and confusing. Take a look at the
 latest `project.clj` if you don't believe me.
 
 [Leiningen Profiles][14] offer a very handy and articulated approach
-for simplifying the writing, but mostly the reading of a project
+for simplifying the writing and mostly the reading of a project
 declaration without loosing any expressive power of the map
 representing the full project.
 
@@ -327,9 +327,10 @@ I always try to keep in the `project.clj` file only what is absolutely
 needed to be easly read, but mostly what remains after having removed
 everthing has to do with the needed development libs/tools.
 
-Here is a cleaned version of the `project.clj` file corresponding to
-the latest state we reached in the first part ot this
-tutorial.
+Here is a version of the `project.clj` file corresponding to the
+latest state we reached in the first part ot this tutorial cleaned
+from anything has to do with libs/tools supporting the development
+phase.
 
 ```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -351,21 +352,20 @@ tutorial.
   :ring {:handler modern-cljs.core/app})
 ```
 
-Do you think this cleaned version is more or less readable of the
-previous one? Do you think there are still libs/tools to be moved away
-from here?
+Judge by yourself is how much readble is this cleaned version of the
+`project.clj` file if compared with the previous one.
 
 That said, if you want to add a local `:profiles` section in the
 `project.clj` file you can do it, but you're going to dirty the
-readability of the content.
+readability of its content.
 
 ## Project separated profiles
 
 Ok, we removed any lib/tool supporting the development phase, but
-where we put them?
+where we have to put them?
 
-In a project specific `profiles.clj` hosted in the main directory of
-the project itself.
+In a project specific `profiles.clj` file hosted in the main directory
+of the project itself.
 
 Following is the content of the project specific `profiles.clj` file
 containing all the components we removed from the initial version of
@@ -441,7 +441,7 @@ the `project.clj` descriptor.
 Now even the needed libs/tools and configurations for supporting the
 development activities are more readable than before. Do you see how
 many Line Of Code (LOC) you need to establish a develpoment enviroment
-(i.e. `profiles.clj`s) if compared with the LOC meeded for describing
+(i.e. `profiles.clj`s) if compared with the LOC needed for describing
 the project structure itself (i.e. `project.clj`)? This remainds me a
 kind of incidental complexity that I'll easly give up if I could and
 I'm pretty sure that sooner or later someone will reduce it.
