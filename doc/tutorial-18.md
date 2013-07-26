@@ -629,6 +629,13 @@ cljs.user=>
 To activate the bREPL visit a page containing the JS script emitted by
 the `:dev` or the `:pre-prod` cljsbuild.
 
+As a very last step, I suggest you to commit the changes as follows:
+
+```bash
+$ git add .
+$ git commit -m "housekeeping"
+```
+
 That's all. Stay tuned for the next tutorial of the series.
 
 # Next Step - TO BE DONE
