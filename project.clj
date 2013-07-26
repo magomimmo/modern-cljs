@@ -12,13 +12,6 @@
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
                  [enlive "1.1.1"]]
-<<<<<<< HEAD
 
   :plugins [[lein-ring "0.8.6"]]
-=======
-  
-  :plugins [[lein-ring "0.8.6"]]
-
-  ;; ring tasks configuration
->>>>>>> a99a04cccd09edeca5cc1c7918d9b22ced1d4af9
   :ring {:handler modern-cljs.core/app})
