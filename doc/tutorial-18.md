@@ -3,21 +3,21 @@
 In the [previous tutorial][1] we injected the form validators into the
 corresponding WUI (Web User Interface) in such a way that the user
 will be notified with the corresponding error messages when she/he
-types in invalid values in the form. To be respectful with the
-progressive enhancement strategy, we started to inject the form
-validators into the server-side-only code first.
+types in invalid values. To be respectful with the progressive
+enhancement strategy, we started to inject the form validators into
+the server-side-only code first.
 
 ## Introduction
 
 Instead of immediately going back to the client-side to inject the
-form validators into the CLJS code, in this tutorial we're going to
+same validators into the CLJS code, in this tutorial we're going to
 digress about two topics:
 
 * the setup of a more comfortable browser REPL, if compared with the
   one covered in previous tutorials (i.e. [Tutorial 2][2]
   [Tutorial 3][3] and [Tutorial 7][4])
-* the setup of a more comfortable project structure by using the
-  `profiles` features of [Leiningen][5]
+* the setup of a more comfortable project structure obtained by using
+  the [Leiningen][5] `profiles`.
 
 > NOTE 1: I suggest you to keep track of your work by issuing the
 > following commands at the terminal:
@@ -36,21 +36,18 @@ digress about two topics:
 
 In the [Tutorial 2][2], [Tutorial 3][2] and [Tutorial 7][4] we
 explained how to setup and use a browser connected REPL (i.e. bREPL)
-to enable a CLJS style of programming as interactive and close as
-possibile to the still today incomparable dynamicity of a
-LISP-machine-based programming enevirnoment.
+to enable a style of programming as dynamic as possibile.
 
 That said, the above bREPL configuration is subject to a few
 limitations inherited from the underlaying default CLJS REPL,
 internally used by the [lein-cljsbuild][6] plugin.
 
-> NOTE 3: See [Piggieback README][7] for a brief discussion of its
-> motivation. Or see your experience with the default CLJS REPL to
-> enrich that list.
+> NOTE 3: See [Piggieback README][7] for a brief list of the
+> limitations of the default CLJS REPL. 
 
 In this tutorial we're going to introduce the setting up of a less
-limited bREPL to be run from the standard [nREPL][8] launched by
-[Leiningen][5] via the `lein repl` task.
+limited bREPL to be run from an [nREPL][8] launched by [Leiningen][5]
+via the `lein repl` task.
 
 As pointed out by [Ian Eslick][9] in his very useful [tutorial][10] on
 setting up a Clojure debugging environment.
@@ -62,12 +59,11 @@ setting up a Clojure debugging environment.
 > framework to add functionality on top of the basic definitions of
 > transport and minimal methods to support a REPL
 
-[Chas Emerick][11] is the one that implemented one of that middleware:
-[Piggieback][12].
-
-Indeed, [Piggieback][12] is [nREPL middleware][19] which allows to
-launch a CLJS REPL (bRepl) session on top of an nREPL session to
-overtake the cited limitations of the default CLJS REP.
+As usual, on the way we met again the works done by [Chas Emerick][11]
+which created [Piggieback][12], a bREPL implemented as an
+[nREPL middleware][19] that allows to launch a CLJS REPL session on
+top of an [nREPL][8] session to overtake the cited limitations of the
+default CLJS REP.
 
 ## bREPL setup with Piggieback
 
@@ -77,8 +73,8 @@ cumbersome at all, but it requires to scrupulously follow few steps.
 The first of them, the creation of a pair of CLJS/HTML files which
 enable the connection between the JS engine of the browser and a REPL,
 has been already described in the [Tutorial 2][2] and updated in the
-tutorial [3][2] and [7][4] of this series. Be happy. It stays the same
-with an nREPL-based bREPL too.
+tutorial [3][2] and [7][4] of this series. Be happy, because it stays
+the same for the nREPL-based bREPL too.
 
 The second step consists of:
 
@@ -90,6 +86,10 @@ The third and latest step requires:
 
 * to launch the nREPL via the `lein repl` task, and
 * to run the bREPL from the active nREPL session.
+
+### STEP 1
+
+Already done in the cited tutorials.
 
 ### Step 2
 
@@ -126,14 +126,13 @@ Then we have to configure the project `:nrepl-options` as follows:
   ...)
 ```
 
-Here we added the `cemerick.piggipack/wrap-cljs-repl` middleware into
-an apparently void stack of nREPL middleware used by `lein repl` when
-it starts an nREPL session.
+Here we added the `cemerick.piggipack/wrap-cljs-repl` middleware to
+the stack of nREPL middleware used by `lein repl` when it starts an
+nREPL session.
 
 ### Step 3 - Run the bREPL
 
-We can now run a bREPL session on top of a just launched nREPL
-session.
+We can now run a bREPL session on top of an nREPL session.
 
 First we need:
 
@@ -155,10 +154,10 @@ $ # start the ring server
 $ lein ring server-headless
 ```
 
-> NOTE 4: **At the moment** don't worry about the `*WARNING*` messages
-> you receive during the CLJS compilation.
+> NOTE 4: At the moment don't worry about the `*WARNING*` messages you
+> receive during the CLJS compilation.
 
-Next we launch the `lein repl` task to run a new nREPL session.
+Next launch the `lein repl` task to run a new nREPL session.
 
 ```bash
 $ # open a new terminal command
@@ -177,8 +176,8 @@ Clojure 1.5.1
 user=>
 ```
 
-Ok. We have an active nREPL. Now we have to load the bREPL on top of
-it by following the [Piggieback][12] instruction:
+Now we have to load the bREPL on top of it by following the
+[Piggieback][12] instruction:
 
 ```clj
 user=> (require 'cljs.repl.browser)
@@ -205,7 +204,7 @@ pre-production builds.
 > connection from a production CLJS build.
 
 Wait few moments to allow the client and the server components to
-establish the connection (port 9000) and then you can start REPLing
+establish the connection (on port 9000) and then you can start REPLing
 with the browser again as you did in the past tutorials.
 
 To return the control to the underlying nREPL session, just exit the
@@ -217,16 +216,15 @@ cljs.user=> :cljs/quit
 user=>
 ```
 
-To exit the nREPL just run `user=>(quit)`.
+To exit the nREPL just run `user=>(quit)` as usual.
 
 ### A little bit of bREPL automation
 
 Even if we have been able to create a bREPL session on top of an nREPL
-session, the need to require the `cljs.repl.browser` namespace and to
-programmatically create a new bREPL session each time we need to
-launch it is very boring.
+session, the need to programmatically create a new bREPL session each
+time we need to launch it is very boring.
 
-One possible solution for automating that boring activity is to use
+One possible solution for automating such boring activity is to use
 the `:injections` option of [Leiningen][5] as follows:
 
 ```clj
@@ -282,12 +280,12 @@ the pages from the `:dev` or the `:pre-prod` builds.
 As we walked through the tutorials of the series we started adding
 plugins, dependencies and other esoteric options to the `project.clj`
 file which ended up to be long and confusing. Take a look at the
-latest change you made in the `project.clj` if you don't believe me.
+latest `project.clj` if you don't believe me.
 
 [Leiningen Profiles][14] offer a very handy and articulated approach
 for simplifying the writing, but mostly the reading of a project
-without loosing any expressive power of the map representing the full
-project.
+declaration without loosing any expressive power of the map
+representing the full project.
 
 ### Global profiles
 
