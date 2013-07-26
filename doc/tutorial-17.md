@@ -557,8 +557,6 @@ $ git add .
 $ git commit -m "finished with the server-side shoppingForm"
 ```
 
-Stay tuned!
-
 ## Next Step - Tutorial 18 - Housekeeping
 
 In the [next tutorial][28] we're going to digress about two topics. The setup of
