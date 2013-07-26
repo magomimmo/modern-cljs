@@ -584,7 +584,7 @@ Performing task 'pprint' with profile(s): 'dev'
  :test-paths
  ("/Users/mimmo/Developer/modern-cljs/target/test/clj"
   "/Users/mimmo/Developer/modern-cljs/test"),
-Giacomo-Cosenzas-iMac:modern-cljs mimmo$
+$
 ```
 
 ## Light the fire
