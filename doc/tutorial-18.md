@@ -348,8 +348,6 @@ tutorial.
                  [enlive "1.1.1"]]
   
   :plugins [[lein-ring "0.8.6"]]
-
-  ;; ring tasks configuration
   :ring {:handler modern-cljs.core/app})
 ```
 
