@@ -36,13 +36,13 @@ digress about two topics:
 
 In the [Tutorial 2][2], [Tutorial 3][2] and [Tutorial 7][4] we
 explained how to setup and use a browser connected REPL (i.e. bREPL)
-to enable an CLJS style of programming as interactive and closer as
+to enable a CLJS style of programming as interactive and close as
 possibile to the still today incomparable dynamicity of a
 LISP-machine-based programming enevirnoment.
 
 That said, the above bREPL configuration is subject to a few
 limitations inherited from the underlaying default CLJS REPL,
-internally the [lein-cljsbuild][6] plugin.
+internally used by the [lein-cljsbuild][6] plugin.
 
 > NOTE 3: See [Piggieback README][7] for a brief discussion of its
 > motivation. Or see your experience with the default CLJS REPL to
@@ -194,11 +194,11 @@ cljs.user=>
 The above CLJ code creates, configures and runs a browser-based REPL,
 named bREPL, which acts as the client side component of the connection
 with the JS engine hosted by your browser, which acts as the
-corresponding the serve-side component.
+corresponding serve-side component.
 
 The final step, as we already explained in the [Tutorial 2][2],
 consists in activating the bREPL session by visiting one of the pages
-(e.g. [shopping-dbg.html][]) relative to the development or the
+(e.g. [shopping-dbg.html][13]) relative to the development or the
 pre-production builds.
 
 > NOTE 5: In the [Tutorial 7][4] we explained how to exclude a bREPL
@@ -254,7 +254,7 @@ session ready to connect with the waiting server counterpart living in
 the browser.
 
 If you did not quit the previous bREPL session, do it now, relaunch it
-and call the `browser-repl` function we define above in the
+and call the `browser-repl` function we defined above in the
 `:injections` option of [Leiningen][5]
 
 ```bash
@@ -291,7 +291,7 @@ project.
 
 ### Global profiles
 
-Say you want a set of plugins being available in all your lacally
+Say you want a set of plugins being available in all your local
 projects managed by `lein`. I always want to have few plugins.
 
 For example:
@@ -330,7 +330,7 @@ needed to be easly read, but mostly what remains after having removed
 everthing has to do with the needed development libs/tools.
 
 Here is a cleaned version of the `project.clj` file corresponding to
-the latest mutable state we reached in the first part ot this
+the latest state we reached in the first part ot this
 tutorial.
 
 ```clj
@@ -356,8 +356,8 @@ tutorial.
 ```
 
 Do you think this cleaned version is more or less readable of the
-previous one? Do you think there are libs/tools to be moved away from
-here?
+previous one? Do you think there are still libs/tools to be moved away
+from here?
 
 That said, if you want to add a local `:profiles` section in the
 `project.clj` file you can do it, but you're going to dirty the
@@ -442,12 +442,12 @@ the `project.clj` descriptor.
                                       cljs.repl/-setup)))]}}
 ```
 
-Now, even the needed libs/tools and configurations for supporting the
+Now even the needed libs/tools and configurations for supporting the
 development activities are more readable than before. The only
-eventual surprise is to have a clear vision of how much more LOC you
-need to enable the develpoment (`profiles.clj`s) versus describing a
-project structure (`project.clj`). It remainds me a kind of incidental
-complexity I'll easly give up if I could.
+surprise is to see a how much more LOC you need to enable the
+develpoment (`profiles.clj`s) versus describing a project structure
+(`project.clj`). It remainds me a kind of incidental complexity I'll
+easly give up if I could.
 
 Always remember that the project specific `profiles.clj` takes
 precedence over the eventual `:profiles` declarations within the
