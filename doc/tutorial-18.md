@@ -36,7 +36,7 @@ digress about two topics:
 
 In the [Tutorial 2][2], [Tutorial 3][2] and [Tutorial 7][4] we
 explained how to setup and use a browser connected REPL (i.e. bREPL)
-to enable a style of programming as dynamic as possibile.
+to enable a style of programming as dynamic as possible.
 
 That said, the above bREPL configuration is subject to a few
 limitations inherited from the underlaying default CLJS REPL,
@@ -193,7 +193,7 @@ cljs.user=>
 The above CLJ code creates, configures and runs a browser-based REPL,
 named bREPL, which acts as the client side component of the connection
 with the JS engine hosted by your browser, which acts as the
-corresponding serve-side component.
+corresponding server-side component.
 
 The final step, as we already explained in the [Tutorial 2][2],
 consists in activating the bREPL session by visiting one of the pages
@@ -316,10 +316,10 @@ All we have to do is to create a `profiles.clj` file inside the
 If you now run the `lein pprint` command from a project home
 directory, you'll get the entire map of the project itself.
 
-You can then veritfy that the above plugins have been merged with the
+You can then verify that the above plugins have been merged with the
 declaration you set in the `project.clj` file. Just remember that the
 eventual local profiles (e.g. inside a `project.clj`) take precedence
-on the global ones.
+over the global ones.
 
 ## Local profiles
 
@@ -440,11 +440,11 @@ the `project.clj` descriptor.
 
 Now even the needed libs/tools and configurations for supporting the
 development activities are more readable than before. Do you see how
-many Line Of Code (LOC) you need to establish a develpoment enviroment
-(i.e. `profiles.clj`s) if compared with the LOC needed for describing
-the project structure itself (i.e. `project.clj`)? This remainds me a
-kind of incidental complexity that I'll easly give up if I could and
-I'm pretty sure that sooner or later someone will reduce it.
+many Lines Of Code (LOC) you need to establish a develpoment
+enviroment (i.e. `profiles.clj`) if compared with the LOC needed for
+describing the project structure itself (i.e. `project.clj`)? This
+remainds me a kind of incidental complexity that I'll easly give up if
+I could. I'm pretty sure that sooner or later someone will reduce it.
 
 Note also that in producing the final project description map the
 project specific `profiles.clj` file takes precedence over the
