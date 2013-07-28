@@ -1,9 +1,9 @@
 # Tutorial 18 - Housekeeping 
 
-In the [previous tutorial][1] we injected the form validators into the
-relative WUI (Web User Interface) in such a way that the user will be
+In the [previous tutorial][1] we injected form validators into the
+WUI (Web User Interface) in such a way that the user will be
 notified with the corresponding error messages when she/he types in
-invalid values. To be respectful with the progressive enhancement
+invalid values. Continuing with our progressive enhancement
 strategy, we started to inject the form validators into the
 server-side-only code first.
 
@@ -29,8 +29,8 @@ digress about two topics:
 > $ git checkout -b tutorial-18-step-1
 > ```
 
-> NOTE 2: I also suggest you to quickly review the above tutorials if
-> you did not read them, or you don't remember the touched topics.
+> NOTE 2: I also suggest that you quickly review the above tutorials if
+> you did not read them, or you don't remember the covered topics.
 
 ## The need of a more comfortable bREPL experience
 
@@ -57,23 +57,23 @@ setting up a Clojure debugging environment.
 > information in the environment to navigate code, complete symbols,
 > and dynamically evaluate code...It also defines a middleware
 > framework to add functionality on top of the basic definitions of
-> transport and minimal methods to support a REPL
+> transport and minimal methods to support a REPL.
 
-As usual, on the way we met again the works done by [Chas Emerick][11]
-which created [Piggieback][12], a bREPL implemented as an
+As usual, we again the works done by [Chas Emerick][11]
+who created [Piggieback][12], a bREPL implemented as an
 [nREPL middleware][19] that allows to launch a CLJS REPL session on
-top of an [nREPL][8] session to overtake the cited limitations of the
-default CLJS REP.
+top of an [nREPL][8] session to overcome the limitations of the
+default CLJS REPL.
 
 ## bREPL setup with Piggieback
 
 The setup of a bREPL based on [Piggieback][12] nREPL middleware is not
-cumbersome at all, but it requires to scrupulously follow few steps.
+cumbersome at all, but does require us to scrupulously follow a few steps.
 
 The first of them, the creation of a pair of CLJS/HTML files which
 enable the connection between the JS engine of the browser and a REPL,
 has been already described in the [Tutorial 2][2] and updated in the
-tutorial [3][2] and [7][4] of this series. Be happy, because it stays
+tutorial [3][2] and [7][4] of this series. Be happy; it stays
 the same for the nREPL-based bREPL too.
 
 The second step consists of:
@@ -110,8 +110,8 @@ Open the `project.clj` file and update its dependencies as follows:
 ```
 
 Note that we needed to add a version of CLJS which is equal or
-superior to the `"0.0-1835"` one. This is because, starting from the
-`"0.0.5"` version, [Piggieback][12] is no more compatible with the
+newer than `"0.0-1835"`. This is because, starting from the
+`"0.0.5"` version, [Piggieback][12] is not compatible with the
 CLJS version implicitely used by the current stable version of the
 [Lein-cljsbuild][6] plugin.
 
@@ -196,8 +196,8 @@ with the JS engine hosted by your browser, which acts as the
 corresponding server-side component.
 
 The final step, as we already explained in the [Tutorial 2][2],
-consists in activating the bREPL session by visiting one of the pages
-(e.g. [shopping-dbg.html][13]) relative to the development or the
+consists of activating the bREPL session by visiting one of the pages
+(e.g. [shopping-dbg.html][13]) of the development or the
 pre-production builds.
 
 > NOTE 5: In the [Tutorial 7][4] we explained how to exclude a bREPL
@@ -246,12 +246,12 @@ are evaluated sequencially in the default CLJ namespace (i.e. `user`)
 immediately after the start of the nREPL session.
 
 After having required the `cljs.repl.browser` and the
-`cemerick.piggieback` namespaces, we defined the `broswer-repl`
+`cemerick.piggieback` namespaces, we defined the `browser-repl`
 function which wraps the already discussed creation of a bREPL client
 session ready to connect with the waiting server counterpart living in
 the browser.
 
-If you did not quit the previous bREPL session, do it now, relaunch it
+If you did not quit the previous bREPL session, do so now, relaunch it
 and call the `browser-repl` function we defined above in the
 `:injections` option of [Leiningen][5]
 
@@ -272,24 +272,24 @@ nil
 cljs.user=>
 ```
 
-As usual, you activate the bREPL connection bREPL by visiting one of
+As usual, you activate the bREPL connection by visiting one of
 the pages from the `:dev` or the `:pre-prod` builds.
 
 ## The need of a more comfortable project structure
 
 As we walked through the tutorials of the series we started adding
 plugins, dependencies and other esoteric options to the `project.clj`
-file which ended up to be long and confusing. Take a look at the
+file which ended up being long and confusing. Take a look at the
 latest `project.clj` if you don't believe me.
 
 [Leiningen Profiles][14] offer a very handy and articulated approach
 for simplifying the writing and mostly the reading of a project
-declaration without loosing any expressive power of the map
+declaration without losing any expressive power of the map
 representing the full project.
 
 ### Global profiles
 
-Say you want a set of plugins being available in all your local
+Say you want a set of plugins to be available in all your local
 projects managed by `lein`. I always want to have few plugins.
 
 For example:
@@ -324,13 +324,13 @@ over the global ones.
 ## Local profiles
 
 I always try to keep in the `project.clj` file only what is absolutely
-needed to be easly read, but mostly what remains after having removed
-everthing has to do with the needed development libs/tools.
+needed to be easily read, but mostly what remains after having removed
+everthing that has to do with the needed development libs/tools.
 
 Here is a version of the `project.clj` file corresponding to the
-latest state we reached in the first part ot this tutorial cleaned
-from anything has to do with libs/tools supporting the development
-phase.
+latest state we reached in the first part ot this tutorial and cleaned
+from anything that has to do with libs/tools supporting the
+development phase.
 
 ```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -440,11 +440,11 @@ the `project.clj` descriptor.
 
 Now even the needed libs/tools and configurations for supporting the
 development activities are more readable than before. Do you see how
-many Lines Of Code (LOC) you need to establish a develpoment
-enviroment (i.e. `profiles.clj`) if compared with the LOC needed for
+many Lines Of Code (LOC) you need to establish a development
+enviroment (i.e. `profiles.clj`) as compared to the LOC needed for
 describing the project structure itself (i.e. `project.clj`)? This
-remainds me a kind of incidental complexity that I'll easly give up if
-I could. I'm pretty sure that sooner or later someone will reduce it.
+is a kind of incidental complexity that I'll happily give up if
+I can. I'm pretty sure that sooner or later someone will reduce it.
 
 Note also that in producing the final project description map the
 project specific `profiles.clj` file takes precedence over the
@@ -589,7 +589,7 @@ As you can see, while the project map for the `user` profile merged
 the declaration contained in the global `profiles.clj` file with the
 declaration contained in the `project.clj` file, the project map for
 the `dev` profile merged also the content of the declarations
-contained in the project specific `profiles.clj` file.
+contained in the project-specific `profiles.clj` file.
 
 ## Light the fire
 
