@@ -1,29 +1,28 @@
 # Tutorial 17 - Enlive by REPling
 
 In the [previous tutorial][1] we reached an important milestone on our
-path towards the elimination of as much as possibile code
-duplication. Indeed, we were able to share the same form validation
-and corresponding unit testing codebase between the client and
-server. Anytime in the future we should need to update the validation
-rules and the corresponding unit testing, we'll do it in one shared
-place only, which is a big plus in terms of maintenance time and
-costs.
+path of reducing code duplication. We were able to share the same form
+validation and corresponding unit testing codebase between the client
+and server. Anytime in the future that we need to update the
+validation rules and the corresponding unit testing, we'll be able to
+do it in one shared location, which is a big plus in terms of
+maintenance time and costs.
 
 ## Introduction
 
 In this tutorial we're going to integrate the validators for the
 Shopping Calculator into the corresponding WUI (Web User Interface) in
 such a way that the user will be notified with the corresponding error
-messages when the she/he types in invalid values in the form.
+messages when the she/he enters invalid values in the form.
 
 We have two options. We can be religious about the progressive
 enhancement strategy and then start injecting the validators into the
 server-side code. Or we can be more agnostic and start injecting the
 validators into the client-side code. Although this series of
 tutorials is mainly dedicated to CLJS, we're going to start from the
-CLJ code first, and forget for a while about CLJS code.
+CLJ code first, and forget about the CLJS code for a while.
 
-> NOTE 1: I suggest you to keep track of your work by issuing the
+> NOTE 1: I suggest you keep track of your work by issuing the
 > following commands at the terminal:
 >
 > ```bash
@@ -39,8 +38,8 @@ implement the server-side only Shopping Calculator. Even if we were a
 little bit stingy in explaining the [Enlive][2] mechanics, we were
 able to directly connect the `/shopping` action coming from the
 `shoppingForm` submission to the `shopping` template by exploiting the
-fact the `deftemplate` macro implicitly define a function with the
-same name of the defining template.
+fact that the `deftemplate` macro implicitly defined a function with the
+same name as the defining template.
 
 ```clj
 ;; src/clj/modern_cljs/core.clj
@@ -62,33 +61,32 @@ same name of the defining template.
                       (format "%.2f" (calculate quantity price tax discount))))
 ```
 
-However, as we saw in the
-[Tutorial 15 - It's better to be safe than sorry (Part 2) - ][4], we
-can easly break the `shoppingForm` by just typing in the form a value
-that is not a number, because the `calculate` function is able to deal
-with stringified numbers only.
+However, as we saw in the [Tutorial 15 - It's better to be safe than
+sorry (Part 2) - ][4], we can easily break the `shoppingForm` by just
+entering a value that is not a number, because the `calculate`
+function is only able to deal with stringified numbers.
 
 ![ServerNullPointer][5]
 
-To start fixing this bug we introduced form validators and we made
+To start fixing this bug, we introduced form validators and we made
 them portable from CLJ to CLJS by simply using the `:crossovers`
 feature of the `lein-cljsbuild` plugin. With the intent of covering as
-much as possibile number of usages for the Shopping Form we then
+many as possible usages for the Shopping Form, we then
 introduced unit testing and, thanks to the [cljx][19] lib, we made
 them portable too from CLJ to CLJS.
 
 ## Code Refactoring again
 
 All this work it's not useful at all without injecting the form
-validators in the form they are intended to validate and to reach this
+validators in the form they are intended to validate. To reach this
 goal we need to refactor the code again.
 
 ## Step One - The middle man
 
 Instead of directly associating the `POST "/shopping` request with the
 corresponding `shopping` Enlive template, we are going to intermediate
-the latter with a new function which passes to it the result of the
-validators.
+the latter with a new function which passes the result of the
+validators to it.
 
 Open the `shopping.clj` source file from the
 `src/clj/modern-cljs/templates` directory and modify it as follows.
@@ -126,11 +124,11 @@ the form has been very easy.
 
 ## Don't panic with Enlive
 
-We now need to manipulate/transform the HTML source to inject the
+We now need to manipulate the HTML source to inject the
 eventual error message in the right place for each invalid input value
 typed in by the user.
 
-To make an example, if the user typed in "foo" as the value of the the
+For example, if the user typed in "foo" as the value of the the
 `price` input field we'd like to show to her/him the following
 notification.
 
@@ -153,7 +151,7 @@ has to be transformed in the following HTML fragment
 
 ```html
 <div>
-   <label class="error" for="price">Price has to be a numebr</label>
+   <label class="error" for="price">Price has to be a number</label>
    <input type="text"
           name="price"
           id="price"
@@ -168,17 +166,17 @@ transformation.
 
 That said, at the beginning [Enlive][2] is not so easy to work with,
 even by following some [good tutorials][20] available online. Enlive
-is full of very smart macros and HOFs definitions which constitute a
+is full of very clever macros and HOFs definitions which constitute a
 DSL (Domain Specific Language) for HTML/XML scraping and
-templating. You need to take your time to get working with the Enlive
+templating. You need to take your time getting familiar with the Enlive
 lib. Generally speaking, the best way to learn a new library in CLJ
 is by REPLing with it.
 
 ### REPLing with Hiccup
 
-Before to start REPLing around, make you a favor: do your REPLing by
+Before to start REPLing around, do yourself a favor: do your REPLing by
 using the [hiccup][11] lib by [James Reeves][12], because it will save
-you a sure headache in writing stringified HTML at the REPL.
+you a headache writing stringified HTML at the REPL.
 
 [Ryan Neufeld][25] recently published [lein-try][26], a lein plugin
 for trying out libraries in the REPL whithout having to import them in
@@ -210,7 +208,7 @@ nil
 user=>
 ```
 
-[Hiccup][11] is a very simple library to be used. It allows to emit
+[Hiccup][11] is a very simple library to use. It allows us to emit
 stringified HTML code from CLJ data structures. It uses vectors to
 represent HTML elements, and maps to represent the elements'
 attributes.
@@ -243,13 +241,13 @@ user=>
 ### REPLing with Enlive
 
 [Christophe Grand][15], the author of [Enlive][2], was aware of the
-need of experimenting with his powerful and complex DSL in the REPL
+need to experiment with his powerful and complex DSL in the REPL
 and kindly defined a [sniptest][16] macro just for that. The
 `sniptest` receives a stringified HTML as a first argument and
 optionally one or more pairs of selectors/transformations. This allows
 it to mimic the `deftemplate` macro behaviour in the REPL.
 
-In the active REPL, now require the Enlive namaspace as follows,
+In the active REPL, require the Enlive namaspace as follows,
 
 ```clj
 user=> (require '[net.cgrand.enlive-html :as e])
@@ -257,7 +255,7 @@ nil
 user=>
 ```
 
-and call the `sniptest` macro by passing it as a single argument the
+and call the `sniptest` macro by passing it, as a single argument, the
 call of the Hiccup `html` function, which emits a stringified HTML
 code.
 
@@ -286,7 +284,7 @@ user>
 
 We obtained what we were expecting. So far so good. But what if there
 are, as in our `shopping.html` source, more `label` elements
-cointained in the `fieldset` element? Let's REPLing this scenario.
+contained in the `fieldset` element? Let's REPL this scenario.
 
 ```clj
 user> (e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
@@ -383,9 +381,9 @@ in the first refactoring step.
 ```
 
 Here we defined five pairs of selectors/transformations, one for each
-input field of the form. Each transformer, but the last, just sets the
+input field of the form. All but the final transformer just set the
 corresponding input field value to the value typed in by the user. The
-`:#total` input field, instead, is set to the result value returned by
+`:#total` input field, instead, is set to the value returned by
 the `calculate` function which throws the `NullPointer` exception when
 it receives a not stringified number as one of the argument.
 
@@ -405,13 +403,13 @@ First, change the last selector/transformation pair to call the
               (set-attr :value (format "%.2f" (calculate quantity price tax discount)))))
 ```
 
-Now we have to substitute the content of each `label` pertaining each
+Now we have to substitute the content of each `label` relating each
 input field with the corresponding error message when its value is
-invalid.  As we learnt from the previous REPLing session with the
+invalid.  As we learnt from the previous REPL session with the
 `sniptest` macro, to select a single `label` content we can use the
 `[[:label (attr= :for <input-name>)]]` selector. But what about the
 corresponding transformer? We want to transform the `content` of the
-`label` and set its `class ` to `"error"` only when the pertaining
+`label` and set its `class ` to `"error"` only when the related
 input field value is invalid, that is when there are error messages
 for it.
 
@@ -429,7 +427,7 @@ for it.
 )
 ```
 
-Let's debrief the above code. We already said about the
+Let's analyze the above code. We already discussed the
 `[[:label (attr= :for <input-name>)]]` selector. The corresponding
 trasformer says:
 
@@ -441,17 +439,17 @@ trasformer says:
 
 As you can see we are using few more Enlive symbols:
 
-* `do->`: it often happens that you need to apply more transformations
+* `do->`: It often happens that you need to apply multiple transformations
   to the same selected HTML node. The `do->` function chains
-  (i.e. composes) transformations sequencially from left to right
+  (i.e. composes) transformations sequentially from left to right
   (i.e. top to bottom);
-* `add-class`: it allows to add one or more CSS classes to a selected
+* `add-class`: lets you add one or more CSS classes to a selected
   HTML node;
-* `content`: it replaces the content of a selected HTML node with the
+* `content`: replaces the content of a selected HTML node with the
   passed one.
 
 Note that when the value for the input field is valid, we use the CLJ
-`identity` predefined function to leave the content of the element how
+`identity` predefined function to leave the content of the element as
 it was.
 
 ### Syntactic sugar
@@ -517,7 +515,7 @@ the entire content of the `shopping.clj` source file.
 ### Play and Pray
 
 We're now ready to verify if our long refactoring session works. As
-usual run the web app with the following command from the main
+usual, run the web app with the following command from the main
 directory of the modern-cljs project.
 
 ```bash
@@ -534,7 +532,7 @@ work as expected.
 > to disable the JavaScript engine of your browser to experiment the
 > server-side only Shopping Calculator.
 
-Let's now see what happens if you type into the form any invalid value,
+Let's now see what happens if you type any invalid value into the form,
 for example `1.2` as the value for the `Quantity` input field, `foo`
 as the value for `Price`, `bar` as the value for `Tax` and finally
 nothing as the value for `Discount`.
@@ -559,10 +557,10 @@ $ git commit -m "finished with the server-side shoppingForm"
 
 ## Next Step - Tutorial 18 - Housekeeping
 
-In the [next tutorial][28] we're going to digress about two topics. The setup of
-a more comfortable browser REPL based on nREPL. The setup of a more
-comfortable project structure by using the `profiles` features of
-[Leiningen][2]
+In the [next tutorial][28] we're going to digress about two
+topics. The setup of a more comfortable browser REPL based on nREPL
+and the setup of a more comfortable project structure by using the
+`profiles` features of [Leiningen][2]
 
 # License
 
