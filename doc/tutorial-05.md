@@ -424,7 +424,7 @@ ClojureScript:modern-cljs.shopping>
 Oops, the `onsubmit` property of `shoppingForm` form element has no
 value. `calculate` should have been set as its value by `init`
 function which, in turn, should have been set as the value of the
-`onload` property of the `window` object. Let's know see what's the
+`onload` property of the `window` object. Let's now see what's the
 value of the `onload` property of the `window` object.
 
 ```bash
