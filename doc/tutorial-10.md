@@ -30,7 +30,7 @@ $ git checkout -b tutorial-10-step-1
 
 Ajax is not something magic, it's just a kind of client-server
 communication, eventually asynchronous, mainly using http/https
-protocols. Ajax expoits more [web techniques][5]:
+protocols. Ajax exploits more [web techniques][5]:
 
 * HTML and CSS for presentation
 * DOM for dynamic display and interaction with data
