@@ -49,7 +49,7 @@ finally you realize your last user experience enhancement by introducing
 the ajax model of communication between the browser and the server.
 
 Because this series of tutorials is mostly about CLJS and not about CLJ,
-we skipped the layer representating the lowest user experience wich is
+we skipped the layer representating the lowest user experience which is
 based on CLJ only. Yet, we promise to fill this gap in successives
 tutorials explaining the usage of CLJ libraries on the server-side.
 
@@ -505,7 +505,7 @@ $ lein trampoline cljs-build repl-listen # from a new terminal
 ```
 
 Evaluate `builtin-events` by prepending it with the
-`domina.events` namespace in wich the symbol is defined.
+`domina.events` namespace in which the symbol is defined.
 
 ```clojure
 Running ClojureScript REPL, listening on port 9000.
