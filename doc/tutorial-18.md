@@ -27,7 +27,7 @@ digress about two topics:
 > $ lein upgrade
 > ```
 
-> To verify your leiningen installed version issue the following
+> To verify your leiningen installed version, submit the following
 > command at the terminal:
 > 
 > ```bash
