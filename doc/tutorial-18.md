@@ -19,7 +19,21 @@ digress about two topics:
 * the setup of a more comfortable project structure obtained by using
   the [Leiningen][5] `profiles`.
 
-> NOTE 1: I suggest you to keep track of your work by issuing the
+> NOTE 1: This tutorial requires a leiningen version `>=
+> 2.2.0`. You can upgrade leiningen to the latest available
+> version by issuing the following command at the terminal:
+>
+>```bash $ lein upgrade
+> ```
+
+> To verify your leiningen installed version issue the following
+> command at the terminal:
+> 
+> ```bash
+> $ lein version
+> ```
+
+> NOTE 2: I suggest you to keep track of your work by issuing the
 > following commands at the terminal:
 >
 > ```bash
@@ -29,7 +43,7 @@ digress about two topics:
 > $ git checkout -b tutorial-18-step-1
 > ```
 
-> NOTE 2: I also suggest that you quickly review the above tutorials if
+> NOTE 3: I also suggest that you quickly review the above tutorials if
 > you did not read them, or you don't remember the covered topics.
 
 ## The need of a more comfortable bREPL experience
@@ -42,7 +56,7 @@ That said, the above bREPL configuration is subject to a few
 limitations inherited from the underlaying default CLJS REPL,
 internally used by the [lein-cljsbuild][6] plugin.
 
-> NOTE 3: See [Piggieback README][7] for a brief list of the
+> NOTE 4: See [Piggieback README][7] for a brief list of the
 > limitations of the default CLJS REPL. 
 
 In this tutorial we're going to introduce the setting up of a less
@@ -154,7 +168,7 @@ $ # start the ring server
 $ lein ring server-headless
 ```
 
-> NOTE 4: At the moment don't worry about the `*WARNING*` messages you
+> NOTE 5: At the moment don't worry about the `*WARNING*` messages you
 > receive during the CLJS compilation.
 
 Next launch the `lein repl` task to run a new nREPL session.
@@ -200,7 +214,7 @@ consists of activating the bREPL session by visiting one of the pages
 (e.g. [shopping-dbg.html][13]) of the development or the
 pre-production builds.
 
-> NOTE 5: In the [Tutorial 7][4] we explained how to exclude a bREPL
+> NOTE 6: In the [Tutorial 7][4] we explained how to exclude a bREPL
 > connection from a production CLJS build.
 
 Wait few moments to allow the client and the server components to
