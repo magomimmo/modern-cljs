@@ -23,7 +23,8 @@ digress about two topics:
 > 2.2.0`. You can upgrade leiningen to the latest available
 > version by issuing the following command at the terminal:
 >
->```bash $ lein upgrade
+> ```bash
+> $ lein upgrade
 > ```
 
 > To verify your leiningen installed version issue the following
