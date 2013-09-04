@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :min-lein-version "2.1.2"
+  :min-lein-version "2.2.0"
   
   :dependencies [[compojure "1.1.5"]
                  [hiccups "0.2.0"]
