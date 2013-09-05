@@ -116,8 +116,8 @@ Open the `project.clj` file and update its dependencies as follows:
   ...
   :dependencies [...
                  ...
-		         [org.clojure/clojurescript "0.0-1859"]
-                 [com.cemerick/piggieback "0.0.5"]
+		         [org.clojure/clojurescript "0.0-1847"]
+                 [com.cemerick/piggieback "0.1.0"]
                  ...
                  ...]
   ...
@@ -198,8 +198,7 @@ Now we have to load the bREPL on top of it by following the
 user=> (require 'cljs.repl.browser)
 nil
 user=> (cemerick.piggieback/cljs-repl
-          :repl-env (doto (cljs.repl.browser/repl-env :port 9000)
-                          cljs.repl/-setup))
+          :repl-env (cljs.repl.browser/repl-env :port 9000))
 Type `:cljs/quit` to stop the ClojureScript REPL
 nil
 cljs.user=>
@@ -249,9 +248,7 @@ the `:injections` option of [Leiningen][5] as follows:
   :injections [(require '[cljs.repl.browser :as brepl]
                         '[cemerick.piggieback :as pb])
                (defn browser-repl []
-                 (pb/cljs-repl :repl-env
-                               (doto (brepl/repl-env :port 9000)
-                                     cljs.repl/-setup)))]
+                 (pb/cljs-repl :repl-env (brepl/repl-env :port 9000)))]
   ...
   ...)
 ```
@@ -391,9 +388,9 @@ the `project.clj` descriptor.
        :test-paths ["target/test/clj"]
 
        :dependencies [[org.clojure/clojure "1.5.1"]
-                      [org.clojure/clojurescript "0.0-1859"]
+                      [org.clojure/clojurescript "0.0-1847"]
                       [com.cemerick/clojurescript.test "0.0.4"]
-                      [com.cemerick/piggieback "0.0.5"]]
+                      [com.cemerick/piggieback "0.1.0"]]
        
        :plugins [[lein-cljsbuild "0.3.2"]
                  [com.keminglabs/cljx "0.3.0"]]
@@ -525,9 +522,9 @@ Performing task 'pprint' with profile(s): 'dev'
   [com.cemerick/valip "0.3.2"]
   [enlive/enlive "1.1.4"]
   [org.clojure/clojure "1.5.1"]
-  [org.clojure/clojurescript "0.0-1859"]
+  [org.clojure/clojurescript "0.0-1847"]
   [com.cemerick/clojurescript.test "0.0.4"]
-  [com.cemerick/piggieback "0.0.5"]),
+  [com.cemerick/piggieback "0.1.0"]),
  ...
  :target-path "/Users/mimmo/Developer/modern-cljs/target/dev",
  :source-paths
