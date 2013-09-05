@@ -2,7 +2,7 @@
        :test-paths ["target/test/clj"]
 
        :dependencies [[org.clojure/clojure "1.5.1"]
-                      [org.clojure/clojurescript "0.0-1847"]
+                      [org.clojure/clojurescript "0.0-1859"]
                       [com.cemerick/clojurescript.test "0.0.4"]
                       [com.cemerick/piggieback "0.0.5"]]
        
