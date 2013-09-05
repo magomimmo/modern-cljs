@@ -35,16 +35,11 @@ should be similar options for others OSs.
 > ```
 >
 > Thanks to [Max Penet][5] for the suggestion.
-
-> NOTE 2: another way to start an HTTP server is to use Compojure and Ring,
-> which will be covered in Chapter 3. After including them in your project.clj,
-> you can, at a Clojure repl, make the following calls:
 >
-> ```clojure
-> user=> (use 'ring.adapter.jetty)
-> user=> (use 'compojure.route)
-> user=> (run-jetty (resources "/") {:port 8888 :join? false})
-> ```
+> NOTE 2: another way to start an HTTP server is to use
+> [Compojure][18] and [Ring][17], which will be covered in
+> [Tutorial 3 - CLJ based http-server][19].
+```
 
 ## Preamble
 
@@ -203,3 +198,6 @@ License, the same as Clojure.
 [14]: https://github.com/emezeske/lein-cljsbuild/issues/186
 [15]: https://github.com/emezeske/lein-cljsbuild
 [16]: https://help.github.com/articles/set-up-git
+[17]: https://github.com/mmcgrana/ring
+[18]: https://github.com/weavejester/compojure
+[19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
