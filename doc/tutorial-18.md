@@ -361,9 +361,9 @@ development phase.
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
-                 [enlive "1.1.1"]]
+                 [enlive "1.1.4"]]
   
-  :plugins [[lein-ring "0.8.6"]]
+  :plugins [[lein-ring "0.8.7"]]
   :ring {:handler modern-cljs.core/app})
 ```
 
@@ -491,13 +491,13 @@ Performing task 'pprint' with profile(s): 'user'
   [shoreleave/shoreleave-remote-ring "0.3.0"]
   [shoreleave/shoreleave-remote "0.3.0"]
   [com.cemerick/valip "0.3.2"]
-  [enlive/enlive "1.1.1"]),
+  [enlive/enlive "1.1.4"]),
 ...
  :source-paths ("/Users/mimmo/Developer/modern-cljs/src")
 ...
 :eval-in :subprocess,
  :plugins
- ([lein-ring/lein-ring "0.8.6"]
+ ([lein-ring/lein-ring "0.8.7"]
   [lein-pprint/lein-pprint "1.1.1"]
   [lein-ancient/lein-ancient "0.4.2"]
   [lein-bikeshed/lein-bikeshed "0.1.3"]
@@ -523,7 +523,7 @@ Performing task 'pprint' with profile(s): 'dev'
   [shoreleave/shoreleave-remote-ring "0.3.0"]
   [shoreleave/shoreleave-remote "0.3.0"]
   [com.cemerick/valip "0.3.2"]
-  [enlive/enlive "1.1.1"]
+  [enlive/enlive "1.1.4"]
   [org.clojure/clojure "1.5.1"]
   [org.clojure/clojurescript "0.0-1847"]
   [com.cemerick/clojurescript.test "0.0.4"]
@@ -580,7 +580,7 @@ Performing task 'pprint' with profile(s): 'dev'
     :output-path "target/test/cljs",
     :rules :cljs}]},
  :plugins
- ([lein-ring/lein-ring "0.8.6"]
+ ([lein-ring/lein-ring "0.8.7"]
   [lein-cljsbuild/lein-cljsbuild "0.3.2"]
   [com.keminglabs/cljx "0.3.0"]),
  :injections
