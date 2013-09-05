@@ -2,9 +2,9 @@
        :test-paths ["target/test/clj"]
 
        :dependencies [[org.clojure/clojure "1.5.1"]
-                      [org.clojure/clojurescript "0.0-1859"]
+                      [org.clojure/clojurescript "0.0-1847"]
                       [com.cemerick/clojurescript.test "0.0.4"]
-                      [com.cemerick/piggieback "0.0.5"]]
+                      [com.cemerick/piggieback "0.1.0"]]
        
        :plugins [[lein-cljsbuild "0.3.2"]
                  [com.keminglabs/cljx "0.3.0"]]
@@ -60,6 +60,5 @@
                              '[cemerick.piggieback :as pb])
                     (defn browser-repl []
                       (pb/cljs-repl :repl-env
-                                    (doto (brepl/repl-env :port 9000)
-                                      cljs.repl/-setup)))]}}
+                                    (brepl/repl-env :port 9000)))]}}
 
