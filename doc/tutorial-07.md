@@ -90,7 +90,7 @@ named `:pre-prod`, which uses `:simple` compilation mode.
 
   :plugins [; cljsbuild plugin
             [lein-cljsbuild "0.3.2"]
-            [lein-ring "0.8.5"]]
+            [lein-ring "0.8.7"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
@@ -423,7 +423,7 @@ as follows.
                  [domina "1.0.2-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "0.3.2"]
-            [lein-ring "0.8.5"]]
+            [lein-ring "0.8.7"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
