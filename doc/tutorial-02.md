@@ -36,6 +36,16 @@ should be similar options for others OSs.
 >
 > Thanks to [Max Penet][5] for the suggestion.
 
+> NOTE 2: another way to start an HTTP server is to use Compojure and Ring,
+> which will be covered in Chapter 3. After including them in your project.clj,
+> you can, at a Clojure repl, make the following calls:
+>
+> ```clojure
+> user=> (use 'ring.adapter.jetty)
+> user=> (use 'compojure.route)
+> user=> (run-jetty (resources "/") {:port 8888 :join? false})
+> ```
+
 ## Preamble
 
 If you want to start working from the end of the [previous tutorial][8],
