@@ -116,7 +116,7 @@ Open the `project.clj` file and update its dependencies as follows:
   ...
   :dependencies [...
                  ...
-		         [org.clojure/clojurescript "0.0-1847"]
+		         [org.clojure/clojurescript "0.0-1859"]
                  [com.cemerick/piggieback "0.0.5"]
                  ...
                  ...]
@@ -322,9 +322,9 @@ All we have to do is to create a `profiles.clj` file inside the
 `~/.lein` directory and write the following declarations:
 
 ```clj
-{:user {:plugins [[lein-try "0.2.0"]
+{:user {:plugins [[lein-try "0.3.0"]
 	              [lein-pprint "1.1.1"]
-                  [lein-ancient "0.4.2"]
+                  [lein-ancient "0.4.4"]
                   [lein-bikeshed "0.1.3"]]}}
 ```
 
@@ -353,7 +353,7 @@ development phase.
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :min-lein-version "2.1.2"
+  :min-lein-version "2.2.0"
   
   :dependencies [[compojure "1.1.5"]
                  [hiccups "0.2.0"]
@@ -391,7 +391,7 @@ the `project.clj` descriptor.
        :test-paths ["target/test/clj"]
 
        :dependencies [[org.clojure/clojure "1.5.1"]
-                      [org.clojure/clojurescript "0.0-1847"]
+                      [org.clojure/clojurescript "0.0-1859"]
                       [com.cemerick/clojurescript.test "0.0.4"]
                       [com.cemerick/piggieback "0.0.5"]]
        
@@ -499,9 +499,9 @@ Performing task 'pprint' with profile(s): 'user'
  :plugins
  ([lein-ring/lein-ring "0.8.7"]
   [lein-pprint/lein-pprint "1.1.1"]
-  [lein-ancient/lein-ancient "0.4.2"]
+  [lein-ancient/lein-ancient "0.4.4"]
   [lein-bikeshed/lein-bikeshed "0.1.3"]
-  [lein-try/lein-try "0.2.0"]),
+  [lein-try/lein-try "0.3.0"]),
  ...
  ...}
 $
@@ -525,7 +525,7 @@ Performing task 'pprint' with profile(s): 'dev'
   [com.cemerick/valip "0.3.2"]
   [enlive/enlive "1.1.4"]
   [org.clojure/clojure "1.5.1"]
-  [org.clojure/clojurescript "0.0-1847"]
+  [org.clojure/clojurescript "0.0-1859"]
   [com.cemerick/clojurescript.test "0.0.4"]
   [com.cemerick/piggieback "0.0.5"]),
  ...
@@ -568,7 +568,7 @@ Performing task 'pprint' with profile(s): 'dev'
      :pretty-print false}}}},
  :resource-paths ("/Users/mimmo/Developer/modern-cljs/resources"),
  :uberjar-exclusions [#"(?i)^META-INF/[^/]*\.(SF|RSA|DSA)$"],
- :min-lein-version "2.1.2",
+ :min-lein-version "2.2.0",
  :jvm-opts nil,
  :eval-in :subprocess,
  :cljx
