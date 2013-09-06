@@ -5,13 +5,14 @@ In this tutorial you are going to set up a browser connected CLJS REPL
 
 ## Introduction
 
-One of the main reasons to use a LISP dialect like CLJ is its REPL (Read
-Eval Print Loop), which enables a very interactive style of
-programming. CLJS communities worked very hard to bring the same REPL-based
-programming experience to CLJS, creating a way to connect a CLJS REPL to
-the JS engine embedded in the browser. This style of programming allows
-you to evaluate CLJS forms in the REPL and have immediate feedback in the
-browser to which the REPL is connected.
+One of the main reasons to use a LISP dialect like CLJ is its REPL
+(Read Eval Print Loop), which enables a very interactive style of
+programming. CLJS communities are still working very hard to bring
+into CLJS the same REPL-based programming experience available in CLJ,
+and create a way to connect a CLJS REPL to the JS engine embedded in
+the browser. This style of programming allows you to evaluate CLJS
+forms in the REPL and have immediate feedback in the browser to which
+the REPL is connected.
 
 Due to browser-imposed limitations to prevent [cross site scripting][1]
 attacks, the REPL connection with the browser embedded JS engine has to
@@ -36,10 +37,9 @@ should be similar options for others OSs.
 >
 > Thanks to [Max Penet][5] for the suggestion.
 >
-> NOTE 2: another way to start an HTTP server is to use
-> [Compojure][18] and [Ring][17], which will be covered in
-> [Tutorial 3 - CLJ based http-server][19].
-```
+
+> NOTE 2: as we'll see in the [next tutorial][11] the clojurean way to
+> start an HTTP server is to use [Ring][17] and [Compojure][18].
 
 ## Preamble
 
@@ -170,6 +170,9 @@ tutorial, I suggest you to commit the changes as follows
 $ git commit -am "brepl enabled"
 ```
 
+> NOTE 3: In the [Tutorial 18 - Housekeeping][19] we'll explain a much
+> better option to create and run a brepl connection.
+
 ## Next step
 
 In the next [tutorial][11] we're going to substitute the external
@@ -200,4 +203,4 @@ License, the same as Clojure.
 [16]: https://help.github.com/articles/set-up-git
 [17]: https://github.com/mmcgrana/ring
 [18]: https://github.com/weavejester/compojure
-[19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md

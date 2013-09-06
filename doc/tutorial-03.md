@@ -183,7 +183,7 @@ on port `3000`. Optionally, you can pass it a different port number,
 like so: `$ lein ring server 8888`.
 
 You can also check that the browser-connected repl is still working by
-again launching the `$ lein trampoline cljsbuild repl-listen` command on a
+launching the `$ lein trampoline cljsbuild repl-listen` command on a
 new terminal (remember to cd to `/path/to/modern-cljs`) and visiting
 [simple.html][6] page.
 
