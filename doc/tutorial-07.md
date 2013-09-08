@@ -455,7 +455,7 @@ as follows.
 						   ;; no need prettyfication
                            :pretty-print false}}
                :prod
-               {;; same path as above
+               {;; same path as before
                 :source-paths ["src/cljs"]
 
                 :compiler {;; different JS output name
