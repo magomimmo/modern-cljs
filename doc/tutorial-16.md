@@ -809,7 +809,7 @@ License, the same as Clojure.
 [7]: http://phantomjs.org/
 [8]: http://en.wikipedia.org/wiki/WebKit
 [9]: http://phantomjs.org/download.html
-[10]: https://github.com/cemerick/clojurescript.test/blob/master/runners/phantomjs.js
+[10]: https://github.com/cemerick/clojurescript.test/blob/0.0.4/runners/phantomjs.js
 [11]: https://help.github.com/articles/fork-a-repo
 [12]: https://github.com/cemerick/clojurescript.test#usage
 [13]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
