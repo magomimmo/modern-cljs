@@ -368,7 +368,6 @@ Exception in thread "main" java.io.FileNotFoundException: Could not locate moder
 ...
 ...
 Tests failed.
-$
 ```
 
 As you can see, the `lein test` command failed because was not able to
@@ -397,7 +396,6 @@ lein test modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 3 assertions.
 0 failures, 0 errors.
-$
 ```
 
 By default, the `lein test` command executes all the defined tests (at
@@ -412,7 +410,6 @@ lein test modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 3 assertions.
 0 failures, 0 errors.
-$
 ```
 
 ### Break the test
@@ -448,7 +445,6 @@ expected: (= nil (validate-shopping-form "" "0" "0" "0"))
 Ran 1 tests containing 3 assertions.
 1 failures, 0 errors.
 Tests failed.
-$
 ```
 
 The failure report says that on the line 8 of `validators_test` source
