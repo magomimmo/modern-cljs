@@ -24,24 +24,24 @@ digress about two topics:
 > version by issuing the following command at the terminal:
 >
 > ```bash
-> $ lein upgrade
+> lein upgrade
 > ```
 
 > To verify your leiningen installed version, submit the following
 > command at the terminal:
 > 
 > ```bash
-> $ lein version
+> lein version
 > ```
 
 > NOTE 2: I suggest you to keep track of your work by issuing the
 > following commands at the terminal:
 >
 > ```bash
-> $ git clone https://github.com/magomimmo/modern-cljs.git
-> $ cd modern-cljs
-> $ git checkout tutorial-17
-> $ git checkout -b tutorial-18-step-1
+> git clone https://github.com/magomimmo/modern-cljs.git
+> cd modern-cljs
+> git checkout tutorial-17
+> git checkout -b tutorial-18-step-1
 > ```
 
 > NOTE 3: I also suggest that you quickly review the above tutorials if
@@ -158,15 +158,15 @@ First we need:
 * to launch the ring server.
 
 ```bash
-$ # clean up
-$ lein clean 
-$ lein cljsbuild clean
-$ # unit test generation for CLJ and CLJS via cljx
-$ lein cljx
-$ # CLJS compilations
-$ lein cljsbuild once
-$ # start the ring server
-$ lein ring server-headless
+# clean up
+lein clean 
+lein cljsbuild clean
+# unit test generation for CLJ and CLJS via cljx
+lein cljx
+# CLJS compilations
+lein cljsbuild once
+# start the ring server
+lein ring server-headless
 ```
 
 > NOTE 5: At the moment don't worry about the `*WARNING*` messages you
@@ -175,10 +175,10 @@ $ lein ring server-headless
 Next launch the `lein repl` task to run a new nREPL session.
 
 ```bash
-$ # open a new terminal command
-$ # cd into the modern-cljs main directory
-$ # launch the nREPL
-$ lein repl
+# open a new terminal command
+# cd into the modern-cljs main directory
+# launch the nREPL
+lein repl
 nREPL server started on port 52891
 REPL-y 0.2.0
 Clojure 1.5.1
@@ -268,7 +268,7 @@ and call the `browser-repl` function we defined above in the
 `:injections` option of [Leiningen][5]
 
 ```bash
-$ lein repl
+lein repl
 nREPL server started on port 50299
 REPL-y 0.2.0
 Clojure 1.5.1
@@ -477,7 +477,7 @@ You can check the content of the project map associated with a profile
 by issuing the following `lein with-profile` command:
 
 ```bash
-$ lein with-profile user pprint
+lein with-profile user pprint
 Performing task 'pprint' with profile(s): 'user'
 {...
  ...
@@ -507,7 +507,7 @@ $
 and
 
 ```bash
-$ lein with-profile dev pprint
+lein with-profile dev pprint
 Performing task 'pprint' with profile(s): 'dev'
 {...
  ...
@@ -609,20 +609,20 @@ Ok, enough words. Let's verify that everything is still working as
 expected by restarting the project from a clean environment.
 
 ```bash
-$ lein clean
-$ lein cljsbuild clean
-$ lein cljx
-$ lein cljsbuild once
-$ lein test
-$ lein cljsbuild test
-$ lein ring server-headless
+lein clean
+lein cljsbuild clean
+lein cljx
+lein cljsbuild once
+lein test
+lein cljsbuild test
+lein ring server-headless
 ```
 
 Now open a new terminal command, `cd` into the main project directory,
 launch the the nREPL and finally call the `browser-repl` function.
 
 ```bash
-$ lein repl
+lein repl
 nREPL server started on port 50670
 REPL-y 0.2.0
 Clojure 1.5.1
@@ -644,8 +644,8 @@ the `:dev` or the `:pre-prod` cljsbuild.
 As a very last step, I suggest you to commit the changes as follows:
 
 ```bash
-$ git add .
-$ git commit -m "housekeeping"
+git add .
+git commit -m "housekeeping"
 ```
 
 That's all. Stay tuned for the next tutorial of the series.

@@ -24,17 +24,17 @@ We continue by reviewing the Shopping Calculator. You should do the
 following steps:
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-14 # to start from the tutorial-14 code
-$ git checkout -b tutorial-15-step-1 # to clone it in a new branch
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-14 # to start from the tutorial-14 code
+git checkout -b tutorial-15-step-1 # to clone it in a new branch
 ```
 
 Then compile and run `modern-cljs` as usual:
 
 ```bash
-$ lein cljsbuild once # it compiles all builds
-$ lein ring server-headless
+lein cljsbuild once # it compiles all builds
+lein ring server-headless
 ```
 
 Now disable the JavaScript engine of your browser, visit the
@@ -88,7 +88,7 @@ directory to reflect the project structure we already used for the
 `login` validation.
 
 ```bash
-$ mkdir src/clj/modern_cljs/shopping`
+mkdir src/clj/modern_cljs/shopping`
 ```
 
 In the `shopping` directory create the file `validators.clj` where we're
@@ -169,7 +169,7 @@ You can immediatly test the `validate-shopping-form` function in the
 JVM REPL as follows:
 
 ```clj
-$ lein repl
+lein repl
 nREPL server started on port 56283
 REPL-y 0.2.0
 Clojure 1.5.1
@@ -211,20 +211,20 @@ First, we need to prepare the structure of the `test` directory to
 reflect the corresponding layout of the project `src` directory.
 
 Replicate the `src` directory structure into the `test` directory and
-remove the original `modern_cljs` directory created by the `$ lein new
+remove the original `modern_cljs` directory created by the `lein new
 modern-cljs` command at the very beginning of the `modern-cljs` series
 of tutorials.
 
 ```bash
-$ mkdir -p test/{clj,cljs}/modern_cljs
-$ mkdir -p test/clj/modern_cljs/shopping
-$ rm -rf test/modern_cljs
+mkdir -p test/{clj,cljs}/modern_cljs
+mkdir -p test/clj/modern_cljs/shopping
+rm -rf test/modern_cljs
 ```
 
 You'll end in the following file structure,
 
 ```bash
-$ tree test/
+tree test/
 test/
 ├── clj
 │   └── modern_cljs
@@ -363,7 +363,7 @@ The easiest way to run the newly-defined tests for the
 of leiningen
 
 ```bash
-$ lein test
+lein test
 Exception in thread "main" java.io.FileNotFoundException: Could not locate modern_cljs/shopping/validators_test__init.class or modern_cljs/shopping/validators_test.clj on classpath:
 ...
 ...
@@ -371,7 +371,7 @@ Tests failed.
 $
 ```
 
-As you can see, the `$ lein test` command failed because was not able to
+As you can see, the `lein test` command failed because was not able to
 find the `validators_test.clj` file in the project `classpath`. To fix
 this problem we have to add a `:test-paths` section into the
 `project.clj` to reflect the file structure for unit testing we defined
@@ -391,7 +391,7 @@ above.
 Now run again the test and everything should work nicely.
 
 ```bash
-$ lein test
+lein test
 
 lein test modern-cljs.shopping.validators-test
 
@@ -406,7 +406,7 @@ a specific test you have to pass its namespace to the `lein test`
 command as follows:
 
 ```bash
-$ lein test modern-cljs.shopping.validators-test
+lein test modern-cljs.shopping.validators-test
 
 lein test modern-cljs.shopping.validators-test
 
@@ -434,7 +434,7 @@ Now run the `lein test` command again, and take a look at the failure
 report produced by the `calojure.test` framework.
 
 ```bash
-$ lein test
+lein test
 
 lein test modern-cljs.shopping.validators-test
 
@@ -536,7 +536,7 @@ If you decided to keep track of steps, issue the following `git`
 command at the terminal.
 
 ```bash
-$ git commit -am "Step 1"
+git commit -am "Step 1"
 ```
 
 Stay tuned!

@@ -53,10 +53,10 @@ namespace.
 > following commands at the terminal:
 >
 > ```bash
-> $ git clone https://github.com/magomimmo/modern-cljs.git
-> $ cd modern-cljs
-> $ git checkout tutorial-15
-> $ git checkout -b tutorial-16-step-1
+> git clone https://github.com/magomimmo/modern-cljs.git
+> cd modern-cljs
+> git checkout tutorial-15
+> git checkout -b tutorial-16-step-1
 > ```
 
 The first step, as usual, is to add the `clojurescript.test` lib to the
@@ -105,7 +105,7 @@ Create a new `runners` directory in your `modern-cljs` project
 directory.
 
 ```bash
-$ mkdir runners
+mkdir runners
 ```
 
 Now grab the content of the [script][10] and save it as `pahntomjs.js` in
@@ -270,14 +270,14 @@ Copy the `validators_test.clj` file from the
 `.clj` to `cljs`.
 
 ```bash
-$ cp -R test/clj/modern_cljs/shopping test/cljs/modern_cljs/
-$ mv test/cljs/modern_cljs/shopping/validators_test.clj test/cljs/modern_cljs/shopping/validators_test.cljs
+cp -R test/clj/modern_cljs/shopping test/cljs/modern_cljs/
+mv test/cljs/modern_cljs/shopping/validators_test.clj test/cljs/modern_cljs/shopping/validators_test.cljs
 ```
 
 You'll end up with the following file structure
 
 ```bash
-$ tree test
+tree test
 test
 ├── clj
 │   └── modern_cljs
@@ -289,7 +289,6 @@ test
             └── validators_test.cljs
 
 6 directories, 2 files
-$
 ```
 
 Now open the newly copied `validators_test.cljs` file and modify its
@@ -308,7 +307,7 @@ instead of the original `clojure.test` lib.
 Now cross your fingers and run the following command at the terminal:
 
 ```bash
-$ lein cljsbuild test
+lein cljsbuild test
 Compiling ClojureScript.
 Compiling "resources/public/js/modern_pre.js" from ["src/brepl" "src/cljs" "test/cljs"]...
 Successfully compiled "resources/public/js/modern_pre.js" in 12.860505 seconds.
@@ -338,7 +337,6 @@ Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
 
 {:fail 0, :pass 13, :test 1, :type :summary, :error 0}
-$
 ```
 
 Yes, it worked. The `lein cljsbuild test` command compiled all the
@@ -351,7 +349,7 @@ section of the `:cljsbuild` task. So far so good.
 > NOTE 4: If you want to run the tests just for one build do as follows:
 > 
 > ```bash
-> $ lein cljsbuild test phantomjs-whitespace
+> lein cljsbuild test phantomjs-whitespace
 > Compiling ClojureScript.
 > Running ClojureScript test: phantomjs-whitespace
 > Testing modern-cljs.shopping.validators-test
@@ -361,20 +359,18 @@ section of the `:cljsbuild` task. So far so good.
 > 0 failures, 0 errors.
 > 
 > {:fail 0, :pass 13, :test 1, :type :summary, :error 0}
-> $
 > ```
 
 Now let's see if the the CLJ version of the tests are still working
 after the implemented changes.
 
 ```bash
-$ lein test
+lein test
 
 lein test modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
-$
 ```
 
 Yes, it's still working. Now force a failure for one of the assertion
@@ -392,7 +388,7 @@ test` command to see how it reports the failure.
 ```
 
 ```bash
-$ lein cljsbuild test
+lein cljsbuild test
 Compiling ClojureScript.
 Compiling "resources/public/js/modern_pre.js" from ["src/brepl" "src/cljs" "test/cljs"]...
 Successfully compiled "resources/public/js/modern_pre.js" in 13.09958 seconds.
@@ -447,7 +443,6 @@ Ran 1 tests containing 13 assertions.
 
 {:fail 1, :pass 12, :test 1, :type :summary, :error 0}
 Subprocess failed
-$
 ```
 
 It worked again as expected. Because of the code change into the
@@ -460,9 +455,9 @@ reports the assertion error for each of the build.
 > command at the terminal.
 >
 > ```bash
-> $ git add .
-> $ git commit -m "step-1 done"
-> $ git checkout -b tutorial-16-step-2
+> git add .
+> git commit -m "step-1 done"
+> git checkout -b tutorial-16-step-2
 > ```
 
 ## Don't Repeat Yourself while crossing the border
@@ -520,9 +515,9 @@ directory and then by renaming the `validators_test.clj` as
 `validators_test.cljx` (note the new `.cljx` file extension to denote
 annotated-metadata files).
 
-```clj
-$ mv test/clj/modern_cljs/ test/cljx
-$ mv test/cljx/modern_cljs/shopping/validators_test.clj test/cljx/modern_cljs/shopping/validators_test.cljx
+```bash
+mv test/clj/modern_cljs/ test/cljx
+mv test/cljx/modern_cljs/shopping/validators_test.clj test/cljx/modern_cljs/shopping/validators_test.cljx
 ```
 
 Now delete both the `test/clj` and the `test/cljs` directories
@@ -530,7 +525,7 @@ because, as we'll see in a moment, we are not going to use them
 anymore.
 
 ```bash
-$ rm -rf test/clj test/cljs
+rm -rf test/clj test/cljs
 ```
 
 We then need to modify the `validators_test.cljx` file by annotating the
@@ -622,7 +617,7 @@ generated code for CLJ and CLJS respectively under the
 
 This way, thanks to the [leiningen][19] `:target-path` option, which
 defaults to the `target` directory in the main directory of the
-project, the `$ lein clean` command will deleted any `cljx` generated
+project, the `lein clean` command will deleted any `cljx` generated
 files.
 
 > NOTE 6: Many thanks to [Chas Emerick][3] for having suggested me this
@@ -630,7 +625,7 @@ files.
 
 Accordingly to the above choice, we had to modify the leiningen
 `:test-paths` option with the `["target/text/clj"]` value in such a
-way that the `$ lein test` command used to run the CLJ unit tests
+way that the `lein test` command used to run the CLJ unit tests
 knows where to find the generated files.
 
 *Mutatis mutandis*, we had to modify the `:source-paths` option for
@@ -673,8 +668,8 @@ It's now time to verify that everything is working as expected.
 First, start from a clean codebase.
 
 ```bash
-$ lein cljsbuild clean
-$ lein clean
+lein cljsbuild clean
+lein clean
 ```
 
 Next we need to generate the `clj` and `cljs` testing files starting
@@ -682,10 +677,9 @@ from the shared annotated `validators-test.cljx` file by specifying
 the `cljx` task in the `lein` command.
 
 ```bash
-$ lein cljx once
+lein cljx once
 Rewriting test/cljx to target/test/clj (clj) with features #{clj} and 0 transformations.
 Rewriting test/cljx to target/test/cljs (cljs) with features #{cljs} and 1 transformations.
-$
 ```
 
 > NOTE 7: `cljx` offers both `once` and `auto` subtask (the default is
@@ -700,7 +694,7 @@ $
 You end up with the following structure for the test files
 
 ```bash
-$ tree target/test
+tree target/test
 target/test
 ├── clj
 │   └── modern_cljs
@@ -712,13 +706,12 @@ target/test
             └── validators_test.cljs
 
 6 directories, 2 files
-$
 ```
 
 We can now launch the CLJS compilation with the usual command.
 
 ```bash
-$ lein cljsbuild once
+lein cljsbuild once
 Compiling ClojureScript.
 Compiling "resources/public/js/modern_pre.js" from ["src/brepl" "src/cljs" "target/test/cljs"]...
 Successfully compiled "resources/public/js/modern_pre.js" in 41.533026 seconds.
@@ -726,7 +719,6 @@ Compiling "resources/public/js/modern_dbg.js" from ["src/brepl" "src/cljs" "targ
 Successfully compiled "resources/public/js/modern_dbg.js" in 9.16067 seconds.
 Compiling "resources/public/js/modern.js" from ["src/cljs" "target/test/cljs"]...
 Successfully compiled "resources/public/js/modern.js" in 22.609862 seconds.
-$
 ```
 
 ### Play and Pray
@@ -735,15 +727,14 @@ Finally, cross your finger and issue the commands to run the defined
 unit tests for both the sides of the world wide web.
 
 ```bash
-$ lein test
+lein test
 
 lein test modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
-$
-$
-$ lein cljsbuild test
+
+lein cljsbuild test
 Compiling ClojureScript.
 Running all ClojureScript tests.
 Testing modern-cljs.shopping.validators-test
@@ -767,7 +758,6 @@ Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
 
 {:fail 0, :pass 13, :test 1, :type :summary, :error 0}
-$
 ```
 
 We have reached our goal and we can't be happier! We now have a
@@ -782,8 +772,8 @@ If you decided to follow the suggestion in NOTE 2, you can now commit
 your work with the following `git` commands;
 
 ```bash
-$ git add .
-$ git commit -m "step-2 done"
+git add .
+git commit -m "step-2 done"
 ```
 
 Stay tuned for the next tutorial.

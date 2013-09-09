@@ -16,13 +16,13 @@ enhancement of the project itself.
 That said, assuming you already have installed [leiningen 2][2], to
 run the latest available tutorial without coding:
 
-1. `$ git clone https://github.com/magomimmo/modern-cljs.git`
-2. `$ cd modern-cljs`
-3. `$ lein cljx once # used from tutorial-16 forward`
-4. `$ lein ring server-headless`
+1. `git clone https://github.com/magomimmo/modern-cljs.git`
+2. `cd modern-cljs`
+3. `lein cljx once # used from tutorial-16 forward`
+4. `lein ring server-headless`
 5. open a new terminal and cd in the modern-cljs main directory
-6. `$ lein cljsbuild once`
-7. `$ lein trampoline cljsbuild repl-listen`
+6. `lein cljsbuild once`
+7. `lein trampoline cljsbuild repl-listen`
 8. visit [login-dbg.html][3] and/or [shopping-dbg.html][4]
 9. play with the repl connected to the browser
 
@@ -30,9 +30,9 @@ run the latest available tutorial without coding:
 > you don't want to `copy&paste` it or you don't want to write it
 > yourself, do as follows:
 >
-> * `$ git clone https://github.com/magomimmo/modern-cljs.git`
-> * `$ cd modern-cljs`
-> * `$ git checkout tutorial-01 # for tutorial 1, tutorial-02 for tutorial 2 etc `
+> * `git clone https://github.com/magomimmo/modern-cljs.git`
+> * `cd modern-cljs`
+> * `git checkout tutorial-01 # for tutorial 1, tutorial-02 for tutorial 2 etc `
 
 ## [Tutorial 1 - The basic][5]
 

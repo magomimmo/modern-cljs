@@ -26,10 +26,10 @@ CLJ code first, and forget about the CLJS code for a while.
 > following commands at the terminal:
 >
 > ```bash
-> $ git clone https://github.com/magomimmo/modern-cljs.git
-> $ cd modern-cljs
-> $ git checkout tutorial-16
-> $ git checkout -b tutorial-17-step-1
+> git clone https://github.com/magomimmo/modern-cljs.git
+> cd modern-cljs
+> git checkout tutorial-16
+> git checkout -b tutorial-17-step-1
 > ```
 
 We already used the [Enlive][2] lib in the
@@ -195,7 +195,7 @@ Open a terminal and run the following commands from the main modern-cljs directo
 includes the [hiccup][11] lib,
 
 ```bash
-$ lein try [hiccup "1.0.3"]
+lein try [hiccup "1.0.3"]
 ...
 user=>
 ```
@@ -519,7 +519,7 @@ usual, run the web app with the following command from the main
 directory of the modern-cljs project.
 
 ```bash
-$ lein ring server-headless
+lein ring server-headless
 ```
 
 Then, after having disabled the JavaScript engine of your browser,
@@ -528,7 +528,7 @@ values and finally click the `Calculate` button. Everything should
 work as expected.
 
 > NOTE 5: If you did not compile the CLJS component of the modern-cljs
-> project by issuing the `$ lein cljsbuild once` command you do not need
+> project by issuing the `lein cljsbuild once` command you do not need
 > to disable the JavaScript engine of your browser to experiment the
 > server-side only Shopping Calculator.
 
@@ -551,8 +551,8 @@ Enlive DSL.
 As a very last step, I suggest you to commit the changes as follows:
 
 ```bash
-$ git add .
-$ git commit -m "finished with the server-side shoppingForm"
+git add .
+git commit -m "finished with the server-side shoppingForm"
 ```
 
 ## Next Step - Tutorial 18 - Housekeeping

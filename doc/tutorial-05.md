@@ -10,10 +10,10 @@ If you want to start working from the end of the [previous tutorial][2],
 assuming you've [git][13] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-04
-$ git checkout -b tutorial-05-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-04
+git checkout -b tutorial-05-step-1
 ```
 
 ## Introduction
@@ -183,10 +183,10 @@ Leave the rest of the file as is. To check that everything still works
 do the following:
 
 ```bash
-$ cd /path/to/modern-cljs
-$ lein ring server
-$ lein cljsbuild once # in a new terminal and after having cd in modern-cljs
-$ lein trampoline cljsbuild repl-listen
+cd /path/to/modern-cljs
+lein ring server
+lein cljsbuild once # in a new terminal and after having cd in modern-cljs
+lein trampoline cljsbuild repl-listen
 ```
 
 > Note 3: be sure to `cd` to the home directory of the project in each
@@ -375,9 +375,9 @@ type into it the following code
 Let's now try our little shopping calculator as usual:
 
 ```bash
-$ lein ring server # in the modern-cljs home directory
-$ lein cljsbuild auto # in the modern-cljs directory in a new terminal
-$ lein trampoline cljsbuild repl-listen # in a the modern_cljs directly in a new terminal
+lein ring server # in the modern-cljs home directory
+lein cljsbuild auto # in the modern-cljs directory in a new terminal
+lein trampoline cljsbuild repl-listen # in a the modern_cljs directly in a new terminal
 ```
 
 ### A short trouble shooting session
@@ -480,7 +480,7 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "introducing domina"
+git commit -am "introducing domina"
 ```
 
 # Next Step

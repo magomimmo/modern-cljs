@@ -20,10 +20,10 @@ If you want to start working from the end of the [previous tutorial][1],
 assuming you've [git][30] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-09
-$ git checkout -b tutorial-10-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-09
+git checkout -b tutorial-10-step-1
 ```
 
 # Introduction
@@ -310,7 +310,7 @@ one of the CLJ on the JVM. Try to launch the rhino repl from
 function by passing it two stringified numbers:
 
 ```clojure
-$ lein trampoline cljsbuild repl-rhino
+lein trampoline cljsbuild repl-rhino
 Running Rhino-based ClojureScript REPL.
 "Type: " :cljs/quit " to quit"
 ClojureScript:cljs.user> (* "6" "7")
@@ -340,7 +340,7 @@ from a string concatenation.
 Now try the same thing in a regular CLJ repl:
 
 ```clojure
-$ lein repl
+lein repl
 nREPL server started on port 53127
 REPL-y 0.1.4
 Clojure 1.5.1
@@ -404,11 +404,11 @@ Now cross your finger and do as follows:
 * run the ring server.
 
 ```bash
-$ cd /path/to/modern-cljs
-$ lein cljsbuild clean
-$ lein cljsbuild once dev
-$ lein ring server-headless
-$ lein trampoline cljsbuild repl-listen # optional - in a new terminal
+cd /path/to/modern-cljs
+lein cljsbuild clean
+lein cljsbuild once dev
+lein ring server-headless
+lein trampoline cljsbuild repl-listen # optional - in a new terminal
 ```
 
 Now visit [shopping-dbg.html][20], click the `Calculate` button and
@@ -467,7 +467,7 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "introducing ajax"
+git commit -am "introducing ajax"
 ```
 
 # [Next step - More Ajax][25]

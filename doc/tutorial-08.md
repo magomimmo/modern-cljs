@@ -10,10 +10,10 @@ If you want to start working from the end of the [previous tutorial][5],
 assuming you've [git][10] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-07
-$ git checkout -b tutorial-08-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-07
+git checkout -b tutorial-08-step-1
 ```
 
 ## Introduction
@@ -177,15 +177,15 @@ namespace and by substituting the `.-onsubmit` JS interop with the
 You can now compile and run the project as usual:
 
 ```bash
-$ lein ring server # from modern-cljs home
-$ lein cljsbuild auto dev # from modern-cljs home in a new terminal
+lein ring server # from modern-cljs home
+lein cljsbuild auto dev # from modern-cljs home in a new terminal
 ```
 
 If you want interact with the bREPL, just execute the usual command to
 run the bREPL.
 
 ```bash
-$ lein trampoline cljsbuild repl-listen # from modern-cljs home in a new terminal
+lein trampoline cljsbuild repl-listen # from modern-cljs home in a new terminal
 ```
 
 Verify that everything is still working as expected by visiting
@@ -215,7 +215,7 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "introducing domina events"
+git commit -am "introducing domina events"
 ```
 
 # [Tutorial 9 - DOM Manipulation][9]

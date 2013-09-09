@@ -12,10 +12,10 @@ If you want to start working from the end of the [previous tutorial][1],
 assuming you've [git][12] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-08
-$ git checkout -b tutorial-09-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-08
+git checkout -b tutorial-09-step-1
 ```
 
 # Introduction
@@ -104,8 +104,8 @@ We can now add `add-help` handler to the `mouseover` event of the
 If you now compile, run and visit [`shopping-dbg.html`][4] page
 
 ```bash
-$ lein ring server # from modern-cljs home dir
-$ lein cljsbuild auto dev # from modern-cljs home in a new terminal
+lein ring server # from modern-cljs home dir
+lein cljsbuild auto dev # from modern-cljs home in a new terminal
 ```
 
 you will see that every time you move your mouse over the `Calculate`
@@ -157,7 +157,7 @@ is the complete `shopping.cljs` source file.
 ```
 
 If you have not killed the previous automatic recompilation
-command (i.e. `$ lein cljsbuild auto dev`), you just need to reload
+command (i.e. `lein cljsbuild auto dev`), you just need to reload
 the `shopping-dbg.html` page to see the effect of `mouseover/mouseout`
 pair of events by moving the mouse cursor in and out of the
 `Calculate` button.
@@ -356,11 +356,11 @@ Update the `shopping.cljs` source file as above, save it, clean and
 recompile everything and finally run the project as usual:
 
 ```bash
-$ lein cljsbuild clean # from modern-cljs home dir
-$ lein clean
-$ lein cljsbuild once
-$ lein ring server
-$ lein trampoline cljsbuild repl-listen # from modern home dir in a new terminal
+lein cljsbuild clean # from modern-cljs home dir
+lein clean
+lein cljsbuild once
+lein ring server
+lein trampoline cljsbuild repl-listen # from modern home dir in a new terminal
 ```
 
 Next visit [`shopping-dbg.html`][4], [`shopping-pre.html`][9] and
@@ -374,7 +374,7 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "DOM manipulation"
+git commit -am "DOM manipulation"
 ```
 
 # Next step - [Tutorial 10 - Introducing Ajax][11]
