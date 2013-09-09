@@ -32,10 +32,11 @@ Tutorial 5.
 
 First of all, by having been cloned from the orginal HTML code of
 [Modern JavaScript: Develop and Design][4], the shopping form used a
-`submit` type of button. As the shopping calculator data does not need to
-be sent to a server-side script to be validated, we think it's more
-appropriate to use a `button` type and remove both `action` and
-`method` attributes from the corresponding `form` tag.
+`submit` type of button. At the moment, the shopping calculator data
+are not sent to a server-side script to be validated. Until we'll
+introduce a server-side script for that, we are going to use a
+`button` type and remove both `action` and `method` attributes from
+the corresponding `form` tag.
 
 Here is the updated html code.
 
