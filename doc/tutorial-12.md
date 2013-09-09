@@ -14,10 +14,10 @@ If you want to start working from the end of the [previous tutorial][1],
 assuming you've [git][10] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-11
-$ git checkout -b tutorial-12-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-11
+git checkout -b tutorial-12-step-1
 ```
 
 # Introduction
@@ -116,9 +116,9 @@ from `login.cljs`.
 As usual, check your progress by running the application.
 
 ```bash
-$ lein cljsbuild clean # at times it is needed
-$ lein cljsbuild auto dev # dev build only
-$ lein ring server-headless # from a new terminal
+lein cljsbuild clean # at times it is needed
+lein cljsbuild auto dev # dev build only
+lein ring server-headless # from a new terminal
 ```
 
 Visit [login-dbg.html][4] and verify that the `:blur` and the `:click`
@@ -254,9 +254,9 @@ moment be forgiving and go on by verifying the code mechanics.
 So, be patient and run the application as usual.
 
 ```bash
-$ lein cljsbuild clean # at times it is needed
-$ lein cljsbuild auto dev # dev build only
-$ lein ring server-headless # from a new terminal
+lein cljsbuild clean # at times it is needed
+lein cljsbuild auto dev # dev build only
+lein ring server-headless # from a new terminal
 ```
 
 Disable the browser JavaScript and visit the [login-dbg.html][4]
@@ -305,7 +305,7 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "highest and deepest"
+git commit -am "highest and deepest"
 ```
 
 # [Next Step: Tutorial 13 - Don't Repeat Yourself while crossing the border][9]

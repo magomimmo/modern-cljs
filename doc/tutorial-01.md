@@ -13,7 +13,7 @@ If not already done, install [leiningen][2] and create a new project
 named `modern-cljs`.
 
 ```bash
-$ lein new modern-cljs
+lein new modern-cljs
 ```
 
 I'm assuming that you added `lein` to your `$PATH` environment variable.
@@ -25,9 +25,9 @@ the leiningen generated `src/modern_cljs` directory to reflect the new
 directory structure.
 
 ```bash
-$ cd modern-cljs
-$ mkdir -p src/{clj,cljs/modern_cljs}
-$ mv src/modern_cljs/ src/clj/
+cd modern-cljs
+mkdir -p src/{clj,cljs/modern_cljs}
+mv src/modern_cljs/ src/clj/
 ```
 
 > NOTE 2: due to [java difficulties][4] in managing hyphen "-" (or other
@@ -38,7 +38,7 @@ Create a directory structure to host static resources of the project
 (i.e., html pages, js script files, css stylesheet files, etc.)
 
 ```bash
-$ mkdir -p resources/public/{js,css}
+mkdir -p resources/public/{js,css}
 ```
 
 You should end up with the following directory structure
@@ -161,11 +161,10 @@ of `:output-to` keyword of `project.clj`. Save the file as `simple.html` in
 To compile CLJS to JS, use the task `once` of `cljsbuild` as follow:
 
 ```bash
-$ lein cljsbuild once
+lein cljsbuild once
 Compiling ClojureScript.
 Compiling "resources/public/js/modern.js" from "src/cljs"...
 Successfully compiled "resources/public/js/modern.js" in 7.860731 seconds.
-$
 ```
 ## Visit simple.html
 

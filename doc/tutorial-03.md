@@ -20,10 +20,10 @@ If you want to start working from the end of the [previous tutorial][1],
 assuming you've [git][8] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-02
-$ git checkout -b tutorial-03-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-02
+git checkout -b tutorial-03-step-1
 ```
 
 ## Add lein-ring plugin to our project.clj
@@ -171,7 +171,7 @@ follows:
 Now that everything has been set up, we can run the server as follows:
 
 ```bash
-$ lein ring server
+lein ring server
 2012-11-03 19:06:33.178:INFO:oejs.Server:jetty-7.6.1.v20120215
 Started server on port 3000
 2012-11-03 19:06:33.222:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
@@ -180,10 +180,10 @@ Started server on port 3000
 You should see a page with a paragraph saying
 "Hello from compojure".  As you can see, the server started by detault
 on port `3000`. Optionally, you can pass it a different port number,
-like so: `$ lein ring server 8888`.
+like so: `lein ring server 8888`.
 
 You can also check that the browser-connected repl is still working by
-launching the `$ lein trampoline cljsbuild repl-listen` command on a
+launching the `lein trampoline cljsbuild repl-listen` command on a
 new terminal (remember to cd to `/path/to/modern-cljs`) and visiting
 [simple.html][6] page.
 
@@ -191,7 +191,7 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "added ring and compojure"
+git commit -am "added ring and compojure"
 ```
 
 ## Next step

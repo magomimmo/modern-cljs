@@ -58,17 +58,17 @@ Start by reviewing the Shopping Calculator program. If you want to keep
 track of your next steps do as follows:
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-13
-$ git checkout -b tutorial-14-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-13
+git checkout -b tutorial-14-step-1
 ```
 
 Then compile and run `modern-cljs` as usual:
 
 ```bash
-$ lein cljsbuild auto prod
-$ lein ring server-headless # in a new terminal from modern-cljs dir
+lein cljsbuild auto prod
+lein ring server-headless # in a new terminal from modern-cljs dir
 ```
 
 Now visit the [shopping URI][2], and click the `Calculate` button. The
@@ -318,8 +318,8 @@ Not bad so far. I suggest you to commit your work now by issuing
 the following `git` command:
 
 ```bash
-$ git commit -am "Step 1"
-$ git checkout -b tutorial-14-step-2
+git commit -am "Step 1"
+git checkout -b tutorial-14-step-2
 ```
 
 The second `git` command clones the `tutorial-14-step-1` branch into
@@ -397,7 +397,7 @@ interested elements/nodes from the parsed HTML source. The right hand
 of the pair is a function which is applied to transform each selected
 element/node.
 
-If you issue the `$ lein classpath` command from the terminal, you can
+If you issue the `lein classpath` command from the terminal, you can
 verify that the `resources` directory is a member of the application
 `classpath`. This means that we can pass the
 `public/shopping.html` file to `deftemplate as the `source` arg.
@@ -440,7 +440,7 @@ an application I decided to create a new `templates` directory under
 the `src/clj/modern_cljs/` directory.
 
 ```bash
-$ mkdir src/clj/modern_cljs/templates
+mkdir src/clj/modern_cljs/templates
 ```
 
 Inside this directory create the `shopping.clj` file where we can put the
@@ -463,7 +463,7 @@ by `Ctr-C` and run it again to allow the server to import the new
 `enlive` dependencies.
 
 ```bash
-$ lein ring server-headless`
+lein ring server-headless`
 ```
 
 > NOTE 3: We need to stop the running ring server because we added the
@@ -721,12 +721,12 @@ Open and modify the above file as follows:
 > NOTE 6: We added the `format` call to format the `Total` value with
 > two digits after the decimal point.
 
-Assuming that you have stopped the `$ lein ring server-headless`
+Assuming that you have stopped the `lein ring server-headless`
 command from the terminal, if you now try to launch the command again
 you receive a compilation error:
 
 ```bash
-$ lein ring server-headless
+lein ring server-headless
 Exception in thread "main" java.lang.Exception: Cyclic load dependency: [ /modern_cljs/remotes ]->/modern_cljs/templates/shopping->/modern_cljs/core->[ /modern_cljs/remotes ]
 ...
 ...
@@ -831,10 +831,10 @@ update the namespace of the `app` symbol in the `:ring` section.
 We are now ready to rebuild and run everything as follows:
 
 ```bash
-$ lein clean # it's better to be safe than sorry
-$ lein cljsbuild clean # it's better to be safe than sorry
-$ lein cljsbuild once prod
-$ lein ring server-headless
+lein clean # it's better to be safe than sorry
+lein cljsbuild clean # it's better to be safe than sorry
+lein cljsbuild once prod
+lein ring server-headless
 ```
 
 Now visit [shopping][2] URI and play with the form by enabling and
@@ -852,10 +852,10 @@ Then submit the following commands in the terminal from the main
 `modern-cljs` directory.
 
 ```bash
-$ lein clean
-$ lein cljsbuild clean
-$ lein cljsbuild once # to compile all builds
-$ lein ring server-headless
+lein clean
+lein cljsbuild clean
+lein cljsbuild once # to compile all builds
+lein ring server-headless
 ```
 
 Now visit any version of the Shopping Calculator
@@ -869,8 +869,8 @@ As a very last step, if everything is working as expected, I suggest you
 to commit the changes as follows:
 
 ```bash
-$ git add .
-$ git commit -m "finished step-2"
+git add .
+git commit -m "finished step-2"
 ```
 
 # Next - Tutorial 15 - It's better to be safe than sorry (Part 2)

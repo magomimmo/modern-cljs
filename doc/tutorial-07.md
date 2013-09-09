@@ -11,10 +11,10 @@ If you want to start working from the end of the [previous tutorial][1],
 assuming you've [git][12] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-06
-$ git checkout -b tutorial-07-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-06
+git checkout -b tutorial-07-step-1
 ```
 
 ## Introduction
@@ -142,25 +142,23 @@ You can now run both builds togheter by launching the usual `lein
 cljsbuild once` or `lein cljsbuild auto` commands from the terminal.
 
 ```bash
-$ cd /path/to/modern-cljs
-$ lein cljsbuild once
+cd /path/to/modern-cljs
+lein cljsbuild once
 Compiling ClojureScript.
 Compiling "resources/public/js/modern_pre.js" from ["src/cljs"]...
 Successfully compiled "resources/public/js/modern_pre.js" in 15.169253 seconds.
 Compiling "resources/public/js/modern_dbg.js" from ["src/cljs"]...
 Successfully compiled "resources/public/js/modern_dbg.js" in 3.202557 seconds.
-$
 ```
 
 Or you can compile just one of them by passing the corresponding
 de-keywordized build name as follows:
 
 ```bash
-$ lein cljsbuild once pre-prod
+lein cljsbuild once pre-prod
 Compiling ClojureScript.
 Compiling "resources/public/js/modern_pre.js" from ["src/cljs"]...
 Successfully compiled "resources/public/js/modern_pre.js" in 14.51913 seconds.
-$
 ```
 
 If you now list your `resources/public/js` directory you can immediately
@@ -168,13 +166,12 @@ see the size difference of `modern_dbg.js` and `modern_pre.js`, the latter being
 30% less than the former, but still more than 700KB.
 
 ```bash
-$ ls -lah resources/public/js/
+ls -lah resources/public/js/
 total 3520
 drwxr-xr-x  4 mimmo  staff   136B Nov 17 20:23 .
 drwxr-xr-x  7 mimmo  staff   238B Nov 17 00:39 ..
 -rw-r--r--  1 mimmo  staff   1.0M Nov 17 20:23 modern_dbg.js
 -rw-r--r--  1 mimmo  staff   705K Nov 17 20:23 modern_pre.js
-$
 ```
 
 ## Being much more aggressive than the others
@@ -229,18 +226,17 @@ code snippet.
 
 ```
 
-Now compile the new build as usual by launching `$ lein cljsbuild once
+Now compile the new build as usual by launching `lein cljsbuild once
 prod` and then list the content of `resources/public/js`.
 
 ```bash
-$ ls -lah resources/public/js/
+ls -lah resources/public/js/
 total 3888
 drwxr-xr-x  5 mimmo  staff   170B Nov 17 20:46 .
 drwxr-xr-x  7 mimmo  staff   238B Nov 17 00:39 ..
 -rw-r--r--  1 mimmo  staff   115K Nov 17 20:46 modern.js
 -rw-r--r--  1 mimmo  staff   1.1M Nov 17 20:46 modern_dbg.js
 -rw-r--r--  1 mimmo  staff   622K Nov 17 20:46 modern_pre.js
-$
 ```
 
 We reached 115KB and, if you gzip it, you'll reach 37KB, almost the same
@@ -257,10 +253,10 @@ and each of them should have a `script` tag pointing to the right JS
 version. Not a big deal, but still something to take care of.
 
 ```bash
-$ cp resources/public/login.html resources/public/login-dbg.html
-$ cp resources/public/login.html resources/public/login-pre.html
-$ cp resources/public/shopping.html resources/public/shopping-dbg.html
-$ cp resources/public/shopping.html resources/public/shopping-pre.html
+cp resources/public/login.html resources/public/login-dbg.html
+cp resources/public/login.html resources/public/login-pre.html
+cp resources/public/shopping.html resources/public/shopping-dbg.html
+cp resources/public/shopping.html resources/public/shopping-pre.html
 ```
 Now edit `login-dbg.html`, `login-pre.html`, `shopping-dbg.html` and
 `shopping-pre.html` to update the corresponding `script` tag as follows:
@@ -349,7 +345,7 @@ Now edit `login-dbg.html`, `login-pre.html`, `shopping-dbg.html` and
 ```
 
 You're now ready to launch your samples from `modern-cljs` directory as
-usual (e.g. `$ lein ring server`, `lein cljsbuild auto` and `lein
+usual (e.g. `lein ring server`, `lein cljsbuild auto` and `lein
 trampoline cljsbuild repl-listen`) and then to visit the debugging,
 pre-production and production versions of the above pages.
 
@@ -392,14 +388,14 @@ Create a new directory/subdirectory in the `src` directory of
 modern-cljs project
 
 ```bash
-$ mkdir -p src/brepl/modern_cljs
+mkdir -p src/brepl/modern_cljs
 ```
 
 Now move the `connect.cljs` file from `src/cljs/modern_cljs` to the new
 `src/brepl/modern_cljs` directory.
 
 ```bash
-$ mv src/cljs/modern_cljs/connect.cljs src/brepl/modern_cljs/
+mv src/cljs/modern_cljs/connect.cljs src/brepl/modern_cljs/
 ```
 
 Next update the `project.clj` file by adding the `"src/brepl"` directory
@@ -455,7 +451,7 @@ as follows.
 						   ;; no need prettyfication
                            :pretty-print false}}
                :prod
-               {;; same path as above
+               {;; same path as before
                 :source-paths ["src/cljs"]
 
                 :compiler {;; different JS output name
@@ -472,9 +468,9 @@ You can run the usual commands to recompile all the builds and run the
 `modern-cljs` project.
 
 ```bash
-$ lein clean
-$ lein cljsbuild clean
-$ lein cljsbuild once
+lein clean
+lein cljsbuild clean
+lein cljsbuild once
 ```
 
 One very nice consequence of the `connect.cljs` exclusion from the
@@ -482,21 +478,20 @@ One very nice consequence of the `connect.cljs` exclusion from the
 smaller than before.
 
 ```bash
-$ ls -lah resources/public/js/
+ls -lah resources/public/js/
 total 3880
 drwxr-xr-x   5 mimmo  staff   170B Mar  3 19:50 .
 drwxr-xr-x  11 mimmo  staff   374B Mar  3 19:48 ..
 -rw-r--r--   1 mimmo  staff    62K Mar  3 19:50 modern.js
 -rw-r--r--   1 mimmo  staff   1.1M Mar  3 19:49 modern_dbg.js
 -rw-r--r--   1 mimmo  staff   626K Mar  3 19:49 modern_pre.js
-$
 ```
 
 If you zip it you reach an amazing size of 18K. Finally you can run as
 usual the `modern-cljs` project.
 
 ```bash
-$ lein ring server
+lein ring server
 ```
 
 Now visit the `login.html` or the `shopping.html` pages, which include
@@ -507,7 +502,7 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "being doubly aggressive"
+git commit -am "being doubly aggressive"
 ```
 
 # Next step - Introducing Domina events.

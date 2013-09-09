@@ -30,8 +30,8 @@ should be similar options for others OSs.
 > system just launch it as follows:
 >
 > ```bash
-> $ cd /path/to/modern-cljs/resources/public
-> $ python -m SimpleHTTPServer 8888
+> cd /path/to/modern-cljs/resources/public
+> python -m SimpleHTTPServer 8888
 > Serving HTTP on 0.0.0.0 port 8888 ...
 > ```
 >
@@ -47,10 +47,10 @@ If you want to start working from the end of the [previous tutorial][8],
 assuming you've [git][16] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-01
-$ git checkout -b tutorial-02-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-01
+git checkout -b tutorial-02-step-1
 ```
 
 This way you're cloning the tutorial-01 branch into a new branch to
@@ -109,11 +109,10 @@ during [Tutorial 1][8], and we can leave those options as we have already
 configured. Now call the CLJS compilation task:
 
 ```bash
-$ lein cljsbuild once
+lein cljsbuild once
 Compiling ClojureScript.
 Compiling "resources/public/js/modern.js" from "src/cljs"...
 Successfully compiled "resources/public/js/modern.js" in 4.904672 seconds.
-$
 ```
 ### Start a brepl
 
@@ -123,7 +122,7 @@ browser. To do that we're going to use a `repl-listen` task already
 set up by `lein-cljsbuild` for us.
 
 ```bash
-$ lein trampoline cljsbuild repl-listen
+lein trampoline cljsbuild repl-listen
 Running ClojureScript REPL, listening on port 9000.
 "Type: " :cljs/quit " to quit"
 ClojureScript:cljs.user>
@@ -167,7 +166,7 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "brepl enabled"
+git commit -am "brepl enabled"
 ```
 
 > NOTE 3: In the [Tutorial 18 - Housekeeping][19] we'll explain a much
