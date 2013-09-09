@@ -3,6 +3,62 @@
 A series of tutorials to guide you in creating and setting up
 [ClojureScript][1] (CLJS) projects.
 
+If you ask yourself why the series has been named `modern-cljs` even
+if the ClojureScript language is only a couple of years old, you're
+right. It just happens that I started this series while trying to port
+on ClojureScript few examples from the
+[Modern JavaScript: Develop and Design][34] book. It's correct title
+should have been `current-cljs`. Now it's too late to change it.
+
+## Required background
+
+This series requires some programming experience. I assume you already
+made your hands dirty with Clojure programming language, but you need
+not to be proficient with it or even with the underlying Java and
+JavaScript programming languages.
+
+If you don't know anything about Clojure (or Lisp), I strongly
+recommend to study it before to start reading this series.
+
+Even if the net is plenty of outstanding resources on Clojure
+programming language, you can't understimate the benefit of reading
+few books on Clojure and on other Lisp dialects:
+
+* [SICP - Structure and Interpretation of Computer Programs][27]: this
+  is still the best book I have ever read about Computer Programming
+  in my very long carrier, even if it uses the Scheme programming
+  language (a Lisp dialect);
+* [On Lisp][28]: if you want to make your hands dirty with macros,
+  this is the place to start from even if it uses CommonLisp (a well
+  known Lisp dialect);
+* [Clojure Programming][29]: written by three of the most heroics
+  clojureans,it contains everything you need to know about Clojure and
+  its ecosystem;
+* [Programming Clojure][30]: written by another legendary clojurean,
+  it represents the easiest path to approach Clojure;
+* [The Joy of Clojure][31]: the title speaks by itself. A must read
+* [ClojureScript Up and Running][32]: at the moment, it's the only
+  available book on ClojureScript. Due to the youth of the
+  ClojureScript language, the book is now a little bit outdated. It's
+  so brief that you can read it in a very short time with some profit,
+  specially if you want to integrate external JavaScript libraries in
+  your code.
+* [**The Annotated Clojure Reference Manual** by Rich Hickey][33]: The
+  most missed book on Clojure. Come on Rich, you know that is
+  something you have to write.
+
+## Tooling
+
+More people asked me which operating system and editor/IDE are most
+appropriated for developing Clojure/ClojureScript code. I personally
+use Mac OS X and Ubuntu. On top of those I use Emacs with the standard
+stuff to be productive with Clojure programming. Because I'm aged,
+*nix and Emacs are the OS/Editor I know better. That said, in this
+series you're not going to find any suggestion about any OS or
+IDE/Editor. Use what ever tool fits better your habits. I have to much
+respect for people developing IDE/plugins for Clojure/CLojureScript to
+say that one is better than another.
+
 # Introduction
 
 This series of tutorials will guide you in creating, setting up and
@@ -92,13 +148,15 @@ the CLJ server-side code.
 
 ## [Tutorial 11 - A deeper understanding of Domina events][19]
 
-In this tutorial we're going to enrich our understanding of Domina events
-by applying them to the `login form` example we introduced in the [4th Tutorial][9].
+In this tutorial we're going to enrich our understanding of Domina
+events by applying them to the `login form` example we introduced in
+the [4th Tutorial][9].
 
 ## [Tutorial 12 - The highest and the deepest layers][20]
 
-In this tutorial we're going to cover the highest and the deepest layers
-of the Login Form example we started to cover in the [previous tutorial][20].
+In this tutorial we're going to cover the highest and the deepest
+layers of the Login Form example we started to cover in the
+[previous tutorial][20].
 
 ## [Tutorial 13 - Don't Repeat Yourself while crossing the border][21]
 
@@ -176,3 +234,11 @@ License, the same as Clojure.
 [24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md
 [25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-17.md
 [26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
+[27]: http://mitpress.mit.edu/sicp/full-text/book/book.html
+[28]: http://www.paulgraham.com/onlisp.html
+[29]: http://www.clojurebook.com/
+[30]: http://pragprog.com/book/shcloj2/programming-clojure
+[31]: http://joyofclojure.com/
+[32]: http://shop.oreilly.com/product/0636920025139.do
+[33]: https://twitter.com/richhickey
+[34]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
