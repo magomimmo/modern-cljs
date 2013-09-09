@@ -41,11 +41,36 @@ Create a directory structure to host static resources of the project
 $ mkdir -p resources/public/{js,css}
 ```
 
+You should end up with the following directory structure
+
+```bash
+├── LICENSE
+├── README.md
+├── doc
+│   └── intro.md
+├── project.clj
+├── resources
+│   └── public
+│       ├── css
+│       └── js
+├── src
+│   ├── clj
+│   │   └── modern_cljs
+│   │       └── core.clj
+│   └── cljs
+│       └── modern_cljs
+└── test
+    └── modern_cljs
+        └── core_test.clj
+
+12 directories, 6 files
+```
+
 ## Edit project.clj
 
 You now need to edit `project.clj` to:
 
-* update the source-paths of CLJ source code of the project;
+* update the `source-paths` of CLJ source code of the project;
 * add and configure [lein-cljsbuild][3] plugin in `project.clj`.
 
 Here is the original leiningen generated `project.clj`
