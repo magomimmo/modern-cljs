@@ -7,7 +7,7 @@ If you ask yourself why the series has been named `modern-cljs` even
 if the ClojureScript language is only a couple of years old, you're
 right. It just happens that I started this series while trying to port
 on ClojureScript few examples from the
-[Modern JavaScript: Develop and Design][34] book. It's correct title
+[Modern JavaScript: Develop and Design][34] book. Its correct title
 should have been `current-cljs`. Now it's too late to change it.
 
 ## Required background
