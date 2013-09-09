@@ -44,8 +44,7 @@ few books on Clojure and on other Lisp dialects:
   specially if you want to integrate external JavaScript libraries in
   your code.
 * [**The Annotated Clojure Reference Manual** by Rich Hickey][33]: The
-  most missed book on Clojure. Come on Rich, you know that is
-  something you have to write.
+  most missed book on Clojure :).
 
 ## Tooling
 
