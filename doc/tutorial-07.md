@@ -3,7 +3,7 @@
 In this tutorial we're going to explore CLS compiler optimizations by
 using the usual `lein-cljsbuild` plugin of `leiningen` and we'll
 discover a trouble which we will solve by using the latest release of
-lein-cljsbuild (i.e. lein-cljsbuild 0.3.0).
+lein-cljsbuild (i.e. lein-cljsbuild 0.3.2).
 
 ## Preamble
 
@@ -376,7 +376,7 @@ connection, it would be nice to have a way to explicitly **exclude** the
 
 ## Solve the problem
 
-The `0.3.0` release of [lein-cljsbuild][6] has a new feature which can
+The `0.3.2` release of [lein-cljsbuild][6] has a new feature which can
 be used to easily solve the above trouble. [Lein-cljsbuild][6] now
 allows to specify more than one CLJS source directory in the
 `:source-paths` compilation option. To **exclude** the `connect.cljs`
