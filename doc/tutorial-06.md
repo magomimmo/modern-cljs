@@ -54,7 +54,7 @@ options:
               [{:source-paths ["src/cljs"]
                 :compiler {:output-to "resources/public/js/modern.js"
                            :optimizations :whitespace
-                            :pretty-print true}}]})
+                           :pretty-print true}}]})
 
 ```
 
