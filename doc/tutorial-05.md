@@ -452,7 +452,7 @@ property is not the one we just defined, but the `init` function we
 defined to initialize the previous `loginForm`.
 
 What just happened has to do with the Google Closure Compiler
-(i.e. cljsbuild). It gets every CLJS file from `:source-path` keyword
+(i.e. cljsbuild). It gets every CLJS file from `:source-paths` keyword
 we set in the very first [tutorial][10] and compiles all of them in
 the "js/modern.js" file we set in the same tutorial as the value of
 the `:output-to` option of `lein-cljsbuild` plugin.
