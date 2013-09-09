@@ -32,8 +32,8 @@ few books on Clojure and on other Lisp dialects:
   this is the place to start from even if it uses CommonLisp (a well
   known Lisp dialect);
 * [Clojure Programming][29]: written by three of the most heroics
-  clojureans,it contains everything you need to know about Clojure and
-  its ecosystem;
+  clojureans, it contains everything you need to know about Clojure
+  and its ecosystem;
 * [Programming Clojure][30]: written by another legendary clojurean,
   it represents the easiest path to approach Clojure;
 * [The Joy of Clojure][31]: the title speaks by itself. A must read
@@ -55,8 +55,8 @@ use Mac OS X and Ubuntu. On top of those I use Emacs with the standard
 stuff to be productive with Clojure programming. Because I'm aged,
 *nix and Emacs are the OS/Editor I know better. That said, in this
 series you're not going to find any suggestion about any OS or
-IDE/Editor. Use what ever tool fits better your habits. I have to much
-respect for people developing IDE/plugins for Clojure/CLojureScript to
+IDE/Editor. Use whatever tool fits better your habits. I have to much
+respect for people developing IDE/plugins for Clojure/ClojureScript to
 say that one is better than another.
 
 # Introduction
