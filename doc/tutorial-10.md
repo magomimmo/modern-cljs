@@ -92,7 +92,7 @@ on the shoulders of giants.
 
 To keep things simple enough we're going to stay with our boring
 [shopping calculator][20] form as a reference case to be implemented by using
-shoreleave.
+`shoreleave`.
 
 What we'd like to do is to move the calculation from the client side code
 (i.e. CLJS) to the server side code (i.e. CLJ) and then let the former
@@ -470,7 +470,7 @@ tutorial, I suggest you to commit the changes as follows
 git commit -am "introducing ajax"
 ```
 
-# [Next step - More Ajax][25]
+# [Next step - A deeper understanding of Domina Events][25]
 
 In next tutorial we're going to apply what we just learnt and extend its
 application to the login form we introduced in [Tutorial 4][3].
