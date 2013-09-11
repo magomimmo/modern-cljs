@@ -301,6 +301,11 @@ representing the full project.
 
 ### Global profiles
 
+> ATTENTION: This part of the tutorial is no more valid. It will be
+> updated in the near future because it is based on a
+> misinterpretation of the featerues of [lein profiles][14]
+> features. Sorry about that.
+
 Say you want a set of plugins to be available in all your local
 projects managed by `lein`. I always want to have few plugins.
 
