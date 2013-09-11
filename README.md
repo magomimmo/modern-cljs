@@ -54,7 +54,7 @@ use Mac OS X and Ubuntu. On top of those I use Emacs with the standard
 stuff to be productive with Clojure programming. Because I'm aged,
 *nix and Emacs are the OS/Editor I know better. That said, in this
 series you're not going to find any suggestion about any OS or
-IDE/Editor. Use whatever tool fits better your habits. I have to much
+IDE/Editor. Use whatever tool fits better your habits. I have too much
 respect for people developing IDE/plugins for Clojure/ClojureScript to
 say that one is better than another.
 
@@ -135,7 +135,7 @@ more clojure-ish approach in handing DOM events.
 
 ## [Tutorial 9 - DOM Manipulation][17]
 
-In this tutorial we'are going to face the need to programmatically
+In this tutorial we're going to face the need to programmatically
 manipulate DOM elements as a result of the occurrence of some DOM
 events.
 
