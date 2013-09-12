@@ -155,30 +155,40 @@ section of the `project.clj` file as follows:
   :cljsbuild {...
               ...
               :test-commands {"phantomjs-whitespace"
-                              ["runners/phantomjs.js" "resources/public/js/modern_dbg.js"]
+                              ["runners/phantomjs.js" "test/js/testable_dbg.js"]
 
                               "phantomjs-simple"
-                              ["runners/phantomjs.js" "resources/public/js/modern_pre.js"]
+                              ["runners/phantomjs.js" "test/js/testable_pre.js"]
 
                               "phantomjs-advanced"
-                              ["runners/phantomjs.js" "resources/public/js/modern.js"]}
+                              ["runners/phantomjs.js" "test/js/testable.js"]}
               ...
               ...
 )
 ```
 
-The value of `:test-commands` is a map in which each key is a name,
-and each value is a vector of two elements: the pathname of the
-`phantomjs.js` launcher we just grabbed from [Chas Emerick][3] and the
-pathname of the JS file to be loaded in the headless browser.
+The value of `:test-commands` is a map in which each key is a name
+(.e.g `"phantomjs-whitespace"`), and each value is a vector of two
+elements: the pathname of the `phantomjs.js` launcher we just grabbed
+from [Chas Emerick][3] and the pathname of the JS file to be loaded in
+the headless browser (e.g. `"test/js/testable_dbg.js"`).
 
-In the `modern-cljs` project we defined three CLJS builds, one for
-each optimization option of the GCLS compiler (i.e. `whitespace`,
-`simple` and `advanced`).
+In the `modern-cljs` project we already defined three CLJS `:builds`,
+one for each optimization option of the GCLS compiler
+(i.e. `whitespace`, `simple` and `advanced`).
 
 Each build emits a corresponding JS file (i.e. `modern_dbg.js`,
-`modern_pre.js` and `modern.js`). So, we end up with three key/value
-pairs to be inserted in the map, one pair for each emitted JS file.
+`modern_pre.js` and `modern.js`). So, we neeed to end up with three
+key/value pairs to be inserted in the map, one pair for each emitted
+JS file.
+
+But we don't want to add the emitted unit test JS code to the above
+CLJS builds. We just want to be able to run our unit tests without
+interfere with the above builds that have been already linked in the
+HTML pages.
+
+For this reason we need to create three new CLJS `:builds`, one for
+each Google Closure Compiler optimization.
 
 ### Instructing lein-cljsbuild about CLJS test directory
 
@@ -189,41 +199,70 @@ by looking for the CLJS code saved in the `src/cljs` and in the
 by considering the CLJS files from the `src/cljs` directory only.
 
 In the [previous tutorial][1] we already arranged the `test` directory
-to host `cljs` code by creating the `test/cljs` directory. We now
-have to add it to the `:source-paths` section of each build as
-follows:
+to host the `cljs` unit test code by creating the `test/cljs`
+directory.
+
+We now have to add this directory to the `:source-paths` option in all
+the three new CLJS builds we're going to configure for emitting the
+corresponding JS code.
+
+Here is the code snippet you have to add to your `profile.clj` file in
+the `:builds` section of the `:cljsbuild` option configuration.
 
 ```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
-  ...
   :cljsbuild {...
-              ...
               :builds
-              {:dev
-               {:source-paths [... ... "text/cljs"]
-                ...
-                ...}}
+              {:ws-unit-tests
+               {;; CLJS source code and unit test paths
+                :source-paths ["src/brepl" "src/cljs" "test/cljs"]
 
-               :pre-prod
-               {:source-paths [... ... "text/cljs"]
-                ...
-                ...}}
+                ;; Google Closure Compiler options
+                :compiler {;; the name of emitted JS script file for unit testing
+                           :output-to "test/js/testable_dbg.js"
 
-               :prod
-               {:source-paths [... ... "text/cljs"]
-                ...
-                ...}}}})
+                           ;; minimum optimization
+                           :optimizations :whitespace
+                           ;; prettyfying emitted JS
+                           :pretty-print true}}
+               
+               :simple-unit-tests
+               {;; same path as above
+                :source-paths ["src/brepl" "src/cljs" "test/cljs"]
+
+                :compiler {;; different JS output name for unit testing
+                           :output-to "test/js/testable_pre.js"
+
+                           ;; simple optimization
+                           :optimizations :simple
+
+                           ;; no need prettification
+                           :pretty-print false}}
+               
+               :advanced-unit-tests
+               {;; same path as above
+                :source-paths ["src/cljs" "test/cljs"]
+
+                :compiler {;; different JS output name for unit testing
+                           :output-to "test/js/testable.js"
+
+                           ;; advanced optimization
+                           :optimizations :advanced
+
+                           ;; no need prettification
+                           :pretty-print false}}
+)
 ```
 
 This way, the CLJS/GCLS compilers will include any CLJS test file
 living in the `test/cljs` directory in the emitted JS file for each
-build.
+unit test build.
 
 ### Falling in the expression problem again
 
-Our first instinct would now be to apply our beloved DRY principle
-by just adding the `modern-cljs.shopping.validators-test` namespace to
+Our first instinct would be now to apply our beloved DRY principle by
+just adding the `modern-cljs.shopping.validators-test` namespace to
 the `:crossovers` section of the `:cljsbuild` project task, as we
 already did for the portable validators we defined in the project.
 
@@ -309,12 +348,12 @@ Now cross your fingers and run the following command at the terminal:
 ```bash
 lein cljsbuild test
 Compiling ClojureScript.
-Compiling "resources/public/js/modern_pre.js" from ["src/brepl" "src/cljs" "test/cljs"]...
-Successfully compiled "resources/public/js/modern_pre.js" in 12.860505 seconds.
-Compiling "resources/public/js/modern_dbg.js" from ["src/brepl" "src/cljs" "test/cljs"]...
-Successfully compiled "resources/public/js/modern_dbg.js" in 2.31121 seconds.
-Compiling "resources/public/js/modern.js" from ["src/cljs" "test/cljs"]...
-Successfully compiled "resources/public/js/modern.js" in 6.609482 seconds.
+Compiling "test/js/testable_pre.js" from ["src/brepl" "src/cljs" "test/cljs"]...
+Successfully compiled "test/js/testable_pre.js" in 12.860505 seconds.
+Compiling "test/js/testable_dbg.js" from ["src/brepl" "src/cljs" "test/cljs"]...
+Successfully compiled "test/js/testable_dbg.js" in 2.31121 seconds.
+Compiling "test/js/testable.js" from ["src/cljs" "test/cljs"]...
+Successfully compiled "test/js/testable.js" in 6.609482 seconds.
 Running all ClojureScript tests.
 Testing modern-cljs.shopping.validators-test
 
@@ -340,9 +379,9 @@ Ran 1 tests containing 13 assertions.
 ```
 
 Yes, it worked. The `lein cljsbuild test` command compiled all the
-builds by including in each emitted JS file the unit tests defined in
-the `test/cljs` directory and then it sequentially executed the
-`phantomjs-whitespace`, the `phantomjs-simple` and the
+three new builds by including in each emitted JS file the unit tests
+defined in the `test/cljs` directory and then it sequentially executed
+the `phantomjs-whitespace`, the `phantomjs-simple` and the
 `phantomjs-advanced` commands we defined in the `:test-commands`
 section of the `:cljsbuild` task. So far so good.
 
@@ -390,12 +429,12 @@ test` command to see how it reports the failure.
 ```bash
 lein cljsbuild test
 Compiling ClojureScript.
-Compiling "resources/public/js/modern_pre.js" from ["src/brepl" "src/cljs" "test/cljs"]...
-Successfully compiled "resources/public/js/modern_pre.js" in 13.09958 seconds.
-Compiling "resources/public/js/modern_dbg.js" from ["src/brepl" "src/cljs" "test/cljs"]...
-Successfully compiled "resources/public/js/modern_dbg.js" in 2.344958 seconds.
-Compiling "resources/public/js/modern.js" from ["src/cljs" "test/cljs"]...
-Successfully compiled "resources/public/js/modern.js" in 6.427312 seconds.
+Compiling "test/js/testable_pre.js" from ["src/brepl" "src/cljs" "test/cljs"]...
+Successfully compiled "test/js/testable_pre.js" in 13.09958 seconds.
+Compiling "test/js/testable_dbg.js" from ["src/brepl" "src/cljs" "test/cljs"]...
+Successfully compiled "test/js/testable_dbg.js" in 2.344958 seconds.
+Compiling "test/js/testable.js" from ["src/cljs" "test/cljs"]...
+Successfully compiled "test/js/testable.js" in 6.427312 seconds.
 Running all ClojureScript tests.
 Testing modern-cljs.shopping.validators-test
 
@@ -447,7 +486,7 @@ Subprocess failed
 
 It worked again as expected. Because of the code change into the
 `validators_test.cljs` file, the `lein cljsbuild test` recompiles all
-builds before launching the three `:test-commands` and it finally
+the builds before launching the three `:test-commands` and it finally
 reports the assertion error for each of the build.
 
 > NOTE 5: If you followed the suggestion in the previous NOTE 2, I now
@@ -462,7 +501,7 @@ reports the assertion error for each of the build.
 
 ## Don't Repeat Yourself while crossing the border
 
-It's now time to really solve the expression problem that we
+It's now time to actually solve the expression problem that we
 previously worked around by manually copying and changing the
 `test/clj/modern_cljs/shopping/validators_test.clj` file into the
 `test/cljs/modern_cljs/shopping/validators_test.cljs` file to test the
@@ -549,7 +588,7 @@ Finally we have to:
 * configure the `:cljx` task
 * consequently update the `:test-paths` keyword of the project
 * consequently update the `:source-paths` compiler option for each
-  CLJS build
+  CLJS unit testing build.
 
 Following is the interested code snippet from the `project.clj`
 
@@ -577,19 +616,19 @@ Following is the interested code snippet from the `project.clj`
   :cljsbuild {...
               ...
               :builds
-              {:dev
+              {:whitespace-unit-tests
                {:source-paths [... ..."target/test/cljs"]
                 ...
                 ...
                 }
 
-               :pre-prod
+               :simple-unit-tests
                {:source-paths [... ... "target/test/cljs"]
                 ...
                 ...
                 }
 
-               :prod
+               :advanced-unit-tests
                {:source-paths [... "target/test/cljs"]
                 ...
                 ...
@@ -624,14 +663,15 @@ files.
 > smart trick.
 
 Accordingly to the above choice, we had to modify the leiningen
-`:test-paths` option with the `["target/text/clj"]` value in such a
+`:test-paths` option with the `["target/test/clj"]` value in such a
 way that the `lein test` command used to run the CLJ unit tests
 knows where to find the generated files.
 
-*Mutatis mutandis*, we had to modify the `:source-paths` option for
-each `cljsbuild` build by adding to them the `"target/test/cljs"`
-directory. As before, in this way each `cljsbuild` build knows where
-to find the CLJS unit testing files generated by `cljx`.
+*Mutatis mutandis*, we had to update the `:source-paths` option for
+each `cljsbuild` unit testing build by including the
+`"target/test/cljs"` directory. As before, in this way each
+`cljsbuild` unit testing build knows where to find the CLJS unit
+testing files generated by `cljx`.
 
 In the `:cljx` task configuration we defined two `cljx` generators
 (i.e. `:builds`).
@@ -660,7 +700,6 @@ The `:clj` and the `:cljs` keyword map to the corresponding
 `cljx.rules` namespace and they remove from the generated code any
 definition marked respectively as `#+cljs` and `#+clj`.
 
-
 ## Let's dance
 
 It's now time to verify that everything is working as expected.
@@ -668,8 +707,7 @@ It's now time to verify that everything is working as expected.
 First, start from a clean codebase.
 
 ```bash
-lein cljsbuild clean
-lein clean
+lein clean # do you remember the :hooks [leiningen.cljsbuild] option?
 ```
 
 Next we need to generate the `clj` and `cljs` testing files starting
@@ -688,8 +726,10 @@ Rewriting test/cljx to target/test/cljs (cljs) with features #{cljs} and 1 trans
 > `cljx` file will trigger a regeneration of the `clj` and `cljs`
 > files.
 
-> NOTE 8: You can even automatically run `cljx` task by adding `:hooks
-> [cljx.hooks]` in your `project.clj` file.
+> NOTE 8: You can even automatically run `cljx` task by adding
+> `cljx.hooks` to the `:hooks` option in your `project.clj` file as we
+> already did for `cljsbuild`, but I experienced strange behaviour
+> when configured togheter.
 
 You end up with the following structure for the test files
 
@@ -713,12 +753,18 @@ We can now launch the CLJS compilation with the usual command.
 ```bash
 lein cljsbuild once
 Compiling ClojureScript.
-Compiling "resources/public/js/modern_pre.js" from ["src/brepl" "src/cljs" "target/test/cljs"]...
-Successfully compiled "resources/public/js/modern_pre.js" in 41.533026 seconds.
-Compiling "resources/public/js/modern_dbg.js" from ["src/brepl" "src/cljs" "target/test/cljs"]...
-Successfully compiled "resources/public/js/modern_dbg.js" in 9.16067 seconds.
-Compiling "resources/public/js/modern.js" from ["src/cljs" "target/test/cljs"]...
-Successfully compiled "resources/public/js/modern.js" in 22.609862 seconds.
+Compiling "resources/public/js/modern_pre.js" from ["src/brepl" "src/cljs"]...
+Successfully compiled "resources/public/js/modern_pre.js" in 15.244085 seconds.
+Compiling "target/test/js/testable_dbg.js" from ["src/brepl" "src/cljs" "target/test/cljs"]...
+Successfully compiled "target/test/js/testable_dbg.js" in 3.642648 seconds.
+Compiling "resources/public/js/modern_dbg.js" from ["src/brepl" "src/cljs"]...
+Successfully compiled "resources/public/js/modern_dbg.js" in 2.734488 seconds.
+Compiling "target/test/js/testable_pre.js" from ["src/brepl" "src/cljs" "target/test/cljs"]...
+Successfully compiled "target/test/js/testable_pre.js" in 5.298994 seconds.
+Compiling "resources/public/js/modern.js" from ["src/cljs"]...
+Successfully compiled "resources/public/js/modern.js" in 7.121927 seconds.
+Compiling "target/test/js/testable.js" from ["src/cljs" "target/test/cljs"]...
+Successfully compiled "target/test/js/testable.js" in 5.7131 seconds.
 ```
 
 ### Play and Pray
@@ -728,14 +774,12 @@ unit tests for both the sides of the world wide web.
 
 ```bash
 lein test
+Compiling ClojureScript.
 
 lein test modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
-
-lein cljsbuild test
-Compiling ClojureScript.
 Running all ClojureScript tests.
 Testing modern-cljs.shopping.validators-test
 
@@ -758,6 +802,7 @@ Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
 
 {:fail 0, :pass 13, :test 1, :type :summary, :error 0}
+Giacomo-Cosenzas-iMac:modern-cljs mimmo$
 ```
 
 We have reached our goal and we can't be happier! We now have a
