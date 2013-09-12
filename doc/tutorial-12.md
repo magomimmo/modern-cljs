@@ -116,8 +116,7 @@ from `login.cljs`.
 As usual, check your progress by running the application.
 
 ```bash
-lein cljsbuild clean # at times it is needed
-lein cljsbuild auto dev # dev build only
+lein do cljsbuild clean, cljsbuild auto dev # dev build only
 lein ring server-headless # from a new terminal
 ```
 
