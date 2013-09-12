@@ -227,7 +227,7 @@ wraps the original one with `wrap-rpc`. Here is the complete
              (site)))
 ```
 
-> NOTE 3: We required `modern-cljs.core` and `compojure.handler`
+> NOTE 4: We required `modern-cljs.core` and `compojure.handler`
 > namespaces to refer `handler` and `site` symbols and we added
 > `wrap-rpc` to the `:refer` specification of the already required
 > `shoreleave.middleware.rpc` namespace.
@@ -282,7 +282,7 @@ First you need to update the namespace declaration by requiring the
             [cljs.reader :refer [read-string]]))
 ```
 
-> NOTE 4: We also added `cljs.reader` namespace to refer to
+> NOTE 5: We also added `cljs.reader` namespace to refer to
 > `read-string`. The reason will became clear when we'll fix the
 > client-side `calculate` function.
 
@@ -409,6 +409,10 @@ lein do cljsbuild clean, cljsbuild once, ring server-headless
 lein trampoline cljsbuild repl-listen # optional - in a new terminal
 ```
 
+> NOTE 6: As you can see above, we sterted usin the `do` chaining
+> feature of the `lein` command to minimize a little bit our typing.
+
+
 Now visit [shopping-dbg.html][20], click the `Calculate` button and
 verify that the shopping calculator returns the expected `total`
 value.
@@ -419,7 +423,7 @@ and CLJ on the server-side.
 
 # Make you a favor
 
-> NOTE 5: This paragraph has been written while using a previous
+> NOTE 7: This paragraph has been written while using a previous
 > version of `shoreleave` libs. *Mutatis Mutandis* (e.g. `_shoreleave`
 > instead of `_fetch`), everything should be almost the same when
 > using the latest available `shoreleave` version.
