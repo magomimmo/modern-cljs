@@ -132,8 +132,7 @@ function as follows.
 Now compile and run the application as usual.
 
 ```bash
-lein cljsbuild clean # clean any previous CLJS compilation
-lein cljsbuild auto dev # compile just the `dev` build
+lein do cljsbuild clean, cljsbuild auto dev # compile just the `dev` build
 lein ring server-headless # lunch the server from a new terminal
 ```
 
@@ -269,8 +268,7 @@ application run, execute again the usual commands from the terminal
 prior to visit the [login page][12].
 
 ```bash
-lein cljsbuild auto dev
-lein ring server-headless
+lein do cljsbuild auto dev, lein ring server-headless
 ```
 
 ## Catch early react instantly
