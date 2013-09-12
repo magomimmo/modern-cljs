@@ -802,7 +802,6 @@ Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
 
 {:fail 0, :pass 13, :test 1, :type :summary, :error 0}
-Giacomo-Cosenzas-iMac:modern-cljs mimmo$
 ```
 
 We have reached our goal and we can't be happier! We now have a
