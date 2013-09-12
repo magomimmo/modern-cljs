@@ -300,10 +300,9 @@ representing the full project.
 
 ### Global profiles
 
-> ATTENTION: This part of the tutorial is no more valid. It will be
-> updated in the near future because it is based on a
-> misinterpretation of the featerues of [lein profiles][14]
-> features. Sorry about that.
+> ATTENTION: This part of the tutorial is under modifaction. It will
+> be updated in the near future because it needs a deeper study of
+> [lein profiles][14] mechanics. Sorry about that.
 
 Say you want a set of plugins to be available in all your local
 projects managed by `lein`. I always want to have few plugins.
