@@ -831,15 +831,56 @@ update the namespace of the `app` symbol in the `:ring` section.
 We are now ready to rebuild and run everything as follows:
 
 ```bash
-lein clean # it's better to be safe than sorry
-lein cljsbuild clean # it's better to be safe than sorry
-lein cljsbuild once prod
-lein ring server-headless
+lein do clean, cljsbuild clean, cljsbuild once prod, ring server-headless
 ```
 
 Now visit [shopping][2] URI and play with the form by enabling and
 disabling the JavaScript engine of your browser. Everything should
 work as expected in both the scenarios.
+
+## Housekeeping
+
+As you have seen in all the previous tutorials concerning
+[lein-cljsbuild][29], most of the times you need to run both a `lein
+clean` and `lein cljsbuild clean` command to clean the entire
+project. Next you have to issue the `lein cljsbuild once` command to
+compile down the cljs files. Until now we use the `do` chaining
+feature of `lein` as a little workaround to those repetitions.
+
+[lein-cljsbuild][30] can hook into few Leiningen tasks to enable CLJS
+support in each of them. The following tasks are supported:
+
+```bash
+lein clean
+lein compile
+lein test
+lein jar
+```
+
+Add the following option to your project configuration:
+
+```clj
+(defproject ...
+  ...
+  :hooks [leiningen.cljsbuild]
+  ...
+)
+```
+
+You can now run the following commands:
+
+```bash
+lein clean # it call lein cljsbuild
+lein compile # it call lein cljsbuild once
+```
+
+Note that you can't add a build-id to `lein compile` command as you
+can do with `lein cljsbuild once` command. So, if you just need to
+compile a single build-id you're forced to use the `lein cljsbuild
+once <build-id>` command.
+
+[Leiningen][31] even support project-specific task aliases. We'll
+introduce this feature in a next tutorial.
 
 ## ATTENTION - FINAL NOTES
 
@@ -848,14 +889,12 @@ and `:dev`), you have to update the `shopping-dbg.html` and
 `shopping-prod.html` files with the same modification we did in the
 `shopping.html` file.
 
-Then submit the following commands in the terminal from the main
-`modern-cljs` directory.
+Then, assuming you added the `:hooks` option to the `project.clj` as
+documented above, submit the following commands in the terminal from
+the main `modern-cljs` directory.
 
 ```bash
-lein clean
-lein cljsbuild clean
-lein cljsbuild once # to compile all builds
-lein ring server-headless
+lein do clean, compile, ring server-headless
 ```
 
 Now visit any version of the Shopping Calculator
@@ -911,3 +950,6 @@ License, the same as Clojure.
 [26]: https://github.com/cemerick/valip/blob/master/src/valip/predicates.clj
 [27]: https://github.com/cgrand
 [28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md
+[29]: https://github.com/emezeske/lein-cljsbuild
+[30]: https://github.com/emezeske/lein-cljsbuild#hooks
+[31]: https://github.com/technomancy/leiningen
