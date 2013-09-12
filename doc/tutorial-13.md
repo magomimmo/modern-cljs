@@ -279,9 +279,7 @@ interaction with the just-added validator is working as expected.
 
 ```bash
 rm -rf out # it's better to be safe than sorry
-lein clean # it's better to be safe than sorry
-lein cljsbuild clean # it's better to be safe than sorry
-lein cljsbuild auto dev
+lein do clean, cljsbuild clean, cljsbuild auto dev # it's better to be safe than sorry 
 lein ring server-headless # in a new terminal
 ```
 
@@ -484,9 +482,7 @@ run the application as usual:
 
 ```bash
 rm -rf out # it's better to be safe than sorry
-lein clean # it's better to be safe than sorry
-lein cljsbuild clean # it's better to be safe than sorry
-lein cljsbuild auto dev
+lein do clean, cljsbuild clean, cljsbuild auto dev # it's better to be safe than sorry
 lein ring server-headless # in a new terminal
 ```
 
