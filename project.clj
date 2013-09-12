@@ -5,6 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.1.2"
 
+  :hooks [leiningen.cljsbuild]
+
   ;; clojure source code path
   :source-paths ["src/clj"]
 
