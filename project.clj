@@ -24,6 +24,8 @@
             [lein-ring "0.8.7"]
             [com.keminglabs/cljx "0.3.0"]]
 
+  :hooks [leiningen.cljsbuild]
+
   :cljx {:builds [{:source-paths ["test/cljx"]
                    :output-path "target/test/clj"
                    :rules :clj}
