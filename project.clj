@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :min-lein-version "2.1.2"
+  :min-lein-version "2.1.3"
 
   ;; clojure source code path
   :source-paths ["src/clj"]
@@ -16,9 +16,7 @@
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
                  [enlive "1.1.4"]
-                 [com.cemerick/clojurescript.test "0.0.4"]
-                 ;; [hiccup "1.0.3"] 
-                 ]
+                 [com.cemerick/clojurescript.test "0.0.4"]]
 
   :plugins [[lein-cljsbuild "0.3.2"]
             [lein-ring "0.8.7"]
@@ -44,20 +42,59 @@
                            modern-cljs.shopping.validators]
               ;; for unit testing with phantomjs
               :test-commands {"phantomjs-whitespace"
-                              ["runners/phantomjs.js" "resources/public/js/modern_dbg.js"]
+                              ["runners/phantomjs.js" "target/test/js/testable_dbg.js"]
 
                               "phantomjs-simple"
-                              ["runners/phantomjs.js" "resources/public/js/modern_pre.js"]
+                              ["runners/phantomjs.js" "target/test/js/testable_pre.js"]
 
                               "phantomjs-advanced"
-                              ["runners/phantomjs.js" "resources/public/js/modern.js"]}
+                              ["runners/phantomjs.js" "target/test/js/testable.js"]}
               :builds
-              {:dev
-               {;; clojurescript source code path
+              {:ws-unit-tests
+               { ;; clojurescript source code path
                 :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
 
                 ;; Google Closure Compiler options
-                :compiler {;; the name of emitted JS script file
+                :compiler { ;; the name of emitted JS script file
+                           :output-to "target/test/js/testable_dbg.js"
+
+                           ;; minimum optimization
+                           :optimizations :whitespace
+                           ;; prettyfying emitted JS
+                           :pretty-print true}}
+               
+               :simple-unit-tests
+               { ;; same path as above
+                :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
+
+                :compiler { ;; different JS output name
+                           :output-to "target/test/js/testable_pre.js"
+
+                           ;; simple optimization
+                           :optimizations :simple
+
+                           ;; no need prettification
+                           :pretty-print false}}
+               
+               :advanced-unit-tests
+               { ;; same path as above
+                :source-paths ["src/cljs" "target/test/cljs"]
+
+                :compiler { ;; different JS output name
+                           :output-to "target/test/js/testable.js"
+
+                           ;; advanced optimization
+                           :optimizations :advanced
+
+                           ;; no need prettification
+                           :pretty-print false}}
+               
+               :dev
+               { ;; clojurescript source code path
+                :source-paths ["src/brepl" "src/cljs"]
+
+                ;; Google Closure Compiler options
+                :compiler { ;; the name of emitted JS script file
                            :output-to "resources/public/js/modern_dbg.js"
 
                            ;; minimum optimization
@@ -65,10 +102,10 @@
                            ;; prettyfying emitted JS
                            :pretty-print true}}
                :pre-prod
-               {;; same path as above
-                :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
+               { ;; same path as above
+                :source-paths ["src/brepl" "src/cljs"]
 
-                :compiler {;; different JS output name
+                :compiler { ;; different JS output name
                            :output-to "resources/public/js/modern_pre.js"
 
                            ;; simple optimization
@@ -77,10 +114,10 @@
                            ;; no need prettification
                            :pretty-print false}}
                :prod
-               {;; same path as above
-                :source-paths ["src/cljs" "target/test/cljs"]
+               { ;; same path as above
+                :source-paths ["src/cljs"]
 
-                :compiler {;; different JS output name
+                :compiler { ;; different JS output name
                            :output-to "resources/public/js/modern.js"
 
                            ;; advanced optimization
