@@ -405,9 +405,7 @@ Now cross your finger and do as follows:
 
 ```bash
 cd /path/to/modern-cljs
-lein cljsbuild clean
-lein cljsbuild once dev
-lein ring server-headless
+lein do cljsbuild clean, cljsbuild once, ring server-headless
 lein trampoline cljsbuild repl-listen # optional - in a new terminal
 ```
 
