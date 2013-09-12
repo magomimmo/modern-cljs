@@ -192,7 +192,7 @@ your `~/.lein/profiles.clj` as follows
 ```
 
 Take into account that `lein-try "0.3.0"` requires at least the
-version `"2.1.3"` of Leinengen. If are running an inferior lein
+version `"2.1.3"` of Leinengen. If you're running an inferior lein
 version, you need to upgrade it by issuing the following command at
 the terminal from any directory:
 
