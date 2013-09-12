@@ -473,6 +473,16 @@ lein cljsbuild clean
 lein cljsbuild once
 ```
 
+> NOTE 3: Instead of sequencially running the above tasks, you can chain
+> them at the terminal as follows:
+> 
+> ```bash
+> lein do clean, cljsbuild clean, lein cljsbuild once
+> ```
+> 
+> Leiningen offers more options to automate composite tasks. We'll see
+> them in subsequent tutorials.
+
 One very nice consequence of the `connect.cljs` exclusion from the
 `:prod` build is that now the size of the generated `modern.js` is even
 smaller than before.
