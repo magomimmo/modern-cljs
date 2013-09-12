@@ -30,11 +30,13 @@ git checkout tutorial-14 # to start from the tutorial-14 code
 git checkout -b tutorial-15-step-1 # to clone it in a new branch
 ```
 
-Then compile and run `modern-cljs` as usual:
+Then, assuming you've added the `:hooks [leiningen.cljsbuild]` to your
+`project.clj` as documented at the very end of the
+[previous tutorial][1], clean, compile and run the `modern-cljs`
+project as usual:
 
 ```bash
-lein cljsbuild once # it compiles all builds
-lein ring server-headless
+lein do clean, compile, ring server-headless
 ```
 
 Now disable the JavaScript engine of your browser, visit the
@@ -448,7 +450,7 @@ Tests failed.
 ```
 
 The failure report says that on the line 8 of `validators_test` source
-file there is failed assertion because the actual value of the
+file there is a failed assertion because the actual value of the
 `(validate-shopping-form "" "0" "0" "0")` call is not equal to
 `nil`. Indeed, the actual value of this `validate-shop-form` call is
 equal to the `{:quantity [...]}` map.
