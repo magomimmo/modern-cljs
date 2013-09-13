@@ -103,10 +103,10 @@ start it.
 
 ### Compile the CLJS file
 
-Now we need compile the new CLJS file. [Google Closure Compiler][9] (CLS)
-has a few compilation options we already set up in our `project.clj`
-during [Tutorial 1][8], and we can leave those options as we have already
-configured. Now call the CLJS compilation task:
+Now we need to compile the new CLJS file. [Google Closure Compiler][9]
+(CLS) has a few compilation options we already set up in our
+`project.clj` during [Tutorial 1][8], and we can leave those options
+as we have already configured. Now call the CLJS compilation task:
 
 ```bash
 lein cljsbuild once
