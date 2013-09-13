@@ -103,11 +103,12 @@ the updated version of `project.clj`
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
+	             [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [domina "1.0.2-SNAPSHOT"]]
 
   :plugins [; cljsbuild plugin
-            [lein-cljsbuild "0.3.2"]
+            [lein-cljsbuild "0.3.3"]
             [lein-ring "0.8.7"]]
 
   ;; ring tasks configuration
@@ -129,6 +130,17 @@ the updated version of `project.clj`
                            :pretty-print true}}]})
 ```
 
+> NOTE 1: **ATTENTION**. Due to an incompatibility/bug of the deployed
+> "1.0.2-SNAPSHOT" release of [domina][1] with the any CLJS release
+> superior to the "0.0-1847" one, I rolled back the CLJS release to
+> "0.0-1847".
+> 
+> Even if the owner of the [domina][1] lib merged the fix I submitted,
+> he still has to deploy it into a public repository. This is something
+> that could frequently happen. In a subsequent tutorial, specifically
+> dedicated to this kind of problematics, I'll explain how to manage
+> this situation.
+
 ## Domina selectors
 
 [Domina][1] offers several selector functions: `xpath`, in the `domina.xpath`
@@ -143,11 +155,11 @@ anticipated, the `domina` core namespace offers other useful functions we're
 going to use: `(value el)`, which returns the value of the passed
 element, and `(set-value! el value)` which sets its value.
 
-> Note 1: when a function modifies an argument passed to it, by Clojure
+> Note 2: when a function modifies an argument passed to it, by Clojure
 > naming convention a bang "!" is added at the end of the function
 > name.
 
-> Note 2: when you need to :use or :require a namespace, CLJS imposes
+> Note 3: when you need to :use or :require a namespace, CLJS imposes
 > using the :only form of :use and the :as form of :require. For further
 > differences see [the ClojureScript Wiki][8]
 
@@ -189,7 +201,7 @@ lein cljsbuild once # in a new terminal and after having cd in modern-cljs
 lein trampoline cljsbuild repl-listen
 ```
 
-> Note 3: be sure to `cd` to the home directory of the project in each
+> Note 4: be sure to `cd` to the home directory of the project in each
 > terminal you open.
 
 Open <http://localhost:3000/login.html>, and when the CLJS repl becomes responsive,
