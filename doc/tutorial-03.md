@@ -55,10 +55,11 @@ configuration we talked about.
   ;; clojure source code pathname
   :source-paths ["src/clj"]
 
-  :dependencies [[org.clojure/clojure "1.5.1"]]
+  :dependencies [[org.clojure/clojure "1.5.1"]
+	             [org.clojure/clojurescript "0.0-1878"]]
 
   :plugins [;; cljsbuild plugin
-            [lein-cljsbuild "0.3.2"]
+            [lein-cljsbuild "0.3.3"]
 
             ;; ring plugin
             [lein-ring "0.8.7"]]
