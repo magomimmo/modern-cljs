@@ -171,11 +171,6 @@ Retrieving cljsbuild/cljsbuild/0.3.3-SNAPSHOT/cljsbuild-0.3.3-20130913.125809-2.
 Retrieving cljsbuild/cljsbuild/0.3.3-SNAPSHOT/cljsbuild-0.3.3-20130913.125809-2.jar from clojars
 Compiling "resources/public/js/modern.js" from ["src/cljs"]...
 Successfully compiled "resources/public/js/modern.js" in 7.131854 seconds.
-Giacomo-Cosenzas-iMac:modern-cljs mimmo$
-lein cljsbuild once
-Compiling ClojureScript.
-Compiling "resources/public/js/modern.js" from "src/cljs"...
-Successfully compiled "resources/public/js/modern.js" in 7.860731 seconds.
 ```
 
 As you can you received a *WARNING* saying that, even if the
