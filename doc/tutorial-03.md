@@ -40,7 +40,7 @@ can add it to your global profile (i.e. in `~/.lein/profiles.clj`).
 Like `lein-cljsbuild`, `lein-ring` plugin requires to be configurated
 by adding a `:ring` keyword to `project.clj`. The value of `:ring` has
 to contain a map of configuration options, but at the moment just one
-of them, the `:handler`, is required nd has to refer a function we are
+of them, the `:handler`, is required and has to refer a function we are
 going to define.
 
 Here is the modified version of `project.clj` with the required
@@ -141,10 +141,11 @@ follows:
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
+	             [org.clojure/clojurescript "0.0-1878"]
                  [compojure "1.1.5"]]
 
   :plugins [;; cljsbuild plugin
-            [lein-cljsbuild "0.3.2"]
+            [lein-cljsbuild "0.3.3"]
             [lein-ring "0.8.7"]]
 
   ;; ring tasks configuration
