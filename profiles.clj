@@ -3,7 +3,7 @@
        :dependencies [[com.cemerick/clojurescript.test "0.0.4"]
                       [com.cemerick/piggieback "0.1.0"]]
        
-       :plugins [[lein-cljsbuild "0.3.2"]
+       :plugins [[lein-cljsbuild "0.3.3"]
                  [com.keminglabs/cljx "0.3.0"]]
 
        :cljx {:builds [{:source-paths ["test/cljx"]
