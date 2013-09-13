@@ -116,19 +116,12 @@ Open the `project.clj` file and update its dependencies as follows:
   ...
   :dependencies [...
                  ...
-		         [org.clojure/clojurescript "0.0-1847"]
                  [com.cemerick/piggieback "0.1.0"]
                  ...
                  ...]
   ...
   ...)
 ```
-
-Note that we needed to add a version of CLJS which is equal or
-newer than `"0.0-1835"`. This is because, starting from the
-`"0.0.5"` version, [Piggieback][12] is not compatible with the
-CLJS version implicitely used by the current stable version of the
-[Lein-cljsbuild][6] plugin.
 
 Then we have to configure the project `:nrepl-options` as follows:
 
@@ -322,7 +315,7 @@ All we have to do is to create a `profiles.clj` file inside the
 `~/.lein` directory and write the following declarations:
 
 ```clj
-{:user {:plugins [[lein-try "0.3.0"]
+{:user {:plugins [[lein-try "0.3.1"]
 	              [lein-pprint "1.1.1"]
                   [lein-ancient "0.4.4"]
                   [lein-bikeshed "0.1.3"]]}}
@@ -397,7 +390,7 @@ the `project.clj` descriptor.
        :dependencies [[com.cemerick/clojurescript.test "0.0.4"]
                       [com.cemerick/piggieback "0.1.0"]]
        
-       :plugins [[lein-cljsbuild "0.3.2"]
+       :plugins [[lein-cljsbuild "0.3.3"]
                  [com.keminglabs/cljx "0.3.0"]]
 
        :cljx {:builds [{:source-paths ["test/cljx"]
@@ -554,7 +547,7 @@ Performing task 'pprint' with profile(s): 'user'
   [lein-pprint/lein-pprint "1.1.1"]
   [lein-ancient/lein-ancient "0.4.4"]
   [lein-bikeshed/lein-bikeshed "0.1.3"]
-  [lein-try/lein-try "0.3.0"]),
+  [lein-try/lein-try "0.3.1"]),
   ...
   ...}
 ```
@@ -643,7 +636,7 @@ Performing task 'pprint' with profile(s): 'dev'
     :rules :cljs}]},
  :plugins
  ([lein-ring/lein-ring "0.8.7"]
-  [lein-cljsbuild/lein-cljsbuild "0.3.2"]
+  [lein-cljsbuild/lein-cljsbuild "0.3.3"]
   [com.keminglabs/cljx "0.3.0"]),
  :injections
  [(require
