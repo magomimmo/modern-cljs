@@ -9,10 +9,11 @@
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
+                 [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [domina "1.0.2-SNAPSHOT"]]
 
-  :plugins [[lein-cljsbuild "0.3.2"]
+  :plugins [[lein-cljsbuild "0.3.3"]
             [lein-ring "0.8.7"]]
 
   ;; ring tasks configuration
