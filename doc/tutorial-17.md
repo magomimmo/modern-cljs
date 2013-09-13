@@ -180,7 +180,7 @@ you a headache writing stringified HTML at the REPL.
 
 [Ryan Neufeld][25] recently published [lein-try][26], a lein plugin
 for trying out libraries in the REPL whithout having to import them in
-a `project.clj`. To set up [lein-try][26], add `[lein-try "0.3.0"]` to
+a `project.clj`. To set up [lein-try][26], add `[lein-try "0.3.1"]` to
 your `~/.lein/profiles.clj` as follows
 
 ```clj
@@ -188,10 +188,10 @@ your `~/.lein/profiles.clj` as follows
 
 {:user {:plugins [...
 	              ...
-                  [lein-try "0.3.0"]]}}
+                  [lein-try "0.3.1"]]}}
 ```
 
-Take into account that `lein-try "0.3.0"` requires at least the
+Take into account that `lein-try "0.3.1"` requires at least the
 version `"2.1.3"` of Leinengen. If you're running an inferior lein
 version, you need to upgrade it by issuing the following command at
 the terminal from any directory:
