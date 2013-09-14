@@ -392,7 +392,7 @@ tutorial, I suggest you to commit the changes as follows
 git commit -am "modern javascript"
 ```
 
-# Next Tutorial
+# Next Step [Tutorial 5: Introducing Domina][18]
 
 In the [next tutorial][18] we're going to use [domina library][19] to
 make our login form validation more clojure-ish.

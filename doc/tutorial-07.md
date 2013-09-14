@@ -517,7 +517,7 @@ tutorial, I suggest you to commit the changes as follows
 git commit -am "being doubly aggressive"
 ```
 
-# Next step - Introducing Domina events.
+# Next step - [Tutorial 8: Introducing Domina events][9]
 
 In the next [Tutorial 8][9] we're going to introduce domina events
 which, by wrapping Google Closure Library event management, allows to

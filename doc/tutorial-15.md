@@ -539,7 +539,7 @@ git commit -am "Step 1"
 
 Stay tuned!
 
-# Turorial 16 - It's better to be safe than sorry (Part 3)
+# Next step - [Turorial 16: It's better to be safe than sorry (Part 3)][11]
 
 In the [next Tutorial][11] of the series we're going to make the
 `modern-cljs.shopping.validators-test` runnable from CLJS too.  To

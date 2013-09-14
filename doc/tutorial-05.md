@@ -495,7 +495,7 @@ tutorial, I suggest you to commit the changes as follows
 git commit -am "introducing domina"
 ```
 
-# Next Step
+# Next Step [Tutorial 6: Easy made Complex and Simple made Easy][12]
 
 In the [next tutorial][12] we're going to investigate and solve in two
 different ways the problem we just met.

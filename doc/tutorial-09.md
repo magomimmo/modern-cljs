@@ -378,7 +378,7 @@ tutorial, I suggest you to commit the changes as follows
 git commit -am "DOM manipulation"
 ```
 
-# Next step - [Tutorial 10 - Introducing Ajax][11]
+# Next step - [Tutorial 10: Introducing Ajax][11]
 
 In the next tutorial we're going to extend our comprehension of CLJS by
 introducing Ajax to let the CLJS client-side code to communicate with

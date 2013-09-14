@@ -307,7 +307,7 @@ tutorial, I suggest you to commit the changes as follows
 git commit -am "highest and deepest"
 ```
 
-# [Next Step: Tutorial 13 - Don't Repeat Yourself while crossing the border][9]
+# Next Step - [Tutorial 13: Don't Repeat Yourself while crossing the border][9]
 
 One of our long term objectives is to eliminate any code duplication
 from our web applications.  That's like saying we want to stay as

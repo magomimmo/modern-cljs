@@ -912,7 +912,7 @@ git add .
 git commit -m "finished step-2"
 ```
 
-# Next - Tutorial 15 - It's better to be safe than sorry (Part 2)
+# Next Step - [Tutorial 15: It's better to be safe than sorry (Part 2)][28]
 
 In the [next tutorial][28], after having added the validators for the
 `shoppingForm`, we're going to introduce unit testing.

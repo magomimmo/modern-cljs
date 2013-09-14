@@ -172,7 +172,7 @@ tutorial, I suggest you to commit the changes as follows
 git commit -am "brepl enabled"
 ```
 
-## Next step
+## Next step - [Tutorial 3: CLJ based http-server][11]
 
 In the next [tutorial][11] we're going to substitute the external
 http-server with a CLJ based http-server in such a way that in others

@@ -224,7 +224,7 @@ tutorial, I suggest you to commit the changes as follows
 git commit -am "introducing domina events"
 ```
 
-# [Tutorial 9 - DOM Manipulation][9]
+# Next Step - [Tutorial 9: DOM Manipulation][9]
 
 In the next tutorial we'are going to face the need to programmatically
 manipulate DOM elements as a result of the occurrance of some DOM

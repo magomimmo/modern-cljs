@@ -822,7 +822,7 @@ git commit -m "step-2 done"
 
 Stay tuned for the next tutorial.
 
-# [Next Step - Tutorial 17 - Enlive by REPLing][21]
+# Next Step - [Tutorial 17: Enlive by REPLing][21]
 
 In the [next tutorial][21] we're going to integrate the validators for
 the Shopping Calculator into the corresponding WUI (Web User

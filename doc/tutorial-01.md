@@ -218,7 +218,7 @@ went ok, you should see "Hello, ClojureScript!".
 
 ![Hello ClojureScript][5]
 
-## Next Step
+## Next Step - [Tutorial 2: Browser CLJS REPL (bREPL)][6]
 
 In the next [tutorial][6] we're introduce the so called *brepl*, a browser
 connected CLJS REPL.

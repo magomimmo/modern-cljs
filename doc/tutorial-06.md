@@ -224,7 +224,7 @@ In a subsequent tutorial we'll introduce [domina event][6] management
 to further improve our functional style in porting
 [Modern JavaScript samples][7] to CLJS.
 
-# Next step - Being doubly aggressive
+# Next step - [Tutorial 7: Being doubly aggressive][8]
 
 In the [next tutorial][8] we're going to explore CLJS/CLS compilation modes by
 using the usual `lein-cljsbuild` plugin of `leiningen`.

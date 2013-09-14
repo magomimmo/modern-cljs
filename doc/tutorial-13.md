@@ -689,7 +689,7 @@ git commit -am "DRY while crossing the border"
 
 Stay tuned for the next tutorial.
 
-# Next step - Tutorial 14 - It's better to be safe than sorry (Part 1)
+# Next step - [Tutorial 14: It's better to be safe than sorry (Part 1)][20]
 
 In the [next Tutorial][20] we are going to prepare the stage for
 affording the unit testing topic. We'll also introduce the `Enlive`

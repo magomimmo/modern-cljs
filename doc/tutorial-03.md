@@ -196,7 +196,7 @@ tutorial, I suggest you to commit the changes as follows
 git commit -am "added ring and compojure"
 ```
 
-## Next step
+## Next step - [Tutorial 4: Modern ClojureScript][7]
 
 In the [next tutorial 4][7] we're going to have some fun introducing form validation in CLJS.
 

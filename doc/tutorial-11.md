@@ -536,7 +536,7 @@ tutorial, I suggest you to commit the changes as follows
 git commit -am "deeper understanding"
 ```
 
-# [Next Step: Tutorial 12 - The highest and the deepest layers][25]
+# Next Step - [Tutorial 12: The highest and the deepest layers][25]
 
 In the [next tutorial][25] we're going to cover the highest and the deepest
 layers of the progressive enhancement strategy to the Login Form.
