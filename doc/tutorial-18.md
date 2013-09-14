@@ -283,24 +283,122 @@ the pages from the `:dev` or the `:pre-prod` builds.
 
 As we walked through the tutorials of the series we started adding
 plugins, dependencies and other esoteric options to the `project.clj`
-file which ended up being long and confusing. Take a look at the
-latest `project.clj` if you don't believe me.
+file which ended up being long and confusing.
 
-[Leiningen Profiles][14] offer a very handy and articulated approach
-for simplifying the writing and mostly the reading of a project
-declaration without losing any expressive power of the map
-representing the full project.
+At the same time, even if we added the `:hooks [leiningen.cljsbuild]`
+option to our `project.clj` file, we still need to issue more lein
+tasks to be able to clean, compile and run the project or even its
+tests.
 
-### Global profiles
+### Cljx hooks
+
+As the [lein-cljsbuild][6] does, the [cljx][20] lein plugin offers a
+way to hook some of its subtasks to leiningen tasks
+(e.g. `compile`). You just need to add it in the `:hooks` session of
+your `project.clj` as follows:
+
+`clj
+(defproject ...
+  ...
+  :hooks [cljx.hooks leiningen.cljsbuild]
+  ...)
+```
+
+Now you can more quickly clean, compile and start the project or its
+unit tests as follows.
+
+```bash
+lein do clean, compile, test # unit testing from a clean env
+```
+
+```bash
+lein do clean, compile, ring server-headless # run application from a clean env
+```
+
+Unfortunally, both the above commands show a double CLJS unit testing
+code genration which, in turn, are compiled two times! The iteraction
+between the `cljsbuild` and the `cljx` hooks seems to have a bug to be
+fixed.
+
+### Aliases option
+
+Luckly, `lein` offers an `:aliases` option which, if combined with the
+`do` task for chaining lein tasks, allows us to obtain even a better
+level of automation without incurring in the double code
+generation/compilation shown above by the bugged interaction of
+`cljsbuild` and `cljx` hooks.
+
+First, remove the `cljx` hooks and add the following `:aliases` option
+to our `project.clj`.
+
+```clj
+(defproject ...
+  ...
+  :hooks [leiningen.cljsbuild]
+  :aliases {"clean-test!" ["do" "clean," "cljx," "compile," "test"]
+	        "clean-run!" ["do" "clean," "cljx," "compile," "ring" "server-headless"]}
+  ...)
+```
+
+The value of the `:aliases` option is a map where each key is a string
+and each associated value is a vector of the stringified tasks to be
+chained by the `do` task.
+
+> NOTE 7: that each command but the last has to contain the comma `,`
+> inside the stringified task name (e.g. `"clean,"`), otherwise the next
+> string will be interpreted as an argument of the previous task
+> (e.g. "ring" "server-headless").
+
+> NOTE 8: to workaround the previous double CLJS code
+> generation/compilation we just added the cljx` task before the
+> `compile` one.
+
+To list all the available aliases in a project, just call `lein help`
+command.
+
+```bash
+lein help
+...
+These aliases are available:
+clean-test!, expands to ["do" "clean," "cljx," "compile," "test"]
+clean-start!, expands to ["do" "clean," "cljx," "compile," "ring" "server-headless"]
+...
+```
+
+You can now safely call the above aliases as follows.
+
+```bash
+lein clean-test!
+```
+
+```bash
+lein clean-start!!
+```
+
+Even if have been able to chain few tasks to obtain a little bit of
+automation, the `project.clj` file is becaming more a more dense and
+convoluted. It contains the dependencies pertaining the CLJ codebase,
+the ones relative to the CLJS codebase and even the ones regarding the
+unit testing and the enabling of a bREPL session based on nREPL.  The
+plugins session is affected by the same kind of roles' mix in the
+project and so do the few configuration options for the plugins
+themselves. Don't you think we need more separation of concerns?
+
+### Leining profiles
+
+Starting from the `"2.0.0"` version, [leiningen][5] introduced the
+[profiles][14] features, which allows to obtain, if not a shorter
+`project.clj` at least a superior separation of concerns in its
+sections.
+
+#### Global profiles
 
 > ATTENTION: This part of the tutorial is under modifaction. It will
 > be updated in the near future because it needs a deeper study of
 > [lein profiles][14] mechanics. Sorry about that.
 
 Say you want a set of plugins to be available in all your local
-projects managed by `lein`. I always want to have few plugins.
-
-For example:
+projects managed by `lein`. I always want to have few plugins:
 
 * [lein-try][15]: for REPling with new libs without declaring them in
   the projects' dependencies
@@ -309,7 +407,7 @@ For example:
 * [lein-ancient][17]: to check if there are available upgrades for the
   components used in the projects
 * [lein-bikeshed][18]: to check the adherence of the project code to a
-  small set of established CLJ idioms that you can extend.
+  small set of established and extendable CLJ idioms.
 
 All we have to do is to create a `profiles.clj` file inside the
 `~/.lein` directory and write the following declarations:
@@ -726,4 +824,5 @@ License, the same as Clojure.
 [17]: https://github.com/xsc/lein-ancient
 [18]: https://github.com/dakrone/lein-bikeshed
 [19]: https://github.com/clojure/tools.nrepl#middleware
+[20]: https://github.com/lynaghk/cljx
 
