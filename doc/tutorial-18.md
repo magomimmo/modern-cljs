@@ -335,8 +335,8 @@ to our `project.clj`.
 (defproject ...
   ...
   :hooks [leiningen.cljsbuild]
-  :aliases {"clean-test!" ["do" "clean," "cljx," "compile," "test"]
-	        "clean-run!" ["do" "clean," "cljx," "compile," "ring" "server-headless"]}
+  :aliases {"clean-test!" ["do" "clean," "cljx" "once," "compile," "test"]
+	        "clean-start!" ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"]}
   ...)
 ```
 
@@ -360,8 +360,8 @@ command.
 lein help
 ...
 These aliases are available:
-clean-test!, expands to ["do" "clean," "cljx," "compile," "test"]
-clean-start!, expands to ["do" "clean," "cljx," "compile," "ring" "server-headless"]
+clean-test!, expands to ["do" "clean," "cljx" "once," "compile," "test"]
+clean-start!, expands to ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"]
 ...
 ```
 
@@ -386,19 +386,16 @@ themselves. Don't you think we need more separation of concerns?
 
 ### Leining profiles
 
-Starting from the `"2.0.0"` version, [leiningen][5] introduced the
+Starting from the `"2.0.0"` release, [leiningen][5] introduced the
 [profiles][14] features, which allows to obtain, if not a shorter
 `project.clj` at least a superior separation of concerns in its
-sections.
+growing sections.
 
 #### Global profiles
 
-> ATTENTION: This part of the tutorial is under modifaction. It will
-> be updated in the near future because it needs a deeper study of
-> [lein profiles][14] mechanics. Sorry about that.
-
 Say you want a set of plugins to be available in all your local
-projects managed by `lein`. I always want to have few plugins:
+projects managed by `lein`. I always want to have at least the
+following plugins:
 
 * [lein-try][15]: for REPling with new libs without declaring them in
   the projects' dependencies
@@ -423,11 +420,11 @@ If you now run the `lein pprint` command from a project home
 directory, you'll get the entire map of the project itself.
 
 You can then verify that the above plugins have been merged with the
-declaration you set in the `project.clj` file. Just remember that the
-eventual local profiles (e.g. inside a `project.clj`) take precedence
+declaration you set in the `project.clj` file. Just remember that any
+eventual local profile (e.g. inside a `project.clj`) takes precedence
 over the global ones.
 
-## Local profiles
+#### Dev profile
 
 I always try to keep in the `project.clj` file only what is absolutely
 needed to be easily read, but mostly what remains after having removed
