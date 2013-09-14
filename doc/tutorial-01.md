@@ -158,7 +158,8 @@ of `:output-to` keyword of `project.clj`. Save the file as `simple.html` in
 
 ## Compile CLJS
 
-To compile CLJS to JS, use the task `once` of `cljsbuild` as follow:
+To compile CLJS to JS, use the `once` subtask of `cljsbuild` as
+follow:
 
 ```bash
 lein cljsbuild once
@@ -173,14 +174,13 @@ Compiling "resources/public/js/modern.js" from ["src/cljs"]...
 Successfully compiled "resources/public/js/modern.js" in 7.131854 seconds.
 ```
 
-As you can you received a *WARNING* saying that, even if the
+As you can see, you received a *WARNING* saying that, even if the
 `cljsbuild` plugin is able to provide you a CLJS release, it is
 strongly recommended to explicitly add a specific CLJS release in the
 `:dependencies` section of the `project.clj` file.
 
-This message is a new features of the "0.3.3" release of the
-`cljsbuild` plugin. So, let's add an explicit CLJS release in the
-project `:dependencies` section to make it happy.
+Let's add an explicit CLJS release into the project `:dependencies`
+section to make `cljsbuild` happy.
 
 ```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -194,7 +194,7 @@ project `:dependencies` section to make it happy.
 > at the time of this writing.
 
 Now issue the `lein cljsbuild clean` command to clean the previous
-compilation and re-issue the `lein cljsbuild once` command.
+compilation and ssue the `lein cljsbuild once` command again.
 
 ```clj
 lein cljsbuild clean
