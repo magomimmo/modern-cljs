@@ -297,7 +297,7 @@ way to hook some of its subtasks to leiningen tasks
 (e.g. `compile`). You just need to add it in the `:hooks` session of
 your `project.clj` as follows:
 
-`clj
+```clj
 (defproject ...
   ...
   :hooks [cljx.hooks leiningen.cljsbuild]
