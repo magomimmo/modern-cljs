@@ -26,8 +26,8 @@
 
   :hooks [leiningen.cljsbuild]
   
-  :aliases {"clean-test!" ["do" "clean," "cljx," "compile," "test"]
-            "clean-start!" ["do" "clean," "cljx," "compile," "ring" "server-headless"]}
+  :aliases {"clean-test!" ["do" "clean," "cljx" "once," "compile," "test"]
+            "clean-start!" ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"]}
             
   :cljx {:builds [{:source-paths ["test/cljx"]
                    :output-path "target/test/clj"
