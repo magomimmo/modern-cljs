@@ -22,6 +22,7 @@
   :ring {:handler modern-cljs.core/app}
   
   :profiles {:dev {:test-paths ["target/test/clj"]
+                   :clean-targets ["out"]
 
                    :dependencies [[com.cemerick/clojurescript.test "0.0.4"]
                                   [com.cemerick/piggieback "0.1.0"]]
