@@ -387,11 +387,11 @@ themselves. Don't you think we need more separation of concerns?
 ### Leining profiles
 
 Starting from the `"2.0.0"` release, [leiningen][5] introduced the
-[profiles][14] features, which allows to obtain, if not a shorter
+[profiles][14] feature, which allows to obtain, if not a shorter
 `project.clj` at least a superior separation of concerns in its
 growing sections.
 
-#### Global profiles
+#### User profiles
 
 Say you want a set of plugins to be available in all your local
 projects managed by `lein`. I always want to have at least the
@@ -417,191 +417,230 @@ All we have to do is to create a `profiles.clj` file inside the
 ```
 
 If you now run the `lein pprint` command from a project home
-directory, you'll get the entire map of the project itself.
+directory, you'll get the entire map of the project itself and you can
+verify that the above user level plugins have been merged with the
+ones declared in your `project.clj` file.
 
-You can then verify that the above plugins have been merged with the
-declaration you set in the `project.clj` file. Just remember that any
-eventual local profile (e.g. inside a `project.clj`) takes precedence
-over the global ones.
+> NOTE 9: Remember that any eventual local profile defined inside a
+> the `project.clj` takes precedence over the one declared in the
+> `~/.lein/profiles.cljs`.
+
+```bash
+lein pprint
+{...
+ ...
+ :plugins
+ ([lein-ring/lein-ring "0.8.7"]
+  [lein-cljsbuild/lein-cljsbuild "0.3.3"]
+  [com.keminglabs/cljx "0.3.0"]
+  [lein-try/lein-try "0.3.1"]
+  [lein-pprint/lein-pprint "1.1.1"]
+  [lein-ancient/lein-ancient "0.4.4"]
+  [lein-bikeshed/lein-bikeshed "0.1.3"]),
+ ...}
+```
+
+This is just the beginning of the profiles story. 
 
 #### Dev profile
 
-I always try to keep in the `project.clj` file only what is absolutely
-needed to be easily read, but mostly what remains after having removed
-everthing that has to do with the needed development libs/tools.
+As we said above, our `project.clj` mixed up dependencies, plugins and
+project configurations pertaining to different activities of the
+project itself.
 
-Here is a version of the `project.clj` file corresponding to the
-latest state we reached in the first part ot this tutorial and cleaned
-from anything that has to do with libs/tools supporting the
-development phase.
+[Leinningen][14] predefines few profiles, being the already seen
+`:user` profile one of them. A second predefined profile is the `:dev`
+one which is very useful in approaching the mentioned separation of
+concerns in the `project.clj`
 
-```clj
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :min-lein-version "2.2.0"
-  
-  :source-paths ["src/clj"]
-  :test-paths ["target/test/clj"]
-  
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1847"]
-                 [compojure "1.1.5"]
-                 [hiccups "0.2.0"]
-                 [domina "1.0.2-SNAPSHOT"]
-                 [shoreleave/shoreleave-remote-ring "0.3.0"]
-                 [shoreleave/shoreleave-remote "0.3.0"]
-                 [com.cemerick/valip "0.3.2"]
-                 [enlive "1.1.4"]]
-  
-  :plugins [[lein-ring "0.8.7"]]
-  :ring {:handler modern-cljs.core/app})
-```
+For example the `piggieback' dependency and the corresponding
+`:repl-options` and `:injections` they all have to do with the
+development activities by enabling the bREPL on top of an nREPL.
 
-Judge by yourself how much readble is this cleaned version of the
-`project.clj` file if compared with the previous one.
-
-That said, if you want to add a local `:profiles` section in the
-`project.clj` file you can do it, but you're going to dirty the
-readability of its content.
-
-## Project separated profiles
-
-Ok, we removed any lib/tool supporting the development phase, but
-where we have to put them?
-
-In a project specific `profiles.clj` file hosted in the main directory
-of the project itself.
-
-Following is the content of the project specific `profiles.clj` file
-containing all the components we removed from the initial version of
-the `project.clj` descriptor.
+By adding a `:profiles` section into the `project.clj` we can start
+separating those stuff pertaining the development activities from the
+rest by moving them into a `:dev` profile as follows:
 
 ```clj
-{:dev {:hooks [leiningen.cljsbuild]
-
-       :dependencies [[com.cemerick/clojurescript.test "0.0.4"]
-                      [com.cemerick/piggieback "0.1.0"]]
-       
-       :plugins [[lein-cljsbuild "0.3.3"]
-                 [com.keminglabs/cljx "0.3.0"]]
-
-       :cljx {:builds [{:source-paths ["test/cljx"]
-                        :output-path "target/test/clj"
-                        :rules :clj}
-                       
-                       {:source-paths ["test/cljx"]
-                        :output-path "target/test/cljs"
-                        :rules :cljs}]}
-       
-       :cljsbuild {:crossovers [valip.core
-                                valip.predicates
-                                modern-cljs.login.validators
-                                modern-cljs.shopping.validators]
-                   ;; for unit testing with phantomjs
-                   :test-commands {"phantomjs-whitespace"
-                                   ["runners/phantomjs.js" "target/test/js/testable_dbg.js"]
-
-                                   "phantomjs-simple"
-                                   ["runners/phantomjs.js" "target/test/js/testable_pre.js"]
-
-                                   "phantomjs-advanced"
-                                   ["runners/phantomjs.js" "target/test/js/testable.js"]}
-                   :builds
-                   {:ws-unit-tests
-                    { ;; clojurescript source code path
-                     :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
-
-                     ;; Google Closure Compiler options
-                     :compiler { ;; the name of emitted JS script file
-                                :output-to "target/test/js/testable_dbg.js"
-
-                                ;; minimum optimization
-                                :optimizations :whitespace
-                                ;; prettyfying emitted JS
-                                :pretty-print true}}
-               
-                    :simple-unit-tests
-                    { ;; same path as above
-                     :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
-
-                     :compiler { ;; different JS output name
-                                :output-to "target/test/js/testable_pre.js"
-
-                                ;; simple optimization
-                                :optimizations :simple
-
-                                ;; no need prettification
-                                :pretty-print false}}
-               
-                    :advanced-unit-tests
-                    { ;; same path as above
-                     :source-paths ["src/cljs" "target/test/cljs"]
-
-                     :compiler { ;; different JS output name
-                                :output-to "target/test/js/testable.js"
-
-                                ;; advanced optimization
-                                :optimizations :advanced
-
-                                ;; no need prettification
-                                :pretty-print false}}
-               
-                    :dev
-                    { ;; clojurescript source code path
-                     :source-paths ["src/brepl" "src/cljs"]
-
-                     ;; Google Closure Compiler options
-                     :compiler { ;; the name of emitted JS script file
-                                :output-to "resources/public/js/modern_dbg.js"
-
-                                ;; minimum optimization
-                                :optimizations :whitespace
-                                ;; prettyfying emitted JS
-                                :pretty-print true}}
-                    :pre-prod
-                    { ;; same path as above
-                     :source-paths ["src/brepl" "src/cljs"]
-
-                     :compiler { ;; different JS output name
-                                :output-to "resources/public/js/modern_pre.js"
-
-                                ;; simple optimization
-                                :optimizations :simple
-
-                                ;; no need prettification
-                                :pretty-print false}}
-                    :prod
-                    { ;; same path as above
-                     :source-paths ["src/cljs"]
-
-                     :compiler { ;; different JS output name
-                                :output-to "resources/public/js/modern.js"
-
-                                ;; advanced optimization
-                                :optimizations :advanced
-
-                                ;; no need prettification
-                                :pretty-print false}}}}
-       
-       :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
-       
-       :injections [(require '[cljs.repl.browser :as brepl]
-                             '[cemerick.piggieback :as pb])
-                    (defn browser-repl []
-                      (pb/cljs-repl :repl-env
-                                    (brepl/repl-env :port 9000)))]}}
+(defproject
+  ...
+  :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.1.0"]]}
+                   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+                   :injections [(require '[cljs.repl.browser :as brepl]
+                                         '[cemerick.piggieback :as pb])
+                                (defn browser-repl []
+                                  (pb/cljs-repl :repl-env
+                                                (brepl/repl-env :port 9000)))]}
 ```
 
-Now even the needed libs/tools and configurations for supporting the
-development activities are more readable than before. Do you see how
-many Lines Of Code (LOC) you need to establish a development
-enviroment (i.e. `profiles.clj`) as compared to the LOC needed for
-describing the project structure itself (i.e. `project.clj`)? This
-is a kind of incidental complexity that I'll happily give up if
-I can. I'm pretty sure that sooner or later someone will reduce it.
+Bu using the `lein with-profiles` task you can easly verify the
+differences between the `:user` and the `:dev` project maps after the
+above changes.
+
+```bash
+lein with-profiles user pprint
+```
+
+```bash
+lein with-profiles dev pprint
+```
+
+That said, there are more project's sections and configurations that
+can be moved under the `:dev` profile to improve the separation of
+concerns of the modern-cljs `project.clj` file:
+
+* `com.cemerick/clojurescript.test` dependency
+* `com.keminglabs/cljx` plugin and configuration
+* `lein-cljsbuild` plugin and configuration
+* `:hooks` section
+* `:aliases` section
+
+Here is the resulting `:profiles` section of `project.clj` obtained by
+moving all those stuff under the `:dev` profile.
+
+```bash
+(defproject
+  ...
+  ...
+  :profiles {:dev {:test-paths ["target/test/clj"]
+
+                   :dependencies [[com.cemerick/clojurescript.test "0.0.4"]
+                                  [com.cemerick/piggieback "0.1.0"]]
+                   
+                   :hooks [leiningen.cljsbuild]
+                   
+                   :plugins [[lein-cljsbuild "0.3.3"]
+                             [com.keminglabs/cljx "0.3.0"]]
+                   
+                   :cljx {:builds [{:source-paths ["test/cljx"]
+                                    :output-path "target/test/clj"
+                                    :rules :clj}
+                                   
+                                   {:source-paths ["test/cljx"]
+                                    :output-path "target/test/cljs"
+                                    :rules :cljs}]}
+
+                   :cljsbuild {:crossovers [valip.core
+                                            valip.predicates
+                                            modern-cljs.login.validators
+                                            modern-cljs.shopping.validators]
+                              
+                               :test-commands {"phantomjs-whitespace"
+                                               ["runners/phantomjs.js" "target/test/js/testable_dbg.js"]
+                              
+                                               "phantomjs-simple"
+                                               ["runners/phantomjs.js" "target/test/js/testable_pre.js"]
+                              
+                                               "phantomjs-advanced"
+                                               ["runners/phantomjs.js" "target/test/js/testable.js"]}
+                               :builds
+                               {:ws-unit-tests
+                                {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
+                                 :compiler {:output-to "target/test/js/testable_dbg.js"
+                                            :optimizations :whitespace
+                                            :pretty-print true}}
+               
+                                :simple-unit-tests
+                                { :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
+                                 :compiler {:output-to "target/test/js/testable_pre.js"
+                                            :optimizations :simple
+                                            :pretty-print false}}
+               
+                                :advanced-unit-tests
+                                {:source-paths ["src/cljs" "target/test/cljs"]
+                                 :compiler {:output-to "target/test/js/testable.js"
+                                            :optimizations :advanced
+                                            :pretty-print false}}
+               
+                                :dev
+                                {:source-paths ["src/brepl" "src/cljs"]
+                                 :compiler {:output-to "resources/public/js/modern_dbg.js"
+                                            :optimizations :whitespace
+                                            :pretty-print true}}
+                                
+                                :pre-prod
+                                {:source-paths ["src/brepl" "src/cljs"]
+                                 :compiler {:output-to "resources/public/js/modern_pre.js"
+                                            :optimizations :simple
+                                            :pretty-print false}}
+                                
+                                :prod
+                                {:source-paths ["src/cljs"]
+
+                                 :compiler {:output-to "resources/public/js/modern.js"
+                                            :optimizations :advanced
+                                            :pretty-print false}}}}
+  
+                   :aliases {"clean-test!" ["do" "clean," "cljx" "once," "compile," "test"]
+                             "clean-start!" ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"]}            
+                   
+                   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+                   :injections [(require '[cljs.repl.browser :as brepl]
+                                         '[cemerick.piggieback :as pb])
+                                (defn browser-repl []
+                                  (pb/cljs-repl :repl-env
+                                                (brepl/repl-env :port 9000)))]}}
+
+```
+
+The following *nix command (sorry for MS WIndows users, but I don't
+know that OS) allows you to verify the differences between the `:user`
+and the `:dev` profiles.
+
+```bash
+diff <(lein with-profiles user pprint) <(lein with-profiles dev pprint)
+1c1
+< Performing task 'pprint' with profile(s): 'user'
+---
+> Performing task 'pprint' with profile(s): 'dev'
+7a8,9
+>  :repl-options
+>  {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]},
+17c19,21
+<   [enlive/enlive "1.1.4"]),
+---
+>   [enlive/enlive "1.1.4"]
+>   [com.cemerick/clojurescript.test "0.0.4"]
+>   [com.cemerick/piggieback "0.1.0"]),
+31a36,85
+>  :cljsbuild
+>  {:builds
+>   ...
+>   :crossovers
+>   ...
+>   :test-commands
+>   ...},
+32a87
+>  :hooks [leiningen.cljsbuild],
+124a180,187
+>  :cljx
+>  {:builds
+>   ...},
+127,130c190,199
+<   [lein-try/lein-try "0.3.1"]
+<   [lein-pprint/lein-pprint "1.1.1"]
+<   [lein-ancient/lein-ancient "0.4.4"]
+<   [lein-bikeshed/lein-bikeshed "0.1.3"]),
+---
+>   [lein-cljsbuild/lein-cljsbuild "0.3.3"]
+>   [com.keminglabs/cljx "0.3.0"]),
+>  :injections
+>  [...
+>   ...],
+133c202,204
+<  :test-paths ("/Users/mimmo/tmp/modern-cljs/test"),
+---
+>  :test-paths
+>  ("/Users/mimmo/tmp/modern-cljs/target/test/clj"
+>   "/Users/mimmo/tmp/modern-cljs/test"),
+135c206,209
+<  :aliases nil}
+---
+>  :aliases
+>  {"clean-start!"
+>   ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"],
+>   "clean-test!" ["do" "clean," "cljx" "once," "compile," "test"]}}
+```
 
 Note also that in producing the final project description map the
 project specific `profiles.clj` file takes precedence over the
@@ -620,137 +659,6 @@ Last but not least, as reported in the
 
 You can check the content of the project map associated with a profile
 by issuing the following `lein with-profile` command:
-
-```bash
-lein with-profile user pprint
-Performing task 'pprint' with profile(s): 'user'
-{...
- :dependencies
- ([org.clojure/clojure "1.5.1"]
-  [org.clojure/clojurescript "0.0-1847"]
-  [compojure/compojure "1.1.5"]
-  [hiccups/hiccups "0.2.0"]
-  [domina/domina "1.0.2-SNAPSHOT"]
-  [shoreleave/shoreleave-remote-ring "0.3.0"]
-  [shoreleave/shoreleave-remote "0.3.0"]
-  [com.cemerick/valip "0.3.2"]
-  [enlive/enlive "1.1.4"]),
- ...
- :eval-in :subprocess,
- :plugins
- ([lein-ring/lein-ring "0.8.7"]
-  [lein-pprint/lein-pprint "1.1.1"]
-  [lein-ancient/lein-ancient "0.4.4"]
-  [lein-bikeshed/lein-bikeshed "0.1.3"]
-  [lein-try/lein-try "0.3.1"]),
-  ...
-  ...}
-```
-
-and
-
-```bash
-lein with-profile dev pprint
-Performing task 'pprint' with profile(s): 'dev'
-{...
- :repl-options
- {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]},
- :dependencies
- ([org.clojure/clojure "1.5.1"]
-  [org.clojure/clojurescript "0.0-1847"]
-  [compojure/compojure "1.1.5"]
-  [hiccups/hiccups "0.2.0"]
-  [domina/domina "1.0.2-SNAPSHOT"]
-  [shoreleave/shoreleave-remote-ring "0.3.0"]
-  [shoreleave/shoreleave-remote "0.3.0"]
-  [com.cemerick/valip "0.3.2"]
-  [enlive/enlive "1.1.4"]
-  [com.cemerick/clojurescript.test "0.0.4"]
-  [com.cemerick/piggieback "0.1.0"]),
-  ...
- :cljsbuild
- {:crossovers
-  [valip.core
-   valip.predicates
-   modern-cljs.login.validators
-   modern-cljs.shopping.validators],
-  :test-commands
-  {"phantomjs-whitespace"
-   ["runners/phantomjs.js" "target/test/js/testable_dbg.js"],
-   "phantomjs-simple"
-   ["runners/phantomjs.js" "target/test/js/testable_pre.js"],
-   "phantomjs-advanced"
-   ["runners/phantomjs.js" "target/test/js/testable.js"]},
-  :builds
-  {:ws-unit-tests
-   {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"],
-    :compiler
-    {:output-to "target/test/js/testable_dbg.js",
-     :optimizations :whitespace,
-     :pretty-print true}},
-   :simple-unit-tests
-   {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"],
-    :compiler
-    {:output-to "target/test/js/testable_pre.js",
-     :optimizations :simple,
-     :pretty-print false}},
-   :advanced-unit-tests
-   {:source-paths ["src/cljs" "target/test/cljs"],
-    :compiler
-    {:output-to "target/test/js/testable.js",
-     :optimizations :advanced,
-     :pretty-print false}},
-   :dev
-   {:source-paths ["src/brepl" "src/cljs"],
-    :compiler
-    {:output-to "resources/public/js/modern_dbg.js",
-     :optimizations :whitespace,
-     :pretty-print true}},
-   :pre-prod
-   {:source-paths ["src/brepl" "src/cljs"],
-    :compiler
-    {:output-to "resources/public/js/modern_pre.js",
-     :optimizations :simple,
-     :pretty-print false}},
-   :prod
-   {:source-paths ["src/cljs"],
-    :compiler
-    {:output-to "resources/public/js/modern.js",
-     :optimizations :advanced,
-     :pretty-print false}}}},
- :ring {:handler modern-cljs.core/app},
- :hooks [leiningen.cljsbuild],
- ...
- :cljx
- {:builds
-  [{:source-paths ["test/cljx"],
-    :output-path "target/test/clj",
-    :rules :clj}
-   {:source-paths ["test/cljx"],
-    :output-path "target/test/cljs",
-    :rules :cljs}]},
- :plugins
- ([lein-ring/lein-ring "0.8.7"]
-  [lein-cljsbuild/lein-cljsbuild "0.3.3"]
-  [com.keminglabs/cljx "0.3.0"]),
- :injections
- [(require
-   '[cljs.repl.browser :as brepl]
-   '[cemerick.piggieback :as pb])
-  (defn
-   browser-repl
-   []
-   (pb/cljs-repl :repl-env (brepl/repl-env :port 9000)))],
- ...
- :test-paths ("/Users/mimmo/Developer/modern-cljs/target/test/clj"),
- ...}
-```
-
-As you can see, while the project map for the `user` profile merged
-the declaration contained in the global `profiles.clj` file with the
-declaration contained in the `project.clj` file, the project map for
-the `dev` profile merged also the content of the declarations
-contained in the project-specific `profiles.clj` file.
 
 ## Light the fire
 
