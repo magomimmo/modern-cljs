@@ -283,7 +283,7 @@ the pages from the `:dev` or the `:pre-prod` builds.
 
 As we walked through the tutorials of the series we started adding
 plugins, dependencies and other esoteric options to the `project.clj`
-file which ended up being long and confusing.
+file, which ended up being long and convoluted.
 
 At the same time, even if we added the `:hooks [leiningen.cljsbuild]`
 option to our `project.clj` file, we still need to issue more lein
@@ -344,13 +344,13 @@ The value of the `:aliases` option is a map where each key is a string
 and each associated value is a vector of the stringified tasks to be
 chained by the `do` task.
 
-> NOTE 7: that each command but the last has to contain the comma `,`
-> inside the stringified task name (e.g. `"clean,"`), otherwise the next
-> string will be interpreted as an argument of the previous task
+> NOTE 7: Each command but the last has to contain the comma `,`
+> inside the stringified task name (e.g. `"clean,"`), otherwise the
+> next string will be interpreted as an argument of the previous task
 > (e.g. "ring" "server-headless").
 
-> NOTE 8: to workaround the previous double CLJS code
-> generation/compilation we just added the cljx` task before the
+> NOTE 8: To workaround the previous double CLJS code
+> generation/compilation, we just added the cljx` task before the
 > `compile` one.
 
 To list all the available aliases in a project, just call `lein help`
@@ -379,17 +379,18 @@ Even if have been able to chain few tasks to obtain a little bit of
 automation, the `project.clj` file is becaming more a more dense and
 convoluted. It contains the dependencies pertaining the CLJ codebase,
 the ones relative to the CLJS codebase and even the ones regarding the
-unit testing and the enabling of a bREPL session based on nREPL.  The
-plugins session is affected by the same kind of roles' mix in the
-project and so do the few configuration options for the plugins
+unit testing and the enabling of a bREPL session based on nREPL.
+
+The `:plugins` section is affected by the same kind of roles' mix in
+the project, and so do the few configuration options for the plugins
 themselves. Don't you think we need more separation of concerns?
 
 ### Leining profiles
 
 Starting from the `"2.0.0"` release, [leiningen][5] introduced the
 [profiles][14] feature, which allows to obtain, if not a shorter
-`project.clj` at least a superior separation of concerns in its
-growing sections.
+`project.clj`, at least a superior separation of concerns in its
+continuosly growing sections.
 
 #### User profiles
 
@@ -445,21 +446,22 @@ This is just the beginning of the profiles story.
 #### Dev profile
 
 As we said above, our `project.clj` mixed up dependencies, plugins and
-project configurations pertaining to different activities of the
+project configurations pertaining to different activities onto the
 project itself.
 
 [Leinningen][14] predefines few profiles, being the already seen
 `:user` profile one of them. A second predefined profile is the `:dev`
-one which is very useful in approaching the mentioned separation of
+one, which is very useful in approaching the mentioned separation of
 concerns in the `project.clj`
 
-For example the `piggieback' dependency and the corresponding
-`:repl-options` and `:injections` they all have to do with the
-development activities by enabling the bREPL on top of an nREPL.
+For example, the `piggieback` dependency and the corresponding
+`:repl-options` and `:injections` configurations they all have to do
+with the development activities by enabling the bREPL on top of an
+nREPL.
 
-By adding a `:profiles` section into the `project.clj` we can start
-separating those stuff pertaining the development activities from the
-rest by moving them into a `:dev` profile as follows:
+By adding a `:profiles` section to the `project.clj` file we can start
+separating those stuff pertaining the development activities.  Just
+move them into a `:dev` profile as follows:
 
 ```clj
 (defproject
@@ -499,10 +501,11 @@ Here is the resulting `:profiles` section of `project.clj` obtained by
 moving all those stuff under the `:dev` profile.
 
 ```bash
-(defproject
+(defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
-  ...
+  ... 
   :profiles {:dev {:test-paths ["target/test/clj"]
+                   :clean-targets ["out"]
 
                    :dependencies [[com.cemerick/clojurescript.test "0.0.4"]
                                   [com.cemerick/piggieback "0.1.0"]]
@@ -579,11 +582,14 @@ moving all those stuff under the `:dev` profile.
                                          '[cemerick.piggieback :as pb])
                                 (defn browser-repl []
                                   (pb/cljs-repl :repl-env
-                                                (brepl/repl-env :port 9000)))]}}
-
+                                                (brepl/repl-env :port 9000)))]}})
 ```
 
-The following *nix command (sorry for MS WIndows users, but I don't
+> NOTE 10: To clean the `out` directory generated by the calling the
+> `(browser-brepl)` call from a `lein repl` session, we added to the
+> `:dev` profile the `:clean-targets ["out"]` option.
+
+The following *nix command (sorry for MS Windows users, but I don't
 know that OS) allows you to verify the differences between the `:user`
 and the `:dev` profiles.
 
@@ -642,31 +648,19 @@ diff <(lein with-profiles user pprint) <(lein with-profiles dev pprint)
 >   "clean-test!" ["do" "clean," "cljx" "once," "compile," "test"]}}
 ```
 
-Note also that in producing the final project description map the
-project specific `profiles.clj` file takes precedence over the
-eventual `:profiles` declarations within the `project.clj` file, which
-in turn take precedence over the global profiles in the
-`~/.lein/profiles.clj` file.
+The description contained in this tutorial about the project map
+generated by leiningen and its interaction with profiles is just a
+starting point of the life clycle management of a CLJ/CLJS project. As
+we'll see in a subeqeust tutorial, when we'll afford the deployment of
+a CLJ/CLJS project, the things are going to be even more elaborated.
 
-Last but not least, as reported in the
-[leingen profiles documentation][14]
+### Light the fire
 
-> The `:user` profile is separate from `:dev`; the latter is intended
-> to be specified in the project itself. In order to avoid collisions,
-> the project should never define a :user profile, nor should a global
-> :dev profile be defined. Use the show-profiles task to see what's
-> available.
-
-You can check the content of the project map associated with a profile
-by issuing the following `lein with-profile` command:
-
-## Light the fire
-
-Ok, enough words. Let's verify that everything is still working as
-expected by restarting the project from a clean environment.
+Let's verify that everything is still working as expected by
+restarting the project from a clean environment.
 
 ```bash
-lein do clean, cljx, compile, test, lein ring server-headless 
+lein clean-start!
 ```
 
 Now open a new terminal command, `cd` into the main project directory,
@@ -690,7 +684,7 @@ cljs.user=>
 ```
 
 To activate the bREPL visit a page containing the JS script emitted by
-the `:dev` or the `:pre-prod` cljsbuild.
+the `:dev` or the `:pre-prod` cljsbuild (e.g. [shopping-dbg.html][21])
 
 As a very last step, I suggest you to commit the changes as follows:
 
@@ -730,4 +724,4 @@ License, the same as Clojure.
 [18]: https://github.com/dakrone/lein-bikeshed
 [19]: https://github.com/clojure/tools.nrepl#middleware
 [20]: https://github.com/lynaghk/cljx
-
+[21]: http://localhost:3000/shopping-dbg.html
