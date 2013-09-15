@@ -483,11 +483,11 @@ That said, there are more project's sections and configurations that
 can be moved under the `:dev` profile to improve the separation of
 concerns of the modern-cljs `project.clj` file:
 
-* `com.cemerick/clojurescript.test` dependency
-* `com.keminglabs/cljx` plugin and configuration
-* `lein-cljsbuild` plugin and configuration
-* `:hooks` section
-* `:aliases` section
+* the `com.cemerick/clojurescript.test` dependency
+* the `com.keminglabs/cljx` plugin and configuration
+* the `lein-cljsbuild` plugin and configuration
+* the `:hooks` section
+* the `:aliases` section
 
 Here is the resulting `:profiles` section of `project.clj` obtained by
 moving all those stuff under the `:dev` profile.
