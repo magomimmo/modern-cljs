@@ -733,7 +733,7 @@ Error encountered performing task 'test' with profile(s): 'user'
 Suppressed exit
 ```
 
-Aside from receiving few *WARNING*s regarding the absence of a
+Aside from receiving few WARNINGs regarding the absence of a
 `:cljsbuild` in the project declaration, the `lein with-profiles user
 test` correctly returns the message that it can not locate the test
 command.
@@ -764,11 +764,11 @@ Started server on port 3000
 ```
 
 Even if the `ring server-headless` task is still returning the same
-*WARNING*s already shown bt the `test` task issued with the `:user`
+WARNINGs already shown bt the `test` task issued with the `:user`
 profile, it correctly runs the application and you can verify that is
 works by visiting the [shopping-dbg.html][21].
 
-> NOTE 10: If you want to suppress the *WARNING*s, just add `:cljsbuild
+> NOTE 10: If you want to suppress the WARNINGs, just add `:cljsbuild
 > {:builds {}}` at the main level of the procject map.
 > 
 > ```clj
