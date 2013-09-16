@@ -692,7 +692,7 @@ Compiling ClojureScript.
 Well, it worked. Now I expect that by running the `test` task with the
 `:user` profile we get in trouble, because all the dependensies,
 plugins and configurations supporting the unit testing task of the
-project are confined in the `:dev` profiles.
+project are confined in the `:dev` profile.
 
 ```bash
 lein with-profile user test
@@ -793,7 +793,7 @@ Great, it worked again as expected.
 If you do not specify a profile (or composite profiles) while calling
 a task, `lein` activates the `:default` profile which includes
 `[:base :system :user :provided :dev]`. That's why you can still use
-all the descripted project tasks/subtaks and aliase, without
+all the descripted project tasks/subtaks and aliases, without
 specifying the `:dev` profile.
 
 ```bash
@@ -806,7 +806,6 @@ Started server on port 3000
 
 ```bash
 lein repl #in a new terminal within the main project directory
-lein repl
 Compiling ClojureScript.
 nREPL server started on port 51254 on host 127.0.0.1
 REPL-y 0.2.1
