@@ -768,6 +768,16 @@ Even if the `ring server-headless` task is still returning the same
 profile, it correctly runs the application and you can verify that is
 works by visiting the [shopping-dbg.html][21].
 
+> NOTE 10: If you want to suppress the *WARNING*s, just add `:cljsbuild
+> {:builds {}}` at the main level of the procject map.
+> 
+> ```clj
+> (defproject ...
+>   ...
+>   :cljsbuild {:builds {}}
+>   ...)
+> ```
+
 Now stop the ring server and check that the defined aliases
 (i.e. `clean-test!` and `clean-start!`) are not available if issued
 from the `:user` profile.

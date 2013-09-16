@@ -11,13 +11,15 @@
                  [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
-                 [domina "1.0.2-SNAPSHOT"]
+                 [domina "1.0.1"]
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
                  [enlive "1.1.4"]]
   
   :plugins [[lein-ring "0.8.7"]]
+
+  :cljsbuild {:builds {}}
 
   :ring {:handler modern-cljs.core/app}
   
