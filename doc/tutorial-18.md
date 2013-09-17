@@ -306,7 +306,7 @@ session of your `project.clj` as follows:
 ```
 
 Now you can more quickly clean, compile and start the project or its
-unit tests as follows. Take your time when submittin the following
+unit tests as follows. Take your time when submitting the following
 chain of tasks, because they are going to execute a lot of jobs.
 
 ```bash
