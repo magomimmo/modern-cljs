@@ -11,7 +11,7 @@
                  [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
-                 [domina "1.0.1"]
+                 [domina "1.0.2-SNAPSHOT"]
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
@@ -24,21 +24,14 @@
 
   :ring {:handler modern-cljs.core/app}
 
-  :cljsbuild {:builds {:dev
-                       {:source-paths ["src/brepl" "src/cljs"]
-                        :compiler {:output-to "resources/public/js/modern_dbg.js"
-                                   :optimizations :whitespace
-                                   :pretty-print true}}
-                                
-                       :pre-prod
-                       {:source-paths ["src/brepl" "src/cljs"]
-                        :compiler {:output-to "resources/public/js/modern_pre.js"
-                                   :optimizations :simple
-                                   :pretty-print false}}
-                                
-                       :prod
+  :cljsbuild {:crossovers [valip.core
+                           valip.predicates
+                           modern-cljs.login.validators
+                           modern-cljs.shopping.validators]
+              
+              :builds {:prod
                        {:source-paths ["src/cljs"]
-
+                        
                         :compiler {:output-to "resources/public/js/modern.js"
                                    :optimizations :advanced
                                    :pretty-print false}}}}
@@ -58,39 +51,46 @@
                                    {:source-paths ["test/cljx"]
                                     :output-path "target/test/cljs"
                                     :rules :cljs}]}
-
-                   :cljsbuild {:crossovers [valip.core
-                                            valip.predicates
-                                            modern-cljs.login.validators
-                                            modern-cljs.shopping.validators]
-                              
-                               :test-commands {"phantomjs-whitespace"
+                   
+                   :cljsbuild {:test-commands {"phantomjs-whitespace"
                                                ["runners/phantomjs.js" "target/test/js/testable_dbg.js"]
-                              
+                                               
                                                "phantomjs-simple"
                                                ["runners/phantomjs.js" "target/test/js/testable_pre.js"]
-                              
+                                               
                                                "phantomjs-advanced"
                                                ["runners/phantomjs.js" "target/test/js/testable.js"]}
                                :builds
-                               {:ws-unit-tests
+                               {:dev
+                                {:source-paths ["src/brepl" "src/cljs"]
+                                 :compiler {:output-to "resources/public/js/modern_dbg.js"
+                                            :optimizations :whitespace
+                                            :pretty-print true}}
+                                
+                                :pre-prod
+                                {:source-paths ["src/brepl" "src/cljs"]
+                                 :compiler {:output-to "resources/public/js/modern_pre.js"
+                                            :optimizations :simple
+                                            :pretty-print false}}
+                                
+                                :ws-unit-tests
                                 {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
                                  :compiler {:output-to "target/test/js/testable_dbg.js"
                                             :optimizations :whitespace
                                             :pretty-print true}}
-               
+                                
                                 :simple-unit-tests
                                 { :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
                                  :compiler {:output-to "target/test/js/testable_pre.js"
                                             :optimizations :simple
                                             :pretty-print false}}
-               
+                                
                                 :advanced-unit-tests
                                 {:source-paths ["src/cljs" "target/test/cljs"]
                                  :compiler {:output-to "target/test/js/testable.js"
                                             :optimizations :advanced
                                             :pretty-print false}}}}
-  
+                   
                    :aliases {"clean-test!" ["do" "clean," "cljx" "once," "compile," "test"]
                              "clean-start!" ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"]}            
                    
