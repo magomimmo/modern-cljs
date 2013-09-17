@@ -17,20 +17,32 @@
                  [com.cemerick/valip "0.3.2"]
                  [enlive "1.1.4"]]
   
-  :plugins [[lein-ring "0.8.7"]]
+  :plugins [[lein-ring "0.8.7"]
+            [lein-cljsbuild "0.3.3"]]
+  
+  :hooks [leiningen.cljsbuild]
 
   :ring {:handler modern-cljs.core/app}
+
+  :cljsbuild {:crossovers [valip.core
+                           valip.predicates
+                           modern-cljs.login.validators
+                           modern-cljs.shopping.validators]
+              
+              :builds {:prod
+                       {:source-paths ["src/cljs"]
+                        
+                        :compiler {:output-to "resources/public/js/modern.js"
+                                   :optimizations :advanced
+                                   :pretty-print false}}}}
   
   :profiles {:dev {:test-paths ["target/test/clj"]
                    :clean-targets ["out"]
-
+                   
                    :dependencies [[com.cemerick/clojurescript.test "0.0.4"]
                                   [com.cemerick/piggieback "0.1.0"]]
                    
-                   :hooks [leiningen.cljsbuild]
-                   
-                   :plugins [[lein-cljsbuild "0.3.3"]
-                             [com.keminglabs/cljx "0.3.0"]]
+                   :plugins [[com.keminglabs/cljx "0.3.0"]]
                    
                    :cljx {:builds [{:source-paths ["test/cljx"]
                                     :output-path "target/test/clj"
@@ -39,40 +51,17 @@
                                    {:source-paths ["test/cljx"]
                                     :output-path "target/test/cljs"
                                     :rules :cljs}]}
-
-                   :cljsbuild {:crossovers [valip.core
-                                            valip.predicates
-                                            modern-cljs.login.validators
-                                            modern-cljs.shopping.validators]
-                              
-                               :test-commands {"phantomjs-whitespace"
+                   
+                   :cljsbuild {:test-commands {"phantomjs-whitespace"
                                                ["runners/phantomjs.js" "target/test/js/testable_dbg.js"]
-                              
+                                               
                                                "phantomjs-simple"
                                                ["runners/phantomjs.js" "target/test/js/testable_pre.js"]
-                              
+                                               
                                                "phantomjs-advanced"
                                                ["runners/phantomjs.js" "target/test/js/testable.js"]}
                                :builds
-                               {:ws-unit-tests
-                                {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
-                                 :compiler {:output-to "target/test/js/testable_dbg.js"
-                                            :optimizations :whitespace
-                                            :pretty-print true}}
-               
-                                :simple-unit-tests
-                                { :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
-                                 :compiler {:output-to "target/test/js/testable_pre.js"
-                                            :optimizations :simple
-                                            :pretty-print false}}
-               
-                                :advanced-unit-tests
-                                {:source-paths ["src/cljs" "target/test/cljs"]
-                                 :compiler {:output-to "target/test/js/testable.js"
-                                            :optimizations :advanced
-                                            :pretty-print false}}
-               
-                                :dev
+                               {:dev
                                 {:source-paths ["src/brepl" "src/cljs"]
                                  :compiler {:output-to "resources/public/js/modern_dbg.js"
                                             :optimizations :whitespace
@@ -84,13 +73,24 @@
                                             :optimizations :simple
                                             :pretty-print false}}
                                 
-                                :prod
-                                {:source-paths ["src/cljs"]
-
-                                 :compiler {:output-to "resources/public/js/modern.js"
+                                :ws-unit-tests
+                                {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
+                                 :compiler {:output-to "target/test/js/testable_dbg.js"
+                                            :optimizations :whitespace
+                                            :pretty-print true}}
+                                
+                                :simple-unit-tests
+                                { :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
+                                 :compiler {:output-to "target/test/js/testable_pre.js"
+                                            :optimizations :simple
+                                            :pretty-print false}}
+                                
+                                :advanced-unit-tests
+                                {:source-paths ["src/cljs" "target/test/cljs"]
+                                 :compiler {:output-to "target/test/js/testable.js"
                                             :optimizations :advanced
                                             :pretty-print false}}}}
-  
+                   
                    :aliases {"clean-test!" ["do" "clean," "cljx" "once," "compile," "test"]
                              "clean-start!" ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"]}            
                    
@@ -100,4 +100,5 @@
                                 (defn browser-repl []
                                   (pb/cljs-repl :repl-env
                                                 (brepl/repl-env :port 9000)))]}})
+
 
