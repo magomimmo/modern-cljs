@@ -17,22 +17,39 @@
                  [com.cemerick/valip "0.3.2"]
                  [enlive "1.1.4"]]
   
-  :plugins [[lein-ring "0.8.7"]]
-
-  :cljsbuild {:builds {}}
+  :plugins [[lein-ring "0.8.7"]
+            [lein-cljsbuild "0.3.3"]]
+  
+  :hooks [leiningen.cljsbuild]
 
   :ring {:handler modern-cljs.core/app}
+
+  :cljsbuild {:builds {:dev
+                       {:source-paths ["src/brepl" "src/cljs"]
+                        :compiler {:output-to "resources/public/js/modern_dbg.js"
+                                   :optimizations :whitespace
+                                   :pretty-print true}}
+                                
+                       :pre-prod
+                       {:source-paths ["src/brepl" "src/cljs"]
+                        :compiler {:output-to "resources/public/js/modern_pre.js"
+                                   :optimizations :simple
+                                   :pretty-print false}}
+                                
+                       :prod
+                       {:source-paths ["src/cljs"]
+
+                        :compiler {:output-to "resources/public/js/modern.js"
+                                   :optimizations :advanced
+                                   :pretty-print false}}}}
   
   :profiles {:dev {:test-paths ["target/test/clj"]
                    :clean-targets ["out"]
-
+                   
                    :dependencies [[com.cemerick/clojurescript.test "0.0.4"]
                                   [com.cemerick/piggieback "0.1.0"]]
                    
-                   :hooks [leiningen.cljsbuild]
-                   
-                   :plugins [[lein-cljsbuild "0.3.3"]
-                             [com.keminglabs/cljx "0.3.0"]]
+                   :plugins [[com.keminglabs/cljx "0.3.0"]]
                    
                    :cljx {:builds [{:source-paths ["test/cljx"]
                                     :output-path "target/test/clj"
@@ -71,25 +88,6 @@
                                 :advanced-unit-tests
                                 {:source-paths ["src/cljs" "target/test/cljs"]
                                  :compiler {:output-to "target/test/js/testable.js"
-                                            :optimizations :advanced
-                                            :pretty-print false}}
-               
-                                :dev
-                                {:source-paths ["src/brepl" "src/cljs"]
-                                 :compiler {:output-to "resources/public/js/modern_dbg.js"
-                                            :optimizations :whitespace
-                                            :pretty-print true}}
-                                
-                                :pre-prod
-                                {:source-paths ["src/brepl" "src/cljs"]
-                                 :compiler {:output-to "resources/public/js/modern_pre.js"
-                                            :optimizations :simple
-                                            :pretty-print false}}
-                                
-                                :prod
-                                {:source-paths ["src/cljs"]
-
-                                 :compiler {:output-to "resources/public/js/modern.js"
                                             :optimizations :advanced
                                             :pretty-print false}}}}
   
