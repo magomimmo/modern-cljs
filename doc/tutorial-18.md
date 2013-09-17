@@ -295,8 +295,8 @@ tests.
 
 As the [lein-cljsbuild][6] does, the [cljx][20] lein plugin offers a
 way to hook some of its subtasks (e.g. `cljx once`) to leiningen tasks
-(e.g. `compile`). You just need to add it in the `:hooks` session of
-your `project.clj` as follows:
+(e.g. `clean` and `compile`). You just need to add it in the `:hooks`
+session of your `project.clj` as follows:
 
 ```clj
 (defproject ...
@@ -306,7 +306,8 @@ your `project.clj` as follows:
 ```
 
 Now you can more quickly clean, compile and start the project or its
-unit tests as follows.
+unit tests as follows. Take your time when submittin the following
+chain of tasks, because they are going to execute a lot of jobs.
 
 ```bash
 lein do clean, compile, test # unit testing from a clean env
@@ -351,7 +352,8 @@ chained by the `do` task.
 > (e.g. "ring" "server-headless").
 
 To list all the available aliases in a project, just call `lein help`
-command.
+command. Near the end of the command output you should see the defined
+aliases and the correponding expansions.
 
 ```bash
 lein help
@@ -373,7 +375,7 @@ lein clean-start!
 ```
 
 Even if we have been able to chain few tasks to obtain a little bit of
-automation, the `project.clj` file is becoming more and more dense and
+automation, the `project.clj` file is becoming larger and
 convoluted. It contains the dependencies pertaining the CLJ codebase,
 the ones relative to the CLJS codebase and even the ones regarding the
 unit testing and the enabling of a bREPL session.
@@ -387,7 +389,7 @@ themselves. Don't you think we need more separation of concerns?
 Starting from the `"2.0.0"` release, [leiningen][5] introduced the
 [profiles][14] feature, which allows to obtain, if not a shorter
 `project.clj`, at least a superior separation of concerns during its
-life cycle..
+life cycle.
 
 #### User profile
 
@@ -444,7 +446,7 @@ project itself.
 
 [Leinningen][14] predefines few profiles, being the already seen
 `:user` profile one of them. A second predefined profile is the `:dev`
-one, which is very useful in approaching the mentioned separation of
+one, which could be useful in approaching the mentioned separation of
 concerns in the `project.clj`
 
 For example, the `piggieback` dependency and the corresponding
@@ -453,7 +455,7 @@ with the development activities by enabling the bREPL on top of an
 nREPL.
 
 By adding a `:profiles` section to the `project.clj` file we can start
-separating those stuff pertaining the development activities.  Just
+separating those stuff pertaining the development activities. Just
 move them into a `:dev` profile as follows:
 
 ```clj
@@ -506,31 +508,84 @@ lein with-profiles dev pprint
 
 That said, there are more project's sections and configurations that
 can be moved under the `:dev` profile to improve the separation of
-concerns of the modern-cljs `project.clj` file:
+concerns of the modern-cljs `project.clj` file.
 
-* the `com.cemerick/clojurescript.test` dependency
-* the `com.keminglabs/cljx` plugin and configuration
-* the `lein-cljsbuild` plugin and configuration
-* the `:hooks` section
-* the `:aliases` section
+The choice about what to keep in the `:default` profile and what to
+move in other predefined profiles or even in user-defined profiles, is
+project dependend, subjective and even dependent on phases of the
+project lifecycle we still have to afford (e.g. project packaging and
+deployment).
 
-Here is the resulting `:profiles` section of the `project.clj` file
-obtained by moving all those stuff under the `:dev` profile.
+At the moment, a possible choice could be to move into the `:dev`
+profile everything has specifically to do with the CLJS unit testing
+activities. As said, this choice is subject to be changed during the
+project lifecycle and you should consider it just as a staring point.
+
+* the `com.keminglabs/cljx` plugin and configurations: because at the
+  moment we're using them only to generate unit testing codebase for
+  both CLJ and CLJS;
+* the `com.cemerick/clojurescript.test` dependency: becasue it is only
+  used in unit testing codebase;
+* the `lein-cljsbuild` build configurations for CLJS unit testing:
+  because they are only used only to emit testable JS codebase;
+* the `:aliases` section, because they both chain the `cljx` task,
+  which we're going to move into the `:dev` profile.
+
+Finally I think that we could move to the `:dev` profile the
+`lein-cljsbuild` builds configurations declared to support the
+`:whitespace` and `:simple` compiler optimizations as well, because we
+probably don't want to deploy in production any code that has not been
+optimized to its maximum level.
+
+Here is the resulting `project.clj` file obtained by moving all those
+stuff under the `:dev` profile.
 
 ```bash
 (defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  ... 
+  :description "FIXME: write description"
+  :url "http://example.com/FIXME"
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :min-lein-version "2.2.0"
+  
+  :source-paths ["src/clj"]
+  
+  :dependencies [[org.clojure/clojure "1.5.1"]
+                 [org.clojure/clojurescript "0.0-1847"]
+                 [compojure "1.1.5"]
+                 [hiccups "0.2.0"]
+                 [domina "1.0.2-SNAPSHOT"]
+                 [shoreleave/shoreleave-remote-ring "0.3.0"]
+                 [shoreleave/shoreleave-remote "0.3.0"]
+                 [com.cemerick/valip "0.3.2"]
+                 [enlive "1.1.4"]]
+  
+  :plugins [[lein-ring "0.8.7"]
+            [lein-cljsbuild "0.3.3"]]
+  
+  :hooks [leiningen.cljsbuild]
+
+  :ring {:handler modern-cljs.core/app}
+
+  :cljsbuild {:crossovers [valip.core
+                           valip.predicates
+                           modern-cljs.login.validators
+                           modern-cljs.shopping.validators]
+              
+              :builds {:prod
+                       {:source-paths ["src/cljs"]
+                        
+                        :compiler {:output-to "resources/public/js/modern.js"
+                                   :optimizations :advanced
+                                   :pretty-print false}}}}
+  
   :profiles {:dev {:test-paths ["target/test/clj"]
                    :clean-targets ["out"]
-
+                   
                    :dependencies [[com.cemerick/clojurescript.test "0.0.4"]
                                   [com.cemerick/piggieback "0.1.0"]]
                    
-                   :hooks [leiningen.cljsbuild]
-                   
-                   :plugins [[lein-cljsbuild "0.3.3"]
-                             [com.keminglabs/cljx "0.3.0"]]
+                   :plugins [[com.keminglabs/cljx "0.3.0"]]
                    
                    :cljx {:builds [{:source-paths ["test/cljx"]
                                     :output-path "target/test/clj"
@@ -539,40 +594,17 @@ obtained by moving all those stuff under the `:dev` profile.
                                    {:source-paths ["test/cljx"]
                                     :output-path "target/test/cljs"
                                     :rules :cljs}]}
-
-                   :cljsbuild {:crossovers [valip.core
-                                            valip.predicates
-                                            modern-cljs.login.validators
-                                            modern-cljs.shopping.validators]
-                              
-                               :test-commands {"phantomjs-whitespace"
+                   
+                   :cljsbuild {:test-commands {"phantomjs-whitespace"
                                                ["runners/phantomjs.js" "target/test/js/testable_dbg.js"]
-                              
+                                               
                                                "phantomjs-simple"
                                                ["runners/phantomjs.js" "target/test/js/testable_pre.js"]
-                              
+                                               
                                                "phantomjs-advanced"
                                                ["runners/phantomjs.js" "target/test/js/testable.js"]}
                                :builds
-                               {:ws-unit-tests
-                                {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
-                                 :compiler {:output-to "target/test/js/testable_dbg.js"
-                                            :optimizations :whitespace
-                                            :pretty-print true}}
-               
-                                :simple-unit-tests
-                                { :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
-                                 :compiler {:output-to "target/test/js/testable_pre.js"
-                                            :optimizations :simple
-                                            :pretty-print false}}
-               
-                                :advanced-unit-tests
-                                {:source-paths ["src/cljs" "target/test/cljs"]
-                                 :compiler {:output-to "target/test/js/testable.js"
-                                            :optimizations :advanced
-                                            :pretty-print false}}
-               
-                                :dev
+                               {:dev
                                 {:source-paths ["src/brepl" "src/cljs"]
                                  :compiler {:output-to "resources/public/js/modern_dbg.js"
                                             :optimizations :whitespace
@@ -584,13 +616,24 @@ obtained by moving all those stuff under the `:dev` profile.
                                             :optimizations :simple
                                             :pretty-print false}}
                                 
-                                :prod
-                                {:source-paths ["src/cljs"]
-
-                                 :compiler {:output-to "resources/public/js/modern.js"
+                                :ws-unit-tests
+                                {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
+                                 :compiler {:output-to "target/test/js/testable_dbg.js"
+                                            :optimizations :whitespace
+                                            :pretty-print true}}
+                                
+                                :simple-unit-tests
+                                { :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
+                                 :compiler {:output-to "target/test/js/testable_pre.js"
+                                            :optimizations :simple
+                                            :pretty-print false}}
+                                
+                                :advanced-unit-tests
+                                {:source-paths ["src/cljs" "target/test/cljs"]
+                                 :compiler {:output-to "target/test/js/testable.js"
                                             :optimizations :advanced
                                             :pretty-print false}}}}
-  
+                   
                    :aliases {"clean-test!" ["do" "clean," "cljx" "once," "compile," "test"]
                              "clean-start!" ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"]}            
                    
@@ -625,52 +668,99 @@ diff <(lein with-profiles user pprint) <(lein with-profiles dev pprint)
 >   [enlive/enlive "1.1.4"]
 >   [com.cemerick/clojurescript.test "0.0.4"]
 >   [com.cemerick/piggieback "0.1.0"]),
-31a36,85
->  :cljsbuild
->  {:builds
->   ...
->   :crossovers
->   ...
->   :test-commands
->   ...},
-32a87
->  :hooks [leiningen.cljsbuild],
-124a180,187
+33,34c37,75
+<  {:builds
+<   {:prod
+---
+>  {:test-commands
+>   {"phantomjs-simple"
+>    ["runners/phantomjs.js" "target/test/js/testable_pre.js"],
+>    "phantomjs-whitespace"
+>    ["runners/phantomjs.js" "target/test/js/testable_dbg.js"],
+>    "phantomjs-advanced"
+>    ["runners/phantomjs.js" "target/test/js/testable.js"]},
+>   :builds
+>   {:advanced-unit-tests
+>    {:source-paths ["src/cljs" "target/test/cljs"],
+>     :compiler
+>     {:pretty-print false,
+>      :output-to "target/test/js/testable.js",
+>      :optimizations :advanced}},
+>    :simple-unit-tests
+>    {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"],
+>     :compiler
+>     {:pretty-print false,
+>      :output-to "target/test/js/testable_pre.js",
+>      :optimizations :simple}},
+>    :dev
+>    {:source-paths ["src/brepl" "src/cljs"],
+>     :compiler
+>     {:pretty-print true,
+>      :output-to "resources/public/js/modern_dbg.js",
+>      :optimizations :whitespace}},
+>    :ws-unit-tests
+>    {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"],
+>     :compiler
+>     {:pretty-print true,
+>      :output-to "target/test/js/testable_dbg.js",
+>      :optimizations :whitespace}},
+>    :pre-prod
+>    {:source-paths ["src/brepl" "src/cljs"],
+>     :compiler
+>     {:pretty-print false,
+>      :output-to "resources/public/js/modern_pre.js",
+>      :optimizations :simple}},
+>    :prod
+127a169,176
 >  :cljx
 >  {:builds
->   ...},
-127,130c190,199
-<   [lein-try/lein-try "0.3.1"]
+>   [{:source-paths ["test/cljx"],
+>     :rules :clj,
+>     :output-path "target/test/clj"}
+>    {:source-paths ["test/cljx"],
+>     :rules :cljs,
+>     :output-path "target/test/cljs"}]},
+131,134c180,188
 <   [lein-pprint/lein-pprint "1.1.1"]
 <   [lein-ancient/lein-ancient "0.4.4"]
-<   [lein-bikeshed/lein-bikeshed "0.1.3"]),
+<   [lein-bikeshed/lein-bikeshed "0.1.3"]
+<   [lein-try/lein-try "0.3.1"]),
 ---
->   [lein-cljsbuild/lein-cljsbuild "0.3.3"]
 >   [com.keminglabs/cljx "0.3.0"]),
 >  :injections
->  [...
->   ...],
-133c202,204
-<  :test-paths ("/Users/mimmo/tmp/modern-cljs/test"),
----
->  :test-paths
->  ("/Users/mimmo/tmp/modern-cljs/target/test/clj"
->   "/Users/mimmo/tmp/modern-cljs/test"),
-135c206,209
+>  [(require
+>    '[cljs.repl.browser :as brepl]
+>    '[cemerick.piggieback :as pb])
+>   (defn
+>    browser-repl
+>    []
+>    (pb/cljs-repl :repl-env (brepl/repl-env :port 9000)))],
+137,139c191,198
+<  :test-paths ("/Users/mimmo/devel/modern-cljs/test"),
+<  :clean-targets [:target-path],
 <  :aliases nil}
 ---
+>  :test-paths
+>  ("/Users/mimmo/devel/modern-cljs/target/test/clj"
+>   "/Users/mimmo/devel/modern-cljs/test"),
+>  :clean-targets (:target-path "out"),
 >  :aliases
 >  {"clean-start!"
 >   ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"],
 >   "clean-test!" ["do" "clean," "cljx" "once," "compile," "test"]}}
 ```
 
-The description contained in this tutorial about the project map
-generated by leiningen and its interaction with profiles is just a
-starting point of the life cycle management of a CLJ/CLJS project. As
-we'll see in subsequent tutorials, when we'll afford the packaging and
-the deployment of a CLJ/CLJS project, the things are going to be even
-more elaborated.
+Don't forget that the content of this part of the tutorial is just a
+first attempt to introduce into the `project.clj` a little bit of
+separation of concerns. My personal understanding of all the nuances
+of the interactions between the lein profiles and tasks is still under
+construction. That said, I personally think that we should improve a
+lot the usability of the `lein-cljsbuild` plugin to considerably
+reduce the incidental complexity of any mixed CLJ/CLJS project.
+
+As we'll see in subsequent tutorials, when we'll afford the packaging
+and the deployment of a CLJ/CLJS project, the things are going to be
+even more elaborated.
 
 ### Light the fire
 
@@ -695,91 +785,38 @@ plugins and configurations supporting the unit testing task of the
 project are confined in the `:dev` profile.
 
 ```bash
-lein with-profile user test
+lein with-profiles user test
 Performing task 'test' with profile(s): 'user'
-WARNING: no :cljsbuild entry found in project definition.
---------------------------------------------------------------------------------
-WARNING: your :cljsbuild configuration is in a deprecated format.  It has been
-automatically converted it to the new format, which will be printed below.
-It is recommended that you update your :cljsbuild configuration ASAP.
---------------------------------------------------------------------------------
-:cljsbuild
-{:builds []}
---------------------------------------------------------------------------------
-See https://github.com/emezeske/lein-cljsbuild/blob/master/README.md
-for details on the new format.
---------------------------------------------------------------------------------
 Compiling ClojureScript.
 
 lein test user
 
 Ran 0 tests containing 0 assertions.
 0 failures, 0 errors.
-WARNING: no :cljsbuild entry found in project definition.
---------------------------------------------------------------------------------
-WARNING: your :cljsbuild configuration is in a deprecated format.  It has been
-automatically converted it to the new format, which will be printed below.
-It is recommended that you update your :cljsbuild configuration ASAP.
---------------------------------------------------------------------------------
-:cljsbuild
-{:builds []}
---------------------------------------------------------------------------------
-See https://github.com/emezeske/lein-cljsbuild/blob/master/README.md
-for details on the new format.
---------------------------------------------------------------------------------
 Running all ClojureScript tests.
 Could not locate test command .
 Error encountered performing task 'test' with profile(s): 'user'
 Suppressed exit
 ```
 
-Aside from receiving few WARNINGs regarding the absence of a
-`:cljsbuild` in the project declaration, the `lein with-profiles user
-test` correctly returns the message that it can not locate the test
-command.
-
-On the contrary, I expect that by running the `lein with-profiles user
-ring server-headless`, which is not confined in the `:dev` profile,
-the application starts.
+Nice, it works as well. On the contrary, I expect that by running the
+`lein with-profiles user ring server-headless`, which is not confined
+in the `:dev` profile, the application starts.
 
 ```bash
 lein with-profiles user ring server-headless
 Performing task 'ring' with profile(s): 'user'
-WARNING: no :cljsbuild entry found in project definition.
---------------------------------------------------------------------------------
-WARNING: your :cljsbuild configuration is in a deprecated format.  It has been
-automatically converted it to the new format, which will be printed below.
-It is recommended that you update your :cljsbuild configuration ASAP.
---------------------------------------------------------------------------------
-:cljsbuild
-{:builds []}
---------------------------------------------------------------------------------
-See https://github.com/emezeske/lein-cljsbuild/blob/master/README.md
-for details on the new format.
---------------------------------------------------------------------------------
 Compiling ClojureScript.
-2013-09-16 12:19:26.021:INFO:oejs.Server:jetty-7.6.8.v20121106
-2013-09-16 12:19:26.212:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+2013-09-17 18:12:21.169:INFO:oejs.Server:jetty-7.6.8.v20121106
+2013-09-17 18:12:21.232:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 Started server on port 3000
 ```
 
-Even if the `ring server-headless` task is still returning the same
-WARNINGs already shown bt the `test` task issued with the `:user`
-profile, it correctly runs the application and you can verify that is
-works by visiting the [shopping-dbg.html][21].
-
-> NOTE 10: If you want to suppress the WARNINGs, just add `:cljsbuild
-> {:builds {}}` at the main level of the procject map.
-> 
-> ```clj
-> (defproject ...
->   ...
->   :cljsbuild {:builds {}}
->   ...)
-> ```
+Good is works again as expected. You can verify that the application
+behaves as before by visiting the [shopping-dbg.html][21].
 
 Now stop the ring server and check that the defined aliases
-(i.e. `clean-test!` and `clean-start!`) are not available if issued
+(i.e. `clean-test!` and `clean-start!`) are not available when issued
 from the `:user` profile.
 
 ```bash
@@ -800,10 +837,10 @@ Task not found
 
 Great, it worked again as expected.
 
-If you do not specify a profile (or composite profiles) while calling
-a task, `lein` activates the `:default` profile which includes
+If you do not specify a profile while calling a task, `lein` activates
+the `:default` profile which includes
 `[:base :system :user :provided :dev]`. That's why you can still use
-all the descripted project tasks/subtaks and aliases, without
+all the descripted project tasks/subtaks and aliases without
 specifying the `:dev` profile.
 
 ```bash
@@ -841,6 +878,11 @@ As a very last step, I suggest you to commit the changes as follows:
 git add .
 git commit -m "housekeeping"
 ```
+
+> NOTE 10: The ammount of works executed by the lein tasks in this
+> project is impressive. If you don't believe me, try to issue the
+> `tree` command from the terminal before and after having built
+> everything.
 
 That's all. Stay tuned for the next tutorial of the series.
 
