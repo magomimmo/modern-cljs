@@ -479,7 +479,7 @@ lein cljsbuild once
 > them at the terminal as follows:
 > 
 > ```bash
-> lein do clean, cljsbuild clean, lein cljsbuild once
+> lein do clean, cljsbuild clean, cljsbuild once
 > ```
 > 
 > Leiningen offers more options to automate composite tasks. We'll see
