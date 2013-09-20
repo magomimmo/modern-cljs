@@ -11,9 +11,9 @@
                  [org.clojure/clojurescript "0.0-1889"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
-                 [domina "1.0.2-SNAPSHOT"]
-                 [shoreleave/shoreleave-remote-ring "0.3.0"]
-                 [shoreleave/shoreleave-remote "0.3.0"]
+                 [org.clojars.magomimmo/domina "1.0.2-SNAPSHOT"]
+                 [org.clojars.magomimmo/shoreleave-remote-ring "0.3.0-SNAPSHOT"]
+                 [org.clojars.magomimmo/shoreleave-remote "0.3.0-SNAPSHOT"]
                  [com.cemerick/valip "0.3.2"]
                  [enlive "1.1.4"]]
   
