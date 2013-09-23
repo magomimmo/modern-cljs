@@ -458,6 +458,33 @@ definition of the Shopping Calculator template
   nil nil)
 ```
 
+Now that we have defined the `shopping` template, which implicitly
+defines the `shopping` function, we can go back to the `core.clj` to
+update its namespace declaration and substitute the `(str "You enter:
+" quantity " " price " " tax " and " discount ".")` call with the call
+to the newly defined `shopping` function. 
+
+```clj
+(ns modern-cljs.core
+  (:require [compojure.core :refer [defroutes GET POST]]
+            [compojure.route :refer [resources not-found]]
+            [compojure.handler :refer [site]]
+            [modern-cljs.login :refer [authenticate-user]]
+            [modern-cljs.templates.shopping :refer [shopping]]))
+
+(defroutes app-routes
+  ;; to serve document root address
+  (GET "/" [] "<p>Hello from compojure</p>")
+  ;; to authenticate the user
+  (POST "/login" [email password] (authenticate-user email password))
+  ;; to server static pages saved in resources/public directory
+  (POST "/shopping" [quantity price tax discount] 
+        (shopping quantity price tax discount))
+  (resources "/")
+  ;; if page is not found
+  (not-found "Page non found"))
+```
+
 If the `lein ring server-headless` command is still running, stop it
 by `Ctr-C` and run it again to allow the server to import the new
 `enlive` dependencies.
