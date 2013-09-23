@@ -454,7 +454,7 @@ previous tutorials of the series.
 
 ### Commit the changes
 
-It's noew time to commit all the implemented changes.
+It's now time to commit all the implemented changes.
 
 ```bash
 cd ~/dev/shoreleave-core
@@ -466,7 +466,7 @@ git commit -am "removed lein-marginalia and clj 1.4.0 deps"
 cd ~/dev/shoreleave-remote-ring
 git commit -am "removed lein-marginalia and clj updated to 1.5.1"
 cd ~/dev/modern-cljs
-git commit -am "totorial-19-step-1"
+git commit -am "step 1 completed"
 ```
 
 NOTE 7: 
