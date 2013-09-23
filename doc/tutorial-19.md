@@ -10,7 +10,7 @@ In the [previous tutorial][1] we afforded two topics:
 
 ## Introduction
 
-When in your project you start using a lib implemented by others, you
+When you start using in your project a lib implemented by others, you
 can easily end up with few misunderstandings of its use or even with
 some unexpected issues. In these cases, the first thing you should do
 is to browse and read its documentation. As you now, one problem with
@@ -19,7 +19,7 @@ frequently minimal, if not absent, outdated or requiring a level of
 comprehension of the details which you still have to grasp.
 
 Likely, most of the CLJ/CLJS open source libs are hosted on github
-which offers an amazing support to collaboration and social
+which offers an amazing support for collaboration and social
 coding. Even if only few CLJ/CLJS libs have an extensive documentation
 and/or an associated mailing-list for submitting dubts and questions,
 every CLJ/CLJS lib hosted on github is supported by an articulated,
@@ -30,8 +30,7 @@ remote collaboration required by an open source software.
 This tutorial is composed of two parts:
 
 * Livin' on the edge (Part 1). In this part we're going to update the
-  depenendencies of a set of libs and we'll also fix an issue of a lib
-  on which the `modern-cljs` depends on;
+  depenendencies of a set of libs which the `modern-cljs` depends on;
 * Surviving guide (Part 2). In this part we're going to see what to do
   when the responsiveness of the owner of a lib for which we have
   submitted a push request is not compatible with our project
@@ -136,28 +135,28 @@ cd ~/dev/shoreleave-core
 git remote add upstream https://github.com/shoreleave/shoreleave-core.git
 git pull upstream master
 git push origin master
-git checkout -b my-upgrade # create the branch to fix the issue
+git checkout -b my-upgrade # create the branch to manage an issue
 
 # shoreleave-browser
 cd ~/dev/shoreleave-browser
 git remote add upstream https://github.com/shoreleave/shoreleave-browser.git
 git pull upstream master
 git push origin master
-git checkout -b upgrade # create the branch to fix the issue
+git checkout -b upgrade # create the branch to manage an issue
 
 # shoreleave-remote
 cd ~/dev/shoreleave-remote
 git remote add upstream https://github.com/shoreleave/shoreleave-remote.git
 git pull upstream master
 git push origin master
-git checkout -b upgrade # create the branch to fix the issue
+git checkout -b upgrade # create the branch to manage an issue
 
 # shoreleave-remote-ring
 cd ~/dev/shoreleave-remote-ring
 git remote add upstream https://github.com/shoreleave/shoreleave-remote-ring.git
 git pull upstream master
 git push origin master
-git checkout -b upgrade # create the branch to fix the issue
+git checkout -b upgrade # # create the branch to manage an issue
 ```
 
 > NOTE 2: if you fork a repo immediately before to locally clone it, the
@@ -165,10 +164,137 @@ git checkout -b upgrade # create the branch to fix the issue
 > optionals.
 
 > NOTE 3: the `git checkout -b upgrade` command for creating a new
-> branch from the the master is not technically needed, but the github
-> community strongly recommends it and I agree with them.
+> branch from the master is not technically needed, but if you want to
+> manage and issue and eventuallu pull request your solution to the
+> owner of the repo, the github community strongly recommends it, and I
+> agree with them.
 
-It's now time to upgrade the `project.clj` for each forked repo.
+### Shoreleave quirks
+
+If you take a deeper look at the variuos `project.clj` files of the
+cited `shoreleave` libs, you'll discover few characterizing quirks:
+
+* even if only the `shoreleave-remote-ring` contains any CLJ code, all
+  of them reference the "1.4.0" release of the Clojure language;
+* none of the cited `shoreleave` libs references the `lein-cljsbuild`
+  plugin;
+* none the cited `shoreleave` libs defines any [git tag][16]. 
+
+#### Update shoreleave-core's `project.clj` file 
+
+The first `shoreleave` lib we're going to work on is the most basic,
+`shoreleave-core`, because it is the only one not depending on the
+others.
+
+As you remember from the [Tutorial 18 - Hosekeeping][1], we already
+suggested to add any dependendency or plugin that we want to have
+available in every project into the `~/.lein/profiles.clj` file.
+
+All the cited `shoreleave` libs use the [lein-marginalia][17] plugin
+as a very lite *kind* of [litarature programming][18] that parses CLJ
+and CLJS code and outputs a side-by-side source view with appropriate
+comments and docstrings aligned.
+
+`lein-marginalia` could be useful in other CLJ/CLJS projects as well
+and I personally prefer, instead of adding it to the `:plugins`
+section of the `:dev` profile for each `project.clj` file, to include
+it in the `~/.lein/profiles.clj` file as follows:
+
+```clj
+{:user {:plugins [[lein-pprint "1.1.1"]
+                  [lein-ancient "0.4.4"]
+                  [lein-bikeshed "0.1.3"]
+                  [lein-try "0.3.2"]
+                  [lein-marginalia "0.7.1"]]}}
+```
+
+This first change allows us to remove from the `project.clj` of the
+`shoreleave-core` lib even its dependency on the `"1.4.0"` release of
+the Clojure programming language.
+
+But what about the `tag` release of the `shoreleave-core` lib itself?
+As said, there are no exlicit `tag` release for this lib (and neither
+for all the other `shoreleave` libs as well). At the moment we're not
+going to change anything in the CLJS codebase that implements it. So,
+to be compliant with the [Semantic Versioning][19] guidelines we're
+going to label it as a SNAPSHOT version (i.e. "0.3.1-SNAPSHOT").
+
+`cd` in the `shoreleave-core` main directory of the cloned repo from
+the fork and change the corresponding `project.clj` as follows:
+
+```clj
+(defproject shoreleave/shoreleave-core "0.3.1-SNAPSHOT"
+  :description "A smarter client-side with ClojureScript : Shoreleave's core auxiliary functions"
+  :url "http://github.com/shoreleave"
+  :license {:name "Eclipse Public License - v 1.0"
+            :url "http://www.eclipse.org/legal/epl-v10.html"
+            :distribution :repo
+            :comments "See the notice in README.mkd or details in
+            LICENSE_epl.html"})
+```
+
+#### Where is my lein-cljsbuild plugin?
+
+Wait a minute. From the very beginning of the `modern-cljs` series of
+tutorials we have been learning about the `lein-cljsbuild` plugin as
+the main tool to configure and manage a CLJS-based project and now
+we're dealing with a CLJS-based project which doesn't even contain a
+reference to it. What's is going on here?
+
+The fact is that all the cited pure CLJS-based `shoreleave` libs have
+no unit testing code and contain only CLJS to be used by CLJS-based
+projects to be configured and managed by the `lein-cljsbuild` plugin.
+
+If we want to be really collaborative, we should keep our time and
+start coding some unit testing code for each `shoreleave` lib. This
+means a lot of work which, *mutatis mutandis*, should follow the
+numerous steps explained in the
+[Tutorial 16 - It's better to be safe than sorry (Part 3)][20].
+
+If someone of you is so kind to make it, I'll be very happy and
+[Paul deGrandis][21] even more than me. But the one which is going to
+be the happiest is yourself, beacause you'll become a CLJS unit
+testing master.
+
+That said, at minimum we can verify if our `shoreleave/shoreleave-core
+"0.3.1-SNAPSHOT"` lib is still working in the context of the
+`modern-cljs` codebase by first modifying all the others `shoreleave`
+libs directly or indirectly used by the `modern-cljs` project.
+
+#### Update the remaining pure CLJS `shoreleave` libs
+
+Modify the `project.clj` file of each `shoreleave` lib in the same way
+we already did with the `shoreleave-core` one.
+
+```clj
+;;; shoreleave-browser project.clj
+(defproject shoreleave/shoreleave-browser "0.3.1-SNAPSHOT"
+  :description "A smarter client-side with ClojureScript : Shoreleave's enhanced browser utilities"
+  :url "http://github.com/shoreleave"
+  :license {:name "Eclipse Public License - v 1.0"
+            :url "http://www.eclipse.org/legal/epl-v10.html"
+            :distribution :repo
+            :comments "See the notice in README.mkd or details in LICENSE_epl.html"}
+  :dependencies [[shoreleave/shoreleave-core "0.3.1-SNAPSHOT"]])
+```
+
+
+```clj
+;;; shoreleave-remote project.clj
+(defproject shoreleave/shoreleave-remote "0.3.1-SNAPSHOT"
+  :description "A smarter client-side with ClojureScript : Shoreleave's rpc/xhr/jsonp facilities"
+  :url "http://github.com/shoreleave"
+  :license {:name "Eclipse Public License - v 1.0"
+            :url "http://www.eclipse.org/legal/epl-v10.html"
+            :distribution :repo
+            :comments "See the notice in README.mkd or details in LICENSE_epl.html"}
+  :dependencies [[shoreleave/shoreleave-core "0.3.1-SNAPSHOT"]
+                 [shoreleave/shoreleave-browser "0.3.1-SNAPSHOT"]])
+```
+
+
+
+
 
 ### Make the changes
 
