@@ -347,9 +347,9 @@ lein install
 
 ### Update the `modern-cljs` `project.clj` file
 
-As a last change before lighting the fire is to update the `project.clj`
-file of the `modern-cljs` project itself by updatating its references
-to the used shoreleave libs.
+As a last change before lighting the fire, update the `project.clj`
+file of the `modern-cljs` project itself by upgrading its references
+to the newly crerated shoreleave SNAPSHOT release.
 
 ```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -385,7 +385,7 @@ inderect `shoreleave` dependencies (i.e. `shoreleave-core` and
 
 Now cross your finger and issue the `lein clean-test!` command to run
 the unit tests defined for the `modern-cljs` project after having
-cleaned and recompiled everythig from schratch.
+cleaned up and recompiled everythig from scratch.
 
 ```bash
 # from the main modern-cljs directory
@@ -442,34 +442,70 @@ Ran 1 tests containing 13 assertions.
 {:test 1, :pass 13, :fail 0, :error 0, :type :summary}
 ```
 
-The `shoreleave` libs updates don't seem to have broken the previous
-code. You can even try to interact with the `modern-cljs` Login and
-Shopping Calculator forms to verify that everything is still working
-as expected.
+The updates of the `shoreleave` libs don't seem to break the code. You
+can even try to interact with the `modern-cljs` Login and Shopping
+Calculator forms to verify that everything is still working as
+expected, or run a `bREPL` connection as explained in the [previous
+tutorial] to directly interact with the DOM.
 
-Obviuosly, this kind of runs can't be considered in any way something
+Obviuosly, this kind of tests can't be considered in any way something
 to count on. I leave to you both the honor and the burden to fill the
 gaps by adding the CLJS unit testing code as described in few of the
 previous tutorials of the series.
 
 ### Commit the changes
 
-It's now time to commit all the implemented changes.
+It's now time to commit all the implemented changes and to push them
+to the forked repo. 
 
 ```bash
+# shoreleave-core
 cd ~/dev/shoreleave-core
 git commit -am "removed lein-marginalia and clj 1.4.0 deps"
+git push origin upgrade
+
+# shoreleave-browser
 cd ~/dev/shoreleave-browser
 git commit -am "removed lein-marginalia and clj 1.4.0 deps"
+git push origin upgrade
+
+# shoreleave-remote
 cd ~/dev/shoreleave-remote
 git commit -am "removed lein-marginalia and clj 1.4.0 deps"
+git push origin upgrade
+
+# shoreleave-remote-ring
 cd ~/dev/shoreleave-remote-ring
 git commit -am "removed lein-marginalia and clj updated to 1.5.1"
+git push origin upgrade
+
+# modern-cljs
 cd ~/dev/modern-cljs
 git commit -am "step 1 completed"
 ```
 
-NOTE 7: 
+### What'next?
+
+Let's summarize what we did:
+
+* we forked and clone all the direct and inderect `shoreleave` libs
+  which the `modern-cljs` depends on;
+* we created an `upgrade` branch for each forked/cloned `shoreleave`
+  lib;
+* we updated the `project.clj` content of each `shoreleave` lib by
+  removing the CLJ "1.4.0" and the `lein-marginalia` dependencies;
+* we marked all the interested `shoreleave` lib as `"0.3.1-SNAPSHOT"`
+  to adhere to the semantic version styleguide;
+* we updated the `shoreleave-remote-ring` to the latest available
+  releases of its dependencies;
+* we locally installed all the updated `shoreleave1` libs;
+* we changed the `modern-cljs` project by updating its references to
+  the `shoreleave` libs
+* we cleaned up, recompiled and ran the `modern-cljs` unit tests to
+  see if the implemented `shoreleave` updates  break the code;
+* we committed and pushed against the corresponding forked repos the
+  update `shoreleave` lib.
+
 
 
 ### Make the changes
