@@ -108,7 +108,7 @@ directory.
 mkdir runners
 ```
 
-Now grab the content of the [script][10] and save it as `pahntomjs.js` in
+Now grab the content of the [script][10] and save it as `phantomjs.js` in
 the newly created `runners` directory.
 
 ```js
