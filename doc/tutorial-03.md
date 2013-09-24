@@ -1,13 +1,13 @@
 # Tutorial 3 - CLJ based http-server
 
 In this tutorial you are going to substitute the external http-server
-that we configured in [tutorial 2][1] with [ring][2], a CLJ based
-http-server.
+that we configured in [tutorial 2][1] with [ring][2] and
+[compojure][5], the most standard way run a web based CLJ application.
 
 ## Introduction
 
 So far we have only played with CLJS code that, once compiled to JS, runs on the
-browser side, and have not needed a CLJ-enabled http-server. But we love clojure
+browser side, and have not needed a CLJ-enabled http-server. But we love Clojure
 and we want to learn more about it too.
 
 [Ring][2] is one of the fundamental building-blocks of any CLJ-based
@@ -20,10 +20,10 @@ If you want to start working from the end of the [previous tutorial][1],
 assuming you've [git][8] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-02
-$ git checkout -b tutorial-03-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-02
+git checkout -b tutorial-03-step-1
 ```
 
 ## Add lein-ring plugin to our project.clj
@@ -37,11 +37,11 @@ To install `lein-ring`, add it as a plugin to your `project.clj`. As for
 `lein-cljsbuild`, if you're going to use it in every CLJ project, you
 can add it to your global profile (i.e. in `~/.lein/profiles.clj`).
 
-Like `lein-cljsbuild`, `lein-ring` plugin require to be configurated by
-adding a `:ring` keyword to `project.clj`. The value of `:ring` has to
-contain a map of configuration options, but just one of them,
-`:handler`, is required. It has to refer a function we are going to
-define.
+Like `lein-cljsbuild`, `lein-ring` plugin requires to be configurated
+by adding a `:ring` keyword to `project.clj`. The value of `:ring` has
+to contain a map of configuration options, but at the moment just one
+of them, the `:handler`, is required and has to refer a function we are
+going to define.
 
 Here is the modified version of `project.clj` with the required
 configuration we talked about.
@@ -55,13 +55,14 @@ configuration we talked about.
   ;; clojure source code pathname
   :source-paths ["src/clj"]
 
-  :dependencies [[org.clojure/clojure "1.5.1"]]
+  :dependencies [[org.clojure/clojure "1.5.1"]
+	             [org.clojure/clojurescript "0.0-1878"]]
 
   :plugins [;; cljsbuild plugin
-            [lein-cljsbuild "0.3.2"]
+            [lein-cljsbuild "0.3.3"]
 
             ;; ring plugin
-            [lein-ring "0.8.5"]]
+            [lein-ring "0.8.7"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
@@ -141,11 +142,12 @@ follows:
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
+	             [org.clojure/clojurescript "0.0-1878"]
                  [compojure "1.1.5"]]
 
   :plugins [;; cljsbuild plugin
-            [lein-cljsbuild "0.3.2"]
-            [lein-ring "0.8.5"]]
+            [lein-cljsbuild "0.3.3"]
+            [lein-ring "0.8.7"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
@@ -171,7 +173,7 @@ follows:
 Now that everything has been set up, we can run the server as follows:
 
 ```bash
-$ lein ring server
+lein ring server
 2012-11-03 19:06:33.178:INFO:oejs.Server:jetty-7.6.1.v20120215
 Started server on port 3000
 2012-11-03 19:06:33.222:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
@@ -180,10 +182,10 @@ Started server on port 3000
 You should see a page with a paragraph saying
 "Hello from compojure".  As you can see, the server started by detault
 on port `3000`. Optionally, you can pass it a different port number,
-like so: `$ lein ring server 8888`.
+like so: `lein ring server 8888`.
 
 You can also check that the browser-connected repl is still working by
-again launching the `$ lein trampoline cljsbuild repl-listen` command on a
+launching the `lein trampoline cljsbuild repl-listen` command on a
 new terminal (remember to cd to `/path/to/modern-cljs`) and visiting
 [simple.html][6] page.
 
@@ -191,10 +193,10 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "added ring and compojure"
+git commit -am "added ring and compojure"
 ```
 
-## Next step
+## Next step - [Tutorial 4: Modern ClojureScript][7]
 
 In the [next tutorial 4][7] we're going to have some fun introducing form validation in CLJS.
 

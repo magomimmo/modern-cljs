@@ -20,17 +20,17 @@ If you want to start working from the end of the [previous tutorial][1],
 assuming you've [git][30] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-09
-$ git checkout -b tutorial-10-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-09
+git checkout -b tutorial-10-step-1
 ```
 
 # Introduction
 
 Ajax is not something magic, it's just a kind of client-server
 communication, eventually asynchronous, mainly using http/https
-protocols. Ajax expoits more [web techniques][5]:
+protocols. Ajax exploits more [web techniques][5]:
 
 * HTML and CSS for presentation
 * DOM for dynamic display and interaction with data
@@ -92,7 +92,7 @@ on the shoulders of giants.
 
 To keep things simple enough we're going to stay with our boring
 [shopping calculator][20] form as a reference case to be implemented by using
-shoreleave.
+`shoreleave`.
 
 What we'd like to do is to move the calculation from the client side code
 (i.e. CLJS) to the server side code (i.e. CLJ) and then let the former
@@ -121,6 +121,7 @@ As usual we have first to add `shoreleave-remote-ring` library to
 ```clojure
 
   :dependencies [[org.clojure/clojure "1.5.1"]
+	             [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [domina "1.0.2-SNAPSHOT"]
                  [hiccups "0.2.0"]
@@ -227,7 +228,7 @@ wraps the original one with `wrap-rpc`. Here is the complete
              (site)))
 ```
 
-> NOTE 3: We required `modern-cljs.core` and `compojure.handler`
+> NOTE 4: We required `modern-cljs.core` and `compojure.handler`
 > namespaces to refer `handler` and `site` symbols and we added
 > `wrap-rpc` to the `:refer` specification of the already required
 > `shoreleave.middleware.rpc` namespace.
@@ -282,7 +283,7 @@ First you need to update the namespace declaration by requiring the
             [cljs.reader :refer [read-string]]))
 ```
 
-> NOTE 4: We also added `cljs.reader` namespace to refer to
+> NOTE 5: We also added `cljs.reader` namespace to refer to
 > `read-string`. The reason will became clear when we'll fix the
 > client-side `calculate` function.
 
@@ -310,7 +311,7 @@ one of the CLJ on the JVM. Try to launch the rhino repl from
 function by passing it two stringified numbers:
 
 ```clojure
-$ lein trampoline cljsbuild repl-rhino
+lein trampoline cljsbuild repl-rhino
 Running Rhino-based ClojureScript REPL.
 "Type: " :cljs/quit " to quit"
 ClojureScript:cljs.user> (* "6" "7")
@@ -340,7 +341,7 @@ from a string concatenation.
 Now try the same thing in a regular CLJ repl:
 
 ```clojure
-$ lein repl
+lein repl
 nREPL server started on port 53127
 REPL-y 0.1.4
 Clojure 1.5.1
@@ -404,12 +405,14 @@ Now cross your finger and do as follows:
 * run the ring server.
 
 ```bash
-$ cd /path/to/modern-cljs
-$ lein cljsbuild clean
-$ lein cljsbuild once dev
-$ lein ring server-headless
-$ lein trampoline cljsbuild repl-listen # optional - in a new terminal
+cd /path/to/modern-cljs
+lein do cljsbuild clean, cljsbuild once, ring server-headless
+lein trampoline cljsbuild repl-listen # optional - in a new terminal
 ```
+
+> NOTE 6: As you can see above, we sterted usin the `do` chaining
+> feature of the `lein` command to minimize a little bit our typing.
+
 
 Now visit [shopping-dbg.html][20], click the `Calculate` button and
 verify that the shopping calculator returns the expected `total`
@@ -421,7 +424,7 @@ and CLJ on the server-side.
 
 # Make you a favor
 
-> NOTE 5: This paragraph has been written while using a previous
+> NOTE 7: This paragraph has been written while using a previous
 > version of `shoreleave` libs. *Mutatis Mutandis* (e.g. `_shoreleave`
 > instead of `_fetch`), everything should be almost the same when
 > using the latest available `shoreleave` version.
@@ -467,10 +470,10 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "introducing ajax"
+git commit -am "introducing ajax"
 ```
 
-# [Next step - More Ajax][25]
+# Next step [Tutorial 11: A deeper understanding of Domina Events][25]
 
 In next tutorial we're going to apply what we just learnt and extend its
 application to the login form we introduced in [Tutorial 4][3].

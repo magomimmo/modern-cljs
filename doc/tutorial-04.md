@@ -42,10 +42,10 @@ If you want to start working from the end of the [previous tutorial][16],
 assuming you've [git][20] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-03
-$ git checkout -b tutorial-04-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-03
+git checkout -b tutorial-04-step-1
 ```
 
 ## Registration form
@@ -320,20 +320,19 @@ We're almost done.  Copy `style.css` file from
 Now we can compile our `login.cljs` as usual (cfr. [Tutorial 1][11])
 
 ```bash
-$ lein cljsbuild once
+lein cljsbuild once
 Could not find metadata thneed:thneed:1.0.0-SNAPSHOT/maven-metadata.xml in central (http://repo1.maven.org/maven2)
 Retrieving thneed/thneed/1.0.0-SNAPSHOT/maven-metadata.xml (1k)
     from https://clojars.org/repo/
 Compiling ClojureScript.
 Compiling "resources/public/js/modern.js" from "src/cljs"...
 Successfully compiled "resources/public/js/modern.js" in 5.075248 seconds.
-$
 ```
 If you want to trigger automatic JS recompilation whenever you change
 CLJS source code, just replace the command `once` with `auto` like so:
 
 ```bash
-$ lein cljsbuild auto
+lein cljsbuild auto
 ```
 
 ## Run
@@ -371,9 +370,9 @@ you to complete the form;
 In this last paragraph of the tutorial you can start to have some fun
 with the brepl and the CLJ http-server we introduced in [tutorial 3][16]
 
-0. launch the compile task in auto mode: `$ lein cljsbuild auto`
-1. launch the brepl: `$ lein trampoline cljsbuild repl-listen`
-2. launch the ring server: `$ lein ring server`
+0. launch the compile task in auto mode: `lein cljsbuild auto`
+1. launch the brepl: `lein trampoline cljsbuild repl-listen`
+2. launch the ring server: `lein ring server`
 3. visit the login page: `http://localhost:3000/login.html`
 4. evaluate `(in-ns 'modern-cljs.login)` in the brepl
 5. evaluate `validate-form` in the brepl. You should see the JS function
@@ -390,10 +389,10 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "modern javascript"
+git commit -am "modern javascript"
 ```
 
-# Next Tutorial
+# Next Step [Tutorial 5: Introducing Domina][18]
 
 In the [next tutorial][18] we're going to use [domina library][19] to
 make our login form validation more clojure-ish.

@@ -58,17 +58,17 @@ Start by reviewing the Shopping Calculator program. If you want to keep
 track of your next steps do as follows:
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-13
-$ git checkout -b tutorial-14-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-13
+git checkout -b tutorial-14-step-1
 ```
 
 Then compile and run `modern-cljs` as usual:
 
 ```bash
-$ lein cljsbuild auto prod
-$ lein ring server-headless # in a new terminal from modern-cljs dir
+lein cljsbuild auto prod
+lein ring server-headless # in a new terminal from modern-cljs dir
 ```
 
 Now visit the [shopping URI][2], and click the `Calculate` button. The
@@ -318,8 +318,8 @@ Not bad so far. I suggest you to commit your work now by issuing
 the following `git` command:
 
 ```bash
-$ git commit -am "Step 1"
-$ git checkout -b tutorial-14-step-2
+git commit -am "Step 1"
+git checkout -b tutorial-14-step-2
 ```
 
 The second `git` command clones the `tutorial-14-step-1` branch into
@@ -397,7 +397,7 @@ interested elements/nodes from the parsed HTML source. The right hand
 of the pair is a function which is applied to transform each selected
 element/node.
 
-If you issue the `$ lein classpath` command from the terminal, you can
+If you issue the `lein classpath` command from the terminal, you can
 verify that the `resources` directory is a member of the application
 `classpath`. This means that we can pass the
 `public/shopping.html` file to `deftemplate as the `source` arg.
@@ -427,7 +427,7 @@ First, as usual, we need to add the [Enlive][9] lib to the
                  ...
                  [com.cemerick/valip "0.3.2"]
                  ;; add enlive dependency
-                 [enlive "1.1.1"]]
+                 [enlive "1.1.4"]]
   ...
   ...
 )
@@ -440,7 +440,7 @@ an application I decided to create a new `templates` directory under
 the `src/clj/modern_cljs/` directory.
 
 ```bash
-$ mkdir src/clj/modern_cljs/templates
+mkdir src/clj/modern_cljs/templates
 ```
 
 Inside this directory create the `shopping.clj` file where we can put the
@@ -458,12 +458,39 @@ definition of the Shopping Calculator template
   nil nil)
 ```
 
+Now that we have defined the `shopping` template, which implicitly
+defines the `shopping` function, we can go back to the `core.clj` to
+update its namespace declaration and substitute the `(str "You enter:
+" quantity " " price " " tax " and " discount ".")` call with the call
+to the newly defined `shopping` function. 
+
+```clj
+(ns modern-cljs.core
+  (:require [compojure.core :refer [defroutes GET POST]]
+            [compojure.route :refer [resources not-found]]
+            [compojure.handler :refer [site]]
+            [modern-cljs.login :refer [authenticate-user]]
+            [modern-cljs.templates.shopping :refer [shopping]]))
+
+(defroutes app-routes
+  ;; to serve document root address
+  (GET "/" [] "<p>Hello from compojure</p>")
+  ;; to authenticate the user
+  (POST "/login" [email password] (authenticate-user email password))
+  ;; to server static pages saved in resources/public directory
+  (POST "/shopping" [quantity price tax discount] 
+        (shopping quantity price tax discount))
+  (resources "/")
+  ;; if page is not found
+  (not-found "Page non found"))
+```
+
 If the `lein ring server-headless` command is still running, stop it
 by `Ctr-C` and run it again to allow the server to import the new
 `enlive` dependencies.
 
 ```bash
-$ lein ring server-headless`
+lein ring server-headless`
 ```
 
 > NOTE 3: We need to stop the running ring server because we added the
@@ -721,12 +748,12 @@ Open and modify the above file as follows:
 > NOTE 6: We added the `format` call to format the `Total` value with
 > two digits after the decimal point.
 
-Assuming that you have stopped the `$ lein ring server-headless`
+Assuming that you have stopped the `lein ring server-headless`
 command from the terminal, if you now try to launch the command again
 you receive a compilation error:
 
 ```bash
-$ lein ring server-headless
+lein ring server-headless
 Exception in thread "main" java.lang.Exception: Cyclic load dependency: [ /modern_cljs/remotes ]->/modern_cljs/templates/shopping->/modern_cljs/core->[ /modern_cljs/remotes ]
 ...
 ...
@@ -831,15 +858,56 @@ update the namespace of the `app` symbol in the `:ring` section.
 We are now ready to rebuild and run everything as follows:
 
 ```bash
-$ lein clean # it's better to be safe than sorry
-$ lein cljsbuild clean # it's better to be safe than sorry
-$ lein cljsbuild once prod
-$ lein ring server-headless
+lein do clean, cljsbuild clean, cljsbuild once prod, ring server-headless
 ```
 
 Now visit [shopping][2] URI and play with the form by enabling and
 disabling the JavaScript engine of your browser. Everything should
 work as expected in both the scenarios.
+
+## Housekeeping
+
+As you have seen in all the previous tutorials concerning
+[lein-cljsbuild][29], most of the times you need to run both a `lein
+clean` and `lein cljsbuild clean` command to clean the entire
+project. Next you have to issue the `lein cljsbuild once` command to
+compile down the cljs files. Until now we use the `do` chaining
+feature of `lein` as a little workaround to those repetitions.
+
+[lein-cljsbuild][30] can hook into few Leiningen tasks to enable CLJS
+support in each of them. The following tasks are supported:
+
+```bash
+lein clean
+lein compile
+lein test
+lein jar
+```
+
+Add the following option to your project configuration:
+
+```clj
+(defproject ...
+  ...
+  :hooks [leiningen.cljsbuild]
+  ...
+)
+```
+
+You can now run the following commands:
+
+```bash
+lein clean # it call lein cljsbuild
+lein compile # it call lein cljsbuild once
+```
+
+Note that you can't add a build-id to `lein compile` command as you
+can do with `lein cljsbuild once` command. So, if you just need to
+compile a single build-id you're forced to use the `lein cljsbuild
+once <build-id>` command.
+
+[Leiningen][31] even support project-specific task aliases. We'll
+introduce this feature in a next tutorial.
 
 ## ATTENTION - FINAL NOTES
 
@@ -848,14 +916,12 @@ and `:dev`), you have to update the `shopping-dbg.html` and
 `shopping-prod.html` files with the same modification we did in the
 `shopping.html` file.
 
-Then submit the following commands in the terminal from the main
-`modern-cljs` directory.
+Then, assuming you added the `:hooks` option to the `project.clj` as
+documented above, submit the following commands in the terminal from
+the main `modern-cljs` directory.
 
 ```bash
-$ lein clean
-$ lein cljsbuild clean
-$ lein cljsbuild once # to compile all builds
-$ lein ring server-headless
+lein do clean, compile, ring server-headless
 ```
 
 Now visit any version of the Shopping Calculator
@@ -869,11 +935,11 @@ As a very last step, if everything is working as expected, I suggest you
 to commit the changes as follows:
 
 ```bash
-$ git add .
-$ git commit -m "finished step-2"
+git add .
+git commit -m "finished step-2"
 ```
 
-# Next - Tutorial 15 - It's better to be safe than sorry (Part 2)
+# Next Step - [Tutorial 15: It's better to be safe than sorry (Part 2)][28]
 
 In the [next tutorial][28], after having added the validators for the
 `shoppingForm`, we're going to introduce unit testing.
@@ -911,3 +977,6 @@ License, the same as Clojure.
 [26]: https://github.com/cemerick/valip/blob/master/src/valip/predicates.clj
 [27]: https://github.com/cgrand
 [28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md
+[29]: https://github.com/emezeske/lein-cljsbuild
+[30]: https://github.com/emezeske/lein-cljsbuild#hooks
+[31]: https://github.com/technomancy/leiningen

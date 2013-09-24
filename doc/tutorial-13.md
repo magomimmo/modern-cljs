@@ -14,10 +14,10 @@ If you want to start working from the end of the [previous tutorial][1],
 assuming you've [git][21] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-12
-$ git checkout -b tutorial-13-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-12
+git checkout -b tutorial-13-step-1
 ```
 
 # Introduction
@@ -197,6 +197,7 @@ dependencies.
 ```clojure
 ;;; code fragment from project.clj
   :dependencies [[org.clojure/clojure "1.5.1"]
+                 [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
 		 [domina "1.0.2-SNAPSHOT"]
@@ -278,11 +279,9 @@ Anyway, let's run the application as usual to verify that the
 interaction with the just-added validator is working as expected.
 
 ```bash
-$ rm -rf out # it's better to be safe than sorry
-$ lein clean # it's better to be safe than sorry
-$ lein cljsbuild clean # it's better to be safe than sorry
-$ lein cljsbuild auto dev
-$ lein ring server-headless # in a new terminal
+rm -rf out # it's better to be safe than sorry
+lein do clean, cljsbuild clean, cljsbuild auto dev # it's better to be safe than sorry 
+lein ring server-headless # in a new terminal
 ```
 
 Visit [login-dbg.html][7] page and repeat all the interaction tests we
@@ -483,11 +482,9 @@ Aren't you curious like me to see if everything is still working? Let's
 run the application as usual:
 
 ```bash
-$ rm -rf out # it's better to be safe than sorry
-$ lein clean # it's better to be safe than sorry
-$ lein cljsbuild clean # it's better to be safe than sorry
-$ lein cljsbuild auto dev
-$ lein ring server-headless # in a new terminal
+rm -rf out # it's better to be safe than sorry
+lein do clean, cljsbuild clean, cljsbuild auto dev # it's better to be safe than sorry
+lein ring server-headless # in a new terminal
 ```
 
 Now, as usual, visit the [login-dbg.html][7] page and exercise all the
@@ -671,11 +668,11 @@ CLJS by the lein-cljsbuild `:crossovers` option and the shoreleave
 library.
 
 ```bash
-$ rm -rf out # it's better to be safe than sorry
-$ lein clean # it's better to be safe than sorry
-$ lein cljsbuild clean # it's better to be safe than sorry
-$ lein cljsbuild auto dev
-$ lein ring server-headless # in a new terminal
+rm -rf out # it's better to be safe than sorry
+lein clean # it's better to be safe than sorry
+lein cljsbuild clean # it's better to be safe than sorry
+lein cljsbuild auto dev
+lein ring server-headless # in a new terminal
 ```
 
 As usual visit the [login-dbg.html][7] page and see what happens when
@@ -687,12 +684,12 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "DRY while crossing the border"
+git commit -am "DRY while crossing the border"
 ```
 
 Stay tuned for the next tutorial.
 
-# Next step - Tutorial 14 - It's better to be safe than sorry (Part 1)
+# Next step - [Tutorial 14: It's better to be safe than sorry (Part 1)][20]
 
 In the [next Tutorial][20] we are going to prepare the stage for
 affording the unit testing topic. We'll also introduce the `Enlive`

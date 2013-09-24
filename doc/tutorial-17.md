@@ -26,10 +26,10 @@ CLJ code first, and forget about the CLJS code for a while.
 > following commands at the terminal:
 >
 > ```bash
-> $ git clone https://github.com/magomimmo/modern-cljs.git
-> $ cd modern-cljs
-> $ git checkout tutorial-16
-> $ git checkout -b tutorial-17-step-1
+> git clone https://github.com/magomimmo/modern-cljs.git
+> cd modern-cljs
+> git checkout tutorial-16
+> git checkout -b tutorial-17-step-1
 > ```
 
 We already used the [Enlive][2] lib in the
@@ -180,7 +180,7 @@ you a headache writing stringified HTML at the REPL.
 
 [Ryan Neufeld][25] recently published [lein-try][26], a lein plugin
 for trying out libraries in the REPL whithout having to import them in
-a `project.clj`. To set up [lein-try][26], add `[lein-try "0.2.0"]` to
+a `project.clj`. To set up [lein-try][26], add `[lein-try "0.3.1"]` to
 your `~/.lein/profiles.clj` as follows
 
 ```clj
@@ -188,14 +188,24 @@ your `~/.lein/profiles.clj` as follows
 
 {:user {:plugins [...
 	              ...
-                  [lein-try "0.2.0"]]}}
+                  [lein-try "0.3.1"]]}}
 ```
 
-Open a terminal and run the following commands from the main modern-cljs directory to run a REPL which
-includes the [hiccup][11] lib,
+Take into account that `lein-try "0.3.1"` requires at least the
+version `"2.1.3"` of Leinengen. If you're running an inferior lein
+version, you need to upgrade it by issuing the following command at
+the terminal from any directory:
 
 ```bash
-$ lein try [hiccup "1.0.3"]
+lein upgrade
+```
+
+Next, open a terminal and run the following commands from the main
+modern-cljs directory to run a REPL which will include the
+[hiccup][11] lib,
+
+```bash
+lein try [hiccup "1.0.4"]
 ...
 user=>
 ```
@@ -519,7 +529,7 @@ usual, run the web app with the following command from the main
 directory of the modern-cljs project.
 
 ```bash
-$ lein ring server-headless
+lein ring server-headless
 ```
 
 Then, after having disabled the JavaScript engine of your browser,
@@ -528,7 +538,7 @@ values and finally click the `Calculate` button. Everything should
 work as expected.
 
 > NOTE 5: If you did not compile the CLJS component of the modern-cljs
-> project by issuing the `$ lein cljsbuild once` command you do not need
+> project by issuing the `lein cljsbuild once` command you do not need
 > to disable the JavaScript engine of your browser to experiment the
 > server-side only Shopping Calculator.
 
@@ -551,11 +561,11 @@ Enlive DSL.
 As a very last step, I suggest you to commit the changes as follows:
 
 ```bash
-$ git add .
-$ git commit -m "finished with the server-side shoppingForm"
+git add .
+git commit -m "finished with the server-side shoppingForm"
 ```
 
-## Next Step - Tutorial 18 - Housekeeping
+## Next Step - [Tutorial 18: Housekeeping][28]
 
 In the [next tutorial][28] we're going to digress about two
 topics. The setup of a more comfortable browser REPL based on nREPL

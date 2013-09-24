@@ -10,10 +10,10 @@ If you want to start working from the end of the [previous tutorial][2],
 assuming you've [git][13] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-04
-$ git checkout -b tutorial-05-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-04
+git checkout -b tutorial-05-step-1
 ```
 
 ## Introduction
@@ -103,12 +103,13 @@ the updated version of `project.clj`
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
+	             [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [domina "1.0.2-SNAPSHOT"]]
 
   :plugins [; cljsbuild plugin
-            [lein-cljsbuild "0.3.2"]
-            [lein-ring "0.8.5"]]
+            [lein-cljsbuild "0.3.3"]
+            [lein-ring "0.8.7"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
@@ -129,6 +130,17 @@ the updated version of `project.clj`
                            :pretty-print true}}]})
 ```
 
+> NOTE 1: **ATTENTION**. Due to an incompatibility/bug of the deployed
+> "1.0.2-SNAPSHOT" release of [domina][1] with the any CLJS release
+> superior to the "0.0-1847" one, I rolled back the CLJS release to
+> "0.0-1847".
+> 
+> Even if the owner of the [domina][1] lib merged the fix I submitted,
+> he still has to deploy it into a public repository. This is something
+> that could frequently happen. In a subsequent tutorial, specifically
+> dedicated to this kind of problematics, I'll explain how to manage
+> this situation.
+
 ## Domina selectors
 
 [Domina][1] offers several selector functions: `xpath`, in the `domina.xpath`
@@ -143,11 +155,11 @@ anticipated, the `domina` core namespace offers other useful functions we're
 going to use: `(value el)`, which returns the value of the passed
 element, and `(set-value! el value)` which sets its value.
 
-> Note 1: when a function modifies an argument passed to it, by Clojure
+> Note 2: when a function modifies an argument passed to it, by Clojure
 > naming convention a bang "!" is added at the end of the function
 > name.
 
-> Note 2: when you need to :use or :require a namespace, CLJS imposes
+> Note 3: when you need to :use or :require a namespace, CLJS imposes
 > using the :only form of :use and the :as form of :require. For further
 > differences see [the ClojureScript Wiki][8]
 
@@ -183,13 +195,13 @@ Leave the rest of the file as is. To check that everything still works
 do the following:
 
 ```bash
-$ cd /path/to/modern-cljs
-$ lein ring server
-$ lein cljsbuild once # in a new terminal and after having cd in modern-cljs
-$ lein trampoline cljsbuild repl-listen
+cd /path/to/modern-cljs
+lein ring server
+lein cljsbuild once # in a new terminal and after having cd in modern-cljs
+lein trampoline cljsbuild repl-listen
 ```
 
-> Note 3: be sure to `cd` to the home directory of the project in each
+> Note 4: be sure to `cd` to the home directory of the project in each
 > terminal you open.
 
 Open <http://localhost:3000/login.html>, and when the CLJS repl becomes responsive,
@@ -375,9 +387,9 @@ type into it the following code
 Let's now try our little shopping calculator as usual:
 
 ```bash
-$ lein ring server # in the modern-cljs home directory
-$ lein cljsbuild auto # in the modern-cljs directory in a new terminal
-$ lein trampoline cljsbuild repl-listen # in a the modern_cljs directly in a new terminal
+lein ring server # in the modern-cljs home directory
+lein cljsbuild auto # in the modern-cljs directory in a new terminal
+lein trampoline cljsbuild repl-listen # in a the modern_cljs directly in a new terminal
 ```
 
 ### A short trouble shooting session
@@ -424,7 +436,7 @@ ClojureScript:modern-cljs.shopping>
 Oops, the `onsubmit` property of `shoppingForm` form element has no
 value. `calculate` should have been set as its value by `init`
 function which, in turn, should have been set as the value of the
-`onload` property of the `window` object. Let's know see what's the
+`onload` property of the `window` object. Let's now see what's the
 value of the `onload` property of the `window` object.
 
 ```bash
@@ -452,7 +464,7 @@ property is not the one we just defined, but the `init` function we
 defined to initialize the previous `loginForm`.
 
 What just happened has to do with the Google Closure Compiler
-(i.e. cljsbuild). It gets every CLJS file from `:source-path` keyword
+(i.e. cljsbuild). It gets every CLJS file from `:source-paths` keyword
 we set in the very first [tutorial][10] and compiles all of them in
 the "js/modern.js" file we set in the same tutorial as the value of
 the `:output-to` option of `lein-cljsbuild` plugin.
@@ -480,10 +492,10 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "introducing domina"
+git commit -am "introducing domina"
 ```
 
-# Next Step
+# Next Step [Tutorial 6: Easy made Complex and Simple made Easy][12]
 
 In the [next tutorial][12] we're going to investigate and solve in two
 different ways the problem we just met.

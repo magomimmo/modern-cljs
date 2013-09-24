@@ -9,10 +9,10 @@ If you want to start working from the end of the [previous tutorial][1],
 assuming you've [git][9] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-05
-$ git checkout -b tutorial-06-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-05
+git checkout -b tutorial-06-step-1
 ```
 
 ## Introduction
@@ -27,9 +27,9 @@ follows:
 * launched the app in the usual way
 
 ```bash
-$ lein ring server # from the project home directory
-$ lein cljsbuild auto # from the project home directory in a new terminal
-$ lein trampoline cljsbuild repl-listen # from the project home directory in a new terminal
+lein ring server # from the project home directory
+lein cljsbuild auto # from the project home directory in a new terminal
+lein trampoline cljsbuild repl-listen # from the project home directory in a new terminal
 ```
 
 We than visited the [shopping][2] page in the browser and discovered
@@ -54,7 +54,7 @@ options:
               [{:source-paths ["src/cljs"]
                 :compiler {:output-to "resources/public/js/modern.js"
                            :optimizations :whitespace
-                            :pretty-print true}}]})
+                           :pretty-print true}}]})
 
 ```
 
@@ -94,12 +94,12 @@ generated JS file.
 Here are the bash commands you should enter in the terminal.
 
 ```bash
-$ mkdir -p src/cljs/{login/modern_cljs,shopping/modern_cljs}
-$ mv src/cljs/modern_cljs/login.cljs src/cljs/login/modern_cljs/
-$ mv src/cljs/modern_cljs/shopping.cljs src/cljs/shopping/modern_cljs/
-$ cp src/cljs/modern_cljs/connect.cljs src/cljs/login/modern_cljs/
-$ cp src/cljs/modern_cljs/connect.cljs src/cljs/shopping/modern_cljs/
-$ rm -rf src/cljs/modern_cljs
+mkdir -p src/cljs/{login/modern_cljs,shopping/modern_cljs}
+mv src/cljs/modern_cljs/login.cljs src/cljs/login/modern_cljs/
+mv src/cljs/modern_cljs/shopping.cljs src/cljs/shopping/modern_cljs/
+cp src/cljs/modern_cljs/connect.cljs src/cljs/login/modern_cljs/
+cp src/cljs/modern_cljs/connect.cljs src/cljs/shopping/modern_cljs/
+rm -rf src/cljs/modern_cljs
 ```
 
 And here is the modified fragment of `project.clj`
@@ -208,23 +208,23 @@ And here is the related fragment of `shopping.html`
 You can now run everything as usual:
 
 ```bash
-$ lein ring server # from the project home directory
-$ lein cljsbuild auto # from the project home directory in a new terminal
-$ lein trampoline cljsbuild repl-listen # from the project home directory in a new terminal
+lein ring server # from the project home directory
+lein cljsbuild auto # from the project home directory in a new terminal
+lein trampoline cljsbuild repl-listen # from the project home directory in a new terminal
 ```
 
 If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "Introducing domina"
+git commit -am "Introducing domina"
 ```
 
 In a subsequent tutorial we'll introduce [domina event][6] management
 to further improve our functional style in porting
 [Modern JavaScript samples][7] to CLJS.
 
-# Next step - Being doubly aggressive
+# Next step - [Tutorial 7: Being doubly aggressive][8]
 
 In the [next tutorial][8] we're going to explore CLJS/CLS compilation modes by
 using the usual `lein-cljsbuild` plugin of `leiningen`.

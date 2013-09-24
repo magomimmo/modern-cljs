@@ -10,10 +10,10 @@ If you want to start working from the end of the [previous tutorial][5],
 assuming you've [git][10] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-07
-$ git checkout -b tutorial-08-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-07
+git checkout -b tutorial-08-step-1
 ```
 
 ## Introduction
@@ -32,10 +32,16 @@ Tutorial 5.
 
 First of all, by having been cloned from the orginal HTML code of
 [Modern JavaScript: Develop and Design][4], the shopping form used a
-`submit` type of button. As the shopping calculator data does not need to
-be sent to a server-side script to be validated, we think it's more
-appropriate to use a `button` type and remove both `action` and
-`method` attributes from the corresponding `form` tag.
+`submit` type of button. At the moment, the shopping calculator data
+are not sent to a server-side script to be validated. Until we'll
+[introduce a server-side script for that][11], we are going to use a
+`button` type and remove both `action` and `method` attributes from
+the corresponding `form` tag.
+
+> NOTE 1: We know that, by substituting `submit` with `button` type,
+> we're breaking the progressive enhancement strategy, but we're now
+> interested in grasping step by step the [domina events][2]
+> machinery. We'll fix it [later][11].
 
 Here is the updated html code.
 
@@ -115,7 +121,7 @@ Here is the updated html code.
 </html>
 ```
 
-> NOTE 1: In [Tutorial 7][5] we set the `:cljsbuild` configuration options
+> NOTE 2: In [Tutorial 7][5] we set the `:cljsbuild` configuration options
 > to generate three different builds: `:dev`, `:pre-prod` and `:prod`
 > which emitted three differents JS (`modern_dbg.js`,
 > `modern_pre.js` and `modern.js`). Then we replicated three html file
@@ -164,28 +170,28 @@ namespace and by substituting the `.-onsubmit` JS interop with the
     (ev/listen! (dom/by-id "calc") :click calculate)))
 ```
 
-> NOTE 2: We now `:require` `domina` instead of just `:use` it as in
+> NOTE 3: We now `:require` `domina` instead of just `:use` it as in
 > [previous tutorials][7]. Note that we also deleted the returned
 > `false` value from `calculate` definition because, when using
 > `button` input type instead of `submit` input type, we do not need to
 > return the control to the form itself.
 
-> NOTE 3: As usual, the `init` function has been exported to protect its
+> NOTE 4: As usual, the `init` function has been exported to protect its
 > name from been changed by Google Closure Compiler aggressive compilation
 > used in `:prod` build (i.e. `:advanced`).
 
 You can now compile and run the project as usual:
 
 ```bash
-$ lein ring server # from modern-cljs home
-$ lein cljsbuild auto dev # from modern-cljs home in a new terminal
+lein ring server # from modern-cljs home
+lein cljsbuild auto dev # from modern-cljs home in a new terminal
 ```
 
 If you want interact with the bREPL, just execute the usual command to
 run the bREPL.
 
 ```bash
-$ lein trampoline cljsbuild repl-listen # from modern-cljs home in a new terminal
+lein trampoline cljsbuild repl-listen # from modern-cljs home in a new terminal
 ```
 
 Verify that everything is still working as expected by visiting
@@ -215,10 +221,10 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "introducing domina events"
+git commit -am "introducing domina events"
 ```
 
-# [Tutorial 9 - DOM Manipulation][9]
+# Next Step - [Tutorial 9: DOM Manipulation][9]
 
 In the next tutorial we'are going to face the need to programmatically
 manipulate DOM elements as a result of the occurrance of some DOM
@@ -239,3 +245,4 @@ License, the same as Clojure.
 [8]: http://localhost:3000/shopping-dbg.html
 [9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
 [10]: https://help.github.com/articles/set-up-git
+[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-17.md

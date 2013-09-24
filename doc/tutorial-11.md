@@ -20,10 +20,10 @@ If you want to start working from the end of the [previous tutorial][1],
 assuming you've [git][26] installed, do as follows.
 
 ```bash
-$ git clone https://github.com/magomimmo/modern-cljs.git
-$ cd modern-cljs
-$ git checkout tutorial-10
-$ git checkout -b tutorial-11-step-1
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout tutorial-10
+git checkout -b tutorial-11-step-1
 ```
 
 ## Introduction
@@ -49,7 +49,7 @@ finally you realize your last user experience enhancement by introducing
 the ajax model of communication between the browser and the server.
 
 Because this series of tutorials is mostly about CLJS and not about CLJ,
-we skipped the layer representating the lowest user experience wich is
+we skipped the layer representating the lowest user experience which is
 based on CLJ only. Yet, we promise to fill this gap in successives
 tutorials explaining the usage of CLJ libraries on the server-side.
 
@@ -132,9 +132,8 @@ function as follows.
 Now compile and run the application as usual.
 
 ```bash
-$ lein cljsbuild clean # clean any previous CLJS compilation
-$ lein cljsbuild auto dev # compile just the `dev` build
-$ lein ring server-headless # lunch the server from a new terminal
+lein do cljsbuild clean, cljsbuild auto dev # compile just the `dev` build
+lein ring server-headless # lunch the server from a new terminal
 ```
 
 Then visit [login-dbg.html][12] and do not fill any field (or fill
@@ -269,8 +268,7 @@ application run, execute again the usual commands from the terminal
 prior to visit the [login page][12].
 
 ```bash
-$ lein cljsbuild auto dev
-$ lein ring server-headless
+lein do cljsbuild auto dev, lein ring server-headless
 ```
 
 ## Catch early react instantly
@@ -458,8 +456,8 @@ to the `styles.css` which resides in `resources/public/css` directory.
 Now compile and run the application as usual:
 
 ```bash
-$ lein cljsbuild auto dev
-$ lein ring server-headless # in a new terminal
+lein cljsbuild auto dev
+lein ring server-headless # in a new terminal
 ```
 
 Then visit the [login-dbg.html][12] to verify the result by playing with
@@ -499,13 +497,13 @@ A more comfortable way to know which events are supported by Domina is
 to run brepl and evaluate the `builtin-events` symbol.
 
 ```bash
-$ lein ring server-headless
-$ lein cljsbuild auto dev # from a new terminal
-$ lein trampoline cljs-build repl-listen # from a new terminal
+lein ring server-headless
+lein cljsbuild auto dev # from a new terminal
+lein trampoline cljs-build repl-listen # from a new terminal
 ```
 
 Evaluate `builtin-events` by prepending it with the
-`domina.events` namespace in wich the symbol is defined.
+`domina.events` namespace in which the symbol is defined.
 
 ```clojure
 Running ClojureScript REPL, listening on port 9000.
@@ -535,10 +533,10 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-$ git commit -am "deeper understanding"
+git commit -am "deeper understanding"
 ```
 
-# [Next Step: Tutorial 12 - The highest and the deepest layers][25]
+# Next Step - [Tutorial 12: The highest and the deepest layers][25]
 
 In the [next tutorial][25] we're going to cover the highest and the deepest
 layers of the progressive enhancement strategy to the Login Form.
