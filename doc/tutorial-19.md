@@ -109,7 +109,7 @@ symptoms:
 You should also note that the `shoreleave-remote` lib depends on the
 [shoreleave-core][8] and the [shoreleave-browser][9] libs as well,
 while the `shoreleave-remote-ring` lib further depends on the
-[org.clojure.tool-reader][10] which is outdated too.
+[org.clojure/tool-reader][10] which is outdated too.
 
 Nothing to worry about too much but, as I said, I prefer to use libs
 frequently updated and maintained and this is a good opportunity to be
@@ -254,7 +254,7 @@ pluging to be used for configuring and managing the CLJS unit testing
 code, but none of the cited `shoreleave` lib contains any unit
 tests. Considering that the `shoreleave` libs have been published when
 the `clojurescript.test` lib was still in the [Chas Emerick's][16]
-head only, this is not surprise.
+head only, this is not a surprise.
 
 If we want to be really collaborative, we should keep our time and
 start coding some unit testing code for each `shoreleave` lib. This
@@ -533,10 +533,9 @@ is not our fictional scenario). Also remember that by adding a
 snapshot dependency to your project, you will cause `lein` to slow
 down its dependensies search.
 
-Clojars offers two repositories, [Classic][http://clojars.org/repo/]
-and [Releases] [http://releases.clojars.org/repo/]. The Classic
-repository, which is the one we're going to use, has no restrictions
-and anyone may publish a lib into it.
+Clojars offers two repositories, [Classic][25] and [Releases]
+[26]. The Classic repository, which is the one we're going to use, has
+no restrictions and anyone may publish a lib into it.
 
 That said, if you want to push your own version of somebody else's
 lib, which is our case, you should qualify the project name by putting
@@ -741,7 +740,7 @@ dependencies as follows:
 ```
 
 > NOTE 13: Obviously, as group-id you should use your clojars' group
-> name, not for mine.
+> name, not mine.
 
 
 ### Light the fire
@@ -794,7 +793,8 @@ the `shoreleave-remote` and `shoreleave-remote-ring` that we just
 published on clojars.
 
 You can even verify that those libs have been cashed in your
-`~/.m2/repository` by issuing the following command.
+`~/.m2/repository` by issuing the following command (remember to
+subtitute my clojars group id with yours).
 
 ```bash
 ls -la ~/.m2/repository/org/clojars/magomimmo/shoreleave*
@@ -833,13 +833,11 @@ drwxr-xr-x  12 mimmo  staff  408 Sep 25 12:25 0.3.1-SNAPSHOT
 -rw-r--r--   1 mimmo  staff  343 Sep 25 11:46 maven-metadata-clojars.xml
 -rw-r--r--   1 mimmo  staff   40 Sep 25 11:46 maven-metadata-clojars.xml.sha1
 -rw-r--r--   1 mimmo  staff  180 Sep 25 11:46 resolver-status.properties
-MacBook-di-Sinapsi:modern-cljs mimmo$
 ```
 
 You can now commit the changes by issuing the usual `git` commands as follows:
 
-```
-bash
+```bash
 git add .
 git commit -m "Step 2"
 ```
@@ -879,3 +877,5 @@ License, the same as Clojure.
 [22]: https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md#publishing-libraries
 [23]: https://clojars.org/register
 [24]: https://github.com/technomancy/leiningen/blob/master/doc/DEPLOY.md#authentication
+[25]: http://clojars.org/repo/
+[26]: http://releases.clojars.org/repo/
