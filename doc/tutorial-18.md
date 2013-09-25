@@ -410,7 +410,7 @@ All we have to do is to create a `profiles.clj` file inside the
 `~/.lein` directory and write the following declarations:
 
 ```clj
-{:user {:plugins [[lein-try "0.3.1"]
+{:user {:plugins [[lein-try "0.3.2"]
 	              [lein-pprint "1.1.1"]
                   [lein-ancient "0.4.4"]
                   [lein-bikeshed "0.1.3"]]}}
@@ -429,7 +429,7 @@ lein pprint
  ([lein-ring/lein-ring "0.8.7"]
   [lein-cljsbuild/lein-cljsbuild "0.3.3"]
   [com.keminglabs/cljx "0.3.0"]
-  [lein-try/lein-try "0.3.1"]
+  [lein-try/lein-try "0.3.2"]
   [lein-pprint/lein-pprint "1.1.1"]
   [lein-ancient/lein-ancient "0.4.4"]
   [lein-bikeshed/lein-bikeshed "0.1.3"]),
@@ -724,7 +724,7 @@ diff <(lein with-profiles user pprint) <(lein with-profiles dev pprint)
 <   [lein-pprint/lein-pprint "1.1.1"]
 <   [lein-ancient/lein-ancient "0.4.4"]
 <   [lein-bikeshed/lein-bikeshed "0.1.3"]
-<   [lein-try/lein-try "0.3.1"]),
+<   [lein-try/lein-try "0.3.2"]),
 ---
 >   [com.keminglabs/cljx "0.3.0"]),
 >  :injections

@@ -188,10 +188,10 @@ your `~/.lein/profiles.clj` as follows
 
 {:user {:plugins [...
 	              ...
-                  [lein-try "0.3.1"]]}}
+                  [lein-try "0.3.2"]]}}
 ```
 
-Take into account that `lein-try "0.3.1"` requires at least the
+Take into account that `lein-try "0.3.2"` requires at least the
 version `"2.1.3"` of Leinengen. If you're running an inferior lein
 version, you need to upgrade it by issuing the following command at
 the terminal from any directory:
