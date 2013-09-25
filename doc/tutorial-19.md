@@ -504,22 +504,72 @@ You have more options:
 
 * you can publish a lib on the [clojars][27] public repository. This
   way the lib will be available to everybody;
-* you can publish a lib on a private repository. This way
-  the accessability to the updated libs is governed by the rules
-  defined in the repository itself. Generally this is the right choice
-  when you want to make a lib to other devs without making it public.
+* you can publish a lib on a private repository. This way the
+  accessability to the updated libs is governed by the rules defined
+  in the repository itself. Generally this is the right choice when
+  you want to make a lib available to other devs without making it
+  public.
   
-
 In the next part of this tutorial we're going to inspect the first
 option only.
 
 ## Livin' on the edge (Step 2)
 
-The process to publish a CLJ/CLJS lib on [clojars][23] is pretty simple when your are 
+The process to publish a CLJ/CLJS lib on [clojars][23] is pretty
+simple and even it is fully explained in the [lein tutorial][31], I'll
+going to summarize its characteristic and the most fundamental steps.
 
-Say that the owner of the `shoreleave` does not want to merge your pull request
+Keep in mind that any release ending in "-SNAPSHOT" is not an official
+release and you should relay on them only when you really need (which
+is not our scenario). Also remember that by adding a snapshot
+dependency to your project, you will cause Lein to slow down its
+dependensies search.
+
+Clojars offers two repositories, [Classic][http://clojars.org/repo/]
+and [Releases] [http://releases.clojars.org/repo/]. The Classic
+repository, which is the one we're going to use, has no restrictions
+and anyone may publish a lib into it.
+
+That said, if you want to push your own version of somebody else’s
+lib, which is our case, you should qualify the project name by putting
+`org.clojars.<username>/` in front of the project name in its
+`project.clj` file.
+
+### Create branches for publishing on clojars
+
+The above requirement forces us to go back and modify the name of the
+project for each lib and consequently update any reference to them in
+the other project. Due to the fact that we eventually want to pull
+request the upstreams repos, we need to create a new branch for each
+modified lib as follows:
+
+```bash
+cd ~/dev/shoreleave-core
+git checkout -b clojars
+
+cd ~/dev/shoreleave-browser
+git checkout -b clojars
+
+cd ~/dev/shoreleave-remote
+git checkout -b clojars
+
+cd ~/dev/shoreleave-remote-ring
+git checkout -b clojars
+```
+
+Now open and modify each 
 
 
+```clj (defproject org.clojars.magomimmo/shoreleave-core
+"0.3.1-SNAPSHOT" ...)  ```
+
+
+So for
+example, if your Clojars username is ato change your project.clj to:
+### Register on clojars.org
+
+To publish a library on [clojars][33] you first need to
+[register with it][34]. 
 
 ```bash
 git add .
