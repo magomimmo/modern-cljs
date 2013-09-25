@@ -202,6 +202,12 @@ a more comfortable browser REPL based on nREPL. The setup of a more
 comfortable project structure by using the `profiles` features of
 [Leiningen][2]
 
+## [Tutorial 19: A survival guide for livin' on the edge][35]
+
+In this tutorial we are going to explain how to contribute to someone
+else's repositories and how to publish snapshot releases on
+[clojars][36] for using them in your project.
+
 # License
 
 Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
@@ -241,3 +247,5 @@ License, the same as Clojure.
 [32]: http://shop.oreilly.com/product/0636920025139.do
 [33]: https://twitter.com/richhickey
 [34]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
+[35]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-19.md
+[36]: https://clojars.org/
