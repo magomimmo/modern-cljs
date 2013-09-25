@@ -918,4 +918,4 @@ License, the same as Clojure.
 [19]: https://github.com/clojure/tools.nrepl#middleware
 [20]: https://github.com/lynaghk/cljx
 [21]: http://localhost:3000/shopping-dbg.html
-[22]: 
+[22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-19.md
