@@ -886,9 +886,11 @@ git commit -m "housekeeping"
 
 That's all. Stay tuned for the next tutorial of the series.
 
-# Next Step - TO BE DONE
+## Next Step - [Tutorial 19: A survival guide for livin' on the edge][22]
 
-TO BE DONE
+In the [next tutorial][22] we are going to explain how to contribute
+to someone else's repositories and how to publish snapshot releases on
+clojars for using them in your project.
 
 # License
 
@@ -916,3 +918,4 @@ License, the same as Clojure.
 [19]: https://github.com/clojure/tools.nrepl#middleware
 [20]: https://github.com/lynaghk/cljx
 [21]: http://localhost:3000/shopping-dbg.html
+[22]: 
