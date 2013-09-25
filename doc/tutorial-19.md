@@ -18,14 +18,14 @@ software regards the corresponding documentation which is frequently
 minimal, if not absent, outdated or requiring a level of comprehension
 of the details which you still have to grasp.
 
-Likely, most of the CLJ/CLJS open source libs are hosted on github
-which offers an amazing support for collaboration and social
-coding. Even if only few CLJ/CLJS libs have an extensive documentation
-and/or an associated mailing-list for submitting dubts and questions,
-every CLJ/CLJS lib hosted on github is supported by an articulated,
-although easy, issue and version control management systems. Those two
-systems help a lot in managing almost any distributed and remote
-collaboration requirements.
+Likely, most of the CLJ/CLJS open source libs are hosted on
+[github][27] which offers an amazing support for collaboration and
+social coding. Even if only few CLJ/CLJS libs have an extensive
+documentation and/or an associated mailing-list for submitting dubts
+and questions, every CLJ/CLJS lib hosted on github is supported by an
+articulated, although easy, issue and version control management
+systems. Those two systems help a lot in managing almost any
+distributed and remote collaboration requirements.
 
 This tutorial is composed of two parts:
 
@@ -33,8 +33,8 @@ This tutorial is composed of two parts:
   depenendencies of a set of libs which the `modern-cljs` depends on;
 * *A Survival guide*. In this part we're going to see what to do when
   the responsiveness of the owner of a lib for which we have submitted
-  a push request is not compatible with our project schedule or when
-  she/he does not accept to merge a pull request.
+  a pull request is not compatible with our project schedule or when
+  she/he does not accept to merge into the master branch.
 
 ## Livin' on the edge
 
@@ -337,7 +337,7 @@ Now that we have upgraded all `shoreleave` libs which are used by the
 `modern-cljs` project, we need to locally install them in such a way
 that they can be seen by the `modern-cljs` `project.clj` file.
 
-`Lein` offers a very handy `lein install` command to reach this
+Leiningen offers a very handy `lein install` command to reach this
 goal. Execute the following commands and you're almost done.
 
 ```bash
@@ -494,9 +494,9 @@ Let's summarize what we already did:
 * we cleaned up, recompiled and ran the `modern-cljs` unit tests to
   see if the `shoreleave` updates break the code;
 * we committed and pushed against the corresponding forked repos the
-  update `shoreleave` lib.
+  updated `shoreleave` libs.
 
-In a real scenarion, we should now [pull request][19] the
+In a real scenario, we should now [pull request][19] the
 [upstream repos][20] for each modified `shoreleave` lib and wait until
 the owner of the repos will accept and merge our pull requests.
 
@@ -700,7 +700,7 @@ cd ~/dev/shoreleave-remote-ring
 lein deploy clojars
 ```
 
-Now verify that your `shoreleave` shanpshot releases are available on
+Next verify that your `shoreleave` shanpshot releases are available on
 `clojars` by issueing the following `lein search` command:
 
 ```bash
@@ -835,7 +835,8 @@ drwxr-xr-x  12 mimmo  staff  408 Sep 25 12:25 0.3.1-SNAPSHOT
 -rw-r--r--   1 mimmo  staff  180 Sep 25 11:46 resolver-status.properties
 ```
 
-You can now commit the changes by issuing the usual `git` commands as follows:
+You can finally commit the changes by issuing the usual `git` commands
+as follows:
 
 ```bash
 git add .
@@ -879,3 +880,4 @@ License, the same as Clojure.
 [24]: https://github.com/technomancy/leiningen/blob/master/doc/DEPLOY.md#authentication
 [25]: http://clojars.org/repo/
 [26]: http://releases.clojars.org/repo/
+[27]: https://github.com/
