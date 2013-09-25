@@ -667,17 +667,26 @@ Sending org/clojars/magomimmo/shoreleave-core/maven-metadata.xml (1k)
     to https://clojars.org/repo/
 ```
 
-As you see, you're asked for your clojars' credential. 
+As you see, you're asked for your clojars' credential, but it's also
+possibile to have them read fron and [encrypted file][].
+
+Now repeat del `lein deploy clojars` command for the remaining
+snapshot release of the modified `shoreleave` libs.
 
 ```bash
 # shoreleave-browser
 cd ~/dev/shoreleave-browser
+lein deploy clojars
+...
 
 # shoreleave-remote
 cd ~/dev/shoreleave-remote
+lein deploy clojars
+...
 
 # shoreleave-remote-ring
 cd ~/dev/shoreleave-remote-ring
+lein deploy clojars
 ```
 
 
