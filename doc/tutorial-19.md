@@ -428,8 +428,12 @@ Ran 1 tests containing 13 assertions.
 {:test 1, :pass 13, :fail 0, :error 0, :type :summary}
 ```
 
-> NOTE 8: Don't worry about the WARNING produced by the
-> `clojurescript.test` lib.
+> NOTE 8: At the moment don't worry about the `*WARNING*` messages you
+> receive during the CLJS compilation. Considering that older CLJS
+> builds don't define the `set-print-fn!` function in the `cljs.core`
+> namespace, the `clojurescript.test` lib defines it in the
+> `cemerick.cljs.test` namespace, but when you're running a newer CLJS
+> build that function is already defined.
 
 The updates of the `shoreleave` libs don't seem to break the
 code. This is not a surprise, because we have not touched any CLJS

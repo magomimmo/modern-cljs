@@ -162,8 +162,12 @@ lein compile
 lein ring server-headless
 ```
 
-> NOTE 5: At the moment don't worry about the `*WARNING*` messages you
-> receive during the CLJS compilation.
+> NOTE 5: Don't worry about the `*WARNING*` messages you
+> receive during the CLJS compilation. Considering that older CLJS
+> builds don't define the `set-print-fn!` function in the `cljs.core`
+> namespace, the `clojurescript.test` lib defines it in the
+> `cemerick.cljs.test` namespace, but when you're running a newer CLJS
+> build that function is already defined.
 
 Next launch the `lein repl` task from a new terminal to run a new nREPL session.
 
