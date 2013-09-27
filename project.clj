@@ -15,7 +15,8 @@
                  [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1-SNAPSHOT"]
                  [org.clojars.magomimmo/shoreleave-remote "0.3.1-SNAPSHOT"]
                  [com.cemerick/valip "0.3.2"]
-                 [enlive "1.1.4"]]
+                 [enlive "1.1.4"]
+                 [org.clojars.magomimmo/enfocus "2.0.0-SNAPSHOT"]]
   
   :plugins [[lein-ring "0.8.7"]
             [lein-cljsbuild "0.3.3"]]
