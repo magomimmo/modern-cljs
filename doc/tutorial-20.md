@@ -220,7 +220,7 @@ dependencies and plugins.
   ...
   :url "https://github.com/magomimmo/enfocus/tree/clojars"
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1847"]
+                 [org.clojure/clojurescript "0.0-1878"]
                  [domina "1.0.2-SNAPSHOT"]
 				 [org.jsoup/jsoup "1.7.2"]]
   :plugins [[lein-cljsbuild "0.3.3"]
