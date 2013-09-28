@@ -85,7 +85,7 @@ named `:pre-prod`, which uses `:simple` compilation mode.
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
-	             [org.clojure/clojurescript "0.0-1847"]
+	             [org.clojure/clojurescript "0.0-1878"]
                  [compojure "1.1.5"]
                  [domina "1.0.2-SNAPSHOT"]]
 
@@ -416,7 +416,7 @@ as follows.
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
-	             [org.clojure/clojurescript "0.0-1847"]
+	             [org.clojure/clojurescript "0.0-1878"]
                  [compojure "1.1.5"]
                  [domina "1.0.2-SNAPSHOT"]]
 

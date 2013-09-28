@@ -555,7 +555,7 @@ stuff under the `:dev` profile.
   :source-paths ["src/clj"]
   
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1847"]
+                 [org.clojure/clojurescript "0.0-1878"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
                  [domina "1.0.2-SNAPSHOT"]
