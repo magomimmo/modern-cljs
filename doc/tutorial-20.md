@@ -3,44 +3,32 @@
 In the [previous tutorial][1] we described a couple of approaches to
 survive while livin' on the edge of a continuosly changing CLJ/CLJS
 libs used as dependencies in our projects. We ended up by publishing
-to [clojars][2] a set of four [shoreleave][3] libs which the
+to [Clojars][2] a set of four [Shoreleave][3] libs which the
 `modern-cljs` project directly or indirectly depended on. This way you
 can become collaborative with the CLJ/CLJS communities and, at the
 same time, more indipendent from someone else's decision to merge or
 refuse your pull requests.
 
-In this tutorial we're getting back to CLJS and become collaborative
+In this tutorial we're getting back to CLJS to become collaborative
 while learning how to use the [Enfocus][] lib.
 
 ## Introduction
 
 In the [Tutorial 14 - Its better to be safe than sorry (Part 1)][4] we
-introduce the [enlive][5] templating system for Clojure. Then, in the
+introduce the [Enlive][5] templating system for Clojure. Then, in the
 [Tutorial 17 - Enlive by REPLing][6] we injected into the `enlive`
 templating system the form's input validators for the `Shopping
-Calculator`.
+Calculator` by using the cited [Enlive][5] lib.
 
-As you remember, even if we were able to share the same codebase of
-the validators and their corresponding unit tests between the server
-side CLJ code and the client side CLJS code, we only injected the
-validators in the server side code implemented by using [Enlive][]
+In this tutorial we're going to introduce the [Enfocus][] lib which is
+a DOM manipulation and templating library for ClojureScript inspired
+by [Enlive][]. 
 
-In this and the next tutorials we are going to inject of the
-validators in the client side code too while investigating the
-feasibility of sharing as much code as possibile with the already
-implemented server side code for the `Shopping Calculator` page.
+While learning how to use this new lib, we'll meet few things that in
+our modest opinion could be improved to make the structure of the lib
+itself more understandable by the developers that want to use it. 
 
-> NOTE 1: I suggest you to keep track of your work by issuing the
-> following commands at the terminal:
->
-> ```bash
-> git clone https://github.com/magomimmo/modern-cljs.git
-> cd modern-cljs
-> git checkout tutorial-19
-> git checkout -b tutorial-20-step-1
-> ```
-
-## Short review
+## Preamble
 
 In the [Tutorial 9 - DOM Manipulation][7] we used the events'
 management of the [domina][8] lib to implement the client side DOM
@@ -59,25 +47,23 @@ sharing some code with the corresponding server side code.
 
 ## Enter Enfocus
 
-[Enfocus][] is a DOM manipulation and templating library for
+As said, [Enfocus][] is a DOM manipulation and templating library for
 ClojureScript inspired by [Enlive][]. This statement is intriguing
-enough to make our best efforts for learning it. Then we will try to
-fullfill our obsession with the application of the DRY principle.
+enough to make our best efforts for learning it with the final intent
+of fullfilling our obsession with the application of the DRY
+principle. Indeed, we'll try to share as much code as possibile
+between the server side HTML transofrmation of the `Shopping
+Calculator` and the corresponding client side DOM manipulation.
 
-We'll start easy. Once we have learnt enough about [Enfocus][], we'll
-try to apply it in the context of the `Shopping Calculator` by
-substituting it to the [domina][] lib.
+## Living on the edge with Enfocus
 
-## Living on the edge with enfocus
+We'll discuss the `"2.0.0-SNAPSHOT"` relase of `Enfocus` because
+[Creighton Kirkendall][], the author of the lib, is currently on the
+way to publish the next stable release which is more evoluted that the
+current one.
 
-We're going to use the "2.0.0-SNAPSHOT" release of [Enfocus][]. This
-is because [Creighton Kirkendall][] is currently on the way to release
-the `"2.0.0"` tagged version, which is more evoluted that the current
-"1.0.1" stable release.
-
-Before adding `enfocus` to our project let's take a look at its
-`project.clj`. `enfocus` has a directory structure that is a lot
-different from the usual ones.
+`Enfocus` has a directory structure that is a lot different from the
+usual ones.
 
 ```bash
 tree
@@ -115,9 +101,9 @@ tree
 14 directories, 15 files
 ```
 
-It has two main directories, `project` and `testing`, and they both
-contain a specific `project.clj`. First, let's take a look at the one
-in the `project` directory.
+It has two main directories, `project` and `testing`. At the moment we
+do not care about the `testing` directory and focus our attenction on
+the `project.clj` in the `project` directory.
 
 ```clj
 (defproject enfocus "2.0.0-SNAPSHOT"
@@ -149,41 +135,23 @@ in the `project` directory.
   :hooks [cljx.hooks])
 ```
 
-### Call for normalization
+## Call for collaboration
 
 There are few things to note.
 
-First, as we have already learnt in the [previous tutorial][], most of
-the time you have to deal with CLJS libs, the sole purpouse of the
-inclusion of the [lein-cljsbuild][] plugin in their corresponding
-`project.clj` is for emitting a JS file for unit testing.
-
-That said, even if the `[clojurescript.test][] lib is mature enough to
-be used for implementing unit tests for almost CLJS libs, very few of
-them use it and [Enfocus][] makes no exception. This is very
-unfortunate, because we have to deal with a very fragmented unit
-testing approches, basically one for each CLJS lib.  [Enfocus][] even
-introduced a specific project structure, just to deal with code
-testing.
-
-Secondly, most of the [Enfocus's][] dependencies and plugins are
-outdated, even if we've choosen to use its snapshot release. 
-
-### Learn by collaborating
+* first, most of the `Enfocus` dependencies and plugins are
+  outdated, even if we've choosen to use its snapshot release;
+* second, even if the [clojurescript.test][] lib is mature enough for
+  implementing CLJS unit tests, `Enfocus` doesn't use it and
+  introduced instead a specific project structure just to deal with
+  code testing.
 
 It seems to be a perfect opportunity to be collaborative with
-[Creighton Kirkendall][]:
+[Creighton Kirkendall][].
 
-* first by updating all the [Enfocus][] dependencies and plugins;
-* then by trying to normalize its project structure to a more
-  idiomatic approach;
-* finally by introducing the [clojurescript.test][] lib for
-  implementing few unit tests.
+## Fork, clone and branch
 
-### Dependencies and plugins update
-
-Let's start by [fork][], clone and branch the [Enfocus][] repo as
-usual.
+Let's start by [fork][], clone and branch the repo.
 
 `bash
 cd ~/dev # the directory where you clone the forked repos
@@ -193,35 +161,53 @@ git remote add upstream https://github.com/ckirkendall/enfocus.git
 git checkout -b upgrade
 ```
 
-Generally speacking th updating of the dependencies and the plugins of
-a lib is not a big deal. Let's do it step by step.
+Generally speacking the updating of the dependencies and the plugins
+of a lib is not a big deal. Let's do it step by step.
 
-#### Update the cljx plugin release and configuration
+## Update the cljsbuild plugin
 
-Open the [Enfocus' `project.clj`][] file from the `project` directory
-and start by updating the `cljx` pluging from the `"0.2.2"` release to
-the `"0.3.0"` release.
+Open the `Enfocus` [project.clj][] file from the `project` directory
+and start by updating the `cljsbuild` pluging references from the
+`"0.3.0"` release to the `"0.3.3"` release.
+
+Remember that the `"0.3.3"` release of `cljsbuild` requires the CLJ
+`"1.5.1"` release and to explicitly declare a specific CLJS compiler
+you want to use in the project dependencies.
+
+> NOTE 1: If you do not configure a specific CLJS compiler release,
+> the `cljsbuild` plugin will warn you and will include the
+> `"0.0-1803"` release of the CLJS compiler.
 
 ```clj
 (defproject enfocus "2.0.0-SNAPSHOT"
   ...
-  :plugins [...
-            [com.keminglabs/cljx "0.3.0"]]
-			
-  :cljx {:builds [{:source-paths ["cljx-src"]
-                   :output-path ".generated/clj"
-                   :rules :clj}
-
-                  {:source-paths ["cljx-src"]
-                   :output-path ".generated/cljs"
-                   :rules :cljs}]}
+  :min-lein-version "2.1.3"
+  :dependencies [[org.clojure/clojure "1.5.1"]
+	             [org.clojure/clojurescript "0.0-1909"]
+                 ...]
+  :plugins [[lein-cljsbuild "0.3.3"]
+            ...]
   ...)
 ```
 
+## Features annotation: cljx vs. crossovers
+
+The next natural step would be to update the `cljx` plugin from the
+`"0.2.2"` release to the latest `"0.3.0"` available release. The
+`cljx-src` directory contains just the `syntax.cljx` file. If you take
+a look at its code, you'll discover that there are no annotation at
+all. In such a case, as said in the [Tutorial XX][], I strongly prefer
+to use the `:crossovers` option of the `cljsbuild` plugin because
+we're dealing with a *portable/pure* CLJ code.
+
+
+
 As you see, we modified the rules for each `cljx` build to be
-compliant with the latest available `"0.3.0"` release. Not a big
-deal. But wait a minute, a [second required change][] is the syntax
-for features annotation. This change requires to edit the
+compliant with the latest available `"0.3.0"` release. Not a big deal.
+
+But wait a minute, a [second required change][] between the `"0.2.2"`
+and the `"0.3.0"` releases of the `cljx` plugin is the syntax for the
+features annotation. This change would requires to edit the
 `syntax.cljx` file, which is the only file hosted inside the
 `cljx-src` directory.
 
@@ -235,13 +221,13 @@ project/cljx-src/
 2 directories, 1 file
 ```
 
-But the `syntax.cljx` does not contain any syntax annotation. This
-means that it uses *portable clojure* code only. In such a case I
-would have prefered to use the [lein-cljsbuild crossover][] feature
-instead of the `cljx` plugin. Eventually I'll take care of my
-preferences later. The good news is that we have nothing to modify in
-the `syntax.cljx` source code.
+If you take a look at this file, you'll discover that it does not
+contain any syntax annotation. This means that it uses *portable
+clojure* code only. In such a case, as I said in a
+[previous tutorial][] I prefer to use the
+[lein-cljsbuild crossover][].
 
+Instead of 
 That said, there are other little things that I would have configured
 differently. The `lein clean` command always delete by defalut the
 `target` directory. If we instruct the `cljx` builds to save the
