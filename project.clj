@@ -9,12 +9,14 @@
   
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1909"]
-                 [compojure "1.1.5"] [hiccups "0.2.0"]
-                 [domina "1.0.2-SNAPSHOT"]
+                 [compojure "1.1.5"] 
+                 [hiccups "0.2.0"]
+                 [domina "1.0.2"]
                  [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1-SNAPSHOT"]
                  [org.clojars.magomimmo/shoreleave-remote "0.3.1-SNAPSHOT"]
-                 [com.cemerick/valip "0.3.2"] [enlive "1.1.4"]
-                 [enfocus "2.0.0-SNAPSHOT"]]
+                 [com.cemerick/valip "0.3.2"] 
+                 [enlive "1.1.4"]
+                 [enfocus "2.0.0-beta3"]]
   
   :plugins [[lein-ring "0.8.7"]
             [lein-cljsbuild "0.3.3"]]
@@ -91,8 +93,7 @@
                                             :pretty-print false}}}}
                    
                    :aliases {"clean-test!" ["do" "clean," "cljx" "once," "compile," "test"]
-                             "clean-start!" ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"]}            
-                   
+                             "clean-start!" ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"]}                
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
                    :injections [(require '[cljs.repl.browser :as brepl]
                                          '[cemerick.piggieback :as pb])
