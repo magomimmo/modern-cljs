@@ -259,8 +259,10 @@ One last code modification in the `init` function and we're done.
     (listen! (by-id "submit") :click (fn [e] (validate-form e)))))
 ```
 
-Here we just wrap function the `validate-form` listener inside an
-anonymous by passing it the fired `event` (i.e.`:click`).
+> NOTE 6: Here, even if not needed, we wrapped the `validate-form`
+> listener inside an anonymous function by passing it the fired `event`
+> (i.e.`:click`) to make it clearer the mechanics of the listener. If
+> you want you can can safetly unwrap the `validata-form`.
 
 As usual, let's now verify our work by visiting the
 [login-dbg.html][12] page. If you have stopped the previous
@@ -306,7 +308,7 @@ Although a nice looking implementation of the above specifications is
 left to you, let's show at least a very crude sample from wich to start
 from.
 
-> NOTE 6: Take a look at the end of [this post][23] for a HTML5
+> NOTE 7: Take a look at the end of [this post][23] for a HTML5
 > compliant approach to password validation.
 
 Open the `login.cljs` source file and start by adding two
