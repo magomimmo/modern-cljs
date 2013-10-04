@@ -271,394 +271,122 @@ tree
 7 directories, 8 files
 ```
 
-As you can see there are still an `html` 
+## Temporary recfactoring
 
-* move the portable file (i.e. `syntax.cljx`) to the CLJS `:source-paths`;
-* rename it as `syntax.clj`
-* 
+As you can see there are still an `html` directory and a
+`testing.cljs` which appear to have nothing to do with the `Enfocus`
+source code. On the contrary, they seem to pertain the testing
+activity of the `Enfocus` lib. We'll take care of them later. At the
+moment let's go back to modify the `project.clj` by substituting the
+`cljx` plugin with the `:crossovers` option relative to the
+`cljsbuild` plugin and by configuring the project coherently with the
+proposed directories layout.
 
-Here is the fragment of the modified `project.clj`
-which substitutes `cljx` with the `:crossovers` option.
-
-```clj
-
-```
-
-
-Instead of That said, there
-are other little things that I would have configured differently. The
-`lein clean` command always delete by defalut the `target`
-directory. If we instruct the `cljx` builds to save the generated code
-under the `target` directory, then the `lein clean` code will delete
-it without any other instruction or configuration. Let's edit the
-`cljx` builds as follows:
-
-```clj
-(defproject enfocus "2.0.0-SNAPSHOT"
-  :source-paths ["cljs-src" "target/cljs" "target/clj"]
-  ...
-  :cljx {:builds [{...
-                   :output-path "target/clj"
-                   ...}
-
-                  {...
-                   :output-path "target/cljs"
-                   ...}]}
-  :cljsbuild
-  {:builds
-   [{...
-     :source-paths ["cljs-src" "target/cljs"]
-     ...}}]}
-  ...)
-```
-
-> NOTE 2: The `output-path` changes in the `:clj` and `:cljs` builds'
-> rules required two more changes in the `project.clj` file:
-> 
-> * the update of the CLJ `:source-paths`
-> * the update of the CLJS `:source-paths`
-
-> NOTE 3: I suggest to commit the changes as follows:
-> 
-> ```bash
-> git commit -am "cljx updated to 0.3.0"
-> ```
-
-#### Update the `lein-cljsbuild` plugin and configuration
-
-The second step is to update the [lein-cljsbuild][] plugin to the
-latest `"0.3.3"` available release.
-
-```clj
-(defproject enfocus "2.0.0-SNAPSHOT"
-  ...
-  :min-lein-version "2.1.2"
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1909"]
-                 ...]
-  :plugins [[lein-cljsbuild "0.3.3"]
-            ...]
-  ...)
-```
-
-> NOTE 4: The `0.3.3` release of the `lein-cljsbuild` plugin now
-> requires:
-
-> * to update the `lein` release (at least the `"2.1.2"`);
-> * to update the CLJ release (`"1.5.1"`);
-> * to explicitly configure a CLJS release if you don't want to receive a
->   warning message and use a CLJS release bounded with the `"0.3.3"
->   lein-cljsbuild` plugin. As you see we configured the latest
->   available CLJS release (i.e. `"0.0-1909"`) at the time of writing.
-
-> NOTE 5: I suggest to commit the changes as follows:
-> 
-> ```bash
-> git commit -am "cljsbuild updated to 0.3.3"
-> ```
-
-#### Update the `domina` lib reference
-
-There is one last `Enfocus` dependency that we want to update: the
-[domina][] lib. Actually `Enfocus` uses the `"1.0.1"` release which
-has few bugs that have be fixed in the `"1.0.2-SNAPSHOT"` release.
-
-```clj
-(defproject enfocus "2.0.0-SNAPSHOT"
-  ...
-  :dependencies [...
-                 [domina "1.0.2-SNAPSHOT" :exclusions [org.clojure/clojurescript]]
-                 ...]
-  ...)
-```
-
-The complete content of the updated `project.clj` hosted under the
-`project` directory of `Enfocus` is the following:
+Here is the temporary refactored `project.clj`. 
 
 ```clj
 (defproject enfocus "2.0.0-SNAPSHOT"
   :description "DOM manipulation tool for clojurescript inspired by Enlive"
+  :url "http://ckirkendall.github.io/enfocus-site"
+  :license {:name "Eclipse Public License - v 1.0"
+            :url "http://www.eclipse.org/legal/epl-v10.html"
+            :distribution :repo}
   :min-lein-version "2.1.2"
-  :source-paths ["cljs-src" "target/cljs" "target/clj"]
+  :source-paths ["src/clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1909"]
-                 [domina "1.0.2-SNAPSHOT" :exclusions [org.clojure/clojurescript]]
+                 [org.clojure/clojurescript "0.0-1909"
+                 [domina "1.0.2"]
                  [org.jsoup/jsoup "1.7.2"]]
-  :plugins [[lein-cljsbuild "0.3.3"]
-            [com.keminglabs/cljx "0.3.0"]]
-  :cljx {:builds [{:source-paths ["cljx-src"]
-                   :output-path "target/clj"
-                   :rules :clj}
-
-                  {:source-paths ["cljx-src"]
-                   :output-path "target/cljs"
-                   :rules :cljs}]}
+  :plugins [[lein-cljsbuild "0.3.3"]]
+  :hooks [leiningen.cljsbuild]
   :cljsbuild
   {:builds
    [{:builds nil,
-     :source-paths ["cljs-src" "target/cljs"]
+     :source-paths ["src/cljs"]
      :compiler
      {:output-dir "../testing/resources/public/cljs",
       :output-to "../testing/resources/public/cljs/enfocus.js",
       :optimizations :whitespace,
-      :pretty-print true}}]}
-  :hooks [cljx.hooks])
+      :pretty-print true}}]})
 ```
 
-> NOTE 6: I suggest to commit the changes as follows:
-> 
-> ```bash
-> git commit -am "domina updated to 1.0.2-SNAPSHOT"
-> ```
+There are few things to note:
 
-### Ligh the fire
+* we completly removed both the `cljx` from the `:plugins` section and
+  the corresponding `:cljx` configuration;
+* we completly removed any reference to the `cljx` generated CLJ and
+  CLJS files from the main `:source-paths` and from the
+  `:source-paths` inside the `:cljsbuild` configuration option;
+* we substituted the `cljx` hooks to leiningen tasks with the
+  corresponding `cljsbuild` hooks.
+
+
+> NOTE 4: At the moment we don't care about deployoment issues. For
+> example, if we want the file generated by the `:crossovers` to be
+> included in a deployable `jar`, we have to set the `:crossover-jar`
+> option to `true.`
+
+## Ligh the fire
 
 Let's see if the `Enfocus` lib is still able to compile as expected.
 
 ```bash
-cd ~/dev/enfocus/project
-lein do clean, cljx once, cljsbuild once
-Rewriting cljx-src to target/clj (clj) with features #{clj} and 0 transformations.
-Rewriting cljx-src to target/cljs (cljs) with features #{cljs} and 1 transformations.
-Compiling ClojureScript.
-Compiling "../testing/resources/public/cljs/enfocus.js" from ["cljs-src" "target/cljs"]...
-Successfully compiled "../testing/resources/public/cljs/enfocus.js" in 9.323355 seconds.
-```
-
-Ok. The CLJS compilation process is still working, but there are other
-things that in my opinion could be improved in the project
-organization of `Enfocus`.
-
-### Where are my usual project directories?
-
-As you have seen from the very beginning of the `modern-cljs` series,
-the `lein new <project-name>` command creates both a `src` and a
-`test` dirs. I tried to understand why `Enfocus` adopted a different
-directories layout, but I was not able to grasp it.
-
-We, as users of someone else's code, always start to study a lib by
-first reading its `README.md` file and then by reading its
-`project.clj` to get a first impression of the used components and
-project structure.
-
-Most of the CLJ/CLJS repos have the same directories structure, at
-least at the first level. Generally speacking there is `project.clj`
-file and the `src` and `test` directories. When a lib has both a CLJ
-and a CLJS codebase, the corresponding sources and unit tests lay
-under the `src/clj`, `src/cljs`, `test/clj` and `test/cljs`
-directories.
-
-It's my personal opinion that we, as libs developers, should try to be
-consistent with that directories layout, unless there is a very good
-reason for not doing that.
-
-In the next step, we're going to reorganize the `Enfocus` project
-structure trying to be more consistent with the cited *best practice*.
-
-### Normalize the project structure
-
-First let's review the current `Enfocus` directories layout
-
-```bash
-# clean
-cd ~/deb/enfocus/project
-lein do clean, cljsbuild clean
-cd ..
-# tree
-tree
-.
-├── README.textile
-├── project
-│   ├── cljs-src
-│   │   └── enfocus
-│   │       ├── core.cljs
-│   │       ├── effects.cljs
-│   │       ├── events.cljs
-│   │       ├── html
-│   │       │   └── test-grid.html
-│   │       ├── macros.clj
-│   │       └── testing.cljs
-│   ├── cljx-src
-│   │   └── enfocus
-│   │       └── enlive
-│   │           └── syntax.cljx
-│   └── project.clj
-└── testing
-    ├── project.clj
-    ├── resources
-    │   └── public
-    │       ├── css
-    │       │   └── test.css
-    │       ├── templates
-    │       │   ├── template1.html
-    │       │   └── test-grid.html
-    │       └── test.html
-    └── src
-        └── enfocus
-            └── ring.clj
-
-14 directories, 15 files
-```
-
-At the moment we don't care about the `testing` directory and start to
-adapt the directories layout with the proposed *best practice* by
-creating the `src/clj`, `src/cljs`, `src/cljx` directories and the
-corresponding `test/clj`, `test/cljs` and `test/cljx` directories.
-
-```bash
-cd ~/dev/enfocus
-mkdir -p src/{clj,cljs,cljx}
-mkdir -p test/{clj,cljs,cljx}
-```
-
-Next, we're going to move the content of the `cljx-src` and
-`cljs-src` under the `src/cljx` and the `src/cljs` directories.
-
-```bash
-mv project/cljx-src/enfocus src/cljx
-mv project/cljs-src/enfocus src/cljs
-```
-
-Then, we move the `project.clj` to the main `Enfocus` directory.
-
-```bash
-mv project/project.clj .
-```
-
-We can now safetly delete the `project` directory.
-
-```bash
-rm -rf project
-```
-
-Here is the obtained directories layout.
-
-```bash
-tree
-.
-├── README.textile
-├── project.clj
-├── src
-│   ├── clj
-│   ├── cljs
-│   │   └── enfocus
-│   │       ├── core.cljs
-│   │       ├── effects.cljs
-│   │       ├── events.cljs
-│   │       ├── html
-│   │       │   └── test-grid.html
-│   │       ├── macros.clj
-│   │       └── testing.cljs
-│   └── cljx
-│       └── enfocus
-│           └── enlive
-│               └── syntax.cljx
-├── test
-│   ├── clj
-│   ├── cljs
-│   └── cljx
-└── testing
-    ├── project.clj
-    ├── resources
-    │   └── public
-    │       ├── css
-    │       │   └── test.css
-    │       ├── templates
-    │       │   ├── template1.html
-    │       │   └── test-grid.html
-    │       └── test.html
-    └── src
-        └── enfocus
-            └── ring.clj
-
-19 directories, 15 files
-```
-
-There is still some work to do, but we can begin to edit again the
-`project.clj` for updating its content to new directories layout.
-
-```clj
-(defproject enfocus "2.0.0-SNAPSHOT"
-  ...
-  :source-paths ["src/cljs" ...]
-  ...
-  :cljx {:builds [{:source-paths ["src/cljx"]
-                   ...
-				   ...}
-
-                  {:source-paths ["src/cljx"]
-                   ...
-				   ...}]}
-  :cljsbuild
-  {:builds
-   [{:builds nil,
-     :source-paths ["src/cljs" ...]
-     :compiler
-     {:output-dir "testing/resources/public/cljs"
-      :output-to "testing/resources/public/cljs/enfocus.js"
-      ...
-      ...}}]}
-  ...)
-```
-
-To reflect the new directories layout, we updated the CLJ
-`:source-paths`, the `:source-paths` of the `cljx` builds, the
-`:source-paths` of the `cljsbuild` build and finally the `:output-dir`
-and the `:output-to` attributes of the `cljsbuild` compiler's options.
-
-> NOTE 7: I suggest to commit the changes as follows:
->  
-> ```bash
-> git add project.clj src
-> git rm -r project
-> git commit -m "updated directories layout"
-> ```
-
-#### Ligh the fire
-
-Let's see if the `Enfocus` lib is still able to compile as expected.
-
-```bash
-lein do clean, cljsbuild clean, cljx once, cljsbuild once
+lein do clean, compile
 Deleting files generated by lein-cljsbuild.
-Rewriting src/cljx to target/clj (clj) with features #{clj} and 0 transformations.
-Rewriting src/cljx to target/cljs (cljs) with features #{cljs} and 1 transformations.
 Compiling ClojureScript.
-Compiling "testing/resources/public/cljs/enfocus.js" from ["src/cljs" "target/cljs"]...
-Compiling "testing/resources/public/cljs/enfocus.js" failed.
-clojure.lang.ExceptionInfo: failed compiling file:src/cljs/enfocus/testing.cljs
-...
-Caused by: clojure.lang.ExceptionInfo: /Users/mimmo/dev/enfocus/../testing/resources/public/templates/template1.html (No such file or directory)
-...
+Compiling "../testing/resources/public/cljs/enfocus.js" from ["src/cljs"]...
+Successfully compiled "../testing/resources/public/cljs/enfocus.js" in 9.813483 seconds.
 ```
 
-Ops, what did happen?
+> NOTE 5: By having hooked the `cljsbuild` tasks to the `lein` tasks, we
+> can now call the `clean` and the `compile` tasks without prefixing
+> them with the `cljsbuild` tasks.
 
-#### Fix it again Tony
+This is a very temporary result, because we still have to modify a
+fundamental aspect of the `Enlive` project: its unit tests.
 
-It seems that the compiler is looking for a `template1.html` file and
-it's not able to find it. But wait a minute, the exception is raised
-while compiling the `testing.cljs` source file which resides in the
-`src/cljs` source path.
+## Move the tests
+
+Near the beginning of this tuorial of the series, I said to not care
+about the `testing` directory in the main directory of the `Enfocus`
+repo, but if you take a look at the `:builds` section of the
+`:clisbuild` configuration you'll discover that the emmitted JS file is
+saved under that `testing` directory. 
+
+The `enfocus.js` JS file is compiled down by viewing in the `src/cljs`
+directory which contains four `cljs` file and an `html` directory. 
+
+> NOTE 6: Actually the compiler uses the `macros.clj` and the
+> `syntax.cljs` file generated by the `:crossovers` option of
+> `:cljsbuild`.
+
+Both the `html` directory and the `testing.cljs` has nothing to do
+with the `Enfocus` codebase. They are eventually used only for testing
+the `Enfocus` lib.
+
+For this reason we're going to move them away from the `src/cljs` path
+and temporary park the in a `tmp` directory in the main directory of
+the `Enfocus` project.
 
 ```bash
-$ tree src/cljs/
-src/cljs/
-└── enfocus
-    ├── core.cljs
-    ├── effects.cljs
-    ├── events.cljs
-    ├── html
-    │   └── test-grid.html
-    ├── macros.clj
-    └── testing.cljs
-
-2 directories, 6 files
+mkdir -p tmp/enfocus/html
+mv src/cljs/enfocus/html/test-grid.html tmp/enfocus/html/
+mv src/cljs/enfocus/testing.cljs tmp/enfocus/
 ```
 
-The above command shows that even the `test-grid.html` is hosted under
-the `src/cljs` source path. They both have nothing to do with the
-`Enfocus` lib *in se*. They only pertain to the lib testing.
+
+
+
+
+
+
+First and foremost I strongly believe that unit testing is an
+essential activity in any serious software project. That said I don't
+want to waste my time in doing stuff which are too tediuos or, worst,
+that a consequence of incidental complexities.
+
+One of the things that I hate the most, is when I have 
+
 
 So, we can temporarily move both the `testing.clj` and the
 `test-grid.html` files under the `test/cljs` path.
