@@ -69,7 +69,7 @@ interesting and promising lib.
 Let's start by [forking][13], cloning and branching the `Enfocus`
 repo.
 
-`bash
+```bash
 cd ~/dev
 # clone your forked repo
 git clone https://github.com/<your-github-name>/enfocus.git
