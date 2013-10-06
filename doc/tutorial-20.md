@@ -154,7 +154,7 @@ tree
 20 directories, 11 files
 ```
 
-As you see, this `quasi` standard directories layout for a mixed
+As you see, this *quasi* standard directories layout for a mixed
 CLJ/CLJS project tries to keep separated all the kind of code from
 each other (i.e. `clj`, `cljs` and `cljx`) and their scope in the
 project too (`src` vs. `test`). It even keeps separated the static
@@ -207,7 +207,7 @@ code:
 > the `syntax.cljx` file as `syntax.clj`.
 
 As said in the
-[Tutorial 16 - It's better to be safe than sorry (part 3][14], I
+[Tutorial 16 - It's better to be safe than sorry (part 3)][14], I
 always prefer to use the [:crossovers][15] feature of the
 [lein-cljsbuild][16] plugin when I need to share a portable CLJ/CLJS
 code and to use the [cljx][17] plugin by [Kevin Lynagh][18] only when
@@ -760,7 +760,7 @@ the `Enfocus` lib have been kindly accepeted by
 I don't suggest to immediately us it, because the "2.0.1-SNAPSHOT" is
 just started and still without any unit test been implemented yet.
 
-Stay tunes for the next tutorial.
+Stay tuned for the next tutorial.
 
 # Next Step - TO BE DONE
 
