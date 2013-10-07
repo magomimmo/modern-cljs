@@ -202,13 +202,13 @@ a more comfortable browser REPL based on nREPL. The setup of a more
 comfortable project structure by using the `profiles` features of
 [Leiningen][2]
 
-## [Tutorial 19: A survival guide for livin' on the edge][35]
+## [Tutorial 19 - A survival guide for livin' on the edge][35]
 
 In this tutorial we are going to explain how to contribute to someone
 else's repositories and how to publish snapshot releases on
 [clojars][36] for using them in your project.
 
-## [Tutorial 20: Learn by Collaborating][37]
+## [Tutorial 20 - Learn by Collaborating][37]
 
 In this tutorial, while studying the [Enfocus][38] lib with the
 objective of sharing as much code as possibile with the corresponding
