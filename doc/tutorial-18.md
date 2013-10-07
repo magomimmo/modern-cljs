@@ -890,7 +890,7 @@ git commit -m "housekeeping"
 
 That's all. Stay tuned for the next tutorial of the series.
 
-## Next Step - [Tutorial 19: A survival guide for livin' on the edge][22]
+## Next Step - [Tutorial 19 - A survival guide for livin' on the edge][22]
 
 In the [next tutorial][22] we are going to explain how to contribute
 to someone else's repositories and how to publish snapshot releases on
