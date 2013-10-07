@@ -849,7 +849,7 @@ git commit -m "Step 2"
 
 That's all. Stay tuned for the next tutorial of the series.
 
-# Next Step - [Tutorial 20: Learn by Collaboration][28]
+# Next Step - [Tutorial 20: Learn by Collaborating][28]
 
 In the next tutorial, while studying the [Enfocus][29] lib with the
 objective of sharing as much code as possibile with the corresponding
