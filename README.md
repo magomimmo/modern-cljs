@@ -208,6 +208,14 @@ In this tutorial we are going to explain how to contribute to someone
 else's repositories and how to publish snapshot releases on
 [clojars][36] for using them in your project.
 
+## [Tutorial 20: Learn by controbuting][37]
+
+In this tutorial, while studying the [Enfocus][38] lib with the
+objective of sharing as much code as possibile with the corresponding
+[Enlive][39] lib, we'll start to be collaborative by proposing few
+improvements to the `Enfocus` directories layout and the adoption of
+the [clojurescript.test][40] lib for implementing its unit tests.
+
 # License
 
 Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
@@ -249,3 +257,7 @@ License, the same as Clojure.
 [34]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 [35]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-19.md
 [36]: https://clojars.org/
+[37]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-20.md
+[38]: https://github.com/ckirkendall/enfocus
+[39]: https://github.com/cgrand/enlive
+[40]: https://github.com/cemerick/clojurescript.test

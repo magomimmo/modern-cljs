@@ -849,9 +849,13 @@ git commit -m "Step 2"
 
 That's all. Stay tuned for the next tutorial of the series.
 
-# Next Step - TO BE DONE
+# Next Step - [Tutorial 20: Learn by Collaboration][28]
 
-TO BE DONE
+In the next tutorial, while studying the [Enfocus][29] lib with the
+objective of sharing as much code as possibile with the corresponding
+[Enlive][30] lib, we'll start to be collaborative by proposing few
+improvements to the `Enfocus` directories layout and the adoption of
+the [clojurescript.test][31] lib for implementing its unit tests.
 
 # License
 
@@ -885,3 +889,7 @@ License, the same as Clojure.
 [25]: http://clojars.org/repo/
 [26]: http://releases.clojars.org/repo/
 [27]: https://github.com/
+[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-20.md
+[29]: https://github.com/ckirkendall/enfocus
+[30]: https://github.com/cgrand/enlive
+[31]: https://github.com/cemerick/clojurescript.test
