@@ -307,7 +307,7 @@ In the previous paragraph we separated the concern about CLJ codebase
 from the concern about CLJS codebase.  By moving the `testing.cljs`
 file and the `html` directory away from the `src/cljs/enfocus` path,
 we also started to separate the concern about the `Enfocus` lib `in
-se` from the concern about its testibg code.
+se` from the concern about its testing code.
 
 That said, the `:cljsbuild` build setting is still saving the emitted
 JS file in the `testing` directory. Let's work on that too.
@@ -324,7 +324,7 @@ mv ../testing/ temp/
 
 We now need to reflect this move in the `:builds` section of the
 `project.clj` file by deleting the `:output-dir` setting and changing
-the `:output-to` setting to the `":dev-resources/public/js/enfocus.js"
+the `:output-to` setting to the `":dev-resources/public/js/enfocus.js"`
 JS file.
 
 ```bash
@@ -472,7 +472,7 @@ Now that the directories layout is more consistent with the *default
 lein template*, we can focus our attention on upating the `Enfocus`
 dependencies and plugins references.
 
-### Upgrade to lein-cljsbuild "0.3.3"
+### Upgrade to lein-cljsbuild `"0.3.3"`
 
 The latest current available [lein-cljsbuild][16] plugin release is
 the `"0.3.3"`. Before this release `lein-cljsbuild` silently download
