@@ -53,7 +53,7 @@ corresponding server side code and we'll give a try to [Enfocus][4].
 We'll discuss the `"2.0.0-SNAPSHOT"` relase of `Enfocus` because
 [Creighton Kirkendall][10], the author of the lib, is currently on the
 way to publish the next stable release which is more evoluted that the
-stable one (i.e. `"1.0.1"`).
+current `"1.0.1"`.
 
 By taking a look at the [Enfocus repo][4] there are few things to note
 about it:
@@ -87,7 +87,7 @@ git checkout -b tutorial-20
 `Enfocus` has two main directories, `project` and `testing`. At the
 moment we do not care about the `testing` directory, because we'll
 later try to introduce the [clojurescript.test][11] lib for unit
-testing abd we'll focus our attention on the `project` directory only.
+testing and we'll focus our attention on the `project` directory only.
 
 ## Separation on concerns - Step 1
 
@@ -158,16 +158,17 @@ tree
 ```
 
 As you see, this *quasi standard* directories layout for a CLJ/CLJS
-mixed project tries to keep separated all the kind of code from each
-other (i.e. `clj` vs `cljs` vs. `cljx`) and their scope in the project
-too (`src` vs. `test`). It even keeps separated the static resources
-from the code (i.e. `resources` vs. `src`) and from their scope as
-weel (`resources` vs. `dev-resources`).
+mixed project tries to keep separated from each other every type of
+code (e.g. `clj` vs `cljs` vs `cljx`) and their scope too (e.g. `src`
+vs `test`).
 
-Out first contribution to the `Enfocus` project will be to normalize
-its diresctories layout to the above directories layout reference
-which can be considered an application of the separation of concerns
-principle.
+It even keeps separated the static resources from the code
+(i.e. `resources` vs. `src`) and the development resources from the
+production resources (e.g. `dev-resources` vs `resources`).
+
+Our first contribution to the `Enfocus` project will be to normalize
+its directories layout by using the above directories layout as a
+reference.
 
 > NOTE 1: `Enfocus` is not a true CLJ/CLJS mixed project. It just
 > happens that it defines few macros in the `macros.clj` file. As you
