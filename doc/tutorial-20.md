@@ -703,6 +703,21 @@ Successfully compiled "dev-resources/public/js/whitespace.js" in 3.281859 second
 Not bad, `Enfocus` is still compiling as expected. Even if we still
 have to implement unit tests, we set everything in place.
 
+> NOTE 9: If you issue the `lein test` command without having defined
+> any CLJS unit test yet, you'll receive more error messages. To overcome
+> this problem you can create a single CLJS unit test file
+> (e.g. `test/cljs/enfocus/core-test.clj`) containing the corresponding
+> namespace declaration and an empty test only.
+>
+> ```clj
+> (ns enfocus.core-test
+>   (:require-macros [cemerick.cljs.test :as m :refer (is deftest run-tests deftesthook)])
+>   (:require [cemerick.cljs.test :as t]))
+> 
+> (deftest empty-test 
+>   (is (= 1 1)))
+>```
+
 ### Commit your work
 
 We can now commit our work, but if you issue the `git status` command
@@ -738,15 +753,13 @@ git rm -r project testing
 git commit -m "learn by collaborating"
 ```
 
-NOTE 9: Git doesn't allow to add empty directories to a repo
-[without doing some tricks][25] and when you checkout the branch you'll
-not find those empty directories anymore (i.e. `test/clj`, `test/cljs`
-and `dev-resorces`).
-
-If you really want to track those directories right now without
-following the above trick, you can just `touch` a file for each empty
-directory and then issue the `git commit -am "touch few file to track
-empty directories"`.
+> NOTE 10: Git doesn't allow to add empty directories to a repo
+> [without doing some tricks][25] and when you checkout the branch
+> you'll not find those empty directories anymore (i.e. `test/clj`,
+> `test/cljs` and `dev-resorces`).  If you really want to track those
+> directories right now without following the above trick, you can
+> just `touch` a file for each empty directory and then issue the `git
+> commit -am "touch few file to track empty directories"`.
 
 ## What's next
 
