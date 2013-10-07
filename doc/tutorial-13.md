@@ -54,12 +54,13 @@ you'll discover that they are two of the most prolific and active
 clojure-ists: [Chas Emerick][4] and [James Reeves][5]. I'm happy that
 the motto *Smart people think alike* was true.
 
-We will eventually search for others CLJ validator libraries. For
-the moment, by following the Keep It Simple, Stupid ([KISS](https://en.wikipedia.org/wiki/KISS_principle)) pragmatic
-approach, we will stay with the [Valip][2] library which already seems to
-satisfy the first three intermediate requirements we just listed in the
-introduction: its quality should be guaranteed by the quality of its
-owners and it already runs on both CLJ and CLJS.
+We will eventually search for others CLJ validator libraries. For the
+moment, by following the Keep It Simple, Stupid
+([KISS](https://en.wikipedia.org/wiki/KISS_principle)) pragmatic
+approach, we will stay with the [Valip][2] library which already seems
+to satisfy the first three intermediate requirements we just listed in
+the introduction: its quality should be guaranteed by the quality of
+its owners and it already runs on both CLJ and CLJS.
 
 # The server side validation
 
@@ -197,10 +198,10 @@ dependencies.
 ```clojure
 ;;; code fragment from project.clj
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1878"]
+                 [org.clojure/clojurescript "0.0-1913"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
-		 [domina "1.0.2-SNAPSHOT"]
+		         [domina "1.0.2"]
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]]

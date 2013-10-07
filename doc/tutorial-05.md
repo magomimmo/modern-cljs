@@ -103,9 +103,9 @@ the updated version of `project.clj`
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
-	             [org.clojure/clojurescript "0.0-1878"]
+	             [org.clojure/clojurescript "0.0-1913"]
                  [compojure "1.1.5"]
-                 [domina "1.0.2-SNAPSHOT"]]
+                 [domina "1.0.2"]]
 
   :plugins [; cljsbuild plugin
             [lein-cljsbuild "0.3.3"]

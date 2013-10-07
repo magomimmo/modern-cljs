@@ -555,10 +555,10 @@ stuff under the `:dev` profile.
   :source-paths ["src/clj"]
   
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1878"]
+                 [org.clojure/clojurescript "0.0-1913"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
-                 [domina "1.0.2-SNAPSHOT"]
+                 [domina "1.0.2"]
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
