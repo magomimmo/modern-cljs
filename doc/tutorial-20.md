@@ -711,7 +711,7 @@ have to implement unit tests, we set everything in place.
 >
 > ```clj
 > (ns enfocus.core-test
->   (:require-macros [cemerick.cljs.test :as m :refer (is deftest run-tests deftesthook)])
+>   (:require-macros [cemerick.cljs.test :as m :refer (is deftest)])
 >   (:require [cemerick.cljs.test :as t]))
 > 
 > (deftest empty-test 
@@ -742,6 +742,7 @@ loosing the `runners/phantomjs.js` file, remove the `testing` and
 ```bash
 ...
 dev-resources/*.js
+...
 ```
 
 You can naw safetly commit your work.
