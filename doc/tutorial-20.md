@@ -8,7 +8,7 @@ We ended up by publishing to [Clojars][2] a set of four
 [Shoreleave][3] libs which the `modern-cljs` project directly or
 indirectly depended on.
 
-This way you may became collaborative with the CLJ/CLJS communities
+This way you may become collaborative with the CLJ/CLJS communities
 and, at the same time, indipendent from someone else's decision to
 merge or refuse your pull requests.
 
@@ -32,16 +32,14 @@ code and the `Enfocus` client side CLJS code.
 
 ## Preamble
 
-In the [Tutorial 9 - DOM Manipulation][8] we used the event management
-of the [Domina][9] lib to manipulate the DOM of the `Shopping
-Calculator` in reaction to the events triggered by the user interation
-with the browser.
+In the [Tutorial 9 - DOM Manipulation][8] we used the [Domina][9] lib
+to manipulate the DOM of the `Shopping Calculator` in reaction to the
+events triggered by the user interation with the browser.
 
 Then, in the subsequent tutorials, even if we augumented the `Shopping
 Calculator` sample by adding to it a bit of Ajax and by preparing both
 the input validators and the corresponding unit tests, we missed to
-merge those validators in the CLJS client side code as we did for the
-CLJ server side code.
+merge those validators in the CLJS client side code.
 
 To fill this gap, we could just extend the CLJS client side code
 already implemented by using the [Domina][9] lib, but we want to
@@ -52,7 +50,7 @@ corresponding server side code and we'll give a try to [Enfocus][4].
 
 We'll discuss the `"2.0.0-SNAPSHOT"` relase of `Enfocus` because
 [Creighton Kirkendall][10], the author of the lib, is currently on the
-way to publish the next stable release which is more evoluted that the
+way to publish the next stable release which is more evoluted than the
 current `"1.0.1"`.
 
 By taking a look at the [Enfocus repo][4] there are few things to note
