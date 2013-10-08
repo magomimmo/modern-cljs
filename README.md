@@ -208,7 +208,7 @@ In this tutorial we are going to explain how to contribute to someone
 else's repositories and how to publish snapshot releases on
 [clojars][36] for using them in your project.
 
-## [Tutorial 20 - Learn by Contributing][37]
+## [Tutorial 20 - Learn by Contributing (Part 1)][37]
 
 In this tutorial, while studying the [Enfocus][38] lib with the
 objective of sharing as much code as possibile with the corresponding
