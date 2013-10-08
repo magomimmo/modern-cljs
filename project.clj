@@ -1,8 +1,16 @@
 (defproject modern-cljs "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "A series of tutorials on ClojureScript"
+  :url "https://github.com/magomimmo/modern-cljs"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
+ 
+  :pom-addition [:developers [:developer 
+                              [:id "magomimmo"]
+                              [:name "Mimmo Cosenza"]
+                              [:url "https://github.com/magomimmo"]
+                              [:email "mimmo.cosenza@gmail.com"]
+                              [:timezone "+2"]]]
+
   :min-lein-version "2.1.3"
 
   ;; clojure source code path
