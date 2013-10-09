@@ -141,9 +141,9 @@ the `calculate` function and the `init` function to attach `calculate`
 to the `submit` button of the `shoppingForm`.
 
 `domina.events` namespace offers a bunch of functions to manage DOM
-events. One of them is the `listen!` function, wich allows to attach
-an handling function (e.g. `calculate`) to a DOM event type
-(e.g. `click`, `mouseover`, `mouseout`, etc). 
+events. One of them is the `listen!` function, wich allows us to
+attach an handling function (e.g. `calculate`) to a DOM event type
+(e.g. `click`, `mouseover`, `mouseout`, etc).
 
 Let's now update `shopping.cljs` by requiring the `domina.events`
 namespace and by substituting the `.-onsubmit` JS interop with the
