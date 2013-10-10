@@ -171,8 +171,8 @@ reference.
 > NOTE 1: `Enfocus` is not a true CLJ/CLJS mixed project. It just
 > happens that it defines few macros in the `macros.clj` file. As you
 > know this is one of the main differences between CLJ and CLJS and
-> the CLJS macros have to be compiled by the CLJ compiler not by the
-> CLJS one.
+> the CLJS macros have to be evaluted by the CLJ compiler at
+> compile-time.
 
 ### Moving stuff around
 
@@ -194,7 +194,7 @@ rm -rf cljs-src cljx-src
 > NOTE 2: At the moment we did not created the `dev-resources`
 > directory. Being `Enfocus` a CLJS lib, its static resoruces for unit
 > testing purpouse should not be parked in the `resources`
-> directory. We'll take care of that in a subsequent tutorial.
+> directory. We'll take care of that later.
 
 The above commands first created the needed *standard* directories,
 then moved the CLJ code under the `src/clj` directory and the CLJS
@@ -206,7 +206,7 @@ instead the `cljx-src/enfocus` directory to the `src/clj` one, is
 strictly related to a simple observation of the `syntax.cljx` source
 code:
 
-> `syntax.cljx` does not contain any features annotation and the two
+> `syntax.cljx` does not contain any feature annotation and the two
 > generated `syntax.clj` and `syntax.cljs` files will be identical to
 > it. In such a case we say that the source code is *portable* from
 > CLJ to CLJS and viceversa without any intervention.
@@ -223,7 +223,9 @@ viceversa.
 > you have to deal with both *portable* and *ported* codebase. In such
 > a case you can use the `cljx` pluing only, and save some typing in
 > the `:clsjbuild` configuration. But you loose the explicit
-> distintion between *portable* and *ported* codebase.
+> distintion between *portable* and *ported* codebase. For this reason
+> in the `modern-cljs` series we used both the `:crossovers` setting
+> and the `:cljx` plugin.
 
 ### Keep moving
 
@@ -232,10 +234,11 @@ do with the CLJS codebase and the name of the `testing.cljs` file is
 suspicious as well: if you take a look at it you'll see testing code
 only.
 
-As said, we'd like to substitute the original `Enfocus` testing code
-with correspondent unit tests based on the [clojurescript.test][11]
-lib and we're going to move them away from the `src/cljs` codebase by
-parking it into a `temp` directory for later reference.
+As said, we are preparing the field for substituting the original
+`Enfocus` testing code with correspondent unit tests based on the
+[clojurescript.test][11] lib and we're going to move them away from
+the `src/cljs` codebase by parking it into a `temp` directory for
+later reference.
 
 ```bash
 mkdir -p temp/enfocus
@@ -278,11 +281,14 @@ the corresponding `:crossovers` option, which is set to the
 
 > NOTE 4: We added the `[:crossover-jar true]` setting as well to
 > allow `lein` to include the auto-generated `syntax.cljs` in the
-> `jar` packaging for later deployment.
+> `jar` packaging for later deployment. At the moment forget about it,
+> because as soon as we have a better understanding of the assets
+> needed by `Enfocus` for the deployment, we'll review the
+> `project.clj` file by introducing leinigen profiles.
 
 Finally, we set the `:source-paths` for CLJS codebase to read CLJS
 files only from the `src/cljs` path and form the `test/cljs` path in
-preparation for unit teststing.
+preparation for unit testing.
 
 ### Light the fire
 
@@ -318,7 +324,7 @@ temporary directory to keep it as a reference for later testing code
 implementation.
 
 ```bash
-lein clean # to clean the builds
+lein clean # delete the generated `enfocus.js` before moving its containing directory
 mv ../testing/ temp/
 ```
 
@@ -458,17 +464,18 @@ resources/
 > NOTE 5: The `cljsbuild` plugin generates the `syntax.cljs` file in
 > the default `cljsbuild-crossover` directory. This directory is
 > silently added to the `:source-paths` setting of the build for
-> emitting the `syntax.js` JS file. The `syntax.js` is then passed, as
-> all the others JS files produced by the CLJS compiler, to the Google
-> Closure Compiler for producing the final `enfocus.js` JS file. The
-> optimization level of the final `enfocus.js` JS file depends on the
-> `:optimizations` value configured in the `:compiler` setting.
+> emitting the `syntax.js` JS file. The `syntax.js` file is then
+> passed, as all the others JS files produced by the CLJS compiler, to
+> the Google Closure Compiler for producing the final `enfocus.js` JS
+> file. The optimization level of the final `enfocus.js` JS file
+> depends on the `:optimizations` value configured in the `:compiler`
+> setting.
 
 ## Update dependencies and plugins
 
-Now that the directories layout is more consistent with the *default
-lein template*, we can focus our attention on upating the `Enfocus`
-dependencies and plugins references.
+Now that the directories layout is more consistent with the *
+augumented default lein template*, we can focus our attention on
+upating the `Enfocus` dependencies and plugins references.
 
 ### Upgrade to lein-cljsbuild `"0.3.3"`
 
@@ -582,12 +589,11 @@ Good. It works.
 > cljsbuild auto whitespace` commands.  `
 
 > ```bash
-> lein do clean,
-> cljsbuild once whitespace Deleting files generated by
-> lein-cljsbuild.  Compiling ClojureScript.  Compiling
-> "dev-resources/public/js/whitespace.js" from
-> ["src/cljs" "test/cljs"]...  Successfully compiled
-> "dev-resources/public/js/whitespace.js" in 10.414104 seconds.
+> lein do clean, cljsbuild once whitespace
+> Deleting files generated by lein-cljsbuild.
+> Compiling ClojureScript.
+> "dev-resources/public/js/whitespace.js" from ["src/cljs" "test/cljs"]...
+> Successfully compiled "dev-resources/public/js/whitespace.js" in 10.414104 seconds.
 > ```
 
 ## Enter clojurescript.test
@@ -675,9 +681,8 @@ the [clojurescript.test][11] lib and the `:test-commands` setting.
 As you see we added the `clojurescript.test` dependency and a test
 command for each JS file emitted by each build.
 
-> NOTE 8: At the moment we don't care about differentiating lein
-> profiles. This is something we'll eventualy afford in a later
-> turorial specifically dedicated to lib/project deployment.
+> NOTE 9: At the moment we don't care about differentiating lein
+> profiles. This is something we'll afford later.
 
 ### Light the fire
 
@@ -698,11 +703,12 @@ Successfully compiled "dev-resources/public/js/whitespace.js" in 3.281859 second
 Not bad, `Enfocus` is still compiling as expected. Even if we still
 have to implement unit tests, we set everything in place.
 
-> NOTE 9: If you issue the `lein test` command without having defined
-> any CLJS unit test yet, you'll receive more error messages. To overcome
-> this problem you can create a single CLJS unit test file
-> (e.g. `test/cljs/enfocus/core-test.clj`) containing the corresponding
-> namespace declaration and an empty test only.
+> NOTE 10: If you issue the `lein test` command without having defined
+> any CLJS unit test yet, you'll receive more error messages. To
+> overcome this problem you can create a single CLJS unit test file
+> (e.g. `test/cljs/enfocus/core-test.clj`) containing the
+> corresponding namespace declaration and a failing unit test, just to
+> remember at each run that the unit tests have to be implemented yet.
 >
 > ```clj
 > (ns enfocus.core-test
@@ -710,16 +716,18 @@ have to implement unit tests, we set everything in place.
 >   (:require [cemerick.cljs.test :as t]))
 > 
 > (deftest empty-test 
->   (is (= 1 1)))
+>   (is (= 0 1)))
 >```
 
 ### Commit your work
 
 We can now commit our work, but if you issue the `git status` command
-it will not show you the addition of the `runners` directory.
+it will not show you the addition of any created directory which is
+still empty (see NOTE below) and neither the `runners` directory as
+well.
 
-This is because of the presence of the `*.js` exlusion rule in the
-`.gitignore` file.
+The latter is because of the presence of the `*.js` exlusion rule in
+the `.gitignore` file.
 
 ```bash
 ...
@@ -749,21 +757,16 @@ git rm -r project testing
 git commit -m "learn by contributing"
 ```
 
-> NOTE 10: Git doesn't allow to add empty directories to a repo
+> NOTE 11: Git doesn't allow to add empty directories to a repo
 > [without doing some tricks][25] and when you checkout the branch
-> you'll not find those empty directories anymore (i.e. `test/clj`,
-> `test/cljs` and `dev-resorces`).  If you really want to track those
-> directories right now without following the above trick, you can
-> just `touch` a file for each empty directory and then issue the `git
-> commit -am "touch few file to track empty directories"`.
-
-## What's next
-
-In the next tutorial we'll start implementing unit tests by using the
-`clojurescript.test` lib.
+> you'll not find those empty directories anymore (e.g. `test/clj` and
+> `resorces`).  If you really want to track those directories right
+> now without following the above trick, you can just `touch` a file
+> for each empty directory and then issue the `git commit -am "touch
+> few file to track empty directories"`.
 
 At the moment changes proposed for `Enfocus` in this tutorial have
-been kindly accepeted by [Creighton Kirkendall][10] as 
+been kindly accepeted by [Creighton Kirkendall][10] as
 "2.0.1-SNAPSHOT" branch.
 
 I don't suggest to immediately us it, because it's just started and
