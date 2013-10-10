@@ -102,7 +102,7 @@ of the Shopping form's button from `type="submit"` to
 enhancement strategy, this is not something that we should have done,
 because a plain [button type][9] is not going anywhere without JS being
 enabled in the browser. So we need to stay with the `submit` type of
-botton.
+button.
 
 ## First try
 
