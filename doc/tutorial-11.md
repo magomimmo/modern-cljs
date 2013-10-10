@@ -477,48 +477,29 @@ the following pictures.
 If you're interested in knowing all the event types supported by
 [Domina][4], here is the native code [goog.events.eventtypes.js][15]
 which enumerates all events supported by the Google Closure native code on
-which Domina is based on. Take into account that while Google Closure
-uses string as the event keys, Domina, by using keywords, has to manage
-their conversion.
+which Domina is based on.
 
-```clojure
-;; goog.events native namespace required as `events`
-;; goog.object native namespace required as `gobj`
-
-(def builtin-events (set (map keyword (gobj/getValues events/EventType))))
-
-
-(defn- find-builtin-type
-  [evt-type]
-  (if (contains? builtin-events evt-type)
-    (name evt-type)
-    evt-type))
-```
-
-A more comfortable way to know which events are supported by Domina is
-to run brepl and evaluate the `builtin-events` symbol.
-
-```bash
-lein ring server-headless
-lein cljsbuild auto dev # from a new terminal
-lein trampoline cljs-build repl-listen # from a new terminal
-```
-
-Evaluate `builtin-events` by prepending it with the
-`domina.events` namespace in which the symbol is defined.
+Another way to know which events are supported by Domina is to run brepl
+and inspect the google library `goog.events/EventType` directly.  If we do
+this in the domina.events namespace it will save some typing.
 
 ```clojure
 Running ClojureScript REPL, listening on port 9000.
 "Type: " :cljs/quit " to quit"
-ClojureScript:cljs.user> domina.events/builtin-events
-#{:submit :unload :DOMFocusOut :help :dragstart :cut :losecapture
- :mousedown :touchmove :touchcancel :keypress :paste :mouseover
- :propertychange :pageshow :popstate :contextmenu :offline :beforecut
- :resize :mouseout :dragover :click :error :selectstart :load :touchend
- :blur :change :hashchange :webkitTransitionEnd :focus :keydown :connect
- :mouseup :touchstart :dragleave :drop :pagehide :message :keyup :online
- :mousemove :scroll :input :deactivate :beforecopy :beforepaste :copy
- :DOMFocusIn :select :dblclick :dragenter :readystatechange}
+ClojureScript:cljs.user> (in-ns 'domina.events)
+ClojureScript:domina.events> (map keyword (gobj/getValues events/EventType))
+(:click :dblclick :mousedown :mouseup :mouseover :mouseout :mousemove 
+:selectstart :keypress :keydown :keyup :blur :focus :deactivate :DOMFocusIn
+:DOMFocusOut :change :select :submit :input :propertychange :dragstart :drag
+:dragenter :dragover :dragleave :drop :dragend :touchstart :touchmove
+:touchend :touchcancel :beforeunload :contextmenu :error :help :load
+:losecapture :readystatechange :resize :scroll :unload :hashchange :pagehide
+:pageshow :popstate :copy :paste :cut :beforecopy :beforecut :beforepaste
+:online :offline :message :connect :webkitTransitionEnd :MSGestureChange
+:MSGestureEnd :MSGestureHold :MSGestureStart :MSGestureTap
+:MSGotPointerCapture :MSInertiaStart :MSLostPointerCapture :MSPointerCancel
+:MSPointerDown :MSPointerMove :MSPointerOver :MSPointerOut :MSPointerUp
+:textinput :compositionstart :compositionupdate :compositionend)
 ClojureScript:cljs.user>
 ```
 
