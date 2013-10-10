@@ -241,7 +241,7 @@ corresponding `project.clj` as follows:
 
 Wait a minute. From the very beginning of the `modern-cljs` series of
 tutorials we have been learning about the `lein-cljsbuild` plugin as
-the main tool ot be used for configuring and managing a CLJS-based
+the main tool to be used for configuring and managing a CLJS-based
 project. We're now dealing with a CLJS-based project which doesn't
 even contain a reference to it. What's is going on here?
 
@@ -377,7 +377,7 @@ cd ~/dev/modern-cljs
 lein deps :tree
  ...
  [shoreleave/shoreleave-remote-ring "0.3.1-SNAPSHOT"]
-   [org.clojure/tools.reader "0.7.7"]
+   [org.clojure/tools.reader "0.7.8"]
  [shoreleave/shoreleave-remote "0.3.1-SNAPSHOT"]
    [shoreleave/shoreleave-browser "0.3.1-SNAPSHOT"]
    [shoreleave/shoreleave-core "0.3.1-SNAPSHOT"]
