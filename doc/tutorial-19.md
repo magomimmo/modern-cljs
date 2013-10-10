@@ -325,11 +325,11 @@ does not include any CLJS source code. Here is the new `project.clj`
             :distribution :repo
             :comments "See the notice in README.mkd or details in LICENSE_epl.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/tools.reader "0.7.7"]])
+                 [org.clojure/tools.reader "0.7.8"]])
 ```
 
 > NOTE 7: As you see, we update both the CLJ release to "1.5.1" and the
-> `tools.reader` release to "0.7.7".
+> `tools.reader` release to "0.7.8".
 
 ### Locally install the upgraded `shoreleave` libs
 
@@ -623,7 +623,7 @@ dependencies by using your clojars' group name as follows:
             :distribution :repo
             :comments "See the notice in README.mkd or details in LICENSE_epl.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/tools.reader "0.7.7"]])
+                 [org.clojure/tools.reader "0.7.8"]])
 ```
 
 As usual commit your changes.
