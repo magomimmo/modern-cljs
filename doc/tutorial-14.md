@@ -742,7 +742,7 @@ Open and modify the above file as follows:
   [:#tax] (set-attr :value tax)
   [:#discount] (set-attr :value discount)
   [:#total] (set-attr :value
-                      (format "%.2f" (calculate quantity price tax discount))))
+                      (format "%.2f" (double (calculate quantity price tax discount)))))
 ```
 
 > NOTE 6: We added the `format` call to format the `Total` value with
