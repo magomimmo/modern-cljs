@@ -400,7 +400,7 @@ element/node.
 If you issue the `lein classpath` command from the terminal, you can
 verify that the `resources` directory is a member of the application
 `classpath`. This means that we can pass the
-`public/shopping.html` file to `deftemplate as the `source` arg.
+`public/shopping.html` file to `deftemplate` as the `source` arg.
 
 As the `name` arg, we're going to use the same name of the POST route
 (i.e. `shopping`) previously defined inside the `defroutes` macro.
