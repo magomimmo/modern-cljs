@@ -783,11 +783,12 @@ Stay tuned for the next tutorial.
 
 # Next Step - [Tutorial 21 - Learn by Contributing (Part 2)][26]
 
-In the [next tutorial][26] we're going to adjust `Enfocus` to be
-packed in a `jar`, instrumented with the `piggieback` lib, published
-on `clojars` and even used as a dependency to create a very simple
-`Hello Enfocus` project to demonstrate that all the changes did not
-affect the `Enfocus` codebase which is still working as expected.
+In the [next tutorial][26] we're going to adjust `Enfocus` for
+packaging it in a `jar`. We'll then instrument it with the
+`piggieback` lib, publish on `clojars` and we'll even use it as a
+dependency in a very simple project to demonstrate that all the
+changes we did are not affecting the `Enfocus` codebase which is still
+working as expected.
 
 # License
 
