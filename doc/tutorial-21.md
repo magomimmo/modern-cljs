@@ -215,10 +215,10 @@ directory. Instead, any static resource needed during the
 developing/testing phase of a lib has to be saved in the
 `dev-resources` directory. This is because the `lein jar` command will
 only include into the generated `jar` the resources registered in the
-`resourses` directory.
+`resources` directory.
 
 In the `Enfocus` project all the emitted JS files are used for testing
-purpouse only, not for releaseing the lib to third parties developers.
+purpouse only, not for releasing the lib to third parties.
 
 Let's then rename the `resources` directory as `dev-resources` and
 modify any referece to it in the `project.clj`.
@@ -357,7 +357,7 @@ jar tvf target/enfocus-2.0.1-SNAPSHOT.jar
 Great. We now have a jar package which includes exactly what is needed
 by a third party developer to use the `Enfocus` artifact.
 
-## Intrument Enfocus
+## Instrument Enfocus
 
 As a next step we'd like to instrument `Enfocus` with the
 [piggieback][5] lib introduced in the
@@ -445,8 +445,8 @@ purpose only and the corresponding test-commands as well.
 > NOTE 2: We added the `org.clojars.magomimmo` group-id to deploy the
 > `Enfocus` aritifact to clojars by respecting its guide lines.
 
-> NOTE 3: Because of `piggiback` requirements, we needed to update
-> the `min-lein.version` to `"2.2.0"`.
+> NOTE 3: Because of `piggieback` requirements, we needed to update
+> the `min-lein-version` setting to `"2.2.0"`.
 
 > NOTE 4: For a more detailed explanation of the `piggieback`
 > instrumentation and the addition of the `:profiles` setting, see the
@@ -512,7 +512,7 @@ As you remember there are more step to be done:
 We're going to pospone all this stuff to the next tutorial, because we
 first want to deploy the revised `Enfocus` lib to `clojars` and try to
 use it in a very simple new project to verify that even after all the
-chenges, the `Enfocus` lib is still working as expected.
+changes we did, the `Enfocus` lib is still working as expected.
 
 ## Deploy on clojars
 
@@ -542,7 +542,7 @@ Sending org/clojars/magomimmo/enfocus/maven-metadata.xml (1k)
 
 Good. It worked too.
 
-## Test with the hello world example
+## Test with a simple project
 
 We did a lot of working by refactoring the directories layout of
 `Enfocus` and by deeply altering its project configuration, but we did
@@ -583,7 +583,8 @@ Then edit its `project.clj` as follows:
 ```
 
 Now reorganize the directories layout by following the *quasi standard
-directories layout* we introduced at the beginning of this tutorial.
+directories layout* we introduced at the beginning of the
+[previous tutorial][1].
 
 ```bash
 mkdir -p src/{cljs/hello_enfocus,clj}
@@ -639,7 +640,7 @@ with the following content:
 ```
 
 Now open the `~/dev/hello-enfocus/resources/public/hello.html` file
-with your browser and you should see the `Hello, Enfocus!` string
+in your browser and you should see the `Hello, Enfocus!` string
 shown in the page.
 
 Stay tuned for the next tutorial.
