@@ -740,7 +740,7 @@ project/.generated
 
 To adapt the `.gitignore` file to the new directories layout without
 loosing the `runners/phantomjs.js` file, remove the `testing` and
-`project` rules and add a new rule for the JS files.
+`project` rules and modify the rule for the JS files as follows.
 
 ```bash
 ...
@@ -771,11 +771,10 @@ We should now start implementing few unit tests based on the
 [clojurescript.test][11] testing lib. We are going to postpone this
 topic in a next tutorial for a couple of reasons:
 
-* we want anticipate few `project.clj` settings which
-  affect the `jar` packaging to be prepared for any CLJ/CLJS mixed project
-  deployment;
-* to be able to even think about needed unit tests for a lib, we
-  should first learn at least its basic use cases.
+* firstly, we want anticipate few `project.clj` settings which affect
+  the packaging of `Enfocus` in a `jar` artifact;
+* secondly, the only way to be able to define few unit tests for the
+  `Enfocus` lib we should at least know its basic use cases.
 
 ### Enfocus Packaging
 
