@@ -9,4 +9,4 @@
   [:#tax] (set-attr :value tax)
   [:#discount] (set-attr :value discount)
   [:#total] (set-attr :value 
-                      (format "%.2f" (calculate quantity price tax discount))))
+                      (format "%.2f" (dobule (calculate quantity price tax discount)))))
