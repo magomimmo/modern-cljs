@@ -1137,4 +1137,4 @@ License, the same as Clojure.
 [23]: http://phantomjs.org/
 [24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md#instructing-lein-cljsbuild-about-phantomjs
 [25]: http://stackoverflow.com/questions/115983/how-do-i-add-an-empty-directory-to-a-git-repository
-[26]: https://github.com/magomimmo/modern-cljs/blob/2bcc97da57080246406f0caff0a6e018d54b39d5/doc/tutorial-18.md#step-3---run-the-brepl
+[26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md#step-3---run-the-brepl
