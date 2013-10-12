@@ -58,7 +58,7 @@ same name as the defining template.
   [:#tax] (set-attr :value tax)
   [:#discount] (set-attr :value discount)
   [:#total] (set-attr :value
-                      (format "%.2f" (calculate quantity price tax discount))))
+                      (format "%.2f" (double (calculate quantity price tax discount)))))
 ```
 
 However, as we saw in the [Tutorial 15 - It's better to be safe than
@@ -106,7 +106,7 @@ Open the `shopping.clj` source file from the
   [:#tax] (set-attr :value tax)
   [:#discount] (set-attr :value discount)
   [:#total] (set-attr :value
-                      (format "%.2f" (calculate quantity price tax discount))))
+                      (format "%.2f" (double (calculate quantity price tax discount)))))
 
 ;; new intermediate function
 (defn shopping [q p t d]
@@ -387,7 +387,7 @@ in the first refactoring step.
   [:#tax] (set-attr :value tax)
   [:#discount] (set-attr :value discount)
   [:#total] (set-attr :value
-                      (format "%.2f" (calculate quantity price tax discount))))
+                      (format "%.2f" (double (calculate quantity price tax discount)))))
 ```
 
 Here we defined five pairs of selectors/transformations, one for each
@@ -410,7 +410,7 @@ First, change the last selector/transformation pair to call the
   [:#discount] (set-attr :value discount)
   [:#total] (if errors
               (set-attr :value "0.00")
-              (set-attr :value (format "%.2f" (calculate quantity price tax discount)))))
+              (set-attr :value (format "%.2f" (double (calculate quantity price tax discount))))))
 ```
 
 Now we have to substitute the content of each `label` relating each
@@ -516,7 +516,7 @@ the entire content of the `shopping.clj` source file.
 
   [:#total] (if errors
               (set-attr :value "0.00")
-              (set-attr :value (format "%.2f" (calculate q p t d)))))
+              (set-attr :value (format "%.2f" (double (calculate q p t d))))))
 
 (defn shopping [q p t d]
   (update-shopping-form q p t d (validate-shopping-form q p t d)))
