@@ -216,7 +216,7 @@ objective of sharing as much code as possibile with the corresponding
 improvements to the `Enfocus` directories layout and the adoption of
 the [clojurescript.test][40] lib for implementing its unit tests.
 
-## [Tutorial 20 - Learn by Contributing (Part 2)][41]
+## [Tutorial 21 - Learn by Contributing (Part 2)][41]
 
 In [this tutorial][41] we're going to adjust `Enfocus` for packaging
 it in a `jar`. Then we'll instrument it with the `piggieback` lib,
