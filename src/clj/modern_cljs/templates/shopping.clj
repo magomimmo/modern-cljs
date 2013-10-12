@@ -30,7 +30,7 @@
 
   [:#total] (if errors
               (set-attr :value "0.00")
-              (set-attr :value (double (format "%.2f" (calculate q p t d))))))
+              (set-attr :value (format "%.2f" (double (calculate q p t d))))))
 
 (defn shopping [q p t d]
   (update-shopping-form q p t d (validate-shopping-form q p t d)))
