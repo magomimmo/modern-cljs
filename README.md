@@ -269,3 +269,4 @@ License, the same as Clojure.
 [38]: https://github.com/ckirkendall/enfocus
 [39]: https://github.com/cgrand/enlive
 [40]: https://github.com/cemerick/clojurescript.test
+[41]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-21.md
