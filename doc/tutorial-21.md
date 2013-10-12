@@ -3,14 +3,14 @@
 In the [previous tutorial][1] while starting to learn the [Enfocus][2]
 lib we ended up by collaborating with [Creighton Kirkendall][3] in
 deeply refactoring both the directories layout and the `project.clj`
-configuration of his very interesting and proimising lib with the
+configuration of his very interesting and promising lib with the
 intention of preparing it to be unit tested by using the
 [clojurescript.test][4] lib.
 
 ## Introduction
 
 The first instict would be to start this tutorial by implementing few
-unit tests for the `enfocus` lib based on the [clojurescript.test][11]
+unit tests for the `enfocus` lib based on the [clojurescript.test][4]
 unit testing lib. We are going to postpone this topic to a next
 tutorial for a couple of reasons:
 
@@ -663,32 +663,3 @@ License, the same as Clojure.
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
 [9]: http://en.wikipedia.org/wiki/Same_origin_policy
 [10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
-
-
-
-[3]: https://github.com/shoreleave
-
-[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-14.md
-[6]: https://github.com/cgrand/enlive
-
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
-[9]: https://github.com/levand/domina
-
-
-[12]: https://github.com/cemerick
-[13]: https://help.github.com/articles/fork-a-repo
-[14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md#no-black-magic
-[15]: https://github.com/emezeske/lein-cljsbuild/blob/master/doc/CROSSOVERS.md
-[16]: https://github.com/emezeske/lein-cljsbuild
-[17]: https://github.com/lynaghk/cljx
-[18]: https://github.com/lynaghk
-[19]: https://github.com/swannodette
-[20]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
-[21]: https://github.com/clojure/clojure/blob/master/src/clj/clojure/test.clj
-[22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md
-[23]: http://phantomjs.org/
-[24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md#instructing-lein-cljsbuild-about-phantomjs
-[25]: http://stackoverflow.com/questions/115983/how-do-i-add-an-empty-directory-to-a-git-repository
-[26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md#step-3---run-the-brepl
-
-
