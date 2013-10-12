@@ -746,7 +746,8 @@ Open and modify the above file as follows:
 ```
 
 > NOTE 6: We added the `format` call to format the `Total` value with
-> two digits after the decimal point.
+> two digits after the decimal point. Note that we [casted][32] the
+> `calculate` result to `double`.
 
 Assuming that you have stopped the `lein ring server-headless`
 command from the terminal, if you now try to launch the command again
@@ -980,3 +981,4 @@ License, the same as Clojure.
 [29]: https://github.com/emezeske/lein-cljsbuild
 [30]: https://github.com/emezeske/lein-cljsbuild#hooks
 [31]: https://github.com/technomancy/leiningen
+[32]: http://clojuredocs.org/clojure_core/clojure.core/format#example_839
