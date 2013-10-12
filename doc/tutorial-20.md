@@ -151,7 +151,6 @@ tree
     └── cljs
         └── any-project
             └── core_test.cljs
-
 20 directories, 11 files
 ```
 
@@ -252,7 +251,7 @@ The new directories layout needs now to be reflected in the
 `project.clj` file as follows.
 
 ```clj
-(defproject enfocus "2.0.0-SNAPSHOT"
+(defproject enfocus "2.0.1-SNAPSHOT"
   ...
   :source-paths ["src/clj"]
   :test-paths ["test/clj"]
@@ -268,6 +267,11 @@ The new directories layout needs now to be reflected in the
      :source-paths ["src/cljs" "test/cljs"]
      ...}]})
 ```
+
+> NOTE 4: For logistic reasons we updated the `Enfocus` semantic version
+> to the `"2.0.1-SNAPSHOT"`. Considering that we're going to touch only
+> its directories layout and its `project.clj` configuration, we
+> incremented the `patch` number only.
 
 The `:source-paths` setting for CLJ codebase is now set to read CLJ
 files only. We also added the `:test-paths` setting to host CLJ unit
@@ -326,7 +330,7 @@ the `:output-to` setting to the `"resources/public/js/enfocus.js"`
 JS file.
 
 ```bash
-(defproject enfocus "2.0.0-SNAPSHOT"
+(defproject enfocus "2.0.1-SNAPSHOT"
   ...
   :cljsbuild
   {...
@@ -453,7 +457,7 @@ resources/
 12 directories, 18 files
 ```
 
-> NOTE 4: The `cljsbuild` plugin generates the `syntax.cljs` file in
+> NOTE 5: The `cljsbuild` plugin generates the `syntax.cljs` file in
 > the default `cljsbuild-crossover` directory. This directory is
 > silently added to the `:source-paths` setting of the build for
 > emitting the `syntax.js` JS file. The `syntax.js` file is then
@@ -481,14 +485,14 @@ downloads the `"0.0-1859"` CLJS release which, in turn, requires the
 CLJ `"1.5.1"` release.  The `"0.3.3"` release also requires a `lein`
 release `"2.1.2"` or higher.
 
-> NOTE 5: Being CLJS a very young language, it's very frequently
+> NOTE 6: Being CLJS a very young language, it's very frequently
 > updated. The latest available CLJS release at the moment of this
 > writing is the `"0.0-1913"`.
 
 Wow, four changes in one shot to be edited in the `project.clj` file.
 
 ```clj
-(defproject enfocus "2.0.0-SNAPSHOT"
+(defproject enfocus "2.0.1-SNAPSHOT"
   ...
   :min-lein-version "2.1.2"
   ...
@@ -521,7 +525,7 @@ name them, you need to change its value from a vector to a map as
 follows:
 
 ```clj
-(defproject enfocus "2.0.0-SNAPSHOT"
+(defproject enfocus "2.0.1-SNAPSHOT"
   ...
   :cljsbuild
   {...
@@ -574,7 +578,7 @@ Successfully compiled "resources/public/js/whitespace.js" in 3.366037 seconds.
 
 Good. It works.
 
-> NOTE 6: Take into account that once you hook `cljsbuild` subtasks to
+> NOTE 7: Take into account that once you hook `cljsbuild` subtasks to
 > `lein` tasks, if you want to compile a named `cljsbuild` build
 > (e.g. `whitespace`) you can't pass its name to the `lein compile`
 > task. You have to use the `lein cljsbuild once whitespace` or `lein
@@ -644,7 +648,7 @@ cd ~/dev/enfocus/
 cp -R ~/dev/modern-cljs/runners .
 ```
 
-> NOTE 7: Unfortunately, AFIK, there is no way to add `phantomjs` as a
+> NOTE 8: Unfortunately, AFIK, there is no way to add `phantomjs` as a
 > dependency in a project. This means that you have to donwload and
 > install it apart from the project itself.
 
@@ -652,7 +656,7 @@ The table is now set and can now modify the `project.clj` by adding
 the [clojurescript.test][11] lib and the `:test-commands` setting.
 
 ```clj
-(defproject enfocus "2.0.0-SNAPSHOT"
+(defproject enfocus "2.0.1-SNAPSHOT"
   ...
   :dependencies [...
                  [com.cemerick/clojurescript.test "0.0.4"]
@@ -673,7 +677,7 @@ the [clojurescript.test][11] lib and the `:test-commands` setting.
 As you see we added the `clojurescript.test` dependency and a test
 command for each JS file emitted by each build.
 
-> NOTE 8: At the moment we don't care about differentiating lein
+> NOTE 9: At the moment we don't care about differentiating lein
 > profiles. This is something we'll afford later.
 
 ### Light the fire
@@ -697,13 +701,13 @@ WARNING: set-print-fn! already refers to: cljs.core/set-print-fn! being replaced
 Successfully compiled "resources/public/js/whitespace.js" in 8.730157 seconds.
 ```
 
-> NOTE 9: You [already know][26] about the above *WARNING* caused by the
+> NOTE 10: You [already know][26] about the above *WARNING* caused by the
 > `clojurescript.test` lib.
 
 Not bad, `Enfocus` is still compiling as expected. Even if we still
 have to implement unit tests, we set everything in place.
 
-> NOTE 10: If you issue the `lein test` command without having defined
+> NOTE 11: If you issue the `lein test` command without having defined
 > any CLJS unit test yet, you'll receive more error messages. To
 > overcome this problem you can create a single CLJS unit test file
 > (e.g. `test/cljs/enfocus/core-test.clj`) containing the
@@ -723,7 +727,7 @@ have to implement unit tests, we set everything in place.
 
 We can now commit our work, but if you issue the `git status` command
 it will not show you niether the addition of any created directory
-which is still empty (see NOTE 11 below) and neither the `runners`
+which is still empty (see NOTE 12 below) and neither the `runners`
 directory.
 
 The latter is because of the presence of the `*.js` exclusion rule in
@@ -757,7 +761,7 @@ git rm -r project testing
 git commit -m "learn by contributing"
 ```
 
-> NOTE 11: Git doesn't allow to add empty directories to a repo
+> NOTE 12: Git doesn't allow to add empty directories to a repo
 > [without doing some tricks][25] and when you checkout the branch
 > you'll not find those empty directories anymore (e.g. `test/clj` and
 > `resorces`).  If you really want to track those directories right
@@ -765,346 +769,25 @@ git commit -m "learn by contributing"
 > for each empty directory and then issue the `git commit -am "touch
 > few file to track empty directories"`.
 
-## What's next
-
-We should now start implementing few unit tests based on the
-[clojurescript.test][11] testing lib. We are going to postpone this
-topic in a next tutorial for a couple of reasons:
-
-* firstly, we want anticipate few `project.clj` settings which affect
-  the packaging of `Enfocus` in a `jar` artifact;
-* secondly, the only way to be able to define few unit tests for the
-  `Enfocus` lib we should at least know its basic use cases.
-
-### Enfocus Packaging
-
-When we previously substituted the `cljx` plugin with the
-`:crossovers` setting of the `cljsbuild` plugin, we substituted the
-`:hooks [cljx.lhooks]` setting with the corresponding `:hooks
-[leiningen.cljsbuild]` setting as well.
-
-This way the `cljsbuild` tasks are hooked to the main `lein`
-tasks. That's why we were able to issue the `lein do clean, compile`
-chain of commands instead of the more verbose `lein do clean,
-cljsbuild clean, cljsbuild once` chain of commands. Following is the
-list of the supported `lein` tasks when `cljsbuild` is hooked to it:
-
-```bash
-* lein clean # calls lein cljsbuild clean task
-* lein compile #call lein cljsbuild once task
-* lein test # call lein cljsbuild test task
-* lein jar
-```
-
-We already used the first three hooked `lein` tasks. Let's now try the
-`lein jar` task by first see the associated help:
-
-```bash
-lein help jar
-Package up all the project's files into a jar file.
-
-Create a $PROJECT-$VERSION.jar file containing project's source files as well
-as .class files if applicable. If project.clj contains a :main key, the -main
-function in that namespace will be used as the main-class for executable jar.
-
-With an argument, the jar will be built with an alternate main.
-
-Arguments: ([main] [])
-```
-
-Good. the `lein jar` tasks seems to be what we need to package the
-`Enfocus` lib.
-
-Let's try it.
-
-```bash
-lein do clean, compile, jar
-Deleting files generated by lein-cljsbuild.
-Compiling ClojureScript.
-...
-Successfully compiled "resources/public/js/whitespace.js" in 8.692111 seconds.
-Compiling ClojureScript.
-Created /Users/mimmo/devel/enfocus/target/enfocus-2.0.1-SNAPSHOT.jar
-```
-
-Now take a look at the `enfocus-2.0.1-SNAPSHOT.jar` jar package.
-
-```bash
-jar tvf target/enfocus-2.0.1-SNAPSHOT.jar
-    92 Fri Oct 11 15:57:26 CEST 2013 META-INF/MANIFEST.MF
-  3579 Fri Oct 11 15:57:26 CEST 2013 META-INF/maven/enfocus/enfocus/pom.xml
-   152 Fri Oct 11 15:57:26 CEST 2013 META-INF/maven/enfocus/enfocus/pom.properties
-  1875 Fri Oct 11 15:57:26 CEST 2013 META-INF/leiningen/enfocus/enfocus/project.clj
-  1875 Fri Oct 11 15:57:26 CEST 2013 project.clj
- 11526 Fri Oct 11 15:57:26 CEST 2013 META-INF/leiningen/enfocus/enfocus/README.textile
-118087 Fri Oct 11 15:57:06 CEST 2013 public/js/advanced.js
-728197 Fri Oct 11 15:56:36 CEST 2013 public/js/simple.js
-1330646 Fri Oct 11 15:57:14 CEST 2013 public/js/whitespace.js
-  1928 Fri Oct 11 10:26:10 CEST 2013 enfocus/enlive/syntax.clj
-  4386 Fri Oct 11 10:26:10 CEST 2013 enfocus/macros.clj
-```
-
-Oh my God. The jar contains all the `cljsbuild` generated JS files and
-the CLJ source files, but it does not contain any CLJS source
-file. Aside from the `META/INF` stuff and `project.clj` we would like
-to package in the `Enfocus` jar only the needed CLJ/CLJS source files
-to use the lib itself in a CLJ/CLJS project (e.g. `modern-cljs`). More
-precisely:
-
-* clj sources: `macros.clj` and `syntax.clj`
-* cljs sources: `syntax.cljs`, `core.cljs`, `events.cljs` and
-  `effects.cljs`.
-
-### Fill the package
-
-We'll go on step by step.
-
-#### Include `:crossovers` generated CLJS sources
-
-To include the `syntax.cljs` file generated by the `:crossovers`
-setting we need to add to the `cljsbuild` section the `:crossover-jar
-true` setting as well.
-
-```clj
-(defproject enfocus "2.0.1-SNAPSHOT"
-  ...
-  :cljsbuild
-  {...
-   :crossover-jar true
-   ...})
-```
-
-Run the `lein jar` command again and inspect the emitted jar package.
-
-```bash
-lein jar
-Compiling ClojureScript.
-Created /Users/mimmo/devel/enfocus/target/enfocus-2.0.1-SNAPSHOT.jar
-```
-
-```bash
-jar tvf target/enfocus-2.0.1-SNAPSHOT.jar
-...
-  2105 Fri Oct 11 16:46:00 CEST 2013 enfocus/enlive/syntax.cljs
-```
-
-The `syntax.cljs` is now included in the jar package. First problem
-solved.
-
-#### Include any CLJS sources
-
-The `cljsbuild` plugin offers a `:jar true` setting for each `build`
-in the `:builds` section which is very similar to the just used
-`:crossover-jar` setting.
-
-```clj
-(defproject enfocus "2.0.1-SNAPSHOT"
-  ...
-  :cljsbuild
-  {...
-   :builds {...
-            :advanced
-            {:source-paths ["src/cljs" "test/cljs"]
-             :jar true
-             ...}}})
-```
-
-Here we decided to add the `:jar true` setting to the `:advanced`
-build only. As a matter of facts this should be enough, because we
-want to include in the jar package the `cljs` sources only an not the
-corresponding JS files emitted by the compiler for each optimization
-level.
-
-Run the `lein jar` command again and inspect the emitted jar package.
-
-```bash
-lein jar
-Compiling ClojureScript.
-Created /Users/mimmo/devel/enfocus/target/enfocus-2.0.1-SNAPSHOT.jar
-```
-
-```bash
-jar tvf target/enfocus-2.0.1-SNAPSHOT.jar
-...
-118087 Fri Oct 11 15:57:06 CEST 2013 public/js/advanced.js
-728197 Fri Oct 11 15:56:36 CEST 2013 public/js/simple.js
-1330646 Fri Oct 11 15:57:14 CEST 2013 public/js/whitespace.js
-  1928 Fri Oct 11 10:26:10 CEST 2013 enfocus/enlive/syntax.clj
-  4386 Fri Oct 11 10:26:10 CEST 2013 enfocus/macros.clj
-  2105 Fri Oct 11 17:08:26 CEST 2013 enfocus/enlive/syntax.cljs
- 23336 Fri Oct 11 17:08:26 CEST 2013 enfocus/core.cljs
-  4247 Fri Oct 11 17:08:26 CEST 2013 enfocus/events.cljs
-  6851 Fri Oct 11 17:08:26 CEST 2013 enfocus/effects.cljs
-   168 Fri Oct 11 17:08:26 CEST 2013 enfocus/core_test.cljs
-```
-
-That's better than before, but still unsatisfactory. As you see, even
-if all the `cljs` sources are now included in the jar package, the JS
-sources are still there and the `core_test.cljs` fictional unit
-test as well.
-
-#### Remove any generated JS sources
-
-Let's take care of the generated JS first. At the beginning of this
-tutorial we have shown the *quasi standard directories layout* of a
-mixed CLJ/CLJS project and talked a bit about the separation of
-concerns principle applied to the project static resources. The static
-resources used for using the lib have to be parked in the `resources`
-directory, while the static resources to be used in the
-developing/testing phase have to be parked in the `dev-resources`
-drectory. This is because `lein jar` command includes in the generated
-package only the static resources parked in the `resourses`
-directory. In the `Enfocus` project the emitted JS files are used for
-testing purpouse only, not for deploying the lib to third parties
-developers. 
-
-Let's move the `resources` to the `dev-resources` one and consequently
-modify any referece to it in the `project.clj`.
-
-```bash
-mv resources dev-resources
-```
-
-```clj
-(defproject enfocus "2.0.1-SNAPSHOT"
-  ...
-  {...
-   :builds {:whitespace
-            {...
-             :compiler
-             {:output-to "dev-resources/public/js/whitespace.js"
-              ...}}
-             
-            :simple 
-            {...
-			 :compiler
-             {:output-to "dev-resources/public/js/simple.js"
-              ...}}
-             
-            :advanced
-            {...
-             :compiler
-             {:output-to "dev-resources/public/js/advanced.js"
-              ...}}}
-   :test-commands {"whitespace"
-                   ["runners/phantomjs.js" "dev-resources/public/js/whitespace.js"]
-                   
-                   "simple"           
-                   ["runners/phantomjs.js" "dev-resources/public/js/simple.js"]
-                   
-                   "advanced"
-                   ["runners/phantomjs.js" "dev-resources/public/js/advanced.js"]}})
-```
-
-Here we have modified the each `:output-to` setting and each
-corresponding `:test-commands` setting from referecing the `resources`
-directory to referencing the `dev-resources` directory.
-
-Run the `lein jar` task again and inspect the emitted jar package.
-
-```bash
-lein jar
-Compiling ClojureScript.
-Created /Users/mimmo/devel/enfocus/target/enfocus-2.0.1-SNAPSHOT.jar
-```
-
-```bash
-jar tvf target/enfocus-2.0.1-SNAPSHOT.jar
-...
-  1928 Fri Oct 11 10:26:10 CEST 2013 enfocus/enlive/syntax.clj
-  4386 Fri Oct 11 10:26:10 CEST 2013 enfocus/macros.clj
-  2105 Fri Oct 11 19:56:20 CEST 2013 enfocus/enlive/syntax.cljs
- 23336 Fri Oct 11 19:56:20 CEST 2013 enfocus/core.cljs
-  4247 Fri Oct 11 19:56:20 CEST 2013 enfocus/events.cljs
-  6851 Fri Oct 11 19:56:20 CEST 2013 enfocus/effects.cljs
-   168 Fri Oct 11 19:56:20 CEST 2013 enfocus/core_test.cljs
-```
-
-The JS sources are not included anymore. Much better than before. Now
-we only have to find the way to not include the `core_test.cljs`
-fictional unit test.
-
-#### Remove unit tests
-
-The `core_test.cljs` unit test is included in the jar package because
-the `:advanced` build that we have selected to be augumented with the
-`:jar true` setting still has the `"test/cljs"` directory set as value
-in its `:source-paths` setting.
-
-But wait minute, if we remove the `"test/cljs"` directory from the
-`:advanced` build, we will not be able to test it anymore. The easier
-way to solve this problem is to copy the build with a new name, remove
-the `:jar true` setting form the `:advanced` build and finally remove
-the `"test/cljs"` directory from the `:source-paths` setting of the
-new build.
-
-```clj
-(defproject enfocus "2.0.1-SNAPSHOT"
-  ...
-   :cljsbuild
-  {...
-   :builds {:deploy
-            {:source-paths ["src/cljs"]
-             :jar true
-             :compiler
-             {:output-to "dev-resources/public/js/enfocus.js"
-              :optimizations :advanced
-              :pretty-print false}}
-            ...
-			:advanced
-            {:source-paths ["src/cljs" "test/cljs"]
-             :compiler
-             {:output-to "dev-resources/public/js/advanced.js"
-              :optimizations :advanced
-              :pretty-print false}}}
-   ...)
-```
-
-Run the `lein jar` task again and inspect the emitted jar package.
-
-```bash
-lein jar
-Compiling ClojureScript.
-Compiling "dev-resources/public/js/enfocus.js" from ["src/cljs"]...
-Successfully compiled "dev-resources/public/js/enfocus.js" in 38.729721 seconds.
-Created /Users/mimmo/devel/enfocus/target/enfocus-2.0.1-SNAPSHOT.jar
-```
-
-> NOTE 12: This time the `lein jar` task runs the compilation of the new
-> `:deploy` build as well.
-
-```bash
-jar tvf target/enfocus-2.0.1-SNAPSHOT.jar
-    92 Fri Oct 11 20:16:10 CEST 2013 META-INF/MANIFEST.MF
-  3579 Fri Oct 11 20:16:10 CEST 2013 META-INF/maven/enfocus/enfocus/pom.xml
-   152 Fri Oct 11 20:16:10 CEST 2013 META-INF/maven/enfocus/enfocus/pom.properties
-  2170 Fri Oct 11 20:16:10 CEST 2013 META-INF/leiningen/enfocus/enfocus/project.clj
-  2170 Fri Oct 11 20:16:10 CEST 2013 project.clj
- 11526 Fri Oct 11 20:16:10 CEST 2013 META-INF/leiningen/enfocus/enfocus/README.textile
-  1928 Fri Oct 11 10:26:10 CEST 2013 enfocus/enlive/syntax.clj
-  4386 Fri Oct 11 10:26:10 CEST 2013 enfocus/macros.clj
-  2105 Fri Oct 11 20:16:10 CEST 2013 enfocus/enlive/syntax.cljs
- 23336 Fri Oct 11 20:16:10 CEST 2013 enfocus/core.cljs
-  4247 Fri Oct 11 20:16:10 CEST 2013 enfocus/events.cljs
-  6851 Fri Oct 11 20:16:10 CEST 2013 enfocus/effects.cljs
-```
-
-Great. We now have a jar package which includes exactly what is needed
-by a third party deveoper to use the `Enfocus` artifact.
-
+## Final note
 
 At the moment the changes proposed for `Enfocus` in this tutorial have
-been kindly accepeted by [Creighton Kirkendall][10] as
-"2.0.1-SNAPSHOT" branch.
+been kindly accepted by [Creighton Kirkendall][10] as "2.0.1-SNAPSHOT"
+branch and he's working on implementing unit tests by using the newly
+introduced `clojurescript.test`.
 
-I don't suggest to immediately us it, because it's just started and
+I don't suggest to immediately use it, because is just started and
 still without any unit tests implemented yet.
 
 Stay tuned for the next tutorial.
 
-# Next Step - TO BE DONE
+# Next Step - [Tutorial 21 - Learn by Contributing (Part 2)][26]
 
-TO BE DONE
+In the [next tutorial][26] we're going to adjust `Enfocus` to be
+packed in a `jar`, instrumented with the `piggieback` lib, published
+on `clojars` and even used as a dependency to create a very simple
+`Hello Enfocus` project to demonstrate that all the changes did not
+affect the `Enfocus` codebase which is still working as expected.
 
 # License
 
@@ -1136,4 +819,5 @@ License, the same as Clojure.
 [23]: http://phantomjs.org/
 [24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md#instructing-lein-cljsbuild-about-phantomjs
 [25]: http://stackoverflow.com/questions/115983/how-do-i-add-an-empty-directory-to-a-git-repository
-[26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md#step-3---run-the-brepl
+[26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-21.md
+
