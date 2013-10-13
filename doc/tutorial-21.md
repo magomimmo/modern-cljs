@@ -257,13 +257,13 @@ mv resources dev-resources
              {:output-to "dev-resources/public/js/advanced.js"
               ...}}}
    :test-commands {"whitespace"
-                   ["runners/phantomjs.js" "dev-resources/public/js/whitespace.js"]
+                   ["phantomjs" :runner "dev-resources/public/js/whitespace.js"]
                    
-                   "simple"           
-                   ["runners/phantomjs.js" "dev-resources/public/js/simple.js"]
+                   "simple" 
+                   ["phantomjs" :runner "dev-resources/public/js/simple.js"]
                    
                    "advanced"
-                   ["runners/phantomjs.js" "dev-resources/public/js/advanced.js"]}})
+                   ["phantomjs" :runner "dev-resources/public/js/advanced.js"]}})
 ```
 
 As you see, each `:output-to` and `:test-commands` setting are now
@@ -398,8 +398,8 @@ to move few stuff to the `:dev` profile as well.
               :optimizations :whitespace
               :pretty-print true}}}}
 
-  :profiles {:dev {:dependencies [[com.cemerick/clojurescript.test "0.0.4"]
-                                  [com.cemerick/piggieback "0.1.0"]]
+  :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.1.0"]]
+                   :plugins [[com.cemerick/clojurescript.test "0.1.0"]]
 
                    :cljsbuild 
                    {:builds {:whitespace
@@ -424,13 +424,13 @@ to move few stuff to the `:dev` profile as well.
                                :pretty-print false}}}
 
                     :test-commands {"whitespace"
-                                    ["runners/phantomjs.js" "dev-resources/public/js/whitespace.js"]
+                                    ["phantomjs" :runner "dev-resources/public/js/whitespace.js"]
                    
-                                    "simple"           
-                                    ["runners/phantomjs.js" "dev-resources/public/js/simple.js"]
+                                    "simple" 
+                                    ["phantomjs" :runner "dev-resources/public/js/simple.js"]
                    
                                     "advanced"
-                                    ["runners/phantomjs.js" "dev-resources/public/js/advanced.js"]}}
+                                    ["phantomjs" :runner "dev-resources/public/js/advanced.js"]}}
                                
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
                    :injections [(require '[cljs.repl.browser :as brepl]
@@ -444,7 +444,7 @@ First we augumented the project with the `:dev` profile and we also
 added to it the `piggieback` instrumentation which requires the
 `:repl-options` and the `:injections` setting as well.
 
-Next we moved the `clojurescript.test` lib into the `:dependencies`
+Next we moved the `clojurescript.test` lib into the `:plugins`
 option of the `:dev` profile.
 
 Finally we moved to the `:dev` profile the builds used for testing

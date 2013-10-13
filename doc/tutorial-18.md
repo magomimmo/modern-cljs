@@ -432,6 +432,7 @@ lein pprint
  :plugins
  ([lein-ring/lein-ring "0.8.7"]
   [lein-cljsbuild/lein-cljsbuild "0.3.3"]
+  [com.cemerick/clojurescript.test "0.1.0"])
   [com.keminglabs/cljx "0.3.0"]
   [lein-try/lein-try "0.3.2"]
   [lein-pprint/lein-pprint "1.1.1"]
@@ -528,7 +529,7 @@ project lifecycle and you should consider it just as a staring point.
 * the `com.keminglabs/cljx` plugin and configurations: because at the
   moment we're using them only to generate unit testing codebase for
   both CLJ and CLJS;
-* the `com.cemerick/clojurescript.test` dependency: becasue it is only
+* the `com.cemerick/clojurescript.test` plugin: becasue it is only
   used in unit testing codebase;
 * the `lein-cljsbuild` build configurations for CLJS unit testing:
   because they are only used only to emit testable JS codebase;
@@ -586,10 +587,10 @@ stuff under the `:dev` profile.
   :profiles {:dev {:test-paths ["target/test/clj"]
                    :clean-targets ["out"]
                    
-                   :dependencies [[com.cemerick/clojurescript.test "0.0.4"]
-                                  [com.cemerick/piggieback "0.1.0"]]
+                   :dependencies [[com.cemerick/piggieback "0.1.0"]]
                    
-                   :plugins [[com.keminglabs/cljx "0.3.0"]]
+                   :plugins [[com.keminglabs/cljx "0.3.0"]
+				             [com.cemerick/clojurescript.test "0.1.0"]]
                    
                    :cljx {:builds [{:source-paths ["test/cljx"]
                                     :output-path "target/test/clj"
@@ -600,13 +601,13 @@ stuff under the `:dev` profile.
                                     :rules :cljs}]}
                    
                    :cljsbuild {:test-commands {"phantomjs-whitespace"
-                                               ["runners/phantomjs.js" "target/test/js/testable_dbg.js"]
+                                               ["phantomjs" :runner "target/test/js/testable_dbg.js"]
                                                
                                                "phantomjs-simple"
-                                               ["runners/phantomjs.js" "target/test/js/testable_pre.js"]
+                                               ["phantomjs" :runner "target/test/js/testable_pre.js"]
                                                
                                                "phantomjs-advanced"
-                                               ["runners/phantomjs.js" "target/test/js/testable.js"]}
+                                               ["phantomjs" :runner "target/test/js/testable.js"]}
                                :builds
                                {:dev
                                 {:source-paths ["src/brepl" "src/cljs"]
@@ -666,23 +667,33 @@ diff <(lein with-profiles user pprint) <(lein with-profiles dev pprint)
 7a8,9
 >  :repl-options
 >  {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]},
-17c19,21
+9c11,12
+<  ([org.clojure/clojure "1.5.1"]
+---
+>  ([com.cemerick/clojurescript.test "0.1.0"]
+>   [org.clojure/clojure "1.5.1"]
+17c20,21
 <   [enlive/enlive "1.1.4"]),
 ---
 >   [enlive/enlive "1.1.4"]
->   [com.cemerick/clojurescript.test "0.0.4"]
 >   [com.cemerick/piggieback "0.1.0"]),
-33,34c37,75
+33,34c37,81
 <  {:builds
 <   {:prod
 ---
 >  {:test-commands
 >   {"phantomjs-simple"
->    ["runners/phantomjs.js" "target/test/js/testable_pre.js"],
+>    ["phantomjs"
+>     "/var/folders/tk/z1bphx1j70vfrm7w4hpm5nb00000gn/T/test-runner9057687890723475668.js"
+>     "target/test/js/testable_pre.js"],
 >    "phantomjs-whitespace"
->    ["runners/phantomjs.js" "target/test/js/testable_dbg.js"],
+>    ["phantomjs"
+>     "/var/folders/tk/z1bphx1j70vfrm7w4hpm5nb00000gn/T/test-runner9057687890723475668.js"
+>     "target/test/js/testable_dbg.js"],
 >    "phantomjs-advanced"
->    ["runners/phantomjs.js" "target/test/js/testable.js"]},
+>    ["phantomjs"
+>     "/var/folders/tk/z1bphx1j70vfrm7w4hpm5nb00000gn/T/test-runner9057687890723475668.js"
+>     "target/test/js/testable.js"]},
 >   :builds
 >   {:advanced-unit-tests
 >    {:source-paths ["src/cljs" "target/test/cljs"],
@@ -715,7 +726,7 @@ diff <(lein with-profiles user pprint) <(lein with-profiles dev pprint)
 >      :output-to "resources/public/js/modern_pre.js",
 >      :optimizations :simple}},
 >    :prod
-127a169,176
+127a175,182
 >  :cljx
 >  {:builds
 >   [{:source-paths ["test/cljx"],
@@ -724,13 +735,17 @@ diff <(lein with-profiles user pprint) <(lein with-profiles dev pprint)
 >    {:source-paths ["test/cljx"],
 >     :rules :cljs,
 >     :output-path "target/test/cljs"}]},
-131,134c180,188
+131,136c186,187
 <   [lein-pprint/lein-pprint "1.1.1"]
 <   [lein-ancient/lein-ancient "0.4.4"]
 <   [lein-bikeshed/lein-bikeshed "0.1.3"]
-<   [lein-try/lein-try "0.3.2"]),
+<   [lein-try/lein-try "0.3.2"]
+<   [alembic/alembic "0.2.0"]
+<   [lein-marginalia/lein-marginalia "0.7.1"]),
 ---
->   [com.keminglabs/cljx "0.3.0"]),
+>   [com.keminglabs/cljx "0.3.0"]
+>   [com.cemerick/clojurescript.test "0.1.0"]),
+144a196,203
 >  :injections
 >  [(require
 >    '[cljs.repl.browser :as brepl]
@@ -739,14 +754,14 @@ diff <(lein with-profiles user pprint) <(lein with-profiles dev pprint)
 >    browser-repl
 >    []
 >    (pb/cljs-repl :repl-env (brepl/repl-env :port 9000)))],
-137,139c191,198
-<  :test-paths ("/Users/mimmo/devel/modern-cljs/test"),
+150,152c209,216
+<  :test-paths ("/Users/mimmo/tmp/modern-cljs/test"),
 <  :clean-targets [:target-path],
 <  :aliases nil}
 ---
 >  :test-paths
->  ("/Users/mimmo/devel/modern-cljs/target/test/clj"
->   "/Users/mimmo/devel/modern-cljs/test"),
+>  ("/Users/mimmo/tmp/modern-cljs/target/test/clj"
+>   "/Users/mimmo/tmp/modern-cljs/test"),
 >  :clean-targets (:target-path "out"),
 >  :aliases
 >  {"clean-start!"

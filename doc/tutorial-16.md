@@ -60,22 +60,21 @@ namespace.
 > ```
 
 The first step, as usual, is to add the `clojurescript.test` lib to the
-`:dependencies` section of the `project.clj` file.
+`:plugins` section of the `project.clj` file.
 
 ```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
   ....
-  :dependencies [...
-                 ...
-                 [com.cemerick/clojurescript.test "0.0.4"]]
+  :plugins [,,,
+            [com.cemerick/clojurescript.test "0.1.0"]]
   ...
   ...
 )
 ```
 
 Chas Emerick even [explained][6] how to use the `clojurescript.test`
-lib within `lein-cljsbuild` plugin. So, it seems we're in a good
+lib within the `lein-cljsbuild` plugin. So, it seems we're in a good
 position to stride forward to satisfy my obsession with the DRY
 principle.
 
@@ -98,44 +97,8 @@ headless browser binary command. To make PhantomJS launchable from
 support for running external CLJS test.
 
 As always, [Chas Emerick][3] already interfaced PhantomJS for us by
-creating a `phantomjs.js` script which we can use for our project by
-grabbing it from the [clojurescript.test][4] lib.
-
-Create a new `runners` directory in your `modern-cljs` project
-directory.
-
-```bash
-mkdir runners
-```
-
-Now grab the content of the [script][10] and save it as `phantomjs.js` in
-the newly created `runners` directory.
-
-```js
-#!/usr/bin/env phantomjs
-
-// reusable phantomjs script for running clojurescript.test tests
-// see http://github.com/cemerick/clojurescript.test for more info
-
-var p = require('webpage').create();
-p.injectJs(require('system').args[1]);
-
-p.onConsoleMessage = function (x) { console.log(x); };
-p.evaluate(function () {
-    cemerick.cljs.test.set_print_fn_BANG_(function(x) {
-        x = x.replace(/\n/g, "");
-        console.log(x);
-    });
-});
-
-var success = p.evaluate(function () {
-  var results = cemerick.cljs.test.run_all_tests();
-  console.log(results);
-  return cemerick.cljs.test.successful_QMARK_(results);
-});
-
-phantom.exit(success ? 0 : 1);
-```
+creating a JS script which is packaged with the
+[clojurescript.test][4] lib.
 
 > NOTE 3: I have the habit to [fork][11] any repository I use and I
 > suggest you to do the same. Sooner or later you can even offer
@@ -155,23 +118,23 @@ section of the `project.clj` file as follows:
   :cljsbuild {...
               ...
               :test-commands {"phantomjs-whitespace"
-                              ["runners/phantomjs.js" "test/js/testable_dbg.js"]
+                              ["phantomjs" :runner "test/js/testable_dbg.js"]
 
                               "phantomjs-simple"
-                              ["runners/phantomjs.js" "test/js/testable_pre.js"]
+                              ["phantomjs" :runner "test/js/testable_pre.js"]
 
                               "phantomjs-advanced"
-                              ["runners/phantomjs.js" "test/js/testable.js"]}
+                              ["phantomjs" :runner "test/js/testable.js"]}
               ...
               ...
 )
 ```
 
 The value of `:test-commands` is a map in which each key is a name
-(.e.g `"phantomjs-whitespace"`), and each value is a vector of two
-elements: the pathname of the `phantomjs.js` launcher we just grabbed
-from [Chas Emerick][3] and the pathname of the JS file to be loaded in
-the headless browser (e.g. `"test/js/testable_dbg.js"`).
+(.e.g `"phantomjs-whitespace"`), and each value is a vector of three
+elements: the name of the `phantomjs` command, the `:runner` keyword
+and the pathname of the JS file to be loaded in the headless browser
+(e.g. `"test/js/testable_dbg.js"`).
 
 In the `modern-cljs` project we already defined three CLJS `:builds`,
 one for each optimization option of the GCLS compiler
@@ -179,8 +142,7 @@ one for each optimization option of the GCLS compiler
 
 Each build emits a corresponding JS file (i.e. `modern_dbg.js`,
 `modern_pre.js` and `modern.js`). So, we neeed to end up with three
-key/value pairs to be inserted in the map, one pair for each emitted
-JS file.
+test commands to be inserted in the map, one for each emitted JS file.
 
 But we don't want to add the emitted unit test JS code to the above
 CLJS builds. We just want to be able to run our unit tests without

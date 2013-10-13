@@ -621,7 +621,7 @@ enough to make a choice.
 Enough words. Let's step ahead by introducing the `clojurescript.test`
 lib for testing the `Enfocus` lib.
 
-If you don't remeber how to setup unit testing with
+If you don't remember how to setup unit testing with
 [clojurescript.test][11] I strongly suggest to review the
 [Tutorial 16 - It's better to be safe than sorry (part 3)][22] of this
 series. In this tuorial we're working a little bit faster and without
@@ -630,23 +630,10 @@ explaining every single detail.
 In a previous paragraph we already created the `test/clj` and
 `test/cljs` directories for hosting the CLJ and CLJS unit tests.
 
-We now need to add the [phantomjs headless browser][23] and configure
+We now need to install the `phantomsjs` headless browser and configure
 the `:test-commands` setting in the `:cljsbuild` section of the
 `project.clj` file [as we did][24] in the context of the `modern-cljs`
 project.
-
-If you still have the `modern-cljs` repo in your development
-directory, you can copy the `runners` directory from there. Otherwise
-just clone the `modern-cljs` repo and do the following:
-
-```bash
-# clone the modern-cljs project
-cd ~/dev
-git clone https://github.com/magomimmo/modern-cljs.git
-cd ~/dev/enfocus/
-# recursively copy the runners directory
-cp -R ~/dev/modern-cljs/runners .
-```
 
 > NOTE 8: Unfortunately, AFIK, there is no way to add `phantomjs` as a
 > dependency in a project. This means that you have to donwload and
@@ -658,20 +645,19 @@ the [clojurescript.test][11] lib and the `:test-commands` setting.
 ```clj
 (defproject enfocus "2.0.1-SNAPSHOT"
   ...
-  :dependencies [...
-                 [com.cemerick/clojurescript.test "0.0.4"]
-                 ...]
+  :plugins [...
+            [com.cemerick/clojurescript.test "0.0.4"]]
   ...
   :cljsbuild
   {...
    :test-commands {"whitespace"
-                   ["runners/phantomjs.js" "resources/public/js/whitespace.js"]
+                   ["phantomjs" :runner "resources/public/js/whitespace.js"]
 
                    "simple"
-                   ["runners/phantomjs.js" "resources/public/js/simple.js"]
+                   ["phantomjs" :runner "resources/public/js/simple.js"]
 
                    "advanced"
-                   ["runners/phantomjs.js" "resources/public/js/advanced.js"]}})
+                   ["phantomjs" :runner "resources/public/js/advanced.js"]}})
 ```
 
 As you see we added the `clojurescript.test` dependency and a test
