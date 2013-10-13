@@ -475,11 +475,11 @@ The latest current available [lein-cljsbuild][16] plugin release is
 the `"0.3.4"`. Before this release `lein-cljsbuild` silently download
 a specific CLJS release.
 
-The `"0.3.4"` release of `lein-cljsbuild` plugin now warns you when
-you do not specify a CLJS dependency in your project and implicitly
-downloads the `"0.0-1859"` CLJS release which, in turn, requires the
-CLJ `"1.5.1"` release.  The `"0.3.4"` release also requires a `lein`
-release `"2.1.2"` or higher.
+Starting from the `"0.3.3"` release of `lein-cljsbuild` plugin warns
+you when you do not specify a CLJS dependency in your project and
+implicitly downloads the `"0.0-1859"` CLJS release which, in turn,
+requires the CLJ `"1.5.1"` release.  The `"0.3.4"` release also
+requires a `lein` release `"2.1.2"` or higher.
 
 > NOTE 6: Being CLJS a very young language, it's very frequently
 > updated. The latest available CLJS release at the moment of this
