@@ -236,7 +236,7 @@ only.
 As said, we are preparing the field for substituting the original
 `Enfocus` testing code with correspondent unit tests based on the
 [clojurescript.test][11] lib and we're going to move them away from
-the `src/cljs` codebase by parking it into a `temp` directory for
+the `src/cljs` codebase by parking them into a `temp` directory for
 later reference.
 
 ```bash
@@ -283,7 +283,7 @@ the corresponding `:crossovers` option, which is set to the
 `enfocus.enlive.syntax` *portable* namespace.
 
 Finally, we set the `:source-paths` for CLJS codebase to read CLJS
-files only from the `src/cljs` path and form the `test/cljs` path in
+files only from the `src/cljs` path and from the `test/cljs` path in
 preparation for unit testing.
 
 ### Light the fire
@@ -349,11 +349,7 @@ down.
 
 ```bash
 cd ..
-mv project/project.clj .
-mv project/src .
-mv project/test .
-mv project/resources .
-mv project/temp .
+mv project/* .
 rm -rf project
 ```
 
@@ -469,8 +465,8 @@ resources/
 
 ## Update dependencies and plugins
 
-Now that the directories layout is more consistent with the *
-augumented default lein template*, we can focus our attention on
+Now that the directories layout is more consistent with the
+*augumented default lein template*, we can focus our attention on
 upating the `Enfocus` dependencies and plugins references.
 
 ### Upgrade to lein-cljsbuild `"0.3.3"`
@@ -615,8 +611,8 @@ Aside from any expressivity considerations about `clojure.test` and
 `clojurescript.test` libs, which I'm not going to discuss in this
 context, the only reason I decided to use them depends on the fact
 that they allow me to share unit testing API and the same unit tests
-code for both CLJ and CLJS codebase. To me this reason alone it's
-enough to make a choice.
+code for both CLJ and CLJS codebase. To me this reason alone is enough
+to make a choice.
 
 Enough words. Let's step ahead by introducing the `clojurescript.test`
 lib for testing the `Enfocus` lib.
@@ -646,7 +642,7 @@ the [clojurescript.test][11] lib and the `:test-commands` setting.
 (defproject enfocus "2.0.1-SNAPSHOT"
   ...
   :plugins [...
-            [com.cemerick/clojurescript.test "0.0.4"]]
+            [com.cemerick/clojurescript.test "0.1.0"]]
   ...
   :cljsbuild
   {...
@@ -660,8 +656,8 @@ the [clojurescript.test][11] lib and the `:test-commands` setting.
                    ["phantomjs" :runner "resources/public/js/advanced.js"]}})
 ```
 
-As you see we added the `clojurescript.test` dependency and a test
-command for each JS file emitted by each build.
+As you see we added the `clojurescript.test` in the `:plugin` section
+and a test command for each JS file emitted by each build.
 
 > NOTE 9: At the moment we don't care about differentiating lein
 > profiles. This is something we'll afford later.
@@ -687,7 +683,7 @@ WARNING: set-print-fn! already refers to: cljs.core/set-print-fn! being replaced
 Successfully compiled "resources/public/js/whitespace.js" in 8.730157 seconds.
 ```
 
-> NOTE 10: You [already know][26] about the above *WARNING* caused by the
+> NOTE 10: You [already know][27] about the above *WARNING* caused by the
 > `clojurescript.test` lib.
 
 Not bad, `Enfocus` is still compiling as expected. Even if we still
@@ -807,4 +803,4 @@ License, the same as Clojure.
 [24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md#instructing-lein-cljsbuild-about-phantomjs
 [25]: http://stackoverflow.com/questions/115983/how-do-i-add-an-empty-directory-to-a-git-repository
 [26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-21.md
-
+[27]: https://github.com/magomimmo/modern-cljs/blob/cda20296ab8008ada32fb879c4d8fadc50357f59/doc/tutorial-18.md#step-3---run-the-brepl
