@@ -24,12 +24,12 @@
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
-                 [enlive "1.1.4"]
-                 [com.cemerick/clojurescript.test "0.0.4"]]
+                 [enlive "1.1.4"]]
 
   :plugins [[lein-cljsbuild "0.3.3"]
             [lein-ring "0.8.7"]
-            [com.keminglabs/cljx "0.3.0"]]
+            [com.keminglabs/cljx "0.3.0"]
+            [com.cemerick/clojurescript.test "0.1.0"]]
 
   :hooks [leiningen.cljsbuild]
 
@@ -51,13 +51,13 @@
                            modern-cljs.shopping.validators]
               ;; for unit testing with phantomjs
               :test-commands {"phantomjs-whitespace"
-                              ["runners/phantomjs.js" "target/test/js/testable_dbg.js"]
+                              ["phantomjs" :runner "target/test/js/testable_dbg.js"]
 
                               "phantomjs-simple"
-                              ["runners/phantomjs.js" "target/test/js/testable_pre.js"]
+                              ["phantomjs" :runner "target/test/js/testable_pre.js"]
 
                               "phantomjs-advanced"
-                              ["runners/phantomjs.js" "target/test/js/testable.js"]}
+                              ["phantomjs" :runner "target/test/js/testable.js"]}
               :builds
               {:ws-unit-tests
                {;; clojurescript source code path
