@@ -26,7 +26,7 @@
                  [enlive "1.1.4"]]
   
   :plugins [[lein-ring "0.8.7"]
-            [lein-cljsbuild "0.3.3"]]
+            [lein-cljsbuild "0.3.4"]]
   
   :hooks [leiningen.cljsbuild]
 
