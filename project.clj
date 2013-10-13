@@ -28,7 +28,7 @@
                  [com.cemerick/valip "0.3.2"]
                  [enlive "1.1.4"]]
 
-  :plugins [[lein-cljsbuild "0.3.3"]
+  :plugins [[lein-cljsbuild "0.3.4"]
             [lein-ring "0.8.7"]]
 
   :hooks [leiningen.cljsbuild]
