@@ -431,7 +431,7 @@ lein pprint
  ...
  :plugins
  ([lein-ring/lein-ring "0.8.7"]
-  [lein-cljsbuild/lein-cljsbuild "0.3.3"]
+  [lein-cljsbuild/lein-cljsbuild "0.3.4"]
   [com.cemerick/clojurescript.test "0.1.0"])
   [com.keminglabs/cljx "0.3.0"]
   [lein-try/lein-try "0.3.2"]
@@ -566,7 +566,7 @@ stuff under the `:dev` profile.
                  [enlive "1.1.4"]]
   
   :plugins [[lein-ring "0.8.7"]
-            [lein-cljsbuild "0.3.3"]]
+            [lein-cljsbuild "0.3.4"]]
   
   :hooks [leiningen.cljsbuild]
 

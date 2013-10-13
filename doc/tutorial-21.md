@@ -573,7 +573,7 @@ Then edit its `project.clj` as follows:
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1913"]
                  [org.clojars.magomimmo/enfocus "2.0.1-SNAPSHOT"]]
-  :plugins [[lein-cljsbuild "0.3.3"]]
+  :plugins [[lein-cljsbuild "0.3.4"]]
 
   :cljsbuild {:builds {:whitespace
                        {:source-paths ["src/cljs"]

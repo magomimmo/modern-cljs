@@ -469,16 +469,16 @@ Now that the directories layout is more consistent with the
 *augumented default lein template*, we can focus our attention on
 upating the `Enfocus` dependencies and plugins references.
 
-### Upgrade to lein-cljsbuild `"0.3.3"`
+### Upgrade to lein-cljsbuild `"0.3.4"`
 
 The latest current available [lein-cljsbuild][16] plugin release is
-the `"0.3.3"`. Before this release `lein-cljsbuild` silently download
+the `"0.3.4"`. Before this release `lein-cljsbuild` silently download
 a specific CLJS release.
 
-The `"0.3.3"` release of `lein-cljsbuild` plugin now warns you when
+The `"0.3.4"` release of `lein-cljsbuild` plugin now warns you when
 you do not specify a CLJS dependency in your project and implicitly
 downloads the `"0.0-1859"` CLJS release which, in turn, requires the
-CLJ `"1.5.1"` release.  The `"0.3.3"` release also requires a `lein`
+CLJ `"1.5.1"` release.  The `"0.3.4"` release also requires a `lein`
 release `"2.1.2"` or higher.
 
 > NOTE 6: Being CLJS a very young language, it's very frequently
@@ -496,7 +496,7 @@ Wow, four changes in one shot to be edited in the `project.clj` file.
                  [org.clojure/clojurescript "0.0-1913"]
                  ...]
 
-  :plugins [[lein-cljsbuild "0.3.3"]]
+  :plugins [[lein-cljsbuild "0.3.4"]]
   ...)
 ```
 

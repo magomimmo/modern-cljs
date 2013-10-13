@@ -99,7 +99,7 @@ plugin, the `:cljsbuild` and the `:source-paths` configurations
   :dependencies [[org.clojure/clojure "1.5.1"]]
 
   ;; lein-cljsbuild plugin to build a CLJS project
-  :plugins [[lein-cljsbuild "0.3.3"]]
+  :plugins [[lein-cljsbuild "0.3.4"]]
 
   ;; cljsbuild options configuration
   :cljsbuild {:builds
@@ -163,13 +163,13 @@ follow:
 
 ```bash
 lein cljsbuild once
-Retrieving lein-cljsbuild/lein-cljsbuild/0.3.3/lein-cljsbuild-0.3.3.pom from clojars
-Retrieving lein-cljsbuild/lein-cljsbuild/0.3.3/lein-cljsbuild-0.3.3.jar from clojars
+Retrieving lein-cljsbuild/lein-cljsbuild/0.3.4/lein-cljsbuild-0.3.4.pom from clojars
+Retrieving lein-cljsbuild/lein-cljsbuild/0.3.4/lein-cljsbuild-0.3.4.jar from clojars
 Compiling ClojureScript.
 WARNING: It appears your project does not contain a ClojureScript dependency. One will be provided for you by lein-cljsbuild, but it is strongly recommended that you add your own.  You can find a list of all ClojureScript releases here:
 http://search.maven.org/#search|ga|1|g%3A%22org.clojure%22%20AND%20a%3A%22clojurescript%22
-Retrieving cljsbuild/cljsbuild/0.3.3-SNAPSHOT/cljsbuild-0.3.3-20130913.125809-2.pom from clojars
-Retrieving cljsbuild/cljsbuild/0.3.3-SNAPSHOT/cljsbuild-0.3.3-20130913.125809-2.jar from clojars
+Retrieving cljsbuild/cljsbuild/0.3.4-SNAPSHOT/cljsbuild-0.3.4-20130913.125809-2.pom from clojars
+Retrieving cljsbuild/cljsbuild/0.3.4-SNAPSHOT/cljsbuild-0.3.4-20130913.125809-2.jar from clojars
 Compiling "resources/public/js/modern.js" from ["src/cljs"]...
 Successfully compiled "resources/public/js/modern.js" in 7.131854 seconds.
 ```

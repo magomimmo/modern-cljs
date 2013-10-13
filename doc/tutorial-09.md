@@ -242,7 +242,7 @@ dependency
                  [domina "1.0.2"]
                  [hiccups "0.2.0"]]
 
-  :plugins [[lein-cljsbuild "0.3.3"]
+  :plugins [[lein-cljsbuild "0.3.4"]
             [lein-ring "0.8.7"]]
 
   ;; enable cljsbuild tasks support

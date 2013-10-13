@@ -108,7 +108,7 @@ the updated version of `project.clj`
                  [domina "1.0.2"]]
 
   :plugins [; cljsbuild plugin
-            [lein-cljsbuild "0.3.3"]
+            [lein-cljsbuild "0.3.4"]
             [lein-ring "0.8.7"]]
 
   ;; ring tasks configuration
