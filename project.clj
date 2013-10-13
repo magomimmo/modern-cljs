@@ -47,10 +47,10 @@
   :profiles {:dev {:test-paths ["target/test/clj"]
                    :clean-targets ["out"]
                    
-                   :dependencies [[com.cemerick/clojurescript.test "0.0.4"]
-                                  [com.cemerick/piggieback "0.1.0"]]
+                   :dependencies [[com.cemerick/piggieback "0.1.0"]]
                    
-                   :plugins [[com.keminglabs/cljx "0.3.0"]]
+                   :plugins [[com.keminglabs/cljx "0.3.0"]
+                             [com.cemerick/clojurescript.test "0.1.0"]]
                    
                    :cljx {:builds [{:source-paths ["test/cljx"]
                                     :output-path "target/test/clj"
@@ -61,13 +61,13 @@
                                     :rules :cljs}]}
                    
                    :cljsbuild {:test-commands {"phantomjs-whitespace"
-                                               ["runners/phantomjs.js" "target/test/js/testable_dbg.js"]
+                                               ["phantomjs" :runner "target/test/js/testable_dbg.js"]
                                                
                                                "phantomjs-simple"
-                                               ["runners/phantomjs.js" "target/test/js/testable_pre.js"]
+                                               ["phantomjs" :runner "target/test/js/testable_pre.js"]
                                                
                                                "phantomjs-advanced"
-                                               ["runners/phantomjs.js" "target/test/js/testable.js"]}
+                                               ["phantomjs" :runner "target/test/js/testable.js"]}
                                :builds
                                {:dev
                                 {:source-paths ["src/brepl" "src/cljs"]
