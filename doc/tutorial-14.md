@@ -421,16 +421,9 @@ First, as usual, we need to add the [Enlive][9] lib to the
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
-  ...
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 ...
-                 ...
-                 [com.cemerick/valip "0.3.2"]
-                 ;; add enlive dependency
+  :dependencies [...
                  [enlive "1.1.4"]]
-  ...
-  ...
-)
+  ...)
 ```
 
 We then have to decide where to create the CLJ file containing the
@@ -845,15 +838,11 @@ definition. Following is the modified content of the `core.clj` file.
 Last, but not least, we have to modified the `project.clj` file to
 update the namespace of the `app` symbol in the `:ring` section.
 
-```clojure
+```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
-  ...
-  ;; ring tasks configuration
   :ring {:handler modern-cljs.core/app}
-  ...
-  ...
-)
+  ...)
 ```
 
 We are now ready to rebuild and run everything as follows:
@@ -888,11 +877,10 @@ lein jar
 Add the following option to your project configuration:
 
 ```clj
-(defproject ...
+(defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
   :hooks [leiningen.cljsbuild]
-  ...
-)
+  ...)
 ```
 
 You can now run the following commands:
