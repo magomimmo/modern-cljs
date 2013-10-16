@@ -197,7 +197,7 @@ section to make `cljsbuild` happy.
 > at the time of this writing.
 
 Now issue the `lein cljsbuild clean` command to clean the previous
-compilation and ssue the `lein cljsbuild once` command again.
+compilation and issue the `lein cljsbuild once` command again.
 
 ```clj
 lein cljsbuild clean
