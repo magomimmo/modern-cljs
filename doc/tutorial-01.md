@@ -30,9 +30,12 @@ mkdir -p src/{clj,cljs/modern_cljs}
 mv src/modern_cljs/ src/clj/
 ```
 
-> NOTE 2: due to [java difficulties][4] in managing hyphen "-" (or other
+> NOTE 1: due to [java difficulties][4] in managing hyphen "-" (or other
 > special characters) in package names, substitute an underscore for any hyphen
 > in corresponding directory names.
+
+> NOTE 2: At the moment we don't care about the `test` directory and we
+> leave it as it is. We'll take care of it in a later tutorial.
 
 Create a directory structure to host static resources of the project
 (i.e., html pages, js script files, css stylesheet files, etc.)
