@@ -53,7 +53,7 @@ Here are the required changes in the `project.clj`
 
   :ring {:handler modern-cljs.core/handler}
   ...)
-
+```
 ## Create the handler
 
 A ring handler is just a function that receives a request as an
