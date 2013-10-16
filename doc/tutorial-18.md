@@ -466,7 +466,7 @@ move them into a `:dev` profile as follows:
 ```clj
 (defproject
   ...
-  :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.1.0"]]}
+  :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.1.0"]]
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
                    :injections [(require '[cljs.repl.browser :as brepl]
                                          '[cemerick.piggieback :as pb])
