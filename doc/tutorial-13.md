@@ -195,16 +195,12 @@ validating our old `loginForm` friend.
 First you have to add the [forked Valip][2] library to the project
 dependencies.
 
-```clojure
-;;; code fragment from project.clj
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1913"]
-                 [compojure "1.1.5"]
-                 [hiccups "0.2.0"]
-		         [domina "1.0.2"]
-                 [shoreleave/shoreleave-remote-ring "0.3.0"]
-                 [shoreleave/shoreleave-remote "0.3.0"]
+```clj
+(defproject ...
+   ...
+  :dependencies [...
                  [com.cemerick/valip "0.3.2"]]
+  ...)
 ```
 
 To follow at our best the principle of separation of concerns, let's
@@ -354,25 +350,12 @@ and CLJS has to be put in a vector which is attached to the
 project. It's quicker to do than it's to say. Here is the interested
 `project.clj` code fragment.
 
-```clojure
-  ;; code fragment from project.clj
-
-  ;; cljsbuild tasks configuration
+```clj
+(defproject ...
+  ...
   :cljsbuild {:crossovers [valip.core valip.predicates modern-cljs.login.validators]
-              :builds
-              [{;; build id
-                :id "dev"
-                :source-paths ["src/brepl" "src/cljs"]
-                
-                ;; Google Closure Compiler options
-                :compiler {;; the name of emitted JS script file
-                           :output-to "resources/public/js/modern_dbg.js"
-
-                           ;; minimum optimization
-                           :optimizations :whitespace
-                           ;; prettyfying emitted JS
-                           :pretty-print true}}
-  ;; other code follows
+              ...}
+  ...)
 ```
 
 As you can see, we added three namespaces to the `:crossovers` option:
