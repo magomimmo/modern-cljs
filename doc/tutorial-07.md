@@ -76,30 +76,9 @@ named `:pre-prod`, which uses `:simple` compilation mode.
 
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-
-  ;; clojure source code path
-  :source-paths ["src/clj"]
-
-  :dependencies [[org.clojure/clojure "1.5.1"]
-	             [org.clojure/clojurescript "0.0-1913"]
-                 [compojure "1.1.5"]
-                 [domina "1.0.2"]]
-
-  :plugins [; cljsbuild plugin
-            [lein-cljsbuild "0.3.4"]
-            [lein-ring "0.8.7"]]
-
-  ;; ring tasks configuration
-  :ring {:handler modern-cljs.core/handler}
-
-  ;; cljsbuild tasks configuration
+  ...
   :cljsbuild {:builds
-              {
-               :dev
+              {:dev
                {;; clojurescript source code path
                 :source-paths ["src/cljs"]
 
@@ -113,7 +92,7 @@ named `:pre-prod`, which uses `:simple` compilation mode.
                            ;; prettyfying emitted JS
                            :pretty-print true}}
                :pre-prod
-               {;; same path as above
+               {;; clojurescript source code path
                 :source-paths ["src/cljs"]
 
                 :compiler {;; different output name
@@ -124,7 +103,6 @@ named `:pre-prod`, which uses `:simple` compilation mode.
 
                            ;; no need prettyfication
                            :pretty-print false}}}})
-
 ```
 
 > NOTE 1: When you have more named builds like above, the `:builds`
@@ -186,8 +164,7 @@ code snippet.
   ...
 
   :cljsbuild {:builds
-              {
-               :dev
+              {:dev
                {;; clojurescript source code path
                 :source-paths ["src/cljs"]
 
@@ -214,7 +191,7 @@ code snippet.
                            ;; no need prettyfication
                            :pretty-print false}}
                :pre-prod
-               {;; some path as above
+               {;; clojurescript source code path
                 :source-paths ["src/cljs"]
                 :compiler {;; different output name
                            :output-to "resources/public/js/modern_pre.js"
@@ -224,7 +201,6 @@ code snippet.
 						   
                            ;; no need prettyfication
                            :pretty-print false}}}})
-
 ```
 
 Now compile the new build as usual by launching `lein cljsbuild once
@@ -360,12 +336,12 @@ paragraph.
 ## Get in trouble
 
 In [tutorial 2][4] and [tutorial 3][5] we introduced the browser
-connected repl (brepl) as a CLJS evalutation environment enabling a very
-productive and interactive style of programming. To reach this objective
-we created a `connect.cljs` file where we called `(repl/connect
-"http://localhost:9000/repl")` to establish the server side of the
-brepl connection: the JavaScript virtual machine of the browser client
-itself.
+connected repl (brepl) as a CLJS evalutation environment enabling a
+more productive and interactive style of programming. To reach this
+objective we created a `connect.cljs` file where we called
+`(repl/connect "http://localhost:9000/repl")` to establish the server
+side of the brepl connection: the JavaScript virtual machine of the
+browser client itself.
 
 Having an active brepl connection is a great thing during development
 and testing phases, but for security reasons it would be better not to
@@ -377,9 +353,9 @@ connection, it would be nice to have a way to explicitly **exclude** the
 
 ## Solve the problem
 
-The `0.3.2` release of [lein-cljsbuild][6] has a new feature which can
-be used to easily solve the above trouble. [Lein-cljsbuild][6] now
-allows to specify more than one CLJS source directory in the
+Starting from the `0.3.2` release, the [lein-cljsbuild][6] plugin has
+a new feature which can be used to easily solve the above trouble by
+allowing to specify more than one CLJS source directory in the
 `:source-paths` compilation option. To **exclude** the `connect.cljs`
 file from the production build we have to move it from the `src/cljs`
 directory to a new one and add the newly created directory only to the
@@ -401,32 +377,11 @@ mv src/cljs/modern_cljs/connect.cljs src/brepl/modern_cljs/
 
 Next update the `project.clj` file by adding the `"src/brepl"` directory
 to the `:source-paths` of the `:dev` and the `:pre-prod` builds, leaving
-the `:prod` build as it was. The content of the updated `project.clj` is
-as follows.
+the `:prod` build as it was. 
 
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :min-lein-version "2.1.2"
-
-  ;; clojure source code path
-  :source-paths ["src/clj"]
-
-  :dependencies [[org.clojure/clojure "1.5.1"]
-	             [org.clojure/clojurescript "0.0-1913"]
-                 [compojure "1.1.5"]
-                 [domina "1.0.2"]]
-
-  :plugins [[lein-cljsbuild "0.3.4"]
-            [lein-ring "0.8.7"]]
-
-  ;; ring tasks configuration
-  :ring {:handler modern-cljs.core/handler}
-
-  ;; cljsbuild tasks configuration
+  ...
   :cljsbuild {:builds
               {:dev
                {;; clojurescript source code path
@@ -441,7 +396,7 @@ as follows.
                            ;; prettyfying emitted JS
                            :pretty-print true}}
                :pre-prod
-               {;; same path as above
+               {;; clojurescript source code path
                 :source-paths ["src/brepl" "src/cljs"] ;;; added "src/brepl"
 
                 :compiler {;; different JS output name
@@ -453,8 +408,8 @@ as follows.
 						   ;; no need prettyfication
                            :pretty-print false}}
                :prod
-               {;; same path as before
-                :source-paths ["src/cljs"]
+               {;; clojurescript source code path
+                :source-paths ["src/cljs"] ;; no "src/brepl"
 
                 :compiler {;; different JS output name
                            :output-to "resources/public/js/modern.js"
