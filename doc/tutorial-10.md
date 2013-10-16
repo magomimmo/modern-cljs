@@ -118,21 +118,18 @@ and `discount`).
 As usual we have first to add `shoreleave-remote-ring` library to
 `project.clj`. Here is the corresponging code fragment.
 
-```clojure
-
-  :dependencies [[org.clojure/clojure "1.5.1"]
-	             [org.clojure/clojurescript "0.0-1913"]
-                 [compojure "1.1.5"]
-                 [domina "1.0.2"]
-                 [hiccups "0.2.0"]
+```clj
+(defproject ...
+  ...
+  :dependencies [...
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]]
+  ...)
 ```
 
 > NOTE 1: We also added  the `shoreleave-remote` library to the
 > dependencies of the project. This lib will be used later for the
 > client-side code.
-
 
 ### defremote
 
@@ -237,13 +234,13 @@ The last thing to be done on the server-side is to update the `:ring`
 task configuration in the `project.clj` by replacing the
 `modern-cljs.core/handler` handler with the new one (i.e. `app`).
 
-```clojure
-;;; old :ring task configuration
-;;; :ring {:handler modern-cljs.core/handler}
-
-;;; new :ring task configuration
-:ring {:handler modern-cljs.remotes/app}
+```clj
+(defproject ...
+    ...
+    :ring {:handler modern-cljs.remotes/app}
+	...)
 ```
+
 Great: the server-side is done. We now have to fix the client side code,
 which means the `shopping.cljs` file.
 
@@ -412,7 +409,6 @@ lein trampoline cljsbuild repl-listen # optional - in a new terminal
 
 > NOTE 6: As you can see above, we sterted usin the `do` chaining
 > feature of the `lein` command to minimize a little bit our typing.
-
 
 Now visit [shopping-dbg.html][20], click the `Calculate` button and
 verify that the shopping calculator returns the expected `total`
