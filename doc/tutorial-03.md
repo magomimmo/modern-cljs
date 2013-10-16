@@ -43,45 +43,16 @@ to contain a map of configuration options, but at the moment just one
 of them, the `:handler`, is required and has to refer a function we are
 going to define.
 
-Here is the modified version of `project.clj` with the required
-configuration we talked about.
+Here are the required changes in the `project.clj`
 
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-  ;; clojure source code pathname
-  :source-paths ["src/clj"]
-
-  :dependencies [[org.clojure/clojure "1.5.1"]
-	             [org.clojure/clojurescript "0.0-1913"]]
-
-  :plugins [;; cljsbuild plugin
-            [lein-cljsbuild "0.3.4"]
-
-            ;; ring plugin
+  ...
+  :plugins [...
             [lein-ring "0.8.7"]]
 
-  ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
-
-  ;; cljsbuild tasks configuration
-  :cljsbuild {:builds
-              [{;; clojurescript source code path
-                :source-paths ["src/cljs"]
-
-                ;; Google Closure Compiler options
-                :compiler {;; the name of the emitted JS file
-                           :output-to "resources/public/js/modern.js"
-
-                           ;; use minimal optimization CLS directive
-                           :optimizations :whitespace
-
-                           ;; prettyfying emitted JS
-                           :pretty-print true}}]})
-```
+  ...)
 
 ## Create the handler
 
@@ -129,43 +100,14 @@ change its content as follows.
 ## Add compojure to project.clj
 
 Before running our new CLJ based http-server, we need to add `compojure`
-to the `project.clj` dependencies section. The new `project.clj` is as
-follows:
+to the `project.clj` dependencies section as follows:
 
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-  ;; clojure source code pathname
-  :source-paths ["src/clj"]
-
-  :dependencies [[org.clojure/clojure "1.5.1"]
-	             [org.clojure/clojurescript "0.0-1913"]
+  ...
+  :dependencies [...
                  [compojure "1.1.5"]]
-
-  :plugins [;; cljsbuild plugin
-            [lein-cljsbuild "0.3.4"]
-            [lein-ring "0.8.7"]]
-
-  ;; ring tasks configuration
-  :ring {:handler modern-cljs.core/handler}
-
-  ;; cljsbuild tasks configuration
-  :cljsbuild {:builds
-              [{;; clojurescript source code path
-                :source-paths ["src/cljs"]
-
-                ;; Google Closure Compiler options
-                :compiler {;; the name of the emitted JS file
-                           :output-to "resources/public/js/modern.js"
-
-                           ;; minimum optimization
-                           :optimizations :whitespace
-
-                           ;; prettyfying emitted JS
-                           :pretty-print true}}]})
+  ...)
 ```
 
 ## Run the http-server
