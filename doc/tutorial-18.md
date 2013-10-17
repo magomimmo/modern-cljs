@@ -472,7 +472,7 @@ move them into a `:dev` profile as follows:
                                          '[cemerick.piggieback :as pb])
                                 (defn browser-repl []
                                   (pb/cljs-repl :repl-env
-                                                (brepl/repl-env :port 9000)))]}
+                                                (brepl/repl-env :port 9000)))]}}
 ```
 
 By using the `lein with-profiles` task you can easly verify the
