@@ -482,8 +482,9 @@ requires the CLJ `"1.5.1"` release.  The `"0.3.4"` release also
 requires a `lein` release `"2.1.2"` or higher.
 
 > NOTE 6: Being CLJS a very young language, it's very frequently
-> updated. The latest available CLJS release at the moment of this
-> writing was the `"0.0-1847"`.
+> updated. The latest available CLJS release which is compatible with
+> the `modern-cljs` project at the moment of this writing was the
+> `"0.0-1847"`.
 
 Wow, four changes in one shot to be edited in the `project.clj` file.
 
