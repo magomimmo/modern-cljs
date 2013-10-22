@@ -193,8 +193,8 @@ section to make `cljsbuild` happy.
   ...)
 ```
 
-> NOTE 4: we added the latest CLJS release (i.e. "0.0-1847") available
-> at the time of this writing.
+> NOTE 4: we added the latest CLJS release (i.e. "0.0-1847") which is
+> compatible with the `modern-cljs` project.
 
 Now issue the `lein cljsbuild clean` command to clean the previous
 compilation and issue the `lein cljsbuild once` command again.
