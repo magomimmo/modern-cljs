@@ -1,4 +1,4 @@
-# Tutorial 18 - Housekeeping 
+# Tutorial 18 - Housekeeping
 
 In the [previous tutorial][1] we injected form validators into the
 WUI (Web User Interface) in such a way that the user will be
@@ -29,7 +29,7 @@ digress about two topics:
 
 > To verify your leiningen installed version, submit the following
 > command at the terminal:
-> 
+>
 > ```bash
 > lein version
 > ```
@@ -58,7 +58,7 @@ limitations inherited from the underlaying default CLJS REPL,
 internally used by the [lein-cljsbuild][6] plugin.
 
 > NOTE 4: See [Piggieback README][7] for a brief list of the
-> limitations of the default CLJS REPL. 
+> limitations of the default CLJS REPL.
 
 In this tutorial we're going to introduce the setting up of a less
 limited bREPL to be run from an [nREPL][8] launched by [Leiningen][5]
@@ -153,7 +153,7 @@ First we need:
 
 ```bash
 # clean up
-lein clean 
+lein clean
 # unit test generation for CLJ and CLJS via cljx
 lein cljx
 # CLJS compilations
@@ -441,7 +441,7 @@ lein pprint
  ...}
 ```
 
-This is just the beginning of the profiles story. 
+This is just the beginning of the profiles story.
 
 #### Dev profile
 
@@ -480,26 +480,26 @@ differences between the `:user` and the `:dev` project maps after the
 above changes.
 
 > NOTE 8: run the `lein help with-profiles` to see the features of this tasks.
-> 
+>
 > ```bash
 > lein help with-profiles
 > Apply the given task with the profile(s) specified.
-> 
+>
 > Comma-separated profiles may be given to merge profiles and perform the task.
 > Colon-separated profiles may be given for sequential profile task application.
-> 
+>
 > A profile list may either be a list of profiles to use, or may specify the
 > profiles to add or remove from the active profile list using + or - prefixes.
-> 
+>
 > For example:
-> 
+>
 >      lein with-profile user,dev test
 >      lein with-profile -dev test
 >      lein with-profile +1.4:+1.4,-dev:base,user test
-> 
+>
 > To list all profiles or show a single one, see the show-profiles task.
 > For a detailed description of profiles, see `lein help profiles`.
-> 
+>
 > Arguments: ([profiles task-name & args])
 > ```
 
@@ -552,11 +552,11 @@ stuff under the `:dev` profile.
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.2.0"
-  
+
   :source-paths ["src/clj"]
-  
+
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1913"]
+                 [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
                  [domina "1.0.2"]
@@ -564,10 +564,10 @@ stuff under the `:dev` profile.
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
                  [enlive "1.1.4"]]
-  
+
   :plugins [[lein-ring "0.8.7"]
             [lein-cljsbuild "0.3.4"]]
-  
+
   :hooks [leiningen.cljsbuild]
 
   :ring {:handler modern-cljs.core/app}
@@ -576,36 +576,36 @@ stuff under the `:dev` profile.
                            valip.predicates
                            modern-cljs.login.validators
                            modern-cljs.shopping.validators]
-              
+
               :builds {:prod
                        {:source-paths ["src/cljs"]
-                        
+
                         :compiler {:output-to "resources/public/js/modern.js"
                                    :optimizations :advanced
                                    :pretty-print false}}}}
-  
+
   :profiles {:dev {:test-paths ["target/test/clj"]
                    :clean-targets ["out"]
-                   
+
                    :dependencies [[com.cemerick/piggieback "0.1.0"]]
-                   
+
                    :plugins [[com.keminglabs/cljx "0.3.0"]
 				             [com.cemerick/clojurescript.test "0.1.0"]]
-                   
+
                    :cljx {:builds [{:source-paths ["test/cljx"]
                                     :output-path "target/test/clj"
                                     :rules :clj}
-                                   
+
                                    {:source-paths ["test/cljx"]
                                     :output-path "target/test/cljs"
                                     :rules :cljs}]}
-                   
+
                    :cljsbuild {:test-commands {"phantomjs-whitespace"
                                                ["phantomjs" :runner "target/test/js/testable_dbg.js"]
-                                               
+
                                                "phantomjs-simple"
                                                ["phantomjs" :runner "target/test/js/testable_pre.js"]
-                                               
+
                                                "phantomjs-advanced"
                                                ["phantomjs" :runner "target/test/js/testable.js"]}
                                :builds
@@ -614,34 +614,34 @@ stuff under the `:dev` profile.
                                  :compiler {:output-to "resources/public/js/modern_dbg.js"
                                             :optimizations :whitespace
                                             :pretty-print true}}
-                                
+
                                 :pre-prod
                                 {:source-paths ["src/brepl" "src/cljs"]
                                  :compiler {:output-to "resources/public/js/modern_pre.js"
                                             :optimizations :simple
                                             :pretty-print false}}
-                                
+
                                 :ws-unit-tests
                                 {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
                                  :compiler {:output-to "target/test/js/testable_dbg.js"
                                             :optimizations :whitespace
                                             :pretty-print true}}
-                                
+
                                 :simple-unit-tests
                                 { :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
                                  :compiler {:output-to "target/test/js/testable_pre.js"
                                             :optimizations :simple
                                             :pretty-print false}}
-                                
+
                                 :advanced-unit-tests
                                 {:source-paths ["src/cljs" "target/test/cljs"]
                                  :compiler {:output-to "target/test/js/testable.js"
                                             :optimizations :advanced
                                             :pretty-print false}}}}
-                   
+
                    :aliases {"clean-test!" ["do" "clean," "cljx" "once," "compile," "test"]
-                             "clean-start!" ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"]}            
-                   
+                             "clean-start!" ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"]}
+
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
                    :injections [(require '[cljs.repl.browser :as brepl]
                                          '[cemerick.piggieback :as pb])

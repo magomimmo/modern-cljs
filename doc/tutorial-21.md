@@ -5,7 +5,7 @@ lib we ended up by collaborating with [Creighton Kirkendall][3] in
 deeply refactoring both the directories layout and the `project.clj`
 configuration of his very interesting and promising lib with the
 intention of preparing it to be unit tested by using the
-[clojurescript.test][4] lib. 
+[clojurescript.test][4] lib.
 
 ## Introduction
 
@@ -244,13 +244,13 @@ mv resources dev-resources
              :compiler
              {:output-to "dev-resources/public/js/whitespace.js"
               ...}}
-             
-            :simple 
+
+            :simple
             {...
 			 :compiler
              {:output-to "dev-resources/public/js/simple.js"
               ...}}
-             
+
             :advanced
             {...
              :compiler
@@ -258,10 +258,10 @@ mv resources dev-resources
               ...}}}
    :test-commands {"whitespace"
                    ["phantomjs" :runner "dev-resources/public/js/whitespace.js"]
-                   
-                   "simple" 
+
+                   "simple"
                    ["phantomjs" :runner "dev-resources/public/js/simple.js"]
-                   
+
                    "advanced"
                    ["phantomjs" :runner "dev-resources/public/js/advanced.js"]}})
 ```
@@ -374,11 +374,11 @@ to move few stuff to the `:dev` profile as well.
   ...
   ;; we moved the clojurescript.test lib into the dev profile
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1913"]
+                 [org.clojure/clojurescript "0.0-1847"]
                  [domina "1.0.2"]
                  [org.jsoup/jsoup "1.7.2"]]
   ...
-    
+
   :cljsbuild
   {:crossovers [enfocus.enlive.syntax]
    :crossover-jar true
@@ -394,7 +394,7 @@ to move few stuff to the `:dev` profile as well.
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.1.0"]]
                    :plugins [[com.cemerick/clojurescript.test "0.1.0"]]
 
-                   :cljsbuild 
+                   :cljsbuild
                    {:builds {:whitespace
                              {:source-paths ["src/cljs" "test/cljs"]
                               :compiler
@@ -418,13 +418,13 @@ to move few stuff to the `:dev` profile as well.
 
                     :test-commands {"whitespace"
                                     ["phantomjs" :runner "dev-resources/public/js/whitespace.js"]
-                   
-                                    "simple" 
+
+                                    "simple"
                                     ["phantomjs" :runner "dev-resources/public/js/simple.js"]
-                   
+
                                     "advanced"
                                     ["phantomjs" :runner "dev-resources/public/js/advanced.js"]}}
-                               
+
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
                    :injections [(require '[cljs.repl.browser :as brepl]
                                          '[cemerick.piggieback :as pb])
@@ -523,7 +523,7 @@ Let's deploy the new `2.0.1-SNAPSHOT` artifact to `clojars`:
 lein deploy clojars
 No credentials found for clojars (did you mean `lein deploy clojars`?)
 See `lein help deploy` for how to configure credentials.
-Username: 
+Username:
 Password:
 Wrote /Users/mimmo/Developer/enfocus/pom.xml
 Compiling ClojureScript.
@@ -571,13 +571,13 @@ Then edit its `project.clj` as follows:
   :min-lein-version "2.2.0"
   :source-paths ["src/clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1913"]
+                 [org.clojure/clojurescript "0.0-1847"]
                  [org.clojars.magomimmo/enfocus "2.0.1-SNAPSHOT"]]
   :plugins [[lein-cljsbuild "0.3.4"]]
 
   :cljsbuild {:builds {:whitespace
                        {:source-paths ["src/cljs"]
-                        :compiler 
+                        :compiler
                         {:output-to "resources/public/js/hello.js"
                          :optimizations :whitespace
                          :pretty-print true}}}})
@@ -602,7 +602,7 @@ directory with the following content:
 	    [enfocus.effects :as effects])
   (:require-macros [enfocus.macros :as em]))
 
-(defn start [] 
+(defn start []
   (ef/at js/document
     ["body"] (ef/content "Hello Enfocus!")))
 
@@ -659,7 +659,7 @@ License, the same as Clojure.
 [2]: https://github.com/ckirkendall/enfocus
 [3]: https://github.com/ckirkendall
 [4]: https://github.com/cemerick/clojurescript.test
-[5]: https://github.com/cemerick/piggieback 
+[5]: https://github.com/cemerick/piggieback
 [6]: https://clojars.org/
 [7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-19.md
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
