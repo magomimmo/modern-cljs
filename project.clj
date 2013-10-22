@@ -3,8 +3,8 @@
   :url "https://github.com/magomimmo/modern-cljs"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
- 
-  :pom-addition [:developers [:developer 
+
+  :pom-addition [:developers [:developer
                               [:id "magomimmo"]
                               [:name "Mimmo Cosenza"]
                               [:url "https://github.com/magomimmo"]
@@ -17,7 +17,7 @@
   :source-paths ["src/clj"]
   :test-paths ["target/test/clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1913"]
+                 [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
                  [domina "1.0.2"]
@@ -71,7 +71,7 @@
                            :optimizations :whitespace
                            ;; prettyfying emitted JS
                            :pretty-print true}}
-               
+
                :simple-unit-tests
                { ;; same path as above
                 :source-paths ["src/brepl" "src/cljs" "target/test/cljs"]
@@ -84,7 +84,7 @@
 
                            ;; no need prettification
                            :pretty-print false}}
-               
+
                :advanced-unit-tests
                { ;; same path as above
                 :source-paths ["src/cljs" "target/test/cljs"]
@@ -97,7 +97,7 @@
 
                            ;; no need prettification
                            :pretty-print false}}
-               
+
                :dev
                { ;; clojurescript source code path
                 :source-paths ["src/brepl" "src/cljs"]
