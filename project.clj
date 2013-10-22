@@ -3,8 +3,8 @@
   :url "https://github.com/magomimmo/modern-cljs"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
- 
-  :pom-addition [:developers [:developer 
+
+  :pom-addition [:developers [:developer
                               [:id "magomimmo"]
                               [:name "Mimmo Cosenza"]
                               [:url "https://github.com/magomimmo"]
@@ -19,7 +19,7 @@
   :test-paths ["test/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1913"]
+                 [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
                  [domina "1.0.2"]
@@ -37,8 +37,8 @@
   :ring {:handler modern-cljs.core/app}
 
   ;; cljsbuild tasks configuration
-  :cljsbuild {:crossovers [valip.core 
-                           valip.predicates 
+  :cljsbuild {:crossovers [valip.core
+                           valip.predicates
                            modern-cljs.login.validators
                            modern-cljs.shopping.validators]
               :builds
