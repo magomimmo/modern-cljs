@@ -704,33 +704,11 @@ have to implement unit tests, we set everything in place.
 ### Commit your work
 
 We can now commit our work, but if you issue the `git status` command
-it will not show you niether the addition of any created directory
-which is still empty (see NOTE 12 below) and neither the `runners`
-directory.
+it will not show you the addition of any created directory which is
+still empty (see NOTE 12 below).
 
-The latter is because of the presence of the `*.js` exclusion rule in
-the `.gitignore` file.
-
-```bash
-...
-*.js
-testing/resources/public/cljs/
-...
-project/.lein-plugins
-project/.generated
-```
-
-To adapt the `.gitignore` file to the new directories layout without
-loosing the `runners/phantomjs.js` file, remove the `testing` and
-`project` rules and modify the rule for the JS files as follows.
-
-```bash
-...
-resources/public/js/*.js
-...
-```
-
-You can naw safetly commit your work.
+You can safetly commit your work any way. But before doing that clean
+the builds and remove the empty directories `project` and `testing`.
 
 ```bash
 lein clean
