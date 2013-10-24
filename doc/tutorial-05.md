@@ -89,45 +89,14 @@ Here is the content of `login.html` we already used in [tutorial 4][2].
 ## Add domina to project dependencies
 
 As usual when using leiningen, to add a library to a CLJ/CLJS project,
-you need to add it to the dependencies section of `project.clj`. Here is
-the updated version of `project.clj`
+you need to add it to the dependencies section of `project.clj`.
 
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-
-  ;; clojure source code path
-  :source-paths ["src/clj"]
-
-  :dependencies [[org.clojure/clojure "1.5.1"]
-	             [org.clojure/clojurescript "0.0-1913"]
-                 [compojure "1.1.5"]
+  ...
+  :dependencies [...
                  [domina "1.0.2"]]
-
-  :plugins [; cljsbuild plugin
-            [lein-cljsbuild "0.3.4"]
-            [lein-ring "0.8.7"]]
-
-  ;; ring tasks configuration
-  :ring {:handler modern-cljs.core/handler}
-
-  ;; cljsbuild tasks configuration
-  :cljsbuild {:builds
-              [{;; clojurescript source code path
-                :source-paths ["src/cljs"]
-
-                ;; Google Closure Compiler options
-                :compiler {;; the name of emitted JS script file
-                           :output-to "resources/public/js/modern.js"
-
-                           ;; minimum optimization
-                           :optimizations :whitespace
-
-                           ;; prettyfying emitted JS
-                           :pretty-print true}}]})
+  ...)
 ```
 
 ## Domina selectors

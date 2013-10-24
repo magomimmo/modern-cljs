@@ -108,7 +108,7 @@ Now, let's take a look at the HTML.
 
 Note that each element has both a `name` attribute and an `id`
 attribute. The `name` value will be used when the form data is submitted
-to the server-side. The `id` value will be used by the JS.
+to the server-side. The `id` value will be used by JS/CSS.
 
 `login.php` script is associated with the `form action`. And `login.js` is
 linked within the html page. Aside from `login.js` being linked within
@@ -371,8 +371,10 @@ In this last paragraph of the tutorial you can start to have some fun
 with the brepl and the CLJ http-server we introduced in [tutorial 3][16]
 
 0. launch the compile task in auto mode: `lein cljsbuild auto`
-1. launch the brepl: `lein trampoline cljsbuild repl-listen`
-2. launch the ring server: `lein ring server`
+1. launch the brepl from a new terminal window: `lein trampoline
+   cljsbuild repl-listen`
+2. launch the ring server from a new terminal window: `lein ring
+   server`
 3. visit the login page: `http://localhost:3000/login.html`
 4. evaluate `(in-ns 'modern-cljs.login)` in the brepl
 5. evaluate `validate-form` in the brepl. You should see the JS function
