@@ -21,7 +21,7 @@ this topic to a next tutorial for a couple of reasons:
   which affect the packaging of the `Enfocus` lib in a `jar` artifact
   to be published.
 
-Therefore, in this tutorial we're going to improving even more the
+Therefore, in this tutorial we're going to improve even more the
 directories layout and the `project.clj` file of the `Enfocus` lib by:
 
 * preparing the lib to be correctly packaged in a `jar`;
@@ -149,6 +149,8 @@ Compiling ClojureScript.
 Created /Users/mimmo/devel/enfocus/target/enfocus-2.0.1-SNAPSHOT.jar
 ```
 
+Here is the command to inspect the `jar` content.
+
 ```bash
 jar tvf target/enfocus-2.0.1-SNAPSHOT.jar
 ...
@@ -180,13 +182,15 @@ but we could have chosen any of the other builds as well, because
 they all look at the same `:source-paths` option configuration to
 compile down their JS files.
 
-Run the `lein jar` command again and inspect the emitted jar package.
+Run the `lein jar` command again.
 
 ```bash
 lein jar
 Compiling ClojureScript.
 Created /Users/mimmo/devel/enfocus/target/enfocus-2.0.1-SNAPSHOT.jar
 ```
+
+And inspect the emitted jar package.
 
 ```bash
 jar tvf target/enfocus-2.0.1-SNAPSHOT.jar
@@ -234,6 +238,8 @@ modify any reference to it in the `project.clj`.
 ```bash
 mv resources dev-resources
 ```
+
+Here is the snippet of the modified portion of the `project.clj` file.
 
 ```clj
 (defproject enfocus "2.0.1-SNAPSHOT"
@@ -291,7 +297,7 @@ jar tvf target/enfocus-2.0.1-SNAPSHOT.jar
 
 The JS sources are not included in the `jar` anymore. Much better than
 before. We now have to find a way to exclude the `core_test.cljs`
-fictional unit test.
+placeholder unit test.
 
 #### Remove unit tests
 
@@ -438,7 +444,7 @@ added to it the `piggieback` instrumentation which requires the
 `:repl-options` and the `:injections` setting as well.
 
 Next we moved the `clojurescript.test` lib into the `:plugins`
-option of the `:dev` profile.
+section of the `:dev` profile.
 
 Finally we moved to the `:dev` profile the builds used for testing
 purpose only and the corresponding test-commands as well.
@@ -510,10 +516,11 @@ As you remember there are more step to be done:
 * visit the above html page;
 * use the bREPL.
 
-We're going to pospone all this stuff to the next tutorial, because we
-first want to deploy the revised `Enfocus` lib to `clojars` and try to
-use it in a very simple new project to verify that even after all the
-changes we did, the `Enfocus` lib is still working as expected.
+We're going to pospone all this stuff to the end of this tutorial,
+because we first want to deploy the revised `Enfocus` lib to `clojars`
+and try to use it in a very simple new project to verify that even
+after all the changes we did, the `Enfocus` lib is still working as
+expected.
 
 ## Deploy on clojars
 
@@ -644,6 +651,290 @@ Now open the `~/dev/hello-enfocus/resources/public/hello.html` file
 in your browser and you should see the `Hello, Enfocus!` string
 shown in the page.
 
+## bREPL Connection
+
+Let's now go on by predisposing `Enfocus` for REPLing with the browser.
+
+## Add and configure `ring` and `compojure`
+
+First we need to install and run an HTTP server as we did in the
+[Tutorial 3 - CLJ based http-server][10]. This time, instead of using
+the `lein-ring` plugin, which automates most of the `ring` tasks, we
+are going to use it as a lib in the dependencies section of the `:dev`
+profile.
+
+```clj
+(defproject ...
+  ...
+  :profiles {:dev {...
+                   :dependencies [...
+                                  [ring "1.2.0"]
+                                  [compojure "1.1.5"]]
+                   ...}})
+```
+
+We now have to define the `compojure` routes and a function to be able
+to programmatically run the server. By taking into account that the
+HTTP server will be used by `Enfocus` for development and testing
+scopes only, we are going to define the routes and the function to run
+the server in `test/clj/enfocus` directory.
+
+```cljs
+;;; test/clj/enfocus/server.clj
+(ns enfocus.server
+  (:require [compojure.core :refer (GET defroutes)]
+            [compojure.route :refer  (resources not-found)]
+            [ring.util.response :refer (redirect)]
+            [ring.adapter.jetty :as jetty]))
+
+;; defroutes macro defines a function that chains individual route
+;; functions together. The request map is passed to each function in
+;; turn, until a non-nil response is returned.
+(defroutes site
+  ; to serve document root address
+  (GET "/" [] (redirect "/index.html"))
+  ; to serve static pages saved in dev-resources/public directory
+  (resources "/")
+  ; if page is not found
+  (not-found "Page not found"))
+
+(defn run
+  []
+  (defonce server
+    (jetty/run-jetty #'site {:port 3000 :join? false}))
+  server)
+```
+
+Here the only news, if compared with what we did in the
+[Tutorial 3 - CLJ based http-server][10], is the definition of the
+`run` function which will be used to programmatically start the HTTP
+server from the `REPL` on port `3000`.
+
+> NOTE 5: The `:join? false` setting is used to return the control to
+> the REPL after the server started. The `defonce` macro is used to
+> bind the `server` symbol to the HTTP server and can't be rebind to
+> other values.
+
+As you see, we defined the HTTP root "/" to redirect to the
+`index.html` URL. This is the page that we're now going to create into
+the `dev-resources/public` directory for predisposing the connection
+of the bREPL with the browser.
+
+### Create the HTML connection page
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>bREPL Connection</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <!-- pointing to cljsbuild generated js file -->
+    <script src="js/whitespace.js"></script>
+</body>
+</html>
+```
+
+> NOTE 6: We inked the script tag to `"js/whitespace.js"`
+> source. You'll discover later the reason why.
+
+### Create the bREPL connection
+
+The next step is to create the `cljs` file that is going to predispose
+the connection with the browser in the same way we did in the
+[Tutorial 2 - Browser CLJS REPL (bREPL)][11]. By remembering that we
+can activate the bREPL connection with the `:whitespace` or `:simple`
+optimizations only, and that we don't want to have the bREPL
+connection to be included into the `jar` package to be deployed, we're
+going to create the `connect.cljs` source file in the
+`src/brepl/enfocus` directory.
+
+```clj
+(ns enfocus.connect
+  (:require [clojure.browser.repl :as repl]))
+
+(repl/connect "http://localhost:9000/repl")
+```
+
+### Add the bREPL connection to the builds
+
+To summarize, we created and configured the HTTP server to serve the
+`index.html` page. This page has been created in the `dev-resources`
+directory path because it is used in development and testing scenarios
+only. We also created the `connect.cljs` file in the `test/brepl`
+directory path to keep it separated from the rest of the codebase. We
+now need to instruct `cljsbuild` to include the `test/brepl` content
+directory when emitting the `"whitespace.js"` script linked to the
+`index.html` page.
+
+```clj
+(defproject
+  ...
+  :profiles {:dev {:resources-paths ["dev-resources"]
+                   ...
+                   :cljsbuild
+                   {:builds {:whitespace
+                             {:source-paths ["src/cljs" "test/cljs" "src/brepl"]
+                              :compiler
+                              {:output-to "dev-resources/public/js/whitespace.js"
+                               :optimizations :whitespace
+                               :pretty-print true}}
+                             ...}
+                    ...}
+                   ...}})
+```
+
+> NOTE 7: We added the `:resource-paths ["dev/resources"]` setting to
+> instruct the HTTP server about for its root directory. If we don't
+> do this the `ring` server is going to look by default to the
+> `resources` directory.
+
+### Light the fire
+
+We're now ready to verify that everything is still working as expected
+and then try to establish the connection between the REPL and the
+browser.
+
+```bash
+lein do clean, compile
+Deleting files generated by lein-cljsbuild.
+Compiling ClojureScript.
+Compiling "dev-resources/public/js/whitespace.js" from ["src/cljs" "test/cljs" "src/brepl"]...
+...
+Successfully compiled "dev-resources/public/js/whitespace.js" in 8.654969 seconds.
+Compiling "dev-resources/public/js/advanced.js" from ["src/cljs" "test/cljs"]...
+...
+Successfully compiled "dev-resources/public/js/advanced.js" in 12.209143 seconds.
+Compiling "dev-resources/public/js/simple.js" from ["src/cljs" "test/cljs"]...
+...
+Successfully compiled "dev-resources/public/js/simple.js" in 7.342416 seconds.
+Compiling "dev-resources/public/js/deploy.js" from ["src/cljs"]...
+Successfully compiled "dev-resources/public/js/deploy.js" in 3.010674 seconds.
+```
+
+Great. The project is still compiling as we expected and you can
+verify that the `whitespace.js` script is compiled down by reading the
+`src/brepl` directory path too.
+
+Now let's see of the unit test is still working.
+
+```bash
+lein test
+Compiling ClojureScript.
+
+lein test enfocus.server
+
+Ran 0 tests containing 0 assertions.
+0 failures, 0 errors.
+Running all ClojureScript tests.
+
+Testing enfocus.core-test
+
+FAIL in (empty-test) (:)
+expected: (= 0 1)
+  actual: (not (= 0 1))
+
+Ran 1 tests containing 1 assertions.
+1 failures, 0 errors.
+{:test 1, :pass 0, :fail 1, :error 0, :type :summary}
+
+Testing enfocus.core-test
+
+FAIL in (empty-test) (:)
+expected: (= 0 1)
+  actual: (not (= 0 1))
+
+Ran 1 tests containing 1 assertions.
+1 failures, 0 errors.
+{:test 1, :pass 0, :fail 1, :error 0, :type :summary}
+
+Testing enfocus.core-test
+
+FAIL in (empty-test) (:)
+expected: (= 0 1)
+  actual: (not (= 0 1))
+
+Ran 1 tests containing 1 assertions.
+1 failures, 0 errors.
+{:test 1, :pass 0, :fail 1, :error 0, :type :summary}
+Subprocess failed
+```
+
+Great. The three test commands (i.e. `"whitespace"`, `"simple"` and
+`"advanced"`) are still working. As you remember we defined just a
+placeholder unit test that fails to remember us that we still have to
+define unit tests for `Enfocus`.
+
+### Enfocus bREPLing
+
+As a last step let's run the HTTP server and the bREPL from the
+standard REPL and see if we're able to repl against `enfocus`.
+
+First, launch the REPL
+
+```bash
+lein repl
+Compiling ClojureScript.
+nREPL server started on port 51012 on host 127.0.0.1
+REPL-y 0.2.1
+Clojure 1.5.1
+    Docs: (doc function-name-here)
+          (find-doc "part-of-name-here")
+  Source: (source function-name-here)
+ Javadoc: (javadoc java-object-or-class-here)
+    Exit: Control+D or (exit) or (quit)
+
+user=>
+```
+
+Then start the `ring` server as follows>
+
+```clj
+user=> (require '[enfocus.server :as http])
+nil
+user=> (http/run)
+2013-10-24 18:32:05.463:INFO:oejs.Server:jetty-7.6.8.v20121106
+2013-10-24 18:32:05.498:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+#<Server org.eclipse.jetty.server.Server@6b3a19e3>
+user=>
+```
+
+To stop and restart the `ring` server you can issue the following
+commands
+
+```clj
+user=> (.stop http/server)
+nil
+user=> (.start http/server)
+2013-10-24 18:34:34.105:INFO:oejs.Server:jetty-7.6.8.v20121106
+2013-10-24 18:34:34.105:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+nil
+user=>
+```
+
+To create the bREPL connection just call the `browser-repl` we
+instrumented with `piggieback`
+
+```clj
+user=> (browser-repl)
+Type `:cljs/quit` to stop the ClojureScript REPL
+nil
+cljs.user=>
+```
+
+and visit the [localhost:3000][12] URL. Wait a moment to allow the
+bREPL to connect with the JS engine of your browser and then start
+repling with `Enfocus`.
+
+```clj
+
+```
+
+
 Stay tuned for the next tutorial.
 
 # Next Step - TO BE DONE
@@ -665,3 +956,5 @@ License, the same as Clojure.
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
 [9]: http://en.wikipedia.org/wiki/Same_origin_policy
 [10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[12]: http://localhost:3000/
