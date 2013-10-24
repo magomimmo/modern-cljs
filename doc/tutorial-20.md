@@ -66,19 +66,15 @@ It seems to be a perfect opportunity to be collaborative with
 [Creighton Kirkendall][10] by helping him in improving his very
 interesting and promising lib.
 
-## Fork, clone and branch
+## Clone and branch
 
-Let's start by [forking][13], cloning and branching the `Enfocus`
+Let's start by cloning and branching the `Enfocus`
 repo.
 
 ```bash
 cd ~/dev
-# clone your forked repo
-git clone https://github.com/<your-github-name>/enfocus.git
+git clone https://github.com/ckirkendall/enfocus.git
 cd enfocus
-# add the upstream repo
-git remote add upstream https://github.com/ckirkendall/enfocus.git
-# create the upgrade branch 
 git checkout -b tutorial-20
 ```
 
@@ -197,12 +193,13 @@ rm -rf cljs-src cljx-src
 
 The above commands first created the needed *standard* directories,
 then moved the CLJ code under the `src/clj` directory and the CLJS
-code under the `src/cljs` directory. Finally deleted the original
-`cljs-src` and `cljx-src` directories.
+code under the `src/cljs` directory. Next we changed the file
+extension of `syntax` file from `cljx` to `clj` and finally deleted
+the original `cljs-src` and `cljx-src` directories.
 
 The reason why we did not createe a `src/cljx` directory and moved
 instead the `cljx-src/enfocus` directory to the `src/clj` one, is
-strictly related to a simple observation of the `syntax.cljx` source
+strictly related to a simple observation of the `syntax.clj` source
 code:
 
 > `syntax.cljx` does not contain any feature annotation and the two
@@ -472,8 +469,7 @@ upating the `Enfocus` dependencies and plugins references.
 ### Upgrade to lein-cljsbuild `"0.3.4"`
 
 The latest current available [lein-cljsbuild][16] plugin release is
-the `"0.3.4"`. Before this release `lein-cljsbuild` silently download
-a specific CLJS release.
+the `"0.3.4"`. 
 
 Starting from the `"0.3.3"` release of `lein-cljsbuild` plugin warns
 you when you do not specify a CLJS dependency in your project and
@@ -483,7 +479,7 @@ requires a `lein` release `"2.1.2"` or higher.
 
 > NOTE 6: Being CLJS a very young language, it's very frequently
 > updated. The latest available CLJS release at the moment of this
-> writing is the `"0.0-1913"`.
+> writing is the `"0.0-1856"`.
 
 Wow, four changes in one shot to be edited in the `project.clj` file.
 
