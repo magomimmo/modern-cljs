@@ -695,7 +695,7 @@ for development and testing scopes only, we are going to define the
 routes and the function to run the server in the `test/clj/enfocus`
 directory.
 
-```cljs
+```clj
 ;;; test/clj/enfocus/server.clj
 (ns enfocus.server
   (:require [compojure.core :refer (GET defroutes)]
@@ -970,7 +970,7 @@ Bye for now!
 lein clean
 ```
 
-```bsh
+```bash
 git add .
 git commit -am "Instrumented"
 ```
