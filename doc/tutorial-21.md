@@ -7,12 +7,28 @@ configuration of his very interesting and promising lib with the
 intention of preparing it to be unit tested by using the
 [clojurescript.test][4] lib.
 
+## Preamble
+
+If you did not type by yourself all the changes we made in the cloned
+`Enfocus` during the [previous tutorial][1], I suggest you to start
+working by first cloning the following repo which incorates the above
+changes to the `Enfocus "2.0.0-SNAPSHOT"` release. Next `checkout` the
+branch `tutorial-20` and finally create the new `tutorial-21` branch.
+
+```bash
+cd ~/dev
+git clone https://github.com/magomimmo/enfocus.git
+cd enfocus
+git checkout tutorial-20
+git checkout -b tutorial-21
+```
+
 ## Introduction
 
-The first instinct would be now to go on in this tutorial by starting
-to implement few unit tests for the `enfocus` lib based on the
-[clojurescript.test][4] unit testing lib. But we are going to postpone
-this topic to a next tutorial for a couple of reasons:
+The first instinct would be now to go on by starting to implement few
+unit tests for the `enfocus` lib based on the [clojurescript.test][4]
+unit testing lib. But we are going to postpone this topic to a next
+tutorial for a couple of reasons:
 
 * first, because to be able to define any unit tests for the `Enfocus`
   lib, we should at least know its basic use cases which we still have
@@ -379,10 +395,7 @@ to move few stuff to the `:dev` profile as well.
   :min-lein-version "2.2.0"
   ...
   ;; we moved the clojurescript.test lib into the dev profile
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1847"]
-                 [domina "1.0.2"]
-                 [org.jsoup/jsoup "1.7.2"]]
+  :plugins [[lein-cljsbuild "0.3.4"]]
   ...
 
   :cljsbuild
@@ -516,7 +529,7 @@ As you remember there are more step to be done:
 * visit the above html page;
 * use the bREPL.
 
-We're going to pospone all this stuff to the end of this tutorial,
+We're going to pospone all this stuff to the end of this tutorial
 because we first want to deploy the revised `Enfocus` lib to `clojars`
 and try to use it in a very simple new project to verify that even
 after all the changes we did, the `Enfocus` lib is still working as
@@ -653,7 +666,8 @@ shown in the page.
 
 ## bREPL Connection
 
-Let's now go on by predisposing `Enfocus` for REPLing with the browser.
+Let's now go back to `Enfocus`, becasue it's now time for
+instrumenting on by `Enfocus` for REPLing with the browser.
 
 ## Add and configure `ring` and `compojure`
 
@@ -673,11 +687,13 @@ profile.
                    ...}})
 ```
 
-We now have to define the `compojure` routes and a function to be able
-to programmatically run the server. By taking into account that the
-HTTP server will be used by `Enfocus` for development and testing
-scopes only, we are going to define the routes and the function to run
-the server in `test/clj/enfocus` directory.
+We now have to define the `compojure` routes and a function for
+running the server.
+
+By taking into account that the HTTP server will be used by `Enfocus`
+for development and testing scopes only, we are going to define the
+routes and the function to run the server in the `test/clj/enfocus`
+directory.
 
 ```cljs
 ;;; test/clj/enfocus/server.clj
@@ -739,7 +755,7 @@ of the bREPL with the browser.
 </html>
 ```
 
-> NOTE 6: We inked the script tag to `"js/whitespace.js"`
+> NOTE 6: We linked the script tag to `"js/whitespace.js"`
 > source. You'll discover later the reason why.
 
 ### Create the bREPL connection
@@ -750,10 +766,15 @@ the connection with the browser in the same way we did in the
 can activate the bREPL connection with the `:whitespace` or `:simple`
 optimizations only, and that we don't want to have the bREPL
 connection to be included into the `jar` package to be deployed, we're
-going to create the `connect.cljs` source file in the
+going to create the `connect.cljs` source file in the new
 `src/brepl/enfocus` directory.
 
+```bash
+mkdir -p src/brepl/enfocus
+```
+
 ```clj
+;;; server.cljs
 (ns enfocus.connect
   (:require [clojure.browser.repl :as repl]))
 
@@ -762,13 +783,16 @@ going to create the `connect.cljs` source file in the
 
 ### Add the bREPL connection to the builds
 
-To summarize, we created and configured the HTTP server to serve the
+To summarize, we added and configured the HTTP server to serve the
 `index.html` page. This page has been created in the `dev-resources`
 directory path because it is used in development and testing scenarios
-only. We also created the `connect.cljs` file in the `test/brepl`
-directory path to keep it separated from the rest of the codebase. We
-now need to instruct `cljsbuild` to include the `test/brepl` content
-directory when emitting the `"whitespace.js"` script linked to the
+only. We also created the `connect.cljs` file in the
+`src/brepl/enfocus` directory path to keep it separated from the rest
+of the codebase.
+
+As next step we need to instruct `cljsbuild` to include the
+`connect.cljs` from the `src/brepl/enfocus` directory during the
+compilation of the `whitespace` build which is linked to the
 `index.html` page.
 
 ```clj
@@ -789,8 +813,8 @@ directory when emitting the `"whitespace.js"` script linked to the
 ```
 
 > NOTE 7: We added the `:resource-paths ["dev/resources"]` setting to
-> instruct the HTTP server about for its root directory. If we don't
-> do this the `ring` server is going to look by default to the
+> instruct the HTTP server about its root directory. If we don't do
+> this the `ring` server is going to look by default to the
 > `resources` directory.
 
 ### Light the fire
@@ -866,8 +890,8 @@ Subprocess failed
 
 Great. The three test commands (i.e. `"whitespace"`, `"simple"` and
 `"advanced"`) are still working. As you remember we defined just a
-placeholder unit test that fails to remember us that we still have to
-define unit tests for `Enfocus`.
+failing unit test to remember us that we still have to define unit
+tests for `Enfocus`.
 
 ### Enfocus bREPLing
 
@@ -931,9 +955,25 @@ bREPL to connect with the JS engine of your browser and then start
 repling with `Enfocus`.
 
 ```clj
-
+cljs.user=> (+ 41 1)
+42
+cljs.user=>
 ```
 
+Now quit the bREPL, exit the CLJ REPL and clean the project before committing your work.
+
+```clj
+cljs.user=> :cljs/quit
+:cljs/quit
+user=> exit
+Bye for now!
+lein clean
+```
+
+```bsh
+git add .
+git commit -am "Instrumented"
+```
 
 Stay tuned for the next tutorial.
 
