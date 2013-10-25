@@ -248,7 +248,7 @@ The new directories layout needs now to be reflected in the
 `project.clj` file as follows.
 
 ```clj
-(defproject enfocus "2.0.1-SNAPSHOT"
+(defproject enfocus "2.1.0-SNAPSHOT"
   ...
   :source-paths ["src/clj"]
   :test-paths ["test/clj"]
@@ -728,12 +728,12 @@ git commit -m "learn by contributing"
 ## Final note
 
 At the moment the changes proposed for `Enfocus` in this tutorial have
-been kindly accepted by [Creighton Kirkendall][10] as "2.0.1-SNAPSHOT"
-branch and he's working on implementing unit tests by using the newly
-introduced `clojurescript.test`.
+been kindly accepted by [Creighton Kirkendall][10] in the master
+branch. Due to some fixes which required to extend the `ITransform`
+and `ISelector` protocol to support `nil` args, the `enfocus` version
+has been upgraded to `"2.1.0-SNAPSHOT"`.
 
-I don't suggest to immediately use it, because is just started and
-still without any unit tests implemented yet.
+Use it at your own convenience and risk too.
 
 Stay tuned for the next tutorial.
 
