@@ -692,8 +692,9 @@ running the server.
 
 By taking into account that the HTTP server will be used by `Enfocus`
 for development and testing scopes only, we are going to define the
-routes and the function to run the server in the `test/clj/enfocus`
-directory.
+routes and the function to run the server in the
+`dev-resources/enfocus` directory. This is because `lein` adds the
+`dev-resources` directory to the project `classpath`.
 
 ```clj
 ;;; test/clj/enfocus/server.clj
@@ -783,12 +784,12 @@ mkdir -p src/brepl/enfocus
 
 ### Add the bREPL connection to the builds
 
-To summarize, we added and configured the HTTP server to serve the
-`index.html` page. This page has been created in the `dev-resources`
-directory path because it is used in development and testing scenarios
-only. We also created the `connect.cljs` file in the
-`src/brepl/enfocus` directory path to keep it separated from the rest
-of the codebase.
+To summarize, we added and configured in the `dev-resources` directory
+the HTTP server to serve the `index.html` page. This page has been
+created in the `dev-resources` directory path too, because it is used
+in development and testing scenarios only. We also created the
+`connect.cljs` file in the `src/brepl/enfocus` directory path to keep
+it separated from the rest of the codebase.
 
 As next step we need to instruct `cljsbuild` to include the
 `connect.cljs` from the `src/brepl/enfocus` directory during the
@@ -812,7 +813,7 @@ compilation of the `whitespace` build which is linked to the
                    ...}})
 ```
 
-> NOTE 7: We added the `:resource-paths ["dev/resources"]` setting to
+> NOTE 7: We added the `:resource-paths ["dev-resources"]` setting to
 > instruct the HTTP server about its root directory. If we don't do
 > this the `ring` server is going to look by default to the
 > `resources` directory.
