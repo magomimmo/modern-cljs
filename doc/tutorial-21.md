@@ -977,9 +977,13 @@ git commit -am "Instrumented"
 
 Stay tuned for the next tutorial.
 
-# Next Step - TO BE DONE
+# Next Step - [Tutorial 22 - Learn by Contributing (Part 3)][13]
 
-TO BE DONE
+In the [next tutorial][13] we're going to improve `Enfocus` even more,
+by applying again the separation of concerns principle and by starting
+to implement few unit tests which follow my personal strategy when
+unit testing. In doing that we'll discover few bugs in the codebase
+and we even correct them by first interact with the REPL.
 
 # License
 
@@ -998,3 +1002,4 @@ License, the same as Clojure.
 [10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
 [11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
 [12]: http://localhost:3000/
+[13]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-22.md
