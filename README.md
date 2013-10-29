@@ -224,7 +224,7 @@ publish it on `clojars` and even used it as a dependency in a very
 simple project to demonstrate that all the changes we did are not
 affecting the `Enfocus` codebase which is still working as expected.
 
-# [Tutorial 22 - Learn by Contributing (Part 3)][42]
+## [Tutorial 22 - Learn by Contributing (Part 3)][42]
 
 In [this tutorial][42] we're going to improve `Enfocus` even more, by
 applying again the separation of concerns principle and by starting to
