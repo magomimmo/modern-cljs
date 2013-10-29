@@ -224,6 +224,15 @@ publish it on `clojars` and even used it as a dependency in a very
 simple project to demonstrate that all the changes we did are not
 affecting the `Enfocus` codebase which is still working as expected.
 
+# [Tutorial 22 - Learn by Contributing (Part 3)][42]
+
+In [this tutorial][42] we're going to improve `Enfocus` even more, by
+applying again the separation of concerns principle and by starting to
+implement few unit tests which follow my personal strategy when unit
+testing: unit test edge cases first. In doing that, we'll discover few
+bugs in the `enfocus` codebase and we even correct them by first
+interacting with the REPL.
+
 # License
 
 Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
@@ -270,3 +279,4 @@ License, the same as Clojure.
 [39]: https://github.com/cgrand/enlive
 [40]: https://github.com/cemerick/clojurescript.test
 [41]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-21.md
+[42]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-22.md
