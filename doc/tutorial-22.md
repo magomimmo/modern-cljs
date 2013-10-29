@@ -786,7 +786,8 @@ now know that `convert` returns a *string* and it has one argument
 only which could be a *string* or something reducible to a string
 (cf. `(apply str ...)`)
 
-```clj (deftest convert-test
+```clj
+(deftest convert-test
 
   (testing "Unit Test for (convert arg)\n"
 
