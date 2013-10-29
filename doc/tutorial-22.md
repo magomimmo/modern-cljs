@@ -6,12 +6,12 @@ at the generation of its `jar` package. We altered both the
 directories layout and some `project.clj` setting until we reached a
 full control of it. Then we implemented `hello-enfocus`, the simplest
 `enfocus`-based project you can think about. Finally, with the support
-of the [piggieback][3], lib we enable it to be REPLed.
+of the [piggieback][3] lib we enable the REPLing with it.
 
-In this tutorial we're going to move forward in improving the
-`Enfocus` lib by applying again the separation of concerns principle
-to the `project.clj` file and then by starting implementing few unit
-tests based on the [clojurescript.test][4] lib.
+In this tutorial we're going to move even forward in improving the
+`Enfocus` lib.  We'll apply again the separation of concerns principle
+to the `project.clj` file and then we'll implement few unit tests
+based on the [clojurescript.test][4] lib.
 
 ## Preamble
 
@@ -29,16 +29,16 @@ git checkout -b tutorial-22
 
 ## Introduction
 
-As you have already experimented, the ammount of information to be
+As you have already experimented, the amount of information to be
 managed in the `project.clj` to control every aspect of a CLJ/CLJS
 project tends to grow with the time spent adding features to the
 project itself.
 
 In this tutorial, before starting the unit tests implementation for
 the [enfocus][2] lib, we want to find a way to make the `project.clj`
-file more readable by applying few of the things we have learned in
-previous *housekeeping* tutorials (i.e [Tutorial - X][] and
-[Tutorial Y][].
+file more readable by applying some of the things we have learned in
+previous *housekeeping* tutorials (i.e [Tutorial 18 - Housekeeping][9]
+and [Tutorial 19 - A survival guide for livin' on the edge][10].
 
 ## Divide et Impera
 
@@ -64,7 +64,7 @@ Take a look of the final `project.clj` we ended up in the
                  [org.jsoup/jsoup "1.7.2"]]
 
   :plugins [[lein-cljsbuild "0.3.4"]]
-  
+
   :hooks [leiningen.cljsbuild]
 
   :cljsbuild
@@ -85,8 +85,8 @@ Take a look of the final `project.clj` we ended up in the
                                   [ring "1.2.0"]
                                   [compojure "1.1.5"]]
                    :plugins [[com.cemerick/clojurescript.test "0.1.0"]]
-                   
-                   :cljsbuild 
+
+                   :cljsbuild
                    {:builds {:whitespace
                              {:source-paths ["src/cljs" "test/cljs" "src/brepl"]
                               :compiler
@@ -109,10 +109,10 @@ Take a look of the final `project.clj` we ended up in the
                                :pretty-print false}}}
                     :test-commands {"whitespace"
                                     ["phantomjs" :runner "dev-resources/public/js/whitespace.js"]
-                                    
+
                                     "simple"
                                     ["phantomjs" :runner "dev-resources/public/js/simple.js"]
-                                    
+
                                     "advanced"
                                     ["phantomjs" :runner "dev-resources/public/js/advanced.js"]}}
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
@@ -123,32 +123,32 @@ Take a look of the final `project.clj` we ended up in the
                                                 (brepl/repl-env :port 9000)))]}})
 ```
 
-As you see the project's settings we need to set as an *enfocus
+As you see, the project's configuration we need to set as an *enfocus
 developer* overwhelm our capacity to take full control of them as an
 *enfocus user*. Luckly, the `profiles` feature of `lein` is going to
 be very helpful in keeping separating the view of the project as an
 *enfocus developer* from its view as an *enfocus user*.
 
 You'll be amazed by discovering how easy is to keep separated the
-*enfocus user view* from the *enfocus developer view* if you have been
-careful in keeping them separated in the `:dev` profile from the very
-beginning.
+*enfocus user view* from the *enfocus developer view*. But only if you
+have been careful in keeping them separated in the `:dev` profile from
+the very beginning.
 
 ### The enfocus user view
 
 Create a new file named `profiles.clj` in the main project
 directory. Open the `project.clj`, cut the whole `:profiles {:dev
 {...}}` section and paste it into the `profiles.clj` newly created
-file. Finally delete the `:profiles` keyword option which is already
+file. Finally, delete the `:profiles` keyword option which is already
 implicitly set by the `profiles.clj` filename itself.
 
 There is only a *minutiae* to be adjusted as well. Move the
 `:test-paths ["test/clj"]` from the `project.clj` to the newly created
 `profiles.clj`.
 
-> NOTE 1: If we were more careful in the [previous tutorial][1] when we
-> moved the development configuration options to the `:dev` profile,
-> even the above *minutiae* would be already done.
+> NOTE 1: If we were more careful in the [previous tutorial][1] when
+> we moved the development configuration options to the `:dev`
+> profile, even the above *minutiae* would have been already done.
 
 Here is the resulting `project.clj`
 
@@ -163,14 +163,14 @@ Here is the resulting `project.clj`
   :min-lein-version "2.2.0"
 
   :source-paths ["src/clj"]
-  
+
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1847"]
                  [domina "1.0.2"]
                  [org.jsoup/jsoup "1.7.2"]]
 
   :plugins [[lein-cljsbuild "0.3.4"]]
-  
+
   :hooks [leiningen.cljsbuild]
 
   :cljsbuild
@@ -200,8 +200,8 @@ An here is the `profiles.clj` content:
                       [ring "1.2.0"]
                       [compojure "1.1.5"]]
        :plugins [[com.cemerick/clojurescript.test "0.1.0"]]
-                   
-       :cljsbuild 
+
+       :cljsbuild
        {:builds {:whitespace
                  {:source-paths ["src/cljs" "test/cljs" "src/brepl"]
                   :compiler
@@ -224,10 +224,10 @@ An here is the `profiles.clj` content:
                    :pretty-print false}}}
         :test-commands {"whitespace"
                         ["phantomjs" :runner "dev-resources/public/js/whitespace.js"]
-                                    
+
                         "simple"
                         ["phantomjs" :runner "dev-resources/public/js/simple.js"]
-                                    
+
                         "advanced"
                         ["phantomjs" :runner "dev-resources/public/js/advanced.js"]}}
        :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
@@ -246,18 +246,19 @@ complexity.
 Take into account that even if it appears that the change has been
 very easy to be done, this is only because we already kept all the
 `:dev` setting, but the `:test-paths` option, separated in the
-original `project.clj` and the efforts we did in applying the
-separation of concerns principle are now paying us back.
+original `project.clj`. The efforts we did in applying the separation
+of concerns principle are now paying us back.
 
 Don't forget that you should never set any `:user` option in the
 `profiles.clj` file. Also remember that `lein` merges together three
-sources of project settings:
+sources of project configurations:
 
 * the `profiles.clj` file from the `~/.lein` directory: this file
   should contain `:user` profile's settings only;
 * the `profiles.clj` local to the project: this file should never
   contains any `:user` profile's settings;
-* the `project.clj` file.
+* the `project.clj` file: this file should never contains any `:user`
+  setting too;
 
 In case of setting conflicts, the content of the local `profiles.clj`
 takes precedence over the `project.clj` content which, in turn, takes
@@ -309,7 +310,7 @@ unit tests.
 #### Package
 
 Let's now verify if, by moving all that stuff from the
-`project.clj` file to the `profiles.clj` file, we are still in
+`project.clj` file to the `profiles.clj` file, we are still in
 control of the generated `jar` package.
 
 ```clj
@@ -338,7 +339,8 @@ be verified is the bREPL activation.
 
 #### bREPLing with Enfocus
 
-Issue the following commands at the terminal window from the main project directory:
+Issue the following commands at the terminal window from the main
+project directory:
 
 ```clj
 lein repl
@@ -365,8 +367,8 @@ nil
 cljs.user=>
 ```
 
-and then visit the [localhost:3000][5] URL to activate the bREPL
-connection for interacting with the JS Engine of your browser.
+Visit the [localhost:3000][5] URL to activate the bREPL connection for
+interacting with the JS Engine of your browser.
 
 ```clj
 cljs.user=> (+ 1 41)
@@ -395,16 +397,16 @@ reached our destination from which to start again a new journey by
 implementing unit tests for the `Enfocus` lib.
 
 I discussed a lot with [Creighton Kirkendall][6] about how to unit
-test its lib. At the beginning, we had two completly different views
+test its lib. At the beginning, we had two completely different views
 of this topic.
 
-Being `Enfocus` a live DOM manipulation lib, he worries a lot about
+Being `Enfocus` a live DOM manipulation lib, he worried a lot about
 the need to have a visual confirmation of its correctness on any
-browser. My obsession with the application of the *separation of
-concerns principle* drove me instead in finding a way to keep the unit
-tests which do not need a visual confirmation separated from the unit
-tests which eventually need to be visualized in any browser to be
-confirmed.
+browser. On the contrary, my obsession with the application of the
+*separation of concerns principle* drove me in looking for a way to
+keep the unit tests which do not need a visual confirmation separated
+from the unit tests which eventually need to be visualized in any
+browser to be confirmed.
 
 He's more a front-end guy. I'm more a back-end guy and this is a good
 opportunity to fortify the `Enfocus` lib by taking the best of the two
@@ -426,8 +428,8 @@ My personal unit testing strategy is very simple to be explained:
 
 The steps `4.`, `5.`, and `6.` can be interleaved, depending on your
 patience in filling up the regular use cases for each public symbol of
-a namespace. My patience with unit testing is close to nil and most of
-the times I unit test the edge cases and very few regular uses case
+a namespace. My patience with unit testing is close to `nil` and most
+of the times I unit test the edge cases and very few regular uses case
 only.
 
 ### The most indipendent namespace
@@ -440,8 +442,8 @@ The `Enfocus` lib defines five namespaces:
 * `enfocus.enlive.syntax`
 * `enfocus.macros`
 
-By looking at the namespaces' declarations the most independent one is
-`enfocus.enlive.syntax`.
+By looking at the namespaces' declarations, the most independent one
+is `enfocus.enlive.syntax`.
 
 ```clj
 (ns enfocus.enlive.syntax)
@@ -452,31 +454,18 @@ and by the `enfocus.core` namespace.
 
 ```clj
 (ns enfocus.macros
-  (:refer-clojure :exclude [filter delay])
-  (:require [clojure.java.io :as io]
+  (:refer-clojure :exclude ...)
+  (:require ...
             [enfocus.enlive.syntax :as syn]) ; here
-  (:import [org.jsoup.Jsoup]))
+  (...]))
 ```
 
 ```clj
 (ns enfocus.core
-  (:refer-clojure :exclude [filter delay])
-  (:require [enfocus.enlive.syntax :as en] ; here
-            [goog.net.XhrIo :as xhr]
-            [goog.dom.query :as query]
-            [goog.style :as style]
-            [goog.events :as events]
-            [goog.dom :as dom]
-            [goog.dom.classes :as classes]
-            [goog.dom.ViewportSizeMonitor :as vsmonitor]
-            [goog.async.Delay :as gdelay]
-            [goog.Timer :as timer]
-            [clojure.string :as string]
-            [domina :as domina]
-            [domina.css :as dcss]
-            [domina.xpath :as xpath])
-  (:require-macros [enfocus.macros :as em]
-                   [domina.macros :as dm]))
+  (:refer-clojure :exclude ...)
+  (:require [enfocus.enlive.syntax :as en]
+            ...)
+  (:require-macros ...))
 ```
 
 ### The used public symbols of the most independent namespace
@@ -493,7 +482,7 @@ Go on searching for the used public symbols from the
 Surprise! Even the `enfocus.core` namespace only uses the `convert`
 symbol from the the `enfocus.enlive.syntax` namespace. That's very
 good for my laziness regarding unit testing, because by following my
-unit testing strategy we have to unit test the `enfocus.enlive.syntax`
+unit testing strategy we could unit test the `enfocus.enlive.syntax`
 namespace for the `convert` symbol only.
 
 #### Back to CLJX
@@ -515,7 +504,7 @@ to add it in the `:dev` profile which has been kept separated from the
        ...
        :plugins [...
                  [com.keminglabs/cljx "0.3.0"]]
-        
+
        :cljx {:builds [{:source-paths ["test/cljx"]
                         :output-path "target/test/clj"
                         :rules :clj}
@@ -523,8 +512,8 @@ to add it in the `:dev` profile which has been kept separated from the
                        {:source-paths ["test/cljx"]
                         :output-path "target/test/cljs"
                         :rules :cljs}]}
-           
-       :cljsbuild 
+
+       :cljsbuild
        {:builds {:whitespace
                  {:source-paths ["src/cljs" "test/cljs" "src/brepl" "target/test/cljs"]
                   ...}
@@ -551,6 +540,10 @@ The second rule, `:cljs`, does almost the same thing, but instead of
 emitting `clj` files it emits `cljs` and save them into the
 `"target/test/cljs"` directory.
 
+Note that we updated the `:test-paths`, which is specific for the CLJ
+unit tests, and all `:source-paths` of the interested CLJS builds as
+well.
+
 #### Ported Unit Tests
 
 Now that we have added and configure the `cljx` plugin we can start
@@ -563,7 +556,8 @@ mkdir -p test/cljx/enfocus/enlive
 
 Now create the `syntax_test.cljx` file in that directory and declare
 its namespace for both CLJ and CLJS by using the `#+clj` and the
-`#+cljs` feature annotation as we did in the cited [Tutorial 16][7].
+`#+cljs` feature annotation as we did in the cited
+[Tutorial 16 - It's better to be safe than sorry (Part 3)][7].
 
 ```clj
 #+clj (ns enfocus.enlive.syntax-test
@@ -575,9 +569,9 @@ its namespace for both CLJ and CLJS by using the `#+clj` and the
          (:require [cemerick.cljs.test :as t]
                    [enfocus.enlive.syntax :refer [convert]]))
 
-(deftest convert-test 
-  (testing "Unit Test for *convert* function\n"
-    
+(deftest convert-test
+  (testing "Unit Test for (convert arg) function\n"
+
     (testing "Edge Cases\n"
         (are [expected actual] (= expected actual)
             true false))))
@@ -589,15 +583,15 @@ up is working as expected.
 
 #### Light the fire
 
-As noted in the [Tutorial 16][7], even if the `cljx` plugin can be
-hooked to `lein` tasks as we did for the `cljsbuild` plugin, the
+As noted in the cited [Tutorial 16][7], even if the `cljx` plugin can
+be hooked to `lein` tasks as we did for the `cljsbuild` plugin, the
 interaction between them produces unexpected results (i.e. double
 compilation) when are both hooked to `lein` tasks.
 
 This bug can be easily worked around by just explicitly call the `lein
 cljx once` command before issuing the `lein compile` command which
-compiles down the CLJS builds. To save some typings we are going to
-use the `lein do` chain of tasks command.
+compiles down the CLJS builds. To save some typing we are going to use
+the `lein do` chain of commands.
 
 ```bash
 lein do clean, cljx once, compile
@@ -618,7 +612,7 @@ Compiling "dev-resources/public/js/deploy.js" from ["src/cljs"]...
 Successfully compiled "dev-resources/public/js/deploy.js" in 2.889881 seconds.
 ```
 
-Not bad so far. As you can see the `cljx` plugin made its rewriting
+Not bad so far. As you can see, the `cljx` plugin made its rewriting
 work and then the `cljsbuild` plugin made its job too by compiling
 down all the defined builds that now include the CLJS files generated
 by the `cljx` plugin (at the moment just the `syntax_test.cljs` source
@@ -650,7 +644,7 @@ target/cljsbuild-compiler-0/enfocus/enlive/
 8 directories, 5 files
 ```
 
-Not bad so far, but let's now test the tests.
+Not bad so far. Let's now test the tests.
 
 ```bash
 lein test
@@ -765,8 +759,9 @@ As I repeated more times, I don't like at all to write unit tests, but
 I have to admit that the implementation of few unit tests covering the
 edge cases could be very useful in clarifying the semantic/behavior of
 the function under testing. Sometimes you'll find few surprises as
-well. Those kind of surprises that it's better not to receive months
-later, when you don't even remember the name of the project.
+well. Those kind of surprises that it's better not to take care of
+even few months later, when you don't even remember the name of the
+involved project.
 
 Before coding the unit test, let's take a look at the `convert`
 definition.
@@ -794,12 +789,12 @@ only which could be a *string* or something reducible to a string
 ```clj (deftest convert-test
 
   (testing "Unit Test for (convert arg)\n"
-    
+
     (testing "Edge Cases\n"
-      
-      (testing "(convert a-val)" 
+
+      (testing "(convert a-val)"
                (are [expected actual] (= expected actual)
-                    
+
                     ;; extreme values for considered input type
                     nil (convert nil)
                     "" (convert "")
@@ -810,37 +805,39 @@ only which could be a *string* or something reducible to a string
                     "" (convert #{}))))))
 ```
 
-As an expected return value we chosen to have only a *string* or
-`nil`. The only case in which we expect the `convert` function returns
-`nil` is when the input value is `nil` as well.
+As expected return values we chosen to have only a *string* or
+`nil`. The only case in which we expect the `convert` function to
+return `nil` is when the input value is `nil` as well.
 
 #### Light the fire
 
 Aren't you curious about the unit testing results? But wait a minute.
 
-I suggest you to adopt an effective workflow, otherwise you'll get
-crazy in restarting again and again everything each time you modify a
-unit test in the `syntax_test.cljx` file.
+I suggest to adopt an effective workflow, otherwise you'll get crazy
+in restarting again and again everything each time you modify a unit
+test in the `syntax_test.cljx` file.
 
-Following is my personal workflow, when I want to be agnostic about
-the editor/IDE adoped by me for CLJ/CLJS programming.
+Following is my personal workflow (when I want to be agnostic about
+the editor/IDE adopted by me for CLJ/CLJS programming).
 
 > NOTE 3: In a next tutorial we're going to introduce a more advanced
-> workflow based on the [My Clojure Workflow, reloaded][] by
-> [Stuart Sierra][].
+> workflow based on the [My Clojure Workflow, reloaded][15] by
+> [Stuart Sierra][16].
 
-As said the interaction between `cljsbuild` and `cljx` is still under
+As said, the interaction between `cljsbuild` and `cljx` is still under
 investigation, because there are few things not working as
-expected. Finally, take your time. The complete workflow, depending
-from the resources of your development computer, can take minutes,
-because we defined three testing builds and they are all recompiled
-each time you change a unit test in the `syntax.cljx` source file.
+expected. While waiting for the bug to be fixed, those bad
+interactions slow down our workflow. So, take your time.
 
-> NOTE 4: If you are in hurry I suggest you to comment out the `simple`,
-> the `advanced` builds and the corresponding test commands from the
-> `:dev` profile. When you have done with the unit tests and the almost
-> unavoidable bugs fixing and eventual code refactoring, you can
-> uncomment them back.
+The complete workflow, depending from the resources of your
+development computer, can take minutes, because we defined three
+testing builds and they are all recompiled each time you change a unit
+test in the `syntax.cljx` source file.
+
+> NOTE 4: If you are in hurry I suggest you to comment out the
+> `simple`, the `advanced` builds and the corresponding test commands
+> from the `:dev` profile. When you have done with the unit tests and
+> the almost you can uncomment them back.
 
 * In *Terminal 1*: issue the `lein do clean, cljx auto` command. It
   will clean everything and write the `clj` and `cljs` files each time
@@ -898,12 +895,11 @@ expected: (= nil (convert nil))
 Ran 1 tests containing 7 assertions.
 1 failures, 0 errors.
 Tests failed.
-Giacomo-Cosenzas-iMac:enfocus mimmo$
 ```
 
-The last command executed 7 unit tests on the `convert` function
-from. The one that failed is the `(convert nil)` which returned an
-empty string `""` instead of the expected `nil`.
+The last command executed 7 unit tests on the `convert` function. The
+one that failed is the `(convert nil)` which returned an empty string
+`""` instead of the expected `nil`.
 
 We should see the same failed test from the unit tests of the `cljs`
 code.
@@ -943,19 +939,20 @@ namespace. That's why we got 2 tests instead of 1 and we got 2 failed
 assertions instead of 1.
 
 But what about the unit test on `(convert nil)` which failed in both
-cases?
+cases (i.e. CLJ and CLJS?
 
 #### Logical true and false
 
-In the Chapter 3 of [The Joy of Clojure][] by [Michael Fogus][] and
-[Chris Hauser][] there is a nice discussion about the logical true and
-false based on the Clojure pragmatical decision by [Rich Hakey][] to
-consider everything `true` but `nil` and `false` in a boolean context.
+In the Chapter 3 of [The Joy of Clojure][11] by [Michael Fogus][12]
+and [Chris Hauser][13] there is a nice discussion about the logical
+true and false based on the Clojure pragmatical decision by
+[Rich Hakey][14] to consider everything `true` but `nil` and `false`
+in a boolean context.
 
 In a Boolean context
 
 ```clj
-if if-not when when-not and or cond etc.
+if, if-not, when, when-not, and, or, cond, etc.
 ```
 
 only `nil` and `false` are logical false,
@@ -1102,13 +1099,13 @@ Nil
 user=>
 ```
 
-Wow, a lot of things are going on here. But even without knowing
+WOW. A lot of things are going on here. But even without knowing
 anything about the internal details of this function we can
 immediately spot the bug.
 
-If the input arg is an empty collection, the `item` local var will be
-`nil` (cf. `(first [])`). The successive `cond` form has no clause for
-handle this condition. The final return value of the `sel-to-str`
+If the `input` arg is an empty collection, the `item` local var will
+be `nil` (cf. `(first [])`). The successive `cond` form has no clause
+for handle this condition. The final return value of the `sel-to-str`
 function will be the result of the `cond`, i.e. `nil` when the `input`
 arg is an empty collection.
 
@@ -1301,11 +1298,11 @@ License, the same as Clojure.
 [6]: https://github.com/ckirkendall
 [7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-20.md
-
-[6]: https://clojars.org/
-[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-19.md
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
-[9]: http://en.wikipedia.org/wiki/Same_origin_policy
-[10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
-[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
-
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
+[10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-19.md
+[11]: http://joyofclojure.com/
+[12]: https://github.com/fogus
+[13]: https://github.com/Chouser
+[14]: https://github.com/richhickey
+[15]: http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-reloaded
+[16]: https://github.com/stuartsierra
