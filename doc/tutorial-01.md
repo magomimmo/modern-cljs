@@ -133,7 +133,7 @@ plugin, the `:cljsbuild` and the `:source-paths` configurations
 >
 > The advice is to always add the pathnames configured for the
 > `cljsbuild` `:source-paths` option to the corresponding main
-> `source-paths` setting of the project itself.
+> `:source-paths` setting of the project itself as well.
 >
 > Many thanks to [David Nolen][7] for having [pointed me][8] to this
 > trouble.
