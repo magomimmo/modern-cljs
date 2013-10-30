@@ -14,12 +14,12 @@
   :min-lein-version "2.1.2"
 
   ;; clojure source code path
-  :source-paths ["src/clj"]
+  :source-paths ["src/clj" "src/cljs" "src/brepl"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
-                 [domina "1.0.2"]]
+                 [domina "1.0.3-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "0.3.4"]
             [lein-ring "0.8.7"]]
