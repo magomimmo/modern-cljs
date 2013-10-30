@@ -95,9 +95,14 @@ you need to add it to the dependencies section of `project.clj`.
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
   :dependencies [...
-                 [domina "1.0.2"]]
+                 [domina "1.0.3-SNAPSHOT"]]
   ...)
 ```
+
+> NOTE 1: Due to few bugs of the `domina 1.0.2` release pertaining the
+> access to JS object properties when used with the `r1978` CLJS
+> release, I added the `1.0.3-SNAPSHOT` release which fixed those
+> bugs.
 
 ## Domina selectors
 
@@ -113,11 +118,11 @@ anticipated, the `domina` core namespace offers other useful functions we're
 going to use: `(value el)`, which returns the value of the passed
 element, and `(set-value! el value)` which sets its value.
 
-> Note 1: when a function modifies an argument passed to it, by Clojure
+> NOTE 2: when a function modifies an argument passed to it, by Clojure
 > naming convention a bang "!" is added at the end of the function
 > name.
 
-> Note 2: when you need to :use or :require a namespace, CLJS imposes
+> NOTE 3: when you need to :use or :require a namespace, CLJS imposes
 > using the :only form of :use and the :as form of :require. For further
 > differences see [the ClojureScript Wiki][8]
 
@@ -159,7 +164,7 @@ lein cljsbuild once # in a new terminal and after having cd in modern-cljs
 lein trampoline cljsbuild repl-listen
 ```
 
-> Note 3: be sure to `cd` to the home directory of the project in each
+> NOTE 4: be sure to `cd` to the home directory of the project in each
 > terminal you open.
 
 Open <http://localhost:3000/login.html>, and when the CLJS repl becomes responsive,

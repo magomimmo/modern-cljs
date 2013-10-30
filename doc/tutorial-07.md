@@ -187,7 +187,7 @@ code snippet.
 
                            ;; advanced optimization
                            :optimizations :advanced
-						   
+
                            ;; no need prettyfication
                            :pretty-print false}}
                :pre-prod
@@ -198,7 +198,7 @@ code snippet.
 
                            ;; simple optmization
                            :optimizations :simple
-						   
+
                            ;; no need prettyfication
                            :pretty-print false}}}})
 ```
@@ -377,10 +377,15 @@ mv src/cljs/modern_cljs/connect.cljs src/brepl/modern_cljs/
 
 Next update the `project.clj` file by adding the `"src/brepl"` directory
 to the `:source-paths` of the `:dev` and the `:pre-prod` builds, leaving
-the `:prod` build as it was. 
+the `:prod` build as it was.
+
+> NOTE 3: remember to add the `"src/brepl" pathname to the main
+> `:source-paths` setting as well (cf. [Tutorial 1][8])
 
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
+  ...
+  :source-paths ["src/clj" "src/cljs" "src/brepl"]
   ...
   :cljsbuild {:builds
               {:dev
@@ -404,7 +409,7 @@ the `:prod` build as it was.
 
                            ;; simple optimization
                            :optimizations :simple
-						   
+
 						   ;; no need prettyfication
                            :pretty-print false}}
                :prod
@@ -416,7 +421,7 @@ the `:prod` build as it was.
 
                            ;; advanced optimization
                            :optimizations :advanced
-						   
+
 						   ;; no need prettyfication
                            :pretty-print false}}}})
 ```
@@ -430,13 +435,13 @@ lein cljsbuild clean
 lein cljsbuild once
 ```
 
-> NOTE 3: Instead of sequencially running the above tasks, you can chain
+> NOTE 4: Instead of sequencially running the above tasks, you can chain
 > them at the terminal as follows:
-> 
+>
 > ```bash
 > lein do clean, cljsbuild clean, cljsbuild once
 > ```
-> 
+>
 > Leiningen offers more options to automate composite tasks. We'll see
 > them in subsequent tutorials.
 

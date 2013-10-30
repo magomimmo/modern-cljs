@@ -97,8 +97,8 @@ plugin, the `:cljsbuild` and the `:source-paths` configurations
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  ;; CLJ source code path
-  :source-paths ["src/clj"]
+  ;; CLJ AND CLJS source code path
+  :source-paths ["src/clj" "src/cljs"]
   :dependencies [[org.clojure/clojure "1.5.1"]]
 
   ;; lein-cljsbuild plugin to build a CLJS project
@@ -119,6 +119,24 @@ plugin, the `:cljsbuild` and the `:source-paths` configurations
                            ;; generated JS code prettyfication
                            :pretty-print true}}]})
 ```
+
+> ATTENTION NOTE
+>
+> The careful reader would have noted that in the `:source-paths` option
+> pertaining the project, not the one pertaining the CLJS codebase, we
+> set both the CLJ and CLJS pathnames of their codebase.
+>
+> This is because the `cljsbuild` plugin does not add back to the
+> project `classpath` the CLJS codebase set in its own `:source-paths`
+> option. This will not be an issue until you start using a bREPL
+> connection (cf. see next tutorials).
+>
+> The advice is to always add the pathnames configured for the
+> `cljsbuild` `:source-paths` option to the corresponding main
+> `source-paths` setting of the project itself.
+>
+> Many thanks to [David Nolen][7] for having [pointed me][8] to this
+> trouble.
 
 ## Create a CLJS source file
 
@@ -237,3 +255,5 @@ License, the same as Clojure.
 [4]: http://docs.oracle.com/javase/specs/jls/se7/html/jls-6.html
 [5]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/hellocljs.png
 [6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[7]: https://github.com/swannodette
+[8]: https://groups.google.com/forum/#!topic/clojurescript/CT0aDLgLxW8
