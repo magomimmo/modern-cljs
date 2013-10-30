@@ -385,7 +385,7 @@ the `:prod` build as it was.
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
-  :source-paths ["src/clj" "src/cljs" "src/brepl"]
+  :source-paths ["src/clj" "src/cljs" "src/brepl"] ; added src/brepl
   ...
   :cljsbuild {:builds
               {:dev
