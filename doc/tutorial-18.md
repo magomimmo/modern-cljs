@@ -536,30 +536,42 @@ project lifecycle and you should consider it just as a staring point.
 * the `:aliases` section, because they both chain the `cljx` task,
   which we're going to move into the `:dev` profile.
 
-Finally I think that we could move to the `:dev` profile the
-`lein-cljsbuild` builds configurations declared to support the
-`:whitespace` and `:simple` compiler optimizations as well, because we
-probably don't want to deploy in production any code that has not been
-optimized to its maximum level.
+Finally we could move to the `:dev` profile the `lein-cljsbuild`
+builds configurations declared to support the `:whitespace` and
+`:simple` compiler optimizations as well. As we'll see in a subsequent
+tutorial, `cljsbuild` offers a `:crossover-jar` and a `:jar' to
+specify which `:source-paths` CLJS pathnames to include into a `jar`
+package to be published or distributed to third party. At the moment
+we don't care about this.
 
 Here is the resulting `project.clj` file obtained by moving all those
 stuff under the `:dev` profile.
 
-```bash
+```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "A series of tutorials on ClojureScript"
+  :url "https://github.com/magomimmo/modern-cljs"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
+
+  :pom-addition [:developers [:developer
+                              [:id "magomimmo"]
+                              [:name "Mimmo Cosenza"]
+                              [:url "https://github.com/magomimmo"]
+                              [:email "mimmo.cosenza@gmail.com"]
+                              [:timezone "+2"]]]
+
+  :test-paths ["target/test/clj"]
+
   :min-lein-version "2.2.0"
 
-  :source-paths ["src/clj"]
+  :source-paths ["src/clj" "src/cljs"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
-                 [domina "1.0.2"]
+                 [domina "1.0.3-SNAPSHOT"]
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
@@ -584,13 +596,14 @@ stuff under the `:dev` profile.
                                    :optimizations :advanced
                                    :pretty-print false}}}}
 
-  :profiles {:dev {:test-paths ["target/test/clj"]
+  :profiles {:dev {:source-paths ["src/brepl"]
+                   :test-paths ["target/test/cljs"]
                    :clean-targets ["out"]
 
                    :dependencies [[com.cemerick/piggieback "0.1.0"]]
 
                    :plugins [[com.keminglabs/cljx "0.3.0"]
-				             [com.cemerick/clojurescript.test "0.1.0"]]
+                             [com.cemerick/clojurescript.test "0.1.0"]]
 
                    :cljx {:builds [{:source-paths ["test/cljx"]
                                     :output-path "target/test/clj"
@@ -654,119 +667,23 @@ stuff under the `:dev` profile.
 > `(browser-brepl)` function from a `lein repl` session, we added to
 > the `:dev` profile the `:clean-targets ["out"]` option.
 
-The following *nix command (sorry for any MS Windows users, but I
-don't know that OS) allows you to verify the differences between the
-`:user` and the `:dev` profiles.
+> NOTE 10: We moved the `"src/brepl"` from the main Leiningen
+> `:source-paths` to the corresponding `:source-path` living in the
+> `:dev` profile. Again, this is because it pertains the development
+> phase (probably you don't want an active bREPL in production).
+
+> NOTE 11: We moved the `"target/test/cljs"` pathname from the main
+> Leiningen `:test-paths` to the corresponding `:test-paths` in the
+> `:dev` profile as well. Again, the reason why is the fact the it
+> pertains the development/testing phases of the project.
+
+If you're curious an patient in reading the `diff` command result, the
+following *nix command (sorry for any MS Windows users, but I don't
+know that OS) allows you to verify the differences between the `:user`
+and the `:dev` profiles.
 
 ```bash
 diff <(lein with-profiles user pprint) <(lein with-profiles dev pprint)
-1c1
-< Performing task 'pprint' with profile(s): 'user'
----
-> Performing task 'pprint' with profile(s): 'dev'
-7a8,9
->  :repl-options
->  {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]},
-9c11,12
-<  ([org.clojure/clojure "1.5.1"]
----
->  ([com.cemerick/clojurescript.test "0.1.0"]
->   [org.clojure/clojure "1.5.1"]
-17c20,21
-<   [enlive/enlive "1.1.4"]),
----
->   [enlive/enlive "1.1.4"]
->   [com.cemerick/piggieback "0.1.0"]),
-33,34c37,81
-<  {:builds
-<   {:prod
----
->  {:test-commands
->   {"phantomjs-simple"
->    ["phantomjs"
->     "/var/folders/tk/z1bphx1j70vfrm7w4hpm5nb00000gn/T/test-runner9057687890723475668.js"
->     "target/test/js/testable_pre.js"],
->    "phantomjs-whitespace"
->    ["phantomjs"
->     "/var/folders/tk/z1bphx1j70vfrm7w4hpm5nb00000gn/T/test-runner9057687890723475668.js"
->     "target/test/js/testable_dbg.js"],
->    "phantomjs-advanced"
->    ["phantomjs"
->     "/var/folders/tk/z1bphx1j70vfrm7w4hpm5nb00000gn/T/test-runner9057687890723475668.js"
->     "target/test/js/testable.js"]},
->   :builds
->   {:advanced-unit-tests
->    {:source-paths ["src/cljs" "target/test/cljs"],
->     :compiler
->     {:pretty-print false,
->      :output-to "target/test/js/testable.js",
->      :optimizations :advanced}},
->    :simple-unit-tests
->    {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"],
->     :compiler
->     {:pretty-print false,
->      :output-to "target/test/js/testable_pre.js",
->      :optimizations :simple}},
->    :dev
->    {:source-paths ["src/brepl" "src/cljs"],
->     :compiler
->     {:pretty-print true,
->      :output-to "resources/public/js/modern_dbg.js",
->      :optimizations :whitespace}},
->    :ws-unit-tests
->    {:source-paths ["src/brepl" "src/cljs" "target/test/cljs"],
->     :compiler
->     {:pretty-print true,
->      :output-to "target/test/js/testable_dbg.js",
->      :optimizations :whitespace}},
->    :pre-prod
->    {:source-paths ["src/brepl" "src/cljs"],
->     :compiler
->     {:pretty-print false,
->      :output-to "resources/public/js/modern_pre.js",
->      :optimizations :simple}},
->    :prod
-127a175,182
->  :cljx
->  {:builds
->   [{:source-paths ["test/cljx"],
->     :rules :clj,
->     :output-path "target/test/clj"}
->    {:source-paths ["test/cljx"],
->     :rules :cljs,
->     :output-path "target/test/cljs"}]},
-131,136c186,187
-<   [lein-pprint/lein-pprint "1.1.1"]
-<   [lein-ancient/lein-ancient "0.4.4"]
-<   [lein-bikeshed/lein-bikeshed "0.1.3"]
-<   [lein-try/lein-try "0.3.2"]
-<   [alembic/alembic "0.2.0"]
-<   [lein-marginalia/lein-marginalia "0.7.1"]),
----
->   [com.keminglabs/cljx "0.3.0"]
->   [com.cemerick/clojurescript.test "0.1.0"]),
-144a196,203
->  :injections
->  [(require
->    '[cljs.repl.browser :as brepl]
->    '[cemerick.piggieback :as pb])
->   (defn
->    browser-repl
->    []
->    (pb/cljs-repl :repl-env (brepl/repl-env :port 9000)))],
-150,152c209,216
-<  :test-paths ("/Users/mimmo/tmp/modern-cljs/test"),
-<  :clean-targets [:target-path],
-<  :aliases nil}
----
->  :test-paths
->  ("/Users/mimmo/tmp/modern-cljs/target/test/clj"
->   "/Users/mimmo/tmp/modern-cljs/test"),
->  :clean-targets (:target-path "out"),
->  :aliases
->  {"clean-start!"
->   ["do" "clean," "cljx" "once," "compile," "ring" "server-headless"],
->   "clean-test!" ["do" "clean," "cljx" "once," "compile," "test"]}}
 ```
 
 Don't forget that the content of this part of the tutorial is just a
