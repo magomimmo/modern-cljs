@@ -120,23 +120,22 @@ plugin, the `:cljsbuild` and the `:source-paths` configurations
                            :pretty-print true}}]})
 ```
 
-> ATTENTION NOTE
+> ************************ ATTENTION NOTE *****************************
 >
-> The careful reader would have noted that in the `:source-paths` option
-> pertaining the project, not the one pertaining the CLJS codebase, we
-> set both the CLJ and CLJS pathnames of their codebase.
+> The careful reader would have noted that the `:source-paths` option
+> pertaining the project, the so called Leiningen `:source-paths`, has
+> been valued by adding to it the pathaname value of the `:source-paths`
+> specific to the `:cljsbuild` build.
 >
-> This is because the `cljsbuild` plugin does not add back to the
-> project `classpath` the CLJS codebase set in its own `:source-paths`
-> option. This will not be an issue until you start using a bREPL
-> connection (cf. see next tutorials).
+> This is because the `cljsbuild` plugin does not automatically add back
+> to the project `classpath` the CLJS pathnames configured in its own
+> `:source-paths` option.
 >
-> The advice is to always add the pathnames configured for the
-> `cljsbuild` `:source-paths` option to the corresponding main
-> `:source-paths` setting of the project itself as well.
+> This is an almost hidden requirement which, if not satisfied, will
+> generate bugs very difficult to be caught.
 >
-> Many thanks to [David Nolen][7] for having [pointed me][8] to this
-> trouble.
+> Many thanks to [David Nolen][7] and [Chas Emerick][9] for having
+> [pointed me][8] to this trouble.
 
 ## Create a CLJS source file
 
@@ -257,3 +256,4 @@ License, the same as Clojure.
 [6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
 [7]: https://github.com/swannodette
 [8]: https://groups.google.com/forum/#!topic/clojurescript/CT0aDLgLxW8
+[9]: https://github.com/cemerick
