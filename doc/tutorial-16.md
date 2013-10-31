@@ -169,11 +169,14 @@ the three new CLJS builds we're going to configure for emitting the
 corresponding JS code.
 
 Here is the code snippet you have to add to your `profile.clj` file in
-the `:builds` section of the `:cljsbuild` option configuration.
+both to the the `:builds` section of the `:cljsbuild` option
+configuration and to the Leiningen `:test-paths` (cf. ATTENTION NOTE
+in [Tutorial 1 - The Basics][22].
 
 ```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
+  :test-paths ["test/clj" "test/cljs"]
   :cljsbuild {...
               :builds
               {:ws-unit-tests
@@ -188,7 +191,7 @@ the `:builds` section of the `:cljsbuild` option configuration.
                            :optimizations :whitespace
                            ;; prettyfying emitted JS
                            :pretty-print true}}
-               
+
                :simple-unit-tests
                {;; same path as above
                 :source-paths ["src/brepl" "src/cljs" "test/cljs"]
@@ -201,7 +204,7 @@ the `:builds` section of the `:cljsbuild` option configuration.
 
                            ;; no need prettification
                            :pretty-print false}}
-               
+
                :advanced-unit-tests
                {;; same path as above
                 :source-paths ["src/cljs" "test/cljs"]
@@ -348,17 +351,17 @@ the `phantomjs-whitespace`, the `phantomjs-simple` and the
 section of the `:cljsbuild` task. So far so good.
 
 > NOTE 4: If you want to run the tests just for one build do as follows:
-> 
+>
 > ```bash
 > lein cljsbuild test phantomjs-whitespace
 > Compiling ClojureScript.
 > Running ClojureScript test: phantomjs-whitespace
 > Testing modern-cljs.shopping.validators-test
-> 
+>
 > Ran 1 tests containing 13 assertions.
-> 
+>
 > 0 failures, 0 errors.
-> 
+>
 > {:fail 0, :pass 13, :test 1, :type :summary, :error 0}
 > ```
 
@@ -558,7 +561,7 @@ Following is the interested code snippet from the `project.clj`
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
   ...
-  :test-paths ["target/test/clj"] ;; for CLJ unit test
+  :test-paths ["target/test/clj" "target/test/cljs] ;; See ATTENTION NOTE in tutorial-01
   ...
   ...
   :plugins [...
@@ -625,9 +628,12 @@ files.
 > smart trick.
 
 Accordingly to the above choice, we had to modify the leiningen
-`:test-paths` option with the `["target/test/clj"]` value in such a
-way that the `lein test` command used to run the CLJ unit tests
-knows where to find the generated files.
+`:test-paths` option with the `["target/test/clj" "target/test/cljs]`
+value in such a way that the `lein test` command used to run the CLJ
+unit tests knows where to find the generated files and to respect the
+fact that `cljsbuild` does not add back CLJS pathnames to the
+Leiningen `classpath` (cf. ATTENTION NOTE in
+[Tutorial 1 - The Basics][22].
 
 *Mutatis mutandis*, we had to update the `:source-paths` option for
 each `cljsbuild` unit testing build by including the
@@ -817,3 +823,4 @@ License, the same as Clojure.
 [19]: https://github.com/technomancy/leiningen
 [20]: https://github.com/cgrand/enlive
 [21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-17.md
+[22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
