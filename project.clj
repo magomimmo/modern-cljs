@@ -14,13 +14,14 @@
   :min-lein-version "2.1.3"
 
   ;; clojure source code path
-  :source-paths ["src/clj"]
-  :test-paths ["target/test/clj"]
+  :source-paths ["src/clj" "src/cljs" "src/brepl"]
+  :test-paths ["target/test/clj" "target/test/cljs"]
+
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
-                 [domina "1.0.2"]
+                 [domina "1.0.3-SNAPSHOT"]
                  [shoreleave/shoreleave-remote-ring "0.3.0"]
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [com.cemerick/valip "0.3.2"]
