@@ -277,7 +277,7 @@ interaction with the just-added validator is working as expected.
 
 ```bash
 rm -rf out # it's better to be safe than sorry
-lein do clean, cljsbuild clean, cljsbuild auto dev # it's better to be safe than sorry 
+lein do clean, cljsbuild clean, cljsbuild auto dev # it's better to be safe than sorry
 lein ring server-headless # in a new terminal
 ```
 
@@ -371,10 +371,10 @@ As you can see, we added three namespaces to the `:crossovers` option:
 To have a much better understanding of the `:crossovers` option I
 strongly recommend you read the [original documentation][12].
 
-> NOTE 5: When you use the `:crossovers` option, you do not need to add
-> anything to the main Leiningen `:source-paths` from the
-> `:source-paths` pertaining the builds used for bREPLing with the
-> project because the corresspongin CLJ codebase is already there.
+> NOTE 5: When you use the `:crossovers` option, you do not need to
+> add anything to the main Leiningen `:source-paths` from the
+> `:source-paths` pertaining the CLJS builds because the corresponding
+> CLJ codebase is already there.
 
 ## The magic of the Don't Repeat Yourself principle
 
@@ -414,7 +414,7 @@ the DOM.
 
 > NOTE 6: Here we used the `if-let` form. If you don't understand
 > it, I strongly suggest you to search the web for their
-> usage. Generally speaking, [ClojureDocs][17] is a [good stop][13]. 
+> usage. Generally speaking, [ClojureDocs][17] is a [good stop][13].
 
 The next function to be reviewed is `validate-password`. As you can see,
 the modifications are almost identical.
