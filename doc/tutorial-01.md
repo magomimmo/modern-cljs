@@ -120,7 +120,7 @@ plugin, the `:cljsbuild` and the `:source-paths` configurations
                            :pretty-print true}}]})
 ```
 
-> ************************ ATTENTION NOTE *****************************
+> ATTENTION NOTE
 >
 > The careful reader would have noted that the `:source-paths` option
 > pertaining the project, the so called Leiningen `:source-paths`, has
