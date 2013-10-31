@@ -379,7 +379,7 @@ Next update the `project.clj` file by adding the `"src/brepl"` directory
 to the `:source-paths` of the `:dev` and the `:pre-prod` builds, leaving
 the `:prod` build as it was.
 
-> NOTE 3: remember to add the `"src/brepl" pathname to the main
+> NOTE 3: remember to add the `"src/brepl"` pathname to the main
 > `:source-paths` setting as well (cf. [Tutorial 1][8])
 
 ```clojure
@@ -390,7 +390,7 @@ the `:prod` build as it was.
   :cljsbuild {:builds
               {:dev
                {;; clojurescript source code path
-                :source-paths ["src/brepl" "src/cljs"] ;;; added "src/brepl"
+                :source-paths ["src/brepl" "src/cljs"] ; "src/brepl"
 
                 ;; Google Closure Compiler options
                 :compiler {;; the name of emitted JS script file
@@ -402,7 +402,7 @@ the `:prod` build as it was.
                            :pretty-print true}}
                :pre-prod
                {;; clojurescript source code path
-                :source-paths ["src/brepl" "src/cljs"] ;;; added "src/brepl"
+                :source-paths ["src/brepl" "src/cljs"] ; added "src/brepl"
 
                 :compiler {;; different JS output name
                            :output-to "resources/public/js/modern_pre.js"
