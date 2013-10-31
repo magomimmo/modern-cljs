@@ -14,7 +14,7 @@
   :min-lein-version "2.1.2"
 
   ;; clojure source code path
-  :source-paths ["src/clj"]
+  :source-paths ["src/clj" "src/cljs" "src/brepl"]
   ;; clojure source test path
   :test-paths ["test/clj"]
 
