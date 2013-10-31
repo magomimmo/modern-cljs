@@ -371,6 +371,11 @@ As you can see, we added three namespaces to the `:crossovers` option:
 To have a much better understanding of the `:crossovers` option I
 strongly recommend you read the [original documentation][12].
 
+> NOTE 5: When you use the `:crossovers` option, you do not need to add
+> anything to the main Leiningen `:source-paths` from the
+> `:source-paths` pertaining the builds used for bREPLing with the
+> project because the corresspongin CLJ codebase is already there.
+
 ## The magic of the Don't Repeat Yourself principle
 
 Here we are. We reached this point. Let's see if the magic works.
@@ -407,7 +412,7 @@ have reached. Now we are just returning any email validation error and
 passing the first of them to the `prepend!` function for manipulating
 the DOM.
 
-> NOTE 5: Here we used the `if-let` form. If you don't understand
+> NOTE 6: Here we used the `if-let` form. If you don't understand
 > it, I strongly suggest you to search the web for their
 > usage. Generally speaking, [ClojureDocs][17] is a [good stop][13]. 
 
@@ -424,7 +429,7 @@ the modifications are almost identical.
     true))
 ```
 
-> NOTE 6: As an exercise, you can define a new function, named
+> NOTE 7: As an exercise, you can define a new function, named
 > `validate-dom-element`, which extracts an abstraction from the
 > `validate-email` and `validate-password` structure definition. It's
 > just another application of the DRY principle. This could be the
@@ -458,7 +463,7 @@ Finally, we have to review the `validate-form` and the `init` function.
       (listen! password :blur (fn [evt] (validate-password password))))))
 ```
 
-> NOTE 7: To maintain the same behaviour as before, we did not
+> NOTE 8: To maintain the same behaviour as before, we did not
 > refactor the `validate-form` too much and just added `email` and
 > `password` DOM elements to `validate-form` itself.
 
@@ -555,7 +560,7 @@ As usual, we had to add the newly created namespace in the namespace
 declaration for using the `email-domain-errors` validator inside the
 `authenticate-user` function.
 
-> NOTE 8: To maintain the previous behaviour of the server-side validation
+> NOTE 9: To maintain the previous behaviour of the server-side validation
 > we're using the validators as if they were predicates which return just
 > `true` or `false`.
 
@@ -595,7 +600,7 @@ remote function as you already did in the [10th Tutorial][16] with the
              (site)))
 ```
 
-> NOTE 9: Note as we now `:require` the namespce by using the `:as` option instead
+> NOTE 10: Note as we now `:require` the namespce by using the `:as` option instead
 > of the `:refer` option because we want to use the same name for the
 > server-side-only validator and its remotization.
 
