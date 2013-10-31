@@ -103,7 +103,7 @@ you need to add it to the dependencies section of `project.clj`.
 > NOTE 1: Due to few bugs of the `domina 1.0.2` release pertaining the
 > access to JS object properties when used with the `r1978` CLJS
 > release, I added the `1.0.3-SNAPSHOT` release which fixed those
-> bugs. However, even by using the `domina 1.0.3-SNAPSHOT' release, if
+> bugs. However, even by using the `domina 1.0.3-SNAPSHOT` release, if
 > you launch the `lein trampoline cljsbuild repl-listen` command
 > you'll receive a lot of warnings due to a bug that is under
 > investigation by the CLJS developers. I strongly suggest you to
