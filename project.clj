@@ -11,15 +11,17 @@
                               [:email "mimmo.cosenza@gmail.com"]
                               [:timezone "+2"]]]
 
+  :test-paths ["target/test/clj"]
+
   :min-lein-version "2.2.0"
 
-  :source-paths ["src/clj"]
+  :source-paths ["src/clj" "src/cljs"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1847"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
-                 [domina "1.0.2"]
+                 [domina "1.0.3-SNAPSHOT"]
                  [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1-SNAPSHOT"]
                  [org.clojars.magomimmo/shoreleave-remote "0.3.1-SNAPSHOT"]
                  [com.cemerick/valip "0.3.2"]
@@ -44,13 +46,14 @@
                                    :optimizations :advanced
                                    :pretty-print false}}}}
 
-  :profiles {:dev {:test-paths ["target/test/clj"]
+  :profiles {:dev {:source-paths ["src/brepl"]
+                   :test-paths ["target/test/cljs"]
                    :clean-targets ["out"]
 
                    :dependencies [[com.cemerick/piggieback "0.1.0"]]
 
-                   :plugins [[com.cemerick/clojurescript.test "0.1.0"]
-                             [com.keminglabs/cljx "0.3.0"]]
+                   :plugins [[com.keminglabs/cljx "0.3.0"]
+                             [com.cemerick/clojurescript.test "0.1.0"]]
 
                    :cljx {:builds [{:source-paths ["test/cljx"]
                                     :output-path "target/test/clj"
@@ -108,3 +111,4 @@
                                 (defn browser-repl []
                                   (pb/cljs-repl :repl-env
                                                 (brepl/repl-env :port 9000)))]}})
+
