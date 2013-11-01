@@ -167,7 +167,9 @@ reference.
 > happens that it defines few macros in the `macros.clj` file. As you
 > know this is one of the main differences between CLJ and CLJS and
 > the CLJS macros have to be evaluted by the CLJ compiler at
-> compile-time.
+> compile-time. Personally I don't like at all to see CLJ files in
+> CLJS directory and viceversa, but most of CLJS libs which use macros
+> put the `macros.clj` file in the CLJS directory.
 
 ### Moving stuff around
 
@@ -250,8 +252,8 @@ The new directories layout needs now to be reflected in the
 ```clj
 (defproject enfocus "2.1.0-SNAPSHOT"
   ...
-  :source-paths ["src/clj"]
-  :test-paths ["test/clj"]
+  :source-paths ["src/clj" "src/cljs"] ; see ATTENTION NOTE in Tutorial-01 - The Basics
+  :test-paths ["test/clj" "test/cljs] ; see ATTENTION NOTE in Tutorial-01 - The Basics
   ...
   :plugins [[lein-cljsbuild "0.3.0"]]
   :hooks [leiningen.cljsbuild]
@@ -266,13 +268,9 @@ The new directories layout needs now to be reflected in the
 ```
 
 > NOTE 4: For logistic reasons we updated the `Enfocus` semantic version
-> to the `"2.0.1-SNAPSHOT"`. Considering that we're going to touch only
+> to the `"2.1.0-SNAPSHOT"`. Considering that we're going to touch only
 > its directories layout and its `project.clj` configuration, we
 > incremented the `patch` number only.
-
-The `:source-paths` setting for CLJ codebase is now set to read CLJ
-files only. We also added the `:test-paths` setting to host CLJ unit
-testing code, just in case we had later to take care of it.
 
 Next we hooked the `cljsbuild` subtasks to the lein tasks and
 substituted the `cljx` plugin and its `:cljx` configuration rules with
