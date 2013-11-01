@@ -264,7 +264,7 @@ numerous steps explained in the
 
 If someone of you is so kind to work on it, I'll be very happy and
 [Paul deGrandis][18] even more than me. But the one which is going to
-be the happiest is yourself, beacause you'll become a CLJS unit
+be the happiest is yourself, because you'll become a CLJS unit
 testing master.
 
 That said, at minimum we can verify if our `shoreleave/shoreleave-core
