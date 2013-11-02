@@ -161,7 +161,7 @@ option the `cljsbuild`, all we have to do is just add to the
 `cljsbuild` section the `:crossover-jar true` setting as well.
 
 ```clj
-(defproject enfocus "2.0.1-SNAPSHOT"
+(defproject 
   ...
   :cljsbuild
   {...
@@ -202,7 +202,7 @@ raise a double entry error.
 Don't you believe me? Try it.
 
 ```clj
-(defproject org.clojars.magomimmo/enfocus "2.1.0-SNAPSHOT"
+(defproject 
   ...
   :cljsbuild
   {...
@@ -906,15 +906,38 @@ cljs.user=> (+ 41 1)
 cljs.user=>
 ```
 
-Now quit the bREPL, exit the CLJ REPL and clean the project before committing your work.
+Now quit the bREPL, exit the CLJ REPL and launch the `lein jar` and
+the `jar tvf` commands to verify that the packaging is still correct.
 
 ```clj
 cljs.user=> :cljs/quit
 :cljs/quit
 user=> exit
 Bye for now!
-lein clean
 ```
+
+```bash
+lein jar
+Compiling ClojureScript.
+Created /Users/mimmo/tmp/enfocus/target/enfocus-2.1.0-SNAPSHOT.jar
+
+jar tvf target/enfocus-2.1.0-SNAPSHOT.jar
+    92 Sat Nov 02 18:24:46 CET 2013 META-INF/MANIFEST.MF
+  5116 Sat Nov 02 18:24:46 CET 2013 META-INF/maven/org.clojars.magomimmo/enfocus/pom.xml
+   165 Sat Nov 02 18:24:46 CET 2013 META-INF/maven/org.clojars.magomimmo/enfocus/pom.properties
+  3341 Sat Nov 02 18:24:46 CET 2013 META-INF/leiningen/org.clojars.magomimmo/enfocus/project.clj
+  3341 Sat Nov 02 18:24:46 CET 2013 project.clj
+     0 Sat Nov 02 11:45:38 CET 2013 enfocus/
+ 23336 Sat Nov 02 11:45:38 CET 2013 enfocus/core.cljs
+  6851 Sat Nov 02 11:45:28 CET 2013 enfocus/effects.cljs
+  4247 Sat Nov 02 11:45:38 CET 2013 enfocus/events.cljs
+     0 Sat Nov 02 11:45:38 CET 2013 enfocus/enlive/
+  1928 Sat Nov 02 11:45:38 CET 2013 enfocus/enlive/syntax.clj
+  4386 Sat Nov 02 11:45:28 CET 2013 enfocus/macros.clj
+  2103 Sat Nov 02 18:24:46 CET 2013 enfocus/enlive/syntax.cljs
+```
+
+Great. As usual, it's now time to commit your work.
 
 ```bash
 git add .
