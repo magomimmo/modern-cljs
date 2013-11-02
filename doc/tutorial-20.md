@@ -48,7 +48,7 @@ corresponding server side code and we'll give a try to [Enfocus][4].
 
 ## Living on the edge with Enfocus
 
-We'll discuss the `"2.0.0-SNAPSHOT"` relase of `Enfocus` because
+We'll discuss the `"2.0.0-beta3"` beta release of `Enfocus` because
 [Creighton Kirkendall][10], the author of the lib, is currently on the
 way to publish the next stable release which is more evoluted than the
 current `"1.0.1"`.
@@ -75,6 +75,7 @@ repo.
 cd ~/dev
 git clone https://github.com/ckirkendall/enfocus.git
 cd enfocus
+git checkout 2.0.0-beta3
 git checkout -b tutorial-20
 ```
 
@@ -114,8 +115,6 @@ it directly extends the default directories layout created by the
 `lein new any-project` command.
 
 ```bash
-tree
-.
 ├── LICENSE
 ├── README.md
 ├── dev-resources
@@ -163,14 +162,6 @@ Our first contribution to the `Enfocus` project will be to normalize
 its directories layout by using the above directories layout as a
 reference.
 
-> NOTE 1: `Enfocus` is not a true CLJ/CLJS mixed project. It just
-> happens that it defines few macros in the `macros.clj` file. As you
-> know this is one of the main differences between CLJ and CLJS and
-> the CLJS macros have to be evaluted by the CLJ compiler at
-> compile-time. Personally I don't like at all to see CLJ files in
-> CLJS directory and viceversa, but most of CLJS libs which use macros
-> put the `macros.clj` file in the CLJS directory.
-
 ### Moving stuff around
 
 Let's modify the `Enfocus` directories layout by beeing more observant
@@ -188,7 +179,7 @@ mv src/cljs/enfocus/macros.clj src/clj/enfocus/
 rm -rf cljs-src cljx-src
 ```
 
-> NOTE 2: At the moment we did not created the `dev-resources`
+> NOTE 1: At the moment we did not created the `dev-resources`
 > directory. Being `Enfocus` a CLJS lib, its static resoruces for unit
 > testing purpouse should not be parked in the `resources`
 > directory. We'll take care of that later.
@@ -217,7 +208,7 @@ code and to use the [cljx][17] plugin by [Kevin Lynagh][18] only when
 I have to deal with *annotaded* code *ported* from CLJ to CLJS or
 viceversa.
 
-> NOTE 3: It's my opinion that the only exception to this rule is when
+> NOTE 2: It's my opinion that the only exception to this rule is when
 > you have to deal with both *portable* and *ported* codebase. In such
 > a case you can use the `cljx` pluing only, and save some typing in
 > the `:clsjbuild` configuration. But you loose the explicit
@@ -252,29 +243,36 @@ The new directories layout needs now to be reflected in the
 ```clj
 (defproject enfocus "2.1.0-SNAPSHOT"
   ...
-  :source-paths ["src/clj" "src/cljs"] ; see ATTENTION NOTE in Tutorial-01 - The Basics
-  :test-paths ["test/clj" "test/cljs] ; see ATTENTION NOTE in Tutorial-01 - The Basics
+  :source-paths ["src/clj" "src/cljs"] ; see ATTENTION NOTE in tutorial-01
+  :test-paths ["test/clj" "test/cljs"] ; see ATTENTION NOTE in tutorial-01
   ...
+  ;; cljx plugin has been removed
   :plugins [[lein-cljsbuild "0.3.0"]]
+  ;; cljsbuild is now hooked to lein task
   :hooks [leiningen.cljsbuild]
-
+  
   :cljsbuild
   {:crossovers [enfocus.enlive.syntax]
-
    :builds
    [{:builds nil,
      :source-paths ["src/cljs" "test/cljs"]
-     ...}]})
+     ...
+     }]})
 ```
 
-> NOTE 4: For logistic reasons we updated the `Enfocus` semantic version
+> NOTE 3: For logistic reasons we updated the `Enfocus` semantic version
 > to the `"2.1.0-SNAPSHOT"`. Considering that we're going to touch only
 > its directories layout and its `project.clj` configuration, we
 > incremented the `patch` number only.
 
-Next we hooked the `cljsbuild` subtasks to the lein tasks and
-substituted the `cljx` plugin and its `:cljx` configuration rules with
-the corresponding `:crossovers` option, which is set to the
+As explained in the ATTENTION NOTE of the very [first tutorial][28] of
+this series, the `cljsbuild` plugin does not add back its
+`source-paths` to the Leining `:source-paths` and we need to add them
+manually. The same things has to be done for the `:test-paths` too. 
+
+We also hooked the `cljsbuild` subtasks to the lein tasks
+and substituted the `cljx` plugin and its `:cljx` configuration rules
+with the corresponding `:crossovers` option, which is set to the
 `enfocus.enlive.syntax` *portable* namespace.
 
 Finally, we set the `:source-paths` for CLJS codebase to read CLJS
@@ -325,7 +323,7 @@ the `:output-to` setting to the `"resources/public/js/enfocus.js"`
 JS file.
 
 ```bash
-(defproject enfocus "2.0.1-SNAPSHOT"
+(defproject enfocus "2.1.0-SNAPSHOT"
   ...
   :cljsbuild
   {...
@@ -448,7 +446,7 @@ resources/
 12 directories, 18 files
 ```
 
-> NOTE 5: The `cljsbuild` plugin generates the `syntax.cljs` file in
+> NOTE 4: The `cljsbuild` plugin generates the `syntax.cljs` file in
 > the default `cljsbuild-crossover` directory. This directory is
 > silently added to the `:source-paths` setting of the build for
 > emitting the `syntax.js` JS file. The `syntax.js` file is then
@@ -461,8 +459,8 @@ resources/
 ## Update dependencies and plugins
 
 Now that the directories layout is more consistent with the
-*augumented default lein template*, we can focus our attention on
-upating the `Enfocus` dependencies and plugins references.
+*augmented default lein template*, we can focus our attention on
+updating the `Enfocus` dependencies and plugins references.
 
 ### Upgrade to lein-cljsbuild `"0.3.4"`
 
@@ -475,14 +473,24 @@ implicitly downloads the `"0.0-1859"` CLJS release which, in turn,
 requires the CLJ `"1.5.1"` release.  The `"0.3.4"` release also
 requires a `lein` release `"2.1.2"` or higher.
 
-> NOTE 6: Being CLJS a very young language, it's very frequently
+> NOTE 5: Being CLJS a very young language, it's very frequently
 > updated. The latest available CLJS release at the moment of this
 > writing is the `"0.0-1856"`.
 
 Wow, four changes in one shot to be edited in the `project.clj` file.
 
+> NOTE 6: Whenever you need to change the `project.clj` file, remember
+> to first clean the project.
+> 
+> ```bash
+> lein clean
+> ```
+
+Here is the interested fragment of the changes in the `project.clj`
+file.
+
 ```clj
-(defproject enfocus "2.0.1-SNAPSHOT"
+(defproject enfocus "2.1.0-SNAPSHOT"
   ...
   :min-lein-version "2.1.2"
   ...
@@ -493,6 +501,9 @@ Wow, four changes in one shot to be edited in the `project.clj` file.
   :plugins [[lein-cljsbuild "0.3.4"]]
   ...)
 ```
+
+> NOTE 7: We explicitly set the CLJS release to `"0.0-1847"`, because
+> there are some issues with the `"0.0-1856"` one.
 
 ### Add more CLJS optimizations
 
@@ -515,7 +526,7 @@ name them, you need to change its value from a vector to a map as
 follows:
 
 ```clj
-(defproject enfocus "2.0.1-SNAPSHOT"
+(defproject enfocus "2.1.0-SNAPSHOT"
   ...
   :cljsbuild
   {...
@@ -568,7 +579,7 @@ Successfully compiled "resources/public/js/whitespace.js" in 3.366037 seconds.
 
 Good. It works.
 
-> NOTE 7: Take into account that once you hook `cljsbuild` subtasks to
+> NOTE 8: Take into account that once you hook `cljsbuild` subtasks to
 > `lein` tasks, if you want to compile a named `cljsbuild` build
 > (e.g. `whitespace`) you can't pass its name to the `lein compile`
 > task. You have to use the `lein cljsbuild once whitespace` or `lein
@@ -625,7 +636,7 @@ the `:test-commands` setting in the `:cljsbuild` section of the
 `project.clj` file [as we did][24] in the context of the `modern-cljs`
 project.
 
-> NOTE 8: Unfortunately, AFIK, there is no way to add `phantomjs` as a
+> NOTE 9: Unfortunately, AFIK, there is no way to add `phantomjs` as a
 > dependency in a project. This means that you have to donwload and
 > install it apart from the project itself.
 
@@ -633,7 +644,7 @@ The table is now set and can now modify the `project.clj` by adding
 the [clojurescript.test][11] lib and the `:test-commands` setting.
 
 ```clj
-(defproject enfocus "2.0.1-SNAPSHOT"
+(defproject enfocus "2.1.0-SNAPSHOT"
   ...
   :plugins [...
             [com.cemerick/clojurescript.test "0.1.0"]]
@@ -650,10 +661,10 @@ the [clojurescript.test][11] lib and the `:test-commands` setting.
                    ["phantomjs" :runner "resources/public/js/advanced.js"]}})
 ```
 
-As you see we added the `clojurescript.test` in the `:plugin` section
+As you see we added the `clojurescript.test` in the `:plugins` section
 and a test command for each JS file emitted by each build.
 
-> NOTE 9: At the moment we don't care about differentiating lein
+> NOTE 10: At the moment we don't care about differentiating lein
 > profiles. This is something we'll afford later.
 
 ### Light the fire
@@ -677,27 +688,139 @@ WARNING: set-print-fn! already refers to: cljs.core/set-print-fn! being replaced
 Successfully compiled "resources/public/js/whitespace.js" in 8.730157 seconds.
 ```
 
-> NOTE 10: You [already know][27] about the above *WARNING* caused by the
+> NOTE 11: You [already know][27] about the above *WARNING* caused by the
 > `clojurescript.test` lib.
 
 Not bad, `Enfocus` is still compiling as expected. Even if we still
 have to implement unit tests, we set everything in place.
 
-> NOTE 11: If you issue the `lein test` command without having defined
-> any CLJS unit test yet, you'll receive more error messages. To
-> overcome this problem you can create a single CLJS unit test file
-> (e.g. `test/cljs/enfocus/core-test.clj`) containing the
-> corresponding namespace declaration and a failing unit test, just to
-> remember at each run that the unit tests have to be implemented yet.
->
-> ```clj
-> (ns enfocus.core-test
->   (:require-macros [cemerick.cljs.test :as m :refer (is deftest)])
->   (:require [cemerick.cljs.test :as t]))
->
-> (deftest empty-test
->   (is (= 0 1)))
->```
+If you issue the `lein test` command without having defined
+any CLJS unit test yet, you'll receive more error messages.
+
+```bash
+lein test
+Compiling ClojureScript.
+
+lein test user
+
+Ran 0 tests containing 0 assertions.
+0 failures, 0 errors.
+Running all ClojureScript tests.
+ReferenceError: Can't find variable: cemerick
+
+  phantomjs://webpage.evaluate():2
+  phantomjs://webpage.evaluate():5
+  phantomjs://webpage.evaluate():5
+ReferenceError: Can't find variable: cemerick
+
+  phantomjs://webpage.evaluate():2
+  phantomjs://webpage.evaluate():5
+  phantomjs://webpage.evaluate():5
+ReferenceError: Can't find variable: cemerick
+
+  phantomjs://webpage.evaluate():2
+  phantomjs://webpage.evaluate():5
+  phantomjs://webpage.evaluate():5
+ReferenceError: Can't find variable: cemerick
+
+  phantomjs://webpage.evaluate():2
+  phantomjs://webpage.evaluate():5
+  phantomjs://webpage.evaluate():5
+ReferenceError: Can't find variable: cemerick
+
+  phantomjs://webpage.evaluate():2
+  phantomjs://webpage.evaluate():5
+  phantomjs://webpage.evaluate():5
+ReferenceError: Can't find variable: cemerick
+
+  phantomjs://webpage.evaluate():2
+  phantomjs://webpage.evaluate():5
+  phantomjs://webpage.evaluate():5
+Subprocess failed
+```
+
+To overcome this problem you can create a single CLJS unit test file
+(e.g. `test/cljs/enfocus/core-test.clj`) containing the
+corresponding namespace declaration and a failing unit test, just to
+remember at each run that the unit tests have to be implemented yet.
+
+```clj
+(ns enfocus.core-test
+  (:require-macros [cemerick.cljs.test :as m :refer (is deftest)])
+  (:require [cemerick.cljs.test :as t]))
+
+(deftest empty-test
+  (is (= 0 1)))
+```
+
+If you now recompile everything you'll not receive those warning anymore.
+
+```bash
+lein do clean, compile, test
+Deleting files generated by lein-cljsbuild.
+Compiling ClojureScript.
+Compiling "resources/public/js/simple.js" from ["src/cljs" "test/cljs"]...
+...
+lein test user
+
+Ran 0 tests containing 0 assertions.
+0 failures, 0 errors.
+Running all ClojureScript tests.
+
+Testing enfocus.core-test
+
+FAIL in (empty-test) (:)
+expected: (= 0 1)
+  actual: (not (= 0 1))
+
+Ran 1 tests containing 1 assertions.
+1 failures, 0 errors.
+{:test 1, :pass 0, :fail 1, :error 0, :type :summary}
+
+Testing enfocus.core-test
+
+FAIL in (empty-test) (:)
+expected: (= 0 1)
+  actual: (not (= 0 1))
+
+Ran 1 tests containing 1 assertions.
+1 failures, 0 errors.
+{:test 1, :pass 0, :fail 1, :error 0, :type :summary}
+
+Testing enfocus.core-test
+
+FAIL in (empty-test) (:)
+expected: (= 0 1)
+  actual: (not (= 0 1))
+
+Ran 1 tests containing 1 assertions.
+1 failures, 0 errors.
+{:test 1, :pass 0, :fail 1, :error 0, :type :summary}
+Subprocess failed
+```
+
+Good. As you see after the usual compilation, now the unit tests for
+each CLJS build return the expected failing result. Note that the
+`lein test` executes all the three `test-commands`. If you want to
+execute just one of them you need to run the `lein cljsbuild test`
+command as follows:
+
+```bash
+lein cljsbuild test whitespace
+Compiling ClojureScript.
+Running ClojureScript test: whitespace
+
+Testing enfocus.core-test
+
+FAIL in (empty-test) (:)
+expected: (= 0 1)
+  actual: (not (= 0 1))
+
+Ran 1 tests containing 1 assertions.
+1 failures, 0 errors.
+{:test 1, :pass 0, :fail 1, :error 0, :type :summary}
+Subprocess failed
+```
 
 ### Commit your work
 
@@ -712,16 +835,16 @@ the builds and remove the empty directories `project` and `testing`.
 lein clean
 git add .
 git rm -r project testing
-git commit -m "learn by contributing"
+git commit -m "learn by contributing - part 1"
 ```
 
 > NOTE 12: Git doesn't allow to add empty directories to a repo
-> [without doing some tricks][25] and when you checkout the branch
-> you'll not find those empty directories anymore (e.g. `test/clj` and
-> `resorces`).  If you really want to track those directories right
-> now without following the above trick, you can just `touch` a file
-> for each empty directory and then issue the `git commit -am "touch
-> few file to track empty directories"`.
+> [without doing some tricks][25] and when you'll checkout the branch
+> again you'll not find those empty directories anymore
+> (e.g. `test/clj` and `resources`).  If you really want to track those
+> directories right now without following the above trick, you can
+> just `touch` a file for each empty directory and then issue the `git
+> commit -am "touch few file to track empty directories"`.
 
 ## Final note
 
@@ -776,3 +899,4 @@ License, the same as Clojure.
 [25]: http://stackoverflow.com/questions/115983/how-do-i-add-an-empty-directory-to-a-git-repository
 [26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-21.md
 [27]: https://github.com/magomimmo/modern-cljs/blob/cda20296ab8008ada32fb879c4d8fadc50357f59/doc/tutorial-18.md#step-3---run-the-brepl
+[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
