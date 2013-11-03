@@ -46,17 +46,17 @@ Take a look of the final `project.clj` we ended up in the
 [previous tutorial][1].
 
 ```clj
-(defproject org.clojars.magomimmo/enfocus "2.0.1-SNAPSHOT"
+(defproject org.clojars.magomimmo/enfocus "2.1.0-SNAPSHOT"
   :description "DOM manipulation tool for clojurescript inspired by Enlive"
-  :url "http://ckirkendall.github.io/enfocus-site"
+  :url "https://github.com/magomimmo/enfocus/tree/tutorial-20"
   :license {:name "Eclipse Public License - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo}
 
   :min-lein-version "2.2.0"
 
-  :source-paths ["src/clj"]
-  :test-paths ["test/clj"]
+  :source-paths ["src/clj" "src/cljs"]
+  
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1847"]
@@ -64,7 +64,7 @@ Take a look of the final `project.clj` we ended up in the
                  [org.jsoup/jsoup "1.7.2"]]
 
   :plugins [[lein-cljsbuild "0.3.4"]]
-
+  
   :hooks [leiningen.cljsbuild]
 
   :cljsbuild
@@ -73,14 +73,14 @@ Take a look of the final `project.clj` we ended up in the
 
    :builds {:deploy
              {:source-paths ["src/cljs"]
-              :jar true
+              ;:jar true ; DON'T DO THIS
               :compiler
               {:output-to "dev-resources/public/js/deploy.js"
-               :optimizations :whitespace
-               :pretty-print true}}}}
+               :optimizations :none
+               :pretty-print false}}}}
 
   :profiles {:dev {:resources-paths ["dev-resources"]
-
+                   :test-paths ["test/clj" "test/cljs"]
                    :dependencies [[com.cemerick/piggieback "0.1.0"]
                                   [ring "1.2.0"]
                                   [compojure "1.1.5"]]
@@ -93,14 +93,14 @@ Take a look of the final `project.clj` we ended up in the
                               {:output-to "dev-resources/public/js/whitespace.js"
                                :optimizations :whitespace
                                :pretty-print true}}
-
+                             
                              :simple
                              {:source-paths ["src/cljs" "test/cljs"]
                               :compiler
                               {:output-to "dev-resources/public/js/simple.js"
                                :optimizations :simple
                                :pretty-print false}}
-
+                             
                              :advanced
                              {:source-paths ["src/cljs" "test/cljs"]
                               :compiler
@@ -142,27 +142,20 @@ directory. Open the `project.clj`, cut the whole `:profiles {:dev
 file. Finally, delete the `:profiles` keyword option which is already
 implicitly set by the `profiles.clj` filename itself.
 
-There is only a *minutiae* to be adjusted as well. Move the
-`:test-paths ["test/clj"]` from the `project.clj` to the newly created
-`profiles.clj`.
-
-> NOTE 1: If we were more careful in the [previous tutorial][1] when
-> we moved the development configuration options to the `:dev`
-> profile, even the above *minutiae* would have been already done.
-
 Here is the resulting `project.clj`
 
 ```clj
-(defproject org.clojars.magomimmo/enfocus "2.0.1-SNAPSHOT"
+(defproject org.clojars.magomimmo/enfocus "2.1.0-SNAPSHOT"
   :description "DOM manipulation tool for clojurescript inspired by Enlive"
-  :url "http://ckirkendall.github.io/enfocus-site"
+  :url "https://github.com/magomimmo/enfocus/tree/tutorial-20"
   :license {:name "Eclipse Public License - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo}
 
   :min-lein-version "2.2.0"
 
-  :source-paths ["src/clj"]
+  :source-paths ["src/clj" "src/cljs"]
+  
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1847"]
@@ -170,7 +163,7 @@ Here is the resulting `project.clj`
                  [org.jsoup/jsoup "1.7.2"]]
 
   :plugins [[lein-cljsbuild "0.3.4"]]
-
+  
   :hooks [leiningen.cljsbuild]
 
   :cljsbuild
@@ -179,11 +172,11 @@ Here is the resulting `project.clj`
 
    :builds {:deploy
              {:source-paths ["src/cljs"]
-              :jar true
+              ;:jar true ; DON'T DO THIS
               :compiler
               {:output-to "dev-resources/public/js/deploy.js"
-               :optimizations :whitespace
-               :pretty-print true}}}})
+               :optimizations :none
+               :pretty-print false}}}})
 ```
 
 Much simpler eh!.
@@ -193,9 +186,8 @@ Much simpler eh!.
 An here is the `profiles.clj` content:
 
 ```clj
-{:dev {:test-paths ["test/clj"]
-       :resources-paths ["dev-resources"]
-
+{:dev {:resources-paths ["dev-resources"]
+       :test-paths ["test/clj" "test/cljs"]
        :dependencies [[com.cemerick/piggieback "0.1.0"]
                       [ring "1.2.0"]
                       [compojure "1.1.5"]]
@@ -208,14 +200,14 @@ An here is the `profiles.clj` content:
                   {:output-to "dev-resources/public/js/whitespace.js"
                    :optimizations :whitespace
                    :pretty-print true}}
-
+                             
                  :simple
                  {:source-paths ["src/cljs" "test/cljs"]
                   :compiler
                   {:output-to "dev-resources/public/js/simple.js"
                    :optimizations :simple
                    :pretty-print false}}
-
+                             
                  :advanced
                  {:source-paths ["src/cljs" "test/cljs"]
                   :compiler
@@ -245,9 +237,8 @@ complexity.
 
 Take into account that even if it appears that the change has been
 very easy to be done, this is only because we already kept all the
-`:dev` setting, but the `:test-paths` option, separated in the
-original `project.clj`. The efforts we did in applying the separation
-of concerns principle are now paying us back.
+`:dev` setting. The efforts we did in applying the separation of
+concerns principle are now paying us back.
 
 Don't forget that you should never set any `:user` option in the
 `profiles.clj` file. Also remember that `lein` merges together three
@@ -316,22 +307,22 @@ control of the generated `jar` package.
 ```clj
 lein jar
 Compiling ClojureScript.
-Created /Users/mimmo/Developer/enfocus/target/enfocus-2.0.1-SNAPSHOT.jar
-jar tvf target/enfocus-2.0.1-SNAPSHOT.jar
-    92 Fri Oct 25 19:49:38 CEST 2013 META-INF/MANIFEST.MF
-  4713 Fri Oct 25 19:49:38 CEST 2013 META-INF/maven/org.clojars.magomimmo/enfocus/pom.xml
-   166 Fri Oct 25 19:49:38 CEST 2013 META-INF/maven/org.clojars.magomimmo/enfocus/pom.properties
-   976 Fri Oct 25 19:49:38 CEST 2013 META-INF/leiningen/org.clojars.magomimmo/enfocus/project.clj
-   976 Fri Oct 25 19:49:38 CEST 2013 project.clj
- 11519 Fri Oct 25 19:49:38 CEST 2013 META-INF/leiningen/org.clojars.magomimmo/enfocus/README.textile
-     0 Fri Oct 25 11:23:04 CEST 2013 enfocus/
-     0 Fri Oct 25 11:23:04 CEST 2013 enfocus/enlive/
-  1928 Fri Oct 25 11:23:04 CEST 2013 enfocus/enlive/syntax.clj
-  4386 Fri Oct 25 11:23:04 CEST 2013 enfocus/macros.clj
-  2109 Fri Oct 25 19:49:38 CEST 2013 enfocus/enlive/syntax.cljs
- 23336 Fri Oct 25 19:49:38 CEST 2013 enfocus/core.cljs
-  4247 Fri Oct 25 19:49:38 CEST 2013 enfocus/events.cljs
-  6851 Fri Oct 25 19:49:38 CEST 2013 enfocus/effects.cljs
+Created /Users/mimmo/tmp/enfocus/target/enfocus-2.1.0-SNAPSHOT.jar
+
+jar tvf target/enfocus-2.1.0-SNAPSHOT.jar
+    92 Sun Nov 03 09:44:32 CET 2013 META-INF/MANIFEST.MF
+  5116 Sun Nov 03 09:44:32 CET 2013 META-INF/maven/org.clojars.magomimmo/enfocus/pom.xml
+   165 Sun Nov 03 09:44:32 CET 2013 META-INF/maven/org.clojars.magomimmo/enfocus/pom.properties
+  1012 Sun Nov 03 09:44:32 CET 2013 META-INF/leiningen/org.clojars.magomimmo/enfocus/project.clj
+  1012 Sun Nov 03 09:44:32 CET 2013 project.clj
+     0 Sat Nov 02 11:45:38 CET 2013 enfocus/
+ 23336 Sat Nov 02 11:45:38 CET 2013 enfocus/core.cljs
+  6851 Sat Nov 02 11:45:28 CET 2013 enfocus/effects.cljs
+  4247 Sat Nov 02 11:45:38 CET 2013 enfocus/events.cljs
+     0 Sat Nov 02 11:45:38 CET 2013 enfocus/enlive/
+  1928 Sat Nov 02 11:45:38 CET 2013 enfocus/enlive/syntax.clj
+  4386 Sat Nov 02 11:45:28 CET 2013 enfocus/macros.clj
+  2103 Sun Nov 03 09:44:32 CET 2013 enfocus/enlive/syntax.cljs
 ```
 
 Good. Everything is still resting in its own place. The last thing to
@@ -500,7 +491,8 @@ to add it in the `:dev` profile which has been kept separated from the
 `project.clj` in the `profiles.clj`.
 
 ```clj
-{:dev {:test-paths ["test/clj" "target/test/clj"]
+{:dev {...
+       :test-paths ["test/clj" "target/test/clj" "test/cljs" "target/test/cljs"]
        ...
        :plugins [...
                  [com.keminglabs/cljx "0.3.0"]]
@@ -517,11 +509,11 @@ to add it in the `:dev` profile which has been kept separated from the
        {:builds {:whitespace
                  {:source-paths ["src/cljs" "test/cljs" "src/brepl" "target/test/cljs"]
                   ...}
-
+                             
                  :simple
                  {:source-paths ["src/cljs" "test/cljs" "target/test/cljs"]
                   ...}
-
+                             
                  :advanced
                  {:source-paths ["src/cljs" "test/cljs" "target/test/cljs"]
                   ...}}
@@ -540,9 +532,11 @@ The second rule, `:cljs`, does almost the same thing, but instead of
 emitting `clj` files it emits `cljs` and save them into the
 `"target/test/cljs"` directory.
 
-Note that we updated the `:test-paths`, which is specific for the CLJ
-unit tests, and all `:source-paths` of the interested CLJS builds as
-well.
+Note that we updated the `:test-paths` as well, by adding to it both
+the newly created CLJ pathnames and the newly created CLJS
+pathnames. This is because the `cljsbuild` does not add back to the
+Leiningen `:source-paths` and `:test-paths` any CLJS pathnames added
+to its own `:source-paths`.
 
 #### Ported Unit Tests
 
@@ -759,9 +753,9 @@ As I repeated more times, I don't like at all to write unit tests, but
 I have to admit that the implementation of few unit tests covering the
 edge cases could be very useful in clarifying the semantic/behavior of
 the function under testing. Sometimes you'll find few surprises as
-well. Those kind of surprises that it's better not to take care of
-even few months later, when you don't even remember the name of the
-involved project.
+well. Those kind of surprises that it's better not to take care of few
+months later, when you don't even remember the name of the involved
+project.
 
 Before coding the unit test, let's take a look at the `convert`
 definition.
@@ -784,7 +778,10 @@ function.
 This is enough to start coding few unit tests at the edges, because we
 now know that `convert` returns a *string* and it has one argument
 only which could be a *string* or something reducible to a string
-(cf. `(apply str ...)`)
+(cf. `(apply str ...)`).
+
+Open the `syntax_test.cljx` file and substitute the previous failing
+test used ad a remainder placeholder with the following one.
 
 ```clj
 (deftest convert-test
@@ -897,6 +894,10 @@ Ran 1 tests containing 7 assertions.
 1 failures, 0 errors.
 Tests failed.
 ```
+
+> NOTE 5: Because of the issue pertaining the interaction between
+> `cljsbuild` and `cljx` plugin we cited above, when you launch the
+> `lein test` task, it only run the CLJ tests.
 
 The last command executed 7 unit tests on the `convert` function. The
 one that failed is the `(convert nil)` which returned an empty string
@@ -1139,7 +1140,7 @@ Here we just added a `:default` clause which returns the passed
 `input` when the `cond` doesn't know how to handle the `input`
 collection itself.
 
-> NOTE 5: Take into account that if the `input` in not seq-able, the
+> NOTE 6: Take into account that if the `input` in not seq-able, the
 > `(first input)` and the `(rest input)` in the `let` form will raise an
 > exception.
 
@@ -1179,7 +1180,6 @@ Testing enfocus.enlive.syntax-test
 Ran 1 tests containing 7 assertions.
 0 failures, 0 errors.
 {:type :summary, :pass 7, :test 1, :error 0, :fail 0}
-user=> (exit)
 ```
 
 Great. We can now modify the `syntax.clj` source file as we did in the REPL.
@@ -1214,17 +1214,24 @@ Great. We can now modify the `syntax.clj` source file as we did in the REPL.
 ;;; follow the rest of the code
 ```
 
-If you did not stop the `lein cljsbuild auto` which was running in the
-*Terminal 2*, as soon as you save the above file, thanks to the
-configured `:crossovers` option, the `cljsbuild` plugin starts to
-re-generate the `cljs` versions of the `enfocus.enlive.syntax`
-namespace and immediately after it rebuild all the CLJS builds.
+If you did not stop the running processed in *Terminal 1* and
+*Terminal 2*, as soon as you save the above file, the `cljx` plugin
+starts to regenerate the `CLJ` and `CLJS` version of the modified file
+and the `cljsbuild` then starts to rebuild all the CLJS builds.
 
 In the above REPL session we only ran the unit tests for the CLJ
-version of the `convert` function. We now want to run them on all the
-builds of the CLJS version of the `convert` function.
+version of the `convert` function. We now want to run those unit tests
+on all the builds of the CLJS version of the `convert` function.
 
 In *Terminal 3*
+
+First exit the REPL (or open a new terminal).
+
+```clj
+user=> (exit)
+```
+
+The launch the task to unit test the CLJS builds.
 
 ```bash
 lein cljsbuild test
