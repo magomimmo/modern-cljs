@@ -932,7 +932,6 @@ Ran 2 tests containing 8 assertions.
 2 failures, 0 errors.
 {:test 2, :pass 6, :fail 2, :error 0, :type :summary}
 Subprocess failed
-Giacomo-Cosenzas-iMac:enfocus mimmo$
 ```
 
 As you remember, in the CLJS environment we left the dummy and
@@ -1140,7 +1139,7 @@ Here we just added a `:default` clause which returns the passed
 `input` when the `cond` doesn't know how to handle the `input`
 collection itself.
 
-> NOTE 6: Take into account that if the `input` in not seq-able, the
+> NOTE 6: Take into account that if the `input` is not seq-able, the
 > `(first input)` and the `(rest input)` in the `let` form will raise an
 > exception.
 
@@ -1214,8 +1213,8 @@ Great. We can now modify the `syntax.clj` source file as we did in the REPL.
 ;;; follow the rest of the code
 ```
 
-If you did not stop the running processed in *Terminal 1* and
-*Terminal 2*, as soon as you save the above file, the `cljx` plugin
+If you did not stop the running processes in *Terminal 1* and
+*Terminal 2*, as soon as you save the above file the `cljx` plugin
 starts to regenerate the `CLJ` and `CLJS` version of the modified file
 and the `cljsbuild` then starts to rebuild all the CLJS builds.
 
@@ -1231,7 +1230,7 @@ First exit the REPL (or open a new terminal).
 user=> (exit)
 ```
 
-The launch the task to unit test the CLJS builds.
+Then launch the task to unit test the CLJS builds.
 
 ```bash
 lein cljsbuild test
