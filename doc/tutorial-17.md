@@ -110,7 +110,7 @@ Open the `shopping.clj` source file from the
 
 ;; new intermediate function
 (defn shopping [q p t d]
-  (shopping-form-template q p t d (validate-shopping-form q p t d)))
+  (update-shopping-form q p t d (validate-shopping-form q p t d)))
 ```
 
 > NOTE 2: By defining the new intermediate function with the same name
