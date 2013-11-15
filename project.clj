@@ -16,17 +16,19 @@
   :source-paths ["src/clj"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1847"]
+                 [org.clojure/clojurescript "0.0-2014"]
                  [compojure "1.1.5"]
                  [hiccups "0.2.0"]
                  [domina "1.0.2"]
                  [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1-SNAPSHOT"]
                  [org.clojars.magomimmo/shoreleave-remote "0.3.1-SNAPSHOT"]
                  [com.cemerick/valip "0.3.2"]
-                 [enlive "1.1.4"]]
+                 [enlive "1.1.4"]
+                 [org.clojure/tools.reader "0.7.10"]
+                 [org.clojure/core.async "0.1.256.0-1bf8cf-alpha"]]
 
   :plugins [[lein-ring "0.8.7"]
-            [lein-cljsbuild "0.3.4"]]
+            [lein-cljsbuild "1.0.0-alpha2"]]
 
   :hooks [leiningen.cljsbuild]
 

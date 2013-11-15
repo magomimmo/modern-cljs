@@ -29,3 +29,6 @@
             ;; cross validations (not at the moment)
 
             ))
+
+(defn validate-field [field val]
+  (field (validate-shopping-form val val val val)))
