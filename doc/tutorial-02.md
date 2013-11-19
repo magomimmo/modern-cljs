@@ -163,7 +163,7 @@ You will note that there is no command history or editing ability in
 this REPL.  You can add it if you wish by installing [rlwrap][12] and
 following the instructions [here][13]. Even better, you could take a
 look at the [Tutorial 18 - Housekeeping][19] which explains another
-brepl option which can be run from a standard CLJ REPl.
+brepl option which can be run from a standard CLJ REPL.
 
 If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
