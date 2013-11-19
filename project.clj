@@ -17,11 +17,11 @@
   :source-paths ["src/clj" "src/cljs"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [compojure "1.1.5"]
-                 [org.clojure/clojurescript "0.0-1978"]]
+                 [compojure "1.1.6"]
+                 [org.clojure/clojurescript "0.0-2030"]]
 
-  :plugins [[lein-cljsbuild "0.3.4"]
-            [lein-ring "0.8.7"]]
+  :plugins [[lein-cljsbuild "1.0.0"]
+            [lein-ring "0.8.8"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
