@@ -19,7 +19,7 @@
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1847"]
-                 [compojure "1.1.5"]
+                 [compojure "1.1.6"]
                  [hiccups "0.2.0"]
                  [domina "1.0.3-SNAPSHOT"]
                  [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1-SNAPSHOT"]
@@ -27,7 +27,7 @@
                  [com.cemerick/valip "0.3.2"]
                  [enlive "1.1.4"]]
 
-  :plugins [[lein-ring "0.8.7"]
+  :plugins [[lein-ring "0.8.8"]
             [lein-cljsbuild "0.3.4"]]
 
   :hooks [leiningen.cljsbuild]
@@ -53,7 +53,7 @@
                    :dependencies [[com.cemerick/piggieback "0.1.0"]]
 
                    :plugins [[com.keminglabs/cljx "0.3.0"]
-                             [com.cemerick/clojurescript.test "0.1.0"]]
+                             [com.cemerick/clojurescript.test "0.2.0"]]
 
                    :cljx {:builds [{:source-paths ["test/cljx"]
                                     :output-path "target/test/clj"
