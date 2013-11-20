@@ -1,4 +1,4 @@
-# Tutorial 19 - A survival guide for livin' on the edge 
+# Tutorial 19 - A survival guide for livin' on the edge
 
 In the [previous tutorial][1] we afforded two topics:
 
@@ -12,8 +12,8 @@ In the [previous tutorial][1] we afforded two topics:
 
 When you start using a lib implemented by others, you can easily end
 up with few misunderstandings of its use or even with some unexpected
-issues. In these cases, the first thing you should do is to browse and
-read its documentation. As you now, one problem with open source
+issues. In these cases the first thing you should do is to browse and
+read its documentation. As you now one problem with open source
 software regards the corresponding documentation which is frequently
 minimal, if not absent, outdated or requiring a level of comprehension
 of the details which you still have to grasp.
@@ -52,8 +52,12 @@ As you remember, in the [Tutorial 10 - Introducing Ajax][4] we added
 to the project's dependencies the [shoreleave-remote][5] and the
 [shoreleave-remote-ring][6] libs.
 
-Even if those set of [shoreleave][7] libs did not create any issue in
-our project, I always like to use libs which are up-to-date with the
+As you saw in the above Ajax tutorial, when we added to our project
+the set of [shoreleave][7] libs, we were forced to use a non canonical
+versions of them because the `shoreleave-remote-ring` depended on a
+release of `tools.reader` which was no more compatible with the latest
+CLJS compiler releases. But even if a lib does not create any issue in
+my projects, I always prefer to use libs which are up-to-date with the
 latest available release of the libs they depend on.
 
 If you take a look at the `project.clj` file of the
@@ -168,7 +172,7 @@ git checkout -b upgrade # # create the branch to manage an issue
 > branch from the master is not technically needed, but if you want to
 > manage and issue and eventually pull request your solution to the
 > owner of the repo, the github community strongly recommends it, and I
-> agree with them. 
+> agree with them.
 
 ### Shoreleave quirks
 
@@ -179,9 +183,9 @@ cited `shoreleave` libs, you'll discover few characterizing quirks:
   of them reference the "1.4.0" release of the Clojure language;
 * none of the cited `shoreleave` libs references the `lein-cljsbuild`
   plugin;
-* none the cited `shoreleave` libs defines any [tagged release][12]. 
+* none the cited `shoreleave` libs defines any [tagged release][12].
 
-#### Update shoreleave-core's `project.clj` file 
+#### Update shoreleave-core's `project.clj` file
 
 The first `shoreleave` lib we're going to work on is the most basic
 (i.e.  `shoreleave-core`), because it is the only one not depending on
@@ -325,11 +329,11 @@ does not include any CLJS source code. Here is the new `project.clj`
             :distribution :repo
             :comments "See the notice in README.mkd or details in LICENSE_epl.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/tools.reader "0.7.8"]])
+                 [org.clojure/tools.reader "0.7.10"]])
 ```
 
 > NOTE 7: As you see, we update both the CLJ release to "1.5.1" and the
-> `tools.reader` release to "0.7.8".
+> `tools.reader` release to "0.7.10".
 
 ### Locally install the upgraded `shoreleave` libs
 
@@ -428,13 +432,6 @@ Ran 1 tests containing 13 assertions.
 {:test 1, :pass 13, :fail 0, :error 0, :type :summary}
 ```
 
-> NOTE 8: At the moment don't worry about the `*WARNING*` messages you
-> receive during the CLJS compilation. Considering that older CLJS
-> builds don't define the `set-print-fn!` function in the `cljs.core`
-> namespace, the `clojurescript.test` lib defines it in the
-> `cemerick.cljs.test` namespace, but when you're running a newer CLJS
-> build that function is already defined.
-
 The updates of the `shoreleave` libs don't seem to break the
 code. This is not a surprise, because we have not touched any CLJS
 source code. You can even try to interact with the `modern-cljs`
@@ -450,7 +447,7 @@ previous tutorials of the series.
 ### Commit the changes
 
 It's now time to commit all the implemented changes and to push them
-to the forked repo. 
+to the forked repo.
 
 ```bash
 # shoreleave-core
@@ -505,7 +502,7 @@ In a real scenario, we should now [pull request][19] the
 the owner of the repos will accept and merge our pull requests.
 
 But what if the owner is lazy or for any reason she/he does not agree
-to merge our pull requests? 
+to merge our pull requests?
 
 The above modified repos only live locally on your computer and they
 can't be directly shared with others developers or even with others
@@ -520,7 +517,7 @@ You have more options:
   in the repository itself. Generally this is the right choice when
   you want to make a lib available to other devs without making it
   public.
-  
+
 In the next part of this tutorial we're going to inspect the first
 option only.
 
@@ -537,9 +534,9 @@ is not our fictional scenario). Also remember that by adding a
 snapshot dependency to your project, you will cause `lein` to slow
 down its dependensies search.
 
-Clojars offers two repositories, [Classic][25] and [Releases]
-[26]. The Classic repository, which is the one we're going to use, has
-no restrictions and anyone may publish a lib into it.
+Clojars offers two repositories, [Classic][25] and [Releases][26]. The
+Classic repository, which is the one we're going to use, has no
+restrictions and anyone may publish a lib into it.
 
 That said, if you want to push your own version of somebody else's
 lib, which is our case, you should qualify the project name by putting
@@ -623,7 +620,7 @@ dependencies by using your clojars' group name as follows:
             :distribution :repo
             :comments "See the notice in README.mkd or details in LICENSE_epl.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/tools.reader "0.7.8"]])
+                 [org.clojure/tools.reader "0.7.10"]])
 ```
 
 As usual commit your changes.
@@ -739,7 +736,7 @@ dependencies as follows:
                  [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1-SNAPSHOT"]
                  [org.clojars.magomimmo/shoreleave-remote "0.3.1-SNAPSHOT"]
                  ...]
-  
+
   ...)
 ```
 
@@ -878,7 +875,7 @@ License, the same as Clojure.
 [14]: http://en.wikipedia.org/wiki/Literate_programming
 [15]: http://semver.org/
 [16]: https://github.com/cemerick
-[17]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md 
+[17]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md
 [18]: https://github.com/ohpauleez
 [19]: https://help.github.com/articles/be-social#pull-requests
 [20]: https://help.github.com/articles/syncing-a-fork
