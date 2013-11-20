@@ -413,8 +413,8 @@ lein do cljsbuild clean, cljsbuild once, ring server-headless
 lein trampoline cljsbuild repl-listen # optional - in a new terminal
 ```
 
-> NOTE 6: As you can see above, we started usin the `do` chaining
-> feature of the `lein` command to minimize a little bit our typing.
+> NOTE 6: As you can see above, we started using the `do` chaining
+> feature of the `lein` command to minimize a little bit our typing.
 
 Now visit [shopping-dbg.html][20], click the `Calculate` button and
 verify that the shopping calculator returns the expected `total`
