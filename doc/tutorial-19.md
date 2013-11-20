@@ -52,13 +52,16 @@ As you remember, in the [Tutorial 10 - Introducing Ajax][4] we added
 to the project's dependencies the [shoreleave-remote][5] and the
 [shoreleave-remote-ring][6] libs.
 
-As you saw in the above Ajax tutorial, when we added to our project
-the set of [shoreleave][7] libs, we were forced to use a non canonical
-versions of them because the `shoreleave-remote-ring` depended on a
-release of `tools.reader` which was no more compatible with the latest
-CLJS compiler releases. But even if a lib does not create any issue in
-my projects, I always prefer to use libs which are up-to-date with the
-latest available release of the libs they depend on.
+Because the `tools.reader` release (i.e. `"0.7.0"`) used by the
+`shoreleave-remote-ring` lib is not compatible with the latest CLJS
+rleeases (e.g. `"0.0-2014"` and `"0.0-2030"`), we were forced to use a
+non canonical set of the `shoreleave` libs which I published on
+`clojars` repository to be able to use a recent CLJS release
+(e.g. `"0.0-2030"`).
+
+But even if a lib does not create any issue in my projects, I always
+prefer to use libs which are up-to-date with the latest available
+release of the libs they depend on.
 
 If you take a look at the `project.clj` file of the
 [shoreleave-remote][5] and the [shoreleave-remote-ring][6], you'll
@@ -121,8 +124,8 @@ cooperative with the open source community.
 
 Generally speaking, the updating of the dependencies of a project
 requires little efforts which even a Clojure beginner can afford. In
-this tutorial we're going to use the `shoreleave` libs as a fictional
-use case for introducing the collaboration process.
+this tutorial we're going to use the `shoreleave` libs as a use case
+for introducing the collaboration process.
 
 ### Fork, clone and branch
 
