@@ -718,6 +718,14 @@ target/test
 
 We can now launch the CLJS compilation with the usual command.
 
+> ATTENTION NOTE: Due to the massive compilation to be done you'll
+> probably incur in a `java.lang.RuntimeException:
+> java.lang.OutOfMemoryError` after few CLJS compilations. AFAIK this
+> issue is still to be resolved. But don't panic. Just relaunch the
+> `lein cljsbuild once` command and the compilation should terminate
+> successfully.
+
+
 ```bash
 lein cljsbuild once
 Compiling ClojureScript.
