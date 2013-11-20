@@ -11,13 +11,13 @@
                               [:email "mimmo.cosenza@gmail.com"]
                               [:timezone "+2"]]]
 
-  :min-lein-version "2.1.2"
+  :min-lein-version "2.2.0"
 
   ;; clojure source code path
   :source-paths ["src/clj" "src/cljs" "src/brepl"]
   :test-paths ["target/test/clj" "target/test/cljs"]
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1847"]
+                 [org.clojure/clojurescript "0.0-2030"]
                  [compojure "1.1.6"]
                  [hiccups "0.2.0"]
                  [domina "1.0.3-SNAPSHOT"]
@@ -26,7 +26,7 @@
                  [com.cemerick/valip "0.3.2"]
                  [enlive "1.1.4"]]
 
-  :plugins [[lein-cljsbuild "0.3.4"]
+  :plugins [[lein-cljsbuild "1.0.0"]
             [lein-ring "0.8.8"]
             [com.keminglabs/cljx "0.3.0"]
             [com.cemerick/clojurescript.test "0.2.1"]]
