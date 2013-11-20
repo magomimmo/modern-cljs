@@ -53,7 +53,7 @@
                    :dependencies [[com.cemerick/piggieback "0.1.2"]]
 
                    :plugins [[com.keminglabs/cljx "0.3.0"]
-                             [com.cemerick/clojurescript.test "0.2.0"]]
+                             [com.cemerick/clojurescript.test "0.2.1"]]
 
                    :cljx {:builds [{:source-paths ["test/cljx"]
                                     :output-path "target/test/clj"
@@ -111,5 +111,3 @@
                                 (defn browser-repl []
                                   (pb/cljs-repl :repl-env
                                                 (brepl/repl-env :port 9000)))]}})
-
-
