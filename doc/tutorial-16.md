@@ -59,6 +59,20 @@ namespace.
 > git checkout -b tutorial-16-step-1
 > ```
 
+> ATTENTION NOTE: all the previous tutorials have been updated to the
+> latest available libs and plugins. This and the subsequent tutorials
+> will be updated as soon as possible and have not been tested with the
+> latest available libs and plugins. So, to be safe I strongly suggest
+> to use:
+>
+> * lein-cljsbuild 0.3.4
+> * clojurescript 0.0-1847
+
+> instead of the more recent
+>
+> * lein-cljsbuild 1.0.0
+> * clojurescript 0.0-2030
+
 The first step, as usual, is to add the `clojurescript.test` lib to the
 `:plugins` section of the `project.clj` file.
 
