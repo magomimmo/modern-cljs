@@ -49,7 +49,7 @@ Here are the required changes in the `project.clj`
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
   :plugins [...
-            [lein-ring "0.8.7"]]
+            [lein-ring "0.8.8"]]
 
   :ring {:handler modern-cljs.core/handler}
   ...)
@@ -106,7 +106,7 @@ to the `project.clj` dependencies section as follows:
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
   :dependencies [...
-                 [compojure "1.1.5"]]
+                 [compojure "1.1.6"]]
   ...)
 ```
 
