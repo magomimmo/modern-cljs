@@ -151,6 +151,13 @@ First we need:
 * to recompile all the CLJS builds, and
 * to launch the ring server.
 
+> ATTENTION NOTE: Due to the massive compilation to be done you'll
+> probably incur in a `java.lang.RuntimeException:
+> java.lang.OutOfMemoryError` after few CLJS compilations. AFAIK this
+> issue is still to be resolved. But don't panic. Just relaunch the
+> `lein ompile` command and the compilation should terminate
+> successfully.
+
 ```bash
 # clean up
 lein clean
@@ -370,6 +377,13 @@ clean-start!, expands to ["do" "clean," "cljx" "once," "compile," "ring" "server
 
 You can now safely call the above aliases as follows.
 
+> ATTENTION NOTE: Due to the massive compilation to be done you'll
+> probably incur in a `java.lang.RuntimeException:
+> java.lang.OutOfMemoryError` after few CLJS compilations. AFAIK this
+> issue is still to be resolved. But don't panic. Just launch the
+> `lein do compile, test` command and the compilation should terminate
+> successfully.
+
 ```bash
 lein clean-test!
 ```
@@ -568,7 +582,7 @@ stuff under the `:dev` profile.
   :source-paths ["src/clj" "src/cljs"]
 
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1847"]
+                 [org.clojure/clojurescript "0.0-2030"]
                  [compojure "1.1.6"]
                  [hiccups "0.2.0"]
                  [domina "1.0.3-SNAPSHOT"]
@@ -578,7 +592,7 @@ stuff under the `:dev` profile.
                  [enlive "1.1.4"]]
 
   :plugins [[lein-ring "0.8.8"]
-            [lein-cljsbuild "0.3.4"]]
+            [lein-cljsbuild "1.0.0"]]
 
   :hooks [leiningen.cljsbuild]
 
@@ -600,7 +614,7 @@ stuff under the `:dev` profile.
                    :test-paths ["target/test/cljs"]
                    :clean-targets ["out"]
 
-                   :dependencies [[com.cemerick/piggieback "0.1.0"]]
+                   :dependencies [[com.cemerick/piggieback "0.1.2"]]
 
                    :plugins [[com.keminglabs/cljx "0.3.0"]
                              [com.cemerick/clojurescript.test "0.2.1"]]
@@ -702,6 +716,13 @@ even more elaborated.
 
 Let's verify that everything is working as expected. First we want try
 the `clean-test!` alias with the `:dev` profile.
+
+> ATTENTION NOTE: Due to the massive compilation to be done you'll
+> probably incur in a `java.lang.RuntimeException:
+> java.lang.OutOfMemoryError` after few CLJS compilations. AFAIK this
+> issue is still to be resolved. But don't panic. Just relaunch the
+> `lein do compile, test` command and the compilation should terminate
+> successfully.
 
 ```bash
 lein with-profile dev clean-test!
