@@ -116,13 +116,13 @@ and `discount`).
 ### Update dependencies
 
 As usual we should first add the `shoreleave-remote-ring` library to
-`project.clj`. Here is the corresponding code fragment. That said, the
-current `shoreleave-remote-ring "0.3.0"` release depends on the
-`"0.7.0"` release of the `org.clojure/tools.reader` which is not
-compatible with the newest CLJS releases. To overcome this issue I
-upgraded all the `shoreleave` libs used in the `modern-cljs`
-series. So, instead of adding the canonical `shoreleave` libs you have
-to had the following not canonical ones.
+`project.clj`. That said, the current `shoreleave-remote-ring "0.3.0"`
+release depends on the `"0.7.0"` release of the
+`org.clojure/tools.reader` which is not compatible with the newest
+CLJS releases. To overcome this issue I upgraded all the `shoreleave`
+libs used in the `modern-cljs` series. So, instead of adding the
+canonical `shoreleave` libs you have to had the following not
+canonical ones.
 
 ```clj
 (defproject ...
@@ -413,7 +413,7 @@ lein do cljsbuild clean, cljsbuild once, ring server-headless
 lein trampoline cljsbuild repl-listen # optional - in a new terminal
 ```
 
-> NOTE 6: As you can see above, we sterted usin the `do` chaining
+> NOTE 6: As you can see above, we started usin the `do` chaining
 > feature of the `lein` command to minimize a little bit our typing.
 
 Now visit [shopping-dbg.html][20], click the `Calculate` button and
