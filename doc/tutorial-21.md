@@ -338,7 +338,7 @@ to move few stuff to the `:dev` profile as well.
   :min-lein-version "2.2.0"
   ...
   ;; we moved the clojurescript.test lib into the dev profile
-  :plugins [[lein-cljsbuild "0.3.4"]]
+  :plugins [[lein-cljsbuild "1.0.0"]]
   ...
 
   :cljsbuild
@@ -357,8 +357,8 @@ to move few stuff to the `:dev` profile as well.
 
   :profiles {:dev {:test-paths ["test/clj" "test/cljs"]
 
-                   :dependencies [[com.cemerick/piggieback "0.1.0"]]
-                   :plugins [[com.cemerick/clojurescript.test "0.1.0"]]
+                   :dependencies [[com.cemerick/piggieback "0.1.2"]]
+                   :plugins [[com.cemerick/clojurescript.test "0.2.1"]]
 
                    :cljsbuild
                    {:builds {:whitespace
@@ -541,9 +541,9 @@ Then edit its `project.clj` as follows:
   :min-lein-version "2.2.0"
   :source-paths ["src/clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-1847"]
+                 [org.clojure/clojurescript "0.0-2030"]
                  [org.clojars.magomimmo/enfocus "2.1.0-SNAPSHOT"]]
-  :plugins [[lein-cljsbuild "0.3.4"]]
+  :plugins [[lein-cljsbuild "1.0.0"]]
 
   :cljsbuild {:builds {:whitespace
                        {:source-paths ["src/cljs"]
@@ -632,8 +632,8 @@ profile.
   ...
   :profiles {:dev {...
                    :dependencies [...
-                                  [ring "1.2.0"]
-                                  [compojure "1.1.5"]]
+                                  [ring "1.2.1"]
+                                  [compojure "1.1.6"]]
                    ...}})
 ```
 
