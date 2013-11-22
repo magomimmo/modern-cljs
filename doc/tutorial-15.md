@@ -325,7 +325,7 @@ represents the actual value. The `are` macro verifies that for each
 pair of an expected and actual values `[expected actual]`, the
 assertion `(= expected actual)` is true.
 
-### How to read of failure reports
+### How to read failure reports
 
 You can even document tests by wrapping your `are` form inside a
 `testing` macro, which takes a documentation string followed by any
@@ -392,25 +392,35 @@ Now run again the test and everything should work nicely.
 
 ```bash
 lein test
+Compiling ClojureScript.
 
 lein test modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 3 assertions.
 0 failures, 0 errors.
+Could not locate test command .
 ```
 
-By default, the `lein test` command executes all the defined tests (at
+> NOTE 2: By having hooked the `cljsbuild` tasks to `lein` task with the
+> `:hooks` configuration option, when you run the `lein test` command
+> you will receive a `Could not locate test command .` message. This is
+> because at the moment there are no unit tests defined for CLJS in the
+> `test/cljs` path.
+
+By  default, the `lein test` command executes all the defined tests (at
 the moment just one test containing 3 assertions). If you want to run
 a specific test you have to pass its namespace to the `lein test`
 command as follows:
 
 ```bash
 lein test modern-cljs.shopping.validators-test
+Compiling ClojureScript.
 
 lein test modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 3 assertions.
 0 failures, 0 errors.
+Could not locate test command .
 ```
 
 ### Break the test
@@ -446,6 +456,7 @@ expected: (= nil (validate-shopping-form "" "0" "0" "0"))
 Ran 1 tests containing 3 assertions.
 1 failures, 0 errors.
 Tests failed.
+Could not locate test command .
 ```
 
 The failure report says that on the line 8 of `validators_test` source
