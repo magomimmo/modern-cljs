@@ -54,10 +54,10 @@ to the project's dependencies the [shoreleave-remote][5] and the
 
 Because the `tools.reader` release (i.e. `"0.7.0"`) used by the
 `shoreleave-remote-ring` lib is not compatible with the latest CLJS
-rleeases (e.g. `"0.0-2014"` and `"0.0-2030"`), we were forced to use a
+rleeases (e.g. `"0.0-2069"`), we were forced to use a
 non canonical set of the `shoreleave` libs which I published on
 `clojars` repository to be able to use a recent CLJS release
-(e.g. `"0.0-2030"`).
+(e.g. `"0.0-2069"`).
 
 But even if a lib does not create any issue in my projects, I always
 prefer to use libs which are up-to-date with the latest available
@@ -332,7 +332,7 @@ does not include any CLJS source code. Here is the new `project.clj`
             :distribution :repo
             :comments "See the notice in README.mkd or details in LICENSE_epl.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/tools.reader "0.7.10"]])
+                 [org.clojure/tools.reader "0.8.0"]])
 ```
 
 > NOTE 7: As you see, we update both the CLJ release to "1.5.1" and the
@@ -630,7 +630,7 @@ dependencies by using your clojars' group name as follows:
             :distribution :repo
             :comments "See the notice in README.mkd or details in LICENSE_epl.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/tools.reader "0.7.10"]])
+                 [org.clojure/tools.reader "0.8.0"]])
 ```
 
 As usual commit your changes.
