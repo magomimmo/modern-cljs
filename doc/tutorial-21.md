@@ -541,7 +541,7 @@ Then edit its `project.clj` as follows:
   :min-lein-version "2.2.0"
   :source-paths ["src/clj"]
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2069"]
+                 [org.clojure/clojurescript "0.0-2075"]
                  [org.clojars.magomimmo/enfocus "2.1.0-SNAPSHOT"]]
   :plugins [[lein-cljsbuild "1.0.0"]]
 

@@ -475,7 +475,7 @@ requires a `lein` release `"2.2.0"` or higher.
 
 > NOTE 5: Being CLJS a very young language, it's very frequently
 > updated. The latest available CLJS release at the moment of this
-> writing is the `"0.0-2069"`.
+> writing is the `"0.0-2075"`.
 
 Wow, four changes in one shot to be edited in the `project.clj` file.
 
@@ -495,7 +495,7 @@ file.
   :min-lein-version "2.2.0"
   ...
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2069"]
+                 [org.clojure/clojurescript "0.0-2075"]
                  ...]
 
   :plugins [[lein-cljsbuild "1.0.0"]]
