@@ -54,10 +54,10 @@ to the project's dependencies the [shoreleave-remote][5] and the
 
 Because the `tools.reader` release (i.e. `"0.7.0"`) used by the
 `shoreleave-remote-ring` lib is not compatible with the latest CLJS
-rleeases (e.g. `"0.0-2075"`), we were forced to use a
+rleeases (e.g. `"0.0-2080"`), we were forced to use a
 non canonical set of the `shoreleave` libs which I published on
 `clojars` repository to be able to use a recent CLJS release
-(e.g. `"0.0-2075"`).
+(e.g. `"0.0-2080"`).
 
 But even if a lib does not create any issue in my projects, I always
 prefer to use libs which are up-to-date with the latest available
