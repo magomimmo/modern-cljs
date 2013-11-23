@@ -336,7 +336,7 @@ does not include any CLJS source code. Here is the new `project.clj`
 ```
 
 > NOTE 7: As you see, we update both the CLJ release to "1.5.1" and the
-> `tools.reader` release to "0.7.10".
+> `tools.reader` release to "0.8.0".
 
 ### Locally install the upgraded `shoreleave` libs
 
@@ -384,7 +384,7 @@ cd ~/dev/modern-cljs
 lein deps :tree
  ...
  [shoreleave/shoreleave-remote-ring "0.3.1-SNAPSHOT"]
-   [org.clojure/tools.reader "0.7.8"]
+   [org.clojure/tools.reader "0.8.0"]
  [shoreleave/shoreleave-remote "0.3.1-SNAPSHOT"]
    [shoreleave/shoreleave-browser "0.3.1-SNAPSHOT"]
    [shoreleave/shoreleave-core "0.3.1-SNAPSHOT"]
