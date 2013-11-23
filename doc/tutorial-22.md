@@ -59,7 +59,7 @@ Take a look of the final `project.clj` we ended up in the
   
 
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2080"]
+                 [org.clojure/clojurescript "0.0-2069"]
                  [domina "1.0.3-SNAPSHOT"]
                  [org.jsoup/jsoup "1.7.2"]]
 
@@ -158,7 +158,7 @@ Here is the resulting `project.clj`
   
 
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2080"]
+                 [org.clojure/clojurescript "0.0-2069"]
                  [domina "1.0.3-SNAPSHOT"]
                  [org.jsoup/jsoup "1.7.2"]]
 
