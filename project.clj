@@ -22,8 +22,8 @@
                  [compojure "1.1.6"]
                  [hiccups "0.2.0"]
                  [domina "1.0.3-SNAPSHOT"]
-                 [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1-SNAPSHOT"]
-                 [org.clojars.magomimmo/shoreleave-remote "0.3.1-SNAPSHOT"]
+                 [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1"]
+                 [org.clojars.magomimmo/shoreleave-remote "0.3.1"]
                  [com.cemerick/valip "0.3.2"]
                  [enlive "1.1.4"]]
 
