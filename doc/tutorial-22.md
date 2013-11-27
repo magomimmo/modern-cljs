@@ -181,7 +181,7 @@ Here is the resulting `project.clj`
 
 Much simpler eh!.
 
-### The efocus developer view
+### The enfocus developer view
 
 An here is the `profiles.clj` content:
 
