@@ -105,7 +105,7 @@ The third and latest step requires:
 ### STEP 1
 
 Already done in the cited tutorials (i.e. [Tutorial 2][2],
-[Tutorial 3][3] and [Tutorial 7[4]).
+[Tutorial 3][3] and [Tutorial 7][4]).
 
 ### Step 2
 
