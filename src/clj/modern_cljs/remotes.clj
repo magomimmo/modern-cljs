@@ -1,7 +1,6 @@
 (ns modern-cljs.remotes
   (:require [modern-cljs.login.java.validators :as v]
-            [compojure.handler :refer [site]]
-            [modern-cljs.utils :refer [parse-integer parse-double]]
+            [modern-cljs.utils :refer [parse-double parse-integer]]
             [shoreleave.middleware.rpc :refer [defremote]]))
 
 (defremote calculate [quantity price tax discount]
