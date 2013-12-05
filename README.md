@@ -12,12 +12,11 @@ even been used to [write an excellent iOS application][47]!
 
 These tutorials require that you have some prior programming experience. 
 They assume you've at least gotten your hands dirty by trying a little Clojure,
-even if you're not proficient in it yet, or in the underlying Java and 
-JavaScript programming languages. It will also be quite helpful if you have
-some experience programming for the Web using HTML, JavaScript and the
+even if you're not proficient in it yet. It will also be quite helpful if
+you have some experience programming for the Web using HTML, JavaScript and the
 browser DOM.
 
-If you don't know anything about Clojure (or about Lisp), I strongly
+If you don't know anything about Clojure (or about Lisp), I
 recommend you learn a little bit about it before starting these tutorials.
 
 There are plenty of outstanding resources on Clojure that are freely available
@@ -32,8 +31,8 @@ Here are some book recommendations:
 * [Programming Clojure][30]: written by another legendary Clojure developer,
   it's the easiest path to learning Clojure.
 * [The Joy of Clojure][31]: the title speaks by itself. A must read!
-* [**The Annotated Clojure Reference Manual** by Rich Hickey][33]: the
-  most often missed Clojure book :).
+* [The Annotated Clojure Reference Manual][33]: by Rich Hickey, the creator
+  of Clojure, is the most often missed Clojure book :).
 * [ClojureScript Up and Running][32]: at the moment, it's the only
   published book on ClojureScript. Even though it's not that old, the
   book is a little outdated since ClojureScript is evolving quickly.
@@ -67,7 +66,21 @@ with the [very basics of git][46].
 Everything else you'll need besides git and a code editor that you're
 comfortable with is covered in the tutorials!
 
-# Introduction
+## Why the name Modern ClojureScript?
+
+You might wonder why this tutorial series is named `modern-cljs`
+when ClojureScript is only a couple of years old. What 
+in the world is ancient ClojureScript? You got me there!
+
+I started this series while trying to port
+a few examples from the [Modern JavaScript: Develop and Design][34] book to
+ClojureScript, and now it's too late to change. The name is actually
+becoming more appropriate each day as ClojureScript continues to evolve quickly.
+I'd like to think it was a brilliant choice, but it was just a happy accident. 
+
+# The Tutorials
+
+## Introduction
 
 This series of tutorials guides you in creating and running simple CLJS
 projects. The bulk of the series follows the progressive enhancement of
@@ -85,7 +98,7 @@ tutorial by following these steps:
 
 1. Get the tutorial repository by running
    `git clone https://github.com/magomimmo/modern-cljs.git`
-2. run `cd modern-cljs`
+2. `cd modern-cljs`
 3. run `lein cljx once` # used from tutorial-16 forward
 4. run `lein ring server-headless`
 5. open a new terminal and cd in the modern-cljs main directory
@@ -95,14 +108,14 @@ tutorial by following these steps:
 9. you can play with the repl you started in step 7 which is now connected
    to the browser
 
-Don't be concerned if steps 3-9 didn't make sense to you just yet,
-they'll each be covered in the tutorials.
+Don't be concerned if steps 3-9 don't make sense to you just yet,
+they'll be covered in the tutorials.
 
 > NOTE: If you want to skip ahead or back and access the code of any single
 > tutorial without typing it or pasting it in, you can do as follows:
 >
 > * run `git clone https://github.com/magomimmo/modern-cljs.git`
-> * run `cd modern-cljs`
+> * `cd modern-cljs`
 > * run `git checkout tutorial-n` # n is 01 for tutorial 1, 02 tutorial-02, etc.
 
 ## [Tutorial 1 - The basics][5]
@@ -137,7 +150,7 @@ login form validation more Clojure-ish.
 In this tutorial we investigate and find two different ways to solve an
 issue we ran into in the last tutorial.
 
-##  [Tutorial 7 - Being doubly aggressive][15]
+##  [Tutorial 7 - Compilation modes][15]
 
 In this tutorial we explore CLJS/CLS compilation modes by
 using the `lein-cljsbuild` plugin of `leiningen`, and we
@@ -167,11 +180,11 @@ In this tutorial we enrich our understanding of Domina
 events by applying them to the `login form` example from
 the [4th Tutorial][9].
 
-## [Tutorial 12 - The highest and the deepest layers][20]
+## [Tutorial 12 - HTML on top, Clojure on the bottom][20]
 
-In this tutorial we're going to cover the highest and the deepest
-layers of the Login Form example we started to cover in the
-[previous tutorial][20].
+In this tutorial we're going to cover the highest (HTML5) and the deepest
+(Clojure on the server) layers of the Login Form example we started
+in the [previous tutorial][20].
 
 ## [Tutorial 13 - Don't Repeat Yourself][21]
 
@@ -245,18 +258,6 @@ applying the separation of concerns principle and by
 implementing a few unit tests. In the process we discover a few
 bugs in the `enfocus` codebase and correct them by first
 interacting with `Enfocus` in the REPL.
-
-# Why the name Modern ClojureScript?
-
-You might be wondering why this tutorial series is named `modern-cljs`
-when ClojureScript is only a couple of years old. What 
-is ancient ClojureScript? I started this series while trying to port
-a few examples from the [Modern JavaScript: Develop and Design][34] book to
-ClojureScript, and now it's too late to change! 
-
-It turns out the name is growing more appropriate each day as
-ClojureScript continues to evolve quickly. I'd like to think it was a brilliant
-choice, but it was just a happy accident. 
 
 # License
 
