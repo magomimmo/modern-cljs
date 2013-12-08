@@ -194,14 +194,14 @@ And here is the interested fragment of `shopping.cljs`
 Here is the related fragment of `login.html`
 
 ```html
-    <script src="js/modern.js"></script>
+    <script src="js/login.js"></script>
     <script>modern_cljs.login.init();</script>
 ```
 
 And here is the related fragment of `shopping.html`
 
 ```html
-  <script src="js/modern.js"></script>
+  <script src="js/shopping.js"></script>
   <script>modern_cljs.shopping.init();</script>
 ```
 
