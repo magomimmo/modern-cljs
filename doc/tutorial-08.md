@@ -1,4 +1,4 @@
-# Tutorial 8 - Introducing Domina events
+# Tutorial 8 - Introducing Domina Events
 
 Starting from [Tutorial 5][1], we introduced the [domina library][2] to
 approach CLJS programming in a more clojure-ish way, rather than

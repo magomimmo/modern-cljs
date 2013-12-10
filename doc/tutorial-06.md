@@ -1,4 +1,4 @@
-# Tutorial 6 - Easy made Complex and Simple made Easy
+# Tutorial 6 - The Easy Made Complex and the Simple Made Easy
 
 In this tutorial we are going to investigate the issue we met in the
 [latest tutorial][1] and try to solve it.

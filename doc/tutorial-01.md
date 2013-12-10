@@ -1,4 +1,4 @@
-# Tutorial 1 - The basic
+# Tutorial 1 - The Basics
 
 In the first tutorial you are going to create and configure a very basic
 [CLJS][1] project using [leiningen 2][2] and [lein-cljsbuild][3] plugin.

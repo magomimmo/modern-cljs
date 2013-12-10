@@ -1,4 +1,4 @@
-# Tutorial 12 - The highest and the deepest layers
+# Tutorial 12 - HTML on Top, Clojure on the Bottom
 
 In the [previous tutorial][1], we used DOM events to further the
 progressive enhancement strategy of our clojurean web application. By

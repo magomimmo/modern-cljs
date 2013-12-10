@@ -118,7 +118,7 @@ they'll be covered in the tutorials.
 > * `cd modern-cljs`
 > * run `git checkout tutorial-n` # n is 01 for tutorial 1, 02 tutorial-02, etc.
 
-## [Tutorial 1 - The basics][5]
+## [Tutorial 1 - The Basics][5]
 
 Create and configure a very basic CLJS project.
 
@@ -140,18 +140,18 @@ example from [Modern Javascript: Development and design][10] to CLJS.
 
 Use the [Domina library][13] to make our login form validation more Clojure-ish.
 
-## [Tutorial 6 - The easy made complex, and the simple made easy][14]
+## [Tutorial 6 - The Easy Made Complex, and the Simple Made Easy][14]
 
 Investigate and find two different ways to solve an issue from the last
 tutorial.
 
-##  [Tutorial 7 - Compilation modes][15]
+##  [Tutorial 7 - Compilation Modes][15]
 
 Explore CLJS/CLS compilation modes by using the `lein-cljsbuild` plugin of
 `leiningen`, and discover a problem and solve it using a feature of the
 `lein-cljsbuild` plugin.
 
-## [Tutorial 8 - Introducing Domina events][16]
+## [Tutorial 8 - Introducing Domina Events][16]
 
 Use Domina events for a more Clojure-ish approach to handing DOM events.
 
@@ -163,11 +163,11 @@ Programmatically manipulate DOM elements in response to DOM events.
 
 Use AJAX to let the CLJS client-side code communicate with the server.
 
-## [Tutorial 11 - A deeper understanding of Domina events][19]
+## [Tutorial 11 - A Deeper Understanding of Domina Events][19]
 
 Apply Domina events to the login form example from the [4th Tutorial][9].
 
-## [Tutorial 12 - HTML on top, Clojure on the bottom][20]
+## [Tutorial 12 - HTML on Top, Clojure on the Bottom][20]
 
 Explore the highest (HTML5) and deepest (Clojure on the server) layers of the
 login form example from the [previous tutorial][20].
@@ -177,18 +177,18 @@ login form example from the [previous tutorial][20].
 Respect the Don't Repeat Yourself (DRY) principle by sharing validators between
 the client-side CLJS and the server-side Clojure.
 
-## [Tutorial 14 - Better safe than sorry (Part 1)][22]
+## [Tutorial 14 - Better Safe Than Sorry (Part 1)][22]
 
 Set the stage for unit testing by learning about the `Enlive`
 template sytem and starting the shopping calculator example. Use code
 refactoring to satisfy the DRY principle and to solve a cyclic namespaces
 dependency problem.
 
-## [Tutorial 15 - Better safe than sorry (Part 2)][23]
+## [Tutorial 15 - Better Safe Than Sorry (Part 2)][23]
 
 Add validators to the `shoppingForm`, and do some unit testing.
 
-## [Tutorial 16 - Better safe than sorry (Part 3)][24]
+## [Tutorial 16 - Better Safe Than Sorry (Part 3)][24]
 
 Make our unit tests portable between Clojure and CLJS by using the
 `clojurescript.test` lib and the `cljx` lein plugin.
@@ -206,7 +206,7 @@ a more comfortable browser REPL based on nREPL, and a more
 comfortable project structure using the `profiles` features of
 [Leiningen][2].
 
-## [Tutorial 19 - Livin' on the edge][35]
+## [Tutorial 19 - Livin' On the Edge][35]
 
 Learn how to contribute something we need to someone
 else's library, and how to publish a snapshot releases on

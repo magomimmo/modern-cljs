@@ -1,4 +1,4 @@
-# Tutorial 21 - Learn by Contributing (Part 2)
+# Tutorial 21 - Learning by Contributing (Part 2)
 
 In the [previous tutorial][1] while starting to learn the [Enfocus][2]
 lib we ended up by collaborating with [Creighton Kirkendall][3] in

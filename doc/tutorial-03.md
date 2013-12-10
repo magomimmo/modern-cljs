@@ -1,4 +1,4 @@
-# Tutorial 3 - CLJ based http-server
+# Tutorial 3 - Ring and Compojure
 
 In this tutorial you are going to substitute the external http-server
 that we configured in [tutorial 2][1] with [ring][2] and

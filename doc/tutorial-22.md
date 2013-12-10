@@ -1,4 +1,4 @@
-# Tutorial 22 - Learn by Contributing (Part 3)
+# Tutorial 22 - Learning by Contributing (Part 3)
 
 In the [previous tutorial][1] we postponed the unit tests
 implementation for the revised [Enfocus][2] lib to give more attention

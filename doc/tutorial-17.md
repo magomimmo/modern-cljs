@@ -1,4 +1,4 @@
-# Tutorial 17 - Enlive by REPling
+# Tutorial 17 - REPLing with Enlive
 
 In the [previous tutorial][1] we reached an important milestone on our
 path of reducing code duplication. We were able to share the same form

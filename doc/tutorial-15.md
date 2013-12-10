@@ -1,4 +1,4 @@
-# Tutorial 15 - It's better to be safe than sorry (Part 2)
+# Tutorial 15 - Better Safe Than Sorry (Part 2)
 
 To adhere to the progressive enhancement strategy in the
 [latest tutorial][1] we introduced [Enlive][2] by

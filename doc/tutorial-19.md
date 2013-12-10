@@ -1,4 +1,4 @@
-# Tutorial 19 - A survival guide for livin' on the edge
+# Tutorial 19 - Livin' On the Edge
 
 In the [previous tutorial][1] we afforded two topics:
 
