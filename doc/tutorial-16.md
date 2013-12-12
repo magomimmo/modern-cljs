@@ -697,7 +697,7 @@ Rewriting test/cljx to target/test/cljs (cljs) with features #{cljs} and 1 trans
 > NOTE 8: You can even automatically run `cljx` task by adding
 > `cljx.hooks` to the `:hooks` option in your `project.clj` file as we
 > already did for `cljsbuild`, but I experienced strange behaviour
-> when configured togheter.
+> when configured together.
 
 You end up with the following structure for the test files
 
