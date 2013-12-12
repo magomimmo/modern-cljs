@@ -171,7 +171,7 @@ corresponding JS code.
 Here is the code snippet you have to add to your `profile.clj` file in
 both to the the `:builds` section of the `:cljsbuild` option
 configuration and to the Leiningen `:test-paths` (cf. ATTENTION NOTE
-in [Tutorial 1 - The Basics][22].
+in [Tutorial 1 - The Basics][22]).
 
 ```clj
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -633,7 +633,7 @@ value in such a way that the `lein test` command used to run the CLJ
 unit tests knows where to find the generated files and to respect the
 fact that `cljsbuild` does not add back CLJS pathnames to the
 Leiningen `classpath` (cf. ATTENTION NOTE in
-[Tutorial 1 - The Basics][22].
+[Tutorial 1 - The Basics][22]).
 
 *Mutatis mutandis*, we had to update the `:source-paths` option for
 each `cljsbuild` unit testing build by including the
