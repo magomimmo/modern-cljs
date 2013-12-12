@@ -795,7 +795,7 @@ Stay tuned for the next tutorial.
 In the [next tutorial][21] we're going to integrate the validators for
 the Shopping Calculator into the corresponding WUI (Web User
 Interface) in such a way that the user will be notified with the right
-error messages when the she/he types in invalid values in the form.
+error messages when she/he types in invalid values in the form.
 
 # License
 
