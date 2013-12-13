@@ -13,7 +13,7 @@ In the [previous tutorial][1] we afforded two topics:
 When you start using a lib implemented by others, you can easily end
 up with few misunderstandings of its use or even with some unexpected
 issues. In these cases the first thing you should do is to browse and
-read its documentation. As you now one problem with open source
+read its documentation. As you know, one problem with open source
 software regards the corresponding documentation which is frequently
 minimal, if not absent, outdated or requiring a level of comprehension
 of the details which you still have to grasp.
