@@ -342,7 +342,7 @@ rules. The syntax of the `[:label (e/attr= :for "price")]` selector
 says to select any element with a `for` attribute valued to `"price"`
 *contained* in a `label` element (i.e. hierarchical rule). In our
 scenario there were no other elements contained inside any `label`
-element, so the selector did not selected any node and the trasformer
+element, so the selector did not select any node and the trasformer
 does not do anything.
 
 On the other hand, the syntax of the `[[:label (attr= :for "price")]]`
