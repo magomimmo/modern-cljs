@@ -539,7 +539,7 @@ project lifecycle and you should consider it just as a staring point.
 Finally we could move to the `:dev` profile the `lein-cljsbuild`
 builds configurations declared to support the `:whitespace` and
 `:simple` compiler optimizations as well. As we'll see in a subsequent
-tutorial, `cljsbuild` offers a `:crossover-jar` and a `:jar' to
+tutorial, `cljsbuild` offers a `:crossover-jar` and a `:jar` to
 specify which `:source-paths` CLJS pathnames to include into a `jar`
 package to be published or distributed to third party. At the moment
 we don't care about this.
