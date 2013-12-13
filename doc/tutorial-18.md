@@ -321,7 +321,7 @@ lein do clean, compile, test # unit testing from a clean env
 lein do clean, compile, ring server-headless # run application from a clean env
 ```
 
-Unfortunally, both the above commands show a double CLJS unit testing
+Unfortunately, both the above commands show a double CLJS unit testing
 code generation which, in turn, are compiled two times! The iteraction
 between the `cljsbuild` and the `cljx` hooks seems to have a bug to be
 fixed.
