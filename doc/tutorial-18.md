@@ -677,7 +677,7 @@ stuff under the `:dev` profile.
 > `:dev` profile as well. Again, the reason why is the fact the it
 > pertains the development/testing phases of the project.
 
-If you're curious an patient in reading the `diff` command result, the
+If you're curious and patient in reading the `diff` command result, the
 following *nix command (sorry for any MS Windows users, but I don't
 know that OS) allows you to verify the differences between the `:user`
 and the `:dev` profiles.
