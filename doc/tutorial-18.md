@@ -748,7 +748,7 @@ Compiling ClojureScript.
 Started server on port 3000
 ```
 
-Good is works again as expected. You can verify that the application
+Good, it works again as expected. You can verify that the application
 behaves as before by visiting the [shopping-dbg.html][21].
 
 Now stop the ring server and check that the defined aliases
