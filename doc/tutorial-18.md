@@ -517,7 +517,7 @@ concerns of the modern-cljs `project.clj` file.
 
 The choice about what to keep in the `:default` profile and what to
 move in other predefined profiles or even in user-defined profiles, is
-project dependend, subjective and even dependent on phases of the
+project dependent, subjective and even dependent on phases of the
 project lifecycle we still have to afford (e.g. project packaging and
 deployment).
 
