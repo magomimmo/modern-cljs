@@ -257,7 +257,7 @@ contains CLJS source code to be used by others projects, which are the
 ones to be configured and managed by the `lein-cljsbuild` plugin.
 
 That said, I would still have expected to see the `lein-cljsbuild`
-pluging to be used for configuring and managing the CLJS unit testing
+plugin to be used for configuring and managing the CLJS unit testing
 code, but none of the cited `shoreleave` lib contains any unit
 tests. Considering that the `shoreleave` libs have been published when
 the `clojurescript.test` lib was still in the [Chas Emerick's][16]
