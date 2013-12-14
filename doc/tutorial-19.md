@@ -532,7 +532,7 @@ I'm going to summarize its characteristics and the most fundamental
 steps.
 
 Keep in mind that any release ending in "-SNAPSHOT" is not an official
-release and you should relay on them only when you really need (which
+release and you should rely on them only when you really need (which
 is not our fictional scenario). Also remember that by adding a
 snapshot dependency to your project, you will cause `lein` to slow
 down its dependensies search.
