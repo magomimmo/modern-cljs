@@ -30,7 +30,7 @@ distributed and remote collaboration requirements.
 This tutorial is composed of two parts:
 
 * *Livin' on the edge*. In this part we're going to update the
-  depenendencies of a set of libs which the `modern-cljs` depends on;
+  dependencies of a set of libs which the `modern-cljs` depends on;
 * *A Survival guide*. In this part we're going to see what to do when
   the responsiveness of the owner of a lib for which we have submitted
   a pull request is not compatible with our project schedule or when
