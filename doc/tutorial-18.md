@@ -716,7 +716,7 @@ Compiling ClojureScript.
 ```
 
 Well, it worked. Now I expect that by running the `test` task with the
-`:user` profile we get in trouble, because all the dependensies,
+`:user` profile we get in trouble, because all the dependencies,
 plugins and configurations supporting the unit testing task of the
 project are confined in the `:dev` profile.
 
