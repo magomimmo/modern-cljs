@@ -201,7 +201,7 @@ available in any project you're working on into the
 
 All the cited `shoreleave` libs use the [lein-marginalia][13]
 plugin. `lein-marginalia` plugin is a *kind* of
-[litarate programming][14] implementation that parses CLJ and CLJS
+[literate programming][14] implementation that parses CLJ and CLJS
 code and outputs a side-by-side source view with appropriate comments
 and docstrings aligned.
 
