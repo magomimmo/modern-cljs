@@ -315,7 +315,7 @@ we already did with the `shoreleave-core` one.
 ```
 
 > NOTE 6: As you see, we updated both the `shoreleave-core` and
-> `shoreleave-browser` depenendencies to the newly created
+> `shoreleave-browser` dependencies to the newly created
 > "0.3.1-SNAPSHOT".
 
 #### Update the `shoreleave-remote-ring` lib
