@@ -945,7 +945,7 @@ cases (i.e. CLJ and CLJS?
 #### Logical true and false
 
 In the Chapter 3 of [The Joy of Clojure][11] by [Michael Fogus][12]
-and [Chris Hauser][13] there is a nice discussion about the logical
+and [Chris Houser][13] there is a nice discussion about the logical
 true and false based on the Clojure pragmatical decision by
 [Rich Hakey][14] to consider everything `true` but `nil` and `false`
 in a boolean context.
