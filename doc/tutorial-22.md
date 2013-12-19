@@ -1082,7 +1082,7 @@ Let's take a look at the `sel-to-str` function internally used by the
 `convert` function.
 
 ```clj
-user=> (source syn/convert)
+user=> (source syn/sel-to-str)
 (defn sel-to-str [input]
   (let [item (first input)
         rest (rest input)
