@@ -660,7 +660,7 @@ Ran 1 tests containing 1 assertions.
 Tests failed.
 ```
 
-Ops. The `lein test` command ran the dummy CLJ unit test only and not,
+Oops. The `lein test` command ran the dummy CLJ unit test only and not,
 as expected, the dummy CLJS unit test too.
 
 Again this is a bug relative to a bad interaction between the `cljx`
