@@ -1034,6 +1034,8 @@ Let's now run the unit tests from the REPL to verify that all the
 ```clj
 user=> (require '[clojure.test :as ct])
 nil
+user=> (require '[enfocus.enlive.syntax-test])
+nil
 user=> (ct/run-tests 'enfocus.enlive.syntax-test)
 
 Testing enfocus.enlive.syntax-test
