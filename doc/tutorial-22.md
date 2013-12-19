@@ -1026,7 +1026,7 @@ user=>
 ```
 
 Not bad. We just substituted the `let` call with `if-let`
-call. Nothing simplest than that.
+call. Nothing simpler than that.
 
 Let's now run the unit tests from the REPL to verify that all the
 `convert` unit tests succeed.
