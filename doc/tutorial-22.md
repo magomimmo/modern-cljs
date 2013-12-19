@@ -540,7 +540,7 @@ to its own `:source-paths`.
 
 #### Ported Unit Tests
 
-Now that we have added and configure the `cljx` plugin we can start
+Now that we have added and configured the `cljx` plugin we can start
 coding the first unit test for the `convert` portable function, but we
 first need to create the `test/cljx/enfocus` directory.
 
