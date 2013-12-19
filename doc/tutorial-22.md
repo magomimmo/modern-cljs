@@ -2,11 +2,11 @@
 
 In the [previous tutorial][1] we postponed the unit tests
 implementation for the revised [Enfocus][2] lib to give more attention
-at the generation of its `jar` package. We altered both the
-directories layout and some `project.clj` setting until we reached a
+to the generation of its `jar` package. We altered both the
+directories layout and some `project.clj` settings until we reached
 full control of it. Then we implemented `hello-enfocus`, the simplest
 `enfocus`-based project you can think about. Finally, with the support
-of the [piggieback][3] lib we enable the REPLing with it.
+of the [piggieback][3] lib we enabled the REPLing with it.
 
 In this tutorial we're going to move even forward in improving the
 `Enfocus` lib.  We'll apply again the separation of concerns principle
