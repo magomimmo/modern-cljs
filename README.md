@@ -289,3 +289,7 @@ License, the same license as Clojure.
 [50]: https://github.com/weavejester/compojure
 [51]: http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-001-structure-and-interpretation-of-computer-programs-spring-2005/index.htm
 [52]: https://github.com/cemerick/piggieback
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/magomimmo/modern-cljs/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
