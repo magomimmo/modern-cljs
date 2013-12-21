@@ -5,8 +5,7 @@ creating and running [ClojureScript][1] (CLJS) projects.
 
 CLJS is a compiler for the Clojure programming language that targets
 JavaScript. It emits JavaScript code which runs in web browsers or
-other client-side or server-side JavaScript interpreters. CLJS has
-even been used to [write an excellent iOS application][47]!
+other client-side or server-side JavaScript interpreters.
 
 ## Required background
 
@@ -31,8 +30,6 @@ Here are some book recommendations:
 * [Programming Clojure][30]: written by another legendary Clojure developer,
   it's the easiest path to learning Clojure.
 * [The Joy of Clojure][31]: the title speaks by itself. A must read!
-* [The Annotated Clojure Reference Manual][33]: by Rich Hickey, the creator
-  of Clojure, it's an often overlooked Clojure book :).
 * [ClojureScript Up and Running][32]: at the moment, it's the only
   published book on ClojureScript. Even though it's not old, the
   book is a bit outdated since ClojureScript is evolving quickly. It's brief
@@ -44,6 +41,9 @@ Here are some book recommendations:
   [online][43], in [print][43], or in a [lecture series](51).
 * [On Lisp][28]: if you want to learn about macros, this is the place to start. 
   It uses [Common Lisp][49] (a Lisp dialect) rather than Clojure.
+* [The Annotated Clojure Reference Manual][33]: by Rich Hickey, the creator
+  of Clojure, it's an often overlooked Clojure book :).
+
 
 ## Required tools
 
@@ -284,7 +284,6 @@ License, the same license as Clojure.
 [44]: http://www.amazon.com/Structure-Interpretation-Computer-Programs-Engineering/dp/0262510871/
 [45]: http://git-scm.com/
 [46]: http://git-scm.com/documentation
-[47]: http://keminglabs.com/blog/angular-cljs-weather-app/
 [48]: http://racket-lang.org/
 [49]: http://en.wikipedia.org/wiki/Common_Lisp
 [50]: https://github.com/weavejester/compojure
