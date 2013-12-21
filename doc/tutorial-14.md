@@ -1,4 +1,4 @@
-# Tutorial 14 - It's better to be safe than sorry (Part 1)
+# Tutorial 14 - Better Safe Than Sorry (Part 1)
 
 In this part of the tutorial we're going to prepare the field for one
 of the main topics in the software development life cycle: *code

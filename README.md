@@ -1,7 +1,7 @@
 # Modern ClojureScript
 
 Modern ClojureScript (`modern-cljs`) is a series of tutorials that guide you in 
-creating, setting up and developing [ClojureScript][1] (CLJS) projects.
+creating and running [ClojureScript][1] (CLJS) projects.
 
 CLJS is a compiler for the Clojure programming language that targets
 JavaScript. It emits JavaScript code which runs in web browsers or
@@ -11,13 +11,13 @@ even been used to [write an excellent iOS application][47]!
 ## Required background
 
 These tutorials require that you have some prior programming experience. 
-They assume you've at least gotten your hands dirty by trying a little Clojure,
+They assume you've gotten your hands dirty by trying a little Clojure,
 even if you're not proficient in it yet. It will also be quite helpful if
 you have some experience programming for the Web using HTML, JavaScript and the
 browser DOM.
 
 If you don't know anything about Clojure (or about Lisp), I
-recommend you learn a little bit about it before starting these tutorials.
+recommend you learn a little bit before starting these tutorials.
 
 There are plenty of outstanding resources on Clojure that are freely available
 on the Internet, and you can't overestimate the benefit of reading
@@ -32,19 +32,18 @@ Here are some book recommendations:
   it's the easiest path to learning Clojure.
 * [The Joy of Clojure][31]: the title speaks by itself. A must read!
 * [The Annotated Clojure Reference Manual][33]: by Rich Hickey, the creator
-  of Clojure, is the most often missed Clojure book :).
+  of Clojure, it's an often overlooked Clojure book :).
 * [ClojureScript Up and Running][32]: at the moment, it's the only
-  published book on ClojureScript. Even though it's not that old, the
-  book is a little outdated since ClojureScript is evolving quickly.
-  It's so brief you can read it very quickly, and it's still useful,
-  especially if you want to integrate with external JavaScript libraries.
+  published book on ClojureScript. Even though it's not old, the
+  book is a bit outdated since ClojureScript is evolving quickly. It's brief
+  and useful, especially if you want to integrate with external
+  JavaScript libraries.
 * [SICP - Structure and Interpretation of Computer Programs][27]: this
-  is the best programming book I've ever read in my very long career. It uses
+  is the best programming book I've read in my very long career. It uses
   [Scheme/Racket][48] (a Lisp dialect) rather than Clojure and is available
-  [online][43] or in [print][43].
-* [On Lisp][28]: if you want to learn about macros, this is the place to start 
-  even though it uses [Common Lisp][49] (a well-known Lisp dialect) rather than
-  Clojure.
+  [online][43], in [print][43], or in a [lecture series](51).
+* [On Lisp][28]: if you want to learn about macros, this is the place to start. 
+  It uses [Common Lisp][49] (a Lisp dialect) rather than Clojure.
 
 ## Required tools
 
@@ -54,29 +53,30 @@ use both Mac OS X and Ubuntu, and I use Emacs as an editor.
 
 Because I'm an old-timer, *nix and Emacs are the OS and editor I know best. 
 That being said, in this series of tutorials you're not going to find any
-suggestions or reference to OS or IDE/Editor. Use whatever tools you already
-have and know. I have too much respect for people developing IDE/plugins for 
-Clojure/CLJS to say that one is better than another, and you don't
-want to combine learning a new programming language with trying to learn a
-new programming environment.
+suggestions or reference to operating systems or editors. Use whatever tools
+you already have and know. I have too much respect for people developing
+IDE/plugins for Clojure/CLJS to say that one is better than another, and
+you don't want to combine learning a new programming language with trying
+to learn a new programming environment.
 
 You will need to have [git][45] installed and you'll need some familiarity
-with the [very basics of git][46].
+with the [basics of git][46].
 
-Everything else you'll need besides git and a code editor that you're
-comfortable with is covered in the tutorials!
+Everything else you'll need besides git and a code editor is covered in the
+tutorials!
 
 ## Why the name Modern ClojureScript?
 
 You might wonder why this tutorial series is named `modern-cljs`
 when ClojureScript is only a couple of years old. What 
-in the world is ancient ClojureScript? You got me there!
+in the world is ancient ClojureScript? You got me there! I started this series
+while trying to port a few examples from the
+[Modern JavaScript: Develop and Design][34] book to ClojureScript, and now it's
+too late to change.
 
-I started this series while trying to port
-a few examples from the [Modern JavaScript: Develop and Design][34] book to
-ClojureScript, and now it's too late to change. The name is actually
-becoming more appropriate each day as ClojureScript continues to evolve quickly.
-I'd like to think it was a brilliant choice, but it was just a happy accident. 
+The name is becoming more appropriate each day as ClojureScript
+continues to evolve quickly. I'd like to think it was a brilliant choice, but
+it was just a happy accident. 
 
 # The Tutorials
 
@@ -88,7 +88,7 @@ a single project.
 
 While working through the tutorials I *strongly* suggest you start at
 tutorial 1 and type in all the code for each tutorial yourself.
-In my experience it's the best choice if you're not already
+In my experience this is the the best approach if you're not already
 very fluent with the programming language.
 
 That being said, if you want to jump to the end and see what the final project
@@ -118,146 +118,120 @@ they'll be covered in the tutorials.
 > * `cd modern-cljs`
 > * run `git checkout tutorial-n` # n is 01 for tutorial 1, 02 tutorial-02, etc.
 
-## [Tutorial 1 - The basics][5]
+## [Tutorial 1 - The Basics][5]
 
-In the first tutorial you are going to create and configure a very basic
-CLJS project.
+Create and configure a very basic CLJS project.
 
 ## [Tutorial 2 - Browser CLJS REPL (bREPL)][6]
 
-In this tutorial we set up a browser connected CLJS REPL
-(bRepl) using an external http-server.
+Set up a browser connected CLJS REPL (bRepl) using an external http-server.
 
 ## [Tutorial 3 - Ring and Compojure][7]
 
-In this tutorial we substitute the external http-server
-with [Ring][8], a Clojure HTTP server and middleware, and [Compojure][50],
-a routing library for Ring.
+Replace the external http-server with [Ring][8], a Clojure HTTP server and
+middleware, and [Compojure][50], a routing library for Ring.
 
 ## [Tutorial 4 - Modern ClojureScript][9]
 
-In this tutorial we start having some fun with CLJS form validation by
-porting the JavaScript login form example from
-[Modern Javascript: Development and design][10] by [Larry Ullman][11] to CLJS.
+Have some fun with CLJS form validation by porting the JavaScript login form
+example from [Modern Javascript: Development and design][10] to CLJS.
 
 ## [Tutorial 5 - Introducing Domina][12]
 
-In this tutorial we use the [Domina library][13] to make our
-login form validation more Clojure-ish.
+Use the [Domina library][13] to make our login form validation more Clojure-ish.
 
-## [Tutorial 6 - The easy made complex, and the simple made easy][14]
+## [Tutorial 6 - The Easy Made Complex, and the Simple Made Easy][14]
 
-In this tutorial we investigate and find two different ways to solve an
-issue we ran into in the last tutorial.
+Investigate and find two different ways to solve an issue from the last
+tutorial.
 
-##  [Tutorial 7 - Compilation modes][15]
+##  [Tutorial 7 - Compilation Modes][15]
 
-In this tutorial we explore CLJS/CLS compilation modes by
-using the `lein-cljsbuild` plugin of `leiningen`, and we
-discover a problem and solve it using a feature of the
+Explore CLJS/CLS compilation modes by using the `lein-cljsbuild` plugin of
+`leiningen`, and discover a problem and solve it using a feature of the
 `lein-cljsbuild` plugin.
 
-## [Tutorial 8 - Introducing Domina events][16]
+## [Tutorial 8 - Introducing Domina Events][16]
 
-In this Tutorial we introduce Domina events which, by
-wrapping Google Closure Library event management, allow us use a
-more Clojure-ish approach to handing DOM events.
+Use Domina events for a more Clojure-ish approach to handing DOM events.
 
 ## [Tutorial 9 - DOM Manipulation][17]
 
-In this tutorial we programmatically manipulate DOM elements
-in response to DOM events.
+Programmatically manipulate DOM elements in response to DOM events.
 
 ## [Tutorial 10 - Introducing AJAX][18]
 
-In this tutorial we extend our knowledge of CLJS by
-introducing AJAX to let the CLJS client-side code communicate with
-the Clojure server-side code.
+Use AJAX to let the CLJS client-side code communicate with the server.
 
-## [Tutorial 11 - A deeper understanding of Domina events][19]
+## [Tutorial 11 - A Deeper Understanding of Domina Events][19]
 
-In this tutorial we enrich our understanding of Domina
-events by applying them to the `login form` example from
-the [4th Tutorial][9].
+Apply Domina events to the login form example from the [4th Tutorial][9].
 
-## [Tutorial 12 - HTML on top, Clojure on the bottom][20]
+## [Tutorial 12 - HTML on Top, Clojure on the Bottom][20]
 
-In this tutorial we're going to cover the highest (HTML5) and the deepest
-(Clojure on the server) layers of the Login Form example we started
-in the [previous tutorial][20].
+Explore the highest (HTML5) and deepest (Clojure on the server) layers of the
+login form example from the [previous tutorial][20].
 
 ## [Tutorial 13 - Don't Repeat Yourself][21]
 
-It's important to eliminate code duplication
-from our web applications wherever possible. We want to stay compliant
-with the Don't Repeat Yourself (DRY) mantra. In this tutorial we respect
-the DRY principle by sharing validators between the client-side CLJS
-and the server-side Clojure.
+Respect the Don't Repeat Yourself (DRY) principle by sharing validators between
+the client-side CLJS and the server-side Clojure.
 
-## [Tutorial 14 - Better safe than sorry (Part 1)][22]
+## [Tutorial 14 - Better Safe Than Sorry (Part 1)][22]
 
-In this tutorial we are going to prepare the stage for affording the
-unit testing topic. We'll also introduce the `Enlive` template sytem
-to implement a server-side only version of the Shopping Calculator
-aimed at adhering to the progressive enanchement implementation
-strategy. We'll even see how to exercize code refactoring to satisfy
-the DRY principle and to solve a cyclic namespaces dependency problem.
+Set the stage for unit testing by learning about the `Enlive`
+template sytem and starting the shopping calculator example. Use code
+refactoring to satisfy the DRY principle and to solve a cyclic namespaces
+dependency problem.
 
-## [Tutorial 15 - Better safe than sorry (Part 2)][23]
+## [Tutorial 15 - Better Safe Than Sorry (Part 2)][23]
 
-In this tutorial, after having added the validators for the
-`shoppingForm`, we do some unit testing.
+Add validators to the `shoppingForm`, and do some unit testing.
 
-## [Tutorial 16 - Better safe than sorry (Part 3)][24]
+## [Tutorial 16 - Better Safe Than Sorry (Part 3)][24]
 
-In this tutorial we make our unit tests portable from Clojure to CLJS (and
-vice-versa) by using the `clojurescript.test` lib and the `cljx` lein
-plugin.
+Make our unit tests portable between Clojure and CLJS by using the
+`clojurescript.test` lib and the `cljx` lein plugin.
 
 ## [Tuturial 17 - REPLing with Enlive][25]
 
-Following our progressive enhancement strategy, in this
-tutorial we integrate the form validators for the
-server-side Shopping Calculator into the corresponding Web UI, so the user
-is notified with the right error messages when typing invalid values
-into the form.
+Integrate the form validators from the server-side Shopping Calculator into
+the Web UI, so the user is notified with the right error messages when 
+typing invalid values into the form.
 
 ## [Tutorial 18 - Housekeeping!][26]
 
-In this tutorial we digress to cover two productivity topics. We setup
+A digression to cover two topics on CLJS developer productivity, setting up
 a more comfortable browser REPL based on nREPL, and a more
 comfortable project structure using the `profiles` features of
-[Leiningen][2]
+[Leiningen][2].
 
-## [Tutorial 19 - Livin' on the edge][35]
+## [Tutorial 19 - Livin' On the Edge][35]
 
-In this tutorial we see how to contribute something we need to someone
+Learn how to contribute something we need to someone
 else's library, and how to publish a snapshot releases on
 [clojars][36] to use the enhancement in our own project.
 
 ## [Tutorial 20 - Learning by Contributing (Part 1)][37]
 
-In this tutorial, we look at the [Enfocus][38] library with the
+Look at the [Enfocus][38] library with the
 objective of sharing as much code as possible with 
-[Enlive][39]. We start our open source collaboration by proposing few
-improvements to the `Enfocus` directories layout and the adoption of
-the [clojurescript.test][40] lib for implementing its unit tests.
+[Enlive][39]. Start an open source collaboration by proposing a few
+improvements to the Enfocus directory structure and the adoption of
+the [clojurescript.test][40] library for implementing unit tests.
 
 ## [Tutorial 21 - Learning by Contributing (Part 2)][41]
 
-In [this tutorial][41] we adjust `Enfocus` for packaging
-it up into a `jar`. Then we instrument it with the `piggieback` lib,
-publish it on `clojars` and use it as a dependency in a very
-simple project to demonstrate that the changes we made don't
-affect the `Enfocus` codebase which still works as expected.
+Package [Enfocus](38) into a `jar`, instrument it
+with the [Piggieback](52) library, publish it on [clojars](36), and use it
+as a dependency in a very simple project to see that the changes we made don't
+affect the Enfocus codebase, which still works as expected.
 
 ## [Tutorial 22 - Learning by Contributing (Part 3)][42]
 
-In [this tutorial][42] we improve `Enfocus` more by
-applying the separation of concerns principle and by
-implementing a few unit tests. In the process we discover a few
-bugs in the `enfocus` codebase and correct them by first
-interacting with `Enfocus` in the REPL.
+Improve [Enfocus](38) by applying separation of concerns and
+implementing a few unit tests. In the process, discover some 
+bugs and correct them by first interacting with Enfocus in the REPL.
 
 # License
 
@@ -314,3 +288,5 @@ License, the same license as Clojure.
 [48]: http://racket-lang.org/
 [49]: http://en.wikipedia.org/wiki/Common_Lisp
 [50]: https://github.com/weavejester/compojure
+[51]: http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-001-structure-and-interpretation-of-computer-programs-spring-2005/index.htm
+[52]: https://github.com/cemerick/piggieback

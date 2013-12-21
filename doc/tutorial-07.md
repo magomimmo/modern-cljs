@@ -1,4 +1,4 @@
-# Tutorial 7 - Being doubly aggressive
+# Tutorial 7 - Compilation Modes
 
 In this tutorial we're going to explore CLS compiler optimizations by
 using the usual `lein-cljsbuild` plugin of `leiningen` and we'll

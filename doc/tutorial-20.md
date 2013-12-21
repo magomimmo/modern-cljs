@@ -1,4 +1,4 @@
-# Tutorial 20 - Learn by Contributing (Part 1)
+# Tutorial 20 - Learning by Contributing (Part 1)
 
 In the [previous tutorial][1] we described a couple of approaches for
 surviving while living on the edge of a continuosly changing CLJ/CLJS

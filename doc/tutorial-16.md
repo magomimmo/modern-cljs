@@ -1,4 +1,4 @@
-# Tutorial 16 - It's better to be safe than sorry (Part 3)
+# Tutorial 16 - Better Safe Than Sorry (Part 3)
 
 > DEDICATION: I dedicate this tutorial to [Chas Emerick][3] for the
 > amazing stuff he's been able to do for all of us. Without his hard

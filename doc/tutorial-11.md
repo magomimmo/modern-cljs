@@ -1,4 +1,4 @@
-# Tutorial 11 - A deeper understanding of Domina Events
+# Tutorial 11 - A Deeper Understanding of Domina Events
 
 In the [latest tutorial][1] we introduced the ajax model of
 communication between the browser and the server by exploiting the
