@@ -305,7 +305,7 @@ syntactical correctness by matching its value against one of the several
 evidence of the error to the user.
 
 Although a nice looking implementation of the above specifications is
-left to you, let's show at least a very crude sample from wich to start
+left to you, let's show at least a very crude sample from which to start
 from.
 
 > NOTE 7: Take a look at the end of [this post][23] for a HTML5
