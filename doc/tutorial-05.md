@@ -465,7 +465,7 @@ different ways the problem we just met.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-2014. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/levand/domina

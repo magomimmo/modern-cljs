@@ -181,7 +181,7 @@ code and CLJ server code.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-2014. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: http://en.wikipedia.org/wiki/Cross-site_scripting
