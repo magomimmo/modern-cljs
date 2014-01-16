@@ -352,6 +352,8 @@ Now let's play with the form:
 * if you click the login button before having filled both email and
 password fields you should see the alert window popping up and asking
 you to complete the form;
+* with some browsers you may need to remove the required attribute on
+  the input fields to submit them without filling them out;
 * if you click the login button after having filled both email and
   password fields you should see the usual browser error message
   saying that the page
