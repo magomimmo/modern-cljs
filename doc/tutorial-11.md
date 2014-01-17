@@ -488,7 +488,7 @@ Running ClojureScript REPL, listening on port 9000.
 "Type: " :cljs/quit " to quit"
 ClojureScript:cljs.user> (in-ns 'domina.events)
 ClojureScript:domina.events> (map keyword (gobj/getValues events/EventType))
-(:click :dblclick :mousedown :mouseup :mouseover :mouseout :mousemove 
+(:click :dblclick :mousedown :mouseup :mouseover :mouseout :mousemove
 :selectstart :keypress :keydown :keyup :blur :focus :deactivate :DOMFocusIn
 :DOMFocusOut :change :select :submit :input :propertychange :dragstart :drag
 :dragenter :dragover :dragleave :drop :dragend :touchstart :touchmove
@@ -526,7 +526,7 @@ layers of the progressive enhancement strategy to the Login Form.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-13. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md

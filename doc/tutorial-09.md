@@ -98,7 +98,7 @@ We can now add `add-help` handler to the `mouseover` event of the
     (ev/listen! (dom/by-id "calc") :mouseover add-help)))
 ```
 
-> NOTE 2: we changed `if` to `when` so that both handlers are added if 
+> NOTE 2: we changed `if` to `when` so that both handlers are added if
 > the condition holds
 
 If you now compile, run and visit [`shopping-dbg.html`][4] page
@@ -326,7 +326,7 @@ the CLJ server-side code.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-13. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md

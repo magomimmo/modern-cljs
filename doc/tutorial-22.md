@@ -56,7 +56,7 @@ Take a look of the final `project.clj` we ended up in the
   :min-lein-version "2.2.0"
 
   :source-paths ["src/clj" "src/cljs"]
-  
+
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-2069"]
@@ -64,7 +64,7 @@ Take a look of the final `project.clj` we ended up in the
                  [org.jsoup/jsoup "1.7.2"]]
 
   :plugins [[lein-cljsbuild "1.0.0"]]
-  
+
   :hooks [leiningen.cljsbuild]
 
   :cljsbuild
@@ -93,14 +93,14 @@ Take a look of the final `project.clj` we ended up in the
                               {:output-to "dev-resources/public/js/whitespace.js"
                                :optimizations :whitespace
                                :pretty-print true}}
-                             
+
                              :simple
                              {:source-paths ["src/cljs" "test/cljs"]
                               :compiler
                               {:output-to "dev-resources/public/js/simple.js"
                                :optimizations :simple
                                :pretty-print false}}
-                             
+
                              :advanced
                              {:source-paths ["src/cljs" "test/cljs"]
                               :compiler
@@ -155,7 +155,7 @@ Here is the resulting `project.clj`
   :min-lein-version "2.2.0"
 
   :source-paths ["src/clj" "src/cljs"]
-  
+
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-2069"]
@@ -163,7 +163,7 @@ Here is the resulting `project.clj`
                  [org.jsoup/jsoup "1.7.2"]]
 
   :plugins [[lein-cljsbuild "1.0.0"]]
-  
+
   :hooks [leiningen.cljsbuild]
 
   :cljsbuild
@@ -200,14 +200,14 @@ An here is the `profiles.clj` content:
                   {:output-to "dev-resources/public/js/whitespace.js"
                    :optimizations :whitespace
                    :pretty-print true}}
-                             
+
                  :simple
                  {:source-paths ["src/cljs" "test/cljs"]
                   :compiler
                   {:output-to "dev-resources/public/js/simple.js"
                    :optimizations :simple
                    :pretty-print false}}
-                             
+
                  :advanced
                  {:source-paths ["src/cljs" "test/cljs"]
                   :compiler
@@ -509,11 +509,11 @@ to add it in the `:dev` profile which has been kept separated from the
        {:builds {:whitespace
                  {:source-paths ["src/cljs" "test/cljs" "src/brepl" "target/test/cljs"]
                   ...}
-                             
+
                  :simple
                  {:source-paths ["src/cljs" "test/cljs" "target/test/cljs"]
                   ...}
-                             
+
                  :advanced
                  {:source-paths ["src/cljs" "test/cljs" "target/test/cljs"]
                   ...}}
@@ -1296,7 +1296,7 @@ TO BE DONE
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-13. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-21.md

@@ -145,7 +145,7 @@ lib, because those resources are used for testing purpose only.
 We'll go on step by step.
 
 > ATTENTION NOTE
-> 
+>
 > In the [Tutorial 1 - The Basics][14] we already advised you that the
 > `cljsbuild` plugin does not add back to the Leiningen `:source-paths`
 > any pathnames from the `:source-paths` of each CLJS build. If you do
@@ -160,7 +160,7 @@ option the `cljsbuild`, all we have to do is just add to the
 `cljsbuild` section the `:crossover-jar true` setting as well.
 
 ```clj
-(defproject 
+(defproject
   ...
   :cljsbuild
   {...
@@ -201,7 +201,7 @@ raise a double entry error.
 Don't you believe me? Try it.
 
 ```clj
-(defproject 
+(defproject
   ...
   :cljsbuild
   {...
@@ -253,7 +253,7 @@ mv resources dev-resources
 Here is the snippet of the modified portion of the `project.clj` file.
 
 ```clj
-(defproject ... 
+(defproject ...
   ...
   {...
    :builds {:whitespace
@@ -345,7 +345,7 @@ to move few stuff to the `:dev` profile as well.
    :crossover-jar true
    ;; we moved all the builds to support unit testing into the dev profile.
    ;; Here we only define the one used for including the lib CLJS source files
-   ;; in the jar package. 
+   ;; in the jar package.
    :builds {:deploy
             {:source-paths ["src/cljs"]
              ;:jar true ; DON'T TO THIS
@@ -955,7 +955,7 @@ and we even correct them by first interact with the REPL.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-13. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-20.md

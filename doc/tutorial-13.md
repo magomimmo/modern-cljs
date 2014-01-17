@@ -690,7 +690,7 @@ namespaces dependency problem we'll meet on the way.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-13. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-12.md

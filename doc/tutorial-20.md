@@ -250,7 +250,7 @@ The new directories layout needs now to be reflected in the
   :plugins [[lein-cljsbuild "0.3.0"]]
   ;; cljsbuild is now hooked to lein task
   :hooks [leiningen.cljsbuild]
-  
+
   :cljsbuild
   {:crossovers [enfocus.enlive.syntax]
    :builds
@@ -268,7 +268,7 @@ The new directories layout needs now to be reflected in the
 As explained in the ATTENTION NOTE of the very [first tutorial][28] of
 this series, the `cljsbuild` plugin does not add back its
 `source-paths` to the Leiningen `:source-paths` and we need to add them
-manually. The same things has to be done for the `:test-paths` too. 
+manually. The same things has to be done for the `:test-paths` too.
 
 We also hooked the `cljsbuild` subtasks to the lein tasks
 and substituted the `cljx` plugin and its `:cljx` configuration rules
@@ -465,7 +465,7 @@ updating the `Enfocus` dependencies and plugins references.
 ### Upgrade to lein-cljsbuild `"1.0.0"`
 
 The latest current available [lein-cljsbuild][16] plugin release is
-the `"1.0.0"`. 
+the `"1.0.0"`.
 
 Starting from the `"0.3.3"` release of `lein-cljsbuild` plugin warns
 you when you do not specify a CLJS dependency in your project and
@@ -481,7 +481,7 @@ Wow, four changes in one shot to be edited in the `project.clj` file.
 
 > NOTE 6: Whenever you need to change the `project.clj` file, remember
 > to first clean the project.
-> 
+>
 > ```bash
 > lein clean
 > ```
@@ -878,7 +878,7 @@ working as expected.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-13. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-19.md

@@ -144,7 +144,7 @@ In the [next tutorial 4][7] we're going to have some fun introducing form valida
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-2014. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md

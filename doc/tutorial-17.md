@@ -335,7 +335,7 @@ user>
 
 Ops, it did not work. What happened?
 
-### Hierarchical and conjuction rules 
+### Hierarchical and conjuction rules
 
 This unexpected behaiour has to do with the Enlive DSL grammar's
 rules. The syntax of the `[:label (e/attr= :for "price")]` selector
@@ -471,8 +471,8 @@ transformation with the following `maybe-error` simple macro which
 receives an expression and expands into the above convoluted code.
 
 ```clj
-(defmacro maybe-error [expr] 
-  `(if-let [x# ~expr] 
+(defmacro maybe-error [expr]
+  `(if-let [x# ~expr]
      (do-> (add-class "error")
            (content x#))
      identity))
@@ -489,8 +489,8 @@ the entire content of the `shopping.clj` source file.
             [modern-cljs.remotes :refer [calculate]]
             [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
 
-(defmacro maybe-error [expr] 
-  `(if-let [x# ~expr] 
+(defmacro maybe-error [expr]
+  `(if-let [x# ~expr]
      (do-> (add-class "error")
            (content x#))
      identity))
@@ -574,7 +574,7 @@ and the setup of a more comfortable project structure by using the
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-13. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md
