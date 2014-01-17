@@ -235,7 +235,7 @@ bugs and correct them by first interacting with Enfocus in the REPL.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-2013. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-2014. Released under the Eclipse Public
 License, the same license as Clojure.
 
 [1]: https://github.com/clojure/clojurescript.git
