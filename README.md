@@ -31,7 +31,7 @@ editors/IDE.
 I'll do my best to keep the port quickly updated with the upstream as
 it evolves.
 
-### Quickstart with the David Noled Programming Language Tutorial
+### Quickstart with the David Nolen Programming Language Tutorial
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
