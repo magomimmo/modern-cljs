@@ -7,6 +7,54 @@ CLJS is a compiler for the Clojure programming language that targets
 JavaScript. It emits JavaScript code which runs in web browsers or
 other client-side or server-side JavaScript interpreters.
 
+## A ClojureScript Programming Language Tutorial
+
+The `modern-cljs` series now includes a port for Emacs users of the
+recent
+[lt-cljs-tutorial - A ClojureScript Programming Language Tutorial for Light Table Users][53]
+by the [David Nolen][54]: the tireless, generous and amazingly
+creative maintainer of ClojureScript Programming Language.
+
+I consider `lt-cljs-tutorial` the best companion free resource of the
+`modern-cljs` series because it represents the fastest path to start
+learning the ClojureScript Programming Language as is, in a very
+interactive way, and from the most competent guy for the language
+itself.
+
+For those not using [Emacs][56] or [Light Table][55], it should be
+very easy to run the emacs port of the ClojureScript Programming
+Language Tutorial from any editor/IDE supporting [nREPL][57]. Pull
+Request are very welcome for incrementing the list of the documented
+editors/IDE.
+
+I'll do my best to keep the port quickly updated with the upstream as
+it evolves.
+
+### Quickstart with the David Noled Programming Language Tutorial
+
+```bash
+git clone https://github.com/magomimmo/modern-cljs.git
+```
+
+In emacs open the `core.clj` file from the
+`modern-cljs/cljs-tutorial/src/cljs/cljs_tutorial` directory and type
+`C-c M-J`.
+
+Evaluate the `(cemerick.austin.repls/exec)` function call from
+the emacs REPL and your ready to follow the tutorial by David Nolen.
+
+Just evaluate the `core.cljs` content form by form by typing `C-c C-e`
+at the end of each form.
+
+> ATTENTION NOTE
+> 
+> The content of the `modern-cljs` series will be progressively updated
+> in next months to reflect as much as possible all the recent
+> improvements in the ClojureScript ecosystem.
+
+For more detailed instruction refer to the corresponding README.md in
+the `cljs-tutorial` directory.
+
 ## Required background
 
 These tutorials require that you have some prior programming experience. 
@@ -75,8 +123,8 @@ while trying to port a few examples from the
 too late to change.
 
 The name is becoming more appropriate each day as ClojureScript
-continues to evolve quickly. I'd like to think it was a brilliant choice, but
-it was just a happy accident. 
+continues to evolve quickly. I'd like to think it was a brilliant
+choice, but it was just an accident.
 
 # The Tutorials
 
@@ -289,7 +337,10 @@ License, the same license as Clojure.
 [50]: https://github.com/weavejester/compojure
 [51]: http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-001-structure-and-interpretation-of-computer-programs-spring-2005/index.htm
 [52]: https://github.com/cemerick/piggieback
-
+[53]: https://github.com/swannodette/lt-cljs-tutorial
+[54]: https://github.com/swannodette
+[55]: http://www.lighttable.com/
+[56]: http://www.braveclojure.com/basic-emacs/
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/magomimmo/modern-cljs/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
