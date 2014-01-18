@@ -1,0 +1,17 @@
+/repl
+/target
+/lib
+/classes
+/checkouts
+/dev-resources/public/js/*
+/out
+pom.xml
+*.jar
+*.class
+.lein-deps-sum
+.lein-failures
+.lein-plugins
+.lein-cljsbuild*
+.lein-repl*
+.crossover-cljs
+.repl
