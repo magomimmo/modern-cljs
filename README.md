@@ -342,7 +342,7 @@ License, the same license as Clojure.
 [54]: https://github.com/swannodette
 [55]: http://www.lighttable.com/
 [56]: http://www.braveclojure.com/basic-emacs/
-[57]: https://github.com/magomimmo/modern-cljs/cljs-tutorial/README.md
+[57]: https://github.com/magomimmo/modern-cljs/blob/master/cljs-tutorial/README.md
 [58]: https://github.com/magomimmo/cljs-start
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/magomimmo/modern-cljs/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
