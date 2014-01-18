@@ -58,12 +58,14 @@ cljs.user>
 ```
 
 Now all you have to do is to evaluate form by form the `core.cljs`
-file by positioning the cursor after the closing parens of the form
-and typing the usual `C-c C-e` shortcut.
+file by positioning the cursor after the form and typing the usual
+`C-c C-e` shortcut.
 
-NOTE 1. The tutorial source code contains references to JS entities
-not available in the phantomjs JavaScript runtime. In such a case if
-you evaluate any form including them you'll get an error.
+# ATTENTION NOTE
+
+The tutorial source code contains references to JS entities not
+available in the phantomjs JavaScript runtime. In such a case if you
+evaluate any form including them you'll get an error.
 
 If it disturbs you, just use the Browser Connected REPL instead of the
 PhantomJS Connected REPL as follows:
@@ -90,7 +92,7 @@ Enjoy.
 
 ## License
 
-Copyright © 2014 Giacomo (Mimmo) Cosenza aka Magomimmo.
+Copyright © 2014 Giacomo (Mimmo) Cosenza aka @magomimmo.
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
