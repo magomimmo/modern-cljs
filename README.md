@@ -42,19 +42,19 @@ In emacs open the `core.clj` file from the
 `C-c M-J`.
 
 Evaluate the `(cemerick.austin.repls/exec)` function call from
-the emacs REPL and your ready to follow the tutorial by David Nolen.
+the emacs REPL and you're ready to follow the tutorial by David Nolen.
 
 Just evaluate the `core.cljs` content form by form by typing `C-c C-e`
 at the end of each form.
 
-> ATTENTION NOTE
-> 
-> The content of the `modern-cljs` series will be progressively updated
-> in next months to reflect as much as possible all the recent
-> improvements in the ClojureScript ecosystem.
+For more detailed instruction refer to the corresponding
+[README.md][57].  in the `cljs-tutorial` directory.
 
-For more detailed instruction refer to the corresponding [README.md]
-in the `cljs-tutorial` directory.
+## ATTENTION NOTE
+
+The content of the `modern-cljs` series will be progressively updated
+in next months to reflect as much as possible all the recent
+improvements in the ClojureScript ecosystem.
 
 ## Required background
 
