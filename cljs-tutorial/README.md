@@ -1,7 +1,8 @@
 # cljs-tutorial
 
-A port for Emacs users of [LightTable ClojureScript Tutorial][1] by
-[David Nolen][2] based on [cljs-start][3] lein-template.
+A port for [nrepl][5] compliant editor/IDE of
+[LightTable ClojureScript Tutorial][1] by [David Nolen][2] based on
+[cljs-start][3] lein-template.
 
 ## Prerequisites
 
@@ -10,13 +11,40 @@ The same as [cljs-start][3] + Emacs:
 * JDK >= 6.0 (7.0 it's better)
 * Leiningen >= 2.3.4
 * PhantomJS >= 1.9.1
-* Emacs >= 24.x with [cider][4] package installed
+* Emacs >= 24.x with [cider][4] package installed or Eclipse/CCW >= 0.22.0 
 
     > NOTE: I did not test `cljs-tutorial` with others editors/IDE but
     > you should be able to replicate the same interactive experience
     > with any editor/IDE able to talk with nREPL.
 
-## Quickstart
+## Eclipse/IDE Quickstart
+
+Clone the `modern-cljs` repo:
+
+```bash
+git clone https://github.com/magomimmo/modern-cljs.git
+```
+
+* Create a new project via `File > New > General > Project`. After
+  entering `cljs-tutorial` as the name of the project, uncheck the
+  `Use default location` checkbox, and check `Browse` to find the
+  `cljs-tutorial` project folder inside the `modern-cljs`
+  project. Once referenced as an Eclipse project, you should see it in
+  the Package Explorer View;
+* From the contextual menu of the project select `Configure > Convert
+  to Leiningen Project`;
+* From the contextual menu of the project select `Leiningen > Launch
+  Headeless REPL for the Project` and wait for the REPL tab to be
+  open;
+* Evaluate `(run)` form in the REPL Tab
+* Evaluate `(browser-repl)`
+* Visit the [localhost:3000][6] URL to activate the Browser Connected
+  REPL;
+* Open the `core.cljs` file in the editor pane and start evaluating
+  its content form by form by positioning the cursor after a form and
+  typing `Cmd/Ctr Enter`.
+
+## Emacs Quickstart
 
 Clone the `modern-cljs` repo:
 
@@ -101,4 +129,5 @@ your option) any later version.
 [2]: https://github.com/swannodette
 [3]: https://github.com/magomimmo/cljs-start
 [4]: https://github.com/clojure-emacs/cider
-
+[5]: https://github.com/clojure/tools.nrepl
+[6]: http://localhost:3000
