@@ -1,15 +1,61 @@
 ;; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-;; An Introduction to ClojureScript for Emacs users
+;; An Introduction to ClojureScript for Emacs/Eclipse-CCW users 
 ;; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+;; NOTE: Mutatis matandis, any editor/IDE supporting nREPL should do
+;; work as well. At the moment only Eclipse/CCW has been tested, but
+;; requires the Browser Connected REPL scenario.
 
 ;; Basics
 ;; ============================================================================
 
+;; Clone the repo
+;; ----------------------------------------------------------------------------
+
+;; To be able to run the tutorial you need to clone the repo
+
+;; git clone https://github.com/magomimmo/modern-cljs.git 
+
+;; You find this file under the
+;; modern-cljs/cljs-tutorial/src/cljs/cljs_tutorial directory
+
+;; Emacs
+;; ----------------------------------------------------------------------------
+
 ;; Open this file in your emacs, type `C-c M-j` and evaluate
-;; `(cemerick.austin.repls/exec)` in the Clojure REPL.  Now you can
-;; evaluate all the forms in this file by placing the cursor after the
-;; form and typing `C-c C-e`.
+;; `(cemerick.austin.repls/exec)` in the Clojure REPL.  Do not care
+;; about the WARNINGs. Now you can evaluate all the forms in this file
+;; by placing the cursor after the form and typing `C-c C-e`.
+
+;; Eclipse/CCW
+;; ----------------------------------------------------------------------------
+
+;; 1. Create a new general project: New -> Project -> General -> Project
+
+;; 2. Type the project name: e.s. `ClojureScript Tutorial` 
+
+;; 3. Uncheck `Use  default location` checkbox 
+
+;; 4. Click `Browser` to select the `cljs-tutorial` directory from the
+;; `modern-cljs` main directory and then `Finish`
+
+;; 5. Convert the project: Configure -> Convert to Leiningen Project from
+;; the contextual menu of the newly created project.
+
+;; 6. Run the REPL: Leiningen -> Launch Headless REPL for the Project
+;; from the contextual menu of the project and wait for the
+;; ClojureScript compilation completion. You're now in the REPL.
+
+;; 7. Run the included web server: evaluate `(run)` in the REPL
+
+;; 8. Create the bREPL connection: evalute `(broswer-repl)` in the REPL
+
+;; 9. Activate the bREPL connection: visit http://localhost:3000
+
+;; 10. Open this file: double click it in the Package Explorer
+
+;; 11. Evaluate a ClojureScript form: position the cursor after a form
+;; and Cmd/Ctrl Enter to evaluate the form.
 
 ;; Declaring a namespaces
 ;; ----------------------------------------------------------------------------
