@@ -57,6 +57,9 @@
 ;; 11. Evaluate a ClojureScript form: position the cursor after a form
 ;; and Cmd/Ctrl Enter to evaluate the form.
 
+;; IMPORTANT: You must evaluate the very first form, the namespace
+;; definition.
+
 ;; Declaring a namespaces
 ;; ----------------------------------------------------------------------------
 
@@ -161,6 +164,10 @@ cljs-tutorial.core/x
 
 (def a-string "Hello!")
 
+;; Regular Expressions
+
+(def a-regexp #"\d{3}-?\d{3}-?\d{4}")
+
 ;; Numbers
 
 (def a-number 1)
@@ -220,15 +227,19 @@ cljs-tutorial.core/x
 
 (def a-date (js/Date.))
 
+(def another-date #inst "2014-01-15")
+
 ;; Note the above returns an `#inst` data literal.
 
-(def another-date #inst "2014-01-15")
+(def another-regexp (js/RegExp. "\\d{3}-?\\d{3}-?\\d{4}"))
 
 ;; Handy
 
 ;; NOTE: js/Foo is how you refer to global JavaScript entities of any kind.
 
 js/Date
+
+js/RegExp
 
 js/requestAnimationFrame ; this only works with a Browser Connected REPL
 
@@ -258,25 +269,45 @@ js/requestAnimationFrame ; this only works with a Browser Connected REPL
 
 ;; We can add an element to the end.
 
-(conj a-vector 6)
+(def another-vector (conj a-vector 6))
 
-;; Note this does not mutate the array! `a-vector` will be left unchanged.
+;; Note this does not mutate the array! `a-vector` will be left
+;; unchanged.
 
 a-vector
 
-;; Hallelujah!
+another-vector
 
-;; We can access any element in a vector with `nth`. The following will
-;; return the second element.
+;; Hallelujah! Here is where some ClojureScript magic
+;; happens. `another-vector` appears to be a completely new vector
+;; compared to `a-vector`. But is not really so. Internally, the new
+;; vector efficientely shares the `a-vector` structure. In this way you
+;; get the benefits of immutability without paying in performance.
+
+;; We can access any element in a vector with `nth`. The followings
+;; will return the second element.
+
+(nth a-vector 1)
 
 (nth ["foo" "bar" "baz"] 1)
 
-;; Surprisingly vectors can be treated as functions. This is actually
-;; a very useful property for associative data structures to have as
-;; we'll see below with sets.
+;; or with `get`
+
+(get a-vector 0)
+
+;; which allows you to return an alternate value when the index is
+;; out-of bounds.
+
+(get a-vector -1 :out-of-bounds)
+(get a-vector (count a-vector) :out-of-bounds)
+
+;; Surprisingly vectors can be treated as
+;; functions. This is actually a very useful property for associative
+;; data structures to have as we'll see below with sets.
+
+(a-vector 1)
 
 (["foo" "bar" "baz"] 1)
-
 
 ;; Maps
 ;; ----------------------------------------------------------------------------
@@ -286,7 +317,9 @@ a-vector
 ;; ClojureScript maps are immutable and considerably more flexible.
 
 ;; Let's define a simple map. Note `:foo` is a ClojureScript keyword.
-;; ClojureScript programmers generally do not use strings for keys.
+;; ClojureScript programmers prefers to use keywords for keys instead
+;; of strings. They are both more distinguishable from the rest and
+;; more efficient than plain string.
 
 (def a-map {:foo "bar" :baz "woz"})
 
@@ -298,13 +331,19 @@ a-vector
 
 (get a-map :foo)
 
+;; and return an alternative value when the key is not present
+
+(get a-map :bar :not-found)
+
 ;; We can add a new key-value pair with `assoc`.
 
-(assoc a-map :noz "goz")
+(def another-map (assoc a-map :noz "goz"))
 
-;; Again a-map is unchanged!
+;; Again a-map is unchanged! Some magic as before for vectors
 
 a-map
+
+another-map
 
 ;; We can remove a key value pair with `dissoc`.
 
@@ -334,6 +373,24 @@ a-map
 ;; And all of the values with `vals`.
 
 (vals a-map)
+
+;; We can put a lot of things in a map, even other maps
+
+(def a-nested-map {:customer-id 1e6 
+                   :preferences {:nickname "Bob"
+                                 :avatar "http://en.gravatar.com/userimage/0/0.jpg"}
+                   :services {:alerts {:daily true}}})
+
+;; and navigate its keys to get the nested value you're interested in
+
+(get-in a-nested-map [:preferences :nickname])
+(get-in a-nested-map [:services :alerts :daily])
+
+;; or just find a top level key-value pair (i.e. Mapentry) by key
+
+(find a-nested-map :customer-id)
+(find a-nested-map :services)
+
 
 ;; There are many cool ways to create maps.
 
@@ -605,7 +662,7 @@ some-x
 ;; Sequence destructuring
 ;; ----------------------------------------------------------------------------
 
-;; Destructuring sequential types is particular useful.
+;; Destructuring sequential types is particularly useful.
 
 (let [[f & r] '(1 2 3)]
   f)
