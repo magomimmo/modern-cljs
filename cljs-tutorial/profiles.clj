@@ -19,9 +19,9 @@
                     {:source-paths ["test/cljs"]
                      :compiler
                      {:output-dir "dev-resources/public/js"
-                      :source-map "dev-resources/public/js/cljs-tutorial.js.map"}}}
+                      :source-map "dev-resources/public/js/cljs_tutorial.js.map"}}}
            :test-commands {"phantomjs"
-                           ["phantomjs" :runner "dev-resources/public/js/cljs-tutorial.js"]}}}
+                           ["phantomjs" :runner "dev-resources/public/js/cljs_tutorial.js"]}}}
  :dev [:shared
        {:source-paths ["dev-resources/tools/http" "dev-resources/tools/repl"]
         :dependencies [[ring "1.2.1"]

@@ -18,6 +18,6 @@
   {:builds {:cljs-tutorial
             {:source-paths ["src/cljs"]
              :compiler
-             {:output-to "dev-resources/public/js/cljs-tutorial.js"
+             {:output-to "dev-resources/public/js/cljs_tutorial.js"
               :optimizations :advanced
               :pretty-print false}}}})
