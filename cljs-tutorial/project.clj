@@ -7,8 +7,7 @@
 
   :min-lein-version "2.3.4"
   :clean-targets ["out" :target-path]
-  :resources-paths ["dev-resources"]
-  :source-paths ["src/clj" "src/cljs" "dev-resources/tools/http" "dev-resources/tools/repl"]
+  :source-paths ["src/clj" "src/cljs" "resources/tools/http" "resources/tools/repl"]
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [ring "1.2.1"]
                  [compojure "1.1.6"]
@@ -22,11 +21,11 @@
   
   :cljsbuild
   {:builds {:cljs-tutorial
-            {:source-paths ["src/cljs" "dev-resources/tools/repl"]
+            {:source-paths ["src/cljs" "resources/tools/repl"]
              :compiler
-             {:output-dir "dev-resources/public/js"
-              :output-to "dev-resources/public/js/cljs_tutorial.js"
-              :source-map "dev-resources/public/js/cljs_tutorial.js.map"
+             {:output-dir "resources/public/js"
+              :output-to "resources/public/js/cljs_tutorial.js"
+              :source-map "resources/public/js/cljs_tutorial.js.map"
               :optimizations :whitespace
               :pretty-print true}}}}
   :injections [(require '[ring.server :as http :refer [run]]
