@@ -28,7 +28,7 @@ ClojureScript Programming Language Tutorial with any editor/IDE
 supporting nREPL. Pull Request are very welcome for incrementing the
 list of the documented editors/IDE.
 
-For instruction on how to run the port of the David Noled tutorial see
+For instruction on how to run the port of the David Nolen tutorial see
 the [README.md][57] file in the `cljs-tutorial` directory.
 
 ## ATTENTION NOTE
