@@ -327,5 +327,3 @@ License, the same license as Clojure.
 [58]: https://github.com/magomimmo/cljs-start
 [59]: https://code.google.com/p/counterclockwise/
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/magomimmo/modern-cljs/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
