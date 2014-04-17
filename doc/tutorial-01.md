@@ -124,7 +124,7 @@ plugin, the `:cljsbuild` and the `:source-paths` configurations
 >
 > The careful reader would have noted that the `:source-paths` option
 > pertaining the project, the so called Leiningen `:source-paths`, has
-> been valued by adding to it the pathaname value of the `:source-paths`
+> been modified by adding to it the pathname of the `:source-paths`
 > specific to the `:cljsbuild` build.
 >
 > This is because the `cljsbuild` plugin does not automatically add back
