@@ -171,7 +171,7 @@ of `:output-to` keyword of `project.clj`. Save the file as `simple.html` in
 </head>
 <body>
     <!-- pointing to cljsbuild generated js file -->
-    <script src="js/modern.js"></script>
+    <script src="public/js/modern.js"></script>
 </body>
 </html>
 ```
