@@ -223,7 +223,7 @@ Add validators to the `shoppingForm`, and do some unit testing.
 Make our unit tests portable between Clojure and CLJS by using the
 `clojurescript.test` lib and the `cljx` lein plugin.
 
-## [Tuturial 17 - REPLing with Enlive][25]
+## [Tutorial 17 - REPLing with Enlive][25]
 
 Integrate the form validators from the server-side Shopping Calculator into
 the Web UI, so the user is notified with the right error messages when 
