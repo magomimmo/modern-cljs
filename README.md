@@ -4,8 +4,9 @@ Modern ClojureScript (`modern-cljs`) is a series of tutorials that guide you in
 creating and running [ClojureScript][1] (CLJS) projects.
 
 CLJS is a compiler for the Clojure programming language that targets
-JavaScript. It emits JavaScript code which runs in web browsers or
-other client-side or server-side JavaScript interpreters.
+JavaScript. It emits JavaScript code which runs in web browsers and
+other client-side or server-side JavaScript interpreters
+(e.g. [nodejs][60]).
 
 ## A companion resource
 
@@ -48,10 +49,10 @@ browser DOM.
 If you don't know anything about Clojure (or about Lisp), I
 recommend you learn a little bit before starting these tutorials.
 
-There are plenty of outstanding resources on Clojure that are freely available
-on the Internet, and you can't overestimate the benefit of reading
-a book on Clojure (or another Lisp dialect) to your value as a programmer,
-a thinker, and a human being.
+There are plenty of outstanding resources on Clojure that are freely
+available on the Internet, and you can't overestimate the benefit of
+reading a book on Clojure (or another Lisp dialect) to your value as a
+programmer.
 
 Here are some book recommendations:
 
@@ -78,8 +79,8 @@ Here are some book recommendations:
 ## Required tools
 
 Many people worry about which operating system and editor/IDE are best
-for developing in Clojure and ClojureScript. I personally
-use both Mac OS X and Ubuntu, and I use Emacs as an editor. 
+for developing in Clojure and ClojureScript. I personally use Mac OS
+X, Debian and Ubuntu. I use Emacs as an editor.
 
 Because I'm an old-timer, *nix and Emacs are the OS and editor I know best. 
 That being said, in this series of tutorials you're not going to find any
@@ -92,21 +93,12 @@ to learn a new programming environment.
 You will need to have [git][45] installed and you'll need some familiarity
 with the [basics of git][46].
 
-Everything else you'll need besides git and a code editor is covered in the
-tutorials!
-
 ## Why the name Modern ClojureScript?
 
-You might wonder why this tutorial series is named `modern-cljs`
-when ClojureScript is only a couple of years old. What 
-in the world is ancient ClojureScript? You got me there! I started this series
-while trying to port a few examples from the
-[Modern JavaScript: Develop and Design][34] book to ClojureScript, and now it's
-too late to change.
-
-The name is becoming more appropriate each day as ClojureScript
-continues to evolve quickly. I'd like to think it was a brilliant
-choice, but it was just an accident.
+You might wonder why this tutorial series is named `modern-cljs` when
+ClojureScript is so recent. I started this series while trying to port
+a few examples from the [Modern JavaScript: Develop and Design][34]
+book to ClojureScript, and now it's too late to change.
 
 # The Tutorials
 
@@ -138,7 +130,7 @@ tutorial by following these steps:
 9. you can play with the repl you started in step 7 which is now connected
    to the browser
 
-Don't be concerned if steps 3-9 don't make sense to you just yet,
+Don't be concerned if the steps don't make sense to you just yet,
 they'll be covered in the tutorials.
 
 > NOTE: If you want to skip ahead or back and access the code of any single
@@ -326,4 +318,5 @@ License, the same license as Clojure.
 [57]: https://github.com/magomimmo/modern-cljs/blob/master/cljs-tutorial/README.md
 [58]: https://github.com/magomimmo/cljs-start
 [59]: https://code.google.com/p/counterclockwise/
+[60]: https://github.com/clojure/clojurescript/wiki/Quick-Start#running-clojurescript-on-nodejs
 
