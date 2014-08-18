@@ -352,7 +352,7 @@ Let's now try our little shopping calculator as usual:
 ```bash
 lein ring server # in the modern-cljs home directory
 lein cljsbuild auto # in the modern-cljs directory in a new terminal
-lein trampoline cljsbuild repl-listen # in a the modern_cljs directly in a new terminal
+lein trampoline cljsbuild repl-listen # in the modern_cljs directory in a new terminal
 ```
 
 ### A short trouble shooting session
