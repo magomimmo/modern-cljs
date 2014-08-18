@@ -217,7 +217,7 @@ If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-git commit -am "Introducing domina"
+git commit -am "Simple made easy."
 ```
 
 In a subsequent tutorial we'll introduce [domina event][6] management
