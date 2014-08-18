@@ -136,7 +136,7 @@ Nothing new for any clojure-ist who knows about HOF (Higher Order
 Functions), but another nice feature to have in your hands.
 
 If you need to take some inspiration when defining your own predicates
-and functions, here are the definitions of the built-in `presence?`
+and functions, here are the definitions of the built-in `present?`
 predicate and the `matches` function which returns a predicate.
 
 ```clojure
@@ -244,7 +244,7 @@ credential (i.e `email` and `password`).
 > NOTE 3: The original [Valip][3] also provides the built-in
 > `valid-domain-email?` predicate which, by running a DNS lookup,
 > verify even the validity of the email domain. This is not a portable
-> predicate and as such it now leaves in the `valip.java.predicates`
+> predicate and as such it now lives in the `valip.java.predicates`
 > namespace of the [forked by Chas Emerick Valip library][2].
 
 We now need to update the `login.clj` by calling the just defined
