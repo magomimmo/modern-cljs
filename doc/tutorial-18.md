@@ -124,7 +124,7 @@ Open the `project.clj` file and update its dependencies as follows:
   ...)
 ```
 
-Then we have to configure the project `:nrepl-options` as follows:
+Then we have to configure the project `:repl-options` as follows:
 
 ```clj
 (defproject
