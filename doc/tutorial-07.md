@@ -98,7 +98,7 @@ named `:pre-prod`, which uses `:simple` compilation mode.
                 :compiler {;; different output name
                            :output-to "resources/public/js/modern_pre.js"
 
-                           ;; simple optmization
+                           ;; simple optimization
                            :optimizations :simple
 
                            ;; no need prettyfication
@@ -117,7 +117,7 @@ CLJS code base (i.e. "src/cljs"):
   prettyfication. The JS code emitted by CLJS/CLS compilers will be
   saved as `modern_pre.js` in `resources/public/js` directory;
 
-You can now run both builds togheter by launching the usual `lein
+You can now run both builds together by launching the usual `lein
 cljsbuild once` or `lein cljsbuild auto` commands from the terminal.
 
 ```bash
