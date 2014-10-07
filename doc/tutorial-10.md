@@ -35,7 +35,7 @@ protocols. Ajax exploits more [web techniques][5]:
 * HTML and CSS for presentation
 * DOM for dynamic display and interaction with data
 * XML/JSON for the data representation
-* XMLHttpRequest object for aynchronous communication
+* XMLHttpRequest object for asynchronous communication
 * JavaScript to bring all the above techniques together
 
 A sequence diagram which visualizes the above techniques interaction
