@@ -110,7 +110,7 @@ from `login.cljs`.
 > namespace even if you do not explicitly use any function from it.
 
 > NOTE 3: We used `re-pattern` function to convert the strings got from
-> the `:title` and the `:pattern` attributes in regular expressions to be
+> the `:pattern` attributes in regular expressions to be
 > passed to `re-matches`.
 
 As usual, check your progress by running the application.
