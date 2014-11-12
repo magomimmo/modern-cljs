@@ -54,7 +54,7 @@ you'll discover that they are two of the most prolific and active
 clojure-ists: [Chas Emerick][4] and [James Reeves][5]. I'm happy that
 the motto *Smart people think alike* was true.
 
-We will eventually search for others CLJ validator libraries. For the
+We will eventually search for other CLJ validator libraries. For the
 moment, by following the Keep It Simple, Stupid
 ([KISS](https://en.wikipedia.org/wiki/KISS_principle)) pragmatic
 approach, we will stay with the [Valip][2] library which already seems
@@ -155,7 +155,7 @@ predicate and the `matches` function which returns a predicate.
 
 ## A doubt to be cleared
 
-If there is one thing that it does not excite me about the
+If there is one thing that does not excite me about the
 original [Valip][3] library, it is its dependency on a lot of java
 packages in the `valip.predicates` namespace.
 
@@ -175,13 +175,13 @@ packages in the `valip.predicates` namespace.
 ```
 
 This is not a suprise if you take into account that it was made
-more than two years ago, when CLJS was floating aroun in just a few
+more than two years ago, when CLJS was floating around in just a few
 clojure-ist minds.
 
 The surprise is that Chas Emerick chose it just five months ago,
-when CLJS was already been reified from a very smart idea into a
+when CLJS had already been reified from a very smart idea into a
 programming language. So, if the original [Valip][3] library was so
-dependent on the JVM, why would Chas Cemerick choose it over other,
+dependent on the JVM, why would Chas Emerick choose it over other,
 less-compromised CLJ validation libraries? I don't know. Maybe the
 answer is just that the predefined predicates and functions were
 confined to the `valip.predicates` namespace and most of them were
@@ -262,7 +262,7 @@ We now need to update the `login.clj` by calling the just defined
            " passed the formal validation, but we still have to authenticate you")))
 ```
 
-> NOTE 4: Even if we could have returned a more detailed messages from
+> NOTE 4: Even if we could have returned more detailed messages from
 > the validator result to the user, to maintain the same behaviour of
 > the previous server-side login version we only return the *Please
 > complete the form.* message when the user typed something wrong in the
@@ -335,7 +335,7 @@ beginning of this series of short tutorials on ClojureScript.
 ## Thanks to Evan Mezeske
 
 [Evan Mezeske][11] made a great job by donating [lein-cljsbuild][15] to the
-clojurescript community. I suspect that without it I would never been
+clojurescript community. I suspect that without it I would have never been
 able even to launch the CLJS compiler. Big, really big, thanks to him and
 to all the others who help him in keeping it updated with the frequent
 CLJS and Google Closure Compiler releases.
@@ -487,7 +487,7 @@ from:
 * port the library from CLJ to CLJS
 * define a set of validators to be shared between the server and the
   client code
-* exercise the defined validators on the server and cliente code.
+* exercise the defined validators on the server and client code.
 
 Best of all, we were able to follow the DRY and the separation of concerns
 principles while adhering to the progressive enhancement strategy.
