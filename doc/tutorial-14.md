@@ -16,7 +16,7 @@ Driven Development and Behavioural Driven Development) must forgive me.
 Nowadays, by using functional programming languages like CLJ/CLJS, the
 unit tests are much easier to implement, as compared with
 imperative and object-oriented programming languages, because most of
-the time you have to deal with pure functions whose output depend
+the time you have to deal with pure functions whose output depends
 only on the passed input.
 
 ## Introduction
