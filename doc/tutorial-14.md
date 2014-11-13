@@ -16,7 +16,7 @@ Driven Development and Behavioural Driven Development) must forgive me.
 Nowadays, by using functional programming languages like CLJ/CLJS, the
 unit tests are much easier to implement, as compared with
 imperative and object-oriented programming languages, because most of
-the time you have to deal with pure functions whose output depend
+the time you have to deal with pure functions whose output depends
 only on the passed input.
 
 ## Introduction
@@ -835,7 +835,7 @@ definition. Following is the modified content of the `core.clj` file.
              (site)))
 ```
 
-Last, but not least, we have to modified the `project.clj` file to
+Last, but not least, we have to modify the `project.clj` file to
 update the namespace of the `app` symbol in the `:ring` section.
 
 ```clj
