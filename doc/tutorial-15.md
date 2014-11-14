@@ -185,13 +185,11 @@ user=> (use 'modern-cljs.shopping.validators)
 nil
 user=> (validate-shopping-form "1" "0" "0" "0")
 nil
-user> (validate-shopping-form "1" "0" "0" "0")
-nil
-user> (validate-shopping-form "-10" "0" "0" "0")
+user=> (validate-shopping-form "-10" "0" "0" "0")
 {:quantity ["Quantity can't be negative"]}
-user> (validate-shopping-form "-10" "0" "0" "")
+user=> (validate-shopping-form "-10" "0" "0" "")
 {:quantity ["Quantity can't be negative"], :discount ["Discount can't be empty" "Discount has to be a number"]}
-user>
+user=>
 ```
 
 The above REPL session for testing the `validate-shopping-form`
@@ -425,7 +423,7 @@ Could not locate test command .
 
 ### Break the test
 
-To see how `clojure.test` reports failures, let's know try to modify
+To see how `clojure.test` reports failures, let's now try to modify
 an assertion to produce a failure.
 
 ```clj
