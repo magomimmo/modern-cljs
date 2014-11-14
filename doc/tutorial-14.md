@@ -67,6 +67,8 @@ git checkout -b tutorial-14-step-1
 Then compile and run `modern-cljs` as usual:
 
 ```bash
+lein clean
+lein cljsbuild clean
 lein cljsbuild auto prod
 lein ring server-headless # in a new terminal from modern-cljs dir
 ```
@@ -310,6 +312,7 @@ requirement as follows:
 If you did not stop the `cljsbuild` auto compilation from the previous
 run, as soon as you save the file you should see the CLJS compiler
 producing an updated version of `modern.js` script file.
+<!-- I needed to run `lein cljsbuild clean` to see the changes -->
 
 Reload the [shopping URI][2]. You should now see the Ajax version of
 the Shopping Calculator working again as expected.
@@ -631,6 +634,8 @@ By taking inspiration from there, we are going to create an
 `utils.clj` file containing the definition of few useful and portable
 functions to help us in parsing the input of the `shoppingForm`.
 
+<!--cljs.reader/read-string is not part of Clojure, but of ClojureScript. In valip Chas Emerick has put a dummy cljs/reader.clj file in which read-string just calls clure.core/read-string; for him this was necessary to use the same require both in CLJ and CLJS. In this tutorial, however, we just need CLJ because we moved everything to the server, so we had better use clojure.core/read-string directly rather than through Emerick's dummy file. (On top of this, remember I did not include it in stepugnetti/valip and this fact results in a compilation error).-->
+
 Create the `utils.clj` file in the `src/clj/modern_cljs`
 directory and write the following content:
 
@@ -651,7 +656,7 @@ directory and write the following content:
   (if (and (string? x) (re-matches #"\s*[+-]?\d+(\.\d+M|M|N)?\s*" x))
     (read-string x)))
 ```
-
+<!--I changed the regular expressions for matching decimal numbers. (parse-double "1.1N") should return nil, while (parse-number "1.1") should not)-->
 > NOTE 5: This is the first time we see the `:refer-clojure` section
 > in a namespace declaration. Its objective is to prevent namespace
 > conflicts. In our scenario, by using the `:exclude` keyword, we
