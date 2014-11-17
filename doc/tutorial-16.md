@@ -2,7 +2,7 @@
 
 > DEDICATION: I dedicate this tutorial to [Chas Emerick][3] for the
 > amazing stuff he's been able to do for all of us. Without his hard
-> work on a lot of CLJ/CLJS libs, I would never been able to write
+> work on a lot of CLJ/CLJS libs, I would have never been able to write
 > this series of tutorials. Thanks Chas!
 
 In the [previous tutorial][1] we introduced the `clojure.test` lib to
@@ -141,7 +141,7 @@ one for each optimization option of the GCLS compiler
 (i.e. `whitespace`, `simple` and `advanced`).
 
 Each build emits a corresponding JS file (i.e. `modern_dbg.js`,
-`modern_pre.js` and `modern.js`). So, we neeed to end up with three
+`modern_pre.js` and `modern.js`). So, we need to end up with three
 test commands to be inserted in the map, one for each emitted JS file.
 
 But we don't want to add the emitted unit test JS code to the above
