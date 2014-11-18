@@ -1,6 +1,6 @@
 (ns modern-cljs.remotes
   (:require [modern-cljs.core :refer [handler]]
-            [modern-cljs.login.java.validators :as v]
+            [modern-cljs.login.validators :as v]
             [compojure.handler :refer [site]]
             [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]))
 

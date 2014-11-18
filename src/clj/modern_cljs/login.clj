@@ -1,6 +1,5 @@
 (ns modern-cljs.login
-  (:require [modern-cljs.login.validators :refer [user-credential-errors]]
-            [modern-cljs.login.java.validators :refer [email-domain-errors]]))
+  (:require [modern-cljs.login.validators :refer [user-credential-errors email-domain-errors]]))
 
 (defn authenticate-user [email password]
   (if (or (boolean (user-credential-errors email password)) (boolean (email-domain-errors email)))

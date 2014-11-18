@@ -15,3 +15,4 @@ pom.xml
 .lein-cljsbuild*
 .lein-repl*
 .crossover-cljs
+.lein-env
