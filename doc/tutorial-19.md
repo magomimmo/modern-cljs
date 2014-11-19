@@ -54,7 +54,7 @@ to the project's dependencies the [shoreleave-remote][5] and the
 
 Because the `tools.reader` release (i.e. `"0.7.0"`) used by the
 `shoreleave-remote-ring` lib is not compatible with the latest CLJS
-rleeases (e.g. `"0.0-2069"`), we were forced to use a
+releases (e.g. `"0.0-2069"`), we were forced to use a
 non canonical set of the `shoreleave` libs which I published on
 `clojars` repository to be able to use a recent CLJS release
 (e.g. `"0.0-2069"`).
@@ -253,7 +253,7 @@ project. We're now dealing with a CLJS-based project which doesn't
 even contain a reference to it. What's is going on here?
 
 The fact is that all the cited pure CLJS-based `shoreleave` libs only
-contains CLJS source code to be used by others projects, which are the
+contains CLJS source code to be used by other projects, which are the
 ones to be configured and managed by the `lein-cljsbuild` plugin.
 
 That said, I would still have expected to see the `lein-cljsbuild`
@@ -376,7 +376,7 @@ to the newly crerated shoreleave SNAPSHOT releases.
 
 ### Light the fire
 
-Before to go on by launching the `modern-clj` project, let's inspect
+Before going on by launching the `modern-clj` project, let's inspect
 the full project's dependencies by issuing the `lein deps :tree` command.
 
 ```bash
@@ -478,11 +478,11 @@ cd ~/dev/modern-cljs
 git commit -am "Step 1"
 ```
 
-### What'next?
+### What's next?
 
 Let's summarize what we already did:
 
-* we forked and cloned all the direct and inderect `shoreleave` libs
+* we forked and cloned all the direct and indirect `shoreleave` libs
   which the `modern-cljs` depends on;
 * we created an `upgrade` branch for each forked/cloned `shoreleave`
   lib;
@@ -492,7 +492,7 @@ Let's summarize what we already did:
   to adhere to the semantic version styleguide;
 * we updated the `shoreleave-remote-ring` to the latest available
   releases of its dependencies;
-* we locally installed all the updated `shoreleave1` libs;
+* we locally installed all the updated `shoreleave` libs;
 * we changed the `modern-cljs` project by updating its references to
   the `shoreleave` libs
 * we cleaned up, recompiled and ran the `modern-cljs` unit tests to
@@ -508,7 +508,7 @@ But what if the owner is lazy or for any reason she/he does not agree
 to merge our pull requests?
 
 The above modified repos only live locally on your computer and they
-can't be directly shared with others developers or even with others
+can't be directly shared with other developers or even with other
 computers.
 
 You have more options:
@@ -535,7 +535,7 @@ Keep in mind that any release ending in "-SNAPSHOT" is not an official
 release and you should rely on them only when you really need (which
 is not our fictional scenario). Also remember that by adding a
 snapshot dependency to your project, you will cause `lein` to slow
-down its dependensies search.
+down its dependencies search.
 
 Clojars offers two repositories, [Classic][25] and [Releases][26]. The
 Classic repository, which is the one we're going to use, has no
@@ -683,7 +683,7 @@ Sending org/clojars/magomimmo/shoreleave-core/maven-metadata.xml (1k)
 ```
 
 As you see, you're asked for your clojars' credential, but it's also
-possibile to have them read from and [encrypted file][24].
+possibile to have them read from an [encrypted file][24].
 
 Now repeat del `lein deploy clojars` command for the remaining
 snapshot release of the modified `shoreleave` libs.
@@ -705,7 +705,7 @@ lein deploy clojars
 ```
 
 Next verify that your `shoreleave` shanpshot releases are available on
-`clojars` by issueing the following `lein search` command:
+`clojars` by issuing the following `lein search` command:
 
 ```bash
 lein search group:org.clojars.magomimmo
@@ -727,8 +727,8 @@ Searching over Group ID...
 
 ### Update the modern-cljs project
 
-By having published all the snapshot releases of the `shoreleave` libs
-directly on inderectly used in the `modern-cljs` project, we now have
+Having published all the snapshot releases of the `shoreleave` libs
+directly on indirectly used in the `modern-cljs` project, we now have
 to modify its `project.clj` by updating the group-id of its
 dependencies as follows:
 
