@@ -20,8 +20,11 @@ digress about two topics:
   the [Leiningen][5] `profiles`.
 
 > NOTE 1: This tutorial requires a leiningen version `>=
-> 2.2.0`. You can upgrade leiningen to the latest available
-> version by issuing the following command at the terminal:
+> 2.2.0` (version `2.5.0` does not work, though, whereas to-come
+> version `2.5.1` works).
+<!--See https://github.com/technomancy/leiningen/issues/1757-->
+> You can upgrade leiningen to the latest
+> available version by issuing the following command at the terminal:
 >
 > ```bash
 > lein upgrade
@@ -65,10 +68,10 @@ limited bREPL to be run from an [nREPL][8] launched by [Leiningen][5]
 via the `lein repl` task.
 
 As pointed out by [Ian Eslick][9] in his very useful [tutorial][10] on
-setting up a Clojure debugging environment.
+setting up a Clojure debugging environment,
 
 > nREPL is a tooling framework for allowing editors (clients) to
-> connect to a running Clojure instances (servers) to utilize
+> connect to running Clojure instances (servers) to utilize
 > information in the environment to navigate code, complete symbols,
 > and dynamically evaluate code...It also defines a middleware
 > framework to add functionality on top of the basic definitions of
@@ -322,7 +325,7 @@ lein do clean, compile, ring server-headless # run application from a clean env
 ```
 
 Unfortunately, both the above commands show a double CLJS unit testing
-code generation which, in turn, are compiled two times! The iteraction
+code generation which, in turn, are compiled two times! The interaction
 between the `cljsbuild` and the `cljx` hooks seems to have a bug to be
 fixed.
 
@@ -388,7 +391,7 @@ The `:plugins` section is affected by the same kind of mixed roles in
 the project, and so do the few configuration options for the plugins
 themselves. Don't you think we need more separation of concerns?
 
-### Leining profiles
+### Leiningen profiles
 
 Starting from the `"2.0.0"` release, [leiningen][5] introduced the
 [profiles][14] feature, which allows to obtain, if not a shorter
@@ -401,7 +404,7 @@ Say you want a set of plugins to be available in all your local
 projects managed by `lein`. I always want to have at least the
 following plugins:
 
-* [lein-try][15]: for REPling with new libs without declaring them in
+* [lein-try][15]: for REPLing with new libs without declaring them in
   the projects' dependencies
 * [lein-pprint][16]: to pretty print the entire map representation of
   the projects
@@ -529,7 +532,7 @@ project lifecycle and you should consider it just as a staring point.
 * the `com.keminglabs/cljx` plugin and configurations: because at the
   moment we're using them only to generate unit testing codebase for
   both CLJ and CLJS;
-* the `com.cemerick/clojurescript.test` plugin: becasue it is only
+* the `com.cemerick/clojurescript.test` plugin: because it is only
   used in unit testing codebase;
 * the `lein-cljsbuild` build configurations for CLJS unit testing:
   because they are only used only to emit testable JS codebase;
@@ -695,12 +698,12 @@ lot the usability of the `lein-cljsbuild` plugin to considerably
 reduce the incidental complexity of any mixed CLJ/CLJS project.
 
 As we'll see in subsequent tutorials, when we'll afford the packaging
-and the deployment of a CLJ/CLJS project, the things are going to be
+and the deployment of a CLJ/CLJS project, things are going to be
 even more elaborated.
 
 ### Light the fire
 
-Let's verify that everything is working as expected. First we want try
+Let's verify that everything is working as expected. First we want to try
 the `clean-test!` alias with the `:dev` profile.
 
 ```bash
