@@ -123,16 +123,15 @@ Take a look of the final `project.clj` we ended up in the
                                                 (brepl/repl-env :port 9000)))]}})
 ```
 
-As you see, the project's configuration we need to set as an *enfocus
+As you see, the project's configurations we need to set as an *enfocus
 developer* overwhelm our capacity to take full control of them as an
 *enfocus user*. Luckly, the `profiles` feature of `lein` is going to
-be very helpful in keeping separating the view of the project as an
-*enfocus developer* from its view as an *enfocus user*.
+be very helpful in keeping the view of the project as an
+*enfocus developer* separated from its view as an *enfocus user*.
 
-You'll be amazed by discovering how easy is to keep separated the
-*enfocus user view* from the *enfocus developer view*. But only if you
-have been careful in keeping them separated in the `:dev` profile from
-the very beginning.
+You'll be amazed by discovering how easy is to keep the
+*enfocus user view* separated from the *enfocus developer view*. But only
+if you have been careful in keeping them separated in the `:dev` profile from the very beginning.
 
 ### The enfocus user view
 
@@ -179,11 +178,11 @@ Here is the resulting `project.clj`
                :pretty-print false}}}})
 ```
 
-Much simpler eh!.
+Much simpler, eh!
 
 ### The enfocus developer view
 
-An here is the `profiles.clj` content:
+And here is the `profiles.clj` content:
 
 ```clj
 {:dev {:resources-paths ["dev-resources"]
@@ -247,8 +246,8 @@ sources of project configurations:
 * the `profiles.clj` file from the `~/.lein` directory: this file
   should contain `:user` profile's settings only;
 * the `profiles.clj` local to the project: this file should never
-  contains any `:user` profile's settings;
-* the `project.clj` file: this file should never contains any `:user`
+  contain any `:user` profile's settings;
+* the `project.clj` file: this file should never contain any `:user`
   setting too;
 
 In case of setting conflicts, the content of the local `profiles.clj`
@@ -383,7 +382,7 @@ git commit -m "keep the user view of enfocus separated from the developer view"
 
 ## Unit testing Enfocus
 
-Here we are. After a journey long two tutorials and half we finally
+Here we are. After our two-and-a-half-tutorial journey we finally
 reached our destination from which to start again a new journey by
 implementing unit tests for the `Enfocus` lib.
 
@@ -417,7 +416,7 @@ My personal unit testing strategy is very simple to be explained:
    symbols;
 6. move to the next namespace with the same approach.
 
-The steps `4.`, `5.`, and `6.` can be interleaved, depending on your
+Steps `4.`, `5.` and `6.` can be interleaved, depending on your
 patience in filling up the regular use cases for each public symbol of
 a namespace. My patience with unit testing is close to `nil` and most
 of the times I unit test the edge cases and very few regular uses case
@@ -613,7 +612,7 @@ by the `cljx` plugin (at the moment just the `syntax_test.cljs` source
 file).
 
 Following is a view of the directories layout produced by the above
-chained commands which show you the emitted files in the interested
+chained commands which shows you the emitted files in the interested
 directories.
 
 ```bash
@@ -668,7 +667,7 @@ and the `cljsbuild` plugins. Luckily, we can work around it by running
 the `lein cljsbuild test` explicit subtask.
 
 > NOTE 2: That bad interaction between `cljx` and `cljsbuild` is caused
-> by the failing unit test in the CLJ environment and it disappear if
+> by the failing unit test in the CLJ environment and it disappears if
 > you correct it.
 
 ```bash
@@ -749,7 +748,7 @@ git commit -m "added cljx plugin and defined a new dummy test"
 
 #### Be extreme when testing
 
-As I repeated more times, I don't like at all to write unit tests, but
+As I repeated several times, I don't like at all to write unit tests, but
 I have to admit that the implementation of few unit tests covering the
 edge cases could be very useful in clarifying the semantic/behavior of
 the function under testing. Sometimes you'll find few surprises as
@@ -781,7 +780,7 @@ only which could be a *string* or something reducible to a string
 (cf. `(apply str ...)`).
 
 Open the `syntax_test.cljx` file and substitute the previous failing
-test used ad a remainder placeholder with the following one.
+test used as a reminding placeholder with the following one.
 
 ```clj
 (deftest convert-test
@@ -803,7 +802,7 @@ test used ad a remainder placeholder with the following one.
                     "" (convert #{}))))))
 ```
 
-As expected return values we chosen to have only a *string* or
+As expected return values we chose to have only a *string* or
 `nil`. The only case in which we expect the `convert` function to
 return `nil` is when the input value is `nil` as well.
 
@@ -827,28 +826,28 @@ investigation, because there are few things not working as
 expected. While waiting for the bug to be fixed, those bad
 interactions slow down our workflow. So, take your time.
 
-The complete workflow, depending from the resources of your
+The complete workflow, depending on the resources of your
 development computer, can take minutes, because we defined three
 testing builds and they are all recompiled each time you change a unit
 test in the `syntax.cljx` source file.
 
 > NOTE 4: If you are in hurry I suggest you to comment out the
 > `simple`, the `advanced` builds and the corresponding test commands
-> from the `:dev` profile. When you have done with the unit tests and
-> the almost you can uncomment them back.
+> from the `:dev` profile. When you have done with the unit tests you can
+> uncomment them back.
 
 * In *Terminal 1*: issue the `lein do clean, cljx auto` command. It
   will clean everything and write the `clj` and `cljs` files each time
   you save a new version of the `syntax_test.cljx` file;
 * In *Terminal 2*: issue the `lein cljsbuild auto whitespace`
   command. It will recompile every build each time a `cljs` file will
-  be rewrite by the `cljx` plugin;
+  be rewritten by the `cljx` plugin;
 * In *Terminal 3*: issue the `lein test` command. Here is were
   something does not work as it should, because the command returns
   after having executed the `clj` failing tests and does not go on by
   executing the `cljs` tests;
 * In *Terminal 3*: issue the `lein cljsbuild test whitespace`
-  command. It executed the `cljs` tests for the `whitespace` build
+  command. It executes the `cljs` tests for the `whitespace` build
   only.
 
 Following is the trace of the above commands.
@@ -897,7 +896,7 @@ Tests failed.
 
 > NOTE 5: Because of the issue pertaining the interaction between
 > `cljsbuild` and `cljx` plugin we cited above, when you launch the
-> `lein test` task, it only run the CLJ tests.
+> `lein test` task, it only runs the CLJ tests.
 
 The last command executed 7 unit tests on the `convert` function. The
 one that failed is the `(convert nil)` which returned an empty string
@@ -940,7 +939,7 @@ namespace. That's why we got 2 tests instead of 1 and we got 2 failed
 assertions instead of 1.
 
 But what about the unit test on `(convert nil)` which failed in both
-cases (i.e. CLJ and CLJS?
+cases (i.e. CLJ and CLJS)?
 
 #### Logical true and false
 
@@ -962,7 +961,7 @@ while `""`, `()`, `[]`, `{}`, and `#{}` are all logical true.
 #### Time to fix by REPLing
 
 One of the best things about writing *portable* CLJ/CLJS code, aside
-from freeing you from the need of repeat yourself, is that you can
+from freeing you from the need of repeating yourself, is that you can
 REPL in CLJ only, which is still a much more comfortable experience
 than REPLing in the bREPL.
 
@@ -1005,7 +1004,7 @@ user=>
 ```
 
 This time the return value `nil` adheres to the Clojure choice of
-considering `nil` as the only false value aside `false` itself.
+considering `nil` as the only false value beside `false` itself.
 
 Let's fix the `convert` function in the REPL.
 
