@@ -139,7 +139,7 @@ plugin, the `:cljsbuild` and the `:source-paths` configurations
 
 ## Create a CLJS source file
 
-After having configured `project.clj`, create a CLJS file inside
+After having configured `project.clj`, create file `modern.cljs` inside
 `src/cljs/modern_cljs` directory with the following code
 
 ```clojure
@@ -147,11 +147,8 @@ After having configured `project.clj`, create a CLJS file inside
 
 (.write js/document "Hello, ClojureScript!")
 ```
-
-Save the file as `modern.cljs`.
-
 > NOTE 3: Please note that the filename extension for ClojureScript source
-> code is *cljs*, not *clj*.
+> is *cljs*, not *clj*.
 
 ## Create an HTML page
 
