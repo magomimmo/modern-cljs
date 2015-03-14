@@ -312,7 +312,7 @@ Finally, set the `src` script tag attribute value to
 </html>
 ```
 
-We're almost done.  Copy `style.css` file from
+We're almost done.  Copy `styles.css` file from
 [ch02/css][3] of Modern JS Code  to `resources/public/css` directory.
 
 ## CLJS Compilation
