@@ -141,8 +141,8 @@ the `calculate` function and the `init` function to attach `calculate`
 to the `submit` button of the `shoppingForm`.
 
 `domina.events` namespace offers a bunch of functions to manage DOM
-events. One of them is the `listen!` function, wich allows us to
-attach an handling function (e.g. `calculate`) to a DOM event type
+events. One of them is the `listen!` function, which allows us to
+attach a handling function (e.g. `calculate`) to a DOM event type
 (e.g. `click`, `mouseover`, `mouseout`, etc).
 
 Let's now update `shopping.cljs` by requiring the `domina.events`
@@ -194,8 +194,8 @@ run the bREPL.
 lein trampoline cljsbuild repl-listen # from modern-cljs home in a new terminal
 ```
 
-Verify that everything is still working as expected by visiting
-[`shopping-dbg.html][8] page.
+Verify that everything is still working as expected by visiting the
+[shopping-dbg.html][8] page.
 
 ### Bubbling and capture models
 
@@ -226,7 +226,7 @@ git commit -am "introducing domina events"
 
 # Next Step - [Tutorial 9: DOM Manipulation][9]
 
-In the next tutorial we'are going to face the need to programmatically
+In the next tutorial we're going to face the need to programmatically
 manipulate DOM elements as a result of the occurrance of some DOM
 events (e.g., `mouseover`, `mouseout`, etc.).
 
