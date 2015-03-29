@@ -26,16 +26,16 @@ itself.
 For those not using [Emacs][56], [Eclipse/CCW][59] or
 [Light Table][55], it should be very easy to run the port of the
 ClojureScript Programming Language Tutorial with any editor/IDE
-supporting nREPL. Pull Request are very welcome for incrementing the
-list of the documented editors/IDE.
+supporting nREPL. Pull Requests are very welcome for incrementing the
+list of the documented editors/IDEs.
 
-For instruction on how to run the port of the David Nolen tutorial see
+For instructions on how to run the port of the David Nolen tutorial see
 the [README.md][57] file in the `cljs-tutorial` directory.
 
 ## ATTENTION NOTE
 
 The content of the `modern-cljs` series will be progressively updated
-in next months to reflect as much as possible all the recent
+in the coming months to reflect as much as possible all the recent
 improvements in the ClojureScript ecosystem.
 
 ## Required background
@@ -73,7 +73,7 @@ Here are some book recommendations:
 * [On Lisp][28]: if you want to learn about macros, this is the place to start. 
   It uses [Common Lisp][49] (a Lisp dialect) rather than Clojure.
 * [The Annotated Clojure Reference Manual][33]: by Rich Hickey, the creator
-  of Clojure, it's an often overlooked Clojure book :).
+  of Clojure, it's an often-overlooked Clojure book :).
 
 
 ## Required tools
@@ -123,14 +123,14 @@ tutorial by following these steps:
 2. `cd modern-cljs`
 3. run `lein cljx once` # used from tutorial-16 forward
 4. run `lein ring server-headless`
-5. open a new terminal and cd in the modern-cljs main directory
+5. open a new terminal and cd to the modern-cljs main directory
 6. run `lein cljsbuild once`
 7. run `lein trampoline cljsbuild repl-listen`
 8. open [login-dbg.html][3] and/or [shopping-dbg.html][4] in your browser
 9. you can play with the repl you started in step 7 which is now connected
    to the browser
 
-Don't be concerned if the steps don't make sense to you just yet,
+Don't be concerned if the steps don't make sense to you just yet;
 they'll be covered in the tutorials.
 
 > NOTE: If you want to skip ahead or back and access the code of any single
@@ -146,7 +146,7 @@ Create and configure a very basic CLJS project.
 
 ## [Tutorial 2 - Browser CLJS REPL (bREPL)][6]
 
-Set up a browser connected CLJS REPL (bRepl) using an external http-server.
+Set up a browser-connected CLJS REPL (bRepl) using an external http-server.
 
 ## [Tutorial 3 - Ring and Compojure][7]
 
@@ -156,7 +156,7 @@ middleware, and [Compojure][50], a routing library for Ring.
 ## [Tutorial 4 - Modern ClojureScript][9]
 
 Have some fun with CLJS form validation by porting the JavaScript login form
-example from [Modern Javascript: Development and design][10] to CLJS.
+example from [Modern JavaScript: Develop and Design][10] to CLJS.
 
 ## [Tutorial 5 - Introducing Domina][12]
 
@@ -192,7 +192,7 @@ Apply Domina events to the login form example from the [4th Tutorial][9].
 ## [Tutorial 12 - HTML on Top, Clojure on the Bottom][20]
 
 Explore the highest (HTML5) and deepest (Clojure on the server) layers of the
-login form example from the [previous tutorial][20].
+login form example from the [previous tutorial][19].
 
 ## [Tutorial 13 - Don't Repeat Yourself][21]
 
@@ -223,7 +223,7 @@ typing invalid values into the form.
 
 ## [Tutorial 18 - Housekeeping!][26]
 
-A digression to cover two topics on CLJS developer productivity, setting up
+A digression to cover two topics on CLJS developer productivity: setting up
 a more comfortable browser REPL based on nREPL, and a more
 comfortable project structure using the `profiles` features of
 [Leiningen][2].
@@ -231,7 +231,7 @@ comfortable project structure using the `profiles` features of
 ## [Tutorial 19 - Livin' On the Edge][35]
 
 Learn how to contribute something we need to someone
-else's library, and how to publish a snapshot releases on
+else's library, and how to publish snapshot releases on
 [clojars][36] to use the enhancement in our own project.
 
 ## [Tutorial 20 - Learning by Contributing (Part 1)][37]
@@ -292,7 +292,7 @@ License, the same license as Clojure.
 [30]: http://pragprog.com/book/shcloj2/programming-clojure
 [31]: http://joyofclojure.com/
 [32]: http://shop.oreilly.com/product/0636920025139.do
-[33]: https://twitter.com/richhickey
+[33]: http://clojure.org/reference
 [34]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 [35]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-19.md
 [36]: https://clojars.org/
