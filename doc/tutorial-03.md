@@ -1,8 +1,8 @@
 # Tutorial 3 - Ring and Compojure
 
 In this tutorial you are going to substitute the external http-server
-that we configured in [tutorial 2][1] with [ring][2] and
-[compojure][5], the most standard way run a web based CLJ application.
+that we configured in [tutorial 2][1] with [Ring][2] and
+[Compojure][5], the most standard way run a web-based CLJ application.
 
 ## Introduction
 
@@ -11,8 +11,8 @@ browser side, and have not needed a CLJ-enabled http-server. But we love Clojure
 and we want to learn more about it too.
 
 [Ring][2] is one of the fundamental building-blocks of any CLJ-based
-stack of libraries to develop web based applications. We're going to use it
-instead of any other http-server.
+stack of libraries to develop web-based applications. We're going to use it
+instead of another http-server.
 
 ## Preamble
 
@@ -30,20 +30,19 @@ git checkout -b tutorial-03-step-1
 
 We already saw how `lein-cljsbuild` plugin helped us in managing the
 build, the configuration and the running of CLJS code. In a similar way,
-we're going to use [lein-ring][3] plugin to manage and automate common
+we're going to use the [lein-ring][3] plugin to manage and automate common
 [ring][2] tasks.
 
 To install `lein-ring`, add it as a plugin to your `project.clj`. As for
 `lein-cljsbuild`, if you're going to use it in every CLJ project, you
 can add it to your global profile (i.e. in `~/.lein/profiles.clj`).
 
-Like `lein-cljsbuild`, `lein-ring` plugin requires to be configurated
+Like `lein-cljsbuild`, `lein-ring` plugin can be configured
 by adding a `:ring` keyword to `project.clj`. The value of `:ring` has
 to contain a map of configuration options, but at the moment just one
-of them, the `:handler`, is required and has to refer a function we are
-going to define.
+of them, `:handler`, is required and has to refer to a function we define below.
 
-Here are the required changes in the `project.clj`
+Here are the required changes to `project.clj`
 
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -58,7 +57,7 @@ Here are the required changes in the `project.clj`
 
 A ring handler is just a function that receives a request as an
 argument and produces a response. Both request and response are
-regular clojure maps. Instead of using low-level [Ring API][4], we're
+regular Clojure maps. Instead of using the low-level [Ring API][4], we're
 going to add another very common library to our `project.clj`:
 [compojure][5].
 
@@ -68,7 +67,7 @@ a concise DSL (Domain Specific Language) to generate a [Ring][2]
 handler.
 
 In this tutorial our goal is to set up an http-server able to serve
-static html pages (e.g. simple.html) saved in the `resources/public`
+static html pages (e.g., simple.html) saved in the `resources/public`
 directory.
 
 Open the file `core.clj` from `src/clj/modern_cljs` directory and
@@ -76,8 +75,8 @@ change its content as follows.
 
 ```clojure
 (ns modern-cljs.core
-  (:use compojure.core)
-  (:require [compojure.handler :as handler]
+  (:require [compojure.core :refer :all]
+            [compojure.handler :as handler]
             [compojure.route :as route]))
 
 ;; defroutes macro defines a function that chains individual route
@@ -99,7 +98,7 @@ change its content as follows.
 
 ## Add compojure to project.clj
 
-Before running our new CLJ based http-server, we need to add `compojure`
+Before running our new CLJ-based http-server, we need to add `compojure`
 to the `project.clj` dependencies section as follows:
 
 ```clojure
@@ -122,7 +121,7 @@ Started server on port 3000
 ```
 
 You should see a page with a paragraph saying
-"Hello from compojure".  As you can see, the server started by detault
+"Hello from compojure".  As you can see, the server started by default
 on port `3000`. Optionally, you can pass it a different port number,
 like so: `lein ring server 8888`.
 
