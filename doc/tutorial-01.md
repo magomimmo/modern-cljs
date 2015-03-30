@@ -30,7 +30,7 @@ mkdir -p src/{clj,cljs/modern_cljs}
 mv src/modern_cljs/ src/clj/
 ```
 
-> NOTE 1: due to [java difficulties][4] in managing hyphen "-" (or other
+> NOTE 1: Due to [Java difficulties][4] in managing hyphen "-" (or other
 > special characters) in package names, substitute an underscore for any hyphen
 > in corresponding directory names.
 
@@ -123,8 +123,8 @@ plugin, the `:cljsbuild` and the `:source-paths` configurations
 > ATTENTION NOTE
 >
 > The careful reader would have noted that the `:source-paths` option
-> pertaining the project, the so called Leiningen `:source-paths`, has
-> been valued by adding to it the pathaname value of the `:source-paths`
+> pertaining the project, the so-called Leiningen `:source-paths`, includes
+> the pathname value of the `:source-paths`
 > specific to the `:cljsbuild` build.
 >
 > This is because the `cljsbuild` plugin does not automatically add back
@@ -135,7 +135,7 @@ plugin, the `:cljsbuild` and the `:source-paths` configurations
 > generate bugs very difficult to be caught.
 >
 > Many thanks to [David Nolen][7] and [Chas Emerick][9] for having
-> [pointed me][8] to this trouble.
+> [alerted me][8] to this trouble.
 
 ## Create a CLJS source file
 
