@@ -1,8 +1,8 @@
 # Tutorial 7 - Compilation Modes
 
 In this tutorial we're going to explore CLS compiler optimizations by
-using the usual `lein-cljsbuild` plugin of `leiningen` and we'll
-discover a trouble which we will solve by using the latest release of
+using the usual `lein-cljsbuild` plugin of `leiningen`, and we'll
+discover an issue which we will solve by using the latest release of
 lein-cljsbuild (i.e. lein-cljsbuild 0.3.2).
 
 ## Preamble
@@ -19,17 +19,17 @@ git checkout -b tutorial-07-step-1
 
 ## Introduction
 
-In the [previous tutorial][1] we came in contact with `:export` directive
-been attached to `init` function. That directive had the role of
-protecting the function from being eventually renamed by the Google
+In the [previous tutorial][1] we came in contact with the `:export` metadata
+we attached to the `init` function. That metadata had the role of
+protecting the function from being renamed by the Google
 Closure (CLS) compiler when used with more aggressive compilation mode
-than `:whitespace`, namely `:simple` and `:advanced`.
+than `:whitespace` (namely `:simple` and `:advanced`).
 
 ## Being aggressive as all the others
 
 As we already saw in the very [first tutorial][8] of this series, we have
 been using the `lein-cljsbuild` plugin to configure the CLJS compilation
-process, by instructing `:cljsbuild` keyword with the following value:
+process, by populating the `:cljsbuild` keyword with the following value:
 
 ```clojure
 (defproject ....
@@ -52,27 +52,27 @@ process, by instructing `:cljsbuild` keyword with the following value:
 ```
 
 The `:whitespace` compilation mode of the CLS compiler removes all
-comments and whitespaces from the JS code emitted by the CLJS
+comments and whitespace from the JS code emitted by the CLJS
 compiler. When paired with `:pretty-print true` directive, `:whitespace`
 compilation mode is very effective in supporting programmers during the
 development phase, because it prettifies the emitted JS code in such a
-way that you can read it and eventually set breakpoints during debugging
-sessions with a browser development tool activated.
+way that you can read it and set breakpoints while debugging
+with browser development tools.
 
 The `:simple` compilation mode is a little more aggressive with the
-emitted JS code by the CLJS compiler. As a lot of others minifiers, it
-basically produces a minified JS code by simplifying expressions and
+emitted JS code from the CLJS compiler. Similar to other minifiers, it
+basically produces minified JS code by simplifying expressions and
 renaming local variables within functions. Nothing very new.
 
 To activate `:simple` compilation mode all you have to do is to change
-`:optmizations` value from `:whitespace` to `:simple`.
+the `:optmizations` value from `:whitespace` to `:simple`.
 
-Instead of just substituting `:simple` directive to the `:whitespace`
+Instead of just substituting the `:simple` directive for the `:whitespace`
 one, as documentated in [sample.project.clj][2], `lein-cljsbuild` is so
 nice to allow us to declare more than one build configuration. Here is
 our new `project.clj` declaration with two `:builds`, the first one,
-named `:dev`, which uses `:whitespace` compilation mode, the second one,
-named `:pre-prod`, which uses `:simple` compilation mode.
+named `:dev`, uses `:whitespace` compilation mode, the second one,
+named `:pre-prod`, uses `:simple` compilation mode.
 
 ```clojure
 (defproject modern-cljs "0.1.0-SNAPSHOT"
@@ -109,13 +109,13 @@ named `:pre-prod`, which uses `:simple` compilation mode.
 > value changes from a vector to a map.
 
 As you can see, we now have two build configurations sharing the same
-CLJS code base (i.e. "src/cljs"):
+CLJS code base (i.e., `src/cljs`):
 * `:dev`, which uses `:whitespace` compilation mode and `:pretty-print`
   option set to `true`. The JS code emitted by CLJS/CLS compilers will be
-  saved as `modern_dbg.js` in `resources/public/js` directory;
+  saved as `modern_dbg.js` in the `resources/public/js` directory;
 * `:pre-prod`, which uses `:simple` compilation mode and no
   prettyfication. The JS code emitted by CLJS/CLS compilers will be
-  saved as `modern_pre.js` in `resources/public/js` directory;
+  saved as `modern_pre.js` in the `resources/public/js` directory;
 
 You can now run both builds together by launching the usual `lein
 cljsbuild once` or `lein cljsbuild auto` commands from the terminal.
@@ -142,7 +142,7 @@ Successfully compiled "resources/public/js/modern_pre.js" in 14.51913 seconds.
 
 If you now list your `resources/public/js` directory you can immediately
 see the size difference of `modern_dbg.js` and `modern_pre.js`, the latter being
-30% less than the former, but still more than 700KB.
+30% smaller than the former, but still more than 700KB.
 
 ```bash
 ls -lah resources/public/js/
@@ -155,8 +155,8 @@ drwxr-xr-x  7 mimmo  staff   238B Nov 17 00:39 ..
 
 ## Being much more aggressive than the others
 
-It's now time to be much more aggressive by enabling the so called `dead
-code elimination` through `:advanced` CLS compilation mode.  Here is the
+It's now time to be much more aggressive by enabling the so called "dead
+code elimination" through `:advanced` CLS compilation mode.  Here is the
 code snippet.
 
 ```clojure
@@ -204,7 +204,7 @@ code snippet.
 ```
 
 Now compile the new build as usual by launching `lein cljsbuild once
-prod` and then list the content of `resources/public/js`.
+prod` and then list the contents of `resources/public/js`.
 
 ```bash
 ls -lah resources/public/js/
@@ -217,16 +217,16 @@ drwxr-xr-x  7 mimmo  staff   238B Nov 17 00:39 ..
 ```
 
 We reached 115KB and, if you gzip it, you'll reach 37KB, almost the same
-size of the jquery minified and gzipped version, which is 32KB.
+size of the jQuery minified and gzipped version, which is 32KB.
 
 > NOTE 2: Serving gzipped files is outside the scope of this tutorial. You can
 > read about this topic [here][10] and [here][11].
 
 ## Housekeeping
 
-We now have three different JS generated files, which means we should have
-three different versions for each html page of our small CLJS samples
-and each of them should have a `script` tag pointing to the right JS
+We now have three different generated JS files, which means we should have
+three different versions for each html page of our small CLJS samples,
+each of them with a `script` tag pointing to the right JS
 version. Not a big deal, but still something to take care of.
 
 ```bash
@@ -321,26 +321,26 @@ Now edit `login-dbg.html`, `login-pre.html`, `shopping-dbg.html` and
 </html>
 ```
 
-You're now ready to launch your samples from `modern-cljs` directory as
-usual (e.g. `lein ring server`, `lein cljsbuild auto` and `lein
+You're now ready to launch your samples from the `modern-cljs` directory as
+usual (e.g., `lein ring server`, `lein cljsbuild auto` and `lein
 trampoline cljsbuild repl-listen`) and then to visit the debugging,
 pre-production and production versions of the above pages.
 
 Take into account that using the browser as an
 [evaluation environment][3] is discouraged with `:advanced` mode. If you
 try to evalutate a CLJS expression from the brepl when you're visiting
-the production versions of the pages (i.e. `login.html` and
-`shopping.html`) the brepl will hang up and this brings us to the next
+the production versions of the pages (i.e., `login.html` and
+`shopping.html`) the brepl will hang up, which brings us to the next
 paragraph.
 
-## Get in trouble
+## Getting in trouble
 
-In [tutorial 2][4] and [tutorial 3][5] we introduced the browser
-connected repl (brepl) as a CLJS evalutation environment enabling a
+In [tutorial 2][4] and [tutorial 3][5] we introduced the browser-connected
+repl (brepl) as a CLJS evaluation environment enabling a
 more productive and interactive style of programming. To reach this
-objective we created a `connect.cljs` file where we called
+objective we created `connect.cljs` from which we called
 `(repl/connect "http://localhost:9000/repl")` to establish the server
-side of the brepl connection: the JavaScript virtual machine of the
+side of the brepl connection--the JavaScript virtual machine of the
 browser client itself.
 
 Having an active brepl connection is a great thing during development
@@ -348,16 +348,15 @@ and testing phases, but for security reasons it would be better not to
 have it in a production environment. Aside from the fact that, as we
 have just seen, the `:advanced` compilation mode left hanging the brepl
 connection, it would be nice to have a way to explicitly **exclude** the
-`connect.cljs` file containing the connection call from the build
-(i.e. `:prod`) dedicated to the production environment.
+`connect.cljs` file containing the connection call from the production build.
 
 ## Solve the problem
 
 Starting from the `0.3.2` release, the [lein-cljsbuild][6] plugin has
-a new feature which can be used to easily solve the above trouble by
-allowing to specify more than one CLJS source directory in the
-`:source-paths` compilation option. To **exclude** the `connect.cljs`
-file from the production build we have to move it from the `src/cljs`
+a new feature which can be used to easily solve the above issue by
+allowing you to specify more than one CLJS source directory in the
+`:source-paths` compilation option. To **exclude** `connect.cljs`
+from the production build we have to move it from the `src/cljs`
 directory to a new one and add the newly created directory only to the
 development and pre-production builds.
 
@@ -368,18 +367,18 @@ modern-cljs project
 mkdir -p src/brepl/modern_cljs
 ```
 
-Now move the `connect.cljs` file from `src/cljs/modern_cljs` to the new
+Now move `connect.cljs` from `src/cljs/modern_cljs` to the new
 `src/brepl/modern_cljs` directory.
 
 ```bash
 mv src/cljs/modern_cljs/connect.cljs src/brepl/modern_cljs/
 ```
 
-Next update the `project.clj` file by adding the `"src/brepl"` directory
+Next update `project.clj`, adding the `"src/brepl"` directory
 to the `:source-paths` of the `:dev` and the `:pre-prod` builds, leaving
 the `:prod` build as it was.
 
-> NOTE 3: remember to add the `"src/brepl"` pathname to the main
+> NOTE 3: Remember to add the `"src/brepl"` pathname to the main
 > `:source-paths` setting as well (cf. [Tutorial 1][8])
 
 ```clojure
@@ -435,7 +434,7 @@ lein cljsbuild clean
 lein cljsbuild once
 ```
 
-> NOTE 4: Instead of sequencially running the above tasks, you can chain
+> NOTE 4: Instead of sequentially running the above tasks, you can chain
 > them at the terminal as follows:
 >
 > ```bash
@@ -459,8 +458,8 @@ drwxr-xr-x  11 mimmo  staff   374B Mar  3 19:48 ..
 -rw-r--r--   1 mimmo  staff   626K Mar  3 19:49 modern_pre.js
 ```
 
-If you zip it you reach an amazing size of 18K. Finally you can run as
-usual the `modern-cljs` project.
+If you zip it you reach an amazing size of 18K. Finally you can run
+the `modern-cljs` project as usual.
 
 ```bash
 lein ring server
@@ -477,11 +476,11 @@ tutorial, I suggest you to commit the changes as follows
 git commit -am "being doubly aggressive"
 ```
 
-# Next step - [Tutorial 8: Introducing Domina events][9]
+# Next step - [Tutorial 8: Introducing Domina Events][9]
 
-In the next [Tutorial 8][9] we're going to introduce domina events
-which, by wrapping Google Closure Library event management, allows to
-follow a more clojure-ish approach in handing DOM events.
+In [Tutorial 8][9] we're going to introduce domina events
+which, by wrapping Google Closure Library event management, allows you to
+follow a more Clojure-ish approach in handing DOM events.
 
 # License
 
