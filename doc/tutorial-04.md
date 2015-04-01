@@ -1,7 +1,7 @@
 # Tutorial 4 - Modern ClojureScript
 
 In this tutorial we're going to start by porting a few JavaScript (JS)
-samples from the book [Modern JavaScript: Development and Design][1] by
+samples from the book [Modern JavaScript: Develop and Design][1] by
 [Larry Ullman][2]. You can download the code from the book [here][3].
 
 The reason I choose it as a reference is because it starts smoothly, but
@@ -13,8 +13,8 @@ not yet fluent in CLJS.
 
 As everybody knows, in the 1990s JS was primarily used for
 improving and validating HTML forms. Then, in the second half of the
-2000s, JS started to be used to make asynchronous requests to a server
-side resource and within a few months, we had two new buzzwords, Ajax
+2000s, JS started to be used to make asynchronous requests to server-side
+resources and within a few months we had two new buzzwords, Ajax
 and Web 2.0.
 
 As I said, I'm going to follow the already cited [Modern JavaScript][1]
@@ -27,12 +27,12 @@ of JS in the latest decade, and in starting CLJS programming without
 knowing much about Clojure and/or ClojureScript themselves.
 
 > NOTE 1: I'm of the opinion that CLJS should be easier to set up not
-> only to use, as server-side devs, but for smart client-side devs as
+> only to use as a server-side dev, but for smart client-side devs as
 > well.  Application logic is moving fast from server-side to
 > client-side and all of us, as server-side devs, never had much love
-> for that LISP dressed in C running in the browser and named JS. We now
+> for that "LISP dressed in C" running in the browser, named JavaScript. We now
 > have the opportunity to see the best LISP ever *running in the
-> browser* and we should try to bring client-side programmers with
+> browser*, and we should try to bring client-side programmers with
 > us. Otherwise, we risk seeing said LISP in C's clothing *running on
 > the server-side* too.
 
@@ -123,9 +123,9 @@ The following [sequence diagrams][4] show this approach in action.
 
 ![Login Form Seq DIA 1][8]
 
-The form submitted by the user will be validated by the server-side `php
-script` named `login.php`. If the validation check passes, the server
-will log in the user, `else` the server will return the errors to
+The form submitted by the user will be validated by the server-side PHP
+script named `login.php`. If the validation check passes, the server
+will log in the user, otherwise the server will return the errors to
 the user for correction.
 
 Thanks to JS and Ajax, this user experience can be improved a lot. A
@@ -136,7 +136,7 @@ bring us to the second sequence diagram.
 
 ![Login Form Seq DIA 2][9]
 
-If the client-side (i.e. JS) validation passes, we still have to ask the
+If the client-side (i.e., JS) validation passes, we still have to ask the
 server-side validation for security reasons. But if the client-side
 validation does not pass, we do not need to make a round-trip to the
 server and we can immediately return the errors to the user.
@@ -150,17 +150,17 @@ the third sequence diagram.
 ![login Form Seq DIA 3][10]
 
 The user experience has now been much more enhanced. The Ajax call
-communicates with the server (e.g., to verify if the email address does
-exist) resulting in a more efficient and responsive process.
+communicates with the server (e.g., to verify if the email address
+exists) resulting in a more efficient and responsive process.
 
 In this tutorial, we are going to limit ourselves to the client-side
 validation scenario without implementing the server-side validation
 or the Ajax call to the server. We will implement those in
-subsequent more advanced tutorials.
+subsequent, more advanced tutorials.
 
 ## JavaScript
 
-That said, let's take a look at `login.js` code:
+That said, let's take a look at `login.js`:
 
 ```JavaScript
 // Script 2.3 - login.js
@@ -203,9 +203,9 @@ window.onload = init;
 
 ## Porting to ClojureScript
 
-It has been not a short trip, but we can now start to port the login
-form validation from JS to CLJS. We're going to start off directly
-translating JS to CLJS using [CLJS interop][12] with the underlying
+It has not been a short trip, but we can now start to port the login
+form validation from JS to CLJS. We're going to start off by directly
+translating JS to CLJS using [CLJS interop][21] with the underlying
 JavaScript Virtual Machine (JSVM).
 
 The JS `validateForm()` function gets `email` and `password` ids from
@@ -248,26 +248,26 @@ Now let's write some CLJS code. Create the file `login.cljs` in the
 As you can see, this ported code defines two functions: `validate-form`
 and `init`.
 
-> NOTE 2: note that in CLJ/CLJS the use of CamelCase to name things is not
+> NOTE 2: Note that in CLJ/CLJS the use of CamelCase to name things is not
 > idiomatic. That's why we translated `validateForm` to `validate-form`.
 
-The `let` form allows you to define a kind of local variables, like
-`var` in the above JS code. As noted, we extensively used the "."
+The `let` form allows you to define a kind of local variable, like
+`var` in the JS code above. As noted, we extensively used the "."
 and ".-" JS interop to call JS native functions
-(e.g. `.getElementById`) and to get/set JS object properties
-(i.e. `.-value`) or functions we want as value (e.g. `.-getElementById`
+(e.g., `.getElementById`) and to get/set JS object properties
+(e.g., `.-value`) or functions we want as values (e.g., `.-getElementById`
 and `.-onsubmit`), rather than execute. This is one of the
 [differences between CLJS and CLJ][12] that depends on the underlying
-host virtual machine (i.e. JSVM versus JVM).
+host virtual machine (i.e., JSVM versus JVM).
 
-Copy the `login.html` file from [ch02 of Modern JS Code][3] to
+Copy the `login.html` file from `ch02` of [Modern JS code][3] to the
 `resources/public` directory.
 
 > NOTE 3: If you're using an HTML5 browser, instruct the form to
-> deactivate input validation by adding `novalidate` as the last
-> attribute of the form. Pay attention to the `novalidate` spelling,
-> otherwise the HTML5 browser will be free to intercept the fields
-> attribute `required` and check for them before JS is involved and you
+> deactivate input validation by adding the `novalidate`
+> attribute to the form. Pay attention to the `novalidate` spelling,
+> otherwise the HTML5 browser will be free to intercept the fields'
+> `required` attribute and check for them before JS is involved and you
 > would not see the alert window be opened by CLJS.
 
 Finally, set the `src` script tag attribute value to
@@ -312,8 +312,8 @@ Finally, set the `src` script tag attribute value to
 </html>
 ```
 
-We're almost done.  Copy `style.css` file from
-[ch02/css][3] of Modern JS Code  to `resources/public/css` directory.
+We're almost done.  Copy `styles.css` file from
+`ch02/css` of [Modern JS code][3] to the `resources/public/css` directory.
 
 ## CLJS Compilation
 
@@ -344,7 +344,7 @@ well.
 
 Note that the browser shows both the login form and the "Hello,
 ClojureScript!" text from the [first tutorial][11]. The reason for that
-will be explained in a subsequent tutorial on [Google Closure
+will be explained in a [subsequent tutorial][22] on the [Google Closure
 Compiler][17].
 
 Now let's play with the form:
@@ -359,7 +359,7 @@ you to complete the form;
   found. That's because the action attribute of the html form
   still references `login.php` as the server-side validation
   script. The server-side validation will be implemented in CLJ in a
-  subsequent tutorial.
+  [subsequent tutorial][23].
 
 ![Please, complete the form][14]
 
@@ -378,9 +378,9 @@ with the brepl and the CLJ http-server we introduced in [tutorial 3][16]
 3. visit the login page: `http://localhost:3000/login.html`
 4. evaluate `(in-ns 'modern-cljs.login)` in the brepl
 5. evaluate `validate-form` in the brepl. You should see the JS function
-generated by CLJS compiler with the support of Google Closure Compiler;
-6. evaluate `(validate-form)`. You should see the Alert Window asking
-you to complete the form.
+   generated by CLJS compiler with the support of Google Closure Compiler;
+6. evaluate `(validate-form)`. You should see the alert window asking
+   you to complete the form.
 7. go on interacting with the browser via the brepl.
 
 If you fill both the email and password and click the login button,
@@ -396,8 +396,8 @@ git commit -am "modern javascript"
 
 # Next Step [Tutorial 5: Introducing Domina][18]
 
-In the [next tutorial][18] we're going to use [domina library][19] to
-make our login form validation more clojure-ish.
+In the [next tutorial][18] we're going to use the [domina library][19] to
+make our login form validation more Clojure-ish.
 
 # License
 
@@ -423,3 +423,6 @@ License, the same as Clojure.
 [18]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
 [19]: https://github.com/levand/domina
 [20]: https://help.github.com/articles/set-up-git
+[21]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure#host-interop
+[22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
+[23]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-12.md
