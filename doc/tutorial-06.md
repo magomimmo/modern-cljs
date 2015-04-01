@@ -1,7 +1,7 @@
 # Tutorial 6 - The Easy Made Complex and the Simple Made Easy
 
 In this tutorial we are going to investigate the issue we met in the
-[latest tutorial][1] and try to solve it.
+[previous tutorial][1] and try to solve it.
 
 ## Preamble
 
@@ -43,7 +43,7 @@ plugin.
 
 ## Introducing Google Closure Compiler (CLS)
 
-In the [first tutorial][3], we set the `:cljsbuild` keyword of
+In the [first tutorial][3], we set `:cljsbuild` in
 `project.clj` to configure the Google Closure Compiler with the following
 options:
 
@@ -61,22 +61,22 @@ options:
 The `:source-paths` option instructs CLS to look for any CLJS source
 code in the `src/cljs` directory structure. The `:output-to` option of
 the `:compiler` keyword instructs CLS to save the compilation result
-in `"resources/public/js/modern.js`.
+in `resources/public/js/modern.js`.
 
 I'm not going to explain every single detail of the CLJS/CLS pair of
 compilers. The only detail that is useful for investigating and
 eventually solving the above issue is that the pair of
 compilers generates a **single** JS file
-(e.g. `"resources/public/js/modern.js"`) from **all** of the CLJS files
-it finds in the `"src/cljs"` directory and subdirectories
-(e.g. `connect.cljs`, `login.cljs`, and `shopping.cljs`).
+(i.e., `resources/public/js/modern.js`) from **all** of the CLJS files
+it finds in the `src/cljs` directory and subdirectories
+(i.e., `modern.cljs`, `connect.cljs`, `login.cljs`, and `shopping.cljs`).
 
 ## Is mutability evil?
 
 Both `login.cljs` and `shopping.cljs` had a final call to `(set!
 (.-onload js/window) init)`, which is therefore called twice: once from
 `login.cljs` and once from `shopping.cljs`. The order of these calls
-doesn't matter, because whichever comes first, the other is going to
+is critical, because whichever comes first, the other is going to
 mutate its previous value: a clear case against JS mutable data
 structures?
 
@@ -131,15 +131,15 @@ And here is the modified fragment of `project.clj`
 > I strongly recommend you read the [advanced project.clj example][4]
 > from the [lein-cljsbuild][5] plugin.
 
-Finally you have to include the right JS file (e.g. `"js/login.js"`
-and `"js/shopping.js"` in the script tag of each html page
-(e.g. `login.html` and `shopping.html`).
+Finally you have to include the right JS file (i.e., `js/login.js`
+and `js/shopping.js`) in the script tag of each html page
+(i.e., `login.html` and `shopping.html`).
 
 Most would call the above solution a kind of **incidental
-complexity**. What's worst is the fact that each emitted JS file, no
-matter how smart is the CLS compiler is in reducing the total size, is
-different from the others: there is no way for the browser to cache the first
-downloaded one to locally serve all the others from the cache.
+complexity**. What's worse is the fact that each emitted JS file, no
+matter how smart the CLS compiler is in reducing the total size, is
+different from the others--there is no way for the browser to cache the first
+file downloaded and serve the others from cache.
 
 ## Simple made easy
 
@@ -147,18 +147,18 @@ Now the simple made easy way:
 
 * remove the call `(set! (.-onload js/window) init)` from both
   `login.cljs` and `shopping.cljs` files;
-* add the `:export` tag to the `init` function in both `login.cljs` and
+* add the `:export` tag (metadata) to the `init` function in both `login.cljs` and
   `shopping.cljs` files;
 * add a `script` tag calling the correponding `init` function in both
   `login.html` and `shopping.html` files;
 * you're done.
 
-> NOTE 2: if you do not `^:export` a CLJS function, it will be subject
+> NOTE 2: If you do not `^:export` a CLJS function, it will be subject
 > to Google Closure Compiler `:optimizations` strategies. When set to
 > `:simple` optimizations, the CLS compiler will minify the emitted
 > JS file and any local variable or function name will be shortened/obfuscated and
 > won't be available from external JS code. If a variable or function
-> name is annotated with `:export` metadata, its name is going to be
+> name is annotated with `:export` metadata, its name will be
 > preserved and can be called by standard JS code. In our example the
 > two functions will be available as: `modern_cljs.login.init()` and
 > `modern_cljs.shopping.init()`.
@@ -178,7 +178,7 @@ Here is the related fragment of `login.cljs`
 ;; (set! (.-onload js/window) init)
 ```
 
-And here is the interested fragment of `shopping.cljs`
+And here is the related fragment of `shopping.cljs`
 
 ```clojure
 ;; the rest as before
@@ -214,7 +214,7 @@ lein trampoline cljsbuild repl-listen # from the project home directory in a new
 ```
 
 If you created a new git branch as suggested in the preamble of this
-tutorial, I suggest you to commit the changes as follows
+tutorial, I suggest you commit the changes as follows
 
 ```bash
 git commit -am "Simple made easy."
@@ -224,7 +224,7 @@ In a subsequent tutorial we'll introduce [domina event][6] management
 to further improve our functional style in porting
 [Modern JavaScript samples][7] to CLJS.
 
-# Next step - [Tutorial 7: Being doubly aggressive][8]
+# Next step - [Tutorial 7: Compilation Modes][8]
 
 In the [next tutorial][8] we're going to explore CLJS/CLS compilation modes by
 using the usual `lein-cljsbuild` plugin of `leiningen`.
