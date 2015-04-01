@@ -1,12 +1,12 @@
 # Tutorial 12 - HTML on Top, Clojure on the Bottom
 
 In the [previous tutorial][1], we used DOM events to further the
-progressive enhancement strategy of our clojurean web application. By
-implementing, via CLJS, the *javascript* layer, in the previous
-tutorial we only covered one of the four typical layers of that
-stategy. We still need to implement the topmost layer, the HTML5
-layer, and the two lowest ones: the Ajax layer and the *pure* server
-side layer.
+progressive enhancement strategy of our Clojurean web application. By
+implementing (via CLJS) the *JavaScript* layer in the previous
+tutorial, we only covered one of the four typical layers of that
+strategy. We still need to implement the topmost layer, the HTML5
+layer, and the two lowest ones: the Ajax layer and the *pure*
+server-side layer.
 
 ## Preamble
 
@@ -23,17 +23,17 @@ git checkout -b tutorial-12-step-1
 # Introduction
 
 In this tutorial we're going to cover the highest and lowest layers
-of the `loginForm` example we started to cover in the
-[previous tutorial][1]. We leave detailed care of the highest layer
-(i.e. HTML5) to anyone who wants to play with it. Here we want only
-introduce the new `title` and `pattern` HTML5 attributes, which we are
-going to use by pairing the corresponding patterns and help messages we
-previously nailed in the `validate-email` and `validate-password`
+of the login form example we started to cover in the
+[previous tutorial][1]. We leave the details of the highest layer
+(i.e., HTML5) to anyone who wants to play with it. Here we only want to
+introduce the new `title` and `pattern` HTML5 attributes, which we will
+use by pairing the corresponding patterns and help messages
+previously used by the `validate-email` and `validate-password`
 functions.
 
 # The highest surface
 
-Here is the interested fragment of the updated `login-dbg.html`.
+Here is the relevant fragment of the updated `login-dbg.html`.
 
 ```html
 <html>
@@ -44,7 +44,7 @@ Here is the interested fragment of the updated `login-dbg.html`.
               <label for="email">Email Address</label>
               <input type="email" name="email" id="email"
                      placeholder="email"
-                     title="Type a well formed email!"
+                     title="Type a well-formed email!"
                      pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$"
                      required>
             </div>
@@ -53,18 +53,18 @@ Here is the interested fragment of the updated `login-dbg.html`.
               <label for="password">Password</label>
               <input type="password" name="password" id="password"
                      placeholder="password"
-                     pattern="^(?=.*\d).{4,8}$"
                      title="Password is from 4 to 8 chars with 1 number!"
+                     pattern="^(?=.*\d).{4,8}$"
                      required>
             </div>
 ...
 </html>
 ```
 
-> NOTE 1: remember to make the same modification to both
-> `login-pre.html` and `login.html` which serve respectively the
-> `pre-prod` and the `prod` builds defined in the `project.clj` file (I
-> hate this kind of code duplication. But, at the moment it is not something
+> NOTE 1: Remember to make the same modifications to both
+> `login-pre.html` and `login.html` used by, respectively, the
+> `pre-prod` and the `prod` builds defined in `project.clj` (I
+> hate this kind of code duplication. But, at the moment it is not the problem
 > I'm trying to solve).
 
 As you can see, we removed the `novalidate` HTML5 attribute from the
@@ -73,20 +73,20 @@ to both the `email` and the `password` HTML5 `input` field elements of
 the form.
 
 Umm, this is again a kind of code duplication and I hate it more than the
-previous one. Luckly this time we have a handy solution based on the
+previous one. Luckily, this time we have a handy solution based on the
 [domina library][2]. Let's modify the `validate-email` and
 `validate-password` handlers in such a way that, instead of having those
 patterns and help messages defined in the source code, we can get them
 from the input elements attributes by using the `attr` function defined
-in the `domina` namespace. Following is the fragment of the updated code
+in the `domina` namespace. Following is the updated code fragment
 from `login.cljs`.
 
 ```clojure
 (ns modern-cljs.login
   (:require-macros [hiccups.core :refer [html]])
-  (:require [domina :refer [by-id by-class value append! prepend! destroy! attr log]]
+  (:require [domina :refer [by-id by-class value append! prepend! destroy! attr]]
             [domina.events :refer [listen! prevent-default]]
-            [hiccups.runtime :as hiccupsrt]))
+            [hiccups.runtime]))
 
 (defn validate-email [email]
   (destroy! (by-class "email"))
@@ -105,12 +105,12 @@ from `login.cljs`.
     true))
 ```
 
-> NOTE 2: by using a CLJS expression inside the `html` macro from
+> NOTE 2: By using a CLJS expression inside the `html` macro from the
 > [hiccups][3] library you're now forced to require the `hiccups.runtime`
 > namespace even if you do not explicitly use any function from it.
 
-> NOTE 3: We used `re-pattern` function to convert the strings got from
-> the `:pattern` attributes in regular expressions to be
+> NOTE 3: We used `re-pattern` to convert the strings from
+> the `:pattern` attributes to regular expressions to be
 > passed to `re-matches`.
 
 As usual, check your progress by running the application.
@@ -123,30 +123,30 @@ lein ring server-headless # from a new terminal
 Visit [login-dbg.html][4] and verify that the `:blur` and the `:click`
 handlers are still working as in the [previous tutorial][1].
 
-Now disable the JavaScript of your browser, reload the page and click
+Now disable JavaScript in your browser, reload the page and click
 the `Login` button without having filled the email and the password
 fields.
 
 If you're using an HTML5 browser you should see a message telling you to
-fill out the email field and the text attached as the value of the
+fill out the email field and the text specified as the value of the
 `title` attribute previously set up in the form.
 
 If you don't use an HTML5 browser, the new attributes are just ignored
 and the process continues by calling the still non-existent
-`login.php` server-side script and you get the usual `Not found page`
+`login.php` server-side script, resulting in the usual `Not found page`
 from the [compojure][5] routes we defined in the [3rd Tutorial][6].
 
 It's now time to take care of this error by implementing the server-side
 login service, which represents the deepest layer of the
-progressive enhancement strategy: the one we should have started from in
+progressive enhancement strategy--the one we should have started from in
 a real web application development.
 
-# The deepest surface layer
+# The deepest layer
 
 As you already know, this series of tutorials is about CLJS, not CLJ. On
 the net there are already some very good tutorials on CLJ web
 application develpoment using [ring][7] and [compojure][5]. Despite
-this, we think we should at least give you a starting point and a track
+this, I think we should at least provide a starting point and a track
 to be followed.
 
 First of all, we need to delete the `login.php` value originally
@@ -165,21 +165,21 @@ with a call to a compojure route. We'll call this new route
 </html>
 ```
 
-Now, after any HTML5 field validation has been passed, the browser is
-going to request the server for the `/login` resource by using the
-`POST` method, which passes the `email` and `password` values
+Now, after any HTML5 field validation has succeeded, the browser is
+going to request the `/login` resource from the server using the
+`POST` method, passing the `email` and `password` values
 provided by the user.
 
-We should now take a look at the `core.clj` source file where the ring
+We should now take a look at `core.clj` where the ring
 request handler and the compojure routes have been defined. The received
-"/login" POST request traverses the various ring middleware layers to finally
-reach the `app-routes` which has to provide the response to be sent to
+`POST /login` request traverses the various ring middleware layers to finally
+reach `app-routes` which has to handle the request and provide a response to be returned to
 the browser.
 
 At the moment, `app-routes` doesn't yet know how to manage a `POST` method
-request. Add to `app-routes` a new `POST` route.
+request. Add a new `POST` route to `app-routes`.
 
-Following is the complete new `core.clj` source code.
+Following is the updated `core.clj` source code.
 
 ```clojure
 (ns modern-cljs.core
@@ -193,19 +193,19 @@ Following is the complete new `core.clj` source code.
   (GET "/" [] "<p>Hello from compojure</p>")
   (POST "/login" [email password] (authenticate-user email password))
   (resources "/")
-  (not-found "Page non found"))
+  (not-found "Page not found"))
 
 (def handler
   (site app-routes))
 ```
 
-Whenever the web server is receiving a POST request with the "/login"
+Whenever the web server receives a POST request with the "/login"
 URI, the `email` and `password` parameters are extracted from the body
 of the POST request and the `authenticate-user` function will be called
-by passing it those parameters.
+with those parameters.
 
-> NOTE 4: We intend to define the `authenticate-function` in the new
-> `modern-cljs.login` namespace wich has to be required in the
+> NOTE 4: We intend to define the `authenticate-user` function in the new
+> `modern-cljs.login` namespace which has to be required in the
 > `modern-cljs.core` namespace declaration.
 
 ## First try
@@ -238,17 +238,17 @@ copy to it the following code.
            " passed the formal validation, but you still have to be authenticated"))))
 
 (defn validate-email [email]
-  (if  (re-matches *re-email* email)
+  (if (re-matches *re-email* email)
     true))
 
 (defn validate-password [password]
-  (if  (re-matches *re-password* password)
+  (if (re-matches *re-password* password)
     true))
 ```
 
-There are a lot of bad things in this code. The most relevant is
+There are a lot of bad things in this code. The most obvious is
 the code duplication between the client and the server code. For the
-moment be forgiving and go on by verifying the code mechanics.
+moment, be forgiving and go on by verifying this code works.
 
 So, be patient and run the application as usual.
 
@@ -263,15 +263,15 @@ page. Remember that we removed the `novalidate` attribute flag from the
 `loginForm`. Now click the `Login` button without having filled any
 fields.
 
-If you requested the page from an HTML5 browser, it will ask you to fill
+If you're using an HTML5 browser, it will ask you to fill
 in the email address field with a well-formed email. Do it and click again
-on the `Login` button. The browser will now asks you to fill in the password
+on the `Login` button. The browser will now ask you to fill in the password
 field by typing a password with length between 4 and 8 digits and with at
 least 1 numeric digit. Do it and click the `Login` button again.
 
 If everything has gone well, the browser should now show you a message
-saying something like this: *xxxx.yyyy@gmail.com and zzzz1 passed
-the formal validation, but you still have to be authenticated*.
+saying something like this: `xxxx.yyyy@gmail.com and zzzz1 passed
+the formal validation, but you still have to be authenticated`.
 
 Great. We got what we expected.
 
@@ -282,20 +282,20 @@ the *Please complete the form* message.
 
 Great. We got what we expected.
 
-Now enable the JavaScript, reload the [login-dbg.html][4] and click the
+Now enable JavaScript, reload [login-dbg.html][4] and click the
 `Login` button again. You should see the *Please complete the form*
 message shown at the bottom of the login form. Try to type an invalid
 email address and click the button again. You should now see the *Type a
-well formed email!* shown at the top of the login form.
+well-formed email!* shown at the top of the login form.
 
-Great. We got again what we expected.
+Great. We again got what we expected.
 
-We still have a lot of work to be done, but we were able to implement 3
+We still have a lot of work to do, but we were able to implement 3
 of the 4 layers of the progressive enhancement approach for web
-application development. And we used clojure on the server-side and
-clojurescript on the client-side. Not bad so far.
+application development. And we used Clojure on the server-side and
+ClojureScript on the client-side. Not bad so far.
 
-We already know from the [10th Tutorial][8] how to implement the ajax
+We already know from the [10th Tutorial][8] how to implement the Ajax
 layer. Before doing that by copying the Shopping Calculator sample
 already done, in the next couple of tutorials we're going to cover a
 couple of entirely new topics.
@@ -307,11 +307,11 @@ tutorial, I suggest you to commit the changes as follows
 git commit -am "highest and deepest"
 ```
 
-# Next Step - [Tutorial 13: Don't Repeat Yourself while crossing the border][9]
+# Next Step - [Tutorial 13: Don't Repeat Yourself][9]
 
-One of our long term objectives is to eliminate any code duplication
-from our web applications.  That's like saying we want to stay as
-compliant as possible with the Don't Repeat Yourself (DRY)
+One of our long-term objectives is to eliminate any code duplication
+from our web applications. That's like saying we want to
+comply with the Don't Repeat Yourself (DRY)
 principle. In the [next tutorial][9] we're going to exercise the DRY
 principle while adding a validator library to the project.
 
