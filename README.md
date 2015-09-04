@@ -11,7 +11,7 @@ other client-side or server-side JavaScript interpreters
 ## A companion resource
 
 The `modern-cljs` series now includes a
-[port for Emacs/Eclipse users][57] of the recent
+[port for Emacs/Eclipse/Sublime users][57] of the recent
 [lt-cljs-tutorial - A ClojureScript Programming Language Tutorial for Light Table Users][53]
 by [David Nolen][54]: the tireless, generous and amazingly creative
 maintainer of ClojureScript Programming Language. The port has been
@@ -23,8 +23,8 @@ learning the ClojureScript Programming Language as is, in a very
 interactive way, and from the most competent guy for the language
 itself.
 
-For those not using [Emacs][56], [Eclipse/CCW][59] or
-[Light Table][55], it should be very easy to run the port of the
+For those not using [Emacs][56], [Eclipse/CCW][59],
+[Light Table][55] or [Sublime][61], it should be very easy to run the port of the
 ClojureScript Programming Language Tutorial with any editor/IDE
 supporting nREPL. Pull Requests are very welcome for incrementing the
 list of the documented editors/IDEs.
@@ -319,4 +319,4 @@ License, the same license as Clojure.
 [58]: https://github.com/magomimmo/cljs-start
 [59]: https://code.google.com/p/counterclockwise/
 [60]: https://github.com/clojure/clojurescript/wiki/Quick-Start#running-clojurescript-on-nodejs
-
+[61]: http://www.sublimetext.com/

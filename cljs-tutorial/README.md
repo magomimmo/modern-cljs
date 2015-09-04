@@ -11,11 +11,19 @@ The same as [cljs-start][3] + Emacs:
 * JDK >= 6.0 (7.0 it's better)
 * Leiningen >= 2.3.4
 * PhantomJS >= 1.9.1
-* Emacs >= 24.x with [cider][4] package installed or Eclipse/CCW >= 0.22.0 
+* Emacs >= 24.x with [cider][4] package installed or Eclipse/CCW >= 0.22.0
 
-    > NOTE: I did not test `cljs-tutorial` with others editors/IDE but
-    > you should be able to replicate the same interactive experience
-    > with any editor/IDE able to talk with nREPL.
+Sublime Users:
+
+* Sublime Text 3 (tested on build 3083)
+* [SublimeREPL][7]
+* Chrome/Firefox/Safari (not tested in other browsers)
+
+<!-- prevent list breaking apart-->
+
+  > NOTE: I did not test `cljs-tutorial` with others editors/IDE but
+  > you should be able to replicate the same interactive experience
+  > with any editor/IDE able to talk with nREPL.
 
 ## Eclipse/IDE Quickstart
 
@@ -66,7 +74,7 @@ new Emacs Buffer:
 
 ```clj
 ; CIDER 0.5.0alpha (package: 20131210.726) (Clojure 1.5.1, nREPL 0.2.3)
-user> 
+user>
 ```
 
 Run the ClojureScript nREPL against the phantomjs JavaScript runtime
@@ -82,14 +90,14 @@ WARNING: Symbol ILookup is not a protocol at line 940 /Users/mimmo/Developer/mod
 WARNING: Symbol IMap is not a protocol at line 1108 /Users/mimmo/Developer/modern-cljs/cljs-tutorial/src/cljs/cljs_tutorial/core.cljs
 Type `:cljs/quit` to stop the ClojureScript REPL
 nil
-cljs.user> 
+cljs.user>
 ```
 
 Now all you have to do is to evaluate form by form the `core.cljs`
 file by positioning the cursor after the form and typing the usual
 `C-c C-e` shortcut.
 
-# ATTENTION NOTE
+# EMACS ATTENTION NOTE
 
 The tutorial source code contains references to JS entities not
 available in the phantomjs JavaScript runtime. In such a case if you
@@ -108,7 +116,7 @@ WARNING: Symbol ILookup is not a protocol at line 940 /Users/mimmo/Developer/mod
 WARNING: Symbol IMap is not a protocol at line 1108 /Users/mimmo/Developer/modern-cljs/cljs-tutorial/src/cljs/cljs_tutorial/core.cljs
 Type `:cljs/quit` to stop the ClojureScript REPL
 nil
-cljs.user> 
+cljs.user>
 ```
 
 Now visit the `http://localhost:3000` to activate the Browser
@@ -117,6 +125,36 @@ Connected REPL and evaluate form by form the tutorial code from the
 parens of each form.
 
 Enjoy.
+
+## Sublime Quickstart
+
+Clone the `modern-cljs` repo:
+
+```bash
+git clone https://github.com/magomimmo/modern-cljs.git
+```
+
+Open the `project.clj` file from the
+`cljs-tutorial` directory in Sublime and
+run `SublimeREPL: ClojureScript Browser REPL` via the Command Palette.
+
+Wait for the REPL window in Sublime to show a prompt `ClojureScript:cljs.user>`,
+then visit `http://localhost:9000/repl`. An alert will appear, saying
+`No 'xpc' param provided to child iframe.` To make the Browser REPL functional,
+open the browser console, and enter the following lines:
+
+```js
+clojure.browser.repl.connect.call(null,"http://localhost:9000/repl");
+clojure.browser.repl.client.start("http://localhost:9000");
+```
+
+Open `core.cljs` from the `cljs-tutorial/src/cljs/cljs_tutorial` directory,
+set syntax to ClojureScript via the Command Palette (Clojure syntax 
+will attempt to use a Clojure REPL), and use the following shortcuts
+to evaluate directly in the REPL:
+
+* `ctrl + ,` `b` Evaluate selected block
+* `ctrl + ,` `l` Evaluate selected line -- useful for non-block code, i.e. without `()`
 
 ## License
 
@@ -131,3 +169,4 @@ your option) any later version.
 [4]: https://github.com/clojure-emacs/cider
 [5]: https://github.com/clojure/tools.nrepl
 [6]: http://localhost:3000
+[7]: https://github.com/wuub/SublimeREPL
