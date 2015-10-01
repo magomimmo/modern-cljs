@@ -186,7 +186,7 @@ lein ring server # from modern-cljs home
 lein cljsbuild auto dev # from modern-cljs home in a new terminal
 ```
 
-If you want interact with the bREPL, just execute the usual command to
+If you want to interact with the bREPL, just execute the usual command to
 run the bREPL.
 
 ```bash
