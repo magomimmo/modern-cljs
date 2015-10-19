@@ -99,6 +99,14 @@ you need to add it to the dependencies section of `project.clj`.
   ...)
 ```
 
+> ATTENTION NOTE: `domina` was one of the first DOM library written in
+> CLJS and it has not been updated to follow the evolution of CLJS
+> compiler. You'll get few warnings during the its compilation. Those
+> warnings do not affect the behaviour of the lib in the contest of
+> this tutorial. That said, even if you're not going to use `domina`
+> in your project, this tutorial could be still useful to undertstand
+> the way CLJS works.
+
 ## Domina selectors
 
 [Domina][1] offers several selector functions: `xpath`, in the `domina.xpath`
@@ -106,12 +114,13 @@ namespace, and `sel`, in the `domina.css` namespace. But it also features the
 `by-id`, `value` and `set-value!` functions defined in the `domina` core
 namespace, which is the one we're going to use.
 
-The nice thing about domina `(by-id id)`, inherited from the underlying
-Google Closure library on which domina is implemented, is that it
-takes care of verifying if the passed argument is a string. As we
-anticipated, the `domina` core namespace offers other useful functions we're
-going to use: `(value el)`, which returns the value of the passed
-element, and `(set-value! el value)` which sets its value.
+The nice thing about domina `(by-id id)`, inherited from the
+underlying Google Closure Library (GCL) on which domina is
+implemented, is that it takes care of verifying if the passed argument
+is a string. As we anticipated, the `domina` core namespace offers
+other useful functions we're going to use: `(value el)`, which returns
+the value of the passed element, and `(set-value! el value)` which
+sets its value.
 
 > NOTE 2: When a function modifies an argument passed to it, by Clojure
 > naming convention a bang "!" is added at the end of the function
@@ -154,7 +163,7 @@ do the following:
 
 ```bash
 cd /path/to/modern-cljs
-lein ring server
+lein ring server-headless
 lein cljsbuild once # in a new terminal and after having cd in modern-cljs
 lein trampoline cljsbuild repl-listen
 ```
@@ -162,55 +171,48 @@ lein trampoline cljsbuild repl-listen
 > NOTE 4: Be sure to `cd` to the home directory of the project in each
 > terminal you open.
 
-Open <http://localhost:3000/login.html>, and when the CLJS repl becomes responsive,
-having established a connection with the browser, try the following at the REPL prompt:
+Open <http://localhost:3000/login.html>, and when the CLJS repl
+becomes responsive, having established a connection with the browser,
+try the following at the REPL prompt:
 
 ```bash
-ClojureScript:cljs.user> (in-ns 'modern-cljs.login)
-
-ClojureScript:modern-cljs.login> validate-form
-#<function validate_form() {
-  var email__6289 = domina.by_id.call(null, "email");
-  var password__6290 = domina.by_id.call(null, "password");
-  if(function() {
-    var and__3822__auto____6291 = cljs.core.count.call(null, domina.value.call(null, email__6289)) > 0;
-    if(and__3822__auto____6291) {
-      return cljs.core.count.call(null, domina.value.call(null, password__6290)) > 0
-    }else {
-      return and__3822__auto____6291
-    }
-  }()) {
-    return true
-  }else {
+cljs.user=> (require '[modern-cljs.login :as l])
+cljs.user=> l/validate-form
+#object[modern_cljs$login$validate_form "function modern_cljs$login$validate_form() {
+  var email = domina.by_id.call(null, "email");
+  var password = domina.by_id.call(null, "password");
+  if (cljs.core.count.call(null, domina.value.call(null, email)) > 0 && cljs.core.count.call(null, domina.value.call(null, password)) > 0) {
+    return true;
+  } else {
     alert("Please, complete the form!");
-    return false
+    return false;
   }
-}>
-ClojureScript:modern-cljs.login>
+}"]
+cljs.user=>
 ```
 
-The evaluation of the `validate-form` symbol returns the JS function
+The evaluation of the `l/validate-form` symbol returns the JS function
 definition attached by the CLJS compiler to the symbol itself. If you
-now try to call the function `(validate-form)`, you should see the
+now try to call the function `(l/validate-form)`, you should see the
 browser alert window asking you to complete the form; click the `ok`
-button and you'll see that `(validate-form)` returns `false`.
+button and you'll see that `(l/validate-form)` returns `false`.
 
 ```bash
-ClojureScript:modern-cljs.login> (validate-form)
+cljs.user=> (l/validate-form)
 false
-ClojureScript:modern-cljs.login>
+cljs.user=>
 ```
 
 Fill both the `Email Address` and `Password` fields of the login
-form. At the CLJS repl prompt, call `(validate-form)` again. You should
-now see that `(validate-form)` returns `true`, passing control to the
-[original][6] server-side script which we're going to implement in CLJ in a
-subsequent tutorial.
+form. At the CLJS repl prompt, call `(l/validate-form)` again. You
+should now see that `(l/validate-form)` returns `true`, passing
+control to the [original][6] server-side script which we're going to
+implement in CLJ in a subsequent tutorial.
 
 ```bash
-ClojureScript:modern-cljs.login> (validate-form)
+cljs.user=> (l/validate-form)
 true
-ClojureScript:modern-cljs.login>
+cljs.user=>
 ```
 
 ## Shopping calculator sample
@@ -292,10 +294,11 @@ its behaviour. Save it in `resources/public` directory.
 </html>
 ```
 
-As before, we included the link to `js/modern.js` external JS file which
-will be generated by the CLJS compilation. Note that this time we have
-not attached any value to the `action` attribute of the form. That's
-because in this new example there is no server-side form submission.
+As before, we included the link to `js/modern.js` external JS file
+which will be generated by the CLJS compilation. Note that this time
+we have not attached any value to the `action` attribute of the
+form. That's because in this new example there is no server-side form
+submission.
 
 The following picture shows the rendered `shopping.html` page.
 
@@ -345,7 +348,7 @@ enter the following code:
 Let's now try our little shopping calculator as usual:
 
 ```bash
-lein ring server # in the modern-cljs home directory
+lein ring server-headless # in the modern-cljs home directory
 lein cljsbuild auto # in the modern-cljs directory in a new terminal
 lein trampoline cljsbuild repl-listen # in the modern_cljs directory in a new terminal
 ```
@@ -356,24 +359,23 @@ Now visit `localhost:3000/shopping.html` and run the calculator by
 clicking the `Calculate` button. You'll receive a "Page not
 found" error. What happened?
 
-The error is not very informative. We have not yet introduced
-any debugging tools to be used in such a case, so we try troubleshooting
-with what we have in our hands: the CLJS repl connected to the
-browser (i.e., brepl). In the previous login form sample we ran the
-`(validate-form)` function from the brepl to test its behaviour. Let's
-try the same thing by evaluating the `(calculate)` function we just
-defined in `modern-cljs.shopping` namespace.
+The error is not very informative. We have not yet introduced any
+debugging tools to be used in such a case, so we try troubleshooting
+with what we have in our hands: the CLJS repl connected to the browser
+(i.e., brepl). In the previous login form sample we ran the
+`(l/validate-form)` function from the brepl to test its
+behaviour. Let's try the same thing by evaluating the `(calculate)`
+function we just defined in `modern-cljs.shopping` namespace.
 
 First, click the back button of your browser to return to the
 `shopping.html` page and then evaluate the following CLJS expressions
 in the brepl.
 
 ```bash
-ClojureScript:cljs.user> (in-ns 'modern-cljs.shopping)
+cljs.user=> (require '[modern-cljs.shopping :as s])
 
-ClojureScript:modern-cljs.shopping> (calculate)
+cljs.user=> (s/calculate)
 false
-ClojureScript:modern-cljs.shopping>
 ```
 
 The `calculate` functions correctly returns `false` and the `Total`
@@ -386,9 +388,9 @@ brepl, but not by the `Calculate` button of the form. Let's see if the
 brepl may help us in investigating the problem we have.
 
 ```bash
-ClojureScript:modern-cljs.shopping> (.-onsubmit (.getElementById js/document "shoppingForm"))
+cljs.user=> (.-onsubmit (.getElementById js/document "shoppingForm"))
 nil
-ClojureScript:modern-cljs.shopping>
+cljs.user=>
 ```
 
 Oops, the `onsubmit` property of `shoppingForm` form element has no
@@ -398,23 +400,23 @@ function which, in turn, should have been set as the value of the
 value of the `onload` property of the `window` object.
 
 ```bash
-ClojureScript:modern-cljs.shopping> (.-onload js/window)
-#<function init() {
-  if(cljs.core.truth_(function() {
-    var and__3822__auto____6439 = document;
-    if(cljs.core.truth_(and__3822__auto____6439)) {
-      return document.getElementById
-    }else {
-      return and__3822__auto____6439
+cljs.user=> (.-onload js/window)
+#object[modern_cljs$login$init "function modern_cljs$login$init() {
+  if (cljs.core.truth_(function() {
+    var and__4557__auto__ = document;
+    if (cljs.core.truth_(and__4557__auto__)) {
+      return document.getElementById;
+    } else {
+      return and__4557__auto__;
     }
   }())) {
-    var login_form__6440 = document.getElementById("loginForm");
-    return login_form__6440.onsubmit = modern_cljs.login.validate_form
-  }else {
-    return null
+    var login_form = document.getElementById("loginForm");
+    return login_form.onsubmit = modern_cljs.login.validate_form;
+  } else {
+    return null;
   }
-}>
-ClojureScript:modern-cljs.shopping>
+}"]
+cljs.user=>
 ```
 
 Oops, the `init` function assigned as the value for the `window` `onload`
@@ -431,16 +433,16 @@ To temporarily solve this problem, evaluate the `(init)` function in
 the brepl as follows:
 
 ```bash
-ClojureScript:modern-cljs.shopping> (init)
-#<function calculate() {
-  var quantity__18253 = domina.value.call(null, domina.by_id.call(null, "quantity"));
-  var price__18254 = domina.value.call(null, domina.by_id.call(null, "price"));
-  var tax__18255 = domina.value.call(null, domina.by_id.call(null, "tax"));
-  var discount__18256 = domina.value.call(null, domina.by_id.call(null, "discount"));
-  domina.set_value_BANG_.call(null, domina.by_id.call(null, "total"), (quantity__18253 * price__18254 * (1 + tax__18255 / 100) - discount__18256).toFixed(2));
-  return false
-}>
-ClojureScript:modern-cljs.shopping>
+cljs.user=> (s/init)
+#object[modern_cljs$shopping$calculate "function modern_cljs$shopping$calculate() {
+  var quantity = domina.value.call(null, domina.by_id.call(null, "quantity"));
+  var price = domina.value.call(null, domina.by_id.call(null, "price"));
+  var tax = domina.value.call(null, domina.by_id.call(null, "tax"));
+  var discount = domina.value.call(null, domina.by_id.call(null, "discount"));
+  domina.set_value_BANG_.call(null, domina.by_id.call(null, "total"), (quantity * price * (1 + tax / 100) - discount).toFixed(2));
+  return false;
+}"]
+cljs.user=>
 ```
 
 You can now use the *Shopping Calculator* form by clicking its
