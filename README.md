@@ -1,9 +1,9 @@
 # Modern ClojureScript
 
 > ATTENTION NOTE: I'm in the process of gradually updating the
-> series. At the moment I updated only the Tutorial-02, while all the
-> others are still using aged stuff. Please be patient because it will
-> take at least a month to complete the work.
+> series. At the moment I updated only tutorial-01 and tutorial-02,
+> while all the others are still using aged stuff. Please be patient
+> because it will take at least a month to complete the work.
 
 Modern ClojureScript (`modern-cljs`) is a series of tutorials that guide you in 
 creating and running [ClojureScript][1] (CLJS) projects.
