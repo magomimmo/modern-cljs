@@ -117,7 +117,7 @@ element, and `(set-value! el value)` which sets its value.
 > naming convention a bang "!" is added at the end of the function
 > name.
 
-> NOTE 3: To `:use` a namespace in CLJS, you must refer specify vars
+> NOTE 3: To `:use` a namespace in CLJS, you must specify vars
 > using the `(:use ... :only [...])` form. For further
 > differences see [the ClojureScript Wiki][8]
 
@@ -315,7 +315,7 @@ We then have to calculate the total, write back the result in the form
 and return `false` to prevent the browser from attempting to submit the
 data to a server-side script.
 
-Create the `shopping.cljs` file in `src/cljs/modern_cljs` directory and
+Create the `shopping.cljs` file in the `src/cljs/modern_cljs` directory and
 enter the following code:
 
 ```clojure
