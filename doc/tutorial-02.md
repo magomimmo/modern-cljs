@@ -109,11 +109,20 @@ Now we need to compile the new CLJS file. [Google Closure Compiler][9]
 as we have already configured. Now call the CLJS compilation task:
 
 ```bash
-lein cljsbuild once
+lein do clean, cljsbuild once
 Compiling ClojureScript.
 Compiling "resources/public/js/modern.js" from "src/cljs"...
 Successfully compiled "resources/public/js/modern.js" in 4.904672 seconds.
 ```
+
+> NOTE 3: We chained the clean and cljsbuild tasks together in a single
+> command by using the do task with comma-separated tasks.
+
+> NOTE 4: By using CLJS 1.7.145 release you'll get an annoying
+> compilation warning regarding the Google Closure Library (GCL). At
+> the moment it does not hurt. You could eventually downgrade to CLJS
+> 1.7.122 or waiting for a new release.
+
 ### Start a brepl
 
 To enable the connection between the repl and the browser, we need
@@ -124,8 +133,8 @@ set up by `lein-cljsbuild` for us.
 ```bash
 lein trampoline cljsbuild repl-listen
 Running ClojureScript REPL, listening on port 9000.
-"Type: " :cljs/quit " to quit"
-ClojureScript:cljs.user>
+Compiling client js ...
+Waiting for browser to connect ...
 ```
 
 Do not yet type anything at the brepl prompt. It's waiting for a
@@ -144,26 +153,35 @@ Obviously, the http-server has to be running. By visiting
 compilation connects to the listening brepl on port `9000` started by
 `repl-listen` task of `lein-cljsbuild` plugin.
 
+As soon as the connection has been activated you'll get the
+`cljs.user=>` prompt ready to evaluate CLJS expressions.
+
+```bash
+Running ClojureScript REPL, listening on port 9000.
+Compiling client js ...
+Waiting for browser to connect ...
+To quit, type: :cljs/quit
+cljs.user=>
+```
+
 Now you can evaluate CLJS forms in the brepl.
 
 ```clojure
-ClojureScript:cljs.user> (+ 41 1)
+cljs.user=> (+ 41 1)
 42
-ClojureScript:cljs.user>
+cljs.user=>
 ```
 Best of all, you can start evaluting CLJS forms interacting with the browser
 and see immediate feedback in the browser itself.
 
 ```clojure
-ClojureScript:cljs.user> (js/alert "Hello from a browser connected repl")
+cljs.user=> (js/alert "Hello from a browser connected repl")
 ```
 ![Alert Window][10]
 
 You will note that there is no command history or editing ability in
 this REPL.  You can add it if you wish by installing [rlwrap][12] and
-following the instructions [here][13]. Even better, you could take a
-look at the [Tutorial 18 - Housekeeping][19] which explains another
-brepl option which can be run from a standard CLJ REPL.
+following the instructions [here][13]. 
 
 If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
@@ -175,12 +193,13 @@ git commit -am "brepl enabled"
 ## Next step - [Tutorial 3: Ring and Compojure][11]
 
 In the next [tutorial][11] we're going to substitute the external
-http-server with a CLJ-based http-server, enabling direct communications between CLJS client
-code and CLJ server code in subsequent tutorials.
+http-server with a CLJ-based http-server, enabling direct
+communications between CLJS client code and CLJ server code in
+subsequent tutorials.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-2014. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-2015. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: http://en.wikipedia.org/wiki/Cross-site_scripting
@@ -201,4 +220,3 @@ License, the same as Clojure.
 [16]: https://help.github.com/articles/set-up-git
 [17]: https://github.com/mmcgrana/ring
 [18]: https://github.com/weavejester/compojure
-[19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
