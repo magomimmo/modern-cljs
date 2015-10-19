@@ -48,7 +48,7 @@ Here are the required changes to `project.clj`
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
   :plugins [...
-            [lein-ring "0.8.8"]]
+            [lein-ring "0.9.7"]]
 
   :ring {:handler modern-cljs.core/handler}
   ...)
@@ -105,7 +105,7 @@ to the `project.clj` dependencies section as follows:
 (defproject modern-cljs "0.1.0-SNAPSHOT"
   ...
   :dependencies [...
-                 [compojure "1.1.6"]]
+                 [compojure "1.4.0"]]
   ...)
 ```
 
@@ -115,9 +115,9 @@ Now that everything has been set up, we can run the server as follows:
 
 ```bash
 lein ring server
-2012-11-03 19:06:33.178:INFO:oejs.Server:jetty-7.6.1.v20120215
+2015-10-19 17:07:32.720:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-10-19 17:07:32.777:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 Started server on port 3000
-2012-11-03 19:06:33.222:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 ```
 
 You should see a page with a paragraph saying
