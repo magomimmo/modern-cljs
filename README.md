@@ -1,7 +1,7 @@
 # Modern ClojureScript
 
 > ATTENTION NOTE: I'm in the process of gradually updating the
-> series. At the moment I updated the series up to the tutorial-04,
+> series. At the moment I updated the series up to the tutorial-05,
 > while all the others are still using aged stuff. Please be patient
 > because it will take at least a month to complete the work.
 
