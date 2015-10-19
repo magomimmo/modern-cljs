@@ -25,14 +25,21 @@ You can use any http-server. In this tutorial we're going to use the
 operating system, because it's very easy to configure and run. There
 should be similar options for other OSs.
 
-> NOTE 1: A very handy and portable http-server is python module
-> `SimpleHTTPServer`. If you have python installed on your operating
-> system, just launch it as follows:
+> NOTE 1: A very handy and portable http-server is Python module
+> `SimpleHTTPServer` (Python 2) / `http.server` (Python 3). If you 
+> have python installed on your operating system, just launch it 
+> as follows:
 >
 > ```bash
+> # Python 2
 > cd /path/to/modern-cljs/resources/public
 > python -m SimpleHTTPServer 8888
 > Serving HTTP on 0.0.0.0 port 8888 ...
+>
+> # Python 3
+> cd /path/to/modern-cljs/resources/public
+> python -m http.server 8888
+> Serving HTTP on 0.0.0.0 port 8888
 > ```
 >
 > Thanks to [Max Penet][5] for the suggestion.
