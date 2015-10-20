@@ -213,6 +213,15 @@ lein cljsbuild auto # from the project home directory in a new terminal
 lein trampoline cljsbuild repl-listen # from the project home directory in a new terminal
 ```
 
+and visit the http://localhost:3000/shopping.html to activate the
+brepl connection to verify that now you can serve more pages with the
+same `modern.js` generated JS file.
+
+> ATTENTION NOTE: The brepl connection created via `lein trampoline
+> cljsbuild repl-lissen` is a little bit unstable. You could need to
+> reload more times the `login` or the `shopping` URL to
+> activate/reactivate the brepl connection.
+
 If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you commit the changes as follows
 
