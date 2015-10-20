@@ -36,7 +36,7 @@ process, by populating the `:cljsbuild` keyword with the following value:
 ...
 ...
 
-:cljsbuild {:builds
+  :cljsbuild {:builds
               [{;; clojurescript source code path
                 :source-paths ["src/cljs"]
 
