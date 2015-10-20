@@ -15,5 +15,5 @@
 (defn ^:export init []
   (if (and js/document
            (.-getElementById js/document))
-    (let [theForm (.getElementById js/document "shoppingForm")]
-      (set! (.-onsubmit theForm) calculate))))
+    (let [the-form (.getElementById js/document "shoppingForm")]
+      (set! (.-onsubmit the-form) calculate))))
