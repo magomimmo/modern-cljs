@@ -1,9 +1,9 @@
 # Tutorial 7 - Compilation Modes
 
-In this tutorial we're going to explore CLS compiler optimizations by
-using the usual `lein-cljsbuild` plugin of `leiningen`, and we'll
-discover an issue which we will solve by using the latest release of
-lein-cljsbuild (i.e. lein-cljsbuild 0.3.2).
+In this tutorial we're going to explore Google Closure Compiler (GCLS)
+optimizations by using the usual `lein-cljsbuild` plugin of
+`leiningen`, and we'll discover an issue which we will solve by using
+the latest release of lein-cljsbuild (i.e. lein-cljsbuild 0.3.2).
 
 ## Preamble
 
@@ -22,7 +22,7 @@ git checkout -b tutorial-07-step-1
 In the [previous tutorial][1] we came in contact with the `:export` metadata
 we attached to the `init` function. That metadata had the role of
 protecting the function from being renamed by the Google
-Closure (CLS) compiler when used with more aggressive compilation mode
+Closure (GCSL) compiler when used with more aggressive compilation mode
 than `:whitespace` (namely `:simple` and `:advanced`).
 
 ## Being aggressive as all the others
@@ -51,13 +51,13 @@ process, by populating the `:cljsbuild` keyword with the following value:
                            :pretty-print true}}]})
 ```
 
-The `:whitespace` compilation mode of the CLS compiler removes all
-comments and whitespace from the JS code emitted by the CLJS
-compiler. When paired with `:pretty-print true` directive, `:whitespace`
-compilation mode is very effective in supporting programmers during the
-development phase, because it prettifies the emitted JS code in such a
-way that you can read it and set breakpoints while debugging
-with browser development tools.
+The `:whitespace` compilation mode of the GCSL compiler removes all
+comments and whitespaces from the JS code emitted by the CLJS
+compiler. When paired with `:pretty-print true` directive,
+`:whitespace` compilation mode is very effective in supporting
+programmers during the development phase, because it prettifies the
+emitted JS code in such a way that you can read it and set breakpoints
+while debugging with browser development tools.
 
 The `:simple` compilation mode is a little more aggressive with the
 emitted JS code from the CLJS compiler. Similar to other minifiers, it
@@ -111,10 +111,10 @@ named `:pre-prod`, uses `:simple` compilation mode.
 As you can see, we now have two build configurations sharing the same
 CLJS code base (i.e., `src/cljs`):
 * `:dev`, which uses `:whitespace` compilation mode and `:pretty-print`
-  option set to `true`. The JS code emitted by CLJS/CLS compilers will be
+  option set to `true`. The JS code emitted by CLJS/GCSL compilers will be
   saved as `modern_dbg.js` in the `resources/public/js` directory;
 * `:pre-prod`, which uses `:simple` compilation mode and no
-  prettyfication. The JS code emitted by CLJS/CLS compilers will be
+  prettyfication. The JS code emitted by CLJS/GCSL compilers will be
   saved as `modern_pre.js` in the `resources/public/js` directory;
 
 You can now run both builds together by launching the usual `lein
@@ -156,7 +156,7 @@ drwxr-xr-x  7 mimmo  staff   238B Nov 17 00:39 ..
 ## Being much more aggressive than the others
 
 It's now time to be much more aggressive by enabling the so called "dead
-code elimination" through `:advanced` CLS compilation mode.  Here is the
+code elimination" through `:advanced` GCSL compilation mode.  Here is the
 code snippet.
 
 ```clojure
