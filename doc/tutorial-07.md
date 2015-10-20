@@ -19,6 +19,15 @@ git checkout -b tutorial-07-step-1
 
 ## Introduction
 
+> ATTENTION NOTE: due to the changes in the CLJS compiler, cljsbuild
+> plugin and the age of the last update to the domina library, to be
+> able to run the current tutorial you need to downgrade the
+> dependencies and plugins inside of `project.clj` as follow:
+> 
+> - clojurescript: from 1.7.145 to 0.0-2069
+> - domina: from 1.0.3 to 1.0.3-SNAPSHOT
+> - lein-cljsbuild: from 1.1.0 to 1.0.0
+
 In the [previous tutorial][1] we came in contact with the `:export` metadata
 we attached to the `init` function. That metadata had the role of
 protecting the function from being renamed by the Google
@@ -122,7 +131,7 @@ cljsbuild once` or `lein cljsbuild auto` commands from the terminal.
 
 ```bash
 cd /path/to/modern-cljs
-lein cljsbuild once
+lein do clean, cljsbuild clean, cljsbuild once
 Compiling ClojureScript.
 Compiling "resources/public/js/modern_pre.js" from ["src/cljs"]...
 Successfully compiled "resources/public/js/modern_pre.js" in 15.169253 seconds.
@@ -143,15 +152,15 @@ Successfully compiled "resources/public/js/modern_pre.js" in 14.51913 seconds.
 If you now list your `resources/public/js` directory you can
 immediately see the size difference of `modern_dbg.js` and
 `modern_pre.js`, the latter being almost 60% smaller than the former,
-but still 1.0M.
+but still about 0.7M.
 
 ```bash
-iacomos-MacBook-Pro:modern-cljs mimmo$ ls -lah resources/public/js/
-total 5720
-drwxr-xr-x   4 mimmo  staff   136B Oct 20 12:49 .
-drwxr-xr-x  11 mimmo  staff   374B Oct 20 12:48 ..
--rw-r--r--   1 mimmo  staff   1.7M Oct 20 12:48 modern_dbg.js
--rw-r--r--   1 mimmo  staff   1.0M Oct 20 12:48 modern_pre.js
+ls -lah resources/public/js/
+total 3864
+drwxr-xr-x   5 mimmo  staff   170B Oct 20 17:49 .
+drwxr-xr-x  11 mimmo  staff   374B Oct 20 17:48 ..
+-rw-r--r--   1 mimmo  staff   1.2M Oct 20 17:48 modern_dbg.js
+-rw-r--r--   1 mimmo  staff   674K Oct 20 17:49 modern_pre.js
 ```
 
 ## Being much more aggressive than the others
@@ -205,20 +214,18 @@ code snippet.
 ```
 
 Now compile the new build as usual by launching `lein cljsbuild once
-prod` and then list the contents of `resources/public/js`.
+prod` and then list the contents of `resources/public/js/modern.js`. 
 
 ```bash
-ls -lah resources/public/js/
-total 5936
-drwxr-xr-x   5 mimmo  staff   170B Oct 20 12:52 .
-drwxr-xr-x  11 mimmo  staff   374B Oct 20 12:48 ..
--rw-r--r--   1 mimmo  staff   108K Oct 20 12:52 modern.js
--rw-r--r--   1 mimmo  staff   1.7M Oct 20 12:48 modern_dbg.js
--rw-r--r--   1 mimmo  staff   1.0M Oct 20 12:48 modern_pre.js
+ls -lah resources/public/js/modern.js
+total 6080
+drwxr-xr-x   5 mimmo  staff   170B Oct 20 15:39 .
+drwxr-xr-x  11 mimmo  staff   374B Oct 20 15:38 ..
+-rw-r--r--   1 mimmo  staff   108K Oct 20 15:38 modern.js
 ```
 
-We reached 108KB and, if you gzip it, you'll reach almost the same
-size of the jQuery minified and gzipped version, which is 32KB.
+We reached 108KB and, if you gzip it, you'll reach a size much more
+acceptable.
 
 > NOTE 2: Serving gzipped files is outside the scope of this tutorial. You can
 > read about this topic [here][10] and [here][11].
@@ -432,6 +439,7 @@ You can run the usual commands to recompile all the builds and run the
 
 ```bash
 lein clean
+lein cljsbuild clean
 lein cljsbuild once
 ```
 
@@ -439,7 +447,7 @@ lein cljsbuild once
 > them at the terminal as follows:
 >
 > ```bash
-> lein do clean, cljsbuild once
+> lein do clean, cljsbuild clean, cljsbuild once
 > ```
 >
 > Leiningen offers more options to automate composite tasks. We'll see
@@ -447,7 +455,18 @@ lein cljsbuild once
 
 One nice consequence of the `connect.cljs` exclusion from the `:prod`
 build is that now the size of the generated `modern.js` is even
-smaller than before.
+smaller than before and if you zip it you reach a size of 17KB, not so
+bad.
+
+```bash
+ls -lah resources/public/js/
+total 3864
+drwxr-xr-x   5 mimmo  staff   170B Oct 20 17:26 .
+drwxr-xr-x  11 mimmo  staff   374B Oct 20 17:25 ..
+-rw-r--r--   1 mimmo  staff    65K Oct 20 17:26 modern.js
+-rw-r--r--   1 mimmo  staff   1.2M Oct 20 17:26 modern_dbg.js
+-rw-r--r--   1 mimmo  staff   674K Oct 20 17:26 modern_pre.js
+```
 
 Finally you can run the `modern-cljs` project as usual.
 
