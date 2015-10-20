@@ -140,17 +140,18 @@ Compiling "resources/public/js/modern_pre.js" from ["src/cljs"]...
 Successfully compiled "resources/public/js/modern_pre.js" in 14.51913 seconds.
 ```
 
-If you now list your `resources/public/js` directory you can immediately
-see the size difference of `modern_dbg.js` and `modern_pre.js`, the latter being
-30% smaller than the former, but still more than 700KB.
+If you now list your `resources/public/js` directory you can
+immediately see the size difference of `modern_dbg.js` and
+`modern_pre.js`, the latter being almost 60% smaller than the former,
+but still 1.0M.
 
 ```bash
-ls -lah resources/public/js/
-total 3520
-drwxr-xr-x  4 mimmo  staff   136B Nov 17 20:23 .
-drwxr-xr-x  7 mimmo  staff   238B Nov 17 00:39 ..
--rw-r--r--  1 mimmo  staff   1.0M Nov 17 20:23 modern_dbg.js
--rw-r--r--  1 mimmo  staff   705K Nov 17 20:23 modern_pre.js
+iacomos-MacBook-Pro:modern-cljs mimmo$ ls -lah resources/public/js/
+total 5720
+drwxr-xr-x   4 mimmo  staff   136B Oct 20 12:49 .
+drwxr-xr-x  11 mimmo  staff   374B Oct 20 12:48 ..
+-rw-r--r--   1 mimmo  staff   1.7M Oct 20 12:48 modern_dbg.js
+-rw-r--r--   1 mimmo  staff   1.0M Oct 20 12:48 modern_pre.js
 ```
 
 ## Being much more aggressive than the others
@@ -208,15 +209,15 @@ prod` and then list the contents of `resources/public/js`.
 
 ```bash
 ls -lah resources/public/js/
-total 3888
-drwxr-xr-x  5 mimmo  staff   170B Nov 17 20:46 .
-drwxr-xr-x  7 mimmo  staff   238B Nov 17 00:39 ..
--rw-r--r--  1 mimmo  staff   115K Nov 17 20:46 modern.js
--rw-r--r--  1 mimmo  staff   1.1M Nov 17 20:46 modern_dbg.js
--rw-r--r--  1 mimmo  staff   622K Nov 17 20:46 modern_pre.js
+total 5936
+drwxr-xr-x   5 mimmo  staff   170B Oct 20 12:52 .
+drwxr-xr-x  11 mimmo  staff   374B Oct 20 12:48 ..
+-rw-r--r--   1 mimmo  staff   108K Oct 20 12:52 modern.js
+-rw-r--r--   1 mimmo  staff   1.7M Oct 20 12:48 modern_dbg.js
+-rw-r--r--   1 mimmo  staff   1.0M Oct 20 12:48 modern_pre.js
 ```
 
-We reached 115KB and, if you gzip it, you'll reach 37KB, almost the same
+We reached 108KB and, if you gzip it, you'll reach almost the same
 size of the jQuery minified and gzipped version, which is 32KB.
 
 > NOTE 2: Serving gzipped files is outside the scope of this tutorial. You can
@@ -235,6 +236,7 @@ cp resources/public/login.html resources/public/login-pre.html
 cp resources/public/shopping.html resources/public/shopping-dbg.html
 cp resources/public/shopping.html resources/public/shopping-pre.html
 ```
+
 Now edit `login-dbg.html`, `login-pre.html`, `shopping-dbg.html` and
 `shopping-pre.html` to update the corresponding `script` tag as follows:
 
@@ -430,7 +432,6 @@ You can run the usual commands to recompile all the builds and run the
 
 ```bash
 lein clean
-lein cljsbuild clean
 lein cljsbuild once
 ```
 
@@ -438,31 +439,20 @@ lein cljsbuild once
 > them at the terminal as follows:
 >
 > ```bash
-> lein do clean, cljsbuild clean, cljsbuild once
+> lein do clean, cljsbuild once
 > ```
 >
 > Leiningen offers more options to automate composite tasks. We'll see
 > them in subsequent tutorials.
 
-One very nice consequence of the `connect.cljs` exclusion from the
-`:prod` build is that now the size of the generated `modern.js` is even
+One nice consequence of the `connect.cljs` exclusion from the `:prod`
+build is that now the size of the generated `modern.js` is even
 smaller than before.
 
-```bash
-ls -lah resources/public/js/
-total 3880
-drwxr-xr-x   5 mimmo  staff   170B Mar  3 19:50 .
-drwxr-xr-x  11 mimmo  staff   374B Mar  3 19:48 ..
--rw-r--r--   1 mimmo  staff    62K Mar  3 19:50 modern.js
--rw-r--r--   1 mimmo  staff   1.1M Mar  3 19:49 modern_dbg.js
--rw-r--r--   1 mimmo  staff   626K Mar  3 19:49 modern_pre.js
-```
-
-If you zip it you reach an amazing size of 18K. Finally you can run
-the `modern-cljs` project as usual.
+Finally you can run the `modern-cljs` project as usual.
 
 ```bash
-lein ring server
+lein ring server-headless
 ```
 
 Now visit the `login.html` or the `shopping.html` pages, which include
