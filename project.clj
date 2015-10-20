@@ -11,18 +11,18 @@
                               [:email "mimmo.cosenza@gmail.com"]
                               [:timezone "+2"]]]
 
-  :min-lein-version "2.1.2"
+  :min-lein-version "2.5.3"
 
   ;; clojure source code path
   :source-paths ["src/clj" "src/cljs"]
 
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2069"]
-                 [compojure "1.1.6"]
-                 [domina "1.0.3-SNAPSHOT"]]
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "1.7.145"]
+                 [compojure "1.4.0"]
+                 [domina "1.0.3"]]
 
-  :plugins [[lein-cljsbuild "1.0.0"]
-            [lein-ring "0.8.8"]]
+  :plugins [[lein-cljsbuild "1.1.0"]
+            [lein-ring "0.9.7"]]
 
   ;; ring tasks configuration
   :ring {:handler modern-cljs.core/handler}
@@ -39,4 +39,5 @@
                            ;; minimum optimization
                            :optimizations :whitespace
                            ;; prettyfying emitted JS
-                           :pretty-print true}}]})
+                           :pretty-print true}}]}
+  :clean-targets ^{:protect false} [:target-path "out" "repl" "resources/public/js"])
