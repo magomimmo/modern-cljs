@@ -41,7 +41,7 @@ As we anticipated in the [previous tutorial][1], this behaviour
 depends on the Google Closure Compiler driven by the `lein-cljsbuild`
 plugin.
 
-## Introducing Google Closure Compiler (CLS)
+## Introducing Google Closure Compiler (GCSL)
 
 In the [first tutorial][3], we set `:cljsbuild` in
 `project.clj` to configure the Google Closure Compiler with the following
@@ -58,12 +58,12 @@ options:
 
 ```
 
-The `:source-paths` option instructs CLS to look for any CLJS source
+The `:source-paths` option instructs GCSL to look for any CLJS source
 code in the `src/cljs` directory structure. The `:output-to` option of
-the `:compiler` keyword instructs CLS to save the compilation result
+the `:compiler` keyword instructs GCSL to save the compilation result
 in `resources/public/js/modern.js`.
 
-I'm not going to explain every single detail of the CLJS/CLS pair of
+I'm not going to explain every single detail of the CLJS/GCSL pair of
 compilers. The only detail that is useful for investigating and
 eventually solving the above issue is that the pair of
 compilers generates a **single** JS file
@@ -137,7 +137,7 @@ and `js/shopping.js`) in the script tag of each html page
 
 Most would call the above solution a kind of **incidental
 complexity**. What's worse is the fact that each emitted JS file, no
-matter how smart the CLS compiler is in reducing the total size, is
+matter how smart the GCSL compiler is in reducing the total size, is
 different from the others--there is no way for the browser to cache the first
 file downloaded and serve the others from cache.
 
@@ -155,7 +155,7 @@ Now the simple made easy way:
 
 > NOTE 2: If you do not `^:export` a CLJS function, it will be subject
 > to Google Closure Compiler `:optimizations` strategies. When set to
-> `:simple` optimizations, the CLS compiler will minify the emitted
+> `:simple` optimizations, the GCSL compiler will minify the emitted
 > JS file and any local variable or function name will be shortened/obfuscated and
 > won't be available from external JS code. If a variable or function
 > name is annotated with `:export` metadata, its name will be
@@ -226,7 +226,7 @@ to further improve our functional style in porting
 
 # Next step - [Tutorial 7: Compilation Modes][8]
 
-In the [next tutorial][8] we're going to explore CLJS/CLS compilation modes by
+In the [next tutorial][8] we're going to explore CLJS/GCSL compilation modes by
 using the usual `lein-cljsbuild` plugin of `leiningen`.
 
 # License
