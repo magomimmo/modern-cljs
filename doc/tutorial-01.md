@@ -1,6 +1,6 @@
 # Tutorial 1 - The Basics
 
-In the first tutorial you are going to create and configure a minimum
+In this first tutorial we are going to create and configure a minimum
 ClojureScript ([CLJS][1]) project by using the [boot][2] build tool.
 
 ## Install Boot
@@ -12,8 +12,8 @@ bla bla bla
 A minimum CLJS web project is composed of 3 files:
 
 * an html page
-* CLJS source
-* a build file to compile the CLJS
+* a CLJS source code
+* a `boot` build file to compile the CLJS
 
 Even if CLJS does not dictate any directory structure, it's a good
 practice to organize the files of your project in such away that it
