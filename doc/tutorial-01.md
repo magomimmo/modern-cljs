@@ -266,7 +266,25 @@ the console in your Development Tool (e.g. Chrome Development Tool).
 If everything went ok, you should see "Hello, World!" printed in the
 console.
 
-## Next Step - [Tutorial 2: Browser CLJS REPL (bREPL)][5]
+It's a good practice to save into the `boot.properties` file the
+version of boot core libraries and clojure language used in the
+project by issuing the following command at the terminal:
+
+```bash
+boot -V > boot.properties
+```
+
+Finally, I strogly suggest to use `git` to manage your work.
+
+```bash
+git init
+echo '/target' > .gitignore
+git add .
+git commit -m "initial commit"
+```
+
+## Next
+Step - [Tutorial 2: Browser CLJS REPL (bREPL)][5]
 
 In the next [tutorial][5] we're introduce the so called *brepl*, a
 browser connected CLJS REPL.
