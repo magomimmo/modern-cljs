@@ -208,40 +208,6 @@ follow:
 
 ```bash
 lein cljsbuild once
-Compiling ClojureScript.
-WARNING: It appears your project does not contain a ClojureScript dependency. One will be provided for you by lein-cljsbuild, but it is strongly recommended that you add your own.  You can find a list of all ClojureScript releases here:
-http://search.maven.org/#search|gav|1|g%3A%22org.clojure%22%20AND%20a%3A%22clojurescript%22
-You're using [lein-cljsbuild "1.0.0"], which is known to work well with ClojureScript 0.0-2014 - *.
-
-Compiling "resources/public/js/modern.js" from ["src/cljs"]...
-Successfully compiled "resources/public/js/modern.js" in 12.146675 seconds.
-```
-
-As you can see, you received a *WARNING* saying that, even if the
-`cljsbuild` plugin is able to provide you a CLJS release, it is
-strongly recommended to explicitly add a specific CLJS release in the
-`:dependencies` section of the `project.clj` file.
-
-Let's add an explicit CLJS release into the project `:dependencies`
-section to make `cljsbuild` happy.
-
-```clj
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.145"]]
-  ...)
-```
-
-Now issue the `lein clean` command to clean the previous compilation
-and issue the `lein cljsbuild once` command again.
-
-```clj
-lein clean
-```
-
-```clj
-lein cljsbuild once
 Compiling ClojureScript...
 Compiling "resources/public/js/modern.js" from ["src/cljs"]...
 Successfully compiled "resources/public/js/modern.js" in 12.262 seconds.
