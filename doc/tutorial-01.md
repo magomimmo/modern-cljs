@@ -284,7 +284,7 @@ git commit -m "initial commit"
 ```
 
 ## Next
-Step - [Tutorial 2: Browser CLJS REPL (bREPL)][5]
+Step - [Tutorial 2: Live Coding][5]
 
 In the next [tutorial][5] we're introduce the so called *brepl*, a
 browser connected CLJS REPL.
