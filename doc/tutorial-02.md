@@ -1,45 +1,9 @@
-# Tutorial 2 - Browser CLJS REPL (bREPL)
+# Tutorial 2 - Immediate feedback
 
-In this tutorial you are going to set up a browser-connected CLJS REPL
-(bRepl) using an external http-server.
-
-## Introduction
-
-One of the main reasons to use a LISP dialect like CLJ is its REPL
-(Read Eval Print Loop), which enables a very interactive style of
-programming. CLJS communities are still working very hard to bring
-into CLJS the same REPL-based programming experience available in CLJ,
-and created a way to connect a CLJS REPL to the JS engine embedded in
-the browser. This style of programming allows you to evaluate CLJS
-forms in the REPL and have immediate feedback in the browser to which
-the REPL is connected.
-
-Due to browser-imposed limitations to prevent [cross site scripting][1]
-attacks, the REPL connection with the browser's embedded JS engine has to
-respect the [Same Origin Policy][2]. This means that, if we
-want to enable a browser-connected CLJS REPL (brepl), we need to set up
-a local http-server.
-
-You can use any http-server. In this tutorial we're going to use the
-[apache http-server][3], which is included in [MAMP][4] for Mac OS X
-operating system, because it's very easy to configure and run. There
-should be similar options for other OSs.
-
-> NOTE 1: A very handy and portable http-server is python module
-> `SimpleHTTPServer`. If you have python installed on your operating
-> system, just launch it as follows:
->
-> ```bash
-> cd /path/to/modern-cljs/resources/public
-> python -m SimpleHTTPServer 8888
-> Serving HTTP on 0.0.0.0 port 8888 ...
-> ```
->
-> Thanks to [Max Penet][5] for the suggestion.
->
- 
-> NOTE 2: As we'll see in the [next tutorial][11], the clojurian way to
-> start an HTTP server is to use [Ring][17] and [Compojure][18].
+This tutorial is aimed at configuring `modern-cljs` project to reach
+in out development environment a level of interaction that Bret Victor
+called immediate feedback in his seminal talk
+[Inventing on Principle][1]
 
 ## Preamble
 
@@ -49,147 +13,382 @@ assuming you've [git][16] installed, do as follows.
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
-git checkout tutorial-01
-git checkout -b tutorial-02-step-1
+git checkout tut-01
+git checkout -b tut-02-step-1
 ```
 
 This way you're cloning the tutorial-01 branch into a new branch to
 start working with.
 
-## Install, configure and run MAMP
 
-Follow MAMP documentation to install MAMP. Start MAMP and click the
-Preferences button of its Admin GUI.
+## Introduction
 
-![MAMP Admin Panel][6]
+The `boot` building tool is more recent and less mature than the
+corresponding `leiningen` building tool, which is a kind of standard
+for CLJ developers. Howsoever, the `boot` community is working hard to
+progressively enrich it with features, *tasks* in `boot` parlance,
+aimed at filling the gap.
 
-Then click the Apache tab to choose
-`/path/to/modern-cljs/resources/public` as root directory of your local
-Apache http server. Click ok. Finally click the `Start Servers` button to
-start everything. Now you have a local web server running on your
-machine at port `8888`. Visit [simple.html][7] you created in
-[Tutorial 1 - The Basics][8] using `http://localhost:8888/simple.html`
-to verify that everything is ok.
+If you take a look at the [tasks for `boot`][2] developed by the
+community, you'll discover that we already have anything we need to
+start approaching the Bred Victor's principle of immediate feedback:
 
-## Setting up a browser connected CLJS REPL (brepl)
+* [`boot-http`][3]: a `boot` task providing a simple CLJS based HTTP
+  server;
+* [`boot-cljs-repl`][4]: a `boot` task providing a REPL for CLJS development;
+* [`boot-reload`][5]: a `boot` task providing a live-reload of static
+  resources (i.e. CSS, images, etc.);
+* [`boot-cljs-repl`][6]: a `boot` task providing a REPL for CLJS
+  development.
 
-To set up a brepl, we need to follow a few steps:
+## CLJ based HTTP server
 
-* create a CLJS file to predispose the connection between the browser
-  and the brepl
-* compile the CLJS file
-* start the brepl server
-* enable the connection
+Let's start by adding `boot-http` server to our `build.boot` file
+located in the `modern-cljs` home directory. 
 
-### Create the connection
+```clj
+(set-env!
+ :source-paths #{"src/cljs"}
+ :resource-paths #{"html"}
+ 
+ :dependencies '[[adzerk/boot-cljs "1.7.48-6"]
+                 [pandeiro/boot-http "0.6.3"]]) ;; add http server
 
-Create a CLJS source file in the `src/cljs/modern_cljs` with the
-following content:
-
-```clojure
-(ns modern-cljs.connect
-  (:require [clojure.browser.repl :as repl]))
-
-(repl/connect "http://localhost:9000/repl")
+(require '[adzerk.boot-cljs :refer [cljs]]
+         '[pandeiro.boot-http :refer [serve]]) ;; make serve task visible
 ```
 
-Save the file as `connect.cljs`.
+As you see, we only added the latest available release of `boot-http`
+to the project dependencies and made the `serve` task visible to the
+`boot` command by referring it in the `require` form.
 
-As you can see, to connect from the browser to the brepl we have to call
-the `connect` function defined in the `clojure.browser.repl`
-namespace. We set `9000` as the port for the brepl to connect to,
-because this is the default port used by the brepl server when we
-start it.
+Note that we're still implicetely exploit few `boot` defaults:
 
-### Compile the CLJS file
+* the use of Clojure 1.7.0, defined in the `boot.properties` file;
+* the use of ClojureScript 1.7.48, implicetely imported by the
+  `boot-cljs` dependency;
+* the `"target"` directory as the default value used as `:target-path`
+  by `boot` itself.
 
-Now we need to compile the new CLJS file. [Google Closure Compiler][9]
-(CLS) has a few compilation options we already set up in our
-`project.clj` during [Tutorial 1][8], and we can leave those options
-as we have already configured. Now call the CLJS compilation task:
+As usual let's take a look at the help documentation of the newly
+added `serve` task:
 
 ```bash
-lein do clean, cljsbuild once
-Compiling ClojureScript.
-Compiling "resources/public/js/modern.js" from "src/cljs"...
-Successfully compiled "resources/public/js/modern.js" in 4.904672 seconds.
+boot serve -h
+Start a web server on localhost, serving resources and optionally a directory.
+Listens on port 3000 by default.
+
+Options:
+  -h, --help                Print this help info.
+  -d, --dir PATH            Set the directory to serve; created if doesn't exist to PATH.
+  -H, --handler SYM         Set the ring handler to serve to SYM.
+  -i, --init SYM            Set a function to run prior to starting the server to SYM.
+  -c, --cleanup SYM         Set a function to run after the server stops to SYM.
+  -r, --resource-root ROOT  Set the root prefix when serving resources from classpath to ROOT.
+  -p, --port PORT           Set the port to listen on. (Default: 3000) to PORT.
+  -k, --httpkit             Use Http-kit server instead of Jetty
+  -s, --silent              Silent-mode (don't output anything)
+  -R, --reload              Reload modified namespaces on each request.
 ```
 
-> NOTE 3: We chained the clean and cljsbuild tasks together in a single
-> command by using the do task with comma-separated tasks.
-
-> NOTE 4: By using CLJS 1.7.145 release you'll get an annoying
-> compilation warning regarding the Google Closure Library (GCL). At
-> the moment it does not hurt. You could eventually downgrade to CLJS
-> 1.7.122 or waiting for a new release.
-
-### Start a brepl
-
-To enable the connection between the repl and the browser, we need
-to start a repl that acts as a server waiting for a connection from the
-browser. To do that we're going to use a `repl-listen` task already
-set up by `lein-cljsbuild` for us.
+The `-d` option is used to set the directory to serve. Let's try the
+following `boot` command at the terminal:
 
 ```bash
-lein trampoline cljsbuild repl-listen
-Running ClojureScript REPL, listening on port 9000.
-Compiling client js ...
-Waiting for browser to connect ...
+$ boot serve -d target cljs
+Directory 'target' was not found. Creating it...2015-10-25 14:33:43.481:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-10-25 14:33:43.578:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+<< started Jetty on http://localhost:3000 >>
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+$
 ```
 
-Do not yet type anything at the brepl prompt. It's waiting for a
-connection from the browser and it's not yet responsive.
+You'll note the command will exit after executing the `cljs`
+compilation task and if you now type `http://localhost:3000` in your
+browser URL bar you'll get an error. This is because the `serve` task
+does not wait after been executed.
 
-### Enable the connection
-
-To enable the browser connection with the running brepl we just need
-to visit the [simple.html][7] we created in the previous
-[Tutorial 1][8].  Make sure to visit it using
-`http://localhost:8888/simple.html` rather than through
-`file:///.../simple.html`, otherwise, the brepl will not connect.
-
-Obviously, the http-server has to be running. By visiting
-[simple.html][7], the included `modern.js` script generated by CLS
-compilation connects to the listening brepl on port `9000` started by
-`repl-listen` task of `lein-cljsbuild` plugin.
-
-As soon as the connection has been activated you'll get the
-`cljs.user=>` prompt ready to evaluate CLJS expressions.
+To solve this problem we have to add the predefined `wait` task
+between the call to `serve` and `cljs` tasks. Let's see this solution
+at work:
 
 ```bash
-Running ClojureScript REPL, listening on port 9000.
-Compiling client js ...
-Waiting for browser to connect ...
+boot serve -d target wait cljs
+Directory 'target' was not found. Creating it...2015-10-25 15:01:22.832:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-10-25 15:01:22.929:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+<< started Jetty on http://localhost:3000 >>
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+```
+
+The `boot` command does not exit anymore and you'll obtaing the
+`index.html` page of you connect to http://localhost:3000 URL from
+your browser.
+
+Open the Developer Tool of your browser to verify that the `Hello,
+World!` string has been printed at the console. Before going to next
+step, kill the current `boot` process (`CTRL-C`).
+
+## CLJS source recompilaton
+
+If we want to approach the Bret Victor immediate feeback principle, we
+should be able to recompile any CLJS source code as soon as we modify
+and save one of them.
+
+`watch` task is one of the large number of the predefined `boot`
+tasks.
+
+```bash
+boot watch -h
+Call the next handler when source files change.
+
+Debouncing time is 10ms by default.
+
+Options:
+  -h, --help     Print this help info.
+  -q, --quiet    Suppress all output from running jobs.
+  -v, --verbose  Print which files have changed.
+  -M, --manual   Use a manual trigger instead of a file watcher.
+```
+
+It seems that just inserting the `watch` task before calling the
+`cljs` task we should be able to trigger the source compilation.
+
+```bash
+boot serve -d target wait watch cljs
+2015-10-25 17:27:46.467:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-10-25 17:27:46.507:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+<< started Jetty on http://localhost:3000 >>
+
+Starting file watcher (CTRL-C to quit)...
+
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+Elapsed time: 6.436 sec
+```
+
+Visit again the `http://localhost:3000` URL in your browser confirm
+that "Hello, World!" has been printed in the JS console. Then open in
+your preferred edtor the `src/cljs/modern_cljs/core.cljs` source file
+and modify the message to be printed. Save the file and take a look at
+the terminal. You should see that a new CLJS compilation task has been
+triggered.
+
+```bash
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+Elapsed time: 0.168 sec
+```
+
+Finally reload the html page to confirm that the `main.js` file linked
+to it has been updated by osserving the message printed at the browser
+console. So far, so good.
+
+Before proceding with next step in approching the immediate feddback
+goal, kill the `boot` process (`CTRL-C`).
+
+## Resources reloading
+
+Anytime you modify a CLJS source file you have to manually reload the
+html page pointing to it to verify the effect of your coding. We
+desire to approach immediate feedback principle much more closer than
+this.
+
+Luckyly, there is a `boot` task developed by the community to automate
+the reload of html pages an more general of any static resource:
+[`boot-reload`][6]. Again we have to add the new task to the
+dependensies of the proejct and make it visibile to the `boot` command
+by requiring its main command:
+
+```clj
+(set-env!
+ :source-paths #{"src/cljs"}
+ :resource-paths #{"html"}
+ 
+ :dependencies '[[adzerk/boot-cljs "1.7.48-6"]
+                 [pandeiro/boot-http "0.6.3"]
+                 [adzerk/boot-reload "0.4.1"]])
+
+(require '[adzerk.boot-cljs :refer [cljs]]
+         '[pandeiro.boot-http :refer [serve]]
+         '[adzerk.boot-reload :refer [reload]])
+```
+
+This task has to be inserted in the `boot` command immediately before
+the `cljs` compilation task as weel. Give it a try:
+
+```bash
+boot serve -d target wait watch reload cljs
+Starting reload server on ws://localhost:60865
+Writing boot_reload.cljs...
+2015-10-25 18:57:15.221:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-10-25 18:57:15.247:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+<< started Jetty on http://localhost:3000 >>
+
+Starting file watcher (CTRL-C to quit)...
+
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+Elapsed time: 10.283 sec
+```
+
+Now reload again the usual URL in your browser and repeat the above
+procedure by modifing the message to be printed at the browser
+console. As before you'll see that as soon as you save the `core.cljs`
+file the CLJS recompilation is triggered. This time, thanks to the
+`boot-reload` task, the page is reload as well as you can confirm by
+seeing the new message printed at the browser console.
+
+You can even modify the HTML source file to obtain an almost immediate
+feedback from the browser.
+
+Nice stuff. Kill again the `boot` command (CTRL-C) for advancing to
+the next level.
+
+## Browser REPL
+
+One of the main reasons to use a LISP dialect like CLJ is its REPL
+(Read Eval Print Loop), which enables a very interactive style of
+programming. CLJS communities worked very hard to bring into CLJS the
+same REPL-based programming experience available in CLJ, and created a
+way to connect a CLJS REPL to the JS engine embedded in the
+browser. This style of programming allows you to evaluate CLJS forms
+in the REPL and have immediate feedback in the browser to which the
+REPL is connected.
+
+`boot` community has something to offer for us even in this area. It's
+name is `boot-cljs-repl`. As already done for the other tasks not
+included into `boot`, we need to add it to the dependencies of the
+`build.boot` project file and then we have to require its main tasks
+(i.e. `cljs-repl` and `start-repl`) to make them visible to the `boot`
+command at the terminal.
+
+```clj
+(set-env!
+ :source-paths #{"src/cljs"}
+ :resource-paths #{"html"}
+ 
+ :dependencies '[[adzerk/boot-cljs "1.7.48-6"]
+                 [pandeiro/boot-http "0.6.3"]
+                 [adzerk/boot-reload "0.4.1"]
+                 [adzerk/boot-cljs-repl "0.2.0"]])
+
+(require '[adzerk.boot-cljs :refer [cljs]]
+         '[pandeiro.boot-http :refer [serve]]
+         '[adzerk.boot-reload :refer [reload]]
+         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
+```
+
+Again, issue the `boot cljs-repl -h` command to read the documentation
+of its advanced options. 
+
+That said, if you lounch the previous `boot serve -d target wait watch
+reload cljs` by appending the `cljs-repl` task as a last argument,
+you'll get an error. This is because `boot-cljs-repl` task requires
+you to explicitely specify both the Clojure and the ClojureScript
+release into the `build.boot` dependencies as follow:
+
+```clj
+(set-env!
+ :source-paths #{"src/cljs"}
+ :resource-paths #{"html"}
+ 
+ :dependencies '[[org.clojure/clojure "1.7.0"] ;; add explicitely
+                 [org.clojure/clojurescript "1.7.122"] ;; as above
+                 [adzerk/boot-cljs "1.7.48-6"]
+                 [pandeiro/boot-http "0.6.3"]
+                 [adzerk/boot-reload "0.4.1"]
+                 [adzerk/boot-cljs-repl "0.2.0"]])
+
+(require '[adzerk.boot-cljs :refer [cljs]]
+         '[pandeiro.boot-http :refer [serve]]
+         '[adzerk.boot-reload :refer [reload]]
+         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
+```
+
+You can now safetely run the `boot` command at the terminal as follow:
+
+```bash
+boot serve -d target wait watch reload cljs cljs-repl
+Starting reload server on ws://localhost:64717
+Writing boot_reload.cljs...
+Writing boot_cljs_repl.cljs...
+2015-10-25 22:30:13.708:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-10-25 22:30:13.739:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+<< started Jetty on http://localhost:3000 >>
+
+Starting file watcher (CTRL-C to quit)...
+
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+nREPL server started on port 64719 on host 127.0.0.1 - nrepl://127.0.0.1:64719
+Adding :require adzerk.boot-cljs-repl to main.cljs.edn...
+Elapsed time: 17.949 sec
+```
+
+The command informs you that an [`nrepl-server`][7] has been started
+on the local host at a port number 64719 (your port number will be
+different). If your editor supports `nrepl` you are going to use that
+information to connect to the now running `nrepl-server` with an
+`nrepl-client`. 
+
+At the moment we'll be happy to run a `cljs-repl` from a second
+terminal windows by first lounch the `repl` task included with `boot`
+
+```bash
+# in a new terminal
+cd modern-cljs
+boot repl -c
+REPL-y 0.3.5, nREPL 0.2.11
+Clojure 1.7.0
+Java HotSpot(TM) 64-Bit Server VM 1.8.0_25-b17
+        Exit: Control+D or (exit) or (quit)
+    Commands: (user/help)
+        Docs: (doc function-name-here)
+              (find-doc "part-of-name-here")
+Find by Name: (find-name "part-of-name-here")
+      Source: (source function-name-here)
+     Javadoc: (javadoc java-object-or-class-here)
+    Examples from clojuredocs.org: [clojuredocs or cdoc]
+              (user/clojuredocs name-here)
+              (user/clojuredocs "ns-here" "name-here")
+boot.user=>
+```
+
+This is a standard CLJ REPL defaulted to the `boot.user` namespace. From here we lounch a CLJS REPL as follow:
+
+```cljs
+boot.user=> (start-repl)
+<< started Weasel server on ws://127.0.0.1:49358 >>
+<< waiting for client to connect ... Connection is ws://localhost:49358
+Writing boot_cljs_repl.cljs...
+```
+
+The terminal is now waiting for a client connection from the
+browser. Visit the usual http://localhost:3000 URL to activate the
+browser REPL (bREPL) connection.
+
+```cljs
+ connected! >>
 To quit, type: :cljs/quit
+nil
 cljs.user=>
 ```
 
-Now you can evaluate CLJS forms in the brepl.
+Just to confirm that you can evaluate CLJS forms from here, submit the
+alert function to the browser:
 
-```clojure
-cljs.user=> (+ 41 1)
-42
-cljs.user=>
+```cljs
+(js/alert "Hello, ClojureScript")
+nil
 ```
-Best of all, you can start evaluting CLJS forms interacting with the browser
-and see immediate feedback in the browser itself.
-
-```clojure
-cljs.user=> (js/alert "Hello from a browser connected repl")
-```
-![Alert Window][10]
-
-You will note that there is no command history or editing ability in
-this REPL.  You can add it if you wish by installing [rlwrap][12] and
-following the instructions [here][13]. 
-
-If you created a new git branch as suggested in the preamble of this
-tutorial, I suggest you to commit the changes as follows
-
-```bash
-git commit -am "brepl enabled"
-```
-
 ## Next step - [Tutorial 3: Ring and Compojure][11]
 
 In the next [tutorial][11] we're going to substitute the external
@@ -202,21 +401,6 @@ subsequent tutorials.
 Copyright © Mimmo Cosenza, 2012-2015. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: http://en.wikipedia.org/wiki/Cross-site_scripting
-[2]: http://en.wikipedia.org/wiki/Same_origin_policy
-[3]: http://httpd.apache.org/
-[4]: http://www.mamp.info/en/index.html
-[5]: https://github.com/mpenet
-[6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/mamp-01.png
-[7]: http://localhost:8888/simple.html
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
-[9]: https://developers.google.com/closure/compiler/
-[10]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/alert.png
-[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
-[12]: http://utopia.knoware.nl/~hlub/rlwrap/#rlwrap
-[13]: https://github.com/emezeske/lein-cljsbuild/wiki/Using-Readline-with-REPLs-for-Better-Editing
-[14]: https://github.com/emezeske/lein-cljsbuild/issues/186
-[15]: https://github.com/emezeske/lein-cljsbuild
-[16]: https://help.github.com/articles/set-up-git
-[17]: https://github.com/mmcgrana/ring
-[18]: https://github.com/weavejester/compojure
+[1]: https://vimeo.com/36579366
+[2]: https://github.com/boot-clj/boot/wiki/Community-Tasks
+
