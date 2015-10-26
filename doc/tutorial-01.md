@@ -295,7 +295,7 @@ git commit -m "initial commit"
 ```
 
 ## Next
-Step - [Tutorial 2: Immediate feedback principle][7]
+Step - [Tutorial 2: Immediate Feedback Principle][7]
 
 In the next [tutorial][7] we're going to approach as close as possible
 the [Bret Victor Immediate Feedback Principle][8] to build a very

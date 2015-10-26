@@ -1,4 +1,4 @@
-# Tutorial 2 - Immediate feedback
+# Tutorial 2 - Immediate Feedback Principle
 
 This tutorial is aimed at configuring `modern-cljs` project to reach
 in out development environment a level of interaction that Bret Victor
