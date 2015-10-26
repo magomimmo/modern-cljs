@@ -3,31 +3,40 @@
 In this first tutorial we are going to create and configure a minimum
 ClojureScript ([CLJS][1]) project by using the [boot][2] build tool.
 
-## Install Boot
+## Requirements
 
-bla bla bla
+This tutorial requires Java and `boot` to be installed on your
+computer.
 
-## Create a project structure
+To install Java follow the [instructions][3] for your operating
+system. To install `boot` follow the very easy instructions in the
+corresponding section of its [README][4].
+
+Test the installation by issuing the `boot -h` command at the
+terminal. Then submit the `boot -u` command to get the latest `boot`
+updates.
+
+## Create the project structure
 
 A minimum CLJS web project is composed of 3 files:
 
-* an html page
-* a CLJS source code
-* a `boot` build file to compile the CLJS
+* an html page;
+* a CLJS source code;
+* a `boot` build file to compile CLJS source code.
 
 Even if CLJS does not dictate any directory structure, it's a good
-practice to organize the files of your project in such a way that it
-will be easy for anyone, even yourself in a few months, to be able to
-understand the project components and its structure. Moreover, each
-building tool has its own idiosyncrasies which they call defaults. The
-more you adhere to the defaults of the tool in your hand, the less it
-will be your pain to workaround them.
+practice to organize your project in such a way that it will be easy
+for anyone, even yourself in a few months, to be able to understand
+the project components and its structure. Moreover, each building tool
+has its own idiosyncrasies, which they call defaults. The more you
+adhere to the defaults of the tool in your hand, the less it will be
+your pain in managing the project.
 
 By taking into accounts these premies, let's create a directory
-structure for our new project, named `modern-clsj`, by adhering as
-much as possibile to `boot` used defaults.
+structure for our new project, named `modern-cljs`, by adhering as
+much as possibile to the `boot` defaults.
 
-The directory structure layout to be obtained is the following:
+The suggested directory layout of the project is the following:
 
 ```bash
 modern-cljs/
@@ -45,11 +54,11 @@ modern-cljs/
 * `html` hosts html resources;
 
     > NOTE 1: Single segment namespace are
-    > [discouraged in CLJ/CLJS][3]. That's why we created the
-    > `modern_cljs` directory as well: it will host our CLJS source
-    > files. Due to [Java difficulties][4] in managing hyphen "-" (or
-    > other special characters) in package names, we substituted an
-    > „underscore for any hyphen in corresponding directory names.
+    > [discouraged in CLJ/CLJS][5]. That's why we created the
+    > `modern_cljs` directory as well. Due to [Java difficulties][6]
+    > in managing hyphen "-" (or other special characters) in package
+    > names, we substituted an underscore (`_`)for any hyphen (`-`) in
+    > corresponding directory names.
 
     > NOTE 2: Please note that the filename extension for
     > ClojureScript source is *cljs*, not *clj*.
@@ -72,7 +81,7 @@ touch html/index.html src/cljs/modern_cljs/core.cljs build.boot
 
 We're now going to write our very first CLJS code. Open the
 `src/cljs/modern_cljs/core.cljs` file with your preferred editor and
-cut and paste the following CLJS code:
+type into it the following CLJS code:
 
 ```clj
 ;; create the main project namespace
@@ -86,7 +95,7 @@ cut and paste the following CLJS code:
 ```
 
 Every CLJ/CLJS file must start with a namespace declaration matching a
-path on disk:
+path on your disk:
 
 `(ns modern-cljs.core)` <--> `modern_cljs/core.cljs`
 
@@ -138,10 +147,9 @@ structure as we have created above. Then it injects the `boot-cljs`
 compilation task as the only explicit dependency of the project by
 adding it to the `:dependencies` keyword.
 
-Note that we did not include any `clojure` and `clojurescript`
-dependencies. This is because `boot-cljs` depends on them and it will
-be able to automagically download the corresponding releases it knows
-to work well with it.
+Note that even if we did not include any `clojure` and `clojurescript`
+dependencies, `boot` will be able to automagically download the
+corresponding releases it knows to work well with it.
 
 Finally, the `require` form makes the `cljs` task visible to the
 `boot` command.
@@ -181,8 +189,10 @@ Available --optimization levels (default 'none'):
 ```
 
 As you see, the default optimization directive for the CLJS compiler
-is `:none`. Let's now see `'boot cljs` at work without specifing any
-options on the command line.
+is `:none`. A next tutorial will explain the different CLJS
+compilation optimizations (i.e. `none`, `whitespace`, `simple` and
+`advanced`). At the moment stay with the default, which is the more
+used during development. Let's see `'boot cljs` at work:
 
 ```bash
 boot cljs
@@ -195,7 +205,7 @@ You now know why we named as `main.js` the JS file included in the
 `<script>` tag of the `index.html` page: just to adhere to an easy
 default to be used.
 
-Let's see what has been generated by the copilation task:
+Let's see what has been generated by the `cljs` compilation task:
 
 ```bash
 .
@@ -259,7 +269,8 @@ So far, so good.
 project from the corresponding output generated by its taks. You'll
 never see an input file from the `:source-paths` and the
 `:resource-path` original directories to be modified by any `boot`
-task. Everything happens into the `target` directory.
+task. Aside from internally generated temporary directories,
+everything happens into the `target` directory.
 
 Open a browser and visit the local `target/index.html` file. Now open
 the console in your Development Tool (e.g. Chrome Development Tool).
@@ -284,10 +295,11 @@ git commit -m "initial commit"
 ```
 
 ## Next
-Step - [Tutorial 2: Live Coding][5]
+Step - [Tutorial 2: Immediate feedback principle][7]
 
-In the next [tutorial][5] we're introduce the so called *brepl*, a
-browser connected CLJS REPL.
+In the next [tutorial][7] we're going to approach as close as possible
+the [Bret Victor Immediate Feedback Principle][8] to build a very
+interactive development environment.
 
 # License
 
@@ -296,6 +308,9 @@ License, the same as Clojure.
 
 [1]: https://github.com/clojure/clojurescript.git
 [2]: http://boot-clj.com/
-[3]: http://stackoverflow.com/questions/13567078/whats-wrong-with-single-segment-namespaces
-[4]: http://docs.oracle.com/javase/specs/jls/se8/html/jls-6.html
-[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[3]: https://java.com/en/download/help/index_installing.xml?os=All+Platforms&j=8&n=20
+[4]: https://github.com/boot-clj/boot#install
+[5]: http://stackoverflow.com/questions/13567078/whats-wrong-with-single-segment-namespaces
+[6]: http://docs.oracle.com/javase/specs/jls/se8/html/jls-6.html
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[8]: https://vimeo.com/36579366
