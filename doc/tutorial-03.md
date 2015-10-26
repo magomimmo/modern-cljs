@@ -1,141 +1,175 @@
-# Tutorial 3 - Ring and Compojure
+# Tutorial 3 - House Keeping
 
-In this tutorial you are going to substitute the external http-server
-that we configured in [tutorial 2][1] with [Ring][2] and
-[Compojure][5], the most standard way run a web-based CLJ application.
+In the [previous tutorial][1] we started approaching the Immediate
+Feedback Principle by Bret Victor by using the `boot` building tool
+and piping few additional tasks developed by the community:
 
-## Introduction
+* `boot-cljs`: to compile CLJS source code (introduced in
+  [Tutorial-01][2]);
+* `boot-http`: to run a CLJ based web server to serve pages;
+* `boot-reload`: to reload static resources when changes are saved;
+* `boot-cljs-repl`: to connect a CLJS REPL to the JS engine of the
+  browser (bREPL).
 
-So far we have only played with CLJS code that, once compiled to JS, runs on the
-browser side, and have not needed a CLJ-enabled http-server. But we love Clojure
-and we want to learn more about it too.
-
-[Ring][2] is one of the fundamental building-blocks of any CLJ-based
-stack of libraries to develop web-based applications. We're going to use it
-instead of another http-server.
+In this tutorial we're going to improve the developer interaction with
+the `boot` building tool by minimizing the length of the `boot`
+commands to be submitted to the terminal while supporting the immediate
+feedback style of programming.
 
 ## Preamble
 
 If you want to start working from the end of the [previous tutorial][1],
-assuming you've [git][8] installed, do as follows.
+assuming you've `git` installed, do as follows.
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
-git checkout tutorial-02
+git checkout tutorial-03
 git checkout -b tutorial-03-step-1
 ```
 
-## Add lein-ring plugin to our project.clj
+This way you're cloning the `tutorial-02` branch into a new branch to
+start working with.
 
-We already saw how `lein-cljsbuild` plugin helped us in managing the
-build, the configuration and the running of CLJS code. In a similar way,
-we're going to use the [lein-ring][3] plugin to manage and automate common
-[ring][2] tasks.
+## Introduction
 
-To install `lein-ring`, add it as a plugin to your `project.clj`. As for
-`lein-cljsbuild`, if you're going to use it in every CLJ project, you
-can add it to your global profile (i.e. in `~/.lein/profiles.clj`).
+Let's start reviewing the `boot` commands we previously submitted to
+the terminal to progressively approach the Immediate Feedback
+Principle.
 
-Like `lein-cljsbuild`, `lein-ring` plugin can be configured
-by adding a `:ring` keyword to `project.clj`. The value of `:ring` has
-to contain a map of configuration options, but at the moment just one
-of them, `:handler`, is required and has to refer to a function we define below.
+### CLJS compilation
 
-Here are the required changes to `project.clj`
+First we configured few environment variables. Namely `:source-paths`
+and `:resource-paths`.
 
-```clojure
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  :plugins [...
-            [lein-ring "0.9.7"]]
-
-  :ring {:handler modern-cljs.core/handler}
-  ...)
-```
-## Create the handler
-
-A ring handler is just a function that receives a request as an
-argument and produces a response. Both request and response are
-regular Clojure maps. Instead of using the low-level [Ring API][4], we're
-going to add another very common library to our `project.clj`:
-[compojure][5].
-
-[Compojure][5] is a small routing library for [Ring][2] that allows
-web applications to be composed of small and independent parts, using
-a concise DSL (Domain Specific Language) to generate a [Ring][2]
-handler.
-
-In this tutorial our goal is to set up an http-server able to serve
-static html pages (e.g., simple.html) saved in the `resources/public`
-directory.
-
-Open the file `core.clj` from `src/clj/modern_cljs` directory and
-change its content as follows.
-
-```clojure
-(ns modern-cljs.core
-  (:require [compojure.core :refer :all]
-            [compojure.handler :as handler]
-            [compojure.route :as route]))
-
-;; defroutes macro defines a function that chains individual route
-;; functions together. The request map is passed to each function in
-;; turn, until a non-nil response is returned.
-(defroutes app-routes
-  ; to serve document root address
-  (GET "/" [] "<p>Hello from compojure</p>")
-  ; to serve static pages saved in resources/public directory
-  (route/resources "/")
-  ; if page is not found
-  (route/not-found "Page not found"))
-
-;; site function creates a handler suitable for a standard website,
-;; adding a bunch of standard ring middleware to app-route:
-(def handler
-  (handler/site app-routes))
-```
-
-## Add compojure to project.clj
-
-Before running our new CLJ-based http-server, we need to add `compojure`
-to the `project.clj` dependencies section as follows:
-
-```clojure
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  :dependencies [...
-                 [compojure "1.4.0"]]
-  ...)
-```
-
-## Run the http-server
-
-Now that everything has been set up, we can run the server as follows:
+Then we launched the CLJS compilation with the following very simple
+`boot` command:
 
 ```bash
-lein ring server
-2015-10-19 17:07:32.720:INFO:oejs.Server:jetty-7.6.13.v20130916
-2015-10-19 17:07:32.777:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
-Started server on port 3000
+boot cljs
 ```
 
-You should see a page with a paragraph saying
-"Hello from compojure".  As you can see, the server started by default
-on port `3000`. Optionally, you can pass it a different port number,
-like so: `lein ring server 8888`.
+We did not pass any compilation option to the task by exployting a few
+defaults. Namely:
 
-You can also check that the browser-connected repl is still working by
-launching the `lein trampoline cljsbuild repl-listen` command on a
-new terminal (remember to cd to `/path/to/modern-cljs`) and visiting
-[simple.html][6] page.
+* `none` compiler optimization;
+* `main.js` as the name of JS file generated by the compiler
+* `"target"` as the name of the directory under which `main.js` is
+  saved.
 
-If you created a new git branch as suggested in the preamble of this
-tutorial, I suggest you to commit the changes as follows
+### HTTP server
+
+In the [Tutorial-02][1] we started adding the `serve` task to the
+pipe. We passed it the `-d target` option to instruct the task about
+the main directory to serve. They could have used the same default,
+but they did not, so we needed to be specific.
+
+As you could remember, we also needed to interpose the `wait` task
+between the `serve` and `cljs` tasks.
+
+To launch the CLJS based server together with the CLJS compilation
+task we submitted the following `boot` pipelined command:
 
 ```bash
-git commit -am "added ring and compojure"
+boot serve -d target wait cljs
+``
+
+Here we had to add the predefined `wait` task to let the `serve` task
+run forever. The `boot` command start to become more aritculated and
+we also need to remember the tasks order anytime we launch the
+command.
+
+### CLJS recompilation
+
+To trigger the CLJS recompilation executed by the `cljs` task, we
+added the predefined `watch` task to the `boot` command pipeline by
+positioning it immediatley before the `cljs` task itself.
+
+```bash
+boot serve -d target wait watch cljs
 ```
+
+### boot-reload
+
+Again, to trigger the reloading of static resources when we save their
+changes or chenges in the CLJS source code they link, we added a new
+task, `reload`, to the `boot` pipeline, and the order of tasks matters
+as well.
+
+```bash
+boot serve -d target wait watch reload cljs
+```
+
+### bREPL
+
+Last, but not least, to almost complete our intent of approaching the
+Immediate Feedback Principle by offering a browser base REPL (bREPL),
+we had to add in the right position the `cljs-repl` task too.
+
+```bash
+boot serve -d target wait watch reload cljs cljs-repl
+```
+
+If you complain about the things you have to remember just to start
+playing around your project, you're right.
+
+This is why `boot` main developers though to offer you a very
+confortable way to help your typing and your memory.
+
+## Enter deftask
+
+From the user point of view the most interesting aspect of `boot` is
+the composable nuture of its tasks. You can even composose tasks by
+mixing *atomic* tasks with tasks that are composed of other tasks. A
+kind of `composite design pattern` in OO parlance.
+
+Let's be pragmatic. At the moment we only want to reduce the need of
+memorizing task names and order while launching the `boot` command to
+adhere to the Immediate Feddback Principle as much as we can.
+
+All we have to do is to define new tasks as an ordered composition of
+other tasks.
+
+
+
+
+are them selvescomposed tasks.
+
+`boot` is directley inspired to the composable nature of [`ring`][3]
+handlers/middleware.
+
+Any task in `boot` is composable with other tasks to implement any
+kind of functionality already offered by [`Leiningen`][4], the *de
+facto* standard CLJ building tool.
+
+The explanation of `boot` architecture is outside the scope of
+`modern-cljs` series of tutorials and we'll concetrated our attention
+to the use of `boot` and its available tasks, instead of explaining
+how you could define a new `boot` taks by yourself.
+
+
+
+Let's review the final `build.boot` attached to the `modern-cljs`
+inital project.
+
+```clj
+(set-env!
+ :source-paths #{"src/cljs"}
+ :resource-paths #{"html"}
+ 
+ :dependencies '[[org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "1.7.122"]
+                 [adzerk/boot-cljs "1.7.48-6"]
+                 [pandeiro/boot-http "0.6.3"]
+                 [adzerk/boot-reload "0.4.1"]
+                 [adzerk/boot-cljs-repl "0.2.0"]])
+
+(require '[adzerk.boot-cljs :refer [cljs]]
+         '[pandeiro.boot-http :refer [serve]]
+         '[adzerk.boot-reload :refer [reload]]
+         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
+```
+
 
 ## Next step - [Tutorial 4: Modern ClojureScript][7]
 
@@ -147,6 +181,9 @@ Copyright © Mimmo Cosenza, 2012-2014. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+
+
 [2]: https://github.com/ring-clojure/ring
 [3]: https://github.com/weavejester/lein-ring
 [4]: http://ring-clojure.github.com/ring/
