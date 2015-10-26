@@ -20,14 +20,13 @@ git checkout -b tutorial-02-step-1
 This way you're cloning the tutorial-01 branch into a new branch to
 start working with.
 
-
 ## Introduction
 
 The `boot` building tool is more recent and less mature than the
 corresponding `leiningen` building tool, which is a kind of standard
 for CLJ developers. Howsoever, the `boot` community is working hard to
 progressively enrich it with features, *tasks* in `boot` parlance,
-aimed at filling the gap.
+aimed at filling the gap and, perhaps, even overtaken them.
 
 If you take a look at the [tasks for `boot`][4] developed by the
 community, you'll discover that we already have anything we need to
@@ -39,6 +38,8 @@ start approaching the Bred Victor's principle of immediate feedback:
   resources (i.e. CSS, images, etc.);
 * [`boot-cljs-repl`][7]: a `boot` task providing a REPL for CLJS
   development;
+
+    > NOTE 1: we already used `boot-cljs` task in the previous tutorial.
 
 ## CLJ-based HTTP server
 
@@ -57,8 +58,8 @@ located in the `modern-cljs` home directory.
          '[pandeiro.boot-http :refer [serve]]) ;; make serve task visible
 ```
 
-As you see, we only added the latest available release of `boot-http`
-to the project dependencies and made the `serve` task visible to the
+As you see, we added the latest available release of `boot-http` to
+the project dependencies and made the `serve` task visible to the
 `boot` command by referring it in the `require` form.
 
 Note that we're still implicetely exploit few `boot` defaults:
@@ -90,42 +91,47 @@ Options:
   -R, --reload              Reload modified namespaces on each request.
 ```
 
-The `-d` option is used to set the directory to serve and it will be
-created if it does not exist. Let's try the following `boot` command
-at the terminal:
+The `-d` option is used to set the directory to be served and it will
+be created if it does not exist. Let's try the following `boot`
+command at the terminal:
 
 ```bash
-boot serve -d target cljs
-Directory 'target' was not found. Creating it...2015-10-25 14:33:43.481:INFO:oejs.Server:jetty-7.6.13.v20130916
-2015-10-25 14:33:43.578:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+boot serve -d target
+2015-10-26 21:38:48.489:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-10-26 21:38:48.549:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 << started Jetty on http://localhost:3000 >>
-Writing main.cljs.edn...
-Compiling ClojureScript...
-• main.js
 ```
 
-You'll note that the command will exit after executing the `cljs`
-compilation task and if you now type `http://localhost:3000` in your
-browser URL bar you'll get an error. This is because the `serve` task
-does not wait after been executed.
+You'll note that the command will exit after starting the http server
+(i.e. Jetty). If you now type `http://localhost:3000` in your browser
+URL bar you'll get an error. This is because the `serve` task does not
+block.
 
 To solve this problem we have to add the predefined `wait` task
-already included with `boot`, between the call to `serve` and `cljs`
-tasks. Let's see this solution at work:
+already included with `boot`. Let's see this solution at work:
 
 ```bash
-boot serve -d target wait cljs
-Directory 'target' was not found. Creating it...2015-10-25 15:01:22.832:INFO:oejs.Server:jetty-7.6.13.v20130916
-2015-10-25 15:01:22.929:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+boot wait serve -d target
+2015-10-26 21:40:54.695:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-10-26 21:40:54.772:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 << started Jetty on http://localhost:3000 >>
-Writing main.cljs.edn...
-Compiling ClojureScript...
-• main.js
 ```
 
 The `boot` command does not exit anymore and you'll obtaing the
 `index.html` page when connecting to http://localhost:3000 URL from
-your browser.
+your browser. Now kill the server (CTRL-C).
+
+`boot` tasks can be easily chained as in a pipeline:
+
+```bash
+wait serve -d target cljs
+2015-10-26 21:50:25.555:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-10-26 21:50:25.660:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+<< started Jetty on http://localhost:3000 >>
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+```
 
 Open the Developer Tool of your browser to verify that the `Hello,
 World!` string has been printed at the console. Before to proceed with
@@ -157,9 +163,9 @@ It seems that just inserting the `watch` task before calling the
 `cljs` task we should be able to trigger the source recompilation.
 
 ```bash
-boot serve -d target wait watch cljs
-2015-10-25 17:27:46.467:INFO:oejs.Server:jetty-7.6.13.v20130916
-2015-10-25 17:27:46.507:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+boot wait serve -d target watch cljs
+2015-10-26 21:54:00.904:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-10-26 21:54:00.995:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 << started Jetty on http://localhost:3000 >>
 
 Starting file watcher (CTRL-C to quit)...
@@ -167,7 +173,7 @@ Starting file watcher (CTRL-C to quit)...
 Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
-Elapsed time: 6.436 sec
+Elapsed time: 13.969 sec
 ```
 
 Visit again the `http://localhost:3000` URL in your browser to confirm
@@ -194,15 +200,14 @@ feddback goal, kill the `boot` process (`CTRL-C`).
 ## Resources reloading
 
 Anytime you modify a CLJS source file you have to manually reload the
-html page pointing to it to verify the effect of your coding. We
-desire to approach the immediate feedback principle much more closer
+html page pointing to it to verify the effect of your coding and we
+want to approach the immediate feedback principle much more closer
 than this.
 
 Luckily, there is a `boot` task developed by the community to automate
-the reload of html pages an more general of any static resource:
-[`boot-reload`][6]. Again we have to add the new task to the
-dependensies of the proejct and make it visibile to the `boot` command
-by requiring its main command:
+the reload of any static resource: [`boot-reload`][6]. Again we have
+to add the new task to the dependensies of the proejct and make it
+visibile to `boot` by requiring its main command:
 
 ```clj
 (set-env!
@@ -222,11 +227,11 @@ This task has to be inserted in the `boot` command immediately before
 the `cljs` compilation. Give it a try:
 
 ```bash
-boot serve -d target wait watch reload cljs
-Starting reload server on ws://localhost:60865
+boot wait serve -d target watch reload cljs
+Starting reload server on ws://localhost:50557
 Writing boot_reload.cljs...
-2015-10-25 18:57:15.221:INFO:oejs.Server:jetty-7.6.13.v20130916
-2015-10-25 18:57:15.247:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+2015-10-26 21:59:29.219:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-10-26 21:59:29.283:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 << started Jetty on http://localhost:3000 >>
 
 Starting file watcher (CTRL-C to quit)...
@@ -234,7 +239,7 @@ Starting file watcher (CTRL-C to quit)...
 Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
-Elapsed time: 10.283 sec
+Elapsed time: 19.914 sec
 ```
 
 Now reload again the usual URL in your browser and repeat the above
@@ -261,10 +266,10 @@ in the browser as well. This style of programming allows you to
 evaluate CLJS forms in the REPL and receive an immediate feedback in
 the browser to which the REPL is connected.
 
-`boot` community has a task to offer even in this area. It's name is
-`boot-cljs-repl`. As already done for the other tasks not predefined
+`boot` community has a task to offer even in this area. Its name is
+`boot-cljs-repl`. As already done for the other tasks not included
 with `boot`, we need to add it to the dependencies of the `build.boot`
-project file and then we have to require its main tasks
+project file. Then, as usual, we have to require its main tasks
 (i.e. `cljs-repl` and `start-repl`) to make them visible to the `boot`
 command at the terminal.
 
@@ -333,15 +338,15 @@ Adding :require adzerk.boot-cljs-repl to main.cljs.edn...
 Elapsed time: 17.949 sec
 ```
 
-The command informs you that an [`nrepl server`][8] has been started
-on the local host at a port number 64719 (your port number will be
-different). If your editor supports `nrepl` you are going to use that
-information to connect to the now running `nrepl server` with an
-`nrepl client`.
+The command output informs you that [`nrepl server`][8] has been
+started on the local host at a port number 64719 (your port number
+will be different). If your editor supports `nrepl` you are going to
+use that information to connect to the now running `nrepl server` with
+an `nrepl client`.
 
-At the moment we'll be happy enough to be able tu run `cljs-repl` from
-a second terminal by first launch the predefined `repl` task included
-with `boot` by passing it the `-c` (i.e. client) option:
+At the moment we're happy enough to be able to run `cljs-repl` from a
+second terminal by first launch the predefined `repl` task included
+with `boot` and passing it the `-c` (i.e. client) option:
 
 ```bash
 # in a new terminal
@@ -364,7 +369,7 @@ boot.user=>
 ```
 
 This is a standard CLJ REPL defaulted to the `boot.user`
-namespace. From here we launch a browser based CLJS REPL (bREPL) as
+namespace. From here we can launch a browser based CLJS REPL (bREPL) as
 follow:
 
 ```cljs

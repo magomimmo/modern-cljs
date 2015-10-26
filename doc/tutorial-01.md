@@ -24,13 +24,13 @@ A minimum CLJS web project is composed of 3 files:
 * a CLJS source code;
 * a `boot` build file to compile CLJS source code.
 
-Even if CLJS does not dictate any directory structure, it's a good
-practice to organize your project in such a way that it will be easy
-for anyone, even yourself in a few months, to be able to understand
-the project components and its structure. Moreover, each building tool
-has its own idiosyncrasies, which they call defaults. The more you
-adhere to the defaults of the tool in your hand, the less it will be
-your pain in managing the project.
+Even if CLJS does not dictate specific directory structure, it's a
+good practice to organize your project in such a way that it will be
+easy for anyone, even yourself in a few months, to be able to
+understand the project components and its structure. Moreover, each
+building tool has its own idiosyncrasies, which they call
+defaults. The more you adhere to the defaults of the tool in your
+hand, the less it will be your pain in managing the project.
 
 By taking into accounts these premies, let's create a directory
 structure for our new project, named `modern-cljs`, by adhering as
@@ -189,10 +189,10 @@ Available --optimization levels (default 'none'):
 ```
 
 As you see, the default optimization directive for the CLJS compiler
-is `:none`. A next tutorial will explain the different CLJS
-compilation optimizations (i.e. `none`, `whitespace`, `simple` and
-`advanced`). At the moment stay with the default, which is the more
-used during development. Let's see `'boot cljs` at work:
+is `none`. A next tutorial will explain the different CLJS compilation
+optimizations (i.e. `none`, `whitespace`, `simple` and `advanced`). At
+the moment stay with `none`, which is the more used during development
+cycle. Let's see `'boot cljs` at work:
 
 ```bash
 boot cljs
