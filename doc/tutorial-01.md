@@ -285,7 +285,7 @@ project by issuing the following command at the terminal:
 boot -V > boot.properties
 ```
 
-Finally, I strogly suggest to use `git` to manage your work.
+Finally, I strongly suggest to use `git` to manage your work.
 
 ```bash
 git init
