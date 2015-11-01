@@ -1,9 +1,9 @@
 # Tutorial 2 - Immediate Feedback Principle
 
 This tutorial is aimed at configuring `modern-cljs` project to reach
-in out development environment a level of interaction that Bret Victor
+in our development environment a level of interaction that Bret Victor
 called Immediate Feedback in his seminal talk
-[Inventing on Principle][1]
+[Inventing on Principle][1].
 
 ## Preamble
 
@@ -30,7 +30,7 @@ aimed at filling the gap and, perhaps, even overtaken them.
 
 If you take a look at the [tasks for `boot`][4] developed by the
 community, you'll discover that we already have anything we need to
-start approaching the Bred Victor's principle of immediate feedback:
+start approaching Bret Victor's principle of immediate feedback:
 
 * [`boot-http`][5]: a `boot` task providing a simple CLJS based HTTP
   server;
@@ -124,7 +124,7 @@ your browser. Now kill the server (CTRL-C).
 `boot` tasks can be easily chained as in a pipeline:
 
 ```bash
-wait serve -d target cljs
+boot wait serve -d target cljs
 2015-10-26 21:50:25.555:INFO:oejs.Server:jetty-7.6.13.v20130916
 2015-10-26 21:50:25.660:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 << started Jetty on http://localhost:3000 >>
@@ -178,7 +178,7 @@ Elapsed time: 13.969 sec
 
 Visit again the `http://localhost:3000` URL in your browser to confirm
 that "Hello, World!" has been printed in the JS console. Then open in
-your preferred edtor the `src/cljs/modern_cljs/core.cljs` source file
+your preferred editor the `src/cljs/modern_cljs/core.cljs` source file
 and modify the message to be printed. Save the file and take a look at
 the terminal. You should see that a new CLJS compilation task has been
 triggered.
@@ -191,22 +191,22 @@ Elapsed time: 0.168 sec
 ```
 
 Finally reload the html page to confirm that the `main.js` file linked
-to it has been updated by osserving the message printed at the browser
+to it has been updated by observing the message printed at the browser
 console. So far, so good.
 
-Before to proceed to the next step in approching the immediate
+Before proceeding to the next step in approching the immediate
 feddback goal, kill the `boot` process (`CTRL-C`).
 
 ## Resources reloading
 
 Anytime you modify a CLJS source file you have to manually reload the
 html page pointing to it to verify the effect of your coding and we
-want to approach the immediate feedback principle much more closer
-than this.
+want to approach the immediate feedback principle much closer than
+this.
 
 Luckily, there is a `boot` task developed by the community to automate
 the reload of any static resource: [`boot-reload`][6]. Again we have
-to add the new task to the dependensies of the proejct and make it
+to add the new task to the dependensies of the project and make it
 visibile to `boot` by requiring its main command:
 
 ```clj
@@ -215,7 +215,7 @@ visibile to `boot` by requiring its main command:
  :resource-paths #{"html"}
  
  :dependencies '[[adzerk/boot-cljs "1.7.48-6"]
-                 [pandeiro/boot-http "0.6.3"]
+                 [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.1"]]) ;; add boot-realod
 
 (require '[adzerk.boot-cljs :refer [cljs]]
@@ -246,13 +246,13 @@ Now reload again the usual URL in your browser and repeat the above
 procedure by modifing the message to be printed at the browser
 console. As before you'll see that as soon as you save the `core.cljs`
 file the CLJS recompilation is triggered. This time, thanks to the
-`boot-reload` task, the page is reload as well, as you can confirm by
-seeing the new message printed at the browser console.
+`boot-reload` task, the page is reloaded as well, as you can confirm by
+seeing the new message printed in the browser console.
 
 You can even modify the html source file to obtain an almost immediate
 feedback from the browser.
 
-Nice stuff. Kill again the `boot` command (CTRL-C) for advancing to
+Nice stuff. Kill again the `boot` command (`CTRL-C`) before advancing to
 the next level.
 
 ## Browser REPL (bREPL)
@@ -286,13 +286,13 @@ command at the terminal.
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
          '[adzerk.boot-reload :refer [reload]]
-         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]) ;; make ti visible
+         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]) ;; make it visible
 ```
 
 Again, issue the `boot cljs-repl -h` command if you want to read the
 documentation of its advanced options.
 
-That said, if you lounch the previous `boot serve -d target wait watch
+That said, if you launch the previous `boot serve -d target wait watch
 reload cljs cljs-repl` by appending the `cljs-repl` task as the last
 argument to the previous command, you'll get an error. This is because
 `boot-cljs-repl` task requires you to explicitely specify both the
@@ -345,7 +345,7 @@ use that information to connect to the now running `nrepl server` with
 an `nrepl client`.
 
 At the moment we're happy enough to be able to run `cljs-repl` from a
-second terminal by first launch the predefined `repl` task included
+second terminal by first launching the predefined `repl` task included
 with `boot` and passing it the `-c` (i.e. client) option:
 
 ```bash
