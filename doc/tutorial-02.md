@@ -13,8 +13,8 @@ assuming you've [git][3] installed, do as follows.
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
-git checkout tutorial-01
-git checkout -b tutorial-02-step-1
+git checkout se-tutorial-01
+git checkout -b se-tutorial-02-step-1
 ```
 
 This way you're cloning the tutorial-01 branch into a new branch to
@@ -52,7 +52,7 @@ located in the `modern-cljs` home directory.
  :resource-paths #{"html"}
  
  :dependencies '[[adzerk/boot-cljs "1.7.48-6"]
-                 [pandeiro/boot-http "0.6.3"]]) ;; add http dependency
+                 [pandeiro/boot-http "0.7.0"]]) ;; add http dependency
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]) ;; make serve task visible
