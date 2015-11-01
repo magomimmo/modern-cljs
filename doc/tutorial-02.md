@@ -159,11 +159,15 @@ Options:
   -M, --manual   Use a manual trigger instead of a file watcher.
 ```
 
+Aside from trigger the execution of the CLJS recompilation whenever a
+change in the CLJS source code is saved, the `watch` task can even
+substitute the `wait` tasks, because it is not blocking as well.
+
 It seems that just inserting the `watch` task before calling the
 `cljs` task we should be able to trigger the source recompilation.
 
 ```bash
-boot wait serve -d target watch cljs
+boot serve -d target watch cljs
 2015-10-26 21:54:00.904:INFO:oejs.Server:jetty-7.6.13.v20130916
 2015-10-26 21:54:00.995:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
 << started Jetty on http://localhost:3000 >>
@@ -227,7 +231,7 @@ This task has to be inserted in the `boot` command immediately before
 the `cljs` compilation. Give it a try:
 
 ```bash
-boot wait serve -d target watch reload cljs
+boot serve -d target watch reload cljs
 Starting reload server on ws://localhost:50557
 Writing boot_reload.cljs...
 2015-10-26 21:59:29.219:INFO:oejs.Server:jetty-7.6.13.v20130916
@@ -261,17 +265,17 @@ One of the main reasons to use a LISP dialect like CLJ is its REPL
 (Read Eval Print Loop), which enables a very interactive style of
 programming. CLJS communities worked very hard to bring into CLJS the
 same REPL-based programming experience available in CLJ, and created a
-way to connect a CLJS REPL to almost any JS engine, the one embedded
-in the browser as well. This style of programming allows you to
+way to connect a CLJS REPL to almost any JS engine, included the one
+embedded in the your browser. This style of programming allows you to
 evaluate CLJS forms in the REPL and receive an immediate feedback in
 the browser to which the REPL is connected.
 
 `boot` community has a task to offer even in this area. Its name is
-`boot-cljs-repl`. As already done for the other tasks not included
-with `boot`, we need to add it to the dependencies of the `build.boot`
-project file. Then, as usual, we have to require its main tasks
-(i.e. `cljs-repl` and `start-repl`) to make them visible to the `boot`
-command at the terminal.
+`boot-cljs-repl`. As already done for the other tasks not already
+included with `boot`, we need to add it to the dependencies of the
+`build.boot` project file. Then, as usual, we have to require its main
+tasks (i.e. `cljs-repl` and `start-repl`) to make them visible to the
+`boot` command at the terminal.
 
 ```clj
 (set-env!
@@ -279,7 +283,7 @@ command at the terminal.
  :resource-paths #{"html"}
  
  :dependencies '[[adzerk/boot-cljs "1.7.48-6"]
-                 [pandeiro/boot-http "0.6.3"]
+                 [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.1"]
                  [adzerk/boot-cljs-repl "0.2.0"]]) ;; add REPL
 
@@ -290,14 +294,13 @@ command at the terminal.
 ```
 
 Again, issue the `boot cljs-repl -h` command if you want to read the
-documentation of its advanced options.
+documentation on its advanced options.
 
-That said, if you launch the previous `boot serve -d target wait watch
-reload cljs cljs-repl` by appending the `cljs-repl` task as the last
-argument to the previous command, you'll get an error. This is because
+That said, if you launch the previous `boot` command by appending the
+`cljs-repl` task at the end, you'll get an error. This is because
 `boot-cljs-repl` task requires you to explicitely specify both the
-Clojure and the ClojureScript release into the `build.boot`
-dependencies:
+Clojure and the ClojureScript release you intend to use into the
+`build.boot` dependencies:
 
 ```clj
 (set-env!
@@ -307,7 +310,7 @@ dependencies:
  :dependencies '[[org.clojure/clojure "1.7.0"] ;; add CLJ
                  [org.clojure/clojurescript "1.7.122"] ;; add CLJS
                  [adzerk/boot-cljs "1.7.48-6"]
-                 [pandeiro/boot-http "0.6.3"]
+                 [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.1"]
                  [adzerk/boot-cljs-repl "0.2.0"]])
 
@@ -320,7 +323,7 @@ dependencies:
 You can now safetely run the `boot` command at the terminal as follow:
 
 ```bash
-boot serve -d target wait watch reload cljs cljs-repl
+boot serve -d target watch reload cljs cljs-repl
 Starting reload server on ws://localhost:64717
 Writing boot_reload.cljs...
 Writing boot_cljs_repl.cljs...
