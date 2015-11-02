@@ -17,8 +17,10 @@ git checkout se-tutorial-01
 git checkout -b se-tutorial-02-step-1
 ```
 
-This way you're cloning the tutorial-01 branch into a new branch to
+This way you're cloning the `se-tutorial-01` branch into a new branch to
 start working with.
+
+> NOTE 1: the `se-` prefix means "second edition".
 
 ## Introduction
 
@@ -39,7 +41,7 @@ start approaching Bret Victor's principle of immediate feedback:
 * [`boot-cljs-repl`][7]: a `boot` task providing a REPL for CLJS
   development;
 
-    > NOTE 1: we already used `boot-cljs` task in the previous tutorial.
+    > NOTE 2: we already used `boot-cljs` task in the previous tutorial.
 
 ## CLJ-based HTTP server
 
