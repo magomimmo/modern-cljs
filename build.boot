@@ -14,6 +14,7 @@
          '[adzerk.boot-reload :refer [reload]]
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
 
+;;; add dev task
 (deftask dev 
   "Launch immediate feedback dev environment"
   []
@@ -21,6 +22,6 @@
    (serve :dir "target")
    (watch)
    (reload)
-   (cljs)
-   (cljs-repl)))
+   (cljs-repl) ;; before cljs
+   (cljs)))
 
