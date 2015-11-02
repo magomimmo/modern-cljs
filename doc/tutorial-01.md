@@ -191,8 +191,8 @@ Available --optimization levels (default 'none'):
 As you see, the default optimization directive for the CLJS compiler
 is `none`. A next tutorial will explain the different CLJS compilation
 optimizations (i.e. `none`, `whitespace`, `simple` and `advanced`). At
-the moment stay with `none`, which is the more used during development
-cycle. Let's see `'boot cljs` at work:
+the moment stay with `none`, which is the most used during development
+cycle. Let's see `boot cljs` at work:
 
 ```bash
 boot cljs

@@ -108,7 +108,20 @@ URL bar you'll get an error. This is because the `serve` task does not
 block.
 
 To solve this problem we have to add the predefined `wait` task
-already included with `boot`. Let's see this solution at work:
+already included with `boot`.
+
+```bash
+boot wait -h
+Wait before calling the next handler.
+
+Waits forever if the --time option is not specified.
+
+Options:
+  -h, --help       Print this help info.
+  -t, --time MSEC  Set the interval in milliseconds to MSEC.
+```
+
+Let's see this solution at work:
 
 ```bash
 boot wait serve -d target
@@ -139,9 +152,9 @@ the next step, kill the current `boot` process (`CTRL-C`).
 
 ## CLJS source recompilaton
 
-If we want to approach the Bret Victor Immediate Feeback Principle, we
-should be able to recompile any CLJS source code as soon as we modify
-and save one of them.
+If we want to approach the Bret Victor's Immediate Feeback Principle,
+we should be able to recompile any CLJS source code as soon as we
+modify and save one of them.
 
 `watch` task is another of the large number of the predefined tasks
 already included with `boot`.
