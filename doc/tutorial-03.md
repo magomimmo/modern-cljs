@@ -39,7 +39,7 @@ Principle.
 
 ### CLJS compilation
 
-First, in [Tutorial-01][2] we configured few environment
+First, in [Tutorial-01][2] we configured a few environment
 variables. Namely `:source-paths` and `:resource-paths`.
 
 Then we launched the CLJS compilation with the following very simple
@@ -49,7 +49,7 @@ Then we launched the CLJS compilation with the following very simple
 boot cljs
 ```
 
-We did not pass any compilation option to the task by exployting few
+We did not pass any compilation option to the task by exploiting a few
 available defaults. Namely:
 
 * `none` as compiler optimizations;
@@ -69,7 +69,7 @@ As you could remember, we also needed to interpose in the pipeline the
 
 ```bash
 boot serve -d target wait cljs
-``
+```
 
 ### CLJS recompilation
 
@@ -104,15 +104,15 @@ boot serve -d target wait watch reload cljs cljs-repl
 If you complain about the things you have to remember just to start
 playing around your project, you're right.
 
-This is why `boot` core developers offer you a very confortable way to
+This is why `boot` core developers offer you a very comfortable way to
 help your typing and your memory.
 
 ## Enter deftask
 
-From the user point of view, one the interesting aspects of `boot` is
-the composable nuture of its tasks, whether predefined by `boot` or
+From the user point of view, one of the interesting aspects of `boot` is
+the composable nature of its tasks, whether predefined by `boot` or
 not. You could spend days in studying `boot` source code to better
-unserstand its architectures, but we want to be pragmatic. At the
+unserstand its architecture, but we want to be pragmatic. At the
 moment we are only interested in reducing the need of memorizing task
 names and order while launching the `boot` command.
 
@@ -150,17 +150,17 @@ follows:
    (cljs-repl)))
 ```
 
-First you should note the use of `comp` function in the body of the
+First you should note the use of the `comp` function in the body of the
 newly created `dev`. If you do not know CLJ [`transducers`][3] you
-could be surpriced by observing the order of the tasks passed to the
+could be surprised by observing the order of the tasks passed to the
 `comp` function to compose the `dev` task itself. If, instead, you
-know `trasducers` you're not surpriced at all by the that order, which
-is the same you saw before in at the termanl window when we called the
+know `trasducers` you're not surprised at all by that order, which
+is the same you saw before in the terminal window when we called the
 `boot` command.
 
-## Next step - [Tutorial 4: Modern ClojureScript][7]
+## Next step - [Tutorial 4: Modern ClojureScript][4]
 
-In the [next tutorial 4][7] we're going to have some fun introducing form validation in CLJS.
+In the [next tutorial 4][4] we're going to have some fun introducing form validation in CLJS.
 
 # License
 
@@ -169,12 +169,5 @@ License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
-
-
-[2]: https://github.com/ring-clojure/ring
-[3]: https://github.com/weavejester/lein-ring
-[4]: http://ring-clojure.github.com/ring/
-[5]: https://github.com/weavejester/compojure.git
-[6]: http://localhost:3000/simple.html
-[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
-[8]: https://help.github.com/articles/set-up-git
+[3]: http://clojure.org/transducers
+[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
