@@ -127,7 +127,7 @@ the composable nuture of its tasks, whether predefined by `boot` or
 not. You could spend days in studying `boot` source code to better
 unserstand its architectures, but we want to be pragmatic. At the
 moment we are only interested in reducing the need of memorizing task
-names and order while launching the `boot` command.
+names and order while launching the `boot` command from the terminal.
 
 All we have to do is to open the `build.boot` and define a new task as
 an ordered composition of other tasks by using the `deftask` macro as
@@ -135,20 +135,11 @@ follows:
 
 ```clj
 (set-env!
- :source-paths #{"src/cljs"}
- :resource-paths #{"html"}
- 
- :dependencies '[[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.122"]
-                 [adzerk/boot-cljs "1.7.48-6"]
-                 [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.1"]
-                 [adzerk/boot-cljs-repl "0.2.0"]])
+  ...
+  ...)
 
-(require '[adzerk.boot-cljs :refer [cljs]]
-         '[pandeiro.boot-http :refer [serve]]
-         '[adzerk.boot-reload :refer [reload]]
-         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
+(require ...
+         ...)
 
 ;; define dev task as composition of subtasks
 (deftask dev
@@ -162,54 +153,52 @@ follows:
    (cljs)))
 ```
 
-First, note the use of `comp` function in the body of the newly
-created `dev` via the `deftask` macro. If you do not know CLJ
-[`transducers`][4] you could be surpriced by observing it uses the
-same tasks order of the corresponding `boot` command call.
+Note the use of `comp` function in the body of the newly created `dev`
+via the `deftask` macro. The `comp` function composes the same tasks
+with the same order we saw in the `boot` command. The only difference
+is the way the `"target"` value is passed to `serve` subtask as a
+`:dir` keyword argument instead of as command-line argument.
 
-Let's start a CLJ repl:
+The newly defined `dev` task is now available to be used at the
+command-line:
 
 ```bash
-boot repl
+boot -h
 ...
-boot.user=>
+         dev                        Launch immediate feedback dev environ...
+...
+Do `boot <task> -h` to see usage info and TASK_OPTS for <task>.
 ```
 
-and ask for the documentation string attached to `comp`:
+You can now launch the `dev` task as usual from the command line to
+get the same effect you previously obtained by composing its subtasks:
 
-```cljs
-boot.user=> (doc comp)
--------------------------
-clojure.core/comp
-([] [f] [f g] [f g & fs])
-  Takes a set of functions and returns a fn that is the composition
-  of those fns.  The returned fn takes a variable number of args,
-  applies the rightmost of fns to the args, the next
-  fn (right-to-left) to the result, etc.
-nil
-boot.user=>
+```bash
+boot dev
+Starting reload server on ws://localhost:60083
+Writing boot_reload.cljs...
+Writing boot_cljs_repl.cljs...
+2015-11-04 08:58:55.742:INFO:oejs.Server:jetty-7.6.13.v20130916
+2015-11-04 08:58:55.788:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
+<< started Jetty on http://localhost:3000 >>
+
+Starting file watcher (CTRL-C to quit)...
+
+nREPL server started on port 60086 on host 127.0.0.1 - nrepl://127.0.0.1:60086
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+Elapsed time: 19.929 sec
 ```
 
-The composed functions are applied from righ-to-left. Lets see it at
-work. Suppose we want to count the even integers in a vector. We can
-use the `comp` function as follows:
+You can then repeat all the tests we already shown in [Tutorial-02][1]
+including the bREPL creation from a nrepl client.
 
-```clj
-boot.user=> ((comp count filter) even? [3 2 5 4 7 9])
-2
-```
+Not bad. You now have a very simple command, `boot dev`, to launch a
+development environment approaching the Immediate Feedback Principle.
 
-If, instead, we want to count the odd integers in a vector, we just
-need to substitute the 'even?` predicate:
+When you finish with your experimenting, kill everything.
 
-```clj
-boot.user=> ((comp count filter) odd? [3 2 5 4 7 9])
-4
-```
-
-So, how it is possibile that the `comp` function, when used to compose
-a new task from a number of subtasks uses a left-to-rigth order of
-function application instead of a right-to-left order?
 
 ## Next step - [Tutorial 4: Modern ClojureScript][7]
 
