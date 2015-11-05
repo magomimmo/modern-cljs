@@ -273,7 +273,7 @@ Now edit that file as follows:
  :compiler-options {:asset-path "js/main.out"}}
 ```
 
-As you see we just required the `modern/cljs.core` namespace of the
+As you see we just required the `modern-cljs.core` namespace of the
 project and set the `asset-path` option to the CLJS compiler. That's it.
 
 You can now run the CLJS compilation. To see the very verbose output
@@ -384,7 +384,7 @@ cljs.user=>
 ```
 
 Play around as you like. When finished stop the bREPL, the nREPL and
-the server before committinig your work.
+the server before committing your work.
 
 ```bash
 git commit -am "overwrite few defaults"
