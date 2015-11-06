@@ -1,2 +1,2 @@
-{:require [modern-cljs.core]
+{:require [modern-cljs.core modern-cljs.login]
  :compiler-options {:asset-path "js/main.out"}}
