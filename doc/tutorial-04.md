@@ -101,13 +101,13 @@ attribute. The `name` value will be used when the form data is submitted
 to the server-side. The `id` value will be used by JS/CSS.
 
 `login.php` script is associated with the `form action`. And
-`login.js` is linked within the html page. Aside from `login.js` being
-linked within `login.html`, there is no any other direct connection
-between the `form` and the JS script. This choice has to do with the
-so called *progressive enhancement* and *unobtrusive JS* that Larry
-Ullman clearly explains in his book.
+`login.js` is linked within the html page. Aside from `login.js`,
+there is no any other direct connection between the `form` and the JS
+script. This choice has to do with the so called *progressive
+enhancement* and *unobtrusive JS* approaches that Larry Ullman clearly
+explains in his book.
 
-The following [sequence diagrams][4] show this approach in action.
+The following [sequence diagrams][4] show these approaches in action.
 
 #### Server-side only validation
 
@@ -126,14 +126,15 @@ bring us to the second sequence diagram.
 
 ![Login Form Seq DIA 2][9]
 
-If the client-side (i.e., JS) validation passes, we still have to ask the
-server-side validation for security reasons. But if the client-side
-validation does not pass, we do not need to make a round-trip to the
-server and we can immediately return the errors to the user.
+If the client-side (i.e., JS) validation passes, we still have to ask
+the server-side validation for security reasons. But if the
+client-side validation does not pass, we do not need to make a
+round-trip to the server and we can immediately return the errors to
+the user.
 
 But we still have some problems. The client-side validation cannot
-check if the username is registered. This bring us to Ajax and
-the third sequence diagram.
+check if the username is registered. This bring us to Ajax and the
+third sequence diagram.
 
 #### Ajax in action
 
@@ -144,9 +145,9 @@ communicates with the server (e.g., to verify if the email address
 exists) resulting in a more efficient and responsive process.
 
 In this tutorial, we are going to limit ourselves to the client-side
-validation scenario without implementing the server-side validation
-or the Ajax call to the server. We will implement those in
-subsequent, more advanced tutorials.
+validation scenario without implementing the server-side validation or
+the Ajax call to the server. We will implement those in subsequent,
+more advanced tutorials.
 
 ## JavaScript
 
@@ -229,8 +230,8 @@ Developer Tool of your browser to see the correponding JS console.
 
 Open a new terminal and unzip the `Modern JavaScript: Develop and
 Design` zip file downloded from [here][3] and copy the `styles.css`
-CSS file from the `ch02/css` directory into the `html/css` directory
-of the `modern-cljs` project.
+CSS file from the `ch02/css` subdirectory into the `html/css`
+directory of the `modern-cljs` project.
 
 
 ```bash
@@ -240,8 +241,8 @@ mkdir html/css
 cp ~/Downloads/modern_javascript_scripts/ch02/css/styles.css html/css/
 ```
 
-As soon as you copy the CSS file you should see the console printing
-the reload notification.
+As soon as you copy the CSS file you should see the console of the
+browser printing the `Reload` notification.
 
 ### Copy the HTML file 
 
@@ -252,8 +253,8 @@ directory of the project.
 cp ~/Downloads/modern_javascript_scripts/ch02/login.html html/
 ```
 
-Again as soon as the file is copied, you'll see another `Reload`
-notification in the console.
+Again, as the file is copied, you'll see another `Reload` notification
+printed at the console.
 
 ### Link the HTML file to the JS file
 
@@ -357,7 +358,7 @@ So far so good.
 
 ### Validate the login form
 
-As we previously saw, ehe JS `validateForm()` function gets `email`
+As we previously saw, the JS `validateForm()` function gets `email`
 and `password` ids from form input and verifies that both have a
 value. The `validateForm()` function returns `true` if the validation
 passes, `false` otherwise.
@@ -409,61 +410,6 @@ and ".-" JS interop to call JS native functions
 and `.-onsubmit`), rather than execute. This is one of the
 [differences between CLJS and CLJ][12] that depends on the underlying
 host virtual machine (i.e., JSVM versus JVM).
-
-Copy the `login.html` file from `ch02` of [Modern JS code][3] to the
-`resources/public` directory.
-
-> NOTE 3: If you're using an HTML5 browser, instruct the form to
-> deactivate input validation by adding the `novalidate`
-> attribute to the form. Pay attention to the `novalidate` spelling,
-> otherwise the HTML5 browser will be free to intercept the fields'
-> `required` attribute and check for them before JS is involved and you
-> would not see the alert window be opened by CLJS.
-
-Finally, set the `src` script tag attribute value to
-`js/modern.js`. Here is the final `login.html`
-
-```html
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Login</title>
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-    <!-- login.html -->
-    <form action="login.php" method="post" id="loginForm" novalidate>
-        <fieldset>
-            <legend>Login</legend>
-
-            <div>
-              <label for="email">Email Address</label>
-              <input type="email" name="email" id="email" required>
-            </div>
-
-            <div>
-              <label for="password">Password</label>
-              <input type="password" name="password" id="password" required>
-            </div>
-
-            <div>
-              <label for="submit"></label>
-              <input type="submit" value="Login &rarr;" id="submit">
-            </div>
-
-        </fieldset>
-    </form>
-    <script src="js/modern.js"></script>
-</body>
-</html>
-```
-
-We're almost done.  Copy `styles.css` file from
-`ch02/css` of [Modern JS code][3] to the `resources/public/css` directory.
 
 ## CLJS Compilation
 
