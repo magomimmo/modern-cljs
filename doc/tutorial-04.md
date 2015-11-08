@@ -297,12 +297,12 @@ Visit the `http://localhost:3000/login.html` URL and play with it:
 * if you click the `Login` button before having filled both `email`
 and `password` fields you should see the alert window popping up and
 asking you to complete the form;
-* if you click the login button after having filled both email and
-password fields you should see the usual browser error message saying
-that the page `localhost:3000/login.php` not found. That's because the
-action attribute of the html form still references `login.php` as the
-server-side validation script. The server-side validation will be
-implemented in CLJ in a subsequent tutorial.
+* if you click the login button after having filled both `email` and
+`password` fields you should see the usual browser error message
+saying that the page `localhost:3000/login.php` not found. That's
+because the action attribute of the html form still references
+`login.php` as the server-side validation script. The server-side
+validation will be implemented in CLJ in a subsequent tutorial.
 
 ## The fun part
 
@@ -337,7 +337,7 @@ nil
 ```
 
 Now require the `modern-cljs.login` namespace and then start
-interacting with the DOM elements:
+interacting with the bREPL:
 
 ```clj
 cljs.user=> (require '[modern-cljs.login :as l])
@@ -378,14 +378,6 @@ CLJS compiler.
 Now select few DOM elements:
 
 ```clj
-cljs.user=> (.getElementById js/document "email")
-#object[HTMLInputElement [object HTMLInputElement]]
-cljs.user=> (.getElementById js/document "password")
-#object[HTMLInputElement [object HTMLInputElement]]
-cljs.user=> (.getElementById js/document "loginForm")
-#object[HTMLFormElement [object HTMLFormElement]]
-cljs.user=> (.getElementById js/document "login")
-nil
 cljs.user=> (.getElementById js/document "loginForm")
 #object[HTMLFormElement [object HTMLFormElement]]
 cljs.user=> (.getElementById js/document "email")
@@ -397,7 +389,7 @@ cljs.user=> (.getElementById js/document "submit")
 ```
 
 If you call `validate-form` function from the bREPL before having
-filled the `email` or the `password` field, the browser will show the
+filled the `email` or the `password` field, the browser will show the
 alert dialog. As soon as you dismiss the dialog, the `validate-form`
 function will return `false` at the bREPL.
 
@@ -419,10 +411,10 @@ true
 ```
 
 As you see, this time the `validate-form` returns `true` because the
-`email` and `password` fields passed the validation test.
+`email` and `password` fields passed the validation tests.
 
 If you created a new git branch, as suggested in the preamble of the
-series of tutorials, quit everything and commit the changes.
+tutorial, quit everything and commit the changes.
 
 ```bash
 git commit -am "modern javascript"
