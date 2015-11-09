@@ -53,7 +53,7 @@ located in the `modern-cljs` home directory.
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
  
- :dependencies '[[adzerk/boot-cljs "1.7.48-6"]
+ :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]]) ;; add http dependency
 
 (require '[adzerk.boot-cljs :refer [cljs]]
@@ -233,7 +233,7 @@ visibile to `boot` by requiring its main command:
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
  
- :dependencies '[[adzerk/boot-cljs "1.7.48-6"]
+ :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.1"]]) ;; add boot-realod
 
@@ -297,7 +297,7 @@ tasks (i.e. `cljs-repl` and `start-repl`) to make them visible to the
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
  
- :dependencies '[[adzerk/boot-cljs "1.7.48-6"]
+ :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.1"]
                  [adzerk/boot-cljs-repl "0.2.0"]]) ;; add REPL
@@ -324,7 +324,7 @@ Clojure and the ClojureScript release you intend to use into the
  
  :dependencies '[[org.clojure/clojure "1.7.0"] ;; add CLJ
                  [org.clojure/clojurescript "1.7.122"] ;; add CLJS
-                 [adzerk/boot-cljs "1.7.48-6"]
+                 [adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.1"]
                  [adzerk/boot-cljs-repl "0.2.0"]])
