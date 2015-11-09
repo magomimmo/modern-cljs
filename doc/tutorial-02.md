@@ -338,7 +338,7 @@ Clojure and the ClojureScript release you intend to use into the
 You can now safetely run the `boot` command at the terminal as follow:
 
 ```bash
-boot serve -d target watch reload cljs cljs-repl
+boot serve -d target watch reload cljs-repl cljs 
 Starting reload server on ws://localhost:64717
 Writing boot_reload.cljs...
 Writing boot_cljs_repl.cljs...
