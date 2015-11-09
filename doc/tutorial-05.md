@@ -41,8 +41,9 @@ agreement with the following reasoning:
 > with HTML, CSS and images without having to set an eye on Hiccup data
 > structures or those pesky parentheses.
 
-> NOTE 1: both `clojurescriptone` repo and the corresponding `Design and
-> templating` have been removed and are no more available.
+> NOTE 1: both `clojurescriptone` repo and the corresponding `Design
+> and templating` documentation have been removed and are no more
+> available.
 
 Our old `login.html` friend is going to be our pure HTML/CSS template
 and domina is going to be our CLJS library to interface the DOM of the
