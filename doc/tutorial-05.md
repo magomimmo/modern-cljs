@@ -29,8 +29,8 @@ it's time to try something better.
 > provide a basic functional interface to DOM manipulation that feels
 > natural in ClojureScript.
 
-When I first met [clojurescriptone][3] in searching for a CLJS guide,
-and read about [Design and templating][4], I found myself very much in
+When I first met `clojurescriptone`in searching for a CLJS guide,
+and read about `Design and templating`, I found myself very much in
 agreement with the following reasoning:
 
 > Many Clojure web applications use [Hiccup][5] for HTML templating. If
@@ -40,6 +40,9 @@ agreement with the following reasoning:
 > One proposes one approach to templating which allows designers to work
 > with HTML, CSS and images without having to set an eye on Hiccup data
 > structures or those pesky parentheses.
+
+> NOTE 1: both `clojurescriptone` repo and the corresponding `Design and
+> templating` have been removed and are no more available.
 
 Our old `login.html` friend is going to be our pure HTML/CSS template
 and domina is going to be our CLJS library to interface the DOM of the
