@@ -269,7 +269,8 @@ application run, execute the usual commands again from the terminal
 prior to visiting the [login page][12].
 
 ```bash
-lein do cljsbuild auto dev, lein ring server-headless
+lein do cljsbuild clean, cljsbuild auto dev # compile just the `dev` build
+lein ring server-headless # lunch the server from a new terminal
 ```
 
 ## Catch early react instantly
