@@ -1,40 +1,39 @@
 # Tutorial 19 - Livin' On the Edge
 
-In the [previous tutorial][1] we afforded two topics:
+In the [previous tutorial][1] we focused on two topics:
 
-* the adoption of the [pieggieback][2] lib to improve the bREPLing
+* adopting the [pieggieback][2] lib to improve the bREPL
   experience with CLJS;
-* the introduction of the [lein profiles][3] concept in the
-  `project.clj` file to support a better separation of concerns during
+* introducing the [lein profiles][3] concept in
+  `project.clj` to support a better separation of concerns during
   the lifecycle of a CLS/CLJS mixed project.
 
 ## Introduction
 
 When you start using a lib implemented by others, you can easily end
-up with few misunderstandings of its use or even with some unexpected
+up with a few misunderstandings of its use or even with some unexpected
 issues. In these cases the first thing you should do is to browse and
-read its documentation. As you know, one problem with open source
-software regards the corresponding documentation which is frequently
+read its documentation. As you know, one common problem with open source
+software regards documentation, which is frequently
 minimal, if not absent, outdated or requiring a level of comprehension
 of the details which you still have to grasp.
 
 Likely, most of the CLJ/CLJS open source libs are hosted on
-[github][27] which offers an amazing support for collaboration and
-social coding. Even if only few CLJ/CLJS libs have an extensive
-documentation and/or an associated mailing-list for submitting dubts
-and questions, every CLJ/CLJS lib hosted on github is supported by an
-articulated, although easy, issue and version control management
-systems. Those two systems help a lot in managing almost any
-distributed and remote collaboration requirements.
+[GitHub][27] which offers amazing support for collaboration and
+social coding. Even if only a few CLJ/CLJS libs have extensive
+documentation and/or an associated mailing-list for submitting bug reports
+and questions, every CLJ/CLJS lib hosted on GitHub is supported by a
+sophisticated, although easy, issue and version control management
+system. Those two systems help a lot in managing almost any
+distributed and remote collaboration environment.
 
 This tutorial is composed of two parts:
 
 * *Livin' on the edge*. In this part we're going to update the
-  dependencies of a set of libs which the `modern-cljs` depends on;
+  dependencies of a set of libs on which the `modern-cljs` depends;
 * *A Survival guide*. In this part we're going to see what to do when
-  the responsiveness of the owner of a lib for which we have submitted
-  a pull request is not compatible with our project schedule or when
-  she/he does not accept to merge into the master branch.
+  the owner of a lib on which we depend is not sufficiently responsive
+  in responding to and merging to pull requests.
 
 ## Livin' on the edge
 
@@ -48,25 +47,25 @@ This tutorial is composed of two parts:
 > git checkout -b tutorial-19-step-1
 > ```
 
-As you remember, in the [Tutorial 10 - Introducing Ajax][4] we added
-to the project's dependencies the [shoreleave-remote][5] and the
+As you remember, in [Tutorial 10 - Introducing Ajax][4] we added
+a dependency on the [shoreleave-remote][5] and
 [shoreleave-remote-ring][6] libs.
 
-Because the `tools.reader` release (i.e. `"0.7.0"`) used by the
+Because the `tools.reader` release (i.e., `"0.7.0"`) used by the
 `shoreleave-remote-ring` lib is not compatible with the latest CLJS
-releases (e.g. `"0.0-2069"`), we were forced to use a
-non canonical set of the `shoreleave` libs which I published on
-`clojars` repository to be able to use a recent CLJS release
-(e.g. `"0.0-2069"`).
+releases (e.g., `"0.0-2069"` or higher), we were forced to use
+non canonical releases of the `shoreleave` lib which I published to
+[clojars][21] to be able to use a recent CLJS release
+(e.g., `"0.0-2069"`).
 
-But even if a lib does not create any issue in my projects, I always
+But even if a lib does not create any issue for my projects, I always
 prefer to use libs which are up-to-date with the latest available
-release of the libs they depend on.
+release of their dependencies.
 
-If you take a look at the `project.clj` file of the
-[shoreleave-remote][5] and the [shoreleave-remote-ring][6], you'll
+If you take a look at the `project.clj` file of
+[shoreleave-remote][5] and [shoreleave-remote-ring][6], you'll
 discover that they are both based on the obsolete `lein 1` release and
-on the `1.4` release of Clojure.
+on Clojure `1.4`.
 
 Here is the [shoreleave-remote][5] `project.clj`:
 
@@ -105,32 +104,31 @@ And here is the [shoreleave-remote-ring][6] `project.clj`:
                      [lein-marginalia "0.7.1"]])
 ```
 
-You detect the fact that they both depend on `lein 1` from few
-symptoms:
+You can see that they both depend on `lein 1` from few symptoms:
 
-* the presence of the `:dev-dependencies` section, which in `lein 2`
-  has been deprecated by the introduction of [lein profiles][3];
-* the presence of the `lein-cdt` plugin, which has been integrated
-  into `swank-clojure` a lot of time ago and it is now deprecated too.
+* the presence of the `:dev-dependencies` section, which was deprecated in `lein 2`
+  (in preference to [lein profiles][3]);
+* the reference to the `lein-cdt` plugin, which is now deprecated
+  (and was integrated into `swank-clojure` a long time ago).
 
-You should also note that the `shoreleave-remote` lib depends on the
-[shoreleave-core][8] and the [shoreleave-browser][9] libs as well,
-while the `shoreleave-remote-ring` lib further depends on the
-[org.clojure/tool-reader][10] which is outdated too.
+You should also note that `shoreleave-remote` depends on
+[shoreleave-core][8] and [shoreleave-browser][9] as well,
+while `shoreleave-remote-ring` further depends on
+[org.clojure/tool-reader][10], which is outdated too.
 
 Nothing to worry about too much but, as I said, I prefer to use libs
 frequently updated and maintained and this is a good opportunity to be
 cooperative with the open source community.
 
-Generally speaking, the updating of the dependencies of a project
-requires little efforts which even a Clojure beginner can afford. In
+Generally speaking, updating the dependencies of a project
+requires little effort which even a Clojure beginner can afford. In
 this tutorial we're going to use the `shoreleave` libs as a use case
 for introducing the collaboration process.
 
 ### Fork, clone and branch
 
 I always fork and clone the libs I use in my projects. And I strongly
-suggest to you to do the same.
+suggest that you do the same.
 
 Start by [forking][11] all the above `shoreleave` repos. Then `git
 clone` them all locally. Next add the corresponding upstream
@@ -167,40 +165,41 @@ git push origin master
 git checkout -b upgrade # # create the branch to manage an issue
 ```
 
-> NOTE 2: if you fork a repo immediately before to locally clone it, the
+> NOTE 2: If you fork a repo immediately before locally cloning it, the
 > `git pull upstream master` and `git push origin master` commands are
-> optionals.
+> optional.
 
-> NOTE 3: the `git checkout -b upgrade` command for creating a new
-> branch from the master is not technically needed, but if you want to
+
+> NOTE 3: The `git checkout -b upgrade` command for creating a new
+> branch from master is not technically required, but if you want to
 > manage and issue and eventually pull request your solution to the
 > owner of the repo, the github community strongly recommends it, and I
 > agree with them.
 
 ### Shoreleave quirks
 
-If you take a deeper look at the variuos `project.clj` files of the
-cited `shoreleave` libs, you'll discover few characterizing quirks:
+If you take a deeper look at the various `project.clj` files of the
+cited `shoreleave` libs, you'll discover few distinct quirks:
 
-* even if only the `shoreleave-remote-ring` contains any CLJ code, all
+* even though only `shoreleave-remote-ring` contains any CLJ code, all
   of them reference the "1.4.0" release of the Clojure language;
 * none of the cited `shoreleave` libs references the `lein-cljsbuild`
   plugin;
-* none the cited `shoreleave` libs defines any [tagged release][12].
+* none of the cited `shoreleave` libs defines any [tagged releases][12].
 
 #### Update shoreleave-core's `project.clj` file
 
 The first `shoreleave` lib we're going to work on is the most basic
-(i.e.  `shoreleave-core`), because it is the only one not depending on
+(i.e., `shoreleave-core`), because it is the only one not depending on
 any other.
 
-As you remember from the [Tutorial 18 - Housekeeping][1], we already
-suggested to add the dependendencies and/or plugins you want to be
+As you remember from [Tutorial 18 - Housekeeping][1], we already
+suggested adding the dependendencies and/or plugins you want to be
 available in any project you're working on into the
 `~/.lein/profiles.clj` file.
 
 All the cited `shoreleave` libs use the [lein-marginalia][13]
-plugin. `lein-marginalia` plugin is a *kind* of
+plugin. `lein-marginalia` plugin is a kind of
 [literate programming][14] implementation that parses CLJ and CLJS
 code and outputs a side-by-side source view with appropriate comments
 and docstrings aligned.
@@ -208,7 +207,7 @@ and docstrings aligned.
 `lein-marginalia` could be useful in other CLJ/CLJS projects as well
 and I personally prefer, instead of adding it to the `:plugins`
 section of the `:dev` profile in each `project.clj` file, to include
-it in the `~/.lein/profiles.clj` file as follows:
+it in my `~/.lein/profiles.clj` file as follows:
 
 ```clj
 {:user {:plugins [[lein-pprint "1.1.1"]
@@ -218,20 +217,20 @@ it in the `~/.lein/profiles.clj` file as follows:
                   [lein-marginalia "0.7.1"]]}}
 ```
 
-> NOTE 4: This first change allows us to remove from the `project.clj`
-> of the `shoreleave-core` lib its dependency on the `"1.4.0"` release
+> NOTE 4: This first change allows us to remove shoreleave-core's 
+> dependency on the `"1.4.0"` release
 > of the Clojure programming language as well.
 
-But what about a tagged release of the `shoreleave-core` lib itself?
-As said, there are no explicit `tagged` releases for this lib (and
-neither for all the others `shoreleave` libs).
+But what about a tagged release of `shoreleave-core` itself?
+As mentioned above, there are no explicit tagged releases for this lib (nor
+for any of the other `shoreleave` libs).
 
-At the moment, we're not going to change any *interface/API* in the
-codebase of the lib. So, to be compliant with the
+At the moment, we're not going to change the library's *interface/API*
+So, to be compliant with the
 [Semantic Versioning][15] guidelines, we're going to label it as a
-SNAPSHOT version (i.e. "0.3.1-SNAPSHOT").
+SNAPSHOT version (i.e., "0.3.1-SNAPSHOT").
 
-`cd` in the `shoreleave-core` main directory and change the
+`cd` to the `shoreleave-core` main directory and change the
 corresponding `project.clj` as follows:
 
 ```clj
@@ -252,38 +251,38 @@ the main tool to be used for configuring and managing a CLJS-based
 project. We're now dealing with a CLJS-based project which doesn't
 even contain a reference to it. What's is going on here?
 
-The fact is that all the cited pure CLJS-based `shoreleave` libs only
-contains CLJS source code to be used by other projects, which are the
+The fact is that all the cited pure CLJS `shoreleave` libs only
+contain CLJS source code to be used by other projects, which are the
 ones to be configured and managed by the `lein-cljsbuild` plugin.
 
-That said, I would still have expected to see the `lein-cljsbuild`
-plugin to be used for configuring and managing the CLJS unit testing
-code, but none of the cited `shoreleave` lib contains any unit
-tests. Considering that the `shoreleave` libs have been published when
-the `clojurescript.test` lib was still in the [Chas Emerick's][16]
+That said, I would still have expected to see `lein-cljsbuild`
+to be used to configure and manage the CLJS unit testing
+code, but none of the cited `shoreleave` libs contains any unit
+tests. Considering that the `shoreleave` libs were published while
+`clojurescript.test` was still in [Chas Emerick's][16]
 head only, this is not a surprise.
 
-If we want to be really collaborative, we should keep our time and
-start coding some unit testing code for each `shoreleave` lib. This
+If we want to be really collaborative, we should take our time and
+start coding some unit tests for each `shoreleave` lib. This
 means a lot of work which, *mutatis mutandis*, should follow the
-numerous steps explained in the
-[Tutorial 16 - It's better to be safe than sorry (Part 3)][17].
+numerous steps explained in
+[Tutorial 16 - Better Safe Than Sorry (Part 3)][17].
 
 If someone of you is so kind to work on it, I'll be very happy and
-[Paul deGrandis][18] even more than me. But the one which is going to
-be the happiest is yourself, because you'll become a CLJS unit
+[Paul deGrandis][18] even moreso. But the one who will
+be happiest is yourself, because you'll become a CLJS unit
 testing master.
 
-That said, at minimum we can verify if our `shoreleave/shoreleave-core
+That said, at minimum we can verify that our `shoreleave/shoreleave-core
 "0.3.1-SNAPSHOT"` lib is still working in the context of the
-`modern-cljs` codebase by first modifying all the others `shoreleave`
+`modern-cljs` codebase by first modifying all the other `shoreleave`
 libs which are directly or indirectly used by the `modern-cljs`
 project.
 
 #### Update the remaining pure CLJS `shoreleave` libs
 
-Modify the `project.clj` file of each `shoreleave` lib in the same way
-we already did with the `shoreleave-core` one.
+Modify `project.clj` in each `shoreleave` lib in the same way
+we already did with `shoreleave-core`.
 
 ```clj
 ;;; shoreleave-browser project.clj
@@ -320,8 +319,8 @@ we already did with the `shoreleave-core` one.
 
 #### Update the `shoreleave-remote-ring` lib
 
-The last `shoreleave` lib we want to upgrade is the only one which
-does not include any CLJS source code. Here is the new `project.clj`
+The last `shoreleave` lib we want to upgrade is the only one that
+does not include any CLJS source code. Here is the new `project.clj`:
 
 ```clj
 (defproject shoreleave/shoreleave-remote-ring "0.3.1-SNAPSHOT"
@@ -335,12 +334,12 @@ does not include any CLJS source code. Here is the new `project.clj`
                  [org.clojure/tools.reader "0.8.0"]])
 ```
 
-> NOTE 7: As you see, we update both the CLJ release to "1.5.1" and the
+> NOTE 7: As you see, we updated both the CLJ release to "1.5.1" and the
 > `tools.reader` release to "0.8.0".
 
 ### Locally install the upgraded `shoreleave` libs
 
-Now that we have upgraded all `shoreleave` libs which are used by the
+Now that we have upgraded all the `shoreleave` libs used by the
 `modern-cljs` project, we need to locally install them in such a way
 that they can be seen by the `modern-cljs` `project.clj` file.
 
@@ -358,10 +357,10 @@ cd ~/dev/shoreleave-remote-ring
 lein install
 ```
 
-### Update the `project.clj` file of the `modern-cljs` project
+### Update `project.clj` in the `modern-cljs` project
 
-As a last change before lighting the fire, update the `project.clj`
-file of the `modern-cljs` project itself by upgrading its references
+As a last change before lighting the fire, update `project.clj`
+in the `modern-cljs` project itself by upgrading its references
 to the newly crerated shoreleave SNAPSHOT releases.
 
 ```clj
@@ -390,16 +389,15 @@ lein deps :tree
    [shoreleave/shoreleave-core "0.3.1-SNAPSHOT"]
 ```
 
-Great. As you can verify by yourself all the direct
-(i.e. `shoreleave-remote` and `shoreleave-remote-ring`) and the
-inderect `shoreleave` dependencies (i.e. `shoreleave-core` and
+Great. As you can see, all the direct
+(i.e., `shoreleave-remote` and `shoreleave-remote-ring`) and
+indirect `shoreleave` dependencies (i.e., `shoreleave-core` and
 `shoreleave-browser`) have been correctly updated to the
-"0.3.1-SNAPSHOT" releases which have been locally installed by the
+"0.3.1-SNAPSHOT" releases that were locally installed by the
 `lein install` commands.
 
-Now cross your finger and issue the `lein clean-test!` command to
-clean, compile and run from scratch the unit tests defined for the
-`modern-cljs`.
+Now cross your fingers and issue the `lein clean-test!` command to
+clean, compile and run from scratch the `modern-cljs` unit tests.
 
 ```bash
 lein clean-test!
@@ -412,65 +410,62 @@ lein test modern-cljs.shopping.validators-test
 Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
 Running all ClojureScript tests.
+
 Testing modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
-
 0 failures, 0 errors.
-
 {:test 1, :pass 13, :fail 0, :error 0, :type :summary}
+
 Testing modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
-
 0 failures, 0 errors.
-
 {:test 1, :pass 13, :fail 0, :error 0, :type :summary}
+
 Testing modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
-
 0 failures, 0 errors.
-
 {:test 1, :pass 13, :fail 0, :error 0, :type :summary}
 ```
 
-The updates of the `shoreleave` libs don't seem to break the
+These updates don't seem to break the
 code. This is not a surprise, because we have not touched any CLJS
 source code. You can even try to interact with the `modern-cljs`
 *Login* and *Shopping Calculator* forms to verify that everything is
-still working as expected, or run a `bREPL` connection as explained in
+still working as expected, or run a bREPL connection as explained in
 the [previous tutorial][1] to directly interact with the DOM.
 
-Obviuosly, this kind of tests can't be considered in any way something
-to count on. I leave to you the honor and the burden to fill the gap
-by adding the CLJS unit testing code as described in few of the
+Obviously, these kinds of tests can't be considered something
+to count on. I leave to you the honor and the burden to fill in the gap
+by adding the CLJS unit tests as described in the
 previous tutorials of the series.
 
 ### Commit the changes
 
 It's now time to commit all the implemented changes and to push them
-to the forked repo.
+to the forked repos.
 
 ```bash
 # shoreleave-core
 cd ~/dev/shoreleave-core
-git commit -am "removed lein-marginalia and clj 1.4.0 deps"
+git commit -am "remove lein-marginalia and clj 1.4.0 deps"
 git push origin upgrade
 
 # shoreleave-browser
 cd ~/dev/shoreleave-browser
-git commit -am "removed lein-marginalia and clj 1.4.0 deps"
+git commit -am "remove lein-marginalia and clj 1.4.0 deps"
 git push origin upgrade
 
 # shoreleave-remote
 cd ~/dev/shoreleave-remote
-git commit -am "removed lein-marginalia and clj 1.4.0 deps"
+git commit -am "remove lein-marginalia and clj 1.4.0 deps"
 git push origin upgrade
 
 # shoreleave-remote-ring
 cd ~/dev/shoreleave-remote-ring
-git commit -am "removed lein-marginalia and clj updated to 1.5.1"
+git commit -am "remove lein-marginalia and update clj to 1.5.1"
 git push origin upgrade
 
 # modern-cljs
@@ -480,16 +475,16 @@ git commit -am "Step 1"
 
 ### What's next?
 
-Let's summarize what we already did:
+Let's summarize what we've already done:
 
 * we forked and cloned all the direct and indirect `shoreleave` libs
-  which the `modern-cljs` depends on;
+  on which the `modern-cljs` depends;
 * we created an `upgrade` branch for each forked/cloned `shoreleave`
   lib;
-* we updated the `project.clj` content of each `shoreleave` lib by
+* we updated the `project.clj` for each `shoreleave` lib by
   removing the CLJ "1.4.0" and the `lein-marginalia` dependencies;
 * we marked all the interested `shoreleave` lib as `"0.3.1-SNAPSHOT"`
-  to adhere to the semantic version styleguide;
+  to adhere to the semantic versioning guidelines;
 * we updated the `shoreleave-remote-ring` to the latest available
   releases of its dependencies;
 * we locally installed all the updated `shoreleave` libs;
@@ -497,14 +492,13 @@ Let's summarize what we already did:
   the `shoreleave` libs
 * we cleaned up, recompiled and ran the `modern-cljs` unit tests to
   see if the `shoreleave` updates break the code;
-* we committed and pushed against the corresponding forked repos the
-  updated `shoreleave` libs.
+* we committed and pushed our `shoreleave` updates to the forked repos.
 
-In a real scenario, we should now [pull request][19] the
-[upstream repos][20] for each modified `shoreleave` lib and wait until
-the owner of the repos will accept and merge our pull requests.
+In a real scenario, we would now create a [pull request][19] against the
+[upstream repo][20] for each modified `shoreleave` lib and wait until
+the owners of the upstream repos accept and merge our pull requests.
 
-But what if the owner is lazy or for any reason she/he does not agree
+But what if the owner is unresponsive or for any reason she/he does not agree
 to merge our pull requests?
 
 The above modified repos only live locally on your computer and they
@@ -516,18 +510,18 @@ You have more options:
 * you can publish a lib on the [clojars][21] public repository. This
   way the lib will be available to everybody;
 * you can publish a lib on a private repository. This way the
-  accessability to the updated libs is governed by the rules defined
+  accessibility to the updated libs is governed by the rules defined
   in the repository itself. Generally this is the right choice when
   you want to make a lib available to other devs without making it
   public.
 
-In the next part of this tutorial we're going to inspect the first
+In the next part of this tutorial we're going to examine the first
 option only.
 
 ## A Survival guide
 
 The process of publishing a CLJ/CLJS lib on [clojars][21] is pretty
-simple and even if it is fully explained in the [lein tutorial][22],
+simple and fully explained in the [lein tutorial][22].
 I'm going to summarize its characteristics and the most fundamental
 steps.
 
@@ -539,9 +533,9 @@ down its dependencies search.
 
 Clojars offers two repositories, [Classic][25] and [Releases][26]. The
 Classic repository, which is the one we're going to use, has no
-restrictions and anyone may publish a lib into it.
+restrictions and anyone may publish a lib to it.
 
-That said, if you want to push your own version of somebody else's
+That said, if you want to push your own version of someone else's
 lib, which is our case, you should qualify the project name by putting
 `org.clojars.<your-username>/` in front of the project name in its
 `project.clj` file.
@@ -550,8 +544,8 @@ lib, which is our case, you should qualify the project name by putting
 
 The above requirement forces us to go back, modify the name of the
 project for each lib and consequently update any reference to them in
-the others libs. Due to the fact that we eventually want to pull
-request the upstreams repos, we need to create a new branch for each
+other libs. Due to the fact that we eventually want to send a pull
+request to the upstream repos, we need to create a new branch for each
 modified lib to be published on clojars as follows:
 
 ```bash
@@ -568,8 +562,8 @@ cd ~/dev/shoreleave-remote-ring
 git checkout -b clojars
 ```
 
-Now open each `project.clj` and update their project name and
-dependencies by using your clojars' group name as follows:
+Now open each `project.clj` and update the project name and
+dependencies by using your clojars group name as follows:
 
 ```clj
 ;;; shoreleave-core
@@ -585,8 +579,9 @@ dependencies by using your clojars' group name as follows:
 > NOTE 9: As you see we updated the `:url` attribute of the project as
 > well.
 
+
 > NOTE 10: Obviously, your group-id will be different from mine which is
-> `org.cljars.magomimmo`.
+> `org.clojars.magomimmo`.
 
 ```clj
 ;;; shoreleave-browser
@@ -631,22 +626,22 @@ As usual commit your changes.
 ```bash
 # shoreleave-core
 cd ~/dev/shoreleave-core
-git commit -am "added group-id name"
+git commit -am "add Clojars group-id"
 git push origin clojars
 
 # shoreleave-browser
 cd ~/dev/shoreleave-browser
-git commit -am "added group-id name"
+git commit -am "add Clojars group-id"
 git push origin clojars
 
 # shoreleave-remote
 cd ~/dev/shoreleave-remote
-git commit -am "added group-id name"
+git commit -am "add Clojars group-id"
 git push origin clojars
 
 # shoreleave-remote-ring
 cd ~/dev/shoreleave-remote-ring
-git commit -am "added group-id name"
+git commit -am "add Clojars group-id"
 git push origin clojars
 ```
 
@@ -655,8 +650,8 @@ We can now move to the next step.
 ### Register and publish on clojars.org
 
 To publish a library on [clojars][21] you first need to
-[register with it][23] and then you're ready to publish the snapshots
-on clojars by using the very handy `lein deploy clojars` command as
+[register][23] and then you're ready to publish
+using the very handy `lein deploy clojars` command as
 follows:
 
 ```bash
@@ -682,11 +677,11 @@ Sending org/clojars/magomimmo/shoreleave-core/maven-metadata.xml (1k)
     to https://clojars.org/repo/
 ```
 
-As you see, you're asked for your clojars' credential, but it's also
-possibile to have them read from an [encrypted file][24].
+As you can see, you're asked for your clojars credentials, but it's also
+possible to have leiningen read them from an [encrypted file][24].
 
-Now repeat del `lein deploy clojars` command for the remaining
-snapshot release of the modified `shoreleave` libs.
+Now repeat the `lein deploy clojars` command for the remaining
+modified `shoreleave` libs.
 
 ```bash
 # shoreleave-browser
@@ -702,9 +697,10 @@ lein deploy clojars
 # shoreleave-remote-ring
 cd ~/dev/shoreleave-remote-ring
 lein deploy clojars
+...
 ```
 
-Next verify that your `shoreleave` shanpshot releases are available on
+Next verify that your `shoreleave` snapshot releases are available on
 `clojars` by issuing the following `lein search` command:
 
 ```bash
@@ -720,16 +716,16 @@ Searching over Group ID...
 ```
 
 > NOTE 11: The first time you run the `lein search` command it will take
-> a lot of time to return results because it has to create the index.
+> a long time to return results because it has to create a local search index.
 
-> NOTE 12: Obviously you should search for your clojars' group name,
+
+> NOTE 12: Obviously you should search for your clojars group name,
 > not for mine.
 
 ### Update the modern-cljs project
 
-Having published all the snapshot releases of the `shoreleave` libs
-directly on indirectly used in the `modern-cljs` project, we now have
-to modify its `project.clj` by updating the group-id of its
+Having published all the snapshot releases of the `shoreleave` libs, we now have
+to modify the `modern-cljs` `project.clj` by updating the group-id of its
 dependencies as follows:
 
 ```clj
@@ -743,14 +739,13 @@ dependencies as follows:
   ...)
 ```
 
-> NOTE 13: Obviously, as group-id you should use your clojars' group
-> name, not mine.
+> NOTE 13: Obviously, you should use your clojars group-id, not mine.
 
 
 ### Light the fire
 
-You're now ready to light the fire again for verifying if everything
-is still working as expected by issuing the usual `lein clean-test!`
+You're now ready to light the fire again to verify that everything
+is still working as expected; issuing the usual `lein clean-test!`
 alias command:
 
 ```bash
@@ -769,36 +764,33 @@ lein test modern-cljs.shopping.validators-test
 Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
 Running all ClojureScript tests.
+
 Testing modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
-
 0 failures, 0 errors.
-
 {:test 1, :pass 13, :fail 0, :error 0, :type :summary}
+
 Testing modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
-
 0 failures, 0 errors.
-
 {:test 1, :pass 13, :fail 0, :error 0, :type :summary}
+
 Testing modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
-
 0 failures, 0 errors.
-
 {:test 1, :pass 13, :fail 0, :error 0, :type :summary}
 ```
 
-Great. As you see, `lein` correctly retrieved the snapshot releases of
-the `shoreleave-remote` and `shoreleave-remote-ring` that we just
+Great. As you can see, `lein` correctly retrieved the snapshot releases of
+`shoreleave-remote` and `shoreleave-remote-ring` that we just
 published on clojars.
 
-You can even verify that those libs have been cashed in your
+You can even verify that those libs have been cached in your
 `~/.m2/repository` by issuing the following command (remember to
-subtitute my clojars group id with yours).
+subtitute your clojars group id for mine).
 
 ```bash
 ls -la ~/.m2/repository/org/clojars/magomimmo/shoreleave*
@@ -849,13 +841,13 @@ git commit -m "Step 2"
 
 That's all. Stay tuned for the next tutorial of the series.
 
-# Next Step - [Tutorial 20 - Learn by Contributing (Part 1)][28]
+# Next Step - [Tutorial 20 - Learning by Contributing (Part 1)][28]
 
-In the next tutorial, while studying the [Enfocus][29] lib with the
-objective of sharing as much code as possibile with the corresponding
-[Enlive][30] lib, we'll start to be collaborative by proposing few
-improvements to the `Enfocus` directories layout and the adoption of
-the [clojurescript.test][31] lib for implementing its unit tests.
+In the [next tutorial][28], while studying the [Enfocus][29] lib with the
+objective of sharing as much code as possible with the corresponding
+[Enlive][30] lib, we'll start collaborative by proposing few
+improvements to the `Enfocus` directory layout and the adoption of
+the [clojurescript.test][31] lib for implementing unit tests.
 
 # License
 
