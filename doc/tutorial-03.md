@@ -2,7 +2,7 @@
 
 In this tutorial you are going to substitute the external http-server
 that we configured in [tutorial 2][1] with [Ring][2] and
-[Compojure][5], the most standard way run a web-based CLJ application.
+[Compojure][5], the most standard way to run a web-based CLJ application.
 
 ## Introduction
 
