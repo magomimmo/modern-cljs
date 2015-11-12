@@ -1,16 +1,16 @@
 # Tutorial 22 - Learning by Contributing (Part 3)
 
-In the [previous tutorial][1] we postponed the unit tests
-implementation for the revised [Enfocus][2] lib to give more attention
+In the [previous tutorial][1] we postponed implementing unit tests
+for the revised [Enfocus][2] lib to give more attention
 to the generation of its `jar` package. We altered both the
-directories layout and some `project.clj` settings until we reached
+directory layout and some `project.clj` settings until we reached
 full control of it. Then we implemented `hello-enfocus`, the simplest
-`enfocus`-based project you can think about. Finally, with the support
-of the [piggieback][3] lib we enabled the REPLing with it.
+`enfocus`-based project you can imagine. Finally, with the support
+of [piggieback][3], we enabled interaction with a bREPL.
 
-In this tutorial we're going to move even forward in improving the
+In this tutorial we're going to continue improving the
 `Enfocus` lib.  We'll apply again the separation of concerns principle
-to the `project.clj` file and then we'll implement few unit tests
+to the `project.clj` file, and then we'll implement a few unit tests
 based on the [clojurescript.test][4] lib.
 
 ## Preamble
@@ -29,20 +29,20 @@ git checkout -b tutorial-22
 
 ## Introduction
 
-As you have already experimented, the amount of information to be
-managed in the `project.clj` to control every aspect of a CLJ/CLJS
+As you have already seen, the amount of information to be
+managed in `project.clj` to control every aspect of a CLJ/CLJS
 project tends to grow with the time spent adding features to the
 project itself.
 
-In this tutorial, before starting the unit tests implementation for
-the [enfocus][2] lib, we want to find a way to make the `project.clj`
-file more readable by applying some of the things we have learned in
-previous *housekeeping* tutorials (i.e [Tutorial 18 - Housekeeping][9]
-and [Tutorial 19 - A survival guide for livin' on the edge][10].
+In this tutorial, before implementing the unit tests for
+[enfocus][2], we want to find a way to keep `project.clj`
+readable by applying some of the things we have learned in
+the previous *housekeeping* tutorials (i.e., [Tutorial 18 - Housekeeping][9]
+and [Tutorial 19 - Livin' On the Edge][10].
 
 ## Divide et Impera
 
-Take a look of the final `project.clj` we ended up in the
+Take a look of the final `project.clj` we ended up with in the
 [previous tutorial][1].
 
 ```clj
@@ -72,12 +72,12 @@ Take a look of the final `project.clj` we ended up in the
    :crossover-jar true
 
    :builds {:deploy
-             {:source-paths ["src/cljs"]
-              ;:jar true ; DON'T DO THIS
-              :compiler
-              {:output-to "dev-resources/public/js/deploy.js"
-               :optimizations :none
-               :pretty-print false}}}}
+            {:source-paths ["src/cljs"]
+             ;:jar true ; DON'T DO THIS
+             :compiler
+             {:output-to "dev-resources/public/js/deploy.js"
+              :optimizations :none
+              :pretty-print false}}}}
 
   :profiles {:dev {:resources-paths ["dev-resources"]
                    :test-paths ["test/clj" "test/cljs"]
@@ -123,25 +123,25 @@ Take a look of the final `project.clj` we ended up in the
                                                 (brepl/repl-env :port 9000)))]}})
 ```
 
-As you see, the project's configurations we need to set as an *enfocus
-developer* overwhelm our capacity to take full control of them as an
+As you can see, the project configuration we need to set as an *enfocus
+developer* overwhelms our capacity to take full control of them as an
 *enfocus user*. Luckly, the `profiles` feature of `lein` is going to
 be very helpful in keeping the view of the project as an
 *enfocus developer* separated from its view as an *enfocus user*.
 
-You'll be amazed by discovering how easy is to keep the
-*enfocus user view* separated from the *enfocus developer view*. But only
-if you have been careful in keeping them separated in the `:dev` profile from the very beginning.
+You'll be amazed to discover how easy is to keep the
+*enfocus user view* separate from the *enfocus developer view*. But only
+if you have been careful to keep them separate in the `:dev` profile from the very beginning.
 
 ### The enfocus user view
 
-Create a new file named `profiles.clj` in the main project
+Create a new file named `profiles.clj` in the main Enfocus project
 directory. Open the `project.clj`, cut the whole `:profiles {:dev
-{...}}` section and paste it into the `profiles.clj` newly created
-file. Finally, delete the `:profiles` keyword option which is already
-implicitly set by the `profiles.clj` filename itself.
+{...}}` section and paste it into the new `profiles.clj`
+file. Finally, delete the `:profiles` keyword option which is implicitly
+added by Leiningen when reading `profiles.clj`.
 
-Here is the resulting `project.clj`
+Here is the resulting `project.clj`:
 
 ```clj
 (defproject org.clojars.magomimmo/enfocus "2.1.0-SNAPSHOT"
@@ -170,19 +170,19 @@ Here is the resulting `project.clj`
    :crossover-jar true
 
    :builds {:deploy
-             {:source-paths ["src/cljs"]
-              ;:jar true ; DON'T DO THIS
-              :compiler
-              {:output-to "dev-resources/public/js/deploy.js"
-               :optimizations :none
-               :pretty-print false}}}})
+            {:source-paths ["src/cljs"]
+             ;:jar true ; DON'T DO THIS
+             :compiler
+             {:output-to "dev-resources/public/js/deploy.js"
+              :optimizations :none
+              :pretty-print false}}}})
 ```
 
 Much simpler, eh!
 
 ### The enfocus developer view
 
-And here is the `profiles.clj` content:
+And here is the contents of `profiles.clj`:
 
 ```clj
 {:dev {:resources-paths ["dev-resources"]
@@ -229,34 +229,34 @@ And here is the `profiles.clj` content:
                                     (brepl/repl-env :port 9000)))]}}
 ```
 
-The world in which lives the *enfocus developer* is much more complex
-if compared with the world in which lives the *enfocus user* and we
-don't want that an *enfocus user* has to even visually perceive that
+The world in which the *enfocus developer* lives is much more complex
+as compared to the world in which the *enfocus user* lives and we
+don't want an *enfocus user* to even visually perceive that
 complexity.
 
-Take into account that even if it appears that the change has been
-very easy to be done, this is only because we already kept all the
-`:dev` setting. The efforts we did in applying the separation of
+Even though this change was
+very easy to make, this is only because we already moved settings for the *enfocus developer* to the
+`:dev` profile. The effort we spent in applying the separation of
 concerns principle are now paying us back.
 
-Don't forget that you should never set any `:user` option in the
+Don't forget that you should never set any `:user` option in the *project*
 `profiles.clj` file. Also remember that `lein` merges together three
 sources of project configurations:
 
-* the `profiles.clj` file from the `~/.lein` directory: this file
-  should contain `:user` profile's settings only;
-* the `profiles.clj` local to the project: this file should never
-  contain any `:user` profile's settings;
-* the `project.clj` file: this file should never contain any `:user`
-  setting too;
+* `profiles.clj` from the `~/.lein/` directory: this file
+  should contain `:user` profile settings only;
+* `profiles.clj` local to the project: this file should never
+  contain any `:user` profile settings;
+* `project.clj`: this file should never contain any `:user`
+  profile either;
 
-In case of setting conflicts, the content of the local `profiles.clj`
+In case of setting conflicts, the content of the local *project* `profiles.clj`
 takes precedence over the `project.clj` content which, in turn, takes
-precedence over the `~/.lein/profiles.clj` content.
+precedence over the *user* `~/.lein/profiles.clj` content.
 
 ### Light the fire
 
-As usual after a main step ahead we like to verify that everthing is
+As usual after making this kind of change we like to verify that everything is
 still working as expected.
 
 #### Clean, compile and test
@@ -293,14 +293,14 @@ Ran 1 tests containing 1 assertions.
 Subprocess failed
 ```
 
-Good. The only unit test currently included with the project is the
-one that we wanted to fail to remember us that we still have to define
+Good. The only unit test currently defined in the project is a
+failing test to remind us that we still have to define
 unit tests.
 
 #### Package
 
-Let's now verify if, by moving all that stuff from the
-`project.clj` file to the `profiles.clj` file, we are still in
+Let's now verify if, by moving all that stuff from
+`project.clj` to `profiles.clj`, we are still in
 control of the generated `jar` package.
 
 ```clj
@@ -324,13 +324,13 @@ jar tvf target/enfocus-2.1.0-SNAPSHOT.jar
   2103 Sun Nov 03 09:44:32 CET 2013 enfocus/enlive/syntax.cljs
 ```
 
-Good. Everything is still resting in its own place. The last thing to
-be verified is the bREPL activation.
+Good. Everything is still in its right place. The last thing to
+verify is bREPL activation.
 
 #### bREPLing with Enfocus
 
 Issue the following commands at the terminal window from the main
-project directory:
+Enfocus project directory:
 
 ```clj
 lein repl
@@ -371,58 +371,56 @@ user=> exit
 Bye for now!
 ```
 
-Not bad so far. Before making any progress towards unit testing, make
-you a favor: commit the above changes.
+Not bad so far. Before proceeding to implement any unit tests, I recommend
+that you commit the above changes.
 
 ```bash
 lein clean
-git add .
-git commit -m "keep the user view of enfocus separated from the developer view"
+git add project.clj profiles.clj
+git commit -m "keep the user view of enfocus separate from the developer view"
 ```
 
 ## Unit testing Enfocus
 
-Here we are. After our two-and-a-half-tutorial journey we finally
-reached our destination from which to start again a new journey by
+Here we are. After our two-and-a-half-tutorial journey we've finally
+reached our destination from which to start a new journey by
 implementing unit tests for the `Enfocus` lib.
 
-I discussed a lot with [Creighton Kirkendall][6] about how to unit
-test its lib. At the beginning, we had two completely different views
-of this topic.
+[Creighton Kirkendall][6] and I discussed how to unit
+test Enfocus. At the beginning, we had two completely different views
+on this topic.
 
-Being `Enfocus` a live DOM manipulation lib, he worried a lot about
+As `Enfocus` is a live DOM manipulation lib, Creighton worried a lot about
 the need to have a visual confirmation of its correctness on any
 browser. On the contrary, my obsession with the application of the
-*separation of concerns principle* drove me in looking for a way to
-keep the unit tests which do not need a visual confirmation separated
-from the unit tests which eventually need to be visualized in any
-browser to be confirmed.
+separation of concerns principle drove me to look for a way to
+separate the unit tests which do not need visual confirmation from those
+which eventually need to be visualized and confirmed within a browser.
 
-He's more a front-end guy. I'm more a back-end guy and this is a good
+He's more of a front-end developer; I'm more of a back-end developer and this is a good
 opportunity to fortify the `Enfocus` lib by taking the best of the two
 worlds.
 
 ### Unit testing strategy
 
-My personal unit testing strategy is very simple to be explained:
+My personal unit testing strategy is very simple to explain:
 
 1. start unit testing from the most *independent* namespace of a lib;
-2. take a look at the namespaces depending on it and annotate any
-   used symbol from the *independent* namespace;
+2. take a look at the namespaces depending on it and annotate
+   usage of any symbol from the *independent* namespace;
 3. start unit testing those symbols at the edge cases;
-4. extend the unit tests coverage to all the public symbols of the
+4. extend unit test coverage to all the public symbols of the
    most *independent* namespace by testing the edge cases only;
-5. extend the unit testing by covering the regular use cases of the
+5. extend unit test coverage to the regular use cases of these
    symbols;
 6. move to the next namespace with the same approach.
 
-Steps `4.`, `5.` and `6.` can be interleaved, depending on your
-patience in filling up the regular use cases for each public symbol of
-a namespace. My patience with unit testing is close to `nil` and most
-of the times I unit test the edge cases and very few regular uses case
-only.
+Steps `4`, `5` and `6` can be interleaved, depending on your
+patience in filling in the regular use cases for each public symbol of
+a namespace. My patience with unit testing is close to `nil` so most
+of the time I thoroughly unit test the edge cases but only very few regular use cases.
 
-### The most indipendent namespace
+### The most independent namespace
 
 The `Enfocus` lib defines five namespaces:
 
@@ -432,7 +430,7 @@ The `Enfocus` lib defines five namespaces:
 * `enfocus.enlive.syntax`
 * `enfocus.macros`
 
-By looking at the namespaces' declarations, the most independent one
+By looking at the namespace declarations, the most independent one
 is `enfocus.enlive.syntax`.
 
 ```clj
@@ -440,13 +438,13 @@ is `enfocus.enlive.syntax`.
 ```
 
 The `enfocus.enlive.syntax` namespace is used by the `enfocus.macros`
-and by the `enfocus.core` namespace.
+and `enfocus.core` namespaces.
 
 ```clj
 (ns enfocus.macros
   (:refer-clojure :exclude ...)
   (:require ...
-            [enfocus.enlive.syntax :as syn]) ; here
+            [enfocus.enlive.syntax :as syn])
   (...]))
 ```
 
@@ -458,36 +456,36 @@ and by the `enfocus.core` namespace.
   (:require-macros ...))
 ```
 
-### The used public symbols of the most independent namespace
+### Usages of public symbols of the most independent namespace
 
 If you take a look at the `macros.clj` file, which defines the
-`enfocus.macros` namespace, and search for the used symbols from the
+`enfocus.macros` namespace, and search for usages of symbols from the
 `enfocus.enlive.syntax` namespace, you'll discover that it uses the
 `convert` symbol only: annotate it.
 
-Go on searching for the used public symbols from the
-`enfocus.enlive.syntax` namespace in the next namespace which is the
+Go on searching for usages of public symbols from the
+`enfocus.enlive.syntax` namespace in the next namespace which is
 `enfocus.core`.
 
-Surprise! Even the `enfocus.core` namespace only uses the `convert`
-symbol from the the `enfocus.enlive.syntax` namespace. That's very
+Surprise! The `enfocus.core` namespace only uses the `convert`
+symbol from the `enfocus.enlive.syntax` namespace. That's very
 good for my laziness regarding unit testing, because by following my
-unit testing strategy we could unit test the `enfocus.enlive.syntax`
-namespace for the `convert` symbol only.
+unit testing strategy we could limit our testing of the `enfocus.enlive.syntax`
+namespace to the `convert` symbol only.
 
 #### Back to CLJX
 
 But wait a minute. Remember that `enfocus.enlive.syntax` is a
 *portable* namespace and we should unit test it both in the CLJ
-environment (i.e. against a Java VM) and in the CLJS environment
-(i.e. against a JS VM).
+environment (i.e., against a Java VM) and in the CLJS environment
+(i.e., against a JS VM).
 
-As explained in the
-[Tutorial 16 - It's better to be safe than sorry (Part 3)][7] to apply
+As explained in
+[Tutorial 16 - Better Safe Than Sorry (Part 3)][7], to apply
 the DRY principle in the context of unit testing CLJ/CLJS code we need
-to add the `cljx` plugin. You should now already know that we're going
-to add it in the `:dev` profile which has been kept separated from the
-`project.clj` in the `profiles.clj`.
+to add the `cljx` plugin. By now you should already know that we're going
+to add it in the `:dev` profile which has been kept in `profiles.clj`, separate from
+`project.clj`.
 
 ```clj
 {:dev {...
@@ -520,20 +518,20 @@ to add it in the `:dev` profile which has been kept separated from the
        ...}}
 ```
 
-First we added the `[com.keminglabs/cljx "0.3.0"]` to the `:plugins`
+First we added `[com.keminglabs/cljx "0.3.0"]` to the `:plugins`
 section. Then we configured two rules for it.
 
-The first rule, `:clj`, reads any `cljx` source file from the
-`"test/cljx"` directory and emits the corresponding `clj` file in the
-`"target/test/clj"` directory.
+The first rule, `:clj`, reads any `.cljx` source file from the
+`"test/cljx/"` directory and emits the corresponding `.clj` file in the
+`"target/test/clj/"` directory.
 
 The second rule, `:cljs`, does almost the same thing, but instead of
-emitting `clj` files it emits `cljs` and save them into the
-`"target/test/cljs"` directory.
+emitting `.clj` files, it emits `.cljs` and saves them to the
+`"target/test/cljs/"` directory.
 
-Note that we updated the `:test-paths` as well, by adding to it both
-the newly created CLJ pathnames and the newly created CLJS
-pathnames. This is because the `cljsbuild` does not add back to the
+Note that we updated the `:test-paths` as well, by adding both
+the newly-created CLJ and CLJS test output paths.
+This is because `cljsbuild` does not add to the
 Leiningen `:source-paths` and `:test-paths` any CLJS pathnames added
 to its own `:source-paths`.
 
@@ -541,16 +539,16 @@ to its own `:source-paths`.
 
 Now that we have added and configured the `cljx` plugin we can start
 coding the first unit test for the `convert` portable function, but we
-first need to create the `test/cljx/enfocus` directory.
+first need to create the `test/cljx/enfocus/` directory.
 
 ```bash
 mkdir -p test/cljx/enfocus/enlive
 ```
 
-Now create the `syntax_test.cljx` file in that directory and declare
-its namespace for both CLJ and CLJS by using the `#+clj` and the
-`#+cljs` feature annotation as we did in the cited
-[Tutorial 16 - It's better to be safe than sorry (Part 3)][7].
+Now create `syntax_test.cljx` in that directory and declare
+its namespace for both CLJ and CLJS by using the `#+clj` and
+`#+cljs` feature annotations as we did in
+[Tutorial 16 - Better Safe Than Sorry (Part 3)][7].
 
 ```clj
 #+clj (ns enfocus.enlive.syntax-test
@@ -558,32 +556,31 @@ its namespace for both CLJ and CLJS by using the `#+clj` and the
                   [enfocus.enlive.syntax :refer [convert]]))
 
 #+cljs (ns enfocus.enlive.syntax-test
-         (:require-macros [cemerick.cljs.test :refer (deftest testing are)])
-         (:require [cemerick.cljs.test :as t]
+         (:require-macros [cemerick.cljs.test :refer [deftest are is testing]])
+         (:require [cemerick.cljs.test]
                    [enfocus.enlive.syntax :refer [convert]]))
 
 (deftest convert-test
   (testing "Unit Test for (convert arg) function\n"
-
     (testing "Edge Cases\n"
-        (are [expected actual] (= expected actual)
-            true false))))
+      (are [expected actual] (= expected actual)
+           true false))))
 ```
 
-As you see, at the moment we only defined a dummy failing unit test as
+As you can see, for the moment we have defined a dummy failing unit test as
 a placeholder, because we want first to verify if the machinery we set
 up is working as expected.
 
 #### Light the fire
 
-As noted in the cited [Tutorial 16][7], even if the `cljx` plugin can
-be hooked to `lein` tasks as we did for the `cljsbuild` plugin, the
-interaction between them produces unexpected results (i.e. double
-compilation) when are both hooked to `lein` tasks.
+As noted in the cited [Tutorial 16][7], the `cljx` plugin can be
+hooked to builtin `lein` tasks as we did for the `cljsbuild` plugin, but the
+interaction between them produces unexpected results (i.e., double
+compilation) when both are hooked to `lein` tasks.
 
-This bug can be easily worked around by just explicitly call the `lein
-cljx once` command before issuing the `lein compile` command which
-compiles down the CLJS builds. To save some typing we are going to use
+This issue can be easily worked around by explicitly calling `lein
+cljx once` before issuing the `lein compile` command which
+compiles the CLJS builds. To save some typing we are going to use
 the `lein do` chain of commands.
 
 ```bash
@@ -605,14 +602,14 @@ Compiling "dev-resources/public/js/deploy.js" from ["src/cljs"]...
 Successfully compiled "dev-resources/public/js/deploy.js" in 2.889881 seconds.
 ```
 
-Not bad so far. As you can see, the `cljx` plugin made its rewriting
-work and then the `cljsbuild` plugin made its job too by compiling
+Not bad so far. As you can see, the `cljx` plugin did its rewriting
+work and then the `cljsbuild` plugin compiled
 down all the defined builds that now include the CLJS files generated
 by the `cljx` plugin (at the moment just the `syntax_test.cljs` source
 file).
 
-Following is a view of the directories layout produced by the above
-chained commands which shows you the emitted files in the interested
+Following is a view of the directory layout produced by the above
+chained commands which shows the emitted files in the relevant
 directories.
 
 ```bash
@@ -637,7 +634,7 @@ target/cljsbuild-compiler-0/enfocus/enlive/
 8 directories, 5 files
 ```
 
-Not bad so far. Let's now test the tests.
+Not bad so far. Now let's run the tests.
 
 ```bash
 lein test
@@ -659,16 +656,16 @@ Ran 1 tests containing 1 assertions.
 Tests failed.
 ```
 
-Oops. The `lein test` command ran the dummy CLJ unit test only and not,
-as expected, the dummy CLJS unit test too.
+Oops. The `lein test` command ran the dummy CLJ unit test but did *not*
+run the dummy CLJS unit test.
 
-Again this is a bug relative to a bad interaction between the `cljx`
-and the `cljsbuild` plugins. Luckily, we can work around it by running
-the `lein cljsbuild test` explicit subtask.
+Again this is an issue related to a bad interaction between the `cljx`
+and `cljsbuild` plugins. Luckily, we can work around it by running
+the `lein cljsbuild test` subtask explicitly.
 
-> NOTE 2: That bad interaction between `cljx` and `cljsbuild` is caused
+> NOTE 2: This bad interaction between `cljx` and `cljsbuild` is caused
 > by the failing unit test in the CLJ environment and it disappears if
-> you correct it.
+> you correct the failing test.
 
 ```bash
 lein cljsbuild test
@@ -736,23 +733,23 @@ Subprocess failed
 
 That's much better. The `lein cljsbuild test` command executed two
 unit tests for each build. The first failing test is the one we just
-defined and the second is the one we defined in the
-[Tutorial 20 - Learn by contributing (Part 1)][8].
+defined and the second is the one defined in
+[Tutorial 20 - Learning by Contributing (Part 1)][8].
 
 So far so good. It's now time to commit our work.
 
 ```bash
-git add .
-git commit -m "added cljx plugin and defined a new dummy test"
+git add profiles.clj test/cljx
+git commit -m "add cljx plugin and define a new dummy test"
 ```
 
 #### Be extreme when testing
 
-As I repeated several times, I don't like at all to write unit tests, but
-I have to admit that the implementation of few unit tests covering the
-edge cases could be very useful in clarifying the semantic/behavior of
-the function under testing. Sometimes you'll find few surprises as
-well. Those kind of surprises that it's better not to take care of few
+As I repeated several times, I don't particularly like to write unit tests, but
+I have to admit that the implementation of a few unit tests covering the
+edge cases can be very useful in clarifying the semantic/behavior of
+the function under test. Sometimes you'll find some surprises as
+well--the kind of surprises that it's better not to take care of few
 months later, when you don't even remember the name of the involved
 project.
 
@@ -761,7 +758,6 @@ definition.
 
 ```clj
 ;;; from `enfocus.enlive.syntax` namespace
-
 (defn convert [sel]
   (if (string? sel)
     sel
@@ -771,38 +767,34 @@ definition.
 
 OK. It seems that it receives a selector `sel`, and if `sel` is not a
 string it converts it into a string, otherwise just returns the input
-string. All the conversion stuff are delegated to the `sel-to-str`
+string. All the conversion stuff is delegated to the `sel-to-str`
 function.
 
-This is enough to start coding few unit tests at the edges, because we
-now know that `convert` returns a *string* and it has one argument
+This is enough to start coding a few unit tests at the edges, because we
+now know that `convert` returns a *string* and it accepts one argument
 only which could be a *string* or something reducible to a string
 (cf. `(apply str ...)`).
 
-Open the `syntax_test.cljx` file and substitute the previous failing
-test used as a reminding placeholder with the following one.
+Open `syntax_test.cljx` and substitute the previous failing
+test with the following:
 
 ```clj
 (deftest convert-test
-
   (testing "Unit Test for (convert arg)\n"
-
     (testing "Edge Cases\n"
-
       (testing "(convert a-val)"
-               (are [expected actual] (= expected actual)
-
-                    ;; extreme values for considered input type
-                    nil (convert nil)
-                    "" (convert "")
-                    " " (convert " ")
-                    "" (convert ())
-                    "" (convert [])
-                    "" (convert {})
-                    "" (convert #{}))))))
+        (are [expected actual] (= expected actual)
+             ;; extreme values for considered input type
+             nil (convert nil)
+             ""  (convert "")
+             " " (convert " ")
+             ""  (convert ())
+             ""  (convert [])
+             ""  (convert {})
+             ""  (convert #{}))))))
 ```
 
-As expected return values we chose to have only a *string* or
+As expected, return values we chose to have only a *string* or
 `nil`. The only case in which we expect the `convert` function to
 return `nil` is when the input value is `nil` as well.
 
@@ -810,42 +802,42 @@ return `nil` is when the input value is `nil` as well.
 
 Aren't you curious about the unit testing results? But wait a minute.
 
-I suggest to adopt an effective workflow, otherwise you'll get crazy
-in restarting again and again everything each time you modify a unit
+Let me suggest an effective workflow, otherwise you'll go crazy
+restarting everything again and again each time you modify a unit
 test in the `syntax_test.cljx` file.
 
 Following is my personal workflow (when I want to be agnostic about
-the editor/IDE adopted by me for CLJ/CLJS programming).
+my choice of editor/IDE for CLJ/CLJS programming).
 
 > NOTE 3: In a next tutorial we're going to introduce a more advanced
-> workflow based on the [My Clojure Workflow, reloaded][15] by
+> workflow based on [My Clojure Workflow, reloaded][15] by
 > [Stuart Sierra][16].
 
-As said, the interaction between `cljsbuild` and `cljx` is still under
+As said, the undesired interaction between `cljsbuild` and `cljx` is still under
 investigation, because there are few things not working as
-expected. While waiting for the bug to be fixed, those bad
+expected. While waiting for this bug to be fixed, those bad
 interactions slow down our workflow. So, take your time.
 
 The complete workflow, depending on the resources of your
 development computer, can take minutes, because we defined three
-testing builds and they are all recompiled each time you change a unit
-test in the `syntax.cljx` source file.
+testing builds and they are all recompiled each time you change
+the `syntax_test.cljx` source file.
 
-> NOTE 4: If you are in hurry I suggest you to comment out the
+> NOTE 4: If you are in hurry I suggest that you comment out the
 > `simple`, the `advanced` builds and the corresponding test commands
-> from the `:dev` profile. When you have done with the unit tests you can
+> from the `:dev` profile. When you are done implementing the unit tests you can
 > uncomment them back.
 
-* In *Terminal 1*: issue the `lein do clean, cljx auto` command. It
-  will clean everything and write the `clj` and `cljs` files each time
-  you save a new version of the `syntax_test.cljx` file;
-* In *Terminal 2*: issue the `lein cljsbuild auto whitespace`
-  command. It will recompile every build each time a `cljs` file will
-  be rewritten by the `cljx` plugin;
-* In *Terminal 3*: issue the `lein test` command. Here is were
+* In *Terminal 1*: issue the `lein do clean, cljx auto` command. This
+  will clean everything and write the `.clj` and `.cljs` files each time
+  you save a new version of `syntax_test.cljx`;
+* In *Terminal 2*: issue the `lein cljsbuild auto`
+  command. It will recompile every build each time a `.cljs` file is
+  rewritten by the `cljx` plugin;
+* In *Terminal 3*: issue the `lein test` command. Here is where
   something does not work as it should, because the command returns
-  after having executed the `clj` failing tests and does not go on by
-  executing the `cljs` tests;
+  after having executed the (failing) `clj` tests and does not
+  execute the `cljs` tests;
 * In *Terminal 3*: issue the `lein cljsbuild test whitespace`
   command. It executes the `cljs` tests for the `whitespace` build
   only.
@@ -894,16 +886,15 @@ Ran 1 tests containing 7 assertions.
 Tests failed.
 ```
 
-> NOTE 5: Because of the issue pertaining the interaction between
-> `cljsbuild` and `cljx` plugin we cited above, when you launch the
+> NOTE 5: Because of the issue with the interaction between the
+> `cljsbuild` and `cljx` plugins cited above, when you launch the
 > `lein test` task, it only runs the CLJ tests.
 
 The last command executed 7 unit tests on the `convert` function. The
-one that failed is the `(convert nil)` which returned an empty string
+one that failed is `(convert nil)` which returned an empty string
 `""` instead of the expected `nil`.
 
-We should see the same failed test from the unit tests of the `cljs`
-code.
+We should see the same failed test from the CLJS unit tests.
 
 In *Terminal 3*
 
@@ -933,21 +924,21 @@ Ran 2 tests containing 8 assertions.
 Subprocess failed
 ```
 
-As you remember, in the CLJS environment we left the dummy and
+As you remember, in the CLJS environment we left a
 deliberately failing unit test for the `enfocus.core`
 namespace. That's why we got 2 tests instead of 1 and we got 2 failed
 assertions instead of 1.
 
 But what about the unit test on `(convert nil)` which failed in both
-cases (i.e. CLJ and CLJS)?
+cases (i.e., CLJ and CLJS)?
 
 #### Logical true and false
 
-In the Chapter 3 of [The Joy of Clojure][11] by [Michael Fogus][12]
-and [Chris Houser][13] there is a nice discussion about the logical
-true and false based on the Clojure pragmatical decision by
-[Rich Hickey][14] to consider everything `true` but `nil` and `false`
-in a boolean context.
+In Chapter 3 of [The Joy of Clojure][11] by [Michael Fogus][12]
+and [Chris Houser][13] there is a nice discussion about Clojure's *logical*
+true and false based on a pragmatic decision by
+[Rich Hickey][14] to consider everything **except** `nil` and `false`
+to be `true` in a boolean context.
 
 In a Boolean context
 
@@ -956,12 +947,12 @@ if, if-not, when, when-not, and, or, cond, etc.
 ```
 
 only `nil` and `false` are logical false,
-while `""`, `()`, `[]`, `{}`, and `#{}` are all logical true.
+while `""`, `()`, `[]`, `{}`, `#{}`, and everything else are all logical true.
 
 #### Time to fix by REPLing
 
 One of the best things about writing *portable* CLJ/CLJS code, aside
-from freeing you from the need of repeating yourself, is that you can
+from freeing you from the need to repeat yourself, is that you can
 REPL in CLJ only, which is still a much more comfortable experience
 than REPLing in the bREPL.
 
@@ -990,11 +981,11 @@ user=> (source syn/convert)
     sel
     (let [ors (sel-to-str sel)]
       (apply str (interpose " " (apply concat (interpose "," ors)))))))
-Nil
+nil
 user=>
 ```
 
-As we have already seen, most of the conversion work is executed by
+As we have already seen, most of the conversion work is performed by
 the `sel-to-str` function. Let's try it at the REPL.
 
 ```clj
@@ -1009,7 +1000,7 @@ considering `nil` as the only false value beside `false` itself.
 Let's fix the `convert` function in the REPL.
 
 ```clj
-(in-ns 'enfocus.enlive.syntax)
+user=> (in-ns 'enfocus.enlive.syntax)
 #<Namespace enfocus.enlive.syntax>
 enfocus.enlive.syntax=> (defn convert [sel]
                    #_=>   (if (string? sel)
@@ -1024,7 +1015,7 @@ nil
 user=>
 ```
 
-Not bad. We just substituted the `let` call with `if-let`
+Not bad. We just substituted the `let` call with an `if-let`
 call. Nothing simpler than that.
 
 Let's now run the unit tests from the REPL to verify that all the
@@ -1073,7 +1064,7 @@ Ran 1 tests containing 7 assertions.
 user=>
 ```
 
-Too bad. All the unit tests pertaining empty collections failed
+Too bad. All the unit tests pertaining to empty collections failed
 because they now return `nil` instead of the expected empty string
 `""`.
 
@@ -1097,21 +1088,21 @@ user=> (source syn/sel-to-str)
                       (for [s sub e end]
                         (do (println s e)
                             (conj e s)))))))
-Nil
+nil
 user=>
 ```
 
-WOW. A lot of things are going on here. But even without knowing
+WOW! A lot of things are going on here. But even without knowing
 anything about the internal details of this function we can
 immediately spot the bug.
 
 If the `input` arg is an empty collection, the `item` local var will
-be `nil` (cf. `(first [])`). The successive `cond` form has no clause
-for handle this condition. The final return value of the `sel-to-str`
-function will be the result of the `cond`, i.e. `nil` when the `input`
+be `nil` (cf. `(first [])`). The subsequent `cond` form has no clause
+to handle this condition. The final return value of the `sel-to-str`
+function will be the result of the `cond`, i.e., `nil` when the `input`
 arg is an empty collection.
 
-This behavior is very easily correctable as follows:
+This behavior is very easy to correct as follows:
 
 ```clj
 user=> (in-ns 'enfocus.enlive.syntax)
@@ -1136,7 +1127,7 @@ enfocus.enlive.syntax=> (defn sel-to-str [input]
 enfocus.enlive.syntax=>
 ```
 
-Here we just added a `:default` clause which returns the passed
+We just added a `:default` clause which returns the passed
 `input` when the `cond` doesn't know how to handle the `input`
 collection itself.
 
@@ -1145,7 +1136,7 @@ collection itself.
 > exception.
 
 You can immediately test the new definition by issuing the following
-expression at the REPL.
+expressions at the REPL.
 
 ```clj
 enfocus.enlive.syntax=> (sel-to-str ())
@@ -1182,7 +1173,7 @@ Ran 1 tests containing 7 assertions.
 {:type :summary, :pass 7, :test 1, :error 0, :fail 0}
 ```
 
-Great. We can now modify the `syntax.clj` source file as we did in the REPL.
+Great. We can now modify the `syntax.clj` source file as we did at the REPL.
 
 ```clj
 (ns enfocus.enlive.syntax)
@@ -1193,17 +1184,17 @@ Great. We can now modify the `syntax.clj` source file as we did in the REPL.
         rest (rest input)
         end (if (empty? rest) '(()) (sel-to-str rest))]
     (cond
-       (keyword? item) (map #(conj % (name item)) end)
-       (string? item) (map #(conj % item) end)
-       (set? item) (reduce (fn [r1 it]
-                             (concat r1 (map #(conj % it) end)))
-                           [] (flatten (sel-to-str item)))
-       (coll? item) (let [x1 (sel-to-str item)
-                          sub (map #(apply str %) (sel-to-str item))]
-                      (for [s sub e end]
-                        (do (println s e)
-                            (conj e s))))
-       :default input)))
+     (keyword? item) (map #(conj % (name item)) end)
+     (string? item) (map #(conj % item) end)
+     (set? item) (reduce (fn [r1 it]
+                           (concat r1 (map #(conj % it) end)))
+                         [] (flatten (sel-to-str item)))
+     (coll? item) (let [x1 (sel-to-str item)
+                        sub (map #(apply str %) (sel-to-str item))]
+                     (for [s sub e end]
+                         (do (println s e)
+                             (conj e s))))
+     :default input)))
 
 (defn convert [sel]
   (if (string? sel)
@@ -1231,7 +1222,7 @@ First exit the REPL (or open a new terminal).
 user=> (exit)
 ```
 
-Then launch the task to unit test the CLJS builds.
+Then launch the task to run unit test for the CLJS builds.
 
 ```bash
 lein cljsbuild test
@@ -1277,14 +1268,14 @@ Subprocess failed
 ```
 
 As expected the unit tests have been repeated three times, one per
-each build, and all the `convert` unit tests succeeded in the CLJS
+build, and all the `convert` unit tests succeeded in the CLJS
 environment too.
 
-As usual, I suggest you to commit the changes.
+As usual, I suggest that you commit the changes.
 
 ```bash
-git add .
-git commit -m "fixed convert and sel-to-str functions"
+git add src test
+git commit -m "fix convert and sel-to-str functions"
 ```
 
 Stay tuned for the next tutorial.
@@ -1308,7 +1299,7 @@ License, the same as Clojure.
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-20.md
 [9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
 [10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-19.md
-[11]: http://joyofclojure.com/
+[11]: http://www.joyofclojure.com/
 [12]: https://github.com/fogus
 [13]: https://github.com/Chouser
 [14]: https://github.com/richhickey
