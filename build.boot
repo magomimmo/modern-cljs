@@ -6,7 +6,7 @@
                  [org.clojure/clojurescript "1.7.170"] ;; add CLJS
                  [adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.1"]
+                 [adzerk/boot-reload "0.4.2"]
                  [adzerk/boot-cljs-repl "0.2.0"]])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
