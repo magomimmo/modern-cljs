@@ -67,7 +67,7 @@ the project dependencies and made the `serve` task visible to the
 Note that we're still implicetely exploit few `boot` defaults:
 
 * the use of Clojure 1.7.0, defined in the `boot.properties` file;
-* the use of ClojureScript 1.7.48, implicetely imported by the
+* the use of ClojureScript 1.7.170, implicetely imported by the
   `boot-cljs` dependency;
 * the `"target"` directory as the default value used as `:target-path`
   by `boot` itself.
@@ -221,7 +221,7 @@ feddback goal, kill the `boot` process (`CTRL-C`).
 Anytime you modify a CLJS source file you have to manually reload the
 html page pointing to it to verify the effect of your coding and we
 want to approach the immediate feedback principle much closer than
-this.
+that.
 
 Luckily, there is a `boot` task developed by the community to automate
 the reload of any static resource: [`boot-reload`][6]. Again we have
@@ -311,11 +311,11 @@ tasks (i.e. `cljs-repl` and `start-repl`) to make them visible to the
 Again, issue the `boot cljs-repl -h` command if you want to read the
 documentation on its advanced options.
 
-That said, if you launch the previous `boot` command by appending the
-`cljs-repl` task at the end, you'll get an error. This is because
-`boot-cljs-repl` task requires you to explicitely specify both the
-Clojure and the ClojureScript release you intend to use into the
-`build.boot` dependencies:
+That said, if you launch the previous `boot` command by appending, as
+required by its documentation, the `cljs-repl` task at the end, you'll
+get an error. This is because `boot-cljs-repl` task requires you to
+explicitely specify both the Clojure and the ClojureScript release you
+intend to use into the `build.boot` dependencies:
 
 ```clj
 (set-env!
@@ -323,10 +323,10 @@ Clojure and the ClojureScript release you intend to use into the
  :resource-paths #{"html"}
  
  :dependencies '[[org.clojure/clojure "1.7.0"] ;; add CLJ
-                 [org.clojure/clojurescript "1.7.122"] ;; add CLJS
+                 [org.clojure/clojurescript "1.7.170"] ;; add CLJS
                  [adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.1"]
+                 [adzerk/boot-reload "0.4.2"]
                  [adzerk/boot-cljs-repl "0.2.0"]])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
