@@ -235,7 +235,7 @@ visibile to `boot` by requiring its main command:
  
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.1"]]) ;; add boot-realod
+                 [adzerk/boot-reload "0.4.2"]]) ;; add boot-realod
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
@@ -286,11 +286,11 @@ evaluate CLJS forms in the REPL and receive an immediate feedback in
 the browser to which the REPL is connected.
 
 `boot` community has a task to offer even in this area. Its name is
-`boot-cljs-repl`. As already done for the other tasks not already
-included with `boot`, we need to add it to the dependencies of the
-`build.boot` project file. Then, as usual, we have to require its main
-tasks (i.e. `cljs-repl` and `start-repl`) to make them visible to the
-`boot` command at the terminal.
+`boot-cljs-repl`. As already done for the other tasks not included
+with `boot`, we need to add it to the dependencies of the `build.boot`
+project file. Then, as usual, we have to require its main tasks
+(i.e. `cljs-repl` and `start-repl`) to make them visible to the `boot`
+command at the terminal.
 
 ```clj
 (set-env!
@@ -300,7 +300,7 @@ tasks (i.e. `cljs-repl` and `start-repl`) to make them visible to the
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.1"]
-                 [adzerk/boot-cljs-repl "0.2.0"]]) ;; add REPL
+                 [adzerk/boot-cljs-repl "0.3.0"]]) ;; add REPL
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
@@ -311,23 +311,40 @@ tasks (i.e. `cljs-repl` and `start-repl`) to make them visible to the
 Again, issue the `boot cljs-repl -h` command if you want to read the
 documentation on its advanced options.
 
-That said, if you launch the previous `boot` command by appending, as
-required by its documentation, the `cljs-repl` task at the end, you'll
-get an error. This is because `boot-cljs-repl` task requires you to
-explicitely specify both the Clojure and the ClojureScript release you
-intend to use into the `build.boot` dependencies:
+```bash
+boot cljs-repl -h
+Start a ClojureScript REPL server.
+
+The default configuration starts a websocket server on a random available
+port on localhost.
+
+Options:
+  -h, --help                   Print this help info.
+  -b, --ids BUILD_IDS          Conj [BUILD IDS] onto only inject reloading into these builds (= .cljs.edn files)
+  -i, --ip ADDR                Set the IP address for the server to listen on to ADDR.
+  -n, --nrepl-opts NREPL_OPTS  Set options passed to the `repl` task to NREPL_OPTS.
+  -p, --port PORT              Set the port the websocket server listens on to PORT.
+  -w, --ws-host WSADDR         Set the (optional) websocket host address to pass to clients to WSADDR.
+  -s, --secure                 Flag to indicate whether the client should connect via wss. Defaults to false.
+```
+
+The `cljs-repl` task has to be positioned just before the `cljs`, not
+at the end of the pipeline and the `cljs-repl` author suggests to be
+explicit about the used `Clojure` and `ClojureScript` releases used in
+the project.
 
 ```clj
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
  
- :dependencies '[[org.clojure/clojure "1.7.0"] ;; add CLJ
+ :dependencies '[[org.clojure/clojure "1.7.0"]         ;; add CLJ
                  [org.clojure/clojurescript "1.7.170"] ;; add CLJS
                  [adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.2"]
-                 [adzerk/boot-cljs-repl "0.2.0"]])
+                 [adzerk/boot-cljs-repl "0.3.0"]       ;; add bREPL
+                 ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
@@ -335,32 +352,82 @@ intend to use into the `build.boot` dependencies:
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
 ```
 
-You can now safetely run the `boot` command at the terminal as follow:
+If you now launch the following `boot` command you'll received a
+warning and an error:
 
 ```bash
-boot serve -d target watch reload cljs-repl cljs 
-Starting reload server on ws://localhost:64717
+boot serve -d target watch reload cljs-repl cljs
+Starting reload server on ws://localhost:55540
+Writing boot_reload.cljs...
+You are missing necessary dependencies for boot-cljs-repl.
+Please add the following dependencies to your project:
+[com.cemerick/piggieback "0.2.1" :scope "test"]
+[weasel "0.7.0" :scope "test"]
+[org.clojure/tools.nrepl "0.2.12" :scope "test"]
+...
+java.io.FileNotFoundException: Could not locate cemerick/piggieback__init.class or cemerick/piggieback.clj on classpath.
+...
+Elapsed time: 3.720 sec
+```
+
+This is because `boot-cljs-repl` does not trasitively include its
+dependencies and you have to explicitely add them in the
+`:dependencies` section of the `build.boot` file.
+
+```clj
+(set-env!
+ :source-paths #{"src/cljs"}
+ :resource-paths #{"html"}
+
+ :dependencies '[
+                 [org.clojure/clojure "1.7.0"]         ;; add CLJ
+                 [org.clojure/clojurescript "1.7.170"] ;; add CLJS
+                 [adzerk/boot-cljs "1.7.170-3"]
+                 [pandeiro/boot-http "0.7.0"]
+                 [adzerk/boot-reload "0.4.2"]
+                 [adzerk/boot-cljs-repl "0.3.0"]       ;; add bREPL
+                 [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
+                 [weasel "0.7.0"]                      ;; needed by bREPL
+                 [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
+                 ])
+
+(require '[adzerk.boot-cljs :refer [cljs]]
+         '[pandeiro.boot-http :refer [serve]]
+         '[adzerk.boot-reload :refer [reload]]
+         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
+```
+
+> NOTE 3: At the moment we don't take care of the `:scope` of the
+> dependencies. We'll come back to this directive in a next tutorial.
+
+After having quitted the previous process, you can safetely run the
+`boot` command at the terminal as follow:
+
+```bash
+boot serve -d target watch reload cljs-repl cljs
+Starting reload server on ws://localhost:55571
 Writing boot_reload.cljs...
 Writing boot_cljs_repl.cljs...
-2015-10-25 22:30:13.708:INFO:oejs.Server:jetty-7.6.13.v20130916
-2015-10-25 22:30:13.739:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
-<< started Jetty on http://localhost:3000 >>
+2015-11-15 11:11:15.148:INFO::clojure-agent-send-off-pool-0: Logging initialized @19819ms
+2015-11-15 11:11:15.270:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
+2015-11-15 11:11:15.317:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@2b86e605{HTTP/1.1}{0.0.0.0:3000}
+2015-11-15 11:11:15.319:INFO:oejs.Server:clojure-agent-send-off-pool-0: Started @19990ms
+Started Jetty on http://localhost:3000
 
 Starting file watcher (CTRL-C to quit)...
 
+nREPL server started on port 55572 on host 127.0.0.1 - nrepl://127.0.0.1:55572
 Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
-nREPL server started on port 64719 on host 127.0.0.1 - nrepl://127.0.0.1:64719
-Adding :require adzerk.boot-cljs-repl to main.cljs.edn...
-Elapsed time: 17.949 sec
+Elapsed time: 38.074 sec
 ```
 
 The command output informs you that [`nrepl server`][8] has been
-started on the local host at a port number 64719 (your port number
-will be different). If your editor supports `nrepl` you are going to
-use that information to connect to the now running `nrepl server` with
-an `nrepl client`.
+started on the local host at a port number (your port number will be
+different). If your editor supports `nrepl` you are going to use that
+information to connect to the now running `nrepl server` with an
+`nrepl client`.
 
 At the moment we're happy enough to be able to run `cljs-repl` from a
 second terminal by first launching the predefined `repl` task included
@@ -370,7 +437,7 @@ with `boot` and passing it the `-c` (i.e. client) option:
 # in a new terminal
 cd modern-cljs
 boot repl -c
-REPL-y 0.3.5, nREPL 0.2.11
+REPL-y 0.3.5, nREPL 0.2.12
 Clojure 1.7.0
 Java HotSpot(TM) 64-Bit Server VM 1.8.0_25-b17
         Exit: Control+D or (exit) or (quit)
