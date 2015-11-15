@@ -112,7 +112,7 @@ And here is the modified fragment of `project.clj`
   {:builds
 
    ;; login.js build
-   {:login
+   [{:login
     {:source-paths ["src/cljs/login"]
      :compiler
      {:output-to "resources/public/js/login.js"
@@ -124,7 +124,7 @@ And here is the modified fragment of `project.clj`
      :compiler
      {:output-to "resources/public/js/shopping.js"
       :optimizations :whitespace
-      :pretty-print true}}}})
+      :pretty-print true}}}]})
 ```
 
 > NOTE 1: To understand the details of the `:cljsbuild` configurations,
