@@ -1,9 +1,23 @@
 <!doctype html>
-<html>
-  <head>
-    <title>Hello, World!</title>
-  </head>
-  <body>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Script 2.2 - login.html -->
+    <form action="login.php" method="post" id="loginForm" novalidate>
+        <fieldset>
+            <legend>Login</legend>
+            <div><label for="email">Email Address</label><input type="email" name="email" id="email" required></div>
+            <div><label for="password">Password</label><input type="password" name="password" id="password" required></div>
+            <div><label for="submit"></label><input type="submit" value="Login &rarr;" id="submit"></div>
+        </fieldset>
+    </form>
     <script src="js/main.js"></script>
-  </body>
+</body>
 </html>
