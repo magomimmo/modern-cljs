@@ -11,9 +11,9 @@ not yet fluent in CLJS.
 
 We'll do the porting by using the Immediate Feedback Development
 Environemnt (IFDE) we set up in the [previous tutorial][4]. We'll
-interleave the use of the bREPL with the use of a programmin editor,
+interleave the use of the bREPL with the use of a programming editor,
 whichever you like or use, without stopping the IDFE in any phase of
-the porting itself. This to demonstrate a kind of continuous
+the porting itself. This is to demonstrate a kind of continuous
 development taking the best from each available approach and tool.
 
 ## Preamble
@@ -175,7 +175,7 @@ form validation from JS to CLJS. We're going to start off by directly
 translating JS to CLJS using [CLJS interop][13] with the underlying
 JavaScript Virtual Machine (JSVM).
 
-### Copy the `login.html` form
+### Copy the `login.html` file
 
 First copy the `login.html` resource from the zip file you should have
 donloaded from [here][3].
@@ -216,7 +216,7 @@ Before going on you need to make two small changes to the copied
 ### Launching the Immediate Feedback Development Environment (IFDE)
 
 Considering the efforts we made in the previous three tutorials to
-build a Development Environment approaching the Immediate Feddback
+build a Development Environment approaching the Immediate Feedback
 Principle, we'd like to see it at work while porting to CLJS the JS
 code attached to the login form. 
 
@@ -291,13 +291,13 @@ function validateForm() {
 ```
 
 Here, the `validateForm()` function gets the `email` and the
-`password` ids from form input and verifies that both have a value
+`password` ids from the form input and verifies that both have value
 (i.e. `lenght > 0`).
 
 The `validateForm()` function returns `true` if the validation passes,
 `false` otherwise.
 
-I now, it's a very stupid validation, but it's only a kind of
+I know, it's a very stupid validation, but it's only a kind of
 placeholder useful to demonstrate the approach.
 
 ### bREPLing with CLJS
@@ -329,13 +329,15 @@ nil
 cljs.user=>
 ```
 
-> NOTE 1: the main `boot` advantage over `[leiningen][15]` build tool
+
+> NOTE 1: the main `boot` advantage over [`leiningen`][15] build tool
 > it's the ability to use one JVM only by exploiting the JVM
 > classloader. If you work with an `nrepl` compliant editor, you
 > should be able to connect it to the `nrepl` server launched by the
 > `boot dev` command without launching a new JVM instance. I
 > personally use `emacs` editor and [cider][16] only because I'm aged
 > and `emacs` is the editor I better know how to configure and use.
+
 
 We can now evaluate CLJS expressions at the bREPL, but we first need a
 way to access the browser DOM.
@@ -368,9 +370,10 @@ cljs.user> (js/console.log "Hello from ClojureScript!")
 nil
 ```
 
-Here we called the `log` function of the `console` object living in
-the `js` special namespace, by passing it the `"Hello from
-ClojureScript!"` string as an argument.
+Here we called the `log` function on the `console` object living in
+the `js` special namespace by passing to it the `"Hello from
+ClojureScript!"` string as an argument. The `/` char keeps a namespace
+name separated from the symbols defined in the namespace itself.
 
 You should see the `Hello from ClojureScript!` message printed in the
 JS console of your browser.
@@ -389,8 +392,8 @@ cljs.user> (js/document.getElementById "submit")
 #object[HTMLInputElement [object HTMLInputElement]]
 ```
 
-Not so bad. CLJS syntax supports a syntactic sugar for the previous
-interoperable scenario: `(.function +args)`. The syntactic
+Not so bad, but CLJS syntax supports a syntactic sugar for the
+previous interoperable scenario: `(.function +args)`. This syntactic
 sugar form is considered more idiomatic by clojarians because it does
 not use the object as an implicit argument of the function. Let's try
 it:
@@ -400,14 +403,14 @@ cljs.user> (.log js/console "Hello from ClojureScript!")
 nil
 ```
 
-Here we called the `log` function by passing to it the object
-`console` living in the `js` special namespace and the `"Hello from
-ClojureScript!"` string as arguments.
+Here we called the `log` function by passing to it both the `console`
+object and the `"Hello from ClojureScript!"` string as arguments.
 
 You should see the `Hello from ClojureScript!` message printed again to
 the JS console of the browser.
 
-Now apply the above idiomatic interoperable form on the DOM elements:
+Now apply the above idiomatic interoperable form on the DOM elements
+as well:
 
 ```clj
 cljs.user> (.getElementById js/document "loginForm")
@@ -420,9 +423,9 @@ cljs.user> (.getElementById js/document "submit")
 #object[HTMLInputElement [object HTMLInputElement]]
 ```
 
-To resemble the original JS code we also need to access the 'value'
-property of the `email` and `passoword` elements. CLJS offers the `.-`
-special from for these cases as well: `(.-property object)`:
+To resemble the original JS code we also need to access the `value`
+property of the `email` and `password` elements. CLJS offers the `.-`
+special form for these cases as well: `(.-property object)`:
 
 ```clj
 cljs.user> (.-value (.getElementById js/document "email"))
@@ -456,9 +459,9 @@ cljs.user> (.-value (.getElementById js/document "password"))
 ```
 
 > NOTE 2: in CLJ/CLJS when a function changes the state of a mutable
-> object, is idiomatic to appen to it the "!" character. This happens
+> object, it is idiomatic to append the `!` char to it. This happens
 > very frequently in interoperable scenarios with the underlining
-> hosting platform.
+> hosting platforms (i.e. JVM, JSVM and CLR at the moment).
 
 Lastly, we need a function for counting the lenght of a string. The
 `count` function works on any kind of collection and on strings as
@@ -477,12 +480,12 @@ So far so good.
 
 Now that we did few experiments in the bREPL on the interoperability
 between CLJS and JS, we should be able to define a `validate-form`
-CLJS function cloning the corresponding JS `validateForm` behviour.
+CLJS function cloning the corresponding JS `validateForm` behaviour.
 
 Create a new CLJS file named `login.cljs` in the
 `src/cljs/modern_cljs` directory which already hosts the `core.cljs`
-source created in the [Tutorial-01][]. Copy the following content into
-it.
+source created in the [Tutorial-01][12]. Copy the following content
+into it.
 
 ```clj
 (ns modern-cljs.login)
@@ -503,7 +506,7 @@ it.
 > not idiomatic. That's why we translated `validateForm` to
 > `validate-form`.
 
-Every CLJS file need to define a namespace. Here we create the
+Every CLJS file needs to define a namespace. Here we create the
 `modern-cljs.login` namespace in which we defined the `validate-form`
 function with the `defn` macro.
 
@@ -573,11 +576,11 @@ expressions, while `>` is a regular function and finally `if` is a
 special form. In the first position of a list expression you'll always
 find one of those three forms, unless the list expression is quoted
 with the `quote` special form which stands for preventing the form
-evaluation. I don't know about you, but after decades I'm still wating
-for a programmign language that has a simpler syntax to be remember
-than a LISP.
+evaluation. I don't know about you, but after decades I'm still
+waiting for a programmign language that has a simpler syntax to be
+remember than a LISP, whichever of its dialect you consider.
 
-You can even ask at the bREPL for the source code definition of
+You can even ask at the bREPL for the source code definitions of
 symbols which are defined as macros or regular functions.
 
 ```clj
@@ -698,7 +701,7 @@ cljs.user> (l/validate-form)
 false
 ```
 
-The call to `validate-form` opens the Alert Dialog and soon as you
+The call to `validate-form` opens the Alert Dialog and as soon as you
 click the ok button, it will return `false` to the bREPL.
 
 Now fill the above fields with some values and call the
@@ -718,10 +721,11 @@ immediately return `true`.
 
 ### Port the `init` function
 
-The previous bREPLing session demonstrated that we were able to define
-a CLJS function resembling the corresponding JS `validateForm`
-function, but we still have to attach it to the `submit` button of the
-login form when the `index.html` page is loaded into the browser.
+After a little bit of bREPLing to fomiliarize with some stuff, we were
+able to define a CLJS function resembling the corresponding JS
+`validateForm` function. But we still have to attach it to the
+`submit` button of the login form when the `index.html` page is loaded
+into the browser.
 
 Here us the original JS code:
 
@@ -821,4 +825,3 @@ License, the same as Clojure.
 [14]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
 [15]: http://leiningen.org/
 [16]: https://github.com/clojure-emacs/cider
-
