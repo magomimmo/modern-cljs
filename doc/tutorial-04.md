@@ -305,7 +305,7 @@ nil
 cljs.user=>
 ```
 
-We can now evaluate CLJS expressions at the bREPL, but first we need a
+We can now evaluate CLJS expressions at the bREPL. First we need a
 way to access the browser DOM.
 
 ```clj
@@ -313,16 +313,71 @@ cljs.user=> js/window
 #object[Window [object Window]]
 cljs.user=> js/document
 #object[HTMLDocument [object HTMLDocument]]
+cljs.user> js/console
+#object[Console [object Console]]
 ```
 
-As you see, when hosted by the JSVM of the browser, CLJS can acces
-both the `window` and the `document` (i.e. DOM) objects via
-`js/window` and `js/document` symbols.
+As you see, when hosted by the JSVM of the browser, CLJS defines the
+`js` namespace to allow accessing JS objects defined in global space:
 
-We now need a way to call the `getElementById` JS function
+* `js/window`: representing the browser's window
+* `js/document`: representing the document object (i.e. DOM)
+* `js/console`: representing the JS console of the browser
+
+Being a guest programming language, CLJS can interop with the
+underlying JS engine via special forms.
+
+The `.` special form allows you to interoperate with the underlying JS
+engine like so: `(object.function *args)`:
+
+```clj
+cljs.user> (js/document.getElementById "loginForm")
+#object[HTMLFormElement [object HTMLFormElement]]
+cljs.user> (js/document.getElementById "email")
+#object[HTMLInputElement [object HTMLInputElement]]
+cljs.user> (js/document.getElementById "password")
+#object[HTMLInputElement [object HTMLInputElement]]
+cljs.user> (js/document.getElementById "submit")
+#object[HTMLInputElement [object HTMLInputElement]]
+```
+
+CLJS offers a syntax sugar, which is the preffered form, for the
+previous interop scenario: `(.function Object *args)`:
 
 
-```clojure
+```clj
+cljs.user> (.getElementById js/document "loginForm")
+#object[HTMLFormElement [object HTMLFormElement]]
+cljs.user> (.getElementById js/document "email")
+#object[HTMLInputElement [object HTMLInputElement]]
+cljs.user> (.getElementById js/document "password")
+#object[HTMLInputElement [object HTMLInputElement]]
+cljs.user> (.getElementById js/document "submit")
+#object[HTMLInputElement [object HTMLInputElement]]
+```
+
+To access an object property you use the `(.-property object)`
+interoperable special form as follows:
+
+```clj
+cljs.user> (.-value (.getElementById js/document "email"))
+""
+cljs.user> (.-value (.getElementById js/document "password"))
+""
+```
+
+Now fill both the `email` and `password` field in the login form ad
+evaluate again the above expressions:
+
+```clj
+cljs.user> (.-value (.getElementById js/document "email"))
+"you@domain.com"
+cljs.user> (.-value (.getElementById js/document "password"))
+"bjSgwMd24J"
+```
+
+
+```clj
 (ns modern-cljs.login)
 
 ;; define the function to be attached to form submission event
