@@ -794,9 +794,13 @@ action attribute of the html form still references `login.php` as the
 server-side validation script. The server-side validation will be
 implemented in CLJ in a subsequent tutorial.
 
-That's it for this tutorial. If you created a new git branch, as
-suggested in the preamble of the tutorial, quit everything and commit
-the changes.
+Have you noted that we never had to stop/restart the IFDE during the
+porting of the login form validation from JS to CLJS?
+
+That's it for this tutorial and you can stop any `boot` related process.
+
+If you created a new git branch, as suggested in the preamble of the
+tutorial, quit everything and commit the changes.
 
 ```bash
 git commit -am "resembling javascript in clojurescript"
