@@ -154,7 +154,7 @@ follows:
 
 Note the use of the `comp` function in the body of the newly created
 `dev` via the `deftask` macro. The `comp` function composes the same
-tasks with the same order we saw in the `boot` command. The only
+tasks in the same order we saw in the `boot` command. The only
 difference is the way the `"target"` value is passed to `serve`
 subtask as a `:dir` keyword argument instead of as an argument at the
 command-line.
@@ -349,7 +349,7 @@ Now launch the `nrepl` client in a new terminal:
 
 ```clj
 boot repl -c
-REPL-y 0.3.7, nREPL 0.2.11
+REPL-y 0.3.7, nREPL 0.2.12
 Clojure 1.7.0
 Java HotSpot(TM) 64-Bit Server VM 1.8.0_66-b17
         Exit: Control+D or (exit) or (quit)
