@@ -32,7 +32,7 @@ lein cljsbuild auto # from the project home directory in a new terminal
 lein trampoline cljsbuild repl-listen # from the project home directory in a new terminal
 ```
 
-We than visited the [shopping][2] page in the browser and discovered
+We then visited the [shopping][2] page in the browser and discovered
 that the `init` function we set for the `onload` property of the JS
 `window` object was not the one we defined in `shopping.cljs`, but the
 one we defined in `login.cljs`.

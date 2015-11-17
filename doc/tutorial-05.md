@@ -29,8 +29,8 @@ it's time to try something better.
 > provide a basic functional interface to DOM manipulation that feels
 > natural in ClojureScript.
 
-When I first met [clojurescriptone][3] in searching for a CLJS guide,
-and read about [Design and templating][4], I found myself very much in
+When I first met `clojurescriptone`in searching for a CLJS guide,
+and read about `Design and templating`, I found myself very much in
 agreement with the following reasoning:
 
 > Many Clojure web applications use [Hiccup][5] for HTML templating. If
@@ -40,6 +40,10 @@ agreement with the following reasoning:
 > One proposes one approach to templating which allows designers to work
 > with HTML, CSS and images without having to set an eye on Hiccup data
 > structures or those pesky parentheses.
+
+> NOTE 1: both `clojurescriptone` repo and the corresponding `Design
+> and templating` documentation have been removed and are no more
+> available.
 
 Our old `login.html` friend is going to be our pure HTML/CSS template
 and domina is going to be our CLJS library to interface the DOM of the
@@ -101,7 +105,7 @@ you need to add it to the dependencies section of `project.clj`.
 
 > ATTENTION NOTE: `domina` was one of the first DOM library written in
 > CLJS and it has not been updated to follow the evolution of CLJS
-> compiler. You'll get few warnings during the its compilation. Those
+> compiler. You'll get few warnings during its compilation. Those
 > warnings do not affect the behaviour of the lib in the contest of
 > this tutorial. That said, even if you're not going to use `domina`
 > in your project, this tutorial could be still useful to undertstand
@@ -218,7 +222,7 @@ cljs.user=>
 ## Shopping calculator sample
 
 Now let's try to port to CLJS a second example from Larry Ullman
-[Modern JavaScript][6] book: a kind of an e-commerce tool that will
+[Modern JavaScript][6] book: a kind of e-commerce tool that will
 calculate the total of an order, including tax, minus any discount.
 
 ### Pure HTML/CSS page
