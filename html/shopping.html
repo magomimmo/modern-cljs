@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Shopping Calculator</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- shopping.html -->
+  <form action="" method="post" id="shoppingForm" novalidate>
+    <legend> Shopping Calculator</legend>
+    <fieldset>
+      <div>
+        <label for="quantity">Quantity</label>
+        <input type="number"
+               name="quantity"
+               id="quantity"
+               value="1"
+               min="1" required>
+      </div>
+      <div>
+        <label for="price">Price Per Unit</label>
+        <input type="text"
+               name="price"
+               id="price"
+               value="1.00"
+               required>
+      </div>
+      <div>
+        <label for="tax">Tax Rate (%)</label>
+        <input type="text"
+               name="tax"
+               id="tax"
+               value="0.0"
+               required>
+      </div>
+      <div>
+        <label for="discount">Discount</label>
+        <input type="text"
+               name="discount"
+               id="discount"
+               value="0.00" required>
+      </div>
+      <div>
+        <label for="total">Total</label>
+        <input type="text"
+               name="total"
+               id="total"
+               value="0.00">
+      </div>
+      <div>
+        <input type="submit"
+               value="Calculate"
+               id="submit">
+      </div>
+    </fieldset>
+  </form>
+  <script src="js/main.js"></script>
+</body>
+</html>
