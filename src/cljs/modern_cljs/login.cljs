@@ -8,7 +8,7 @@
     (do (js/alert "Please, complete the form!")
         false)))
 
-(defn init []
+(defn ^:export init []
   ;; verify that js/document exists and that it has a getElementById
   ;; property
   (if (and js/document
@@ -17,6 +17,3 @@
     ;; our validate-form function
     (let [login-form (.getElementById js/document "loginForm")]
       (set! (.-onsubmit login-form) validate-form))))
-
-;; initialize the HTML page in unobtrusive way
-(set! (.-onload js/window) init)
