@@ -12,7 +12,7 @@ assuming you've [git][13] installed, do as follows.
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
-git checkout tutorial-04
+git checkout se-tutorial-04
 git checkout -b tutorial-05-step-1
 ```
 
@@ -45,11 +45,84 @@ agreement with the following reasoning:
 > and templating` documentation have been removed and are no more
 > available.
 
-Our old `login.html` friend is going to be our pure HTML/CSS template
+Our old `index.html` friend is going to be our pure HTML/CSS template
 and domina is going to be our CLJS library to interface the DOM of the
-page in more idiomatic CLJ/CLJS.
+page in more idiomatic CLJS.
 
-Here is the content of `login.html` we already used in [tutorial 4][2].
+Nowdays, the diffusion of the so called Single Page Application (SPA)
+is progressively changing the web development landascape and it's not
+unusual to see a single HTML page composed by one `div` tag only
+delegating all the DOM manipulation to JS.
+
+That said, there is still a very large number of organizations keeping
+the HTML designers separated from the developers and we should be
+ready to give life to a bunch of pure static HTML/CSS pages.
+
+## Domina lib
+
+[Domina][] was one of the first DOM library written in CLJS and it has
+not been updated to follow the evolution of CLJS compiler. During the
+compilation you'll get a warning about the fact that it uses a single
+segment namesace. Those warnings do not affect the behaviour of the
+lib in the contest of this tutorial. That said, even if I would never
+suggest to use `domina` in a new project, this tutorial could be still
+useful to undertstand the way CLJS works.
+
+As usual to use a new library, you need to add it to the dependencies'
+section of the `build.boot` file living in the home directory of the
+project.
+
+```clj
+(set-env!
+ ...
+ :dependencies '[
+                 ...
+                 [domina "1.0.3"]                      ;; add domina
+                 ])
+```
+
+## Launch the Immediate Feedback Development Environment (IFDE)
+
+As we learnt in the [previous tutorial][], the use of the IFDE allows
+us to familiarize with the CLJS language by evaluating expressions in
+the bREPL before extending an application by directly coding in the
+source files.
+
+So, let's start the IFDE as usual:
+
+```clj
+boot dev
+Retrieving domina-1.0.3.jar from https://clojars.org/repo/
+...
+Compiling ClojureScript...
+• js/main.js
+WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/24z/r3n3mb/js/main.out/domina.cljs
+Elapsed time: 22.633 sec
+```
+
+As anticipated, the CLJS compilation is warning you about `domina` lib
+using a single segment namespace. Even if I really hate compilation
+warnings, we can live with this one for the duration of few tutorials.
+
+## Launch the bREPL
+
+As usual, after the `boot dev` command finishes with the CLJ
+compuilation, visit the `http://localhost:3000` URL and then launch the
+bREPL:
+
+```clj
+boot repl -c
+...
+boot.user=> (start-repl)
+...
+cljs.user=>
+```
+
+## Review the Login form
+
+Before to start bREPLING, let's review the content of the
+`html/index.html` file conmtaining the login form we used in
+[tutorial 4][2].
 
 ```html
 <!doctype html>
@@ -90,27 +163,6 @@ Here is the content of `login.html` we already used in [tutorial 4][2].
 </html>
 ```
 
-## Add domina to project dependencies
-
-As usual when using leiningen, to add a library to a CLJ/CLJS project,
-you need to add it to the dependencies section of `project.clj`.
-
-```clojure
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  :dependencies [...
-                 [domina "1.0.3"]]
-  ...)
-```
-
-> ATTENTION NOTE: `domina` was one of the first DOM library written in
-> CLJS and it has not been updated to follow the evolution of CLJS
-> compiler. You'll get few warnings during its compilation. Those
-> warnings do not affect the behaviour of the lib in the contest of
-> this tutorial. That said, even if you're not going to use `domina`
-> in your project, this tutorial could be still useful to undertstand
-> the way CLJS works.
-
 ## Domina selectors
 
 [Domina][1] offers several selector functions: `xpath`, in the `domina.xpath`
@@ -126,98 +178,140 @@ other useful functions we're going to use: `(value el)`, which returns
 the value of the passed element, and `(set-value! el value)` which
 sets its value.
 
-> NOTE 2: When a function modifies an argument passed to it, by Clojure
-> naming convention a bang "!" is added at the end of the function
-> name.
+> NOTE 2: as we already saw, when a function modifies an argument
+> passed to it, by Clojure naming convention a bang "!" is added at
+> the end of the function name.
 
-> NOTE 3: To `:use` a namespace in CLJS, you must specify vars
-> using the `(:use ... :only [...])` form. For further
-> differences see [the ClojureScript Wiki][8]
+## bREPLing with the login form
 
-## Modify validate-form
-
-In this step we're going to modify the namespace declaration and
-`validate-form` function definition, substituting `.getElementById` and
-`.-value` JS interop with the corresponding domina `by-id` and `value`
+Let's now familiarize ourselves in the bREPL with the above `domina`
 functions.
 
-Open `login.cljs` file from `src/cljs/modern_cljs` directory of the
-project and modify both its `namespace` declaration and `validate-form`
-function definition as follows:
+First we need to require the `domina` core namespace.
 
-```clojure
+```clj
+cljs.user=> (require '[domina :refer [by-id value set-value!]] :reload)
+WARNING: domina is a single segment namespace at line 1 file:/Users/mimmo/.m2/repository/domina/domina/1.0.3/domina-1.0.3.jar!/domina.cljs
+WARNING: domina is a single segment namespace at line 1 out/domina.cljs
+nil
+```
+
+As you see, instead of aliasing the required namespace as we did in
+the [previous tutorial][[], we're now directly internalizing `by'id`,
+`value` and `set-value!` symbols into the `cljs.user` namespace loaded
+by default by bREPL in such a way thta we can use them from the bREPL
+without specifying any namespace's alias.
+
+Let's see how they work:
+
+```clj
+cljs.user=> (doc by-id)
+-------------------------
+cljs.user/by-id
+([id])
+  Returns content containing a single node by looking up the given ID
+nil
+cljs.user=> (by-id "email")
+#object[HTMLInputElement [object HTMLInputElement]]
+```
+
+Pretty easy. Let's familiarize with `set-value!` and `value` symbols
+as well.
+
+```clj
+cljs.user=> (doc set-value!)
+-------------------------
+cljs.user/set-value!
+([content value])
+  Sets the value of all the nodes (presumably form fields) in the given content.
+nil
+cljs.user=> (set-value! (by-id "email") "you@yourdomain.com")
+#object[HTMLInputElement [object HTMLInputElement]]
+cljs.user=> (set-value! (by-id "password") "weakpassword")
+#object[HTMLInputElement [object HTMLInputElement]]
+cljs.user=> (doc value)
+-------------------------
+cljs.user/value
+([content])
+  Returns the value of a node (presumably a form field). Assumes content is a single node.
+nil
+cljs.user=> (value (by-id "email"))
+"you@yourdomain.com"
+cljs.user=> (value (by-id "password"))
+"weakpassword"
+cljs.user=> (set-value! (by-id "password") "")
+#object[HTMLInputElement [object HTMLInputElement]]
+cljs.user=> (set-value! (by-id "email") "")
+#object[HTMLInputElement [object HTMLInputElement]]
+```
+
+Have you noted that as soon as the `set-value!` forms are evaluated
+the corresponding fields in the login form have been updated?
+
+## Update `login.cljs`
+
+Now that we better understood few `domina` functions, we are going to
+consequentely update the `validate-form` function. Open the
+`login.cljs` file un update the namespace declaration and the
+`validate-form` function definition as follows:
+
+```clj
 (ns modern-cljs.login
-  (:use [domina :only [by-id value]]))
+  (:require [domina :refer [by-id value]]))
 
 (defn validate-form []
-  ;; get email and password element using (by-id id)
-  (let [email (by-id "email")
-        password (by-id "password")]
-    ;; get email and password value using (value el)
-    (if (and (> (count (value email)) 0)
-             (> (count (value password)) 0))
-      true
-      (do (js/alert "Please, complete the form!")
-          false))))
+  (if (and (> (count (value (by-id "email"))) 0)
+           (> (count (value (by-id "password"))) 0))
+    true
+    (do (js/alert "Please, complete the form!")
+        false)))
 ```
 
-As you can see, using `domina` the code is now more fluid than before.
-Leave the rest of the file as is. To check that everything still works
-do the following:
+As you can see, using `domina` the code is now more fluid and
+idiomatic than before.  Leave the rest of the file as is.
 
-```bash
-cd /path/to/modern-cljs
-lein ring server-headless
-lein cljsbuild once # in a new terminal and after having cd in modern-cljs
-lein trampoline cljsbuild repl-listen
-```
+As soon as you save the changes, the IFDE trigger the CLJS compiler
+and reload the `index.html` linking the generated `js/main.js` JS file
+as well.
 
-> NOTE 4: Be sure to `cd` to the home directory of the project in each
-> terminal you open.
+You can now safely interact we the login form which is now managed via
+the `domina` lib.
 
-Open <http://localhost:3000/login.html>, and when the CLJS repl
-becomes responsive, having established a connection with the browser,
-try the following at the REPL prompt:
+Start requiring now the `modern-cljs.login` namespace and then repeat
+the kind of experimtnes we did in [the previous tutorial][].
 
-```bash
-cljs.user=> (require '[modern-cljs.login :as l])
+```clj
 cljs.user=> l/validate-form
-#object[modern_cljs$login$validate_form "function modern_cljs$login$validate_form() {
-  var email = domina.by_id.call(null, "email");
-  var password = domina.by_id.call(null, "password");
-  if (cljs.core.count.call(null, domina.value.call(null, email)) > 0 && cljs.core.count.call(null, domina.value.call(null, password)) > 0) {
-    return true;
-  } else {
-    alert("Please, complete the form!");
-    return false;
-  }
+#object[modern_cljs$login$validate_form "function modern_cljs$login$validate_form(){
+if(((cljs.core.count.call(null,domina.value.call(null,domina.by_id.call(null,"email"))) > (0))) && ((cljs.core.count.call(null,domina.value.call(null,domina.by_id.call(null,"password"))) > (0)))){
+return true;
+} else {
+alert("Please, complete the form!");
+
+return false;
+}
 }"]
-cljs.user=>
-```
-
-The evaluation of the `l/validate-form` symbol returns the JS function
-definition attached by the CLJS compiler to the symbol itself. If you
-now try to call the function `(l/validate-form)`, you should see the
-browser alert window asking you to complete the form; click the `ok`
-button and you'll see that `(l/validate-form)` returns `false`.
-
-```bash
 cljs.user=> (l/validate-form)
 false
-cljs.user=>
-```
-
-Fill both the `Email Address` and `Password` fields of the login
-form. At the CLJS repl prompt, call `(l/validate-form)` again. You
-should now see that `(l/validate-form)` returns `true`, passing
-control to the [original][6] server-side script which we're going to
-implement in CLJ in a subsequent tutorial.
-
-```bash
+cljs.user=> (set-value! (by-id "email") "you@yourdomain.com")
+#object[HTMLInputElement [object HTMLInputElement]]
+cljs.user=> (set-value! (by-id "password") "weakpassword")
+#object[HTMLInputElement [object HTMLInputElement]]
 cljs.user=> (l/validate-form)
 true
-cljs.user=>
 ```
+
+As shown in the previous tutorial, the evaluation of the
+`l/validate-form` symbol returns the JS translation generated by the
+CLJS compiler of the corresponding `validate-form` CLJS function
+definition.
+
+Then, when we called the `validate-form` while the `email` and
+`password` field are empty, it returns the `false` boolean value.
+
+Finally, after having set a not void string for both the fields, the
+`validate-form` evaluation returns, as expected, the `true` boolean
+value.
 
 ## Shopping calculator sample
 
