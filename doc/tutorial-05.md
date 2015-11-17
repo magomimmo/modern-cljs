@@ -18,9 +18,9 @@ git checkout -b tutorial-05-step-1
 
 ## Introduction
 
-In the [previous tutorial][2] we started coding in CLJS, directly
-translating from JS to CLJS by using the [JS interop][7] features of CLJS. Now
-it's time to try something better.
+In the [previous tutorial][2] we started coding in CLJS by directly
+translating from JS to CLJS by using the [JS interop][7] features of
+CLJS. Now it's time to try something better.
 
 > [Domina][1] is a jQuery inspired DOM manipulation library for
 > ClojureScript. It provides a functional, idiomatic Clojure interface
@@ -84,9 +84,9 @@ project.
 ## Launch the Immediate Feedback Development Environment (IFDE)
 
 As we learnt in the [previous tutorial][2], the use of the IFDE allows
-us to familiarize with the CLJS language by evaluating expressions in
-the bREPL before extending an application by directly coding in the
-source files.
+to familiarize ourselves with the CLJS language by evaluating
+expressions in the bREPL before extending an application by directly
+coding into the source files.
 
 So, let's start the IFDE as usual:
 
@@ -102,15 +102,18 @@ Elapsed time: 22.633 sec
 
 As anticipated, the CLJS compilation is warning you about `domina` lib
 using a single segment namespace. Even if I really hate compilation
-warnings, we can live with this one for the duration of few tutorials.
+warnings, and you should too, we can live with this one for the
+duration of few tutorials.
 
 ## Launch the bREPL
 
 As usual, after the `boot dev` command finishes with the CLJ
 compilation, visit the `http://localhost:3000` URL and then launch the
-bREPL:
+bREPL in a new terminal from the project home directory:
 
 ```clj
+# from a new terminal
+cd /path/to/modern-cljs
 boot repl -c
 ...
 boot.user=> (start-repl)
@@ -121,7 +124,7 @@ cljs.user=>
 ## Review the Login form
 
 Before to start bREPLing, let's review the content of the
-`html/index.html` file conmtaining the login form we used in
+`html/index.html` file containing the login form we used in
 [Tutorial 4][2].
 
 ```html
@@ -202,7 +205,8 @@ the [previous tutorial][2], we're now directly interning `by-id`,
 by default by the bREPL in such a way that we can use them from the
 bREPL without specifying any namespace's alias.
 
-Let's see how they work:
+The WARNING notifications are still there as it's our dislike for
+them. Be forgiving and go on to see how those functions work.
 
 ```clj
 cljs.user=> (doc by-id)
@@ -270,9 +274,8 @@ consequentely update the `validate-form` function. Open the
 As you can see, by using `domina` the code is now more fluid and
 idiomatic than before.  Leave the rest of the file as is.
 
-As soon as you save the changes, the IFDE trigger the CLJS compiler
-and reload the `index.html` linking the generated `js/main.js` file as
-well.
+As soon as you save the changes, the IFDE triggers the CLJS compiler
+and reload the `index.html` file as well.
 
 You can safely interact with the login form which is now managed via the
 `domina` lib.
@@ -518,8 +521,8 @@ Open the `html/js/main.cljs.edn` file and do the above addition.
 > little bit out of its defaults? This is one them. Here you have to
 > choose between two alternatives: or you adhere to the very diffused
 > convention of keeping the `js` resources confined in a `js`
-> subdirectory of the directory where your html pages live, either to
-> not incur into the above incidental complexity you stay with the
+> subdirectory of the directory where your html pages live, either, to
+> not incur into the above incidental complexity, you stay with the
 > defaults of `boot-cljs` task and completely give up with an almost
 > universal convention of the web.
 
@@ -548,7 +551,8 @@ false
 As you see, the `calculate` function display the correct value in the
 shopping form and return `false` as expected.
 
-But now there is a bad surprise waiting for you at the corner.
+But now there is a bad surprise waiting for you at the corner that has
+to do with the `onsubmit` error we received before.
 
 ### A short troubleshooting session
 
@@ -574,8 +578,8 @@ error is not very informative. We have not yet introduced any
 debugging tools to be used in such a case, so we try troubleshooting
 with what we have in our hands.
 
-This means that the `validate-form` function is correctly called in
-the bREPL, but not by the `Login` button of the form. Let's see if the
+As we saw the `validate-form` function is correctly called in the
+bREPL, but not by the `Login` button of the form. Let's see if the
 bREPL may help us in investigating the problem we have.
 
 ```clj
@@ -607,13 +611,13 @@ return null;
 }"]
 ```
 
-Oops, the `init` function assigned as the value for the `window` `onload`
-property is not the one we just defined, but the `init` function we
-defined for `shoppingForm`.
+Oops, the `init` function assigned as the value for the `window`
+`onload` property is not the one we previously assigned to it,, but
+the `init` function we defined for `shoppingForm`.
 
 What just happened has to do with the CLJS/Google Closure Compiler
-pair. They gets every CLJS file from `:source-paths` we set in the
-very [first tutorial][10] and compiles all of them into the single
+pair. They get every CLJS file from the `:source-paths` we set in the
+very [first tutorial][10] and compile all of them into the single
 `js/main.js` file we set in the same tutorial.
 
 To temporarily solve this problem, evaluate the `init` function in
