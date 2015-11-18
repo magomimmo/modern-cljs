@@ -1,5 +1,6 @@
 (ns modern-cljs.shopping
-  (:use [domina :only [by-id value set-value!]]))
+  (:require [domina :refer [by-id value set-value!]]
+            [domina.events :refer [listen!]]))
 
 (defn calculate []
   (let [quantity (value (by-id "quantity"))
