@@ -611,8 +611,8 @@ return null;
 }"]
 ```
 
-Oops, the `init` function assigned as the value for the `window`
-`onload` property is not the one we previously assigned to it,, but
+Ops, the `init` function assigned as the value for the `window`
+`onload` property is not the one we previously assigned to it, but
 the `init` function we defined for `shoppingForm`.
 
 What just happened has to do with the CLJS/Google Closure Compiler
@@ -656,7 +656,7 @@ return false;
 You can now use the login form as usual by clicking its Login button.
 
 If you created a new git branch as suggested in the preamble of this
-tutorial, I suggest you to stop any `boot` related process and commit
+tutorial, you should now stop any `boot` related process and commit
 the changes as follows
 
 ```bash
