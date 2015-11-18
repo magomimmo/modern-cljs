@@ -35,160 +35,96 @@ First of all, by having been cloned from the orginal HTML code of
 `submit` type of button. At the moment, the shopping calculator data
 are not sent to a server-side script to be validated. Until we'll
 introduce a server-side script we are going to use a `button` type
-with the `calc` id. We also removed both the `action` and `method`
-attributes from the corresponding `form` tag.
+with the `calc` id. For the same reason we are also removing both the
+`action` and `method` attributes from the corresponding `form` tag.
 
-> NOTE 1: We know that, by substituting `submit` with `button` type,
-> we're breaking the progressive enhancement strategy, but for now
-> we're focusing on the [domina events][2] machinery. Will fix this in
-> a subsequente tutorial.
+> NOTE 1: By substituting `submit` with `button` type, we're breaking
+> the progressive enhancement strategy. Here we're focusing on the
+> [domina events][2] machinery. Will fix this issue in a subsequente
+> tutorial.
 
-Here is the updated html code.
+## Launch the IFDE
 
-```html
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Shopping Calculator</title>
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-  <!-- shopping.html -->
-  <form id="shoppingForm" novalidate>
-    <legend> Shopping Calculator</legend>
-    <fieldset>
-
-      <div>
-        <label for="quantity">Quantity</label>
-        <input type="number"
-               name="quantity"
-               id="quantity"
-               value="1"
-               min="1" required>
-      </div>
-
-      <div>
-        <label for="price">Price Per Unit</label>
-        <input type="text"
-               name="price"
-               id="price"
-               value="1.00"
-               required>
-      </div>
-
-      <div>
-        <label for="tax">Tax Rate (%)</label>
-        <input type="text"
-               name="tax"
-               id="tax"
-               value="0.0"
-               required>
-      </div>
-
-      <div>
-        <label for="discount">Discount</label>
-        <input type="text"
-               name="discount"
-               id="discount"
-               value="0.00" required>
-      </div>
-
-      <div>
-        <label for="total">Total</label>
-        <input type="text"
-               name="total"
-               id="total"
-               value="0.00">
-      </div>
-      <br><br>
-      <div>
-        <input type="button"
-               value="Calculate"
-               id="calc">
-      </div>
-
-    </fieldset>
-  </form>
-  <script src="js/modern_dbg.js"></script>
-  <script>
-    modern_cljs.shopping.init();
-  </script>
-</body>
-</html>
-```
-
-Here is the updated shopping calculator form as rendered by the browser.
-
-![Shopping calculator][6]
-
-### Domina events
-
-As you perhaps remember, to manage the shopping calculator we defined
-the `calculate` function and the `init` function to attach the former
-to the `submit` button of the `shoppingForm`.
-
-The `domina.events` namespace offers a bunch of functions to manage
-DOM events. One of them is the `listen!`, which allows us to attach a
-handling function (e.g. `calculate`) to a DOM event type (e.g.
-`click`, `mouseover`, `mouseout`, etc).
-
-### Launch IFDE
-
-As usual we like to do our work in a live enviroment. So, launch the
-IFDE as usual:
+As in previous tutorials, we like to progress step by step by using a
+live development environment. So, let's start by launching the IFDE.
 
 ```bash
 boot dev
 ...
 Compiling ClojureScript...
 • main.js
-WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/2sf/r3n3mb/main.out/domina.cljs
-Elapsed time: 22.270 sec
+WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/2bp/r3n3mb/main.out/domina.cljs
+Elapsed time: 19.122 sec
 ```
 
-Then, from a new terminal launch the bREPL from the project home page:
+## Launch the bREPL
+
+Then launch the bREPL from a new terminal
 
 ```clj
+cd /path/to/modern-cljs
 boot repl -c
 ...
 boot.user=> (start-repl)
-<< started Weasel server on ws://127.0.0.1:49835 >>
-<< waiting for client to connect ... Connection is ws://localhost:49835
-Writing boot_cljs_repl.cljs...
 ```
 
-and finally visit the `http://localhost:3000/shopping.html` URL. As
-usual you'll receive the connected notification at the bREPL terminal.
+Then visit the [shopping](http://localhost:3000/shopping.html) URL to
+activate the bREPL.
 
-```clj
- connected! >>
-To quit, type: :cljs/quit
-nil
-cljs.user=>
+Edit the `html/shopping.html` file for updating its content as for the
+above considerations.
+
+```html
+<!doctype html>
+...
+  <form id="shoppingForm" novalidate>
+    ...
+      <br><br>
+      <div>
+        <input type="button"
+               value="Calculate"
+               id="calc">
+      </div>
+...
 ```
 
-Now, before starting bREPLing with our ridicolous webapp, let's add
-the `domina.events` namespace to the requirement section of the
-`modern-cljs.shopping` namespace declaration in the
-`src/cljs/modern-cljs` directory.
+Here is the updated shopping calculator form as rendered by the
+browser.
 
-```clj
+![Shopping calculator][6]
+
+Note that if you now click the `Calculate` button nothing happens,
+because the is no more an action to be triggered.
+
+### bREPLing with domina
+
+We now need to trigger the `calculate` function whenever the `click`
+event is generated by the `calc` button.
+
+The `domina.events` namespace offers a bunch of functions to manage
+DOM events. One of them is the `listen!`, which allows us to attach an
+handling function (e.g. `calculate`) to a DOM event type (e.g.
+`click`, `mouseover`, `mouseout`, etc).
+
+Let's start playing with `domina` events by first requiring the new
+domina namespace we're interested in the `modern-cljs.shopping`
+namespace declaration.
+
+Open the `src/cljs/modern_cljs/shopping.cljs` file to update its reuirements.
+
+```cljs
 (ns modern-cljs.shopping
   (:require [domina :refer [by-id value set-value!]]
             [domina.events :refer [listen!]]))
 ```
 
-As soon as you save the file it gets reloaded by the IFDE.
+> NOTE 2: Due to a bug of the `boot-cljs-repl` task, we need to first
+> require a namespace from a namespace declaration to be able to
+> require it in the `bREPL as well.
 
-## bREPLing 
-
-As you remember to shorten the typing at the bREPL for familiarizing
-ourselves with the functionalities of a new lib, you first have to
-require the namespaces you're interested in.
+Now repeat the above requirements in the bREPL. Remember that at the
+bREPL prompt you need to quote (i.e. `'`) the namespace symbols in the
+requirment form.
 
 ```clj
 cljs.user> (require '[modern-cljs.shopping :as shop] :reload
@@ -197,14 +133,9 @@ cljs.user> (require '[modern-cljs.shopping :as shop] :reload
 nil
 ```
 
-Note that this time we required the two `domina` namespace we're
-interested in by aliasing their symbols (i.e. `shop`, `dom` and
-`evt`).
-
-Even if by aliasing a namespace you are forced to prefix any referece
-to its public symbols with the choosen alias, it makes it very clear
-from which namespace the used symbols come from. Obviously it protect
-yourself from name clashes as well in the hosting namespace.
+This time we required the namespaces we're interested in by aliasing
+their symbols (i.e. `shop`, `dom` and `evt`), just to make clear from
+what namespace the symbols come from.
 
 Let's now see the `evt/listen!` function at work.
 
@@ -217,13 +148,9 @@ domina.events/listen!
 nil
 ```
 
-`listen!` listens for event during the bubble phase of events. Let's
-see if `domina` offers a corresponding function listening for events during
-the capturing phase as well.
-
-> NOTE 2: if you're interested in the differences between the bubbling
-> and the captugin phase od DOM events, look at
-> [this document by W3C](http://www.w3.org/TR/DOM-Level-3-Events/#event-flow).
+`listen!` listens for event during the bubble phase of events. Just
+for curiosity, let's see if `domina` offers a corresponding function
+got listening events during the capturing phase as well.
 
 ```clj
 cljs.user> (apropos "capture")
@@ -236,10 +163,13 @@ domina.events/capture!
 nil
 ```
 
-Here we first used the `apropos` macro by passing to it a string (it
-could have been a regular-expression) to search for all the public
-definitions in all currently-loaded namespaces matching the passed
-string or a regular-expression pattern.
+> NOTE 3: if you're interested in the differences between the bubbling
+> and the captugin phase od DOM events, look at
+> [this document by W3C](http://www.w3.org/TR/DOM-Level-3-Events/#event-flow).
+
+Here we first used the `apropos` macro to search for all the public
+definitions in all currently-loaded namespaces matching the
+`"capture"` string.
 
 `apropos` returned a sequence of two symbols from the `domina.events`
 namespace: `capture!` and `capture-once!`. We then asked for the
@@ -247,30 +177,26 @@ namespace: `capture!` and `capture-once!`. We then asked for the
 
 Both `listen!` and `capture!` are multi-arity functions. You can call
 them with 2 or with 3 arguments. We're interested in the 3-arity
-versions. Note the bang `!` char at the end. It informs you that those
-functions mutate the element you're passing to.
-
-Remember that we now want to attach the `init` function from the
-`shopping.cljs` namespace to the `click` event generated by the user
-when she clicks the `calc` button of the `shoppingForm`.
+versions becasue we want to add a listener (i.e. `calculate`) to the
+`click` event of the `calc` button. Note the bang `!` char at the
+end. It informs you that those functions mutate the element you're
+passing to.
 
 ```clj
 cljs.user> (evt/listen! (dom/by-id "calc") :click shop/calculate)
 (#object[Object [object Object]])
 ```
 
-> NOTE 3: `domina` keywordize any event name. This is the reason why we
+> NOTE 4: `domina` keywordize any event name. This is the reason why we
 > can use the `:click` keyword to identify the `click` event.
 
-Go to the browser and test the shopping form to verify that it still
-working.
-
-Verify again that the shopping form is still working.
+Go to the browser and test the shopping form to verify that it
+restarts to work as expected.
 
 ### Edit shopping.cljs 
 
-Let's update the `init` definition in the `shopping.cljs` file
-according to the above bREPL experiment. 
+We're naw ready to update the `shopping.cljs` source code according to
+the above bREPL experiment.
 
 ```clj
 (ns modern-cljs.shopping
@@ -300,52 +226,54 @@ according to the above bREPL experiment.
 
 > NOTE 5: the `init` function has been exported to protect its name
 > from being changed by Google Closure Compiler aggressive compilation
-> eventually used by the `advanced` optimization.
+> by the `advanced` optimization and then used from JS as we did in
+> the previous tutorial.
 
-You can now compile and run the project as usual:
+As usual, as soon as you save the file, the IFDE takes care of its
+recompilation and reloading.
 
-```bash
-lein ring server # from modern-cljs home
-lein cljsbuild auto dev # from modern-cljs home in a new terminal
-```
-
-If you want to interact with the bREPL, just execute the usual command to
-run the bREPL.
-
-```bash
-lein trampoline cljsbuild repl-listen # from modern-cljs home in a new terminal
-```
-
-Verify that everything is still working as expected by visiting the
-[shopping.html](http://localhost:3000/shopping.htm) page.
+Play with the Shopping Form to verify its job. 
 
 ### Bubbling and capture models
 
-The Domina library supports both *bubbling* and *capture* event models. In
-the above shopping calculator example we used the domina `listen!`
-function for handling the mouse `click` event on the *Calculate*
-button. `listen!` is a member of a group of functions defined by domina
-to use the *bubbling* method of handling DOM events. If you want to
-experience the *capture* method you have to simply substitute the `listen!`
-call with the corresponding `capture!` call and you're done.
+As we saw, `domina` supports both *bubbling* and *capture* event
+models. In the above shopping calculator example we used the domina
+`listen!` function for handling the mouse `click` event on the
+*Calculate* button. `listen!` is a member of a group of functions
+defined by `domina` to use the *bubbling* method of handling DOM
+events. If you want to experience the *capture* method you have to
+simply substitute the `listen!` call with the corresponding `capture!`
+call and you're done.
 
-```clojure
-;;; the rest as before
+```clj
+cljs.user> (evt/unlisten! (dom/by-id "calc") :click)
+nil
+cljs.user> (evt/get-listeners (dom/by-id "calc") :click)
+()
+```
 
-(defn ^:export init []
-  (if (and js/document
-           (.-getElementById js/document))
-    (ev/capture! (dom/by-id "calc") :click calculate)))
+Here we detached the `calculate` listener of the `click` event of the
+`calc` button and verified via the `get-listeners` function that there
+are no more listeners attached to it.
+
+If you now click the `Calculate` button nothing happens.
+
+If you now call the `capture!` funtion to trigger the `calculate`
+function during the *capture* phase of the click event, the
+`Calculate` button starts working again.
+
+```clj
+cljs.user> (evt/get-listeners (dom/by-id "calc") :click)
 ```
 
 If you created a new git branch as suggested in the preamble of this
-tutorial, I suggest you to commit the changes as follows
+tutorial, stop any `boot` related process and commit the changes.
 
 ```bash
 git commit -am "introducing domina events"
 ```
 
-# Next Step - [Tutorial 9: DOM manipulation][9]
+# Next Step - [Tutorial 8: DOM manipulation][9]
 
 In the next tutorial we're going to face the need to programmatically
 manipulate DOM elements as a result of the occurrance of some DOM
@@ -353,17 +281,17 @@ events (e.g., `mouseover`, `mouseout`, etc.)
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
 [2]: https://github.com/levand/domina
 [3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md#shopping-calculator-sample
 [4]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
-[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
+[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
 [6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-reviewed.png
 [7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md#modify-validate-form
 [8]: http://localhost:3000/shopping-dbg.html
-[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
 [10]: https://help.github.com/articles/set-up-git
 [11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-17.md
