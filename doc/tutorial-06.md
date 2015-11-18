@@ -11,7 +11,7 @@ assuming you've [git][9] installed, do as follows.
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
-git checkout tutorial-05
+git checkout se-tutorial-05
 git checkout -b tutorial-06-step-1
 ```
 
