@@ -17,129 +17,57 @@ git checkout -b tutorial-06-step-1
 
 ## Introduction
 
-Our latest tutorial ended with a not so nice issue. Just to recap we did as
-follows:
-
-* created the `login.html` page and the corresponding `login.cljs`
-  source file;
-* created the `shopping.html` page and the corresponding
-  `shopping.cljs` source file;
-* launched the app in the usual way
-
-```bash
-lein ring server # from the project home directory
-lein cljsbuild auto # from the project home directory in a new terminal
-lein trampoline cljsbuild repl-listen # from the project home directory in a new terminal
-```
-
-We then visited the [shopping][2] page in the browser and discovered
-that the `init` function we set for the `onload` property of the JS
-`window` object was not the one we defined in `shopping.cljs`, but the
-one we defined in `login.cljs`.
+Our latest tutorial ended with a not so nice error.  We discovered
+that as soon as we have two HTML pages linking the same `js/main.js`
+generated JS file, the `init` function we set for the `onload`
+property of the JS `window` object for the `login.html` page was not
+the one we defined in `login.cljs`, but the one we defined in
+`shopping.cljs`.
 
 As we anticipated in the [previous tutorial][1], this behaviour
-depends on the Google Closure Compiler driven by the `lein-cljsbuild`
-plugin.
+depends on the Google Closure/CLJS pair of compilers driven by the
+`boot-cljs` task.
 
 ## Introducing Google Closure Compiler (GCSL)
 
-In the [first tutorial][3], we set `:cljsbuild` in
-`project.clj` to configure the Google Closure Compiler with the following
-options:
+In the [first tutorial][3], we set `:source-paths` in the `build.boot`
+file to the `#{src/cljs}` path.
 
-```clojure
-(defproject ....
-  ...
-  :cljsbuild {:builds
-              [{:source-paths ["src/cljs"]
-                :compiler {:output-to "resources/public/js/modern.js"
-                           :optimizations :whitespace
-                           :pretty-print true}}]})
-
-```
-
-The `:source-paths` option instructs GCSL to look for any CLJS source
-code in the `src/cljs` directory structure. The `:output-to` option of
-the `:compiler` keyword instructs GCSL to save the compilation result
-in `resources/public/js/modern.js`.
+The `:source-paths` directive instructs Google CLosure/CLJS pair of
+compilers to look for any CLJS source code in the `src/cljs` directory
+structure for doing its job.
 
 I'm not going to explain every single detail of the CLJS/GCSL pair of
 compilers. The only detail that is useful for investigating and
-eventually solving the above issue is that the pair of
-compilers generates a **single** JS file
-(i.e., `resources/public/js/modern.js`) from **all** of the CLJS files
-it finds in the `src/cljs` directory and subdirectories
-(i.e., `modern.cljs`, `connect.cljs`, `login.cljs`, and `shopping.cljs`).
+eventually solving the above issue is that the pair of compilers
+generates a **single** JS file (i.e., `js/main.js`) from **all** of
+the CLJS files it finds in the `src/cljs` directory and subdirectories
+(i.e., `core.cljs`, `login.cljs`, and `shopping.cljs`).
 
 ## Is mutability evil?
 
 Both `login.cljs` and `shopping.cljs` had a final call to `(set!
-(.-onload js/window) init)`, which is therefore called twice: once from
-`login.cljs` and once from `shopping.cljs`. The order of these calls
-is critical, because whichever comes first, the other is going to
-mutate its previous value: a clear case against JS mutable data
+(.-onload js/window) init)`, which is therefore called twice: once
+from `login.cljs` and once from `shopping.cljs`. The order of these
+calls is critical, because whichever comes first, the other is going
+to overwrite the previous value: a clear case against JS mutable data
 structures?
 
 ## Easy made complex
 
-From the above discussion the reader could infer that that CLJS is good only
-for a *single page browser application*. Indeed, there is a very modest solution
-to the above conflict between more calls setting the same `onload` property of
-the JS `window` object: code duplication!
+From the above discussion the reader could infer that that CLJS is
+good only for *Single Page Application* (SPA). Indeed, there is a very
+modest solution to the above conflict between more calls setting the
+same `onload` property of the JS `window` object: code duplication!
 
 You have to duplicate the directory structure and the corresponding
 build options for each html page that is going to include the single
 generated JS file.
 
-Here are the bash commands you should enter in the terminal.
-
-```bash
-mkdir -p src/cljs/{login/modern_cljs,shopping/modern_cljs}
-mv src/cljs/modern_cljs/login.cljs src/cljs/login/modern_cljs/
-mv src/cljs/modern_cljs/shopping.cljs src/cljs/shopping/modern_cljs/
-cp src/cljs/modern_cljs/connect.cljs src/cljs/login/modern_cljs/
-cp src/cljs/modern_cljs/connect.cljs src/cljs/shopping/modern_cljs/
-rm -rf src/cljs/modern_cljs
-```
-
-And here is the modified fragment of `project.clj`
-
-```clojure
-(defproject ...
-  ...
-
-  :cljsbuild
-  {:builds
-
-   ;; login.js build
-   {:login
-    {:source-paths ["src/cljs/login"]
-     :compiler
-     {:output-to "resources/public/js/login.js"
-      :optimizations :whitespace
-      :pretty-print true}}
-    ;; shopping.js build
-    :shopping
-    {:source-paths ["src/cljs/shopping"]
-     :compiler
-     {:output-to "resources/public/js/shopping.js"
-      :optimizations :whitespace
-      :pretty-print true}}}})
-```
-
-> NOTE 1: To understand the details of the `:cljsbuild` configurations,
-> I strongly recommend you read the [advanced project.clj example][4]
-> from the [lein-cljsbuild][5] plugin.
-
-Finally you have to include the right JS file (i.e., `js/login.js`
-and `js/shopping.js`) in the script tag of each html page
-(i.e., `login.html` and `shopping.html`).
-
-Most would call the above solution a kind of **incidental
-complexity**. What's worse is the fact that each emitted JS file, no
-matter how smart the GCSL compiler is in reducing the total size, is
-different from the others--there is no way for the browser to cache the first
-file downloaded and serve the others from cache.
+I don't know about you, but if there is a things that I hate more than
+a WARNING notification by a compiler is code duplication. So, I'm not
+even going to explain how to duplicate your code to modestly solve the
+above error.
 
 ## Simple made easy
 
@@ -147,25 +75,25 @@ Now the simple made easy way:
 
 * remove the call `(set! (.-onload js/window) init)` from both
   `login.cljs` and `shopping.cljs` files;
-* add the `:export` tag (metadata) to the `init` function in both `login.cljs` and
-  `shopping.cljs` files;
+* add the `:export` tag (metadata) to the `init` function in both
+  `login.cljs` and `shopping.cljs` files;
 * add a `script` tag calling the correponding `init` function in both
   `login.html` and `shopping.html` files;
 * you're done.
 
 > NOTE 2: If you do not `^:export` a CLJS function, it will be subject
-> to Google Closure Compiler `:optimizations` strategies. When set to
-> `:simple` optimizations, the GCSL compiler will minify the emitted
-> JS file and any local variable or function name will be shortened/obfuscated and
-> won't be available from external JS code. If a variable or function
-> name is annotated with `:export` metadata, its name will be
-> preserved and can be called by standard JS code. In our example the
-> two functions will be available as: `modern_cljs.login.init()` and
-> `modern_cljs.shopping.init()`.
+> to Google Closure Compiler `optimizations` strategies. When set to
+> `simple` or `advanced`, the GCSL compiler will minify the emitted JS
+> file and any local variable or function name will be
+> shortened/obfuscated and won't be available from external JS
+> code. If a variable or function name is annotated with `:export`
+> metadata, its name will be preserved and can be called by standard
+> JS code. In our example the two functions will be available as:
+> `modern_cljs.login.init()` and `modern_cljs.shopping.init()`.
 
 Here is the related fragment of `login.cljs`
 
-```clojure
+```clj
 ;; the rest as before
 (defn ^:export init []
   (if (and js/document
@@ -180,7 +108,7 @@ Here is the related fragment of `login.cljs`
 
 And here is the related fragment of `shopping.cljs`
 
-```clojure
+```clj
 ;; the rest as before
 (defn ^:export init []
   (if (and js/document
@@ -194,59 +122,144 @@ And here is the related fragment of `shopping.cljs`
 Here is the related fragment of `login.html`
 
 ```html
-    <script src="js/modern.js"></script>
+    <script src="js/main.js"></script>
     <script>modern_cljs.login.init();</script>
 ```
 
 And here is the related fragment of `shopping.html`
 
 ```html
-  <script src="js/modern.js"></script>
+  <script src="js/main.js"></script>
   <script>modern_cljs.shopping.init();</script>
 ```
 
-You can now run everything as usual:
+## Tradeoffs at work
+
+As you see, by inserting a script snippet in the HTML pages, we're
+violating the unobtrusive principle expressed by a lot of webapps
+designers. The life is full of compromises and this is one of those
+tradeoffs.
+
+All that changes could have been done while the IFDE is running. But
+there is one more thing we want to take care off and we can't do it
+while the IFDE is running.
+
+As you noted, to adhere to the convention of keeping any JS resourses
+confined in a `js` subdirectory of the directory serving HTML pages, in
+[Tutorial-03][4] we had to create the `html/js/main.cljs.edn`
+file.
+
+Moreover, anytime we create/delete a CLJS namespace, we have to
+maintain the `require` section of that file. This is a clear case of
+*incidental complexity* introduced by the `boot.cljs` task.
+
+Hopefully some day the `boot-cljs` maintainers will solve this issue
+in a less convoluted way. In the meantime, to bypass that incidental
+complexity, we are going to violate the above convention. A second
+tradeoff. Keep this two tradeoffs in your memory, because you got two
+debits that one day or the other you're going to pay for.
+
+Let's apply this second tradeoff.
+
+First, delete the `html/js/main.cljs.edn` file.
 
 ```bash
-lein ring server # from the project home directory
-lein cljsbuild auto # from the project home directory in a new terminal
-lein trampoline cljsbuild repl-listen # from the project home directory in a new terminal
+cd /path/to/modern-cljs
+rm -rf html/js
 ```
 
-and visit the http://localhost:3000/shopping.html to activate the
-brepl connection to verify that now you can serve more pages with the
-same `modern.js` generated JS file.
+Now edit both the `html/index.html` and the `html/shopping.html` files
+to reset the `src` attribute of their `<script>` tag from `js/main.js`
+to `main.js`.
 
-> ATTENTION NOTE: The brepl connection created via `lein trampoline
-> cljsbuild repl-lissen` is a little bit unstable. You could need to
-> reload more times the `login` or the `shopping` URL to
-> activate/reactivate the brepl connection.
+```html
+<!doctype html>
+<html lang="en">
+...
+<body>
+...
+    <script src="main.js"></script>
+    <script>modern_cljs.login.init();</script>
+</body>
+</html>
+```
+
+```html
+<!doctype html>
+<html lang="en">
+...
+<body>
+...
+    <script src="main.js"></script>
+    <script>modern_cljs.shopping.init();</script>
+</body>
+</html>
+```
+
+One last thing. In the [first tutorial][3] of this series we created
+the `core.cljs` source file in the `src/cljs/modern_cljs`
+directory. It only prints `Hello, world!` at the console of the
+browser and it was created just as a kind of a placeholder for making
+our IFDE working. We do not need it anymore and you can safely delete
+it.
+
+```bash
+rm src/cljs/modern_cljs/core.cljs
+```
+
+## Launch IFDE
+
+You can now start the IFDE as usual:
+
+```bash
+boot dev
+...
+Compiling ClojureScript...
+• main.js
+WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/47x/r3n3mb/main.out/domina.cljs
+Elapsed time: 35.941 sec
+```
+
+Then visit the http://localhost:3000 and the
+http://localhost:3000/shopping.html URLs verify the two forms are now
+working as expected.
+
+As usual, if you want to play with the bREPL, launch it as usual a
+reload on of the above URls.
+
+```bash
+# from a new terminal
+cd /path/to/modern-cljs
+boot repl -c
+...
+boot.user=> (start-repl)
+...
+cljs.user=>
+```
 
 If you created a new git branch as suggested in the preamble of this
-tutorial, I suggest you commit the changes as follows
+tutorial, you should now stop any `boot` related process and commit
+the changes.
 
 ```bash
 git commit -am "Simple made easy."
 ```
 
-In a subsequent tutorial we'll introduce [domina event][6] management
+# Next step - [Tutorial 7: Introducting Domina Events][8]
+
+In the [next tutorial][8] we'll introduce [domina event][6] management
 to further improve our functional style in porting
 [Modern JavaScript samples][7] to CLJS.
 
-# Next step - [Tutorial 7: Compilation Modes][8]
-
-In the [next tutorial][8] we're going to explore CLJS/GCSL compilation modes by
-using the usual `lein-cljsbuild` plugin of `leiningen`.
-
 # License
 
-Copyright © Mimmo Cosenza, 2012-2014. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-2015. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
 [2]: http://localhost:3000/shopping.html
 [3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
-[4]: https://github.com/emezeske/lein-cljsbuild/blob/master/example-projects/advanced/project.clj
+[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
 [5]: https://github.com/emezeske/lein-cljsbuild
 [6]: https://github.com/levand/domina#event-handling
 [7]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
