@@ -1,306 +1,118 @@
-# Tutorial 7 - Compilation Modes
+# Tutorial 7 - Introducing Domina Events
 
-In this tutorial we're going to explore Google Closure Compiler (GCLS)
-optimizations by using the usual `lein-cljsbuild` plugin of
-`leiningen`, and we'll discover an issue which we will solve by using
-the latest release of lein-cljsbuild (i.e. lein-cljsbuild 0.3.2).
+Starting from [Tutorial 5][1], we introduced the [domina library][2] to
+approach CLJS programming in a more Clojure-ish way, rather than
+using CLJS/JS interop features.
 
 ## Preamble
 
-If you want to start working from the end of the [previous tutorial][1],
-assuming you've [git][12] installed, do as follows.
+If you want to start working from the end of the [previous tutorial][5],
+assuming you've [git][10] installed, do as follows.
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
-git checkout tutorial-06
+git checkout se-tutorial-06
 git checkout -b tutorial-07-step-1
 ```
 
 ## Introduction
 
-> ATTENTION NOTE: due to the changes in the CLJS compiler, cljsbuild
-> plugin and the age of the last update to the domina library, to be
-> able to run the current tutorial you need to downgrade the
-> dependencies and plugins inside of `project.clj` as follow:
-> 
-> - clojurescript: from 1.7.145 to 0.0-2069
-> - domina: from 1.0.3 to 1.0.3-SNAPSHOT
-> - lein-cljsbuild: from 1.1.0 to 1.0.0
+We touched `domina` superficially by using `by-id` to select individual
+elements from the DOM, and `value` and `set-value!` to get/set the value of a
+form field.
 
-In the [previous tutorial][1] we came in contact with the `:export` metadata
-we attached to the `init` function. That metadata had the role of
-protecting the function from being renamed by the Google
-Closure (GCSL) compiler when used with more aggressive compilation mode
-than `:whitespace` (namely `:simple` and `:advanced`).
+It's now time to see what the domina library has to offer for substituting
+CLJS/JS interop features in managing events.
 
-## Being aggressive as all the others
+## Listen to events
 
-As we already saw in the very [first tutorial][8] of this series, we have
-been using the `lein-cljsbuild` plugin to configure the CLJS compilation
-process, by populating the `:cljsbuild` keyword with the following value:
+Let's go back to the [shopping calculator form][3] we introduced in
+Tutorial 5.
 
-```clojure
-(defproject ....
-...
-...
+First of all, by having been cloned from the orginal HTML code of
+[Modern JavaScript: Develop and Design][4], the shopping form used a
+`submit` type of button. At the moment, the shopping calculator data
+are not sent to a server-side script to be validated. Until we'll
+introduce a server-side script we are going to use a `button` type
+with the `calc` id. We also removed both the `action` and `method`
+attributes from the corresponding `form` tag.
 
-  :cljsbuild {:builds
-              [{;; clojurescript source code path
-                :source-paths ["src/cljs"]
+> NOTE 1: We know that, by substituting `submit` with `button` type,
+> we're breaking the progressive enhancement strategy, but for now
+> we're focusing on the [domina events][2] machinery. Will fix this in
+> a subsequente tutorial.
 
-                ;; Google Closure Compiler options
-                :compiler {;; the name of emitted JS script file
-                           :output-to "resources/public/js/modern.js"
-
-                           ;; minimum optimization
-                           :optimizations :whitespace
-
-                           ;; prettyfying emitted JS
-                           :pretty-print true}}]})
-```
-
-The `:whitespace` compilation mode of the GCSL compiler removes all
-comments and whitespaces from the JS code emitted by the CLJS
-compiler. When paired with `:pretty-print true` directive,
-`:whitespace` compilation mode is very effective in supporting
-programmers during the development phase, because it prettifies the
-emitted JS code in such a way that you can read it and set breakpoints
-while debugging with browser development tools.
-
-The `:simple` compilation mode is a little more aggressive with the
-emitted JS code from the CLJS compiler. Similar to other minifiers, it
-basically produces minified JS code by simplifying expressions and
-renaming local variables within functions. Nothing very new.
-
-To activate `:simple` compilation mode all you have to do is to change
-the `:optmizations` value from `:whitespace` to `:simple`.
-
-Instead of just substituting the `:simple` directive for the `:whitespace`
-one, as documentated in [sample.project.clj][2], `lein-cljsbuild` is so
-nice to allow us to declare more than one build configuration. Here is
-our new `project.clj` declaration with two `:builds`, the first one,
-named `:dev`, uses `:whitespace` compilation mode, the second one,
-named `:pre-prod`, uses `:simple` compilation mode.
-
-```clojure
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  :cljsbuild {:builds
-              {:dev
-               {;; clojurescript source code path
-                :source-paths ["src/cljs"]
-
-                ;; Google Closure Compiler options
-                :compiler {;; the name of emitted JS script file
-                           :output-to "resources/public/js/modern_dbg.js"
-
-                           ;; minimum optimization
-                           :optimizations :whitespace
-
-                           ;; prettyfying emitted JS
-                           :pretty-print true}}
-               :pre-prod
-               {;; clojurescript source code path
-                :source-paths ["src/cljs"]
-
-                :compiler {;; different output name
-                           :output-to "resources/public/js/modern_pre.js"
-
-                           ;; simple optimization
-                           :optimizations :simple
-
-                           ;; no need prettyfication
-                           :pretty-print false}}}})
-```
-
-> NOTE 1: When you have more named builds like above, the `:builds`
-> value changes from a vector to a map.
-
-As you can see, we now have two build configurations sharing the same
-CLJS code base (i.e., `src/cljs`):
-* `:dev`, which uses `:whitespace` compilation mode and `:pretty-print`
-  option set to `true`. The JS code emitted by CLJS/GCSL compilers will be
-  saved as `modern_dbg.js` in the `resources/public/js` directory;
-* `:pre-prod`, which uses `:simple` compilation mode and no
-  prettyfication. The JS code emitted by CLJS/GCSL compilers will be
-  saved as `modern_pre.js` in the `resources/public/js` directory;
-
-You can now run both builds together by launching the usual `lein
-cljsbuild once` or `lein cljsbuild auto` commands from the terminal.
-
-```bash
-cd /path/to/modern-cljs
-lein do clean, cljsbuild clean, cljsbuild once
-Compiling ClojureScript.
-Compiling "resources/public/js/modern_pre.js" from ["src/cljs"]...
-Successfully compiled "resources/public/js/modern_pre.js" in 15.169253 seconds.
-Compiling "resources/public/js/modern_dbg.js" from ["src/cljs"]...
-Successfully compiled "resources/public/js/modern_dbg.js" in 3.202557 seconds.
-```
-
-Or you can compile just one of them by passing the corresponding
-de-keywordized build name as follows:
-
-```bash
-lein cljsbuild once pre-prod
-Compiling ClojureScript.
-Compiling "resources/public/js/modern_pre.js" from ["src/cljs"]...
-Successfully compiled "resources/public/js/modern_pre.js" in 14.51913 seconds.
-```
-
-If you now list your `resources/public/js` directory you can
-immediately see the size difference of `modern_dbg.js` and
-`modern_pre.js`, the latter being almost 60% smaller than the former,
-but still about 0.7M.
-
-```bash
-ls -lah resources/public/js/
-total 3864
-drwxr-xr-x   5 mimmo  staff   170B Oct 20 17:49 .
-drwxr-xr-x  11 mimmo  staff   374B Oct 20 17:48 ..
--rw-r--r--   1 mimmo  staff   1.2M Oct 20 17:48 modern_dbg.js
--rw-r--r--   1 mimmo  staff   674K Oct 20 17:49 modern_pre.js
-```
-
-## Being much more aggressive than the others
-
-It's now time to be much more aggressive by enabling the so called "dead
-code elimination" through `:advanced` GCSL compilation mode.  Here is the
-code snippet.
-
-```clojure
-(defproject ...
-  ...
-
-  :cljsbuild {:builds
-              {:dev
-               {;; clojurescript source code path
-                :source-paths ["src/cljs"]
-
-                ;; Google Closure Compiler options
-                :compiler {;; the name of emitted JS script file
-                           :output-to "resources/public/js/modern_dbg.js"
-
-                           ;; minimum optimization
-                           :optimizations :whitespace
-
-                           ;; prettyfying emitted JS
-                           :pretty-print true}}
-               :prod
-               {;; clojurescript source code path
-                :source-paths ["src/cljs"]
-
-                ;; Google Closure Compiler options
-                :compiler {;; the name of emitted JS script file
-                           :output-to "resources/public/js/modern.js"
-
-                           ;; advanced optimization
-                           :optimizations :advanced
-
-                           ;; no need prettyfication
-                           :pretty-print false}}
-               :pre-prod
-               {;; clojurescript source code path
-                :source-paths ["src/cljs"]
-                :compiler {;; different output name
-                           :output-to "resources/public/js/modern_pre.js"
-
-                           ;; simple optmization
-                           :optimizations :simple
-
-                           ;; no need prettyfication
-                           :pretty-print false}}}})
-```
-
-Now compile the new build as usual by launching `lein cljsbuild once
-prod` and then list the contents of `resources/public/js/modern.js`. 
-
-```bash
-ls -lah resources/public/js/modern.js
-total 6080
-drwxr-xr-x   5 mimmo  staff   170B Oct 20 15:39 .
-drwxr-xr-x  11 mimmo  staff   374B Oct 20 15:38 ..
--rw-r--r--   1 mimmo  staff   108K Oct 20 15:38 modern.js
-```
-
-We reached 108KB and, if you gzip it, you'll reach a size much more
-acceptable.
-
-> NOTE 2: Serving gzipped files is outside the scope of this tutorial. You can
-> read about this topic [here][10] and [here][11].
-
-## Housekeeping
-
-We now have three different generated JS files, which means we should have
-three different versions for each html page of our small CLJS samples,
-each of them with a `script` tag pointing to the right JS
-version. Not a big deal, but still something to take care of.
-
-```bash
-cp resources/public/login.html resources/public/login-dbg.html
-cp resources/public/login.html resources/public/login-pre.html
-cp resources/public/shopping.html resources/public/shopping-dbg.html
-cp resources/public/shopping.html resources/public/shopping-pre.html
-```
-
-Now edit `login-dbg.html`, `login-pre.html`, `shopping-dbg.html` and
-`shopping-pre.html` to update the corresponding `script` tag as follows:
-
-`login-dbg.html`
+Here is the updated html code.
 
 ```html
 <!doctype html>
 <html lang="en">
 <head>
-...
-...
+    <meta charset="utf-8">
+    <title>Shopping Calculator</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-...
-...
-    <script src="js/modern_dbg.js"></script>
-    <script>
-      modern_cljs.login.init();
-    </script>
-</body>
-</html>
-```
+  <!-- shopping.html -->
+  <form id="shoppingForm" novalidate>
+    <legend> Shopping Calculator</legend>
+    <fieldset>
 
-`login-pre.html`
+      <div>
+        <label for="quantity">Quantity</label>
+        <input type="number"
+               name="quantity"
+               id="quantity"
+               value="1"
+               min="1" required>
+      </div>
 
-```html
-<!doctype html>
-<html lang="en">
-<head>
-...
-...
-</head>
-<body>
-...
-...
+      <div>
+        <label for="price">Price Per Unit</label>
+        <input type="text"
+               name="price"
+               id="price"
+               value="1.00"
+               required>
+      </div>
 
-    <script src="js/modern_pre.js"></script>
-    <script>
-      modern_cljs.login.init();
-    </script>
-</body>
-</html>
-```
+      <div>
+        <label for="tax">Tax Rate (%)</label>
+        <input type="text"
+               name="tax"
+               id="tax"
+               value="0.0"
+               required>
+      </div>
 
-`shopping-dbg.html`
+      <div>
+        <label for="discount">Discount</label>
+        <input type="text"
+               name="discount"
+               id="discount"
+               value="0.00" required>
+      </div>
 
-```html
-<!doctype html>
-<html lang="en">
-<head>
-...
-...
-</head>
-<body>
-...
-...
+      <div>
+        <label for="total">Total</label>
+        <input type="text"
+               name="total"
+               id="total"
+               value="0.00">
+      </div>
+      <br><br>
+      <div>
+        <input type="button"
+               value="Calculate"
+               id="calc">
+      </div>
 
+    </fieldset>
+  </form>
   <script src="js/modern_dbg.js"></script>
   <script>
     modern_cljs.shopping.init();
@@ -309,202 +121,249 @@ Now edit `login-dbg.html`, `login-pre.html`, `shopping-dbg.html` and
 </html>
 ```
 
-`shopping-pre.html`
+Here is the updated shopping calculator form as rendered by the browser.
 
-```html
-<!doctype html>
-<html lang="en">
-<head>
-...
-...
-</head>
-<body>
-...
-...
+![Shopping calculator][6]
 
-  <script src="js/modern_pre.js"></script>
-  <script>
-    modern_cljs.shopping.init();
-  </script>
-</body>
-</html>
-```
+### Domina events
 
-You're now ready to launch your samples from the `modern-cljs` directory as
-usual (e.g., `lein ring server`, `lein cljsbuild auto` and `lein
-trampoline cljsbuild repl-listen`) and then to visit the debugging,
-pre-production and production versions of the above pages.
+As you perhaps remember, to manage the shopping calculator we defined
+the `calculate` function and the `init` function to attach the former
+to the `submit` button of the `shoppingForm`.
 
-Take into account that using the browser as an
-[evaluation environment][3] is discouraged with `:advanced` mode. If you
-try to evalutate a CLJS expression from the brepl when you're visiting
-the production versions of the pages (i.e., `login.html` and
-`shopping.html`) the brepl will hang up, which brings us to the next
-paragraph.
+The `domina.events` namespace offers a bunch of functions to manage
+DOM events. One of them is the `listen!`, which allows us to attach a
+handling function (e.g. `calculate`) to a DOM event type (e.g.
+`click`, `mouseover`, `mouseout`, etc).
 
-## Getting in trouble
+### Launch IFDE
 
-In [tutorial 2][4] and [tutorial 3][5] we introduced the browser-connected
-repl (brepl) as a CLJS evaluation environment enabling a
-more productive and interactive style of programming. To reach this
-objective we created `connect.cljs` from which we called
-`(repl/connect "http://localhost:9000/repl")` to establish the server
-side of the brepl connection--the JavaScript virtual machine of the
-browser client itself.
-
-Having an active brepl connection is a great thing during development
-and testing phases, but for security reasons it would be better not to
-have it in a production environment. Aside from the fact that, as we
-have just seen, the `:advanced` compilation mode left hanging the brepl
-connection, it would be nice to have a way to explicitly **exclude** the
-`connect.cljs` file containing the connection call from the production build.
-
-## Solve the problem
-
-Starting from the `0.3.2` release, the [lein-cljsbuild][6] plugin has
-a new feature which can be used to easily solve the above issue by
-allowing you to specify more than one CLJS source directory in the
-`:source-paths` compilation option. To **exclude** `connect.cljs`
-from the production build we have to move it from the `src/cljs`
-directory to a new one and add the newly created directory only to the
-development and pre-production builds.
-
-Create a new directory/subdirectory in the `src` directory of
-modern-cljs project
+As usual we like to do our work in a live enviroment. So, launch the
+IFDE as usual:
 
 ```bash
-mkdir -p src/brepl/modern_cljs
+boot dev
+...
+Compiling ClojureScript...
+• main.js
+WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/2sf/r3n3mb/main.out/domina.cljs
+Elapsed time: 22.270 sec
 ```
 
-Now move `connect.cljs` from `src/cljs/modern_cljs` to the new
-`src/brepl/modern_cljs` directory.
+Then, from a new terminal launch the bREPL from the project home page:
+
+```clj
+boot repl -c
+...
+boot.user=> (start-repl)
+<< started Weasel server on ws://127.0.0.1:49835 >>
+<< waiting for client to connect ... Connection is ws://localhost:49835
+Writing boot_cljs_repl.cljs...
+```
+
+and finally visit the `http://localhost:3000/shopping.html` URL. As
+usual you'll receive the connected notification at the bREPL terminal.
+
+```clj
+ connected! >>
+To quit, type: :cljs/quit
+nil
+cljs.user=>
+```
+
+Now, before starting bREPLing with our ridicolous webapp, let's add
+the `domina.events` namespace to the requirement section of the
+`modern-cljs.shopping` namespace declaration in the
+`src/cljs/modern-cljs` directory.
+
+```clj
+(ns modern-cljs.shopping
+  (:require [domina :refer [by-id value set-value!]]
+            [domina.events :refer [listen!]]))
+```
+
+As soon as you save the file it gets reloaded by the IFDE.
+
+## bREPLing 
+
+As you remember to shorten the typing at the bREPL for familiarizing
+ourselves with the functionalities of a new lib, you first have to
+require the namespaces you're interested in.
+
+```clj
+cljs.user> (require '[modern-cljs.shopping :as shop] :reload
+                    '[domina :as dom] :reload
+                    '[domina.events :as evt] :reload)
+nil
+```
+
+Note that this time we required the two `domina` namespace we're
+interested in by aliasing their symbols (i.e. `shop`, `dom` and
+`evt`).
+
+Even if by aliasing a namespace you are forced to prefix any referece
+to its public symbols with the choosen alias, it makes it very clear
+from which namespace the used symbols come from. Obviously it protect
+yourself from name clashes as well in the hosting namespace.
+
+Let's now see the `evt/listen!` function at work.
+
+```clj
+cljs.user> (doc evt/listen!)
+-------------------------
+domina.events/listen!
+([type listener] [content type listener])
+  Add an event listener to each node in a DomContent. Listens for events during the bubble phase. Returns a sequence of listener keys (one for each item in the content). If content is omitted, binds a listener to the document's root element.
+nil
+```
+
+`listen!` listens for event during the bubble phase of events. Let's
+see if `domina` offers a corresponding function listening for events during
+the capturing phase as well.
+
+> NOTE 2: if you're interested in the differences between the bubbling
+> and the captugin phase od DOM events, look at
+> [this document by W3C](http://www.w3.org/TR/DOM-Level-3-Events/#event-flow).
+
+```clj
+cljs.user> (apropos "capture")
+(domina.events/capture! domina.events/capture-once!)
+cljs.user> (doc evt/capture!)
+-------------------------
+domina.events/capture!
+([type listener] [content type listener])
+  Add an event listener to each node in a DomContent. Listens for events during the capture phase.  Returns a sequence of listener keys (one for each item in the content). If content is omitted, binds a listener to the document's root element.
+nil
+```
+
+Here we first used the `apropos` macro by passing to it a string (it
+could have been a regular-expression) to search for all the public
+definitions in all currently-loaded namespaces matching the passed
+string or a regular-expression pattern.
+
+`apropos` returned a sequence of two symbols from the `domina.events`
+namespace: `capture!` and `capture-once!`. We then asked for the
+`capture!` documentation.
+
+Both `listen!` and `capture!` are multi-arity functions. You can call
+them with 2 or with 3 arguments. We're interested in the 3-arity
+versions. Note the bang `!` char at the end. It informs you that those
+functions mutate the element you're passing to.
+
+Remember that we now want to attach the `init` function from the
+`shopping.cljs` namespace to the `click` event generated by the user
+when she clicks the `calc` button of the `shoppingForm`.
+
+```clj
+cljs.user> (evt/listen! (dom/by-id "calc") :click shop/calculate)
+(#object[Object [object Object]])
+```
+
+> NOTE 3: `domina` keywordize any event name. This is the reason why we
+> can use the `:click` keyword to identify the `click` event.
+
+Go to the browser and test the shopping form to verify that it still
+working.
+
+Verify again that the shopping form is still working.
+
+### Edit shopping.cljs 
+
+Let's update the `init` definition in the `shopping.cljs` file
+according to the above bREPL experiment. 
+
+```clj
+(ns modern-cljs.shopping
+  (:require [domina :refer [by-id value set-value!]]
+            [domina.events :refer [listen!]]))
+
+(defn calculate []
+  (let [quantity (value (by-id "quantity"))
+        price (value (by-id "price"))
+        tax (value (by-id "tax"))
+        discount (value (by-id "discount"))]
+    (set-value! (by-id "total") (-> (* quantity price)
+                                    (* (+ 1 (/ tax 100)))
+                                    (- discount)
+                                    (.toFixed 2)))))
+
+(defn ^:export init []
+  (if (and js/document
+           (.-getElementById js/document))
+    (listen! (by-id "calc") :click calculate)))
+```
+
+> NOTE 4: Note that we deleted the returned `false` value from
+> `calculate` because, when using `button` input type instead of
+> `submit` input type, we do not need to return the control to the
+> form itself.
+
+> NOTE 5: the `init` function has been exported to protect its name
+> from being changed by Google Closure Compiler aggressive compilation
+> eventually used by the `advanced` optimization.
+
+You can now compile and run the project as usual:
 
 ```bash
-mv src/cljs/modern_cljs/connect.cljs src/brepl/modern_cljs/
+lein ring server # from modern-cljs home
+lein cljsbuild auto dev # from modern-cljs home in a new terminal
 ```
 
-Next update `project.clj`, adding the `"src/brepl"` directory
-to the `:source-paths` of the `:dev` and the `:pre-prod` builds, leaving
-the `:prod` build as it was.
+If you want to interact with the bREPL, just execute the usual command to
+run the bREPL.
 
-> NOTE 3: Remember to add the `"src/brepl"` pathname to the main
-> `:source-paths` setting as well (cf. [Tutorial 1][8])
+```bash
+lein trampoline cljsbuild repl-listen # from modern-cljs home in a new terminal
+```
+
+Verify that everything is still working as expected by visiting the
+[shopping.html](http://localhost:3000/shopping.htm) page.
+
+### Bubbling and capture models
+
+The Domina library supports both *bubbling* and *capture* event models. In
+the above shopping calculator example we used the domina `listen!`
+function for handling the mouse `click` event on the *Calculate*
+button. `listen!` is a member of a group of functions defined by domina
+to use the *bubbling* method of handling DOM events. If you want to
+experience the *capture* method you have to simply substitute the `listen!`
+call with the corresponding `capture!` call and you're done.
 
 ```clojure
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  :source-paths ["src/clj" "src/cljs" "src/brepl"] ; added src/brepl
-  ...
-  :cljsbuild {:builds
-              {:dev
-               {;; clojurescript source code path
-                :source-paths ["src/brepl" "src/cljs"] ; "src/brepl"
+;;; the rest as before
 
-                ;; Google Closure Compiler options
-                :compiler {;; the name of emitted JS script file
-                           :output-to "resources/public/js/modern_dbg.js"
-
-                           ;; minimum optimization
-                           :optimizations :whitespace
-                           ;; prettyfying emitted JS
-                           :pretty-print true}}
-               :pre-prod
-               {;; clojurescript source code path
-                :source-paths ["src/brepl" "src/cljs"] ; added "src/brepl"
-
-                :compiler {;; different JS output name
-                           :output-to "resources/public/js/modern_pre.js"
-
-                           ;; simple optimization
-                           :optimizations :simple
-
-						   ;; no need prettyfication
-                           :pretty-print false}}
-               :prod
-               {;; clojurescript source code path
-                :source-paths ["src/cljs"] ;; no "src/brepl"
-
-                :compiler {;; different JS output name
-                           :output-to "resources/public/js/modern.js"
-
-                           ;; advanced optimization
-                           :optimizations :advanced
-
-						   ;; no need prettyfication
-                           :pretty-print false}}}})
+(defn ^:export init []
+  (if (and js/document
+           (.-getElementById js/document))
+    (ev/capture! (dom/by-id "calc") :click calculate)))
 ```
-
-You can run the usual commands to recompile all the builds and run the
-`modern-cljs` project.
-
-```bash
-lein clean
-lein cljsbuild clean
-lein cljsbuild once
-```
-
-> NOTE 4: Instead of sequentially running the above tasks, you can chain
-> them at the terminal as follows:
->
-> ```bash
-> lein do clean, cljsbuild clean, cljsbuild once
-> ```
->
-> Leiningen offers more options to automate composite tasks. We'll see
-> them in subsequent tutorials.
-
-One nice consequence of the `connect.cljs` exclusion from the `:prod`
-build is that now the size of the generated `modern.js` is even
-smaller than before and if you zip it you reach a size of 17KB, not so
-bad.
-
-```bash
-ls -lah resources/public/js/
-total 3864
-drwxr-xr-x   5 mimmo  staff   170B Oct 20 17:26 .
-drwxr-xr-x  11 mimmo  staff   374B Oct 20 17:25 ..
--rw-r--r--   1 mimmo  staff    65K Oct 20 17:26 modern.js
--rw-r--r--   1 mimmo  staff   1.2M Oct 20 17:26 modern_dbg.js
--rw-r--r--   1 mimmo  staff   674K Oct 20 17:26 modern_pre.js
-```
-
-Finally you can run the `modern-cljs` project as usual.
-
-```bash
-lein ring server-headless
-```
-
-Now visit the `login.html` or the `shopping.html` pages, which include
-the `modern.js` file emitted by the CLJS compiler and test them to see
-if they are still working as expected.
 
 If you created a new git branch as suggested in the preamble of this
 tutorial, I suggest you to commit the changes as follows
 
 ```bash
-git commit -am "being doubly aggressive"
+git commit -am "introducing domina events"
 ```
 
-# Next step - [Tutorial 8: Introducing Domina Events][9]
+# Next Step - [Tutorial 9: DOM manipulation][9]
 
-In [Tutorial 8][9] we're going to introduce domina events
-which, by wrapping Google Closure Library event management, allows you to
-follow a more Clojure-ish approach in handing DOM events.
+In the next tutorial we're going to face the need to programmatically
+manipulate DOM elements as a result of the occurrance of some DOM
+events (e.g., `mouseover`, `mouseout`, etc.)
 
 # License
 
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
-[2]: https://github.com/emezeske/lein-cljsbuild/blob/0.2.9/sample.project.clj
-[3]: https://github.com/clojure/clojurescript/wiki/The-REPL-and-Evaluation-Environments
-[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
-[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
-[6]: https://github.com/emezeske/lein-cljsbuild/issues/157
-[7]: http://dev.clojure.org/jira/browse/CLJS-419
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
-[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
-[10]: http://cemerick.com/2011/04/22/adding-gzip-compression-to-a-clojure-webapp-in-30-seconds/
-[11]: http://docs.codehaus.org/display/JETTY/GZIP+Compression
-[12]: https://help.github.com/articles/set-up-git
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
+[2]: https://github.com/levand/domina
+[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md#shopping-calculator-sample
+[4]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
+[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
+[6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-reviewed.png
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md#modify-validate-form
+[8]: http://localhost:3000/shopping-dbg.html
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
+[10]: https://help.github.com/articles/set-up-git
+[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-17.md
