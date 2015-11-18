@@ -46,7 +46,7 @@ the CLJS files it finds in the `src/cljs` directory and subdirectories
 
 ## Is mutability evil?
 
-Both `login.cljs` and `shopping.cljs` had a final call to `(set!
+Both `login.cljs` and `shopping.cljs` have a final call to `(set!
 (.-onload js/window) init)`, which is therefore called twice: once
 from `login.cljs` and once from `shopping.cljs`. The order of these
 calls is critical, because whichever comes first, the other is going
@@ -140,8 +140,8 @@ violating the unobtrusive principle expressed by a lot of webapps
 designers. The life is full of compromises and this is one of those
 tradeoffs.
 
-All that changes could have been done while the IFDE is running. But
-there is one more thing we want to take care off and we can't do it
+All those changes could have been done while the IFDE is running. But
+there is one more thing we want to take care of and we can't do it
 while the IFDE is running.
 
 As you noted, to adhere to the convention of keeping any JS resourses
@@ -221,13 +221,13 @@ Elapsed time: 35.941 sec
 ```
 
 Then visit the http://localhost:3000 and the
-http://localhost:3000/shopping.html URLs verify the two forms are now
-working as expected.
+http://localhost:3000/shopping.html URLs for verifying the two forms
+are now working as expected.
 
-As usual, if you want to play with the bREPL, launch it as usual a
-reload on of the above URls.
+As usual, if you want to play with the bREPL, launch it as usual and
+then reload on of the above URls.
 
-```bash
+```clj
 # from a new terminal
 cd /path/to/modern-cljs
 boot repl -c
