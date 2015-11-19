@@ -1,10 +1,11 @@
 # Tutorial 8 - DOM manipulation
 
-In the [previous tutorial][1] we introduced the `domina.events` namespace to
-make our event management a little bit more Clojure-ish than just
-using CLJS/JS interop. In this tutorial we're going to face the need
-to programmatically manipulate DOM elements as a result of the
-occurrence of some DOM events (e.g., `mouseover`, `mouseout`, etc.)
+In the [previous tutorial][1] we introduced the `domina.events`
+namespace to make our events management a little bit more clojure-ish
+than just using CLJS/JS interop. In this tutorial we're going to face
+the need to programmatically manipulate DOM elements as a result of
+the occurrence of some DOM events (e.g., `mouseover`, `mouseout`,
+etc.)
 
 ## Preamble
 
@@ -26,9 +27,9 @@ event. Let's continue by using it to verify how it could help us in
 managing the manipulation of DOM elements, one of the most important
 feature of any good JS library and/or framework.
 
-To reach this goal, we're going to use the shopping calculator example
-again, adding both a `mouseover` and a `mouseout` event handler to its
-`Calculate` button.
+To reach this goal, we're going to use again the shopping calculator
+example by adding both a `mouseover` and a `mouseout` event handler to
+its `Calculate` button.
 
 The `mouseover` handler reacts by adding "Click to calculate" to the
 form itself. The `mouseout` handler reacts by deleting that text.
@@ -69,7 +70,7 @@ bREPL.
 
 ## bREPLing with DOM manipulation
 
-For bREPling with the Shopping Form we first need to require the
+For bREPLing with the Shopping Form we first need to require the
 needed namespaces.
 
 ```clj
@@ -81,8 +82,8 @@ nil
 
 ## DOM manipulation
 
-Take a look at the docstring attached to the `append!` function
-(note the `!` bang)
+Take a look at the docstring attached to the `append!` function (note
+the `!` bang meaning this function mutates the passed arguments)
 
 ```clj
 cljs.user> (doc dom/append!)
@@ -122,7 +123,7 @@ expression that returns one or more `content` (i.e., one or more DOM
 nodes). This means that, for such a simple case, we can safely use
 the `by-id` selector to select the parent to be passed to `append!`.
 
-Let's see how `append!` works with the bREPL
+Let's see how `append!` works within the bREPL
 
 ```clj
 cljs.user> (dom/append! (dom/by-id "shoppingForm")
@@ -134,7 +135,7 @@ You should now see the `Click to calculate` text in the Shopping Form.
 
 Note that we used the `help` class attribute to be able to remove any
 `help` element when later we'll implement the listener for managing
-the `mouseover` event for the `calc` button.
+the `mouseout` event for the `calc` button.
 
 ## Mouseover event
 
@@ -154,8 +155,8 @@ cljs.user> (evt/listen! (dom/by-id "calc")
 (#object[Object [object Object]])
 ```
 
-Here we attached to the `mouseover` event an anonymous function
-defined inline which does the same thing we tested above.
+Here we attached to the `mouseover` event an anonymous function doing
+the same thing we tested above.
 
 Go to the form. You'll see a new `Click to calculate` help message be
 added to the form each time you enter the button area like in the
@@ -174,7 +175,7 @@ event as well.
 The `domina` core namespace even offers the `destroy!` function to
 permanentely delete a DOM element and all its children all together.
 
-Go back to the bREPL and ask for the `detroy!` docstring.
+Go back to the bREPL and ask for the `destroy!` docstring.
 
 ```clj
 cljs.user> (doc dom/destroy!)
@@ -187,8 +188,8 @@ nil
 
 We also need a way to select the `div` tag. As you remember we set the
 `class` CSS attribute of the added `div` to `help` value. Again, the
-`domina` core namespace exposes the `by-class` function to select all
-the elements which are member of a class.
+`domina` core namespace exposes a `by-class` function to select all
+the elements which are members of a class.
 
 ```clj
 cljs.user> (doc dom/by-class)
@@ -201,18 +202,18 @@ cljs.user> (dom/by-class "help")
 (#object[HTMLDivElement [object HTMLDivElement]] #object[HTMLDivElement [object HTMLDivElement]] #object[HTMLDivElement [object HTMLDivElement]] #object[HTMLDivElement [object HTMLDivElement]])
 ```
 
-If you now call the `destroy!` function on the sequence returned from
-the `by-class` function you'll see all the `Click to calculate`
-message to be deleted.
+If you call the `destroy!` function on the sequence returned from the
+`by-class` function, you'll see all the `Click to calculate` message
+to be deleted.
 
 ```clj
 cljs.user> (dom/destroy! (dom/by-class "help"))
 nil
 ```
 
-The last experiment we want to do at the bREPL before starting coding
-in the `shoppinc.cljs` file is to attach the listener to the
-`mouseout` event for the `calc` button.
+The last experiment we want to within the bREPL before starting coding
+in the `shopping.cljs` file is to attach a listener to the `mouseout`
+event for the `calc` button.
 
 ```clj
 cljs.user> (evt/listen! (dom/by-id "calc")
@@ -228,9 +229,10 @@ message will disapear.
 ## Edit shopping.cljs
 
 Having familiarized a little bit more with the `domina` lib, we are
-now ready to code into the `shopping.cljs` file what we learnt.
+now ready to code into the `shopping.cljs` file what we learnt within
+the bREPL.
 
-Here is the update content.
+Here is the updated content.
 
 ```clj
 (ns modern-cljs.shopping
@@ -271,31 +273,31 @@ Here is the update content.
 
 Few things to be noted about the above code:
 
-1. depending on your taste, there are more way to *use* or *require* a
-   namespace inside a new namespace declaration. Moreover, what you
-   like while writing code (minimizing typing) could be different from
-   what you like when reading code (maximazing readability). When your
-   namespace declaration require a not so small number of other
-   namespaces, and each namespace has a lot of public symbols, I
-   always prefer to alias the required namespaces, because in a short
-   time my role as a code writer changes very quickly into a reader.
-2. the origianl `false` boolean value returned by the `calculate`
+1. depending on your taste, there are more wayy to *use* or *require*
+   a namespace inside a new namespace declaration. Moreover, what you
+   like while writing code (e.g., minimizing typing) could be
+   different from what you like when reading code (e.g., maximazing
+   readability). When your namespace declaration require a not so
+   small number of other namespaces, and each namespace has a lot of
+   public symbols, I always prefer to alias the required namespaces,
+   because in a short time my role as a code writer changes very
+   quickly into a code reader and don't want to get crazy to identify
+   what symbol came from what namespace;
+2. the original `false` boolean value returned by the `calculate`
    function has been removed, because the `shoppingForm` does not have
    an `action` property any more;
-3. the origianl `if` form has been substituted by the `when` forms,
-   because we now need to do more things whe the predicate is `true`
-   and there is no an else path.
-4. you could substitute the anonymous functions definitions with a the
-   corresponding `#()` short form.
+3. the original `if` form has been substituted by the `when` form,
+   because we now need to do more things when the predicate returns
+   `true` and there is no an else path to be followed;
 
 # I hate HTML
 
-I have to admit to being very bad at both HTML and CSS coding and I
+I have to admit of being very bad at both HTML and CSS coding and I
 always prefer to have a professional designer available to do that
 job.
 
-If you're like me, you would not want to code any HTML/CSS fragment as
-a string like we did when we manipulated the DOM to add a `div` to the
+If you're like me, you do not want to code any HTML/CSS fragment as a
+string like we did when we manipulated the DOM to add a `div` to the
 `shoppingForm` form. Debugging such a code could quickly become a
 PITA.
 
@@ -306,17 +308,17 @@ instead of strings of HTML.
 ## hiccups
 
 The first CLJS library I found to relieve my pain was
-[hiccups][6]. It's just an incomplete port of [hiccup][7] on CLJS. It
-uses vectors to represent tags and maps to represent a tag's
+[hiccups][6]. Even if it's an incomplete port of [hiccup][7] on CLJS,
+it's solid and stable enough for the purpouse of this tutorial.  It
+uses vectors to represent HTML tags and maps to represent a tag's
 attrbutes.
 
 ## Stop IFDE and add hiccups
 
 We can't use the IFDE to require a new lib that is not already listed
 in the `:dependencies` section of the `build.boot` file. So, to go on
-with the next step you need to stop any `boot` related process and
-first add `hiccups` lib into the `build.boot` before restarting the
-IFDE as usual.
+with the next step you need to stop any `boot` related process and add
+`hiccups` lib into the `build.boot` before starting IFDE again.
 
 ```clj
 (set-env!
@@ -358,10 +360,10 @@ and finally visit the
 [shopping URL](http://localhost:3000/shopping.html) to activate the
 bREPL.
 
-## Add hiccups namespace
+## Add hiccups namespaces
 
-Open the `src/cljs/modern_cljs/shopping.cljs` file to update its
-requirements.
+Open the `src/cljs/modern_cljs/shopping.cljs` file to update the
+requirements of the namespace declaration.
 
 ```clj
 (ns modern-cljs.shopping
@@ -376,17 +378,18 @@ requirements.
   (:require-macros [hiccups.core :refer [html]]))
 ```
 
-> NOTE 1: As note in the [previous tutorial][], due to a bug of the
+> NOTE 1: As noted in the [previous tutorial][1], due to a bug of the
 > `boot-cljs-repl` task, we need to first require a namespace from a
-> namespace declaration to be able to require it in the bREPL as
-> well. The `hiccups`runtime` namesapce has to be required, even if
-> we're not going to use its symbols. This is why it has not been
-> aliased.
+> namespace declaration to be able to require it in the bREPL as well.
 
-NOTE 2: the `hiccups.core` contains macros (e.g. `html`), which are
-written in CLJ. Namespaces containing macros are referenced via the
-`:require-macros` keyword in namespace declaration and via
-`require-macros` in the bREPL.
+> NOTE 2: The `hiccups`runtime namesapce has to be required, even if
+> we're not going to use its symbols. For this reason we neither
+> aliased it or `refer` any symbol.
+
+> NOTE 3: the `hiccups.core` contains macros (e.g. `html`), which are
+> written in CLJ. Namespaces containing macros are referenced via the
+> `:require-macros` keyword in namespace declaration and via
+> `require-macros` in the bREPL.
 
 As soon as you save the file, IFDE recompile and reload it.
 
@@ -407,7 +410,7 @@ symbol only from `hiccups.core` namespace, because it's the only one
 we're going to exercise.
 
 Here are some basic documented examples of hiccups usage we're going
-to experiment with at the bREPL.
+to experiment within the bREPL.
 
 
 ```clj
@@ -429,7 +432,7 @@ cljs.user> (html [:div#foo.bar.baz "bang"])
 
 which brings us to our problem of representing the string `"<div
 class='help'>Click to calculate</div>"` as CLJ data structures to be
-passed to `append!` function
+passed to `append!` function:
 
 ```clj
 cljs.user> (html [:div.help "Click to calculate"])
@@ -437,7 +440,7 @@ cljs.user> (html [:div.help "Click to calculate"])
 ```
 
 We are now ready to substitute the horrific HTML string to be passed
-in the `mouseover` anonymous listener in the `shopping.cljs` source
+to the `mouseover` anonymous listener in the `shopping.cljs` source
 file.
 
 ```clj
@@ -459,9 +462,9 @@ file.
 ```
 
 We're now happy with what we achieved by using `domina` and `hiccups`
-to make our shopping calculator sample as Clojure-ish as possible. The
+to make our shopping calculator sample as clojure-ish as possible. The
 only thing that still hurts me is the `.-getElementById` interop call
-in the `init` function which can be very easily removed by just using
+in the `init` function. It can be very easily removed by just using
 `aget` like so:
 
 ```clj
