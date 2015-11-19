@@ -13,6 +13,7 @@
                  [weasel "0.7.0"]                      ;; needed by bREPL
                  [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
                  [domina "1.0.3"]
+                 [hiccups "0.3.0"]
                  ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
