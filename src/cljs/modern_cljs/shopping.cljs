@@ -21,7 +21,7 @@
 
 (defn ^:export init []
   (when (and js/document
-           (aget js/document "getElementById"))
+             (aget js/document "getElementById"))
     (listen! (by-id "calc") 
              :click 
              calculate)
