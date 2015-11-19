@@ -26,56 +26,15 @@ event. Let's continue by using it to verify how it could help us in
 managing the manipulation of DOM elements, one of the most important
 feature of any good JS library and/or framework.
 
-To reach this goal, we're going to use our old shopping calculator
-example again, adding both a `mouseover` and a `mouseout` event
-handler to its `Calculate` button.
+To reach this goal, we're going to use the shopping calculator example
+again, adding both a `mouseover` and a `mouseout` event handler to its
+`Calculate` button.
 
 The `mouseover` handler reacts by adding "Click to calculate" to the
 form itself. The `mouseout` handler reacts by deleting that text.
 Yes, I know, the requirement is very simple but, as you will see,
 pretty representative of a kind of problem you're going to face again
 and again in your CLJS programming.
-
-# Mouseover event
-
-Let's start by adding a `mouseover` handler to the `Calculate`
-button. The first step is to write a function, named `add-help`, which
-appends a `div` and the *Click to calculate* inner text to the end of
-the `shoppingForm` DOM node. To do that, we are going to leverage
-the domina library by using its `append!` function from `domina`
-namespace. The documentation attached to the `append!` function says that:
-
-> Given a parent and child contents, appends each of the children to all
-> of the parents. If there is more than one node in the parent content,
-> clones the children for the additional parents. Returns the parent
-> content.
-
-And here is a simple example of `append!` usage from [domina readme][3].
-
-```clojure
-;;; from domina readme.md
-(append! (xpath "//body") "<div>Hello world!</div>")
-```
-
-This appends a `<div>` node to the end of the `<body>` node. It uses
-`xpath` to select a single parent (i.e., `<body>`) and a `string` to
-represent a single `<div>` child to be added to the parent.
-
-I don't know about you, but I don't feel comfortable with `xpath`, and
-I only use it in cases where no equivalent CSS selector is available
-(e.g., ancestor selection) or the selecton is too complex to be
-managed and/or maintained.
-
-Anyway, domina offers you three options for nodes selection:
-
-* `xpath` from `domina.xpath` namespace
-* `sel` from `domina.css` namespace
-* `by-id` and `by-class` from `domina` namespace
-
-Thankfully `append!` accepts, as a first argument, any domina
-expression that returns one or more `content` (i.e., one or more DOM
-nodes). This means that, for such a simple case, we can safely use
-the `by-id` selector to select the parent to be passed to `append!`.
 
 # Start IFDE and bREPL
 
@@ -110,7 +69,8 @@ bREPL.
 
 ## bREPLing with DOM manipulation
 
-Start by requiring the needed namespaces as usual
+For bREPling with the Shopping Form we first need to require the
+needed namespaces.
 
 ```clj
 cljs.user> (require '[modern-cljs.shopping :as shop] :reload
@@ -119,7 +79,9 @@ cljs.user> (require '[modern-cljs.shopping :as shop] :reload
 nil
 ```
 
-take a second look at the docstring attached to the `append!` function
+## DOM manipulation
+
+Take a look at the docstring attached to the `append!` function
 (note the `!` bang)
 
 ```clj
@@ -127,22 +89,158 @@ cljs.user> (doc dom/append!)
 -------------------------
 domina/append!
 ([parent-content child-content])
-  Given a parent and child contents, appends each of the children to all of the parents. If there is more than one node in the parent content, clones the children for the additional parents. Returns the parent content.
+  Given a parent and child contents, appends each of the children to all
+  of the parents. If there is more than one node in the parent content,
+  clones the children for the additional parents. Returns the parent content.
 nil
 ```
 
-Now open the `shopping.cljs` file to define a listener for the
-`mouseover` event and update the `init` function to add it to the
-`calc` button.
+Here is a simple example of `append!` usage from [domina readme][3].
+
+```clj
+;;; from domina readme.md
+(append! (xpath "//body") "<div>Hello world!</div>")
+```
+
+It appends a `<div>` node to the end of the `<body>` node. It uses
+`xpath` to select a single parent (i.e., `<body>`) and a `string` to
+represent a single `<div>` child to be added to the parent.
+
+I don't know about you, but I don't feel comfortable with `xpath`, and
+I only use it when no equivalent CSS selector is available (e.g.,
+ancestor selection) or when the selection is too complex to be managed
+and/or maintained.
+
+Anyway, domina offers you three options for nodes selection:
+
+* `xpath` from `domina.xpath` namespace
+* `sel` from `domina.css` namespace
+* `by-id` and `by-class` from `domina` namespace
+
+Thankfully `append!` accepts, as a first argument, any domina
+expression that returns one or more `content` (i.e., one or more DOM
+nodes). This means that, for such a simple case, we can safely use
+the `by-id` selector to select the parent to be passed to `append!`.
+
+Let's see how `append!` works with the bREPL
+
+```clj
+cljs.user> (dom/append! (dom/by-id "shoppingForm")
+                        "<div class='help'>Click to calculate</div>")
+#object[HTMLFormElement [object HTMLFormElement]]
+```
+
+You should now see the `Click to calculate` text in the Shopping Form.
+
+Note that we used the `help` class attribute to be able to remove any
+`help` element when later we'll implement the listener for managing
+the `mouseover` event for the `calc` button.
+
+## Mouseover event
+
+We can now start to add a `mouseover` handler to the `Calculate`
+button by using the same `listen!` function we already used for
+triggering the `calculate` listener.
+
+Go back to your bREPL and enter the following expression:
+
+```clj
+cljs.user> (evt/listen! (dom/by-id "calc")
+                        :mouseover
+                        (fn []
+                          (dom/append!
+                           (dom/by-id "shoppingForm")
+                           "<div class='help'>Click to calculate</div>")))
+(#object[Object [object Object]])
+```
+
+Here we attached to the `mouseover` event an anonymous function
+defined inline which does the same thing we tested above.
+
+Go to the form. You'll see a new `Click to calculate` help message be
+added to the form each time you enter the button area like in the
+following figure.
+
+![Shopping calculator][5]
+
+So far, so good. We now need to remove the help message each time
+mouse pointer exits the button area.
+
+## Mouseout event
+
+Thankfully, the `domina.events` namespace supports the `mouseout`
+event as well.
+
+The `domina` core namespace even offers the `destroy!` function to
+permanentely delete a DOM element and all its children all together.
+
+Go back to the bREPL and ask for the `detroy!` docstring.
+
+```clj
+cljs.user> (doc dom/destroy!)
+-------------------------
+domina/destroy!
+([content])
+  Removes all the nodes in a content from the DOM. Returns nil.
+nil
+```
+
+We also need a way to select the `div` tag. As you remember we set the
+`class` CSS attribute of the added `div` to `help` value. Again, the
+`domina` core namespace exposes the `by-class` function to select all
+the elements which are member of a class.
+
+```clj
+cljs.user> (doc dom/by-class)
+-------------------------
+domina/by-class
+([class-name])
+  Returns content containing nodes which have the specified CSS class.
+nil
+cljs.user> (dom/by-class "help")
+(#object[HTMLDivElement [object HTMLDivElement]] #object[HTMLDivElement [object HTMLDivElement]] #object[HTMLDivElement [object HTMLDivElement]] #object[HTMLDivElement [object HTMLDivElement]])
+```
+
+If you now call the `destroy!` function on the sequence returned from
+the `by-class` function you'll see all the `Click to calculate`
+message to be deleted.
+
+```clj
+cljs.user> (dom/destroy! (dom/by-class "help"))
+nil
+```
+
+The last experiment we want to do at the bREPL before starting coding
+in the `shoppinc.cljs` file is to attach the listener to the
+`mouseout` event for the `calc` button.
+
+```clj
+cljs.user> (evt/listen! (dom/by-id "calc")
+                        :mouseout (fn []
+                                    (dom/destroy! (dom/by-class "help"))))
+(#object[Object [object Object]])
+```
+
+Go back to the Shopping Form. As soon as you enter the button area
+you'll see the message. As soon as you exit the button area the
+message will disapear.
+
+## Edit shopping.cljs
+
+Having familiarized a little bit more with the `domina` lib, we are
+now ready to code into the `shopping.cljs` file what we learnt.
+
+Here is the update content.
 
 ```clj
 (ns modern-cljs.shopping
-  (:require [domina :refer [by-id value set-value! append!]]
+  (:require [domina :refer [append! 
+                            by-class
+                            by-id 
+                            destroy! 
+                            set-value! 
+                            value]]
             [domina.events :refer [listen!]]))
-
-(defn show-help! []
-  (append! (by-id "shoppingForm")
-           "<div class='help>Click to calculate</div>"))
 
 (defn calculate []
   (let [quantity (value (by-id "quantity"))
@@ -156,132 +254,54 @@ Now open the `shopping.cljs` file to define a listener for the
 
 (defn ^:export init []
   (when (and js/document
-             (.-getElementById js/document))
-    (listen! (by-id "calc") :click calculate)
-    (listen! (by-id "calc") :mouseover show-help!)))
+           (.-getElementById js/document))
+    (listen! (by-id "calc") 
+             :click 
+             calculate)
+    (listen! (by-id "calc") 
+             :mouseover 
+             (fn []
+               (append! (by-id "shoppingForm")
+                        "<div class='help'>Click to calculate</div>")))
+    (listen! (by-id "calc") 
+             :mouseout 
+             (fn []
+               (destroy! (by-class "help"))))))
 ```
 
-Here we first added `append!` symbol to the referred vector of symbols
-to be interned in the `modern-cljs.shopping` namespace from the
-`domina` cire namespace.
+Few things to be noted about the above code:
 
-Than we defined the `show-help!` function (note the `!` bang) for
-adding a `div` tag to the `shoppingForm`.
+1. depending on your taste, there are more way to *use* or *require* a
+   namespace inside a new namespace declaration. Moreover, what you
+   like while writing code (minimizing typing) could be different from
+   what you like when reading code (maximazing readability). When your
+   namespace declaration require a not so small number of other
+   namespaces, and each namespace has a lot of public symbols, I
+   always prefer to alias the required namespaces, because in a short
+   time my role as a code writer changes very quickly into a reader.
+2. the origianl `false` boolean value returned by the `calculate`
+   function has been removed, because the `shoppingForm` does not have
+   an `action` property any more;
+3. the origianl `if` form has been substituted by the `when` forms,
+   because we now need to do more things whe the predicate is `true`
+   and there is no an else path.
+4. you could substitute the anonymous functions definitions with a the
+   corresponding `#()` short form.
 
-> NOTE 1: We added the `class='help'` attribute to the appended `div` 
-> to make it easier to locate and delete this `div` later.
-
-Finally, in the `init` definition we added `show-help` as the listener
-of the `mouseover` event for the `calc` button.
-
-> NOTE 2: We changed `if` to `when` so that both handlers are added when
-> the condition holds.
-
-Save the file and see the new listener at work by moving the mouse
-pointer over the `Calculate` button. 
-
-Ops, nothing happens.
-
-Go back to your bREPL and evalute the `init` function from the
-`modern-cljs.shopping` namespace:
-
-
-Now call the `add-help` function to append more times the `Click to
-calculate` `div` to the Shopping Form.
-
-```clj
-cljs.user> (dotimes [n 5] (shop/add-help))
-nil
-```
-
-We can now add `add-help` handler to the `mouseover` event of the
-`calc` button like so:
-
-```clojure
-(defn ^:export init []
-  (when (and js/document
-             (.-getElementById js/document))
-    (ev/listen! (dom/by-id "calc") :click calculate)
-    (ev/listen! (dom/by-id "calc") :mouseover add-help)))
-```
-
-
-If you now compile, run and visit [`shopping-dbg.html`][4] page
-
-```bash
-lein ring server # from modern-cljs home dir
-lein cljsbuild auto dev # from modern-cljs home in a new terminal
-```
-
-you will see that every time you move your mouse over the `Calculate`
-button, a new text saying *Click to calculate* is added to
-the end of the shopping calculator form.
-
-![Shopping calculator][5]
-
-## Mouseout event
-
-What we need now is a way to delete that text any time the mouse moves
-out of the `Calculate` button. Thankfully, the `domina.events` namespace
-supports the `mouseout` event as well.
-
-We need to define a new function, named `remove-help`, which, by using
-the `destroy!`  fuction from  the `domina` namespace,  deletes the  `div`
-node previously added by `add-help`.  Next we need to attach
-that function to the `mouseout`  event of the `Calculate` button. Here
-is the complete `shopping.cljs` source file.
-
-```clojure
-(ns modern-cljs.shopping
-  (:require [domina :as dom]
-            [domina.events :as ev]))
-
-(defn calculate []
-  (let [quantity (dom/value (dom/by-id "quantity"))
-        price (dom/value (dom/by-id "price"))
-        tax (dom/value (dom/by-id "tax"))
-        discount (dom/value (dom/by-id "discount"))]
-    (dom/set-value! (dom/by-id "total") (-> (* quantity price)
-                                            (* (+ 1 (/ tax 100)))
-                                            (- discount)
-                                            (.toFixed 2)))))
-
-(defn add-help []
-  (dom/append! (dom/by-id "shoppingForm")
-               "<div class='help'>Click to calculate</div>"))
-
-(defn remove-help []
-  (dom/destroy! (dom/by-class "help")))
-
-(defn ^:export init []
-  (when (and js/document
-             (.-getElementById js/document))
-    (ev/listen! (dom/by-id "calc") :click calculate)
-    (ev/listen! (dom/by-id "calc") :mouseover add-help)
-    (ev/listen! (dom/by-id "calc") :mouseout remove-help)))
-```
-
-If you have not killed the previous automatic recompilation
-command (i.e., `lein cljsbuild auto dev`), you just need to reload
-the `shopping-dbg.html` page to see the effect of `mouseover/mouseout`
-pair of events by moving the mouse cursor in and out of the
-`Calculate` button.
-
-# If you are like me
+# I hate HTML
 
 I have to admit to being very bad at both HTML and CSS coding and I
 always prefer to have a professional designer available to do that
 job.
 
 If you're like me, you would not want to code any HTML/CSS fragment as
-a string like we did when we manipulated the DOM to add a `div` to
-the `shoppingForm` form.
+a string like we did when we manipulated the DOM to add a `div` to the
+`shoppingForm` form. Debugging such a code could quickly become a
+PITA.
 
-If there is a thing that I don't like about the domina library is that it
-requires the child/children argument to be passed to `append!`, and to
-other DOM manipulation functions, the string representation of an HTML
-fragment, not a CLJ data structure. That's why I searched around to
-see if someone else, having my same pain, solved it.
+That's why I searched around to see if someone else, having my same
+pain, created a lib to represents those elments as CLJS data structure
+instead of strings of HTML.
 
 ## hiccups
 
@@ -290,140 +310,190 @@ The first CLJS library I found to relieve my pain was
 uses vectors to represent tags and maps to represent a tag's
 attrbutes.
 
-Here are some basic documented examples of hiccups usage:
+## Stop IFDE and add hiccups
 
-```clojure
-(html [:span {:class "foo"} "bar"])
-;; emits "<span class=\"foo\">bar</span>"
+We can't use the IFDE to require a new lib that is not already listed
+in the `:dependencies` section of the `build.boot` file. So, to go on
+with the next step you need to stop any `boot` related process and
+first add `hiccups` lib into the `build.boot` before restarting the
+IFDE as usual.
 
-(html [:script])
-;; emits "<script></script>"
-
-(html [:p])
-;; emits "<p/>
+```clj
+(set-env!
+ ...
+ :dependencies '[
+                  ...
+                  [hiccups "0.3.0"]
+                 ])
 ```
 
-hiccups also provides a CSS-like shortcut for denoting `id` and
+## Restart IFDE
+
+Restart IFDE as usual
+
+```bash
+cd /path/to/modern-cljs
+boot dev
+...
+Compiling ClojureScript...
+• main.js
+WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/2vm/hys6xj/main.out/domina.cljs
+Elapsed time: 23.931 sec
+```
+
+##  Restart bREPL
+
+Restart bREPL as usual
+
+```clj
+# from a new terminal
+cd /path/to/modern-cljs
+boot repl -c
+...
+boot.user=> (start-repl)
+...
+```
+
+and finally visit the
+[shopping URL](http://localhost:3000/shopping.html) to activate the
+bREPL.
+
+## Add hiccups namespace
+
+Open the `src/cljs/modern_cljs/shopping.cljs` file to update its
+requirements.
+
+```clj
+(ns modern-cljs.shopping
+  (:require [domina :refer [append! 
+                            by-class
+                            by-id 
+                            destroy! 
+                            set-value! 
+                            value]]
+            [domina.events :refer [listen!]]
+            [hiccups.runtime])
+  (:require-macros [hiccups.core :refer [html]]))
+```
+
+> NOTE 1: As note in the [previous tutorial][], due to a bug of the
+> `boot-cljs-repl` task, we need to first require a namespace from a
+> namespace declaration to be able to require it in the bREPL as
+> well. The `hiccups`runtime` namesapce has to be required, even if
+> we're not going to use its symbols. This is why it has not been
+> aliased.
+
+NOTE 2: the `hiccups.core` contains macros (e.g. `html`), which are
+written in CLJ. Namespaces containing macros are referenced via the
+`:require-macros` keyword in namespace declaration and via
+`require-macros` in the bREPL.
+
+As soon as you save the file, IFDE recompile and reload it.
+
+## bREPLing with hiccups
+
+Before start bREPLing with `hiccups`, we need to require its namespace
+in the bREPL as well.
+
+```clj
+cljs.user> (require '[hiccups.runtime])
+nil
+cljs.user> (require-macros '[hiccups.core :refer [html]])
+nil
+```
+
+As above, we did not alias any namespace and we interned the `html`
+symbol only from `hiccups.core` namespace, because it's the only one
+we're going to exercise.
+
+Here are some basic documented examples of hiccups usage we're going
+to experiment with at the bREPL.
+
+
+```clj
+cljs.user> (html [:span {:class "foo"} "bar"])
+"<span class=\"foo\">bar</span>"
+cljs.user> (html [:script])
+"<script></script>"
+cljs.user> (html [:p])
+"<p />"
+```
+
+`hiccups` also provides a CSS-like shortcut for denoting `id` and
 `class` attributes
 
-```clojure
-(html [:div#foo.bar.baz "bang"])
-;; emits "<div id=\"foo\" class=\"bar baz\">bang</div>"
+```clj
+cljs.user> (html [:div#foo.bar.baz "bang"])
+"<div class=\"bar baz\" id=\"foo\">bang</div>"
 ```
 
 which brings us to our problem of representing the string `"<div
-class=\"help\">Click to calculate</div>"` as CLJ data structures to be
+class='help'>Click to calculate</div>"` as CLJ data structures to be
 passed to `append!` function
 
-```clojure
-(html [:div.help "Click to calculate"])
+```clj
+cljs.user> (html [:div.help "Click to calculate"])
+"<div class=\"help\">Click to calculate</div>"
 ```
 
-We are now ready to use hiccups by:
+We are now ready to substitute the horrific HTML string to be passed
+in the `mouseover` anonymous listener in the `shopping.cljs` source
+file.
 
-* add hiccups to `project.clj` dependencies
-* require `hiccups.core` macro namespace
-* require `hiccups.runtime` *whether you need to use it directly or not*
-* use hiccups syntax to generate the HTML string to be passed to
-  the domina `append!` function
-
-Here is the amendment to  the `project.clj`.
-
-```clojure
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  :dependencies [...
-                 [hiccups "0.2.0"]]
-  ...)
-```
-
-And here is the updated `shopping.cljs` source file.
-
-```clojure
-(ns modern-cljs.shopping
-  (:require-macros [hiccups.core :as h])
-  (:require [domina :as dom]
-            [domina.events :as ev]
-            [hiccups.runtime]))
-
-(defn calculate []
-  (let [quantity (dom/value (dom/by-id "quantity"))
-        price (dom/value (dom/by-id "price"))
-        tax (dom/value (dom/by-id "tax"))
-        discount (dom/value (dom/by-id "discount"))]
-    (dom/set-value! (dom/by-id "total") (-> (* quantity price)
-                                            (* (+ 1 (/ tax 100)))
-                                            (- discount)
-                                            (.toFixed 2)))))
-
-(defn add-help []
-  (dom/append! (dom/by-id "shoppingForm")
-               (h/html [:div.help "Click to calculate"])))
-
-(defn remove-help []
-  (dom/destroy! (dom/by-class "help")))
-
+```clj
 (defn ^:export init []
   (when (and js/document
-             (.-getElementById js/document))
-    (ev/listen! (dom/by-id "calc") :click calculate)
-    (ev/listen! (dom/by-id "calc") :mouseover add-help)
-    (ev/listen! (dom/by-id "calc") :mouseout remove-help)))
+           (.-getElementById js/document))
+    (listen! (by-id "calc") 
+             :click 
+             calculate)
+    (listen! (by-id "calc") 
+             :mouseover 
+             (fn []
+               (append! (by-id "shoppingForm")
+                        (html [:div.help "Click to calculate"]))))
+    (listen! (by-id "calc") 
+             :mouseout 
+             (fn []
+               (destroy! (by-class "help"))))))
 ```
 
-> NOTE 3: This is the first time we meet macros in CLJS. CLJS macros
-> are written in CLJ and are referenced via the `:require-macros`
-> keyword in the namespace declaration where the `:as` prefix is
-> required. It must be noted that the code generated by macros must
-> target the capability of CLJS (see [Differences from Clojure][8])
-
-> NOTE 4: We required the `hiccups.runtime` namespace even though we do not
-> need to use it directly.  This is because the `hiccups.core` macros need it
-> to run properly.  The current example will actually work if `hiccups.runtime`
-> is omitted, but anything more complicated (such as expressions containing
-> variables, functions, or macros) will break.
-
-We're now happy with what we achieved by using domina and hiccups to
-make our shopping calculator sample as Clojure-ish as possible. The
+We're now happy with what we achieved by using `domina` and `hiccups`
+to make our shopping calculator sample as Clojure-ish as possible. The
 only thing that still hurts me is the `.-getElementById` interop call
 in the `init` function which can be very easily removed by just using
 `aget` like so:
 
-```clojure
+```clj
 (defn ^:export init []
   (when (and js/document
-             (aget js/document "getElementById"))
-    (ev/listen! (dom/by-id "calc") :click calculate)
-    (ev/listen! (dom/by-id "calc") :mouseover add-help)
-    (ev/listen! (dom/by-id "calc") :mouseout remove-help)))
+           (aget js/document "getElementById"))
+    (listen! (by-id "calc") 
+             :click 
+             calculate)
+    (listen! (by-id "calc") 
+             :mouseover 
+             (fn []
+               (append! (by-id "shoppingForm")
+                        (html [:div.help "Click to calculate"]))))  ;; hiccups
+    (listen! (by-id "calc") 
+             :mouseout 
+             (fn []
+               (destroy! (by-class "help"))))))
 ```
-
-Update the `shopping.cljs` source file as above, save it, clean and
-recompile everything and finally run the project as usual:
-
-```bash
-lein cljsbuild clean # from modern-cljs home dir
-lein clean
-lein cljsbuild once
-lein ring server
-lein trampoline cljsbuild repl-listen # from modern home dir in a new terminal
-```
-
-Next visit [`shopping-dbg.html`][4], [`shopping-pre.html`][9] and
-[`shopping.html`][10] to verify that all the builds still work.
 
 As homework, I suggest you to modify `login.cljs` according to
 the approach used for `shopping.cljs` in this and in the
 [previous tutorial][1].
 
 If you created a new git branch as suggested in the preamble of this
-tutorial, I suggest you to commit the changes as follows
+tutorial, stop any `boot` releated process and commit your changes.
 
 ```bash
 git commit -am "DOM manipulation"
 ```
 
-# Next step - [Tutorial 10: Introducing Ajax][11]
+# Next step - [Tutorial 9: Introducing Ajax][11]
 
 In the next tutorial we're going to extend our comprehension of CLJS by
 introducing Ajax to let the CLJS client-side code communicate with
@@ -431,7 +501,7 @@ the CLJ server-side code.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
