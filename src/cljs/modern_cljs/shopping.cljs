@@ -1,5 +1,10 @@
 (ns modern-cljs.shopping
-  (:require [domina :refer [by-id value set-value!]]
+  (:require [domina :refer [append! 
+                            by-class
+                            by-id 
+                            destroy! 
+                            set-value! 
+                            value]]
             [domina.events :refer [listen!]]))
 
 (defn calculate []
@@ -13,6 +18,18 @@
                                     (.toFixed 2)))))
 
 (defn ^:export init []
-  (if (and js/document
+  (when (and js/document
            (.-getElementById js/document))
-    (listen! (by-id "calc") :click calculate)))
+    (listen! (by-id "calc") 
+             :click 
+             calculate)
+    (listen! (by-id "calc") 
+             :mouseover 
+             (fn []
+               (append! (by-id "shoppingForm")
+                        "<div class='help'>Click to calculate</div>")))
+    (listen! (by-id "calc") 
+             :mouseout 
+             (fn []
+               (destroy! (by-class "help"))))))
+
