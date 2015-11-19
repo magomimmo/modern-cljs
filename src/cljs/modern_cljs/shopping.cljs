@@ -5,7 +5,9 @@
                             destroy! 
                             set-value! 
                             value]]
-            [domina.events :refer [listen!]]))
+            [domina.events :refer [listen!]]
+            [hiccups.runtime])
+  (:require-macros [hiccups.core :refer [html]]))
 
 (defn calculate []
   (let [quantity (value (by-id "quantity"))
@@ -19,7 +21,7 @@
 
 (defn ^:export init []
   (when (and js/document
-           (.-getElementById js/document))
+           (aget js/document "getElementById"))
     (listen! (by-id "calc") 
              :click 
              calculate)
@@ -27,7 +29,7 @@
              :mouseover 
              (fn []
                (append! (by-id "shoppingForm")
-                        "<div class='help'>Click to calculate</div>")))
+                        (html [:div.help "Click to calculate"]))))  ;; hiccups
     (listen! (by-id "calc") 
              :mouseout 
              (fn []
