@@ -7,7 +7,7 @@ style and elimination of any direct use of CLJS/JS interop.
 As we said in [Tutorial 4][3], the very first reason why JS adoption
 became so intense had to do with its ability to easily support
 client-side validation of HTML forms. This is the same thing we did
-from [Tutorial 4][3] through [Tutorial 9][1].
+from [Tutorial 4][3] through [Tutorial 8][1].
 
 Then, thanks to the introduction of [XmlHttpRequest][4] and
 the popularity of Gmail and Google Maps, the terms **[Ajax][31]** and **[Web 2.0][32]**
@@ -22,8 +22,8 @@ assuming you've [git][30] installed, do as follows.
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
-git checkout tutorial-09
-git checkout -b tutorial-10-step-1
+git checkout se-tutorial-08
+git checkout -b tutorial-09-step-1
 ```
 
 # Introduction
@@ -45,13 +45,13 @@ applied to a form page example is shown below:
 
 As you can see, when a click event is raised, the corresponding event
 handler calls the XHR object and registers a callback function, which
-will be notified with the response. The XHR object creates the
-http request and sends it to the web server which selects and calls the
-appropriate server-side handler (i.e., application logic). The server-side
-handler then returns the response to the XHR object which parses
-the response and notifies the registered callback. The
-callback function then manipulates the DOM and/or the CSS of the
-page to be shown by the browser to the user.
+will be later notified with the response. The XHR object creates the
+http request and sends it to the web server which selects and calls
+the appropriate server-side handler (i.e., application logic). The
+server-side handler then returns the response to the XHR object which
+parses the response and notifies the registered callback. The callback
+function then manipulates the DOM and/or the CSS of the page to be
+shown by the browser to the user.
 
 # No Ajax, no party
 
@@ -85,7 +85,8 @@ integrated libraries that focuses on:
 * ClojureScript's advantages
 
 And it builds upon efforts found in other ClojureScript projects, such
-as [fetch][11] and [ClojureScriptOne][15]--standing on the shoulders of giants.
+as [fetch][11] and ClojureScriptOne (no more link available)
+--standing on the shoulders of giants.
 
 ## KISS (Keep It Small and Stupid)
 
