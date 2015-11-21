@@ -1,4 +1,4 @@
-# Tutorial 10 - Introducing Ajax
+# Tutorial 10 - Introducing AJAX
 
 In the [previous tutorial][1] we were happy enough with the results we
 achieved in terms of [separation of concerns][2], functional programming
