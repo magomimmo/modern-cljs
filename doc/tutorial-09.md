@@ -1,4 +1,4 @@
-# Tutorial 10 - Introducing Ajax
+# Tutorial 09 - Introducing Ajax
 
 In the [previous tutorial][1] we were happy enough with the results we
 achieved in terms of [separation of concerns][2], functional programming
@@ -6,13 +6,12 @@ style and elimination of any direct use of CLJS/JS interop.
 
 As we said in [Tutorial 4][3], the very first reason why JS adoption
 became so intense had to do with its ability to easily support
-client-side validation of HTML forms. This is the same thing we did
-from [Tutorial 4][3] through [Tutorial 8][1].
+client-side validation of HTML forms.
 
-Then, thanks to the introduction of [XmlHttpRequest][4] and
-the popularity of Gmail and Google Maps, the terms **[Ajax][31]** and **[Web 2.0][32]**
-became the most used web buzzwords all over the place and in a
-very short time too.
+Then, thanks to the introduction of [XmlHttpRequest][4] and the
+popularity of Gmail and Google Maps, the terms **[Ajax][31]** and
+**[Web 2.0][32]** became the most used web buzzwords all over the
+place and in a very short time too.
 
 ## Preamble
 
@@ -71,9 +70,9 @@ alleviate a certain PITA.
 After a brief GitHub search, my collegues [Federico Boniardi][7] and
 [Francesco Agozzino][8] found the [shoreleave-remote][9] and
 [shoreleave-remote-ring][10] libraries.  They appreared to be
-really promising in helping our Ajax experiments, as compared with
-the [fetch][11] library, which was the one I was aware of but depends
-on the [recently deprecated][13] [noir][12].
+promising in helping our Ajax experiments, as compared with the
+[fetch][11] library, which was the one I was aware of but depends on
+the [recently deprecated][13] [noir][12].
 
 As you can see from its [readme][14], shoreleave is a collection of
 integrated libraries that focuses on:
@@ -103,9 +102,14 @@ The following sequence diagram visualizes our requirements.
 ![Shopping Ajax][16]
 
 The first thing we want to do is implement the server-side function to
-calculate the total.
+calculate the total. Where we start from?
 
 ## The server side
+
+First consider that the Immediate Feedback Develpment Enviromnet
+(IFDE) we setup on [Tutorial 3][] already has an internal web server
+offered by the [`boot-http`][] task.
+
 
 Thanks to [Chas Emerick][17], one of the most active and
 fruitful Clojurists, we can exploit [shoreleave-remote-ring][10] by
@@ -485,7 +489,7 @@ application to the login form introduced in [Tutorial 4][3].
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
 [2]: http://en.wikipedia.org/wiki/Separation_of_concerns#HTML.2C_CSS.2C_JavaScript
 [3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
 [4]: http://en.wikipedia.org/wiki/XMLHttpRequest
