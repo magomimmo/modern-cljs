@@ -1,10 +1,10 @@
 (ns modern-cljs.shopping
-  (:require [domina :refer [append! 
-                            by-class
-                            by-id 
-                            destroy! 
-                            set-value! 
-                            value]]
+  (:require [domina.core :refer [append! 
+                                 by-class
+                                 by-id 
+                                 destroy! 
+                                 set-value! 
+                                 value]]
             [domina.events :refer [listen!]]
             [hiccups.runtime]
             [shoreleave.remotes.http-rpc :refer [remote-callback]]
