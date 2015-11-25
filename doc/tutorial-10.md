@@ -188,7 +188,7 @@ form which, by calling a non-existent server-side script (i.e.,
 
 ## Prevent the default
 
-Go back to the ['index.html'][12] URL and require the `domain.events'
+Go back to the [index.html][12] URL and require the `domain.events'
 namespace at the bREPL and ask for the `Event` protocol docstring:
 
 ```clj
@@ -231,8 +231,8 @@ We now know that the `Event` protocol supports, among others, the
 process of passing control from the `submit` button to the form
 `action` attribute.
 
-The `prevent-default` function requires that the fired event (e.g.,
-`:click`) is passed to the `validate-form` listener. Let's modify its
+The `prevent-default` function requires the fired event (e.g.,
+`:click`) be passed to the `validate-form` listener. Let's modify its
 definition accordingly to the above information.
 
 First we have to update the `domina.events` requirement by adding
@@ -244,7 +244,8 @@ First we have to update the `domina.events` requirement by adding
             [domina.events :refer [listen! prevent-default]]))
 ```
 
-Then we can go on with by updating the `validate-form` definion as follows:
+Then we can go on by updating the `validate-form` defintion as
+follows:
 
 ```clj
 (defn validate-form [e]
@@ -256,7 +257,7 @@ Then we can go on with by updating the `validate-form` definion as follows:
     true))
 ```
 
-We took advantage of the necessity to update the `validate-form`
+Here we took advantage of the necessity to update the `validate-form`
 function to improve its Clojure-ish style. The semantics of the
 `validation-form` is now much more readable than before:
 
@@ -275,10 +276,10 @@ function to improve its Clojure-ish style. The semantics of the
 > `validate-form` is now internally calling `prevent-default`,
 > so returning `false` would be redundant.
 
-To make the above mechanics clearer, we also update the `init`
+To make the above mechanics more clear, we also update the `init`
 function by wrapping the `validate-forma` listener inside an anonymous
 function taking the event `e` as argument. If you want, you can can
-safetly leave it as before..
+safetly leave it as before.
 
 ```clj
 (defn ^:export init []
@@ -287,9 +288,9 @@ safetly leave it as before..
     (listen! (by-id "submit") :click (fn [e] (validate-form e)))))
 ```
 
-Save the file and reload the `index.html` page. As you perhaps
-remember the `init` function is called as a JS script when the page is
-loaded. This is one of the rare case in which the live IFDE is not
+Save the file and reload the [index.html][12] page. As you peraphs
+remember, the `init` function is called, as a JS script, when the page
+is loaded. This is one of the rare case in which the live IFDE is not
 able to automate this manual activity.
 
 Now play with the Login Form to verify that it started working again
@@ -316,9 +317,7 @@ A pretty short specification of our desire could be the following:
 1. As soon as the email input field loses focus, check its
 syntactical correctness by matching its value against one of the several
 [email regex validators][16] available on the net; if the validation
-does not pass, make the error evident to help the user (e.g., by
-showing a red message, refocusing the email input field and making its
-border red);
+does not pass, make the error evident to help the user;
 
 2. A soon as the password input field loses focus, check its
 syntactical correctness by matching its value against one of the
@@ -345,9 +344,10 @@ validation:
   #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
 ```
 
-If you add the chance to read the [differences between CLJ and CLJS][],
-you already know that the CLJS regular-expressions on the JS platform
-are JS regular-expressions.
+If you add the chance to read the
+[differences between CLJ and CLJS](https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure),
+you already know that CLJS support for regular-expressions is JS
+support.
 
 Now add the `:blur` event listener to both the `email` and `password`
 input fields in the `init` function:
@@ -369,7 +369,9 @@ prevent any default action or to stop the propagation of the
 event. Instead, we passed them the element on which the blur event
 occurred.
 
-Now define the validators. Here is a very crude implementation of them.
+Now define the two new validators. Here is a very crude implementation
+of them. Remember to define them before the `validate-form` and after
+the two newly defined regexs.
 
 ```clj
 (defn validate-email [email]
@@ -394,10 +396,29 @@ be proud of. Anyone can do better than me. I just added a few CSS classes
 (i.e., `help`, `email` and `password`) using the [hiccups library][21] to
 manage the email and password help messages.
 
-To complete the coding, review the `validate-form` function as follows:
+Obviously you have to update the namespace declaration as well to be
+able to use the the `append!`, `by-class`, `destroy!` and `prepend!`
+symbols from the `domina.core` namespace and the `html` symbol from
+the `hiccups.core` namespace.
 
 ```clj
- (defn validate-form [evt]
+(ns modern-cljs.login
+  (:require [domina.core :refer [append!
+                                 by-class
+                                 by-id
+                                 destroy!
+                                 prepend!
+                                 value]]
+            [domina.events :refer [listen! prevent-default]]
+            [hiccups.runtime])
+  (:require-macros [hiccups.core :refer [html]]))
+```
+
+To complete the coding, review the `validate-form` function as
+follows:
+
+```clj
+(defn validate-form [evt]
   (let [email (by-id "email")
         password (by-id "password")
         email-val (value email)
@@ -418,20 +439,26 @@ validators and if they do not both return `true`, it calls
 `prevent-default` to prevent the `action` attached to
 the `loginForm` from being fired.
 
-Following is the complete `login.cljs` source code containing the
-updated namespace declaration and referencing the
-[hiccups library][21].
+Following is the complete and final `login.cljs` source code.
 
-```clojure
+```clj
 (ns modern-cljs.login
-  (:require-macros [hiccups.core :refer [html]])
-  (:require [domina :refer [by-id by-class value append! prepend! destroy!]]
+  (:require [domina.core :refer [append!
+                                 by-class
+                                 by-id
+                                 destroy!
+                                 prepend!
+                                 value]]
             [domina.events :refer [listen! prevent-default]]
-            [hiccups.runtime]))
+            [hiccups.runtime])
+  (:require-macros [hiccups.core :refer [html]]))
 
-(def ^:dynamic *password-re* #"^(?=.*\d).{4,8}$")
+;;; 4 to 8, at least one numeric digit.
+(def ^:dynamic *password-re* 
+  #"^(?=.*\d).{4,8}$")
 
-(def ^:dynamic *email-re* #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
+(def ^:dynamic *email-re* 
+  #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
 
 (defn validate-email [email]
   (destroy! (by-class "email"))
@@ -458,7 +485,8 @@ updated namespace declaration and referencing the
       (do
         (destroy! (by-class "help"))
         (prevent-default evt)
-        (append! (by-id "loginForm") (html [:div.help "Please complete the form"])))
+        (append! (by-id "loginForm") 
+                 (html [:div.help "Please complete the form"])))
       (if (and (validate-email email)
                (validate-password password))
         true
@@ -475,14 +503,16 @@ updated namespace declaration and referencing the
 ```
 
 To make the help messages more evident to the user, add the following CSS rule
-to `styles.css` which resides in the `resources/public/css` directory.
+to `styles.css` which resides in the `html/css` directory.
 
 ```css
 .help { color: red; }
 ```
 
-Verify the result by playing with the input fields and the login
-button. You should see something like the following pictures.
+Reload again the [`index.html`][12] page to re-attach the lesteners to
+the Login Form. Verify the result by playing with the input fields and
+the Login button. You should see something like the following
+pictures.
 
 ![Email Help][18]
 
@@ -493,31 +523,41 @@ button. You should see something like the following pictures.
 ## Event Types
 
 If you're interested in knowing all the event types supported by
-[Domina][4], here is the native code [goog.events.eventtype.js][15]
+[domina][4], here is the native code [goog.events.eventtype.js][15]
 which enumerates all events supported by the Google Closure native code on
-which Domina is based.
+which `domina` is based.
 
-Another way to know which events are supported by Domina is to run brepl
-and inspect the Google library `goog.events/EventType` directly.  If we do
+Another way to know which events are supported by `domina` is to
+inspect the Google library `goog.events/EventType` directly.  If we do
 this in the `domina.events` namespace it will save some typing.
 
-```clj
-cljs.user=> (require '[domina.events :as evt])
+```clj cljs.user> (in-ns 'domina.events)
 nil
-cljs.user=> (map keyword (gobj/getValues events/EventType))
-(:click :dblclick :mousedown :mouseup :mouseover :mouseout :mousemove
-:selectstart :keypress :keydown :keyup :blur :focus :deactivate :DOMFocusIn
-:DOMFocusOut :change :select :submit :input :propertychange :dragstart :drag
+domina.events> (map keyword (gobj/getValues events/EventType))
+(:click :rightclick :dblclick :mousedown :mouseup :mouseover :mouseout
+:mousemove :mouseenter :mouseleave :selectstart :wheel :keypress
+:keydown :keyup :blur :focus :deactivate :DOMFocusIn :DOMFocusOut
+:change :reset :select :submit :input :propertychange :dragstart :drag
 :dragenter :dragover :dragleave :drop :dragend :touchstart :touchmove
-:touchend :touchcancel :beforeunload :contextmenu :error :help :load
-:losecapture :readystatechange :resize :scroll :unload :hashchange :pagehide
-:pageshow :popstate :copy :paste :cut :beforecopy :beforecut :beforepaste
-:online :offline :message :connect :webkitTransitionEnd :MSGestureChange
-:MSGestureEnd :MSGestureHold :MSGestureStart :MSGestureTap
-:MSGotPointerCapture :MSInertiaStart :MSLostPointerCapture :MSPointerCancel
-:MSPointerDown :MSPointerMove :MSPointerOver :MSPointerOut :MSPointerUp
-:textinput :compositionstart :compositionupdate :compositionend)
-ClojureScript:domina.events>
+:touchend :touchcancel :beforeunload :consolemessage :contextmenu
+:DOMContentLoaded :error :help :load :losecapture :orientationchange
+:readystatechange :resize :scroll :unload :hashchange :pagehide
+:pageshow :popstate :copy :paste :cut :beforecopy :beforecut
+:beforepaste :online :offline :message :connect :webkitAnimationStart
+:webkitAnimationEnd :webkitAnimationIteration :webkitTransitionEnd
+:pointerdown :pointerup :pointercancel :pointermove :pointerover
+:pointerout :pointerenter :pointerleave :gotpointercapture
+:lostpointercapture :MSGestureChange :MSGestureEnd :MSGestureHold
+:MSGestureStart :MSGestureTap :MSGotPointerCapture :MSInertiaStart
+:MSLostPointerCapture :MSPointerCancel :MSPointerDown :MSPointerEnter
+:MSPointerHover :MSPointerLeave :MSPointerMove :MSPointerOut
+:MSPointerOver :MSPointerUp :text :textInput :compositionstart
+:compositionupdate :compositionend :exit :loadabort :loadcommit
+:loadredirect :loadstart :loadstop :responsive :sizechanged
+:unresponsive :visibilitychange :storage :DOMSubtreeModified
+:DOMNodeInserted :DOMNodeRemoved :DOMNodeRemovedFromDocument
+:DOMNodeInsertedIntoDocument :DOMAttrModified
+:DOMCharacterDataModified :beforeprint :afterprint)
 ```
 
 To complete the application of the progressive enhancement strategy to
