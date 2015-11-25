@@ -312,5 +312,5 @@ License, the same as Clojure.
 [4]: https://github.com/boot-clj/boot#install
 [5]: http://stackoverflow.com/questions/13567078/whats-wrong-with-single-segment-namespaces
 [6]: http://docs.oracle.com/javase/specs/jls/se8/html/jls-6.html
-[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-02.md
 [8]: https://vimeo.com/36579366

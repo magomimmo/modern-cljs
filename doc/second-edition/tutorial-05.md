@@ -667,7 +667,7 @@ Copyright © Mimmo Cosenza, 2012-2014. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/levand/domina
-[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
+[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-04.md
 [3]: https://github.com/brentonashworth/one
 [4]: https://github.com/brentonashworth/one/wiki/Design-and-templating
 [5]: https://github.com/weavejester/hiccup
@@ -675,8 +675,8 @@ License, the same as Clojure.
 [7]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure#host-interop
 [8]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure#namespaces
 [9]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping.png
-[10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+[10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-01.md
 [11]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/total.png
-[12]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
+[12]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-06.md
 [13]: https://help.github.com/articles/set-up-git
 [14]: https://youtu.be/qxE5wDbt964

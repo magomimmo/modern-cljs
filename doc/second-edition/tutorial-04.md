@@ -816,7 +816,7 @@ License, the same as Clojure.
 [1]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
 [2]: http://www.larryullman.com/
 [3]: http://www.larryullman.com/downloads/modern_javascript_scripts.zip
-[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-03.md
 [5]: https://help.github.com/articles/set-up-git
 [6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/ch02-tree.png
 [7]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/login-form.png
@@ -824,7 +824,7 @@ License, the same as Clojure.
 [9]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/login-01-dia.png
 [10]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/login-02-dia.png
 [11]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/login-03-dia.png
-[12]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+[12]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-01.md
 [13]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure#host-interop
 [14]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
 [15]: http://leiningen.org/

@@ -577,10 +577,10 @@ and the setup of a more comfortable project structure by using the
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
 [2]: https://github.com/cgrand/enlive
-[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-14.md
-[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md#break-the-shopping-calculator-again-and-again
+[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-14.md
+[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md#break-the-shopping-calculator-again-and-again
 [5]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/ServerNullPointer.png
 [6]: http://en.wikipedia.org/wiki/Syntactic_sugar
 [7]: http://en.wikipedia.org/wiki/Closure_(computer_science)
@@ -600,8 +600,8 @@ License, the same as Clojure.
 [21]: http://localhost:3000/shopping.html
 [22]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-invalid-values.png
 [23]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-with-invalid-messages.png
-[24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md
+[24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
 [25]: https://github.com/rkneufeld
 [26]: https://github.com/rkneufeld/lein-try
 [27]: https://github.com/rkneufeld/lein-try/issues/3
-[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
+[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md

@@ -400,8 +400,8 @@ form validation in CLJS.
 Copyright © Mimmo Cosenza, 2012-2014. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
-[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-02.md
+[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-01.md
 [3]: https://github.com/clojure/clojurescript/wiki/Compiler-Options#source-map
 [4]: https://github.com/clojure/clojurescript/wiki/Compiler-Options
 [5]: https://github.com/clojure/clojurescript/wiki/Compiler-Options#output-to

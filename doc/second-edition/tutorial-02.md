@@ -514,11 +514,11 @@ Copyright © Mimmo Cosenza, 2012-2015. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://vimeo.com/36579366
-[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-01.md
 [3]: https://git-scm.com/
 [4]: https://github.com/boot-clj/boot/wiki/Community-Tasks
 [5]: https://github.com/pandeiro/boot-http
 [6]: https://github.com/adzerk-oss/boot-reload
 [7]: https://github.com/adzerk-oss/boot-cljs-repl
 [8]: https://github.com/clojure/tools.nrepl
-[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-03.md

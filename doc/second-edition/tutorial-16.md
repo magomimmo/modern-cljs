@@ -802,7 +802,7 @@ error messages when she/he types in invalid values in the form.
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
 [2]: https://github.com/cemerick/valip
 [3]: https://github.com/cemerick
 [4]: https://github.com/cemerick/clojurescript.test
@@ -822,5 +822,5 @@ License, the same as Clojure.
 [18]: https://github.com/emezeske/lein-cljsbuild
 [19]: https://github.com/technomancy/leiningen
 [20]: https://github.com/cgrand/enlive
-[21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-17.md
-[22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+[21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
+[22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-01.md

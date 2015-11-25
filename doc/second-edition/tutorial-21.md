@@ -958,17 +958,17 @@ and we even correct them by first interact with the REPL.
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-20.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md
 [2]: https://github.com/ckirkendall/enfocus
 [3]: https://github.com/ckirkendall
 [4]: https://github.com/cemerick/clojurescript.test
 [5]: https://github.com/cemerick/piggieback
 [6]: https://clojars.org/
-[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-19.md
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
 [9]: http://en.wikipedia.org/wiki/Same_origin_policy
-[10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
-[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-03.md
+[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-02.md
 [12]: http://localhost:3000/
-[13]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-22.md
-[14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+[13]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-22.md
+[14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-01.md

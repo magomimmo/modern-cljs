@@ -587,14 +587,14 @@ layers of the progressive enhancement strategy to the Login Form.
 Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
 [2]: https://github.com/shoreleave/shoreleave-remote-ring
 [3]: https://github.com/shoreleave/shoreleave-remote#shoreleave
 [4]: https://github.com/levand/domina
-[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
+[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-04.md
 [6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/login-form.png
 [7]: http://en.wikipedia.org/wiki/Progressive_enhancement
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-08.md
 [9]: http://stackoverflow.com/questions/290215/difference-between-input-type-button-and-input-type-submit
 [10]: https://developers.google.com/closure/library/
 [11]: https://github.com/levand/domina#event-handling
@@ -611,5 +611,5 @@ License, the same as Clojure.
 [22]: https://github.com/cemerick/friend
 [23]: http://www.the-art-of-web.com/javascript/validate-password/#.UPvsHaGjejI
 [24]: http://regexlib.com/Search.aspx?k=password&c=-1&m=-1&ps=20
-[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-11.md
+[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-11.md
 [26]: https://help.github.com/articles/set-up-git

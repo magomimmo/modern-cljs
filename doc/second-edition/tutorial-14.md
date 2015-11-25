@@ -938,14 +938,14 @@ In the [next tutorial][28], after having added the validators for the
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-10.md
 [2]: http://localhost:3000/shopping.html
 [3]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/networkActivities01.png
 [4]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/DisableJavaScript.png
-[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-03.md
 [6]: https://github.com/weavejester/compojure
 [7]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/fictionShopping.png
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-11.md#prevent-the-default
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-11.md#prevent-the-default
 [9]: https://github.com/cgrand/enlive
 [10]: https://github.com/cgrand/enlive#enlive-
 [11]: https://github.com/swannodette
@@ -958,14 +958,14 @@ License, the same as Clojure.
 [18]: https://github.com/levand/domina#selectors
 [19]: http://jquery.com/
 [20]: http://cgrand.github.io/enlive/syntax.html
-[21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md#the-client-side
+[21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-10.md#the-client-side
 [22]: http://dev.clojure.org/display/design/Feature+Expressions
-[23]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-13.md#cross-the-border
+[23]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md#cross-the-border
 [24]: https://github.com/cemerick/valip
-[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-13.md#the-selection-process
+[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md#the-selection-process
 [26]: https://github.com/cemerick/valip/blob/master/src/valip/predicates.clj
 [27]: https://github.com/cgrand
-[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-15.md
+[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
 [29]: https://github.com/emezeske/lein-cljsbuild
 [30]: https://github.com/emezeske/lein-cljsbuild#hooks
 [31]: https://github.com/technomancy/leiningen
