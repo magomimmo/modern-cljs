@@ -61,14 +61,15 @@ ready to give life to a bunch of pure static HTML/CSS pages.
 ## Domina lib
 
 [Domina][1] was one of the first DOM library written in CLJS and it
-has not been updated to follow the evolution of CLJS compiler. During
+has not been updated to follow the evolution of CLJS compiler. If you
+use the canonical `domina` release (i.e., `[domina "1.0.3"]`), during
 the compilation you'll get a warning about the fact that it uses a
 single segment namespace. Even if those warnings do not affect the
 behaviour of the lib in the contest of this tutorial, I really hate
-warning. So I prepared a non canonical domina release which fixes that
-warnings.  That said, even if I would never suggest to use `domina` in
-a new project, this tutorial could be still useful to undertstand the
-way CLJS works.
+warnings. So I prepared a non canonical domina release which fixes
+those warnings.  That said, even if I would never suggest to use
+`domina` in a new CLJS project, this tutorial could be still useful to
+undertstand the way CLJS works.
 
 As usual to use a new library, you need to add it to the dependencies'
 section of the `build.boot` file living in the home directory of the
@@ -170,7 +171,7 @@ namespace. But it also features the `by-id`, `value` and `set-value!`
 functions defined in the `domina.core` namespace, which is the one
 we're going to use.
 
-The nice thing about `domina.core` `(by-id id)`, inherited from the
+The nice thing about `domina` `(by-id id)`, inherited from the
 underlying Google Closure Library (GCL) on top of which `domina` is
 implemented, is that it takes care of verifying if the passed argument
 is a string. As we anticipated, the `domina.core` namespace offers
@@ -481,8 +482,8 @@ enter the following code:
 ```
 
 Here we created the `modern-cljs.shopping` namespace and required
-`domina` lib by interning its `by-id`, `value`, and `set-value!`
-symbols into the first.
+`domina.core` namespace by interning its `by-id`, `value`, and
+`set-value!` symbols into the first.
 
 Then we grasped the needed values to calculate the total amount and
 set it as the value of the `total` field of the form before returning
