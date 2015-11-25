@@ -1,4 +1,11 @@
 /* From: http://www.assemblesoft.com/examples/form/simpleform.html */
+
+/* start modern-cljs customization */
+
+.help { color: red; }
+
+/* end modern-cljs customization */
+
 * {margin:0; padding:0;}
 
 html {
