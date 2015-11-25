@@ -1,4 +1,4 @@
-# Tutorial 09 - Introducing Ajax
+# Tutorial 9 - Introducing Ajax
 
 In the [previous tutorial][1] we were happy enough with the results we
 achieved in terms of [separation of concerns][2], functional programming
@@ -865,7 +865,7 @@ License, the same as Clojure.
 [22]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-02.png
 [23]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-03.png
 [24]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-04.png
-[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-11.md
+[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-10.md
 [26]: https://github.com/levand/domina
 [27]: https://github.com/levand/domina/blob/master/src/cljs/domina.cljs#L125
 [28]: https://github.com/levand/domina/pull/43
