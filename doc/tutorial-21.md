@@ -348,7 +348,7 @@ to move few stuff to the `:dev` profile as well.
    ;; in the jar package.
    :builds {:deploy
             {:source-paths ["src/cljs"]
-             ;:jar true ; DON'T TO THIS
+             ;:jar true ; DON'T DO THIS
              :compiler
              {:output-to "dev-resources/public/js/deploy.js"
               :optimizations :none
