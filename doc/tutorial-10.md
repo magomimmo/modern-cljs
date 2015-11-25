@@ -532,7 +532,8 @@ Another way to know which events are supported by `domina` is to
 inspect the Google library `goog.events/EventType` directly.  If we do
 this in the `domina.events` namespace it will save some typing.
 
-```clj cljs.user> (in-ns 'domina.events)
+```clj
+cljs.user> (in-ns 'domina.events)
 nil
 domina.events> (map keyword (gobj/getValues events/EventType))
 (:click :rightclick :dblclick :mousedown :mouseup :mouseover :mouseout
@@ -583,7 +584,7 @@ layers of the progressive enhancement strategy to the Login Form.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
