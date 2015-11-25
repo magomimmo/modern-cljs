@@ -11,7 +11,7 @@ client-side validation of HTML forms.
 Then, thanks to the introduction of [XmlHttpRequest][4] and the
 popularity of Gmail and Google Maps, the terms **[Ajax][31]** and
 **[Web 2.0][32]** became the most used web buzzwords all over the
-place and in a very short time too.
+places and in a very short time too.
 
 ## Preamble
 
@@ -84,7 +84,7 @@ integrated libraries that focuses on:
 And it builds upon efforts found in other ClojureScript projects, such
 as [fetch][11] and ClojureScriptOne (the link is no more available).
 
-## KISS (Keep It Small and Stupid)
+# KISS (Keep It Small and Stupid)
 
 To keep things simple enough we're going to stay with our boring
 [shopping calculator][20] form as a reference case to be implemented using
@@ -103,22 +103,21 @@ calculate the total. Where we start from?
 
 ## The server side
 
-First consider that the Immediate Feedback Develpment Enviromnet
-(IFDE) we setup on [Tutorial 3][] already has an internal web server
-offered by the [`boot-http`][] task.
+First consider that the Immediate Feedback Development Environment
+(IFDE) we setup on [Tutorial 3][19] already has an internal web server
+offered by the [`boot-http`][32] task.
 
-`boot-http` is configured to run [`Jetty`][] by default, but you can
-eventually use [`http-kit`][] by passing the `httpkit` to the `serve`
-task.
+`boot-http` is configured to run [`Jetty`][34] by default, but you can
+eventually use [`http-kit`][35].
 
 Whichever web server you want to run, `boot-http` adopted the
-[`ring`][] CLJS library for serving the web pages you created while
+[`ring`][36] CLJS library for serving web pages you created while
 developing your web application.
 
 This series of tutorials is not about CLJ, but as soon as you need to
 make an ajax call, we need a server side endpoint as well.
 
-This is way `boot-http` allows us to pass a [`ring handler`][] to the
+This is why `boot-http` allows us to pass a [`ring handler`][37] to the
 `serve` task as you can verify by taking a look at its documentation
 at the terminal:
 
@@ -141,13 +140,11 @@ Options:
   -n, --nrepl REPL          Set nREPL server parameters e.g. "{:port 3001, :bind "0.0.0.0"}" to REPL.
 ```
 
-Aside from the `handler` option, to configure the `serve` task for
-serving the ajax endpoint we have to implement on the server side, we
-are interested to the `resource-root` option as well. At the moment
-we're not interested in configuring the `init` and the `cleanup`
-options. While developeing, we want to set the `reload` option to
-`true` to reload any modified server side namespace on each incoming
-request.
+Aside from the `handler` option, we are interested at the
+`resource-root` option as well. At the moment we're not interested in
+configuring the `init` and the `cleanup` options. While developing, we
+also want to set the `reload` option to `true` to reload any modified
+server side namespace on each incoming request.
 
 ### build.boot
 
@@ -170,12 +167,12 @@ task accordingly to our `target-path`.
    (cljs)))
 ```
 
-Here we set the `ring` handler to the `handler` symbol in the
-`modern-cljs.core` namespace. Both the namespace and the symbol has
+Here we set the `ring handler` option to the `handler` symbol in the
+`modern-cljs.core` namespace. Both the namespace and the symbol have
 still to be defined. We want to keep any CLJ source file separated
-from the CLJS source file we already created in the `src/cljs` source
-directory. For this reason we create a new `src/clj/modern_cljs`
-directory to host any server side CLJ source file (e.g. `core.clj`).
+from any CLJS source file. For this reason we're going to create a new
+`src/clj/modern_cljs` directory to host any server side CLJ source
+file (e.g. `core.clj`).
 
 ```clj
 cd /path/to/modern-cljs
@@ -194,14 +191,15 @@ Now we have to add the newly created `src/clj` directory to the
  ...
 ```
 
-As you see we also explicitly set the `target-path` to the `"target"`
-directory, even if that's the default value.
+As you see, for clarity reason we also explicitly set the
+`target-path` to the `"target"` directory, even if that's the `boot`
+default value.
 
 ### Compojure
 
 There is one more thing we want to do. Instead of directily writing
 the routes of our web application as `ring` handlers, we are going to
-use [`compojure`][], a small CLJ routing library that will simplify
+use [`compojure`][38], a small CLJ routing library that will simplify
 our job.
 
 Let's add it to the `dependecies` section of the `build.boot` file.
@@ -324,7 +322,7 @@ Elapsed time: 17.941 sec
 
 Now visit the `http://localhost:3000/index.html` and the
 `http://localhost:3000/shopping.html` URLs. Everythig should still
-work as expected. Then visit the `http://localhost:3000` URL. you
+work as expected. Then visit the `http://localhost:3000` URL. You
 should receive the `Hello from Compojure!` message in the
 browser. Finally, if you visit any other URL
 (e.g. `http://localhost:3000/foo`) you should receive the `Page Not
@@ -355,12 +353,12 @@ Even if this association is not wrong *per se*, it does not mean that
 there are no other ways to implement ajax calls.
 
 What is easier than RPC (Remote Procedure Call) to bring with us the
-familiarity we all have with the standard way to locally call
-functions?  Someone could convince you that RPC model is
-synchronous. This is not true, you can easly have an RPC model which
-is implemented using asynchrony. This is exactly the way
-[`shoreleave`][] works: it internally uses ajax asynchrony to offer
-you a very familiar RPC programming model.
+familiarity we all have with the standard way to locally call a
+function?  Someone could convince you that the RPC model is
+synchronous. This has not to be true. You can easly have an RPC model
+which is implemented using asynchronicity. This is exactly the way the
+`shoreleave` lib works: it internally uses ajax asynchronicity to
+offer you a very familiar RPC programming model.
 
 Thanks to [Chas Emerick][17], one of the most active and fruitful
 Clojurists, we can exploit [shoreleave-remote-ring][10] to reach that
@@ -372,13 +370,13 @@ client-side. Does this remember you the `Shopping Form` sample?
 
 As usual we should first add the `shoreleave-remote-ring` library to
 the `dependencies` section of the `build.boot`. That said, the
-[canonical][] `shoreleave-remote-ring "0.3.0"` release depends on
+[canonical][39] `shoreleave-remote-ring "0.3.0"` release depends on
 outdated `org.clojure/tools.reader "0.7.0"` and its
-[`shoreleave-remote`][] counterpart internally depends on
-[`shorelave-browser`] which is affected by a bugged implementation of
-the `ITransientAssociative` and the `ITransientMap` CLJS protocols.
+[`shoreleave-remote`][9] counterpart internally depends on
+[`shorelave-browser`][40] which is affected by a bugged implementation
+of the `ITransientAssociative` and the `ITransientMap` CLJS protocols.
 
-To overcome this issue I upgraded all the `shoreleave` libs used in
+To overcome these issues I upgraded all the `shoreleave` libs used in
 the `modern-cljs` series. So, instead of adding the canonical
 `shoreleave` libs you have to use the following forks:
 
@@ -390,18 +388,17 @@ the `modern-cljs` series. So, instead of adding the canonical
                  ]
 ```
 
-> NOTE 1: We also added the `shoreleave-remote` library to the vector
-> of dependencies. This lib will be used later for the client-side
-> code.
+> NOTE 1: the `shoreleave-remote` library to the vector will be used
+> later for the client-side code.
 
 ### defremote
 
 The next step is to define the server-side function that implements
-the calculation from the `quantity`, `price`, `tax` and `discount`
-inputs.
+the calculation ot the `total` from the `quantity`, `price`, `tax` and
+`discount` inputs of our boring Shopping Form.
 
 The `shoreleave-remote-ring` library offers the `defremote` macro
-which is like `defn` plus adding the function to a registry
+which is like `defn` plus adding the defining function to a registry
 implemented as a reference type map (e.g., `(def remotes (atom {}))`).
 
 We like to keep the things separated. Considering we're probably going
@@ -419,9 +416,9 @@ them and start writing the first one:
       (- discount)))
 ```
 
-As you can see we first declared the new `modern-cljs.remotes`
-namespace and required the `shoreleave.middleware.rpc` namespace
-referring the `defremote` macro.
+As you see, we first declared the new `modern-cljs.remotes` namespace
+and required the `shoreleave.middleware.rpc` namespace referring the
+`defremote` macro.
 
 Then we used `defremote` to define the `calculate` function.
 
@@ -432,8 +429,8 @@ Then we used `defremote` to define the `calculate` function.
 
 ### Update the handler
 
-When we introduced [Compojure][18] in the previous section we defined
-a handler to manage the essential routes for serving our
+When we introduced [Compojure][18] in the previous section, we defined
+an handler to manage the essential routes for serving our
 `shopping.html` and `index.html` pages.
 
 That said the `shoreleave-remote-ring` library requires that you add
@@ -458,7 +455,7 @@ with `wrap-rpc`. Here is the complete `remotes.clj` content.
              (wrap-rpc)))
 ```
 
-As you see, in the namesapce declaration we added a requirement
+As you see, in the namespace declaration we added a requirement
 relative to the `modern-cljs.core` namespace to be able to intern the
 `handler` symbol we previoulsy defined.
 
@@ -468,8 +465,9 @@ threading first macro `->` used to wrap the original handler with the
 things needed to manage an ajax request.
 
 This is not not enough. To be able to parse the request received from
-an ajax client we also need to enrich the handler with some standard
-compojure middleware for web sites: the [`site`] wrapper:
+an ajax client we also need to enrich the handler with the
+[`site`][41] middleware which adds some standard features to the
+received request map:
 
 Here is the complete `remotes.clj` source file.
 
@@ -504,7 +502,7 @@ option of the `serve` task in the `build.boot` file by replacing the
 ```
 
 Even if what we did is seems to be all we had to do on the server
-side, there is a subtle issue we could run up against to during
+side, there is a subtle issue we could run up against during
 development as reported into the
 [`ring` readme](https://github.com/ring-clojure/ring#upgrade-notice):
 
@@ -518,8 +516,8 @@ development as reported into the
 > `[javax.servlet/servlet-api "2.5"]`
 
 In a next tutorial we'll further investigate the `boot` way to manage
-such things as [leiningen profiles][]. At the moment we just add the
-above lib to the `boot dependencies` section.
+such things as [leiningen profiles][42]. At the moment we just want to
+add the above lib to the `boot dependencies` section.
 
 Here is the complete and final `build.boot` file.
 
@@ -597,9 +595,10 @@ If you want to test the remote `calculate` function, require the
 `modern-cljs.remotes` namespace and call it at the CLJS REPL prompt.
 
 ```clj
+boot.user=> (require '[modern-cljs.remotes :as r])
+nil
 boot.user=> (r/calculate 10 12.25 8.25 5)
 127.60624999999999
-boot.user=>
 ```
 
 Not so impressive, but it works. We can procede with the client-side
@@ -654,7 +653,7 @@ First we need to update the namespace declaration by requiring the
                    [shoreleave.remotes.macros :as macros]))
 ```
 
-> NOTE 3: We also added `cljs.reader` namespace to refer
+> NOTE 3: We also added the `cljs.reader` namespace to refer
 > `read-string`. The reason will become clear in the following
 > section, after we'll update the client-side `calculate` function.
 
@@ -706,7 +705,7 @@ nil
 cljs.user=>
 ```
 
-Evaluate a multiplication and passing it two stringified numbers:
+Evaluate a multiplication by passing to it two stringified numbers:
 
 ```clj
 cljs.user=> (* "6" "7")
@@ -749,7 +748,7 @@ cast a `String` to a `Number`.
 It should now be clear why we added `cljs.reader` to the
 `modern-cljs.shopping` namespace declaration to refer to the CLJS
 `read-string` function: we never want to get in trouble by using
-stringified number in numeric calculation.
+stringified number in numeric calculations.
 
 ### The remote callback
 
@@ -785,14 +784,14 @@ server-side.
 
 # Make you a favor
 
-> NOTE 4: This paragraph has been written using a previous
-> version of `shoreleave` libs. *Mutatis Mutandis* (e.g., `_shoreleave`
-> instead of `_fetch`), everything should be almost the same when
-> using the latest available version of `shoreleave`.
+> NOTE 4: The images of this paragraph have been generated with a
+> previous version of `shoreleave` libs. *Mutatis Mutandis* (e.g.,
+> `_shoreleave` instead of `_fetch`) and the actual Google Chrome
+> Developer Tools interface, everything should be almost the same.
 
 Let's finally verify our running Ajax application by using the browser
 Developer Tools. I'm using Google Chrome Canary, but you can choose
-any browser that provides developer tools comparable with the ones
+any browser that provides Developer Tools comparable with the ones
 available in Google Chrome Canary.
 
 * If you have stopped the running `boot dev` process, restart it
@@ -811,11 +810,11 @@ image.
 
 ![network-02][22]
 
-Now click `_shoreleave` from the `Name` column. If the `Header`
-subpane is not already selected, select it and scroll until you can see
-the `Form Data` area. You should now see the following view which
-reports `calculate` as the value of the `remote` key, and `[1 1 0 0]`
-as the value of `params`.
+Now click `_shoreleave` (`_fetch`) from the `Name` column. If the
+`Header` subpane is not already selected, select it and scroll until
+you can see the `Form Data` area. You should now see the following
+view which reports `calculate` as the value of the `remote` key, and
+`[1 1 0 0]` as the value of `params`.
 
 ![network-03][23]
 
@@ -841,7 +840,7 @@ application to the login form introduced in [Tutorial 4][3].
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
@@ -876,3 +875,13 @@ License, the same as Clojure.
 [30]: https://help.github.com/articles/set-up-git
 [31]: http://en.wikipedia.org/wiki/Ajax_%28programming%29
 [32]: http://en.wikipedia.org/wiki/Web_2.0
+[33]: https://github.com/pandeiro/boot-http
+[34]: http://www.eclipse.org/jetty/
+[35]: http://www.http-kit.org/
+[36]: https://github.com/ring-clojure/ring
+[37]: https://github.com/ring-clojure/ring/wiki/Concepts
+[38]: https://github.com/weavejester/compojure
+[39]: https://github.com/clojars/clojars-web/wiki/Groups#canonical-group
+[40]: https://github.com/shoreleave/shoreleave-browser
+[41]: https://weavejester.github.io/compojure/compojure.handler.html#var-site
+[42]: https://github.com/technomancy/leiningen/blob/master/doc/PROFILES.md
