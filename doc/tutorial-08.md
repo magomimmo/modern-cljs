@@ -49,7 +49,6 @@ boot dev
 ...
 Compiling ClojureScript...
 • main.js
-WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/2vm/hys6xj/main.out/domina.cljs
 Elapsed time: 23.931 sec
 ```
 
@@ -75,7 +74,7 @@ needed namespaces.
 
 ```clj
 cljs.user> (require '[modern-cljs.shopping :as shop] :reload
-                    '[domina :as dom] :reload
+                    '[domina.core :as dom] :reload
                     '[domina.events :as evt] :reload)
 nil
 ```
@@ -116,7 +115,7 @@ Anyway, domina offers you three options for nodes selection:
 
 * `xpath` from `domina.xpath` namespace
 * `sel` from `domina.css` namespace
-* `by-id` and `by-class` from `domina` namespace
+* `by-id` and `by-class` from `domina.core` namespace
 
 Thankfully `append!` accepts, as a first argument, any domina
 expression that returns one or more `content` (i.e., one or more DOM
@@ -172,7 +171,7 @@ mouse pointer exits the button area.
 Thankfully, the `domina.events` namespace supports the `mouseout`
 event as well.
 
-The `domina` core namespace even offers the `destroy!` function to
+The `domina.core` namespace even offers the `destroy!` function to
 permanentely delete a DOM element and all its children all together.
 
 Go back to the bREPL and ask for the `destroy!` docstring.
@@ -180,7 +179,7 @@ Go back to the bREPL and ask for the `destroy!` docstring.
 ```clj
 cljs.user> (doc dom/destroy!)
 -------------------------
-domina/destroy!
+domina.core/destroy!
 ([content])
   Removes all the nodes in a content from the DOM. Returns nil.
 nil
@@ -188,13 +187,13 @@ nil
 
 We also need a way to select the `div` tag. As you remember we set the
 `class` CSS attribute of the added `div` to `help` value. Again, the
-`domina` core namespace exposes a `by-class` function to select all
+`domina.core` namespace exposes a `by-class` function to select all
 the elements which are members of a class.
 
 ```clj
 cljs.user> (doc dom/by-class)
 -------------------------
-domina/by-class
+domina.core/by-class
 ([class-name])
   Returns content containing nodes which have the specified CSS class.
 nil
@@ -236,12 +235,12 @@ Here is the updated content.
 
 ```clj
 (ns modern-cljs.shopping
-  (:require [domina :refer [append! 
-                            by-class
-                            by-id 
-                            destroy! 
-                            set-value! 
-                            value]]
+  (:require [domina.core :refer [append! 
+                                 by-class
+                                 by-id 
+                                 destroy! 
+                                 set-value! 
+                                 value]]
             [domina.events :refer [listen!]]))
 
 (defn calculate []
@@ -339,7 +338,6 @@ boot dev
 ...
 Compiling ClojureScript...
 • main.js
-WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/2vm/hys6xj/main.out/domina.cljs
 Elapsed time: 23.931 sec
 ```
 
@@ -367,12 +365,12 @@ requirements of the namespace declaration.
 
 ```clj
 (ns modern-cljs.shopping
-  (:require [domina :refer [append! 
-                            by-class
-                            by-id 
-                            destroy! 
-                            set-value! 
-                            value]]
+  (:require [domina.core :refer [append! 
+                                 by-class
+                                 by-id 
+                                 destroy! 
+                                 set-value! 
+                                 value]]
             [domina.events :refer [listen!]]
             [hiccups.runtime])
   (:require-macros [hiccups.core :refer [html]]))

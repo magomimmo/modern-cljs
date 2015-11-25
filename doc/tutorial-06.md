@@ -216,7 +216,6 @@ boot dev
 ...
 Compiling ClojureScript...
 • main.js
-WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/47x/r3n3mb/main.out/domina.cljs
 Elapsed time: 35.941 sec
 ```
 

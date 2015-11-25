@@ -54,7 +54,6 @@ boot dev
 ...
 Compiling ClojureScript...
 • main.js
-WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/2bp/r3n3mb/main.out/domina.cljs
 Elapsed time: 19.122 sec
 ```
 
@@ -116,7 +115,7 @@ requirements.
 
 ```cljs
 (ns modern-cljs.shopping
-  (:require [domina :refer [by-id value set-value!]]
+  (:require [domina.core :refer [by-id value set-value!]]
             [domina.events :refer [listen!]]))
 ```
 
@@ -130,7 +129,7 @@ requirment form.
 
 ```clj
 cljs.user> (require '[modern-cljs.shopping :as shop] :reload
-                    '[domina :as dom] :reload
+                    '[domina.core :as dom] :reload
                     '[domina.events :as evt] :reload)
 nil
 ```
@@ -210,7 +209,7 @@ the above bREPL experiment.
 
 ```clj
 (ns modern-cljs.shopping
-  (:require [domina :refer [by-id value set-value!]]
+  (:require [domina.core :refer [by-id value set-value!]]
             [domina.events :refer [listen!]]))
 
 (defn calculate []

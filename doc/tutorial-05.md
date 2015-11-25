@@ -63,10 +63,12 @@ ready to give life to a bunch of pure static HTML/CSS pages.
 [Domina][1] was one of the first DOM library written in CLJS and it
 has not been updated to follow the evolution of CLJS compiler. During
 the compilation you'll get a warning about the fact that it uses a
-single segment namespace. Those warnings do not affect the behaviour
-of the lib in the contest of this tutorial. That said, even if I would
-never suggest to use `domina` in a new project, this tutorial could be
-still useful to undertstand the way CLJS works.
+single segment namespace. Even if those warnings do not affect the
+behaviour of the lib in the contest of this tutorial, I really hate
+warning. So I prepared a non canonical domina release which fixes that
+warnings.  That said, even if I would never suggest to use `domina` in
+a new project, this tutorial could be still useful to undertstand the
+way CLJS works.
 
 As usual to use a new library, you need to add it to the dependencies'
 section of the `build.boot` file living in the home directory of the
@@ -77,7 +79,7 @@ project.
  ...
  :dependencies '[
                  ...
-                 [domina "1.0.3"]                      ;; add domina
+                 [org.cljars.magomimmo/domina "2.0.0-SNAPSHOT"]
                  ])
 ```
 
@@ -92,18 +94,12 @@ So, let's start the IFDE as usual:
 
 ```clj
 boot dev
-Retrieving domina-1.0.3.jar from https://clojars.org/repo/
+Retrieving domina-2.0.0-20151125.115321-1.jar from https://clojars.org/repo/
 ...
 Compiling ClojureScript...
 • js/main.js
-WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/24z/r3n3mb/js/main.out/domina.cljs
 Elapsed time: 22.633 sec
 ```
-
-As anticipated, the CLJS compilation is warning you about `domina` lib
-using a single segment namespace. Even if I really hate compilation
-warnings, and you should too, we can live with this one for the
-duration of few tutorials.
 
 ## Launch the bREPL
 
@@ -168,15 +164,16 @@ Before to start bREPLing, let's review the content of the
 
 ## Domina selectors
 
-[Domina][1] offers several selector functions: `xpath`, in the `domina.xpath`
-namespace, and `sel`, in the `domina.css` namespace. But it also features the
-`by-id`, `value` and `set-value!` functions defined in the `domina` core
-namespace, which is the one we're going to use.
+[Domina][1] offers several selector functions: `xpath`, in the
+`domina.xpath` namespace, and `sel`, in the `domina.css`
+namespace. But it also features the `by-id`, `value` and `set-value!`
+functions defined in the `domina.core` namespace, which is the one
+we're going to use.
 
-The nice thing about `domina` `(by-id id)`, inherited from the
+The nice thing about `domina.core` `(by-id id)`, inherited from the
 underlying Google Closure Library (GCL) on top of which `domina` is
 implemented, is that it takes care of verifying if the passed argument
-is a string. As we anticipated, the `domina` core namespace offers
+is a string. As we anticipated, the `domina.core` namespace offers
 other useful functions we're going to use: `(value el)`, which returns
 the value of the passed element, and `(set-value! el value)` which
 sets its value.
@@ -190,12 +187,10 @@ sets its value.
 Let's now familiarize ourselves in the bREPL with the above `domina`
 functions.
 
-First we need to require the `domina` core namespace.
+First we need to require the `domina.core` namespace.
 
 ```clj
-cljs.user=> (require '[domina :refer [by-id value set-value!]] :reload)
-WARNING: domina is a single segment namespace at line 1 file:/Users/mimmo/.m2/repository/domina/domina/1.0.3/domina-1.0.3.jar!/domina.cljs
-WARNING: domina is a single segment namespace at line 1 out/domina.cljs
+cljs.user=> (require '[domina.core :refer [by-id value set-value!]] :reload)
 nil
 ```
 
@@ -204,9 +199,6 @@ the [previous tutorial][2], we're now directly interning `by-id`,
 `value` and `set-value!` symbols into the `cljs.user` namespace loaded
 by default by the bREPL in such a way that we can use them from the
 bREPL without specifying any namespace's alias.
-
-The WARNING notifications are still there as it's our dislike for
-them. Be forgiving and go on to see how those functions work.
 
 ```clj
 cljs.user=> (doc by-id)
@@ -261,7 +253,7 @@ consequentely update the `validate-form` function. Open the
 
 ```clj
 (ns modern-cljs.login
-  (:require [domina :refer [by-id value]]))
+  (:require [domina.core :refer [by-id value]]))
 
 (defn validate-form []
   (if (and (> (count (value (by-id "email"))) 0)
@@ -466,7 +458,7 @@ enter the following code:
 
 ```clj
 (ns modern-cljs.shopping
-  (:require [domina :refer [by-id value set-value!]]))
+  (:require [domina.core :refer [by-id value set-value!]]))
 
 (defn calculate []
   (let [quantity (value (by-id "quantity"))

@@ -230,8 +230,7 @@ Here is the complete `build.boot` file
                  [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
                  [weasel "0.7.0"]                      ;; needed by bREPL
                  [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
-                 [domina "1.0.3"]                      ;; DOM manipulation
-                 [hiccups "0.3.0"]                     ;; CLJ html structs
+                 [org.cljars.magomimmo/domina "2.0.0-SNAPSHOT"] ;; DOM manip
                  [compojure "1.4.0"]                   ;; routing lib
                  ])
 
@@ -316,7 +315,6 @@ nREPL server started on port 56119 on host 127.0.0.1 - nrepl://127.0.0.1:56119
 Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
-WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/61a/tu2ddl/main.out/domina.cljs
 Elapsed time: 17.941 sec
 ```
 
@@ -537,7 +535,7 @@ Here is the complete and final `build.boot` file.
                  [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
                  [weasel "0.7.0"]                      ;; needed by bREPL
                  [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
-                 [domina "1.0.3"]
+                 [org.clojars.magomimmo/domina "2.0.0-SNAPSHOT"]
                  [hiccups "0.3.0"]
                  [compojure "1.4.0"]                   ;; for routing
                  [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1"]
@@ -612,12 +610,12 @@ Open the `shopping.cljs` file from the [previous tutorial][1].
 
 ```clj
 (ns modern-cljs.shopping
-  (:require [domina :refer [append! 
-                            by-class
-                            by-id 
-                            destroy! 
-                            set-value! 
-                            value]]
+  (:require [domina.core :refer [append! 
+                                 by-class
+                                 by-id 
+                                 destroy! 
+                                 set-value! 
+                                 value]]
             [domina.events :refer [listen!]]
             [hiccups.runtime])
   (:require-macros [hiccups.core :refer [html]]))
@@ -639,12 +637,12 @@ First we need to update the namespace declaration by requiring the
 
 ```clj
 (ns modern-cljs.shopping
-  (:require [domina :refer [append! 
-                            by-class
-                            by-id 
-                            destroy! 
-                            set-value! 
-                            value]]
+  (:require [domina.core :refer [append! 
+                                 by-class
+                                 by-id 
+                                 destroy! 
+                                 set-value! 
+                                 value]]
             [domina.events :refer [listen!]]
             [hiccups.runtime]
             [shoreleave.remotes.http-rpc :refer [remote-callback]]
