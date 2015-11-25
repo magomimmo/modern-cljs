@@ -235,7 +235,7 @@ License, the same as Clojure.
 [3]: https://github.com/emezeske/lein-cljsbuild.git
 [4]: http://docs.oracle.com/javase/specs/jls/se7/html/jls-6.html
 [5]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/hellocljs.png
-[6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-02.md
 [7]: https://github.com/swannodette
 [8]: https://groups.google.com/forum/#!topic/clojurescript/CT0aDLgLxW8
 [9]: https://github.com/cemerick

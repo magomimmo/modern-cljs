@@ -233,14 +233,14 @@ events (e.g., `mouseover`, `mouseout`, etc.)
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-05.md
 [2]: https://github.com/levand/domina
-[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md#shopping-calculator-sample
+[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-05.md#shopping-calculator-sample
 [4]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
-[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
+[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-07.md
 [6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-reviewed.png
-[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md#modify-validate-form
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-05.md#modify-validate-form
 [8]: http://localhost:3000/shopping-dbg.html
-[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-09.md
 [10]: https://help.github.com/articles/set-up-git
-[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-17.md
+[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-17.md

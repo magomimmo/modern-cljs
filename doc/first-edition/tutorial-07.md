@@ -496,15 +496,15 @@ follow a more Clojure-ish approach in handing DOM events.
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-06.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-06.md
 [2]: https://github.com/emezeske/lein-cljsbuild/blob/0.2.9/sample.project.clj
 [3]: https://github.com/clojure/clojurescript/wiki/The-REPL-and-Evaluation-Environments
-[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
-[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-02.md
+[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-03.md
 [6]: https://github.com/emezeske/lein-cljsbuild/issues/157
 [7]: http://dev.clojure.org/jira/browse/CLJS-419
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
-[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-01.md
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-08.md
 [10]: http://cemerick.com/2011/04/22/adding-gzip-compression-to-a-clojure-webapp-in-30-seconds/
 [11]: http://docs.codehaus.org/display/JETTY/GZIP+Compression
 [12]: https://help.github.com/articles/set-up-git

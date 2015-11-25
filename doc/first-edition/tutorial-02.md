@@ -209,10 +209,10 @@ License, the same as Clojure.
 [5]: https://github.com/mpenet
 [6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/mamp-01.png
 [7]: http://localhost:8888/simple.html
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-01.md
 [9]: https://developers.google.com/closure/compiler/
 [10]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/alert.png
-[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-03.md
 [12]: http://utopia.knoware.nl/~hlub/rlwrap/#rlwrap
 [13]: https://github.com/emezeske/lein-cljsbuild/wiki/Using-Readline-with-REPLs-for-Better-Editing
 [14]: https://github.com/emezeske/lein-cljsbuild/issues/186

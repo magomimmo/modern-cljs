@@ -484,9 +484,9 @@ application to the login form introduced in [Tutorial 4][3].
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-09.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-09.md
 [2]: http://en.wikipedia.org/wiki/Separation_of_concerns#HTML.2C_CSS.2C_JavaScript
-[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
+[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-04.md
 [4]: http://en.wikipedia.org/wiki/XMLHttpRequest
 [5]: http://en.wikipedia.org/wiki/Ajax_(programming)#Technologies
 [6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/ajax.png
@@ -502,17 +502,17 @@ License, the same as Clojure.
 [16]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-ajax.png
 [17]: https://github.com/cemerick
 [18]: https://github.com/weavejester/compojure
-[19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-03.md
 [20]: http://localhost:3000/shopping-dbg.html
 [21]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-01.png
 [22]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-02.png
 [23]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-03.png
 [24]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-04.png
-[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-11.md
+[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-11.md
 [26]: https://github.com/levand/domina
 [27]: https://github.com/levand/domina/blob/master/src/cljs/domina.cljs#L125
 [28]: https://github.com/levand/domina/pull/43
-[29]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-11.md
+[29]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-11.md
 [30]: https://help.github.com/articles/set-up-git
 [31]: http://en.wikipedia.org/wiki/Ajax_%28programming%29
 [32]: http://en.wikipedia.org/wiki/Web_2.0

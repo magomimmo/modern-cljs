@@ -330,7 +330,7 @@ the CLJ server-side code.
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-08.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-08.md
 [2]: https://github.com/levand/domina#examples
 [3]: https://github.com/magomimmo/domina/blob/master/readme.md#examples
 [4]: http://localhost:3000/shopping-dbg.html
@@ -340,5 +340,5 @@ License, the same as Clojure.
 [8]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
 [9]: http://localhost:3000/shopping-pre.html
 [10]: http://localhost:3000/shopping.html
-[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
+[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-10.md
 [12]: https://help.github.com/articles/set-up-git

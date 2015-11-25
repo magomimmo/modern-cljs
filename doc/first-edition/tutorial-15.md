@@ -559,7 +559,7 @@ by [Chas Emerick][8] and the [cljx][13] lein plugin by [Kevin Lynagh][14].
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-14.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-14.md
 [2]: https://github.com/cgrand/enlive
 [3]: http://en.wikipedia.org/wiki/Don%27t_repeat_yourself
 [4]: http://localhost:3000/shopping.html
@@ -567,9 +567,9 @@ License, the same as Clojure.
 [6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/AjaxServerError.png
 [7]: https://github.com/cemerick/valip
 [8]: https://github.com/cemerick
-[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-14.md
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-14.md
 [10]: https://github.com/cgrand
-[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md
+[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-16.md
 [12]: https://github.com/cemerick/clojurescript.test
 [13]: https://github.com/lynaghk/cljx
 [14]: https://github.com/lynaghk

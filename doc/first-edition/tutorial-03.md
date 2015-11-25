@@ -146,11 +146,11 @@ In the [next tutorial 4][7] we're going to have some fun introducing form valida
 Copyright © Mimmo Cosenza, 2012-2014. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-02.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-02.md
 [2]: https://github.com/ring-clojure/ring
 [3]: https://github.com/weavejester/lein-ring
 [4]: http://ring-clojure.github.com/ring/
 [5]: https://github.com/weavejester/compojure.git
 [6]: http://localhost:3000/simple.html
-[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-04.md
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-04.md
 [8]: https://help.github.com/articles/set-up-git

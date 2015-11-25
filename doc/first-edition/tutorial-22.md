@@ -1298,16 +1298,16 @@ TO BE DONE
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-21.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-21.md
 [2]: https://github.com/ckirkendall/enfocus
 [3]: https://github.com/cemerick/piggieback
 [4]: https://github.com/cemerick/clojurescript.test
 [5]: http://localhost:3000/
 [6]: https://github.com/ckirkendall
-[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-16.md
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-20.md
-[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-18.md
-[10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-19.md
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-16.md
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-20.md
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-18.md
+[10]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-19.md
 [11]: http://joyofclojure.com/
 [12]: https://github.com/fogus
 [13]: https://github.com/Chouser

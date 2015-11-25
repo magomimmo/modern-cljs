@@ -320,13 +320,13 @@ principle while adding a validator library to the project.
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-11.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-11.md
 [2]: https://github.com/levand/domina
 [3]: https://github.com/magomimmo/hiccups
 [4]: http://localhost:3000/login-dbg.html
 [5]: https://github.com/magomimmo/compojure
-[6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-03.md
+[6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-03.md
 [7]: https://github.com/magomimmo/ring
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-10.md
-[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-13.md
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-10.md
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-13.md
 [10]: https://help.github.com/articles/set-up-git
