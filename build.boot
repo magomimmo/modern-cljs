@@ -16,6 +16,9 @@
                  [domina "1.0.3"]
                  [hiccups "0.3.0"]
                  [compojure "1.4.0"]                   ;; for routing
+                 [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1"]
+                 [org.clojars.magomimmo/shoreleave-remote "0.3.1"]
+                 [javax.servlet/servlet-api "2.5"]
                  ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
@@ -29,7 +32,7 @@
   []
   (comp
    (serve :dir "target"                                
-          :handler 'modern-cljs.core/handler           ;; ring hanlder
+          :handler 'modern-cljs.remotes/app            ;; ring hanlder
           :resource-root "target"                      ;; root classpath
           :reload true)                                ;; reload ns
    (watch)
