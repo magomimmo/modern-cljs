@@ -329,7 +329,7 @@ Although a nice looking implementation of the above specification is
 left to you, let's show at least a very crude sample from which to
 start.
 
-> NOTE 7: Take a look at the end of [this post][23] for an
+> NOTE 4: Take a look at the end of [this post][23] for an
 > HTML5-compliant approach to password validation.
 
 Open the `login.cljs` source file and start by adding two
@@ -344,6 +344,10 @@ validation:
 (def ^:dynamic *email-re* 
   #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
 ```
+
+If you add the chance to read the [differences between CLJ and CLJS][],
+you already know that the CLJS regular-expressions on the JS platform
+are JS regular-expressions.
 
 Now add the `:blur` event listener to both the `email` and `password`
 input fields in the `init` function:
