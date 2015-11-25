@@ -1,4 +1,4 @@
-# Tutorial 9 - DOM manipulation
+# Tutorial 9 - DOM Manipulation
 
 In the [previous tutorial][1] we introduced the `domina.events` namespace to
 make our event management a little bit more Clojure-ish than just
