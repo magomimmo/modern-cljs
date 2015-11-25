@@ -177,9 +177,9 @@ As soon as you save the file, it get recompiled and reload.
 
 Reload the [`index.html`][12] URL to allow the updated `init` function
 to be called again. Do not fill any field (or fill just one of them),
-and click the "Login" button. The application reacts by showing you
-the usual `alert` window reminding you to complete the form.  Click
-the `OK` button and be prepared for an unexpected result.
+and click the Login button. The application reacts by showing you the
+usual `alert` window reminding you to complete the form.  Click the
+`OK` button and be prepared for an unexpected result.
 
 Instead of showing the login form to allow the user to complete it,
 the process flows directly to the default `action` attribute of the
