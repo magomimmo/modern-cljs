@@ -12,7 +12,7 @@
                  [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
                  [weasel "0.7.0"]                      ;; needed by bREPL
                  [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
-                 [domina "1.0.3"]                      ;; add domina
+                 [org.clojars.magomimmo/domina "2.0.0-SNAPSHOT"] ;; add domina
                  ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]

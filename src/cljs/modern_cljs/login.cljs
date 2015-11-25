@@ -1,5 +1,5 @@
 (ns modern-cljs.login
-  (:require [domina :refer [by-id value]]))
+  (:require [domina.core :refer [by-id value]]))
 
 (defn validate-form []
   (if (and (> (count (value (by-id "email"))) 0)
