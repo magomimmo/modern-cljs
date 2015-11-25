@@ -881,31 +881,31 @@ working as expected.
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-19.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
 [2]: https://clojars.org/
 [3]: https://github.com/shoreleave
 [4]: https://github.com/ckirkendall/enfocus
-[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-14.md
+[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-14.md
 [6]: https://github.com/cgrand/enlive
-[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-17.md
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-09.md
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
 [9]: https://github.com/levand/domina
 [10]: https://github.com/ckirkendall
 [11]: https://github.com/cemerick/clojurescript.test
 [12]: https://github.com/cemerick
 [13]: https://help.github.com/articles/fork-a-repo
-[14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-16.md#no-black-magic
+[14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md#no-black-magic
 [15]: https://github.com/emezeske/lein-cljsbuild/blob/master/doc/CROSSOVERS.md
 [16]: https://github.com/emezeske/lein-cljsbuild
 [17]: https://github.com/lynaghk/cljx
 [18]: https://github.com/lynaghk
 [19]: https://github.com/swannodette
-[20]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-07.md
+[20]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-07.md
 [21]: https://github.com/clojure/clojure/blob/master/src/clj/clojure/test.clj
-[22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-16.md
+[22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
 [23]: http://phantomjs.org/
-[24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-16.md#instructing-lein-cljsbuild-about-phantomjs
+[24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md#instructing-lein-cljsbuild-about-phantomjs
 [25]: http://stackoverflow.com/questions/115983/how-do-i-add-an-empty-directory-to-a-git-repository
-[26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-21.md
-[27]: https://github.com/magomimmo/modern-cljs/blob/cda20296ab8008ada32fb879c4d8fadc50357f59/doc/first-edition/tutorial-18.md#step-3---run-the-brepl
-[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-01.md
+[26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-21.md
+[27]: https://github.com/magomimmo/modern-cljs/blob/cda20296ab8008ada32fb879c4d8fadc50357f59/doc/second-edition/tutorial-18.md#step-3---run-the-brepl
+[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-01.md

@@ -836,10 +836,10 @@ clojars for using them in your project.
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-17.md
-[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-02.md
-[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-03.md
-[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-07.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
+[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-02.md
+[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-03.md
+[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-07.md
 [5]: https://github.com/technomancy/leiningen
 [6]: https://github.com/emezeske/lein-cljsbuild
 [7]: https://github.com/cemerick/piggieback/blob/master/README.md
@@ -857,4 +857,4 @@ License, the same as Clojure.
 [19]: https://github.com/clojure/tools.nrepl#middleware
 [20]: https://github.com/lynaghk/cljx
 [21]: http://localhost:3000/shopping-dbg.html
-[22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-19.md
+[22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md

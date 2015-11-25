@@ -243,12 +243,12 @@ using the usual `lein-cljsbuild` plugin of `leiningen`.
 Copyright © Mimmo Cosenza, 2012-2014. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-05.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-05.md
 [2]: http://localhost:3000/shopping.html
-[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-01.md
+[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-01.md
 [4]: https://github.com/emezeske/lein-cljsbuild/blob/master/example-projects/advanced/project.clj
 [5]: https://github.com/emezeske/lein-cljsbuild
 [6]: https://github.com/levand/domina#event-handling
 [7]: http://www.larryullman.com/books/modern-javascript-develop-and-design/
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-07.md
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-07.md
 [9]: https://help.github.com/articles/set-up-git

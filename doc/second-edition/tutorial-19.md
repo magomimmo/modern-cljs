@@ -862,10 +862,10 @@ the [clojurescript.test][31] lib for implementing its unit tests.
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-18.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
 [2]: https://github.com/cemerick/piggieback
 [3]: https://github.com/technomancy/leiningen/blob/stable/doc/PROFILES.md
-[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-10.md
+[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-10.md
 [5]: https://github.com/shoreleave/shoreleave-remote
 [6]: https://github.com/shoreleave/shoreleave-remote-ring
 [7]: https://github.com/shoreleave
@@ -878,18 +878,18 @@ License, the same as Clojure.
 [14]: http://en.wikipedia.org/wiki/Literate_programming
 [15]: http://semver.org/
 [16]: https://github.com/cemerick
-[17]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-16.md
+[17]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
 [18]: https://github.com/ohpauleez
 [19]: https://help.github.com/articles/be-social#pull-requests
 [20]: https://help.github.com/articles/syncing-a-fork
 [21]: https://clojars.org/
-[22]: https://github.com/technomancy/leiningen/blob/stable/doc/first-edition/tutorial.md#publishing-libraries
+[22]: https://github.com/technomancy/leiningen/blob/stable/doc/second-edition/tutorial.md#publishing-libraries
 [23]: https://clojars.org/register
 [24]: https://github.com/technomancy/leiningen/blob/master/doc/DEPLOY.md#authentication
 [25]: http://clojars.org/repo/
 [26]: http://releases.clojars.org/repo/
 [27]: https://github.com/
-[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-20.md
+[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md
 [29]: https://github.com/ckirkendall/enfocus
 [30]: https://github.com/cgrand/enlive
 [31]: https://github.com/cemerick/clojurescript.test

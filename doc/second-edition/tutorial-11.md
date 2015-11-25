@@ -1,4 +1,4 @@
-# Tutorial 12 - HTML on Top, Clojure on the Bottom
+# Tutorial 11 - HTML on Top, Clojure on the Bottom
 
 In the [previous tutorial][1], we used DOM events to further the
 progressive enhancement strategy of our Clojurean web application. By
@@ -16,8 +16,8 @@ assuming you've [git][10] installed, do as follows.
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
-git checkout tutorial-11
-git checkout -b tutorial-12-step-1
+git checkout se-tutorial-10
+git checkout -b tutorial-11-step-1
 ```
 
 # Introduction
@@ -33,7 +33,7 @@ functions.
 
 # The highest surface
 
-Here is the relevant fragment of the updated `login-dbg.html`.
+Here is the relevant fragment of the updated `index.html`.
 
 ```html
 <html>
@@ -61,25 +61,18 @@ Here is the relevant fragment of the updated `login-dbg.html`.
 </html>
 ```
 
-> NOTE 1: Remember to make the same modifications to both
-> `login-pre.html` and `login.html` used by, respectively, the
-> `pre-prod` and the `prod` builds defined in `project.clj` (I
-> hate this kind of code duplication. But, at the moment it is not the problem
-> I'm trying to solve).
-
 As you can see, we removed the `novalidate` HTML5 attribute from the
-form and added the `placeholder`, `title` and `pattern` HTML5 attributes
-to both the `email` and the `password` HTML5 `input` field elements of
-the form.
+form and added the `placeholder`, `title` and `pattern` HTML5
+attributes to both the `email` and the `password` HTML5 input field
+elements of the form.
 
-Umm, this is again a kind of code duplication and I hate it more than the
-previous one. Luckily, this time we have a handy solution based on the
-[domina library][2]. Let's modify the `validate-email` and
-`validate-password` handlers in such a way that, instead of having those
-patterns and help messages defined in the source code, we can get them
-from the input elements attributes by using the `attr` function defined
-in the `domina` namespace. Following is the updated code fragment
-from `login.cljs`.
+This is a kind of code duplication I really hate. Luckily we have a
+handy solution based on the [domina library][2]. Let's modify the
+`validate-email` and `validate-password` handlers in such a way that,
+instead of having those patterns and help messages defined in the
+source code, we can get them from the input elements attributes by
+using the `attr` function defined in the `domina` namespace. Following
+is the updated code fragment from `login.cljs`.
 
 ```clojure
 (ns modern-cljs.login
@@ -320,13 +313,13 @@ principle while adding a validator library to the project.
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-11.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-10.md
 [2]: https://github.com/levand/domina
 [3]: https://github.com/magomimmo/hiccups
-[4]: http://localhost:3000/login-dbg.html
+[4]: http://localhost:3000/index.html
 [5]: https://github.com/magomimmo/compojure
-[6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-03.md
+[6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-03.md
 [7]: https://github.com/magomimmo/ring
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-10.md
-[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-13.md
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md
 [10]: https://help.github.com/articles/set-up-git
