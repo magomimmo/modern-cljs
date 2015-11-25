@@ -134,16 +134,17 @@ As you remember, when we reviewed the `Shopping Calculator` code to
 make it more Clojure-ish, we started by changing the `type` attribute
 of the Shopping Form's button from `type="submit"` to
 `type="button"`. But having decided to adhere to a progressive
-enhancement strategy, this is not something that we should have done--a
-plain [button type][9] is not going anywhere if the browser doesn't support JS.
-So we need to stay with the `submit` type of button.
+enhancement strategy, this is not something that we should have done
+becasue a plain [button type][9] is not going anywhere if the browser
+doesn't support JS.  So we need to stay with the `submit` type of
+button.
 
 ## First try
 
 Start by making the programming style of `login.cljs` more
 Clojure-ish. First we want to remove any CLJS/JS interop calls by
 using [domina][4]. Open `login.cljs`, update the requirement of the
-namespace declaration and change the `init` function to make it more
+namespace declarations and change the `init` function to make it more
 Clojur-ish
 
 ```clj
@@ -188,7 +189,7 @@ form which, by calling a non-existent server-side script (i.e.,
 
 ## Prevent the default
 
-Go back to the [index.html][12] URL and require the `domain.events'
+Go back to the [`index.html`][12] URL and require the `domain.events`
 namespace at the bREPL and ask for the `Event` protocol docstring:
 
 ```clj
@@ -288,7 +289,7 @@ safetly leave it as before.
     (listen! (by-id "submit") :click (fn [e] (validate-form e)))))
 ```
 
-Save the file and reload the [index.html][12] page. As you peraphs
+Save the file and reload the [`index.html`][12] page. As you peraphs
 remember, the `init` function is called, as a JS script, when the page
 is loaded. This is one of the rare case in which the live IFDE is not
 able to automate this manual activity.
@@ -561,19 +562,21 @@ domina.events> (map keyword (gobj/getValues events/EventType))
 ```
 
 To complete the application of the progressive enhancement strategy to
-the login form, in future tutorials we'll introduce [friend][22]
-and line up the login form to the shopping form approach adopted in
-the [10th tutorial][1] to allow the browser to communicate with the server
-via Ajax.
+the Login form, we should implement the server-side counterpart of the
+above CLJS code and line up the Login form to the Shopping Form
+approach adopted in the [9th tutorial][1] to allow the browser to
+communicate with the server via Ajax. 
+
+We'll do our best in subsequents tutorials.
 
 If you created a new git branch as suggested in the preamble of this
-tutorial, I suggest you to commit the changes as follows
+tutorial, stop any `boot` related process and commit your changes.
 
 ```bash
 git commit -am "deeper understanding"
 ```
 
-# Next Step - [Tutorial 12: HTML on Top, Clojure on the Bottom][25]
+# Next Step - [Tutorial 11: HTML on Top, Clojure on the Bottom][25]
 
 In the [next tutorial][25] we're going to cover the highest and the deepest
 layers of the progressive enhancement strategy to the Login Form.
@@ -607,5 +610,5 @@ License, the same as Clojure.
 [22]: https://github.com/cemerick/friend
 [23]: http://www.the-art-of-web.com/javascript/validate-password/#.UPvsHaGjejI
 [24]: http://regexlib.com/Search.aspx?k=password&c=-1&m=-1&ps=20
-[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-12.md
+[25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/tutorial-11.md
 [26]: https://help.github.com/articles/set-up-git
