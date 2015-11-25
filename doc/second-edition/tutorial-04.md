@@ -806,7 +806,10 @@ tutorial, quit everything and commit the changes.
 git commit -am "resembling javascript in clojurescript"
 ```
 
-# Next Step Tutorial 5: TBD
+# Next Step [Tutorial 5: Introducing Domina][17]
+
+In the [next tutorial][17] we're going to use the domina library to make our
+login form validation more Clojure-ish.
 
 # License
 
@@ -829,3 +832,4 @@ License, the same as Clojure.
 [14]: https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure
 [15]: http://leiningen.org/
 [16]: https://github.com/clojure-emacs/cider
+[17]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-05.md
