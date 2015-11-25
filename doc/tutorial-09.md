@@ -69,10 +69,8 @@ alleviate a certain PITA.
 
 After a brief GitHub search, my collegues [Federico Boniardi][7] and
 [Francesco Agozzino][8] found the [shoreleave-remote][9] and
-[shoreleave-remote-ring][10] libraries.  They appreared to be
-promising in helping our Ajax experiments, as compared with the
-[fetch][11] library, which was the one I was aware of but depends on
-the [recently deprecated][13] [noir][12].
+[shoreleave-remote-ring][10] libraries.  They appeared to be promising
+in simplifying our Ajax experiments.
 
 As you can see from its [readme][14], shoreleave is a collection of
 integrated libraries that focuses on:
@@ -84,8 +82,7 @@ integrated libraries that focuses on:
 * ClojureScript's advantages
 
 And it builds upon efforts found in other ClojureScript projects, such
-as [fetch][11] and ClojureScriptOne (no more link available)
---standing on the shoulders of giants.
+as [fetch][11] and ClojureScriptOne (the link is no more available).
 
 ## KISS (Keep It Small and Stupid)
 
@@ -110,49 +107,309 @@ First consider that the Immediate Feedback Develpment Enviromnet
 (IFDE) we setup on [Tutorial 3][] already has an internal web server
 offered by the [`boot-http`][] task.
 
+`boot-http` is configured to run [`Jetty`][] by default, but you can
+eventually use [`http-kit`][] by passing the `httpkit` to the `serve`
+task.
 
-Thanks to [Chas Emerick][17], one of the most active and
-fruitful Clojurists, we can exploit [shoreleave-remote-ring][10] by
-defining a remote `calculate` function which will return a result
-(i.e., `total`) based on the input (i.e., `quantity`, `price`, `tax`
-and `discount`).
+Whichever web server you want to run, `boot-http` adopted the
+[`ring`][] CLJS library for serving the web pages you created while
+developing your web application.
+
+This series of tutorials is not about CLJ, but as soon as you need to
+make an ajax call, we need a server side endpoint as well.
+
+This is way `boot-http` allows us to pass a [`ring handler`][] to the
+`serve` task as you can verify by taking a look at its documentation
+at the terminal:
+
+```bash
+boot serve -h
+Start a web server on localhost, serving resources and optionally a directory.
+Listens on port 3000 by default.
+
+Options:
+  -h, --help                Print this help info.
+  -d, --dir PATH            Set the directory to serve; created if doesn't exist to PATH.
+  -H, --handler SYM         Set the ring handler to serve to SYM.
+  -i, --init SYM            Set a function to run prior to starting the server to SYM.
+  -c, --cleanup SYM         Set a function to run after the server stops to SYM.
+  -r, --resource-root ROOT  Set the root prefix when serving resources from classpath to ROOT.
+  -p, --port PORT           Set the port to listen on. (Default: 3000) to PORT.
+  -k, --httpkit             Use Http-kit server instead of Jetty
+  -s, --silent              Silent-mode (don't output anything)
+  -R, --reload              Reload modified namespaces on each request.
+  -n, --nrepl REPL          Set nREPL server parameters e.g. "{:port 3001, :bind "0.0.0.0"}" to REPL.
+```
+
+Aside from the `handler` option, to configure the `serve` task for
+serving the ajax endpoint we have to implement on the server side, we
+are interested to the `resource-root` option as well. At the moment
+we're not interested in configuring the `init` and the `cleanup`
+options. While developeing, we want to set the `reload` option to
+`true` to reload any modified server side namespace on each incoming
+request.
+
+### build.boot
+
+Let's start by modifying the `build.boot` to configure the `serve`
+task accordingly to our `target-path`.
+
+```clj
+...
+(deftask dev 
+  "Launch immediate feedback dev environment"
+  []
+  (comp
+   (serve :dir "target"
+          :handler 'modern-cljs.core/handler ;; add ring handler
+          :resource-root "target"            ;; add resource-path
+          :reload true)                      ;; reload server side ns
+   (watch)
+   (reload)
+   (cljs-repl) ;; before cljs
+   (cljs)))
+```
+
+Here we set the `ring` handler to the `handler` symbol in the
+`modern-cljs.core` namespace. Both the namespace and the symbol has
+still to be defined. We want to keep any CLJ source file separated
+from the CLJS source file we already created in the `src/cljs` source
+directory. For this reason we create a new `src/clj/modern_cljs`
+directory to host any server side CLJ source file (e.g. `core.clj`).
+
+```clj
+cd /path/to/modern-cljs
+mkdir -p src/clj/modern_cljs
+touch src/clj/modern_cljs/core.clj
+```
+
+Now we have to add the newly created `src/clj` directory to the
+`source-paths` environment variable in the `build.boot` file as well.
+
+```bash
+(set-env!
+ :source-paths #{"src/clj" "src/cljs"}  ;; add CLJ source dir
+ :resource-paths #{"html"}
+ :target-path "target"                  ;; added for clarity
+ ...
+```
+
+As you see we also explicitly set the `target-path` to the `"target"`
+directory, even if that's the default value.
+
+### Compojure
+
+There is one more thing we want to do. Instead of directily writing
+the routes of our web application as `ring` handlers, we are going to
+use [`compojure`][], a small CLJ routing library that will simplify
+our job.
+
+Let's add it to the `dependecies` section of the `build.boot` file.
+
+```clj
+ ...
+ :dependencies '[
+                 ...
+                 [compojure "1.4.0"]                   ;; routing lib
+                 ...
+```
+
+Here is the complete `build.boot` file
+
+```clj
+(set-env!
+ :source-paths #{"src/clj" "src/cljs"}
+ :resource-paths #{"html"}
+ :target-path "target"
+
+ :dependencies '[
+                 [org.clojure/clojure "1.7.0"]         ;; add CLJ
+                 [org.clojure/clojurescript "1.7.170"] ;; add CLJS
+                 [adzerk/boot-cljs "1.7.170-3"]        ;; CLJS compiler
+                 [pandeiro/boot-http "0.7.0"]          ;; web server
+                 [adzerk/boot-reload "0.4.2"]          ;; live reload
+                 [adzerk/boot-cljs-repl "0.3.0"]       ;; CLJS bREPL
+                 [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
+                 [weasel "0.7.0"]                      ;; needed by bREPL
+                 [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
+                 [domina "1.0.3"]                      ;; DOM manipulation
+                 [hiccups "0.3.0"]                     ;; CLJ html structs
+                 [compojure "1.4.0"]                   ;; routing lib
+                 ])
+
+(require '[adzerk.boot-cljs :refer [cljs]]
+         '[pandeiro.boot-http :refer [serve]]
+         '[adzerk.boot-reload :refer [reload]]
+         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
+
+;;; add dev task
+(deftask dev 
+  "Launch immediate feedback dev environment"
+  []
+  (comp
+   (serve :dir "target"
+          :handler 'modern-cljs.core/handler           ;; ring hanlder
+          :resource-root "target"                      ;; root classpath
+          :reload true)                                ;; reload ns
+   (watch)
+   (reload)
+   (cljs-repl) ;; before cljs
+   (cljs)))
+```
+
+### The handler
+
+We're now ready to write our `ring` handler in the
+`src/clj/modern_cljs/core.clj` file we previously created.
+
+```clj
+(ns modern-cljs.core 
+  (:require [compojure.core :refer [defroutes GET]]
+            [compojure.route :refer [not-found files resources]]))
+
+(defroutes handler
+  (GET "/" [] "Hello from Compojure!")  ;; for testing only
+  (files "/" {:root "target"})          ;; to serve static resources
+  (resources "/" {:root "target"})      ;; to serve anything else
+  (not-found "Page Not Found"))         ;; page not found
+```
+
+There are few things to be noted here:
+
+* we used the `defroutes` macro from the `compojure.core` namespace
+  for defining the `handler` we set for the `serve` task in the
+  `build.boot` build file;
+* the `handler` is just a list of routes;
+* we defined four routes:
+  * the `GET` macro from the `compojure.core` namespace has been used
+    to return the `Hello from Compojure` text when a client ask for
+    the `http://localhost:3000/` URL;
+  * the `files` function, defined in the `compojure.route` namespace,
+    has been used for serving static file from the `target` directory,
+    accordingly to the directory we previously set for the
+    `target-path`;
+  * the `resources` function, defined in the `compojure.route`
+    namespace as well, has been used for serving resources living in
+    the classpath accordingly to the `target-path` we previously set
+    in the `build.boot` file;
+  * finally we used the `not-found` function to return a `Page Not
+    Found` page for any request which has not been found neither by
+    the `files` or the `resources` functions.
+  
+We're now ready to verify if our set up is still able to serve the
+`shopping.html` and the `index.html` pages.
+
+Start the IFDE as usual:
+
+```bash
+boot dev
+Starting reload server on ws://localhost:56118
+Writing boot_reload.cljs...
+Writing boot_cljs_repl.cljs...
+2015-11-24 15:58:29.432:INFO::clojure-agent-send-off-pool-0: Logging initialized @9231ms
+2015-11-24 15:58:30.948:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
+2015-11-24 15:58:30.972:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@6fc50114{HTTP/1.1}{0.0.0.0:3000}
+2015-11-24 15:58:30.973:INFO:oejs.Server:clojure-agent-send-off-pool-0: Started @10772ms
+Started Jetty on http://localhost:3000
+
+Starting file watcher (CTRL-C to quit)...
+
+nREPL server started on port 56119 on host 127.0.0.1 - nrepl://127.0.0.1:56119
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+WARNING: domina is a single segment namespace at line 1 /Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/61a/tu2ddl/main.out/domina.cljs
+Elapsed time: 17.941 sec
+```
+
+Now visit the `http://localhost:3000/index.html` and the
+`http://localhost:3000/shopping.html` URLs. Everythig should still
+work as expected. Then visit the `http://localhost:3000` URL. you
+should receive the `Hello from Compojure!` message in the
+browser. Finally, if you visit any other URL
+(e.g. `http://localhost:3000/foo`) you should receive the `Page Not
+Found` message.
+
+If you're complaining about the amount of work you have to do just for
+reaching a behaviour similar to the one obtainable for free by using
+the default `serve` task configuration, I'm with you too.
+
+That said, all that work has been done to be prepared for implementing
+the server side ajax endpoint we started from as the goal of this
+tutorial.
+
+Before going with the next step I suggest to kill any `boot` related
+process and commit your work.
+
+```bash
+git commit add --all
+git cimmit -m "step-1: add ring handler"
+```
+
+## Back to shoreleave
+
+When thinking about Ajax, most of us instinctively associate it with
+the asynchronous programming model and the way callbacks support it.
+
+Even if this association is not wrong *per se*, it does not mean that
+there are no other ways to implement ajax calls.
+
+What is easier than RPC (Remote Procedure Call) to bring with us the
+familiarity we all have with the standard way to locally call
+functions?  Someone could convince you that RPC model is
+synchronous. This is not true, you can easly have an RPC model which
+is implemented using asynchrony. This is exactly the way
+[`shoreleave`][] works: it internally uses ajax asynchrony to offer
+you a very familiar RPC programming model.
+
+Thanks to [Chas Emerick][17], one of the most active and fruitful
+Clojurists, we can exploit [shoreleave-remote-ring][10] to reach that
+objective: it allows to define a remote functions returning a result
+calculated server-side based on the input values got on the
+client-side. Does this remember you the `Shopping Form` sample?
 
 ### Update dependencies
 
 As usual we should first add the `shoreleave-remote-ring` library to
-`project.clj`. That said, the current `shoreleave-remote-ring "0.3.0"`
-release depends on `org.clojure/tools.reader "0.7.0"`,
-which is not compatible with the latest
-CLJS releases. To overcome this issue I upgraded all the `shoreleave`
-libs used in the `modern-cljs` series. So, instead of adding the
-canonical `shoreleave` libs you have to use the following forks:
+the `dependencies` section of the `build.boot`. That said, the
+[canonical][] `shoreleave-remote-ring "0.3.0"` release depends on
+outdated `org.clojure/tools.reader "0.7.0"` and its
+[`shoreleave-remote`][] counterpart internally depends on
+[`shorelave-browser`] which is affected by a bugged implementation of
+the `ITransientAssociative` and the `ITransientMap` CLJS protocols.
+
+To overcome this issue I upgraded all the `shoreleave` libs used in
+the `modern-cljs` series. So, instead of adding the canonical
+`shoreleave` libs you have to use the following forks:
 
 ```clj
-(defproject ...
   ...
-  :dependencies [...
-                 [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1-SNAPSHOT"]
-                 [org.clojars.magomimmo/shoreleave-remote "0.3.1-SNAPSHOT"]]
-  ...)
+  :dependencies '[...
+                   [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1"]
+                   [org.clojars.magomimmo/shoreleave-remote "0.3.1"]
+                 ]
 ```
 
-> NOTE 1: We also added  the `shoreleave-remote` library to the
-> project dependencies. This lib will be used later for the
-> client-side code.
+> NOTE 1: We also added the `shoreleave-remote` library to the vector
+> of dependencies. This lib will be used later for the client-side
+> code.
 
 ### defremote
 
-The next step is to define the server-side function that implements the
-calculation from the `quantity`, `price`, `tax` and `discount` inputs. The
-`shoreleave-remote-ring` library offers the `defremote` macro which is
-like `defn` plus adding the function to
-a registry implemented as a reference type map (e.g., `(def remotes
-(atom {}))`).
+The next step is to define the server-side function that implements
+the calculation from the `quantity`, `price`, `tax` and `discount`
+inputs.
 
-Create a new CLJ file named `remotes.clj` in the `src/clj/modern_cljs`
-directory and write the following code:
+The `shoreleave-remote-ring` library offers the `defremote` macro
+which is like `defn` plus adding the function to a registry
+implemented as a reference type map (e.g., `(def remotes (atom {}))`).
 
-```clojure
+We like to keep the things separated. Considering we're probably going
+to create more `remote` functions, let's create a new CLJ file named
+`remotes.clj` in the `src/clj/modern_cljs` directory to host all of
+them and start writing the first one:
+
+```clj
 (ns modern-cljs.remotes
   (:require [shoreleave.middleware.rpc :refer [defremote]]))
 
@@ -173,52 +430,53 @@ Then we used `defremote` to define the `calculate` function.
 > [previous tutorial][1], you should note that the call to the `.toFixed`
 > CLJS function interop has been removed.
 
-> NOTE 3: The namespace declaration now uses the `:require` form with
-> the `:refer` specification, which I prefer to both
-> the `(:use ... :only [...])` and `(:require ... :as ...)` specifications.
-
 ### Update the handler
 
-When we introduced [Compojure][18] in [Tutorial 3][19] we defined a
-handler which used the `site` wrapper to add a set of standard
-*ring-middlewares* suitables for a regular web site. Here is the
-content of `core.clj`
+When we introduced [Compojure][18] in the previous section we defined
+a handler to manage the essential routes for serving our
+`shopping.html` and `index.html` pages.
 
-```clojure
-(ns modern-cljs.core
-  (:require [compojure.core :refer [defroutes GET]]
-            [compojure.route :refer [resources not-found]]
-            [compojure.handler :refer [site]]))
+That said the `shoreleave-remote-ring` library requires that you add
+the `wrap-rpc` wrapper to the top-level handler in such a way that it
+will be ready to receive Ajax calls.
 
-;; defroutes macro defines a function that chains individual route
-;; functions together. The request map is passed to each function in
-;; turn, until a non-nil response is returned.
-(defroutes app-routes
-  ; to serve document root address
-  (GET "/" [] "<p>Hello from compojure</p>")
-  ; to server static pages saved in resources/public directory
-  (resources "/")
-  ; if page is not found
-  (not-found "Page non found"))
+Open the `remotes.clj` file again, add the required namespace
+dependencies, and define the new handler which wraps the original one
+with `wrap-rpc`. Here is the complete `remotes.clj` content.
 
-;; site function create an handler suitable for a standard website,
-;; adding a bunch of standard ring middleware to app-route:
-(def handler
-  (site app-routes))
-
-```
-
-The `shoreleave-remote-ring` library requires that you add the
-`wrap-rpc` wrapper to the top-level handler in such a way that it will
-be ready to receive Ajax calls. Open the `remotes.clj` file again,
-add the required namespace dependencies, and define the new handler which
-wraps the original one with `wrap-rpc`. Here is the complete
-`remotes.clj` content.
-
-```clojure
+```clj
 (ns modern-cljs.remotes
   (:require [modern-cljs.core :refer [handler]]
-            [compojure.handler :refer [site]]
+            [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]))
+
+(defremote calculate [quantity price tax discount]
+  (-> (* quantity price)
+      (* (+ 1 (/ tax 100)))
+      (- discount)))
+
+(def app (-> (var handler)
+             (wrap-rpc)))
+```
+
+As you see, in the namesapce declaration we added a requirement
+relative to the `modern-cljs.core` namespace to be able to intern the
+`handler` symbol we previoulsy defined.
+
+We also added the `wrap-rpc` symbol to the `:refer` option of the
+`shoreleave.middleware.rpc` namespace to be able to call it in the
+threading first macro `->` used to wrap the original handler with the
+things needed to manage an ajax request.
+
+This is not not enough. To be able to parse the request received from
+an ajax client we also need to enrich the handler with some standard
+compojure middleware for web sites: the [`site`] wrapper:
+
+Here is the complete `remotes.clj` source file.
+
+```clj
+(ns modern-cljs.remotes
+  (:require [modern-cljs.core :refer [handler]]
+            [shoreleave.handler :refer [site]]
             [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]))
 
 (defremote calculate [quantity price tax discount]
@@ -231,96 +489,229 @@ wraps the original one with `wrap-rpc`. Here is the complete
              (site)))
 ```
 
-> NOTE 4: We required the `modern-cljs.core` and `compojure.handler`
-> namespaces to refer `handler` and `site` symbols. Then we added
-> `wrap-rpc` to the `:refer` specification of the already required
-> `shoreleave.middleware.rpc` namespace.
-
-The last thing to be done on the server-side is to update the `:ring`
-task configuration in `project.clj` by replacing the
+The last thing to be done to finally enable the server-side ajax
+endpoint to serve an ajax client-side call is to update the `:handler`
+option of the `serve` task in the `build.boot` file by replacing the
 `modern-cljs.core/handler` handler with the new one (i.e., `app`).
 
 ```clj
-(defproject ...
-    ...
-    :ring {:handler modern-cljs.remotes/app}
-	...)
+(deftask dev 
+  ...
+   (serve ...
+          :handler 'modern-cljs.remotes/app            ;; ring hanlder
+          ...)
+   ...
 ```
 
-Great: the server-side is done. We now have to fix the client-side code,
-which means the `shopping.cljs` file.
+Even if what we did is seems to be all we had to do on the server
+side, there is a subtle issue we could run up against to during
+development as reported into the
+[`ring` readme](https://github.com/ring-clojure/ring#upgrade-notice):
+
+> From version 1.2.1 onward, the ring/ring-core package no longer comes
+> with the javax.servlet/servlet-api package as a dependency.
+> 
+> If you are using the ring/ring-core namespace on its own, you may run
+> into errors when executing tests or running alternative adapters. To
+> resolve this, include the following dependency in your dev profile:
+> 
+> `[javax.servlet/servlet-api "2.5"]`
+
+In a next tutorial we'll further investigate the `boot` way to manage
+such things as [leiningen profiles][]. At the moment we just add the
+above lib to the `boot dependencies` section.
+
+Here is the complete and final `build.boot` file.
+
+```clj
+(set-env!
+ :source-paths #{"src/clj" "src/cljs"}
+ :resource-paths #{"html"}
+ :target-path "target"
+
+ :dependencies '[
+                 [org.clojure/clojure "1.7.0"]         ;; add CLJ
+                 [org.clojure/clojurescript "1.7.170"] ;; add CLJS
+                 [adzerk/boot-cljs "1.7.170-3"]
+                 [pandeiro/boot-http "0.7.0"]
+                 [adzerk/boot-reload "0.4.2"]
+                 [adzerk/boot-cljs-repl "0.3.0"]       ;; add bREPL
+                 [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
+                 [weasel "0.7.0"]                      ;; needed by bREPL
+                 [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
+                 [domina "1.0.3"]
+                 [hiccups "0.3.0"]
+                 [compojure "1.4.0"]                   ;; for routing
+                 [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1"]
+                 [org.clojars.magomimmo/shoreleave-remote "0.3.1"]
+                 [javax.servlet/servlet-api "2.5"]     ;; for dev only
+                 ])
+
+(require '[adzerk.boot-cljs :refer [cljs]]
+         '[pandeiro.boot-http :refer [serve]]
+         '[adzerk.boot-reload :refer [reload]]
+         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
+
+;;; add dev task
+(deftask dev 
+  "Launch immediate feedback dev environment"
+  []
+  (comp
+   (serve :dir "target"                                
+          :handler 'modern-cljs.remotes/app            ;; ring hanlder
+          :resource-root "target"                      ;; root classpath
+          :reload true)                                ;; reload ns
+   (watch)
+   (reload)
+   (cljs-repl) ;; before cljs
+   (cljs)))
+```
+
+Great: the server-side is done. We are ready to accordingly update the
+client-side code, which means the `shopping.cljs` file.
+
+Will do this in the IFDE live environment.
+
+## Launch IFDE
+
+Start the IFDE as usual
+
+```bash
+cd /path/to/modern-cljs
+boot dev
+...
+Elapsed time: 18.859 sec
+```
+
+Then launch the standard CLJ REPL
+
+```bash
+# from a new terminal
+cd /path/to/modern-cljs
+boot repl -c
+...
+boot.user=>
+```
+
+If you want to test the remote `calculate` function, require the
+`modern-cljs.remotes` namespace and call it at the CLJS REPL prompt.
+
+```clj
+boot.user=> (r/calculate 10 12.25 8.25 5)
+127.60624999999999
+boot.user=>
+```
+
+Not so impressive, but it works. We can procede with the client-side
+code. Before doing that visit the
+`http://localhost:3000/shopping.html` URL to verify that the Shopping
+Form is still working as in the previous tutorial. 
 
 ## The client side
 
 Open the `shopping.cljs` file from the [previous tutorial][1].
 
-```clojure
+```clj
 (ns modern-cljs.shopping
-  (:require-macros [hiccups.core :as h])
-  (:require [domina :as dom]
-            [hiccups.runtime :as hiccupsrt]
-            [domina.events :as ev]))
+  (:require [domina :refer [append! 
+                            by-class
+                            by-id 
+                            destroy! 
+                            set-value! 
+                            value]]
+            [domina.events :refer [listen!]]
+            [hiccups.runtime])
+  (:require-macros [hiccups.core :refer [html]]))
 
 (defn calculate []
-  (let [quantity (dom/value (dom/by-id "quantity"))
-        price (dom/value (dom/by-id "price"))
-        tax (dom/value (dom/by-id "tax"))
-        discount (dom/value (dom/by-id "discount"))]
-    (dom/set-value! (dom/by-id "total") (-> (* quantity price)
-                                            (* (+ 1 (/ tax 100)))
-                                            (- discount)
-                                            (.toFixed 2)))))
+  (let [quantity (value (by-id "quantity"))
+        price (value (by-id "price"))
+        tax (value (by-id "tax"))
+        discount (value (by-id "discount"))]
+    (set-value! (by-id "total") (-> (* quantity price)
+                                    (* (+ 1 (/ tax 100)))
+                                    (- discount)
+                                    (.toFixed 2)))))
 ;;; rest of the code
 ```
 
-First you need to update the namespace declaration by requiring the
-`shoreleave.remotes.http-rpc` namespace to refer `remote-callback`.
+First we need to update the namespace declaration by requiring the
+`shoreleave.remotes.http-rpc` namespace and its macros as well.
 
-```clojure
+```clj
 (ns modern-cljs.shopping
-  (:require-macros [hiccups.core :as h])
-  (:require [domina :as dom]
-            [hiccups.runtime :as hiccupsrt]
-            [domina.events :as ev]
+  (:require [domina :refer [append! 
+                            by-class
+                            by-id 
+                            destroy! 
+                            set-value! 
+                            value]]
+            [domina.events :refer [listen!]]
+            [hiccups.runtime]
             [shoreleave.remotes.http-rpc :refer [remote-callback]]
-            [cljs.reader :refer [read-string]]))
+            [cljs.reader :refer [read-string]])
+  (:require-macros [hiccups.core :refer [html]]
+                   [shoreleave.remotes.macros :as macros]))
 ```
 
-> NOTE 5: We also added `cljs.reader` namespace to refer
-> `read-string`. The reason will become clear when we fix the
-> client-side `calculate` function.
+> NOTE 3: We also added `cljs.reader` namespace to refer
+> `read-string`. The reason will become clear in the following
+> section, after we'll update the client-side `calculate` function.
 
-Now, let's finish the work by modifying the `calculate` function.
+Let's finish the work by modifying the `calculate` function.
 
-```clojure
+```clj
 (defn calculate []
-  (let [quantity (read-string (dom/value (dom/by-id "quantity")))
-        price (read-string (dom/value (dom/by-id "price")))
-        tax (read-string (dom/value (dom/by-id "tax")))
-        discount (read-string (dom/value (dom/by-id "discount")))]
+  (let [quantity (read-string (value (by-id "quantity")))
+        price (read-string (value (by-id "price")))
+        tax (read-string (value (by-id "tax")))
+        discount (read-string (value (by-id "discount")))]
     (remote-callback :calculate
                      [quantity price tax discount]
-                     #(dom/set-value! (dom/by-id "total") (.toFixed % 2)))))
+                     #(set-value! (by-id "total") (.toFixed % 2)))))
 ```
+
+As soon as you save the file, IFDE will recompile it and reload the
+`shopping.html` page as well.
+
+If you now click the `Calculate` button of the Shopping Form you'll
+see that is still working, but this time the `Total` value has been
+calculated via ajax by the server-side.
+
+You can confirm it by selecting the Network Panel of the Developer
+Tool of your browser. If you then select the XHR type of network
+traffic, any time you hit the `Calculate` button you'll see a new
+`_shoreleave` raw been shown in the panel.
 
 ### The arithmetic is not always the same
 
-First, take a look at the `let` form. We wrapped the reading of all the
-input field values inside a `read-string` form, which returns the JS
-object coded by the given string. That's because CLJS has the same
-arithmetic semantics as JS, which is different than
-CLJ on the JVM. Try to launch the rhino repl from
-`modern-cljs` home directory and evaluate a multiplication
-and passing it two stringified numbers:
+First, take a look at the above `let` form of the `calculate`
+function.
 
-```clojure
-lein trampoline cljsbuild repl-rhino
-Running Rhino-based ClojureScript REPL.
-"Type: " :cljs/quit " to quit"
-ClojureScript:cljs.user> (* "6" "7")
-WARNING: cljs.core/*, all arguments must be numbers, got [string string] instead. at line 1
+We wrapped the reading of all the input field values inside a
+`read-string` form, which returns the JS object coded by the given
+string. That's because CLJS has the same arithmetic semantics as JS,
+which is different than CLJ on the JVM.
+
+Launch the bREPL from the CLJ REPL we previously launched.
+
+```clj
+boot.user=> (start-repl)
+<< started Weasel server on ws://127.0.0.1:58939 >>
+<< waiting for client to connect ... Connection is ws://localhost:58939
+Writing boot_cljs_repl.cljs...
+ connected! >>
+To quit, type: :cljs/quit
+nil
+cljs.user=>
+```
+
+Evaluate a multiplication and passing it two stringified numbers:
+
+```clj
+cljs.user=> (* "6" "7")
+WARNING: cljs.core/*, all arguments must be numbers, got [string string] instead. at line 1 <cljs repl>
 42
-ClojureScript:cljs.user>
 ```
 
 As you can see, CLJS implicitly casts strings to numbers when applies
@@ -328,66 +719,51 @@ some arithmetic functions, but not all them. As an example try to add
 two stringified numbers and then multiply the result by 2 (stringified
 or not, it's the same).
 
-```clojure
-ClojureScript:cljs.user> (+ "1" "2")
-WARNING: cljs.core/+, all arguments must be numbers, got [string string] instead. at line 2
+```clj
+cljs.user=> (+ "1" "2")
+WARNING: cljs.core/+, all arguments must be numbers, got [string string] instead. at line 1 <cljs repl>
 "12"
-ClojureScript:cljs.user> 1
-1
-ClojureScript:cljs.user> (* "2" (+ "1" "2"))
-WARNING: cljs.core/+, all arguments must be numbers, got [string string] instead. at line 4
-WARNING: cljs.core/*, all arguments must be numbers, got [string number] instead. at line 4
+cljs.user=> (* "2" (+ "1" "2"))
+WARNING: cljs.core/+, all arguments must be numbers, got [string string] instead. at line 1 <cljs repl>
+WARNING: cljs.core/*, all arguments must be numbers, got [string number] instead. at line 1 <cljs repl>
 24
-ClojureScript:cljs.user>
 ```
 
 So, you have been warned. If you start a computation from a sum of
-stringified numbers, you are asking for trouble, because you're starting
-with string concatenation.
+stringified numbers, you are asking for trouble, because you're
+starting with string concatenation.
 
 Now try the same thing in a regular CLJ repl:
 
-```clojure
-lein repl
-nREPL server started on port 53127
-REPL-y 0.1.4
-Clojure 1.5.1
-    Exit: Control+D or (exit) or (quit)
-Commands: (user/help)
-    Docs: (doc function-name-here)
-          (find-doc "part-of-name-here")
-  Source: (source function-name-here)
-          (user/sourcery function-name-here)
- Javadoc: (javadoc java-object-or-class-here)
-Examples from clojuredocs.org: [clojuredocs or cdoc]
-          (user/clojuredocs name-here)
-          (user/clojuredocs "ns-here" "name-here")
-user=> (* "6" "7")
+```clJ
+cljs.user=> :cljs/quit
+nil
+boot.user=> (+ "1" "2")
 
-ClassCastException java.lang.String cannot be cast to java.lang.Number  clojure.lang.Numbers.multiply (Numbers.java:146)
-user=>
+java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Number
 ```
 
-As you can see, CLJ throws `ClassCastException` because it
-can't cast a `String` to a `Number`.
+As you can see, CLJ throws a `ClassCastException` because it can't
+cast a `String` to a `Number`.
 
 It should now be clear why we added `cljs.reader` to the
 `modern-cljs.shopping` namespace declaration to refer to the CLJS
-`read-string` function.
+`read-string` function: we never want to get in trouble by using
+stringified number in numeric calculation.
 
 ### The remote callback
 
 Take another look at the `calculate` definition:
 
-```clojure
+```clj
 (defn calculate []
-  (let [quantity (read-string (dom/value (dom/by-id "quantity")))
-        price (read-string (dom/value (dom/by-id "price")))
-        tax (read-string (dom/value (dom/by-id "tax")))
-        discount (read-string (dom/value (dom/by-id "discount")))]
+  (let [quantity (read-string (value (by-id "quantity")))
+        price (read-string (value (by-id "price")))
+        tax (read-string (value (by-id "tax")))
+        discount (read-string (value (by-id "discount")))]
     (remote-callback :calculate
                      [quantity price tax discount]
-                     #(dom/set-value! (dom/by-id "total") (.toFixed % 2)))))
+                     #(set-value! (by-id "total") (.toFixed % 2)))))
 ```
 
 After having read the values from the input fields of the shopping
@@ -395,57 +771,35 @@ form, the client-site `calculate` function calls the `remote-callback` one,
 which accepts:
 
 * the keywordized remote function name (i.e., `:calculate`);
-* a vector of arguments to be passed to the remote function
-  (i.e., `[quantity price tax discount]`);
+* a vector of arguments to be passed to the remote function (i.e.,
+  `[quantity price tax discount]`);
 * an anonymous function which receives the result (i.e., `%`) from the
   remote calculation through the `remote-callback` call, then formats
   the result (i.e., `.toFixed`) and finally manipulates the DOM by
   setting the value of the `total` input field (i.e., `set-value!`) to
   the formatted one.
 
-# Play&Pray
-
-Now cross your fingers and do as follows:
-
-* clean any previous compilation from `modern-cljs` directory;
-* compile the `dev` build;
-* run the ring server.
-
-```bash
-cd /path/to/modern-cljs
-lein do cljsbuild clean, cljsbuild once, ring server-headless
-lein trampoline cljsbuild repl-listen # optional - in a new terminal
-```
-
-> NOTE 6: As you can see above, we started using the `do` chaining
-> feature of the `lein` command to minimize our typing.
-
-Now visit [shopping-dbg.html][20], click the `Calculate` button and
-verify that the shopping calculator returns the expected `total`
-value.
-
-Congratulations! You implemented a very simple, yet
-representative Ajax web application, by using CLJS on the client-side
-and CLJ on the server-side.
+Congratulations! You implemented a very simple, yet representative
+Ajax web application by using CLJS on the client-side and CLJ on the
+server-side.
 
 # Make you a favor
 
-> NOTE 7: This paragraph has been written using a previous
+> NOTE 4: This paragraph has been written using a previous
 > version of `shoreleave` libs. *Mutatis Mutandis* (e.g., `_shoreleave`
 > instead of `_fetch`), everything should be almost the same when
 > using the latest available version of `shoreleave`.
 
 Let's finally verify our running Ajax application by using the browser
-development tools. I'm using Google Chrome Canary, but you can choose
-any browser that provides development tools comparable
-with the ones available in Google Chrome Canary.
+Developer Tools. I'm using Google Chrome Canary, but you can choose
+any browser that provides developer tools comparable with the ones
+available in Google Chrome Canary.
 
-* If you have stopped the running ring server from the previous
-  paragraph, just run it again as explained above;
-* Open the development tools (i.e. `Tools->Developer->Developer
-  Tools`);
+* If you have stopped the running `boot dev` process, restart it
+* Open the Developer Tools (i.e. `More Tools->Developer Tools`);
 * Select the `Network` pane;
-* Visit [shopping-dbg.html][20] page or reload it.
+* Check the `XHR` filter;
+* Visit the `http://localhost:3000/shopping.html` URL or reload it.
 
 Your browser should look like the following image.
 
@@ -457,7 +811,7 @@ image.
 
 ![network-02][22]
 
-Now click `_fetch` from the `Name/Path` column. If the `Header`
+Now click `_shoreleave` from the `Name` column. If the `Header`
 subpane is not already selected, select it and scroll until you can see
 the `Form Data` area. You should now see the following view which
 reports `calculate` as the value of the `remote` key, and `[1 1 0 0]`
@@ -473,13 +827,14 @@ from the remote `calculate` function like in the following image.
 That's it folks.
 
 If you created a new git branch as suggested in the preamble of this
-tutorial, I suggest you to commit the changes as follows
+tutorial, kill any `boot` related process and commit your changes.
 
 ```bash
-git commit -am "introducing ajax"
+git add --all
+git commit -m "introducing ajax"
 ```
 
-# Next step [Tutorial 11: A Deeper Understanding of Domina Events][25]
+# Next step [Tutorial 10: A Deeper Understanding of Domina Events][25]
 
 In the next tutorial we're going to apply what we just learned and extend its
 application to the login form introduced in [Tutorial 4][3].
