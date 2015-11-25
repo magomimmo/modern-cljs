@@ -321,7 +321,7 @@ target
 ```
 
 Finally, repeat all the manual tests we introduced in the
-[Tutorial-02][2] to verify that the immediate feedback environment
+[Tutorial-02][1] to verify that the immediate feedback environment
 is still working.
 
 Launch the `boot dev` command:
@@ -406,6 +406,6 @@ License, the same as Clojure.
 [4]: https://github.com/clojure/clojurescript/wiki/Compiler-Options
 [5]: https://github.com/clojure/clojurescript/wiki/Compiler-Options#output-to
 [6]: https://github.com/clojure/clojurescript/wiki/Compiler-Options#asset-path
-[7]: https://github.com/adzerk-oss/boot-cljs#options
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-02.md
 [8]: https://github.com/edn-format/edn
 
