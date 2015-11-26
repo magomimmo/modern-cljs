@@ -288,6 +288,7 @@ project by issuing the following command at the terminal:
 
 ```bash
 boot -V > boot.properties
+# see the result
 boot -V
 #https://github.com/boot-clj/boot
 #Thu Nov 26 09:01:31 CET 2015
