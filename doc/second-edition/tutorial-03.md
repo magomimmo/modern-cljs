@@ -5,7 +5,7 @@ Feedback Principle by using the `boot` building tool and piping few
 additional tasks developed by the community:
 
 * `boot-cljs`: to compile CLJS source code (introduced in
-  [Tutorial-01][2]);
+  [Tutorial 1][2]);
 * `boot-http`: to run a CLJ based web server to serve pages;
 * `boot-reload`: to reload static resources when changes are saved;
 * `boot-cljs-repl`: to connect a CLJS REPL to the JS engine of the
@@ -39,7 +39,7 @@ Principle.
 
 ### CLJS compilation
 
-First, in [Tutorial-01][2] we configured a few environment
+First, in [Tutorial 1][2] we configured a few environment
 variables. Namely `:source-paths` and `:resource-paths`.
 
 Then we launched the CLJS compilation with the following very simple
@@ -68,25 +68,23 @@ available defaults. Namely:
 
 ### HTTP server
 
-In [Tutorial-02][1] we started by adding the `serve` task to the
-`boot` command. We passed it the `-d target` option to instruct the
-task about the directory to serve. They could have used the same
-`target` default as they did for `cljs`, but they did not. So we
-needed to be specific.
+In [Tutorial 2][1] we started by adding the `serve` task to the `boot`
+command. We passed it the `-d target` option to instruct the task
+about the directory to serve. They could have used the same `target`
+default as they did for `cljs` and `boot` itself, but they did not. So
+we needed to be specific.
 
 As you could remember, we also needed to add the `wait` task for
-keeping the https server running.
-
+keeping the web server running.
 
 ```bash
 boot wait serve -d target cljs
 ```
-
 ### CLJS recompilation
 
-To trigger the CLJS recompilation when we modify and save a CLJS
-source file, we substituted the `wait` task with the `watch` task which
-requires to be positioned before the `cljs` task.
+To trigger the CLJS recompilation whenever we save a modified CLJS
+source file, we substituted the `wait` task with the `watch` task
+which requires to be positioned before the `cljs` task.
 
 ```bash
 boot serve -d target watch cljs
@@ -191,7 +189,7 @@ Compiling ClojureScript...
 Elapsed time: 19.929 sec
 ```
 
-You can then repeat all the tests we already shown in [Tutorial-02][1]
+You can then repeat all the tests we already shown in [Tutorial 2][1]
 including the bREPL creation from a nrepl client.
 
 Not bad. You now have a very simple command, `boot dev`, to launch a
@@ -237,7 +235,7 @@ to support this new files organization:
 * [`:output-to`][5]: sets the path to the JavaScript file that will be
   output
 * [`:asset-path`][6]: sets a path relative to the directory served by
-  the webserver.
+  the web server.
 
 How could we pass these options to the `boot-cljs` which launches the
 CLJS compiler? You could get soon crazy in understanding how to solve
@@ -298,7 +296,7 @@ CLJS options:
 
 This way you can verify that the CLJS compiler correctly generated the
 `main.js` file in the `js` subdirectory relative to the directory
-served by the webserver and that it sets the `js/main.out`
+served by the web server and that it sets the `js/main.out`
 subdirectory as the value of the `asset-path` compiler option.
 
 Now take a look at the layout if the `target` directory to confirm
@@ -321,8 +319,8 @@ target
 ```
 
 Finally, repeat all the manual tests we introduced in the
-[Tutorial-02][1] to verify that the immediate feedback environment
-is still working.
+[Tutorial 2][1] to verify that the Immediate Feedback Development
+Environment is still working.
 
 Launch the `boot dev` command:
 
@@ -406,6 +404,6 @@ License, the same as Clojure.
 [4]: https://github.com/clojure/clojurescript/wiki/Compiler-Options
 [5]: https://github.com/clojure/clojurescript/wiki/Compiler-Options#output-to
 [6]: https://github.com/clojure/clojurescript/wiki/Compiler-Options#asset-path
-[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-02.md
+[7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-04.md
 [8]: https://github.com/edn-format/edn
 
