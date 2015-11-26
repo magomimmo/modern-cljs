@@ -66,7 +66,7 @@ use the canonical `domina` release (i.e., `[domina "1.0.3"]`), during
 the compilation you'll get a warning about the fact that it uses a
 single segment namespace. Even if those warnings do not affect the
 behaviour of the lib in the contest of this tutorial, I really hate
-warnings. So I prepared a non canonical domina release which fixes
+warnings. So I prepared [a non canonical `domina` release][15] which fixes
 those warnings.  That said, even if I would never suggest to use
 `domina` in a new CLJS project, this tutorial could be still useful to
 undertstand the way CLJS works.
@@ -171,13 +171,12 @@ namespace. But it also features the `by-id`, `value` and `set-value!`
 functions defined in the `domina.core` namespace, which is the one
 we're going to use.
 
-The nice thing about `domina` `(by-id id)`, inherited from the
-underlying Google Closure Library (GCL) on top of which `domina` is
-implemented, is that it takes care of verifying if the passed argument
-is a string. As we anticipated, the `domina.core` namespace offers
-other useful functions we're going to use: `(value el)`, which returns
-the value of the passed element, and `(set-value! el value)` which
-sets its value.
+The nice thing about `by-id` and `id`, inherited from the underlying
+Google Closure Library (GCL) on top of which `domina` is implemented,
+is that they take care of verifying if the passed argument is a
+string. As we anticipated, the `domina.core` namespace offers other
+useful functions we're going to use: `value`, which returns the value
+of the passed element, and `set-value!` which sets its value.
 
 > NOTE 2: as we already saw, when a function modifies an argument
 > passed to it, by Clojure naming convention a bang "!" is added at
@@ -199,7 +198,7 @@ As you see, instead of aliasing the required namespace as we did in
 the [previous tutorial][2], we're now directly interning `by-id`,
 `value` and `set-value!` symbols into the `cljs.user` namespace loaded
 by default by the bREPL in such a way that we can use them from the
-bREPL without specifying any namespace's alias.
+bREPL without specifying any namespace's name or alias.
 
 ```clj
 cljs.user=> (doc by-id)
@@ -303,7 +302,7 @@ CLJS compiler from the corresponding `validate-form` CLJS function
 definition.
 
 Then, when we called the `validate-form` while the `email` and
-`password` field are empty, it returns the `false` boolean value.
+`password` fields are empty, it returns the `false` boolean value.
 
 Finally, after having set a not void string for both the fields, the
 `validate-form` evaluation returns, as expected, the `true` boolean
@@ -550,11 +549,11 @@ to do with the `onsubmit` error we received before.
 ### A short troubleshooting session
 
 Let's go back to the login form by visiting the
-`http://localhost:3000` URL and click the Login botton.
+`http://localhost:3000/index.htnl` URL and click the Login botton.
 
 Ops, you got the Page Not Found notification. What happens?
 
-Revisit the `login.html` page and go back to your bREPL active
+Revisit the `index.html` page and go back to your bREPL active
 session. Just to be sure, require again the `modern-cljs.login`
 namespace and call the `l/validate-form` function:
 
@@ -680,3 +679,4 @@ License, the same as Clojure.
 [12]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-06.md
 [13]: https://help.github.com/articles/set-up-git
 [14]: https://youtu.be/qxE5wDbt964
+[15]: https://clojars.org/org.clojars.magomimmo/domina
