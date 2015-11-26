@@ -506,7 +506,9 @@ git commit -am "immediate feedback"
 
 ## Next step - [Tutorial 3: House Keeping][9]
 
-In the next [tutorial][9] we're going bla bla bla
+In the next [tutorial][9] we're going to automate the launching of the
+`boot` command to approach the Immediate Feeedback Developement
+Environment (IFDE).
 
 # License
 
