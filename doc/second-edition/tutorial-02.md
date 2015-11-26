@@ -214,7 +214,7 @@ to it has been updated by observing the message printed at the browser
 console. So far, so good.
 
 Before proceeding to the next step in approching the immediate
-feddback goal, kill the `boot` process (`CTRL-C`).
+feedback goal, kill the `boot` process (`CTRL-C`).
 
 ## Resources reloading
 
@@ -507,7 +507,7 @@ git commit -am "immediate feedback"
 ## Next step - [Tutorial 3: House Keeping][9]
 
 In the next [tutorial][9] we're going to automate the launching of the
-`boot` command to approach the Immediate Feeedback Developement
+`boot` command to approach the Immediate Feedback Developement
 Environment (IFDE).
 
 # License
