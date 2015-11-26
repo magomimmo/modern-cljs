@@ -166,13 +166,13 @@ following figure.
 So far, so good. We now need to remove the help message each time
 mouse pointer exits the button area.
 
-## Mouseout event
+## Mouse out event
 
 Thankfully, the `domina.events` namespace supports the `mouseout`
 event as well.
 
 The `domina.core` namespace even offers the `destroy!` function to
-permanentely delete a DOM element and all its children all together.
+permanently delete a DOM element and all its children all together.
 
 Go back to the bREPL and ask for the `destroy!` docstring.
 
@@ -223,12 +223,12 @@ cljs.user> (evt/listen! (dom/by-id "calc")
 
 Go back to the Shopping Form. As soon as you enter the button area
 you'll see the message. As soon as you exit the button area the
-message will disapear.
+message will disappear.
 
 ## Edit shopping.cljs
 
 Having familiarized a little bit more with the `domina` lib, we are
-now ready to code into the `shopping.cljs` file what we learnt within
+now ready to code into the `shopping.cljs` file what we learned within
 the bREPL.
 
 Here is the updated content.
@@ -272,10 +272,10 @@ Here is the updated content.
 
 Few things to be noted about the above code:
 
-1. depending on your taste, there are more wayy to *use* or *require*
+1. depending on your taste, there are more ways to *use* or *require*
    a namespace inside a new namespace declaration. Moreover, what you
    like while writing code (e.g., minimizing typing) could be
-   different from what you like when reading code (e.g., maximazing
+   different from what you like when reading code (e.g., maximizing
    readability). When your namespace declaration require a not so
    small number of other namespaces, and each namespace has a lot of
    public symbols, I always prefer to alias the required namespaces,
@@ -308,9 +308,9 @@ instead of strings of HTML.
 
 The first CLJS library I found to relieve my pain was
 [hiccups][6]. Even if it's an incomplete port of [hiccup][7] on CLJS,
-it's solid and stable enough for the purpouse of this tutorial.  It
+it's solid and stable enough for the purpose of this tutorial.  It
 uses vectors to represent HTML tags and maps to represent a tag's
-attrbutes.
+attributes.
 
 ## Stop IFDE and add hiccups
 
@@ -380,7 +380,7 @@ requirements of the namespace declaration.
 > `boot-cljs-repl` task, we need to first require a namespace from a
 > namespace declaration to be able to require it in the bREPL as well.
 
-> NOTE 2: The `hiccups`runtime namesapce has to be required, even if
+> NOTE 2: The `hiccups`runtime namespace has to be required, even if
 > we're not going to use its symbols. For this reason we neither
 > aliased it or `refer` any symbol.
 

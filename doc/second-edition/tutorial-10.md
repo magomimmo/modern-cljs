@@ -135,7 +135,7 @@ make it more Clojure-ish, we started by changing the `type` attribute
 of the Shopping Form's button from `type="submit"` to
 `type="button"`. But having decided to adhere to a progressive
 enhancement strategy, this is not something that we should have done
-becasue a plain [button type][9] is not going anywhere if the browser
+because a plain [button type][9] is not going anywhere if the browser
 doesn't support JS.  So we need to stay with the `submit` type of
 button.
 
@@ -167,7 +167,7 @@ Clojur-ish
 > exposing it in an idiomatic functional way for both the `bubbling`
 > event propagation phase and the `capture` phase.  In our login
 > form example, by having used the `listen!` function, we have also
-> implicitly choosen the `bubbling` phase. That said, in domina the
+> implicitly chosen the `bubbling` phase. That said, in domina the
 > `submit` event does not bubble up, so we needed to
 > attach the listener function (i.e., `validate-form`) to the `:click`
 > event of the `submit` button, instead of attaching it to the
@@ -228,7 +228,7 @@ nil
 ```
 
 We now know that the `Event` protocol supports, among others, the
-`prevent-default` function, which is what we need to interupt the
+`prevent-default` function, which is what we need to interrupt the
 process of passing control from the `submit` button to the form
 `action` attribute.
 
@@ -245,7 +245,7 @@ First we have to update the `domina.events` requirement by adding
             [domina.events :refer [listen! prevent-default]]))
 ```
 
-Then we can go on by updating the `validate-form` defintion as
+Then we can go on by updating the `validate-form` definition as
 follows:
 
 ```clj
@@ -280,7 +280,7 @@ function to improve its Clojure-ish style. The semantics of the
 To make the above mechanics more clear, we also update the `init`
 function by wrapping the `validate-forma` listener inside an anonymous
 function taking the event `e` as argument. If you want, you can can
-safetly leave it as before.
+safely leave it as before.
 
 ```clj
 (defn ^:export init []
@@ -568,7 +568,7 @@ above CLJS code and line up the Login form to the Shopping Form
 approach adopted in the [9th tutorial][1] to allow the browser to
 communicate with the server via Ajax. 
 
-We'll do our best in subsequents tutorials.
+We'll do our best in subsequent tutorials.
 
 If you created a new git branch as suggested in the preamble of this
 tutorial, stop any `boot` related process and commit your changes.

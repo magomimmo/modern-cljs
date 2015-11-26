@@ -31,7 +31,7 @@ CLJS/JS interop features in managing events.
 Let's go back to the [shopping calculator form][3] we introduced in
 Tutorial 5.
 
-First of all, by having been cloned from the orginal HTML code of
+First of all, by having been cloned from the original HTML code of
 [Modern JavaScript: Develop and Design][4], the shopping form used a
 `submit` type of button. At the moment, the shopping calculator data
 are not sent to a server-side script to be validated. Until we'll
@@ -41,7 +41,7 @@ with the `calc` id. For the same reason we are also removing both the
 
 > NOTE 1: By substituting `submit` with `button` type, we're breaking
 > the progressive enhancement strategy. Here we're focusing on the
-> [domina events][2] machinery. Will fix this issue in a subsequente
+> [domina events][2] machinery. Will fix this issue in a subsequent
 > tutorial.
 
 ## Launch the IFDE
@@ -159,7 +159,7 @@ corresponding function listening for events during the capturing phase
 as well.
 
 > NOTE 3: if you're interested in the differences between the bubbling
-> and the captugin phase od DOM events, look at
+> and the capturing phase of DOM events, look at
 > [this document by W3C](http://www.w3.org/TR/DOM-Level-3-Events/#event-flow).
 
 ```clj
@@ -186,7 +186,7 @@ namespace: `capture!` and `capture-once!`. We then asked for the
 
 Both `listen!` and `capture!` are multi-arity functions. You can call
 them with 2 or with 3 arguments. We're interested in the 3-arity
-versions becasue we want to add a listener (i.e. `calculate`) to the
+versions because we want to add a listener (i.e. `calculate`) to the
 `click` event of the `calc` button. Note the bang `!` char at the
 end. It informs you that those functions mutate the argument/element
 you're passing to.
@@ -235,7 +235,7 @@ the above bREPL experiment.
 
 > NOTE 6: the `init` function has been exported to protect its name
 > from being changed by the `advanced` optimization that we still have
-> to intruduce.
+> to introduce.
 
 As usual, as soon as you save the file the IFDE takes care of its
 recompilation and reloading.
@@ -266,7 +266,7 @@ that there are no more listeners for `calc` attached to that event.
 
 If you click the `Calculate` button nothing happens.
 
-Now call the `capture!` funtion to trigger the `calculate` function
+Now call the `capture!` function to trigger the `calculate` function
 during the *capture* phase of the click event. 
 
 ```clj
@@ -286,7 +286,7 @@ git commit -am "introducing domina events"
 # Next Step - [Tutorial 8: DOM manipulation][9]
 
 In the [next tutorial][9] we're going to face the need to
-programmatically manipulate DOM elements as a result of the occurrance
+programmatically manipulate DOM elements as a result of the occurrence
 of some DOM events (e.g., `mouseover`, `mouseout`, etc.)
 
 # License

@@ -114,7 +114,7 @@ boot serve -d target watch reload cljs-repl cljs
 If you complain about the things you have to remember just to start
 playing around your project, you're right.
 
-This is why `boot` core developers offer you a very confortable way to
+This is why `boot` core developers offer you a very comfortable way to
 help your typing and your memory.
 
 ## Enter deftask
@@ -206,10 +206,10 @@ some defaults are sane enough to be adopted for a very simple project
 like the one we started from, as soon as the project gets more
 articulated you'll need to overwrite a few of them.
 
-Most webapps organise their HTML/CSS/JS resources to keep them
+Most webapps organize their HTML/CSS/JS resources to keep them
 separated from each other. Just to make an example, most of the
 webapps group their JS resources under a `js` subdirectory living in
-the directory served by the webserver and link those `js` resources in
+the directory served by the web server and link those `js` resources in
 the corresponding `<script>` html tag.
 
 Let's try to adhere to this convention by first editing the
@@ -250,7 +250,7 @@ Without going into much details about the reason why or the way
 and just list what you need to do:
 
 First you have to create the `js` subdirectory in the `html` directory
-containg the html pages.
+containing the html pages.
 
 ```bash
 cd pathname/to/modern-cljs
@@ -300,7 +300,7 @@ served by the web server and that it sets the `js/main.out`
 subdirectory as the value of the `asset-path` compiler option.
 
 Now take a look at the layout if the `target` directory to confirm
-that the compiler options worked as exptected
+that the compiler options worked as expected
 
 ```bash
 target

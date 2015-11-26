@@ -32,9 +32,9 @@ building tool has its own idiosyncrasies, which they call
 defaults. The more you adhere to the defaults of the tool in your
 hand, the less it will be your pain in managing the project.
 
-By taking into accounts these premies, let's create a directory
+By taking into accounts these premier, let's create a directory
 structure for our new project, named `modern-cljs`, by adhering as
-much as possibile to the `boot` defaults.
+much as possible to the `boot` defaults.
 
 The suggested directory layout of the project is the following:
 
@@ -63,7 +63,7 @@ modern-cljs/
 > NOTE 2: Please note that the filename extension for ClojureScript
 > source is **cljs**, not **clj**.
 
-Issue the following command at the teminal:
+Issue the following command at the terminal:
 
 ```bash
 mkdir -p modern-cljs/{src/cljs/modern_cljs,html}
@@ -97,7 +97,7 @@ type into it the following CLJS code:
 Every CLJ/CLJS file must start with a namespace declaration matching a
 path on your disk:
 
-`(ns modern-cljs.core)` <--> `modern_cljs/core.cljs`
+`modern-cljs.core` <--> `modern_cljs/core.cljs`
 
 The `(enable-console-print!)` expression redirects any printing output
 to the console of the browser in such a way that the `(println "Hello,

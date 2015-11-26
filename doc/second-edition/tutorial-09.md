@@ -197,12 +197,12 @@ default value.
 
 ### Compojure
 
-There is one more thing we want to do. Instead of directily writing
+There is one more thing we want to do. Instead of directly writing
 the routes of our web application as `ring` handlers, we are going to
 use [`compojure`][38], a small CLJ routing library that will simplify
 our job.
 
-Let's add it to the `dependecies` section of the `build.boot` file.
+Let's add it to the `dependencies` section of the `build.boot` file.
 
 ```clj
  ...
@@ -319,7 +319,7 @@ Elapsed time: 17.941 sec
 ```
 
 Now visit the `http://localhost:3000/index.html` and the
-`http://localhost:3000/shopping.html` URLs. Everythig should still
+`http://localhost:3000/shopping.html` URLs. Everything should still
 work as expected. Then visit the `http://localhost:3000` URL. You
 should receive the `Hello from Compojure!` message in the
 browser. Finally, if you visit any other URL
@@ -327,7 +327,7 @@ browser. Finally, if you visit any other URL
 Found` message.
 
 If you're complaining about the amount of work you have to do just for
-reaching a behaviour similar to the one obtainable for free by using
+reaching a behavior similar to the one obtainable for free by using
 the default `serve` task configuration, I'm with you too.
 
 That said, all that work has been done to be prepared for implementing
@@ -353,7 +353,7 @@ there are no other ways to implement ajax calls.
 What is easier than RPC (Remote Procedure Call) to bring with us the
 familiarity we all have with the standard way to locally call a
 function?  Someone could convince you that the RPC model is
-synchronous. This has not to be true. You can easly have an RPC model
+synchronous. This has not to be true. You can easily have an RPC model
 which is implemented using asynchronicity. This is exactly the way the
 `shoreleave` lib works: it internally uses ajax asynchronicity to
 offer you a very familiar RPC programming model.
@@ -455,7 +455,7 @@ with `wrap-rpc`. Here is the complete `remotes.clj` content.
 
 As you see, in the namespace declaration we added a requirement
 relative to the `modern-cljs.core` namespace to be able to intern the
-`handler` symbol we previoulsy defined.
+`handler` symbol we previously defined.
 
 We also added the `wrap-rpc` symbol to the `:refer` option of the
 `shoreleave.middleware.rpc` namespace to be able to call it in the
@@ -767,7 +767,7 @@ After having read the values from the input fields of the shopping
 form, the client-site `calculate` function calls the `remote-callback` one,
 which accepts:
 
-* the keywordized remote function name (i.e., `:calculate`);
+* the keywordize remote function name (i.e., `:calculate`);
 * a vector of arguments to be passed to the remote function (i.e.,
   `[quantity price tax discount]`);
 * an anonymous function which receives the result (i.e., `%`) from the
@@ -816,7 +816,7 @@ view which reports `calculate` as the value of the `remote` key, and
 
 ![network-03][23]
 
-Now select the `Response` subpane. You should see the returned value
+Now select the `Response` sub-pane. You should see the returned value
 from the remote `calculate` function like in the following image.
 
 ![network-04][24]

@@ -152,7 +152,7 @@ Open the Developer Tool of your browser to verify that the `Hello,
 World!` string has been printed at the console. Before to proceed with
 the next step, kill the current `boot` process (`CTRL-C`).
 
-## CLJS source recompilaton
+## CLJS source recompilation
 
 If we want to approach the Bret Victor's Immediate Feeback Principle,
 we should be able to recompile any CLJS source code as soon as we
@@ -213,7 +213,7 @@ Finally reload the html page to confirm that the `main.js` file linked
 to it has been updated by observing the message printed at the browser
 console. So far, so good.
 
-Before proceeding to the next step in approching the immediate
+Before proceeding to the next step in approaching the immediate
 feedback goal, kill the `boot` process (`CTRL-C`).
 
 ## Resources reloading
@@ -225,8 +225,8 @@ that.
 
 Luckily, there is a `boot` task developed by the community to automate
 the reload of any static resource: [`boot-reload`][6]. Again we have
-to add the new task to the dependensies of the project and make it
-visibile to `boot` by requiring its main command:
+to add the new task to the dependencies of the project and make it
+visible to `boot` by requiring its main command:
 
 ```clj
 (set-env!
@@ -370,8 +370,8 @@ java.io.FileNotFoundException: Could not locate cemerick/piggieback__init.class 
 Elapsed time: 3.720 sec
 ```
 
-This is because `boot-cljs-repl` does not trasitively include its
-dependencies and you have to explicitely add them in the
+This is because `boot-cljs-repl` does not transitively include its
+dependencies and you have to explicitly add them in the
 `:dependencies` section of the `build.boot` file.
 
 ```clj
@@ -400,7 +400,7 @@ dependencies and you have to explicitely add them in the
 > NOTE 3: At the moment we don't take care of the `:scope` of the
 > dependencies. We'll come back to this directive in a next tutorial.
 
-After having quitted the previous process, you can safetely run the
+After having quitted the previous process, you can safety run the
 `boot` command at the terminal as follow:
 
 ```bash
@@ -507,7 +507,7 @@ git commit -am "immediate feedback"
 ## Next step - [Tutorial 3: House Keeping][9]
 
 In the next [tutorial][9] we're going to automate the launching of the
-`boot` command to approach the Immediate Feedback Developement
+`boot` command to approach the Immediate Feedback Development
 Environment (IFDE).
 
 # License

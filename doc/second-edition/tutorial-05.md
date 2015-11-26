@@ -49,8 +49,8 @@ Our old `index.html` friend is going to be our pure HTML/CSS template
 and `domina` is going to be our CLJS library to interface the DOM of
 the page in more idiomatic CLJS.
 
-Nowdays, the diffusion of the so called Single Page Application (SPA)
-is progressively changing the web development landascape and it's not
+Nowadays, the diffusion of the so called Single Page Application (SPA)
+is progressively changing the web development landscape and it's not
 unusual to see a single HTML page composed by one `div` tag only
 delegating all the DOM manipulation to JS.
 
@@ -65,11 +65,11 @@ has not been updated to follow the evolution of CLJS compiler. If you
 use the canonical `domina` release (i.e., `[domina "1.0.3"]`), during
 the compilation you'll get a warning about the fact that it uses a
 single segment namespace. Even if those warnings do not affect the
-behaviour of the lib in the contest of this tutorial, I really hate
+behavior of the lib in the contest of this tutorial, I really hate
 warnings. So I prepared [a non canonical `domina` release][15] which fixes
 those warnings.  That said, even if I would never suggest to use
 `domina` in a new CLJS project, this tutorial could be still useful to
-undertstand the way CLJS works.
+understand the way CLJS works.
 
 As usual to use a new library, you need to add it to the dependencies'
 section of the `build.boot` file living in the home directory of the
@@ -247,7 +247,7 @@ the corresponding fields in the login form have been updated?
 ## Update `login.cljs`
 
 Now that we better understood few `domina` functions, we are going to
-consequentely update the `validate-form` function. Open the
+consequently update the `validate-form` function. Open the
 `login.cljs` file and update both the namespace declaration and the
 `validate-form` function definition as follows:
 
@@ -319,7 +319,7 @@ calculate the total of an order, including tax, minus any discount.
 Here is the `shopping.html` content which is in line with
 `clojurescriptone approach` and [Larry Ullman][6] to keep the design
 of the HTML/CSS/images separated from the code which is going to
-implement its behaviour. Save it in `html` directory.
+implement its behavior. Save it in `html` directory.
 
 ```html
 <!doctype html>
@@ -394,7 +394,7 @@ form. That's because in this new example there is no server-side form
 submission.
 
 Again, as soon as you save the file, the IFDE will reload it as you
-can confrim by visiting the `http://localhost:3000/shopping.html` URL.
+can confirm by visiting the `http://localhost:3000/shopping.html` URL.
 
 ![Shopping Page][9]
 
@@ -491,7 +491,7 @@ the `false` boolean value.
 The `init` function is almost identical to the one defined for the
 previous login form. Finally we set the `init` function itself as the
 value of the `onsubmit` property of the `window` object defined in the
-`js` spacial namespace.
+`js` special namespace.
 
 As soon as you save the `shopping.cljs` file, it get recompiled and
 the corresponding `shopping.html` page reloaded.

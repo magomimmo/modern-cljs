@@ -24,7 +24,7 @@ property of the JS `window` object for the `login.html` page was not
 the one we defined in `login.cljs`, but the one we defined in
 `shopping.cljs`.
 
-As we anticipated in the [previous tutorial][1], this behaviour
+As we anticipated in the [previous tutorial][1], this behavior
 depends on the Google Closure/CLJS pair of compilers driven by the
 `boot-cljs` task.
 
@@ -33,7 +33,7 @@ depends on the Google Closure/CLJS pair of compilers driven by the
 In the [first tutorial][3], we set `:source-paths` in the `build.boot`
 file to the `#{src/cljs}` path.
 
-The `:source-paths` directive instructs Google CLosure/CLJS pair of
+The `:source-paths` directive instructs Google Closure/CLJS pair of
 compilers to look for any CLJS source code in the `src/cljs` directory
 structure for doing its job.
 
@@ -224,7 +224,7 @@ http://localhost:3000/shopping.html URLs for verifying the two forms
 are now working as expected.
 
 As usual, if you want to play with the bREPL, launch it as usual and
-then reload on of the above URls.
+then reload on of the above URLs.
 
 ```clj
 # from a new terminal
@@ -244,7 +244,7 @@ the changes.
 git commit -am "Simple made easy."
 ```
 
-# Next step - [Tutorial 7: Introducting Domina Events][8]
+# Next step - [Tutorial 7: Introducing Domina Events][8]
 
 In the [next tutorial][8] we'll introduce [domina event][6] management
 to further improve our functional style in porting

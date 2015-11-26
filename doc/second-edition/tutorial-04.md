@@ -10,9 +10,9 @@ approach from JS into ClojureScript (CLJS) could be helpful to anyone
 not yet fluent in CLJS.
 
 We'll do the porting by using the Immediate Feedback Development
-Environemnt (IFDE) we set up in the [previous tutorial][4]. We'll
+Environment (IFDE) we set up in the [previous tutorial][4]. We'll
 interleave the use of the bREPL with the use of a programming editor,
-whichever you like or use, without stopping the IDFE in any phase of
+whichever you like or use, without stopping the IFDE in any phase of
 the porting itself. This is to demonstrate a kind of continuous
 development taking the best from each available approach and tool.
 
@@ -178,7 +178,7 @@ JavaScript Virtual Machine (JSVM).
 ### Copy the `login.html` file
 
 First copy the `login.html` resource from the zip file you should have
-donloaded from [here][3].
+downloaded from [here][3].
 
 ```bash
 cd /path/to/modern-cljs
@@ -264,7 +264,7 @@ of the login form to be uploaded as well.
 So far so good.
 
 It's now time to start experimenting with CLJS at the bREPL by trying
-to emulate the behaviour of the original `login.js` code. Let's start
+to emulate the behavior of the original `login.js` code. Let's start
 form the `validateForm()` function:
 
 ```JS
@@ -463,7 +463,7 @@ cljs.user> (.-value (.getElementById js/document "password"))
 > very frequently in interoperable scenarios with the underlining
 > hosting platforms (i.e. JVM, JSVM and CLR at the moment).
 
-Lastly, we need a function for counting the lenght of a string. The
+Lastly, we need a function for counting the length of a string. The
 `count` function works on any kind of collection and on strings as
 well.
 
@@ -480,7 +480,7 @@ So far so good.
 
 Now that we did few experiments in the bREPL on the interoperability
 between CLJS and JS, we should be able to define a `validate-form`
-CLJS function cloning the corresponding JS `validateForm` behaviour.
+CLJS function cloning the corresponding JS `validateForm` behavior.
 
 Create a new CLJS file named `login.cljs` in the
 `src/cljs/modern_cljs` directory which already hosts the `core.cljs`
@@ -577,7 +577,7 @@ special form. In the first position of a list expression you'll always
 find one of those three forms, unless the list expression is quoted
 with the `quote` special form which stands for preventing the form
 evaluation. I don't know about you, but after decades I'm still
-waiting for a programmign language that has a simpler syntax to be
+waiting for a programming language that has a simpler syntax to be
 remember than a LISP, whichever of its dialect you consider.
 
 You can even ask at the bREPL for the source code definitions of
@@ -721,7 +721,7 @@ immediately return `true`.
 
 ### Port the `init` function
 
-After a little bit of bREPLing to fomiliarize with some stuff, we were
+After a little bit of bREPLing to familiarize with some stuff, we were
 able to define a CLJS function resembling the corresponding JS
 `validateForm` function. But we still have to attach it to the
 `submit` button of the login form when the `index.html` page is loaded
