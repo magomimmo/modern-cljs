@@ -121,59 +121,10 @@ cljs.user> (dom/attr (dom/by-id "email") :pattern)
 "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$"
 ```
 
-Let's see if we are able to match the returned pattern with an email
-value. First use the `apropos` macro to look for something relative to
-regex pattern and match
-
-```clj
-cljs.user> (apropos "pattern")
-(cljs.core/re-pattern)
-cljs.user> (apropos "match")
-(cljs.core/re-matches)
-```
-
-and ask for their docstrings
-
-```clj
-cljs.user> (doc re-matches)
--------------------------
-cljs.core/re-matches
-([re s])
-  Returns the result of (re-find re s) if re fully matches s.
-nil
-cljs.user> (doc re-pattern)
--------------------------
-cljs.core/re-pattern
-([s])
-  Returns an instance of RegExp which has compiled the provided string.
-nil
-```
-
-We can now see if a well formed email matches the regex got from the
-pattern attribute
-
-```clj
-cljs.user> (re-matches (re-pattern (dom/attr (dom/by-id "email") :pattern)) "you@yourdomain.com" )
-["you@yourdomain.com" nil nil ".com"]
-
-```
-
-But what happens if we pass a string which does not satisfy the
-pattern?
-
-```clj
-cljs.user> (re-matches (re-pattern (dom/attr (dom/by-id "email") :pattern)) "you@wrongdomain" )
-nil
-```
-
-As you see when the passed string matches the pattern, the string is
-returned as the first element of a vector, otherwise the `re-matches`
-function returns `nil`.
-
-## login.cljs
-
 We are now ready to substitute the previous code with the one getting
 the regexps from the Login Form.
+
+## login.cljs
 
 Open the `login.cljs` file and edit it as follows:
 
@@ -236,7 +187,7 @@ a real web application development.
 Kill any `boot` related process and commit your work.
 
 ```bash
-git commit -am "don't repeat yourself"
+git commit -am "get pattern attr from the form"
 ```
 
 # The deepest layer
