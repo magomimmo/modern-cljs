@@ -106,7 +106,7 @@ Go the bREPL and familiarize with the `pattern` attributes and the
 corresponding regex. Remember that CLJS regex are JS regex.
 
 First require the `domina.core` namespace, ask for the `attr`
-docstring and get the value of the `pattern` attribute:
+docstring and get the value of the `pattern` and `title` attributes:
 
 ```clj
 cljs.user> (require '[domina.core :as dom])
@@ -119,10 +119,12 @@ domina.core/attr
 nil
 cljs.user> (dom/attr (dom/by-id "email") :pattern)
 "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$"
+cljs.user> (dom/attr (dom/by-id "email") :title)
+"Type a well-formed email!"
 ```
 
 We are now ready to substitute the previous code with the one getting
-the regexps from the Login Form.
+regexp and help message directly from the Login Form.
 
 ## login.cljs
 
@@ -145,7 +147,7 @@ Open the `login.cljs` file and edit it as follows:
   (destroy! (by-class "email"))
   (if (not (re-matches (re-pattern (attr email :pattern)) (value email)))
     (do
-      (prepend! (by-id "loginForm") (html [:div.help.email "Wrong email"]))
+      (prepend! (by-id "loginForm") (html [:div.help.email (attr email :title)]))
       false)
     true))
 
@@ -153,14 +155,14 @@ Open the `login.cljs` file and edit it as follows:
   (destroy! (by-class "password"))
   (if (not (re-matches (re-pattern (attr password :pattern)) (value password)))
     (do
-      (append! (by-id "loginForm") (html [:div.help.password "Wrong password"]))
+      (append! (by-id "loginForm") (html [:div.help.password (attr password :title)]))
       false)
     true))
 ```
 
-Note that we added the `attr` symbol to the `:refer` section of the
-`domina.core` requirement and that we deleted both `*email-re*` and
-`*password-re*` previous definitions.
+> NOTE 1: we added the `attr` symbol to the `:refer` section of the
+> `domina.core` requirement and that we deleted both `*email-re*` and
+> `*password-re*` previous definitions.
 
 As usual, check that the Login Form is still working as expected.
 
@@ -179,12 +181,16 @@ and the process continues by calling the still non-existent
 `login.php` server-side script, resulting in the usual `Not found page`
 from the [compojure][5] routes we defined in the [3rd Tutorial][6].
 
-It's now time to take care of this error by implementing the server-side
-login service, which represents the deepest layer of the
-progressive enhancement strategy--the one we should have started from in
-a real web application development.
+You can simulate this last effect with an HTML5 compliant browser by
+re-adding the `novalidate` attribute to `loginForm`.
 
-Kill any `boot` related process and commit your work.
+It's now time to take care of this error by implementing the
+server-side login service, which represents the deepest layer of the
+progressive enhancement strategy -- the one we should have started
+from in a real web application development when we want to follow the
+progressive enhancement strategy.
+
+Kill any `boot` related process and commit the work you did until now.
 
 ```bash
 git commit -am "get pattern attr from the form"
