@@ -17,9 +17,9 @@
   :source-paths ["src/clj" "src/cljs"]
 
   :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.170"]]
+                 [org.clojure/clojurescript "1.7.145"]]
 
-  :plugins [[lein-cljsbuild "1.1.1"]]
+  :plugins [[lein-cljsbuild "1.1.0"]]
 
   ;; cljsbuild tasks configuration
   :cljsbuild {:builds
