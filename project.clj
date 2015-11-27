@@ -11,15 +11,15 @@
                               [:email "mimmo.cosenza@gmail.com"]
                               [:timezone "+2"]]]
 
-  :min-lein-version "2.5.2"
+  :min-lein-version "2.5.3"
 
   ;; clojure source code path
   :source-paths ["src/clj" "src/cljs"]
 
   :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.145"]]
+                 [org.clojure/clojurescript "1.7.170"]]
 
-  :plugins [[lein-cljsbuild "1.1.0"]]
+  :plugins [[lein-cljsbuild "1.1.1"]]
 
   ;; cljsbuild tasks configuration
   :cljsbuild {:builds
