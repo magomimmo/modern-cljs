@@ -537,29 +537,29 @@ cljs.user> (in-ns 'domina.events)
 nil
 domina.events> (map keyword (gobj/getValues events/EventType))
 (:click :rightclick :dblclick :mousedown :mouseup :mouseover :mouseout
-:mousemove :mouseenter :mouseleave :selectstart :wheel :keypress
-:keydown :keyup :blur :focus :deactivate :DOMFocusIn :DOMFocusOut
-:change :reset :select :submit :input :propertychange :dragstart :drag
-:dragenter :dragover :dragleave :drop :dragend :touchstart :touchmove
-:touchend :touchcancel :beforeunload :consolemessage :contextmenu
-:DOMContentLoaded :error :help :load :losecapture :orientationchange
-:readystatechange :resize :scroll :unload :hashchange :pagehide
-:pageshow :popstate :copy :paste :cut :beforecopy :beforecut
-:beforepaste :online :offline :message :connect :webkitAnimationStart
-:webkitAnimationEnd :webkitAnimationIteration :webkitTransitionEnd
-:pointerdown :pointerup :pointercancel :pointermove :pointerover
-:pointerout :pointerenter :pointerleave :gotpointercapture
-:lostpointercapture :MSGestureChange :MSGestureEnd :MSGestureHold
-:MSGestureStart :MSGestureTap :MSGotPointerCapture :MSInertiaStart
-:MSLostPointerCapture :MSPointerCancel :MSPointerDown :MSPointerEnter
-:MSPointerHover :MSPointerLeave :MSPointerMove :MSPointerOut
-:MSPointerOver :MSPointerUp :text :textInput :compositionstart
-:compositionupdate :compositionend :exit :loadabort :loadcommit
-:loadredirect :loadstart :loadstop :responsive :sizechanged
-:unresponsive :visibilitychange :storage :DOMSubtreeModified
-:DOMNodeInserted :DOMNodeRemoved :DOMNodeRemovedFromDocument
-:DOMNodeInsertedIntoDocument :DOMAttrModified
-:DOMCharacterDataModified :beforeprint :afterprint)
+ :mousemove :mouseenter :mouseleave :selectstart :wheel :keypress
+ :keydown :keyup :blur :focus :deactivate :DOMFocusIn :DOMFocusOut
+ :change :reset :select :submit :input :propertychange :dragstart :drag
+ :dragenter :dragover :dragleave :drop :dragend :touchstart :touchmove
+ :touchend :touchcancel :beforeunload :consolemessage :contextmenu
+ :DOMContentLoaded :error :help :load :losecapture :orientationchange
+ :readystatechange :resize :scroll :unload :hashchange :pagehide
+ :pageshow :popstate :copy :paste :cut :beforecopy :beforecut
+ :beforepaste :online :offline :message :connect :webkitAnimationStart
+ :webkitAnimationEnd :webkitAnimationIteration :webkitTransitionEnd
+ :pointerdown :pointerup :pointercancel :pointermove :pointerover
+ :pointerout :pointerenter :pointerleave :gotpointercapture
+ :lostpointercapture :MSGestureChange :MSGestureEnd :MSGestureHold
+ :MSGestureStart :MSGestureTap :MSGotPointerCapture :MSInertiaStart
+ :MSLostPointerCapture :MSPointerCancel :MSPointerDown :MSPointerEnter
+ :MSPointerHover :MSPointerLeave :MSPointerMove :MSPointerOut
+ :MSPointerOver :MSPointerUp :text :textInput :compositionstart
+ :compositionupdate :compositionend :exit :loadabort :loadcommit
+ :loadredirect :loadstart :loadstop :responsive :sizechanged
+ :unresponsive :visibilitychange :storage :DOMSubtreeModified
+ :DOMNodeInserted :DOMNodeRemoved :DOMNodeRemovedFromDocument
+ :DOMNodeInsertedIntoDocument :DOMAttrModified
+ :DOMCharacterDataModified :beforeprint :afterprint)
 ```
 
 To complete the application of the progressive enhancement strategy to
