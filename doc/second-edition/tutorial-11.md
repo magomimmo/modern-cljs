@@ -31,9 +31,33 @@ use by pairing the corresponding patterns and help messages
 previously used by the `validate-email` and `validate-password`
 functions.
 
+# Launch IFDE
+
+Launch IFDE as usual
+
+```bash
+boot dev
+...
+Elapsed time: 20.296 sec
+```
+
+Visit the [`index.html`](http://localhost:3000/index.html) page and
+the run the bREPL
+
+```bash
+boot repl -c
+...
+boot.user> (start-repl)
+...
+cljs.user> 
+```
+
+We are now ready for the frist step.
+
 # The highest surface
 
-Here is the relevant fragment of the updated `index.html`.
+Here is the relevant fragment of the updated `index.html` introducing
+the above HTML5 new features.
 
 ```html
 <html>
@@ -66,26 +90,110 @@ form and added the `placeholder`, `title` and `pattern` HTML5
 attributes to both the `email` and the `password` HTML5 input field
 elements of the form.
 
-This is a kind of code duplication I really hate. Luckily we have a
-handy solution based on the [domina library][2]. Let's modify the
-`validate-email` and `validate-password` handlers in such a way that,
-instead of having those patterns and help messages defined in the
-source code, we can get them from the input elements attributes by
-using the `attr` function defined in the `domina` namespace. Following
-is the updated code fragment from `login.cljs`.
+As usual, as you save the file, IFDE will reload it. 
 
-```clojure
+The `pattern` regex values are a kind of code duplication I really
+hate. Luckily we have a handy solution based on the
+[domina library][2]. Let's modify the `validate-email` and
+`validate-password` handlers in such a way that, instead of having
+those patterns and help messages defined in the source code, we can
+get them from the input elements attributes by using the `attr`
+function defined in the `domina.core` namespace.
+
+## bREPLing with HTML5 new attributes
+
+Go the bREPL and familiarize with the `pattern` attributes and the
+corresponding regex. Remember that CLJS regex are JS regex.
+
+First require the `domina.core` namespace, ask for the `attr`
+docstring and get the value of the `pattern` attribute:
+
+```clj
+cljs.user> (require '[domina.core :as dom])
+nil
+cljs.user> (doc dom/attr)
+-------------------------
+domina.core/attr
+([content name])
+  Gets the value of an HTML attribute. Assumes content will be a single node. Name may be a stirng or keyword. Returns nil if there is no value set for the style.
+nil
+cljs.user> (dom/attr (dom/by-id "email") :pattern)
+"^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$"
+```
+
+Let's see if we are able to match the returned pattern with an email
+value. First use the `apropos` macro to look for something relative to
+regex pattern and match
+
+```clj
+(cljs.core/re-pattern)
+cljs.user> (apropos "match")
+(cljs.core/re-matches)
+```
+
+and ask for their docstring
+
+```clj
+cljs.user> (doc re-matches)
+-------------------------
+cljs.core/re-matches
+([re s])
+  Returns the result of (re-find re s) if re fully matches s.
+nil
+cljs.user> (doc re-pattern)
+-------------------------
+cljs.core/re-pattern
+([s])
+  Returns an instance of RegExp which has compiled the provided string.
+nil
+```
+
+We can now see if a well formed email matches the regex got from the
+pattern attribute
+
+```clj
+cljs.user> (re-matches (re-pattern (dom/attr (dom/by-id "email") :pattern)) "you@yourdomain.com" )
+["you@yourdomain.com" nil nil ".com"]
+
+```
+
+But what happens if we pass a string which does not satisfy the
+pattern?
+
+```clj
+cljs.user> (re-matches (re-pattern (dom/attr (dom/by-id "email") :pattern)) "you@wrongdomain" )
+nil
+```
+
+As you see when the passed string matches the pattern, the string is
+returned as the first element of a vector, otherwise the `re-matches`
+function returns `nil`.
+
+## login.cljs
+
+We are now ready to substitute the previous code with the one getting
+the regexps from the Login Form.
+
+Open the `login.cljs` file and edit it as follows:
+
+```clj
 (ns modern-cljs.login
-  (:require-macros [hiccups.core :refer [html]])
-  (:require [domina :refer [by-id by-class value append! prepend! destroy! attr]]
+  (:require [domina.core :refer [append!
+                                 by-class
+                                 by-id
+                                 destroy!
+                                 prepend!
+                                 value
+                                 attr]]
             [domina.events :refer [listen! prevent-default]]
-            [hiccups.runtime]))
+            [hiccups.runtime])
+  (:require-macros [hiccups.core :refer [html]]))
 
 (defn validate-email [email]
   (destroy! (by-class "email"))
   (if (not (re-matches (re-pattern (attr email :pattern)) (value email)))
     (do
-      (prepend! (by-id "loginForm") (html [:div.help.email (attr email :title)]))
+      (prepend! (by-id "loginForm") (html [:div.help.email "Wrong email"]))
       false)
     true))
 
@@ -93,28 +201,18 @@ is the updated code fragment from `login.cljs`.
   (destroy! (by-class "password"))
   (if (not (re-matches (re-pattern (attr password :pattern)) (value password)))
     (do
-      (append! (by-id "loginForm") (html [:div.help.password (attr password :title)]))
+      (append! (by-id "loginForm") (html [:div.help.password "Wrong password"]))
       false)
     true))
 ```
 
-> NOTE 2: By using a CLJS expression inside the `html` macro from the
-> [hiccups][3] library you're now forced to require the `hiccups.runtime`
-> namespace even if you do not explicitly use any function from it.
+Note that we added the `attr` symbol to the `:refer` section of the
+`domina.core` requirement and that we deleted both `*re-email*` and
+`*re-password*` previous definitions.
 
-> NOTE 3: We used `re-pattern` to convert the strings from
-> the `:pattern` attributes to regular expressions to be
-> passed to `re-matches`.
+As usual, check that the Login Form is still working as expected.
 
-As usual, check your progress by running the application.
-
-```bash
-lein do cljsbuild clean, cljsbuild auto dev # dev build only
-lein ring server-headless # from a new terminal
-```
-
-Visit [login-dbg.html][4] and verify that the `:blur` and the `:click`
-handlers are still working as in the [previous tutorial][1].
+## HTML5 Validation
 
 Now disable JavaScript in your browser, reload the page and click
 the `Login` button without having filled the email and the password
@@ -133,6 +231,12 @@ It's now time to take care of this error by implementing the server-side
 login service, which represents the deepest layer of the
 progressive enhancement strategy--the one we should have started from in
 a real web application development.
+
+Kill any `boot` related process and commit your work.
+
+```bash
+git commit -am "don't repeat yourself"
+```
 
 # The deepest layer
 
