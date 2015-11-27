@@ -1,4 +1,4 @@
-# Tutorial 13 - Don't Repeat Yourself
+# Tutorial 12 - Don't Repeat Yourself
 
 In the [latest tutorial][1] we implemented a very crude server-side
 validator for the `loginForm` which exercises the same kind of
@@ -693,7 +693,7 @@ namespaces dependency problem we'll meet on the way.
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-11.md
 [2]: https://github.com/cemerick/valip
 [3]: https://github.com/weavejester/valip
 [4]: https://github.com/cemerick
@@ -706,11 +706,11 @@ License, the same as Clojure.
 [11]: https://github.com/emezeske
 [12]: https://github.com/emezeske/lein-cljsbuild/blob/0.3.0/doc/CROSSOVERS.md
 [13]: http://clojuredocs.org/clojure_core/clojure.core/if-let
-[14]:https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md#first-try
+[14]:https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-11.md#first-try
 [15]: https://github.com/emezeske/lein-cljsbuild
-[16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-10.md
+[16]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
 [17]: http://clojuredocs.org/clojure_core/clojure.core/let#example_878
 [18]: https://github.com/shoreleave
 [19]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/remote-validator.png
-[20]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-14.md
+[20]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md
 [21]: https://help.github.com/articles/set-up-git
