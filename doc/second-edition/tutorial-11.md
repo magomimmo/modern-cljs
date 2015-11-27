@@ -190,24 +190,20 @@ progressive enhancement strategy -- the one we should have started
 from in a real web application development when we want to follow the
 progressive enhancement strategy.
 
-Kill any `boot` related process and commit the work you did until now.
-
-```bash
-git commit -am "get pattern attr from the form"
-```
-
 # The deepest layer
 
-As you already know, this series of tutorials is about CLJS, not CLJ. On
-the net there are already some very good tutorials on CLJ web
-application develpoment using [ring][7] and [compojure][5]. Despite
-this, I think we should at least provide a starting point and a track
-to be followed.
+As you already know, this series of tutorials is about CLJS, not
+CLJ. On the net there are already some very good tutorials on CLJ web
+application development using [ring][7] and [compojure][5]. Despite
+this, we should at least provide a starting point and a track to be
+followed.
+
+## index.html
 
 First of all, we need to delete the `login.php` value originally
 attached to the `action` attribute of the `loginForm` and substitute it
 with a call to a compojure route. We'll call this new route
-`login`. Following is the updated code fragment.
+`login`. Open the `index.html` and do the change
 
 ```html
 <!doctype html>
@@ -225,45 +221,48 @@ going to request the `/login` resource from the server using the
 `POST` method, passing the `email` and `password` values
 provided by the user.
 
-We should now take a look at `core.clj` where the ring
-request handler and the compojure routes have been defined. The received
-`POST /login` request traverses the various ring middleware layers to finally
-reach `app-routes` which has to handle the request and provide a response to be returned to
-the browser.
+## core.clj
 
-At the moment, `app-routes` doesn't yet know how to manage a `POST` method
-request. Add a new `POST` route to `app-routes`.
+We should now take a look at `core.clj` where the ring request handler
+and the compojure routes have been defined. The received `POST /login`
+request traverses the various ring middleware layers to finally reach
+`handler` which has to handle the request and provide a response to
+be returned to the browser.
+
+At the moment, `handler` doesn't yet know how to manage a `POST`
+method request. Add a new `POST` route to `handler`.
 
 Following is the updated `core.clj` source code.
 
-```clojure
-(ns modern-cljs.core
+```clj
+(ns modern-cljs.core 
   (:require [compojure.core :refer [defroutes GET POST]]
-            [compojure.route :refer [resources not-found]]
-            [compojure.handler :refer [site]]
-            [modern-cljs.login :refer [authenticate-user]]))
+            [compojure.route :refer [not-found files resources]]))
 
-(defroutes app-routes
-  ;; to serve document root address
-  (GET "/" [] "<p>Hello from compojure</p>")
+(declare authenticate-user)
+
+(defroutes handler
+  (GET "/" [] "Hello from Compojure!")  ;; for testing only
+  (files "/" {:root "target"})          ;; to serve static resources
   (POST "/login" [email password] (authenticate-user email password))
-  (resources "/")
-  (not-found "Page not found"))
-
-(def handler
-  (site app-routes))
+  (resources "/" {:root "target"})      ;; to serve anything else
+  (not-found "Page Not Found"))         ;; page not found
 ```
 
 Whenever the web server receives a POST request with the "/login"
 URI, the `email` and `password` parameters are extracted from the body
 of the POST request and the `authenticate-user` function will be called
-with those parameters.
+with those parameters. 
 
-> NOTE 4: We intend to define the `authenticate-user` function in the new
-> `modern-cljs.login` namespace which has to be required in the
-> `modern-cljs.core` namespace declaration.
+At the moment the `authenticate-user` function is only declared,
+because to respect the separation of concern principle we'll define it
+later inside a new `modern-cljs.login` namespace which is going to be
+declared int corresponding `login.clj` CLJ source file.
 
-## First try
+Keep in mind that we're now working on the server-side, which means
+we're coding with CLJ not CLJS.
+
+## login.clj
 
 To keep things simple, at the moment we're not going to be concerned
 with user authentication or with any security issues. We also don't
@@ -271,9 +270,9 @@ want to return any nice HTML response page. We just want to see if the
 working parts have been correctly set up.
 
 Create the file `login.clj` in the `src/clj/modern_cljs/` directory and
-copy to it the following code.
+edit it as follow:
 
-```clojure
+```clj
 (ns modern-cljs.login)
 
 (def ^:dynamic *re-email*
@@ -282,7 +281,13 @@ copy to it the following code.
 (def ^:dynamic *re-password*
   #"^(?=.*\d).{4,8}$")
 
-(declare validate-email validate-password)
+(defn- validate-email [email]
+  (if (re-matches *re-email* email)
+    true))
+
+(defn- validate-password [password]
+  (if (re-matches *re-password* password)
+    true))
 
 (defn authenticate-user [email password]
   (if (or (empty? email) (empty? password))
@@ -291,32 +296,27 @@ copy to it the following code.
              (validate-password password))
       (str email " and " password
            " passed the formal validation, but you still have to be authenticated"))))
-
-(defn validate-email [email]
-  (if (re-matches *re-email* email)
-    true))
-
-(defn validate-password [password]
-  (if (re-matches *re-password* password)
-    true))
 ```
 
-There are a lot of bad things in this code. The most obvious is
-the code duplication between the client and the server code. For the
+> NOTE 2: both `validate-user` and `validate-password` have been defined
+> to be private to the `modern-cljs.login` namespace because they are
+> only used internally by the `authenticate-user` function.
+
+There are a lot of bad things in code above. The most obvious is the
+code duplication between the client and the server code. For the
 moment, be forgiving and go on by verifying this code works.
 
-So, be patient and run the application as usual.
+But first go back to `core.clj` CLJ source file, update the namespace
+declaration by adding the newly `modern-cljs.login` namespace and
+remove the `authenticate-user` declaration because it's now defined in
+that namespace.
 
-```bash
-lein cljsbuild clean # at times it is needed
-lein cljsbuild auto dev # dev build only
-lein ring server-headless # from a new terminal
-```
+## First try
 
-Disable the browser JavaScript and visit the [login-dbg.html][4]
-page. Remember that we removed the `novalidate` attribute flag from the
-`loginForm`. Now click the `Login` button without having filled any
-fields.
+Disable the browser JavaScript and remember that we removed the
+`novalidate` attribute flag from the `loginForm`.
+
+Click the `Login` button without having filled any fields.
 
 If you're using an HTML5 browser, it will ask you to fill
 in the email address field with a well-formed email. Do it and click again
@@ -325,23 +325,24 @@ field by typing a password with length between 4 and 8 digits and with at
 least 1 numeric digit. Do it and click the `Login` button again.
 
 If everything has gone well, the browser should now show you a message
-saying something like this: `xxxx.yyyy@gmail.com and zzzz1 passed
-the formal validation, but you still have to be authenticated`.
+saying something like this: `you@yourdomain.com and weak1` passed the
+formal validation, but you still have to be authenticated`.
 
 Great. We got what we expected.
 
-Now add again the `novalidate` attribute flag to the `loginForm` in the
-`login-dbg.html` source code, reload the page and click the `Login`
-button without having filled any field. The browser should now show you
-the *Please complete the form* message.
+Now add again the `novalidate` attribute flag to the `loginForm` in
+the `index.html` source code, reload the page and click the `Login`
+button without having filled any field. The browser should now show
+you the *Please complete the form* message.
 
 Great. We got what we expected.
 
-Now enable JavaScript, reload [login-dbg.html][4] and click the
-`Login` button again. You should see the *Please complete the form*
-message shown at the bottom of the login form. Try to type an invalid
-email address and click the button again. You should now see the *Type a
-well-formed email!* shown at the top of the login form.
+Now re-enable JavaScript, go back to the [index.html][4] page and
+click the `Login` button again. You should see the *Please complete
+the form* message shown at the bottom of the Login Form. Try to type
+an invalid email address and click the button again. You should now
+see the *Type a well-formed email!* shown at the top of the login
+form.
 
 Great. We again got what we expected.
 
@@ -350,19 +351,19 @@ of the 4 layers of the progressive enhancement approach for web
 application development. And we used Clojure on the server-side and
 ClojureScript on the client-side. Not bad so far.
 
-We already know from the [10th Tutorial][8] how to implement the Ajax
-layer. Before doing that by copying the Shopping Calculator sample
-already done, in the next couple of tutorials we're going to cover a
-couple of entirely new topics.
+We already know from the [9th Tutorial][8] how to implement the Ajax
+layer. Before doing that by taking inspiration from the Shopping
+Calculator sample already done, in the next few tutorials we're
+going to cover a couple of entirely new topics.
 
 If you created a new git branch as suggested in the preamble of this
-tutorial, I suggest you to commit the changes as follows
+tutorial, kill any `boot` related process and commit your work.
 
 ```bash
 git commit -am "highest and deepest"
 ```
 
-# Next Step - [Tutorial 13: Don't Repeat Yourself][9]
+# Next Step - [Tutorial 12: Don't Repeat Yourself][9]
 
 One of our long-term objectives is to eliminate any code duplication
 from our web applications. That's like saying we want to
