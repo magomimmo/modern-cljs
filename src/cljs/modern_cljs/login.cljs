@@ -14,7 +14,7 @@
   (destroy! (by-class "email"))
   (if (not (re-matches (re-pattern (attr email :pattern)) (value email)))
     (do
-      (prepend! (by-id "loginForm") (html [:div.help.email "Wrong email"]))
+      (prepend! (by-id "loginForm") (html [:div.help.email (attr email :title)]))
       false)
     true))
 
@@ -22,7 +22,7 @@
   (destroy! (by-class "password"))
   (if (not (re-matches (re-pattern (attr password :pattern)) (value password)))
     (do
-      (append! (by-id "loginForm") (html [:div.help.password "Wrong password"]))
+      (append! (by-id "loginForm") (html [:div.help.password (attr password :title)]))
       false)
     true))
 
