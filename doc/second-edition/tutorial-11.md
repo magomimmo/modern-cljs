@@ -92,21 +92,21 @@ elements of the form.
 
 As usual, as you save the file, IFDE will reload it. 
 
-The `pattern` regex values are a kind of code duplication I really
-hate. Luckily we have a handy solution based on the
+The `pattern` values (i.e. regexp) are a kind of code duplication I
+really hate. Luckily we have a handy solution based on the
 [domina library][2]. Let's modify the `validate-email` and
-`validate-password` handlers in such a way that, instead of having
+`validate-password` functions in such a way that, instead of having
 those patterns and help messages defined in the source code, we can
 get them from the input elements attributes by using the `attr`
 function defined in the `domina.core` namespace.
 
 ## bREPLing with HTML5 new attributes
 
-Go the bREPL and familiarize with the `pattern` attributes and the
-corresponding regex. Remember that CLJS regex are JS regex.
+Go the bREPL and familiarize with the new HTML5 attributes. 
 
-First require the `domina.core` namespace, ask for the `attr`
-docstring and get the value of the `pattern` and `title` attributes:
+First require the `domina.core` namespace, then ask for the `attr`
+docstring and finally get the value of the `pattern` and `title`
+attributes:
 
 ```clj
 cljs.user> (require '[domina.core :as dom])
@@ -123,8 +123,9 @@ cljs.user> (dom/attr (dom/by-id "email") :title)
 "Type a well-formed email!"
 ```
 
-We are now ready to substitute the previous code with the one getting
-regexp and help message directly from the Login Form.
+We are now ready to substitute the previous `validate-email` and
+`validate-password` functions with the ones getting the regexp and the
+help message directly from the Login Form. 
 
 ## login.cljs
 
@@ -230,7 +231,7 @@ request traverses the various ring middleware layers to finally reach
 be returned to the browser.
 
 At the moment, `handler` doesn't yet know how to manage a `POST`
-method request. Add a new `POST` route to `handler`.
+method request and we need to add it to `handler`.
 
 Following is the updated `core.clj` source code.
 
@@ -257,10 +258,10 @@ with those parameters.
 At the moment the `authenticate-user` function is only declared,
 because to respect the separation of concern principle we'll define it
 later inside a new `modern-cljs.login` namespace which is going to be
-declared int corresponding `login.clj` CLJ source file.
+declared in the corresponding `login.clj` CLJ source file.
 
 Keep in mind that we're now working on the server-side, which means
-we're coding with CLJ not CLJS.
+we're coding with CLJ, not CLJS.
 
 ## login.clj
 
@@ -298,18 +299,19 @@ edit it as follow:
            " passed the formal validation, but you still have to be authenticated"))))
 ```
 
-> NOTE 2: both `validate-user` and `validate-password` have been defined
+> NOTE 2: both `validate-email` and `validate-password` have been defined
 > to be private to the `modern-cljs.login` namespace because they are
 > only used internally by the `authenticate-user` function.
 
-There are a lot of bad things in code above. The most obvious is the
-code duplication between the client and the server code. For the
-moment, be forgiving and go on by verifying this code works.
+There are a lot of bad things in the above code. The most obvious is
+the code duplication between the client side and the server side
+code. For the moment, be forgiving and go on by verifying this code
+works.
 
 But first go back to `core.clj` CLJ source file, update the namespace
-declaration by adding the newly `modern-cljs.login` namespace and
-remove the `authenticate-user` declaration because it's now defined in
-that namespace.
+declaration by adding the newly `modern-cljs.login` namespace
+requirement and remove the `authenticate-user` declaration because
+it's now defined in that namespace.
 
 ## First try
 
@@ -378,7 +380,6 @@ License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-10.md
 [2]: https://github.com/levand/domina
-[3]: https://github.com/magomimmo/hiccups
 [4]: http://localhost:3000/index.html
 [5]: https://github.com/magomimmo/compojure
 [6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-03.md
