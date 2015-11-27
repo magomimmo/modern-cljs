@@ -42,7 +42,7 @@ Elapsed time: 20.296 sec
 ```
 
 Visit the [`index.html`](http://localhost:3000/index.html) page and
-the run the bREPL
+then run the bREPL
 
 ```bash
 boot repl -c
@@ -126,12 +126,13 @@ value. First use the `apropos` macro to look for something relative to
 regex pattern and match
 
 ```clj
+cljs.user> (apropos "pattern")
 (cljs.core/re-pattern)
 cljs.user> (apropos "match")
 (cljs.core/re-matches)
 ```
 
-and ask for their docstring
+and ask for their docstrings
 
 ```clj
 cljs.user> (doc re-matches)
