@@ -1,5 +1,5 @@
 (set-env!
- :source-paths #{"src/clj" "src/cljs"}
+ :source-paths #{"src/clj" "src/cljs" "src/cljc"}
  :resource-paths #{"html"}
  :target-path "target"
 
