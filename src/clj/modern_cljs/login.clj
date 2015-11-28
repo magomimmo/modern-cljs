@@ -1,23 +1,8 @@
-(ns modern-cljs.login)
-
-(def ^:dynamic *re-email*
-  #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
-
-(def ^:dynamic *re-password*
-  #"^(?=.*\d).{4,8}$")
-
-(defn- validate-email [email]
-  (if (re-matches *re-email* email)
-    true))
-
-(defn- validate-password [password]
-  (if (re-matches *re-password* password)
-    true))
+(ns modern-cljs.login
+  (:require [modern-cljs.login.validators :refer [user-credential-errors]]))
 
 (defn authenticate-user [email password]
-  (if (or (empty? email) (empty? password))
+  (if (boolean (user-credential-errors email password))
     (str "Please complete the form")
-    (if (and (validate-email email)
-             (validate-password password))
-      (str email " and " password
-           " passed the formal validation, but you still have to be authenticated"))))
+    (str email " and " password
+         " passed the formal validation, but you still have to be authenticated")))
