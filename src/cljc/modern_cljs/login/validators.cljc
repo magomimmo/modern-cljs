@@ -5,7 +5,7 @@
 (def ^:dynamic *re-password* #"^(?=.*\d).{4,8}$")
 
 (defn user-credential-errors [email password]
-  (validate {:email email :password password}
+  (validate {:email (str email) :password (str password)}
             [:email present? "Email can't be empty."]
             [:email email-address? "The provided email is invalid."]
             [:password present? "Password can't be empty."]
