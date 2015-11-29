@@ -16,8 +16,8 @@ assuming you've [git][21] installed, do as follows.
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
-git checkout tutorial-12
-git checkout -b tutorial-13-step-1
+git checkout se-tutorial-11
+git checkout -b tutorial-12-step-1
 ```
 
 # Introduction
@@ -28,8 +28,17 @@ strategy. Specifically, we'll try to exercise both the DRY principle and
 the progressive enhancement strategy in one of the most relevant contexts
 in developing a web application: the form fields validation.
 
-Let's start by writing down few technical intermediate requirements to
-solve this problem space. We need to:
+> NOTE 1: when I wrote the first edition of this series of tutorials
+> (around winter 2012/13) there were almost no CLJS form
+> validators. Today, thanks to the awesome efforts of the CLJ/CLJS
+> community, the problem could become the opposite: there are too many
+> of them to choose from.
+> 
+> That said I decided to not modify to much this tutorial, because I
+> think it still has something interesting to say.
+
+Start by writing down few technical intermediate requirements to solve
+this problem space. We need to:
 
 * select a good server-side validator library
 * verify its portability from CLJ to CLJS
@@ -38,27 +47,33 @@ solve this problem space. We need to:
   client code
 * exercise the defined validators on the server and client code.
 
-That's a lot of work to be done for a single tutorial. Take your time to
-follow it step by step.
+That's a lot of work to be done for a single tutorial. Take your time
+to follow it step by step.
 
 # The selection process
 
 If you search GitHub for a CLJ validator library you'll find quite a
 large number of results, but if you restrict the search to CLJS
-library only, you currently get just one result: [Valip][2]. Valip has
-been forked from the [original CLJ Valip][3] to make it portable to the
-CLJS platform. This is already a good result by itself, because it
-demonstrates that we share our long term objective with someone
-else. If you then take a look at the owners of those two Github repos,
-you'll discover that they are two of the most prolific and active
-clojure-ists: [Chas Emerick][4] and [James Reeves][5]. I'm happy that
-the motto *Smart people think alike* was true.
+library only, you currently get just one result: [Valip][2].
 
-We will eventually search for other CLJ validator libraries. For the
+> NOTE 1: the above assertion was true at the time I wrote the first
+> edition of this tutorial. Nowadays it's not true anymore, but stay
+> with me. You'll not regret.
+
+
+Valip has been forked from the [original CLJ Valip][3] to make it
+portable to the CLJS platform. This is already a good result by
+itself, because it demonstrates that we share our long term objective
+with someone else. If you then take a look at the owners of those two
+Github repos, you'll discover that they are two of the most prolific
+and active clojure-ists: [Chas Emerick][4] and [James Reeves][5]. I'm
+happy that the motto *Smart people think alike* was true.
+
+You will eventually search for other CLJ validator libraries. For the
 moment, by following the Keep It Simple, Stupid
 ([KISS](https://en.wikipedia.org/wiki/KISS_principle)) pragmatic
-approach, we will stay with the [Valip][2] library which already seems
-to satisfy the first three intermediate requirements we just listed in
+approach, stay with the [Valip][2] library which already seems to
+satisfy the first three intermediate requirements we just listed in
 the introduction: its quality should be guaranteed by the quality of
 its owners and it already runs on both CLJ and CLJS.
 
@@ -85,7 +100,7 @@ To keep things simple, we are going to apply the Valip lib to our old
 `loginForm` input elements:
 
 ```clojure
-(validate {:email "xxx@zzz.com" :password "zzzz1"}
+(validate {:email "you@yourdomain.com" :password "weak1"}
   [:email present? "Email can't be empty"]
   [:email email-address? "Invalid email format"]
   [:password present? "Password can't be empty"]
@@ -103,7 +118,7 @@ would get a result like the following:
 
 ```clojure
 ;;; the sample call
-(validate {:email "zzzz" :password nil}
+(validate {:email "zzzz" :password ""}
   [:email present? "Email can't be empty"]
   [:email email-address? "Invalid email format"]
   [:password present? "Password can't be empty"]
@@ -174,34 +189,83 @@ packages in the `valip.predicates` namespace.
                                            DoubleValidator]))
 ```
 
-This is not a suprise if you take into account that it was made
-more than two years ago, when CLJS was floating around in just a few
+This is not a suprise if you take into account that it was made more
+than four years ago, when CLJS was floating around in just a few
 clojure-ist minds.
 
-The surprise is that Chas Emerick chose it just five months ago,
-when CLJS had already been reified from a very smart idea into a
-programming language. So, if the original [Valip][3] library was so
-dependent on the JVM, why would Chas Emerick choose it over other,
-less-compromised CLJ validation libraries? I don't know. Maybe the
-answer is just that the predefined predicates and functions were
-confined to the `valip.predicates` namespace and most of them were
-easily redefinable in portable terms.
+The surprise is that Chas Emerick chose it later, when CLJS had
+already been reified from a very smart idea into a programming
+language. So, if the original [Valip][3] library was so dependent on
+the JVM, why would Chas Emerick choose it over other, less-compromised
+CLJ validation libraries? Maybe the answer is just that the predefined
+predicates and functions were confined to the `valip.predicates`
+namespace and most of them were easily redefinable in portable terms.
+
+## Something new to take into account
+
+Even if Chas Emerick made a great work by rewriting the `valip` lib in
+such a way that you could use it from CLJ or from CLJS, at those time
+the so called [`Features Expression`][] problem was still to be solved
+in CLJ/CLJS.
+
+You had two ways to use a portable (or almost portable) CLJ/CLJS lib:
+
+* the [`:crossover`][] option of the the [lein-cljsbuild][] plugin for
+  [`leiningen`][] which is now deprecated;
+* the [lein-cljx][] leiningen plugin, which added more complexities to
+  the `project.clj` declaration.
+
+Starting with the `1.7.0` release, Clojure offers a new way to solve
+the `Feature Expression` problem. I'm not going to explain it right
+now. I'm anticipating you about it only because I rewrote the `valip`
+lib in such a way that we can easily use it inside our series of
+tutorials without having to do with the above complexities.
+
+## Add valip dependency
+
+As usual when using a new lib, the first thing to be done is to add it
+to the `depenendecies` of the project contained in the `build.boot`
+build files.
+
+```clj
+(set-env!
+ ...
+ :dependencies '[...
+                 [org.clojars.magomimmo/valip "0.4.0-SNAPSHOT"]
+                 ])
+...
+```
+
+## Start the IFDE
+
+You already know. I always like to work in a live environment. So
+start the IFDE
+
+```bash
+cd /path/to/modern-cljs
+boot dev
+...
+Elapsed time: 19.288 sec
+```
+
+and visit the [Login Form](http://localhost:3000/index.html).
+
+You can even start the `REPL`, but refrain yourself from starting the
+bREPL, because at the moment we're going to work on the server-side
+(i.e. CLJ)
+
+```bash
+# from a new terminal
+cd /path/to/modern-cljs
+boot repl -c
+...
+boot.user=>
+```
 
 ## First try
 
-We already talked too much. Let's see the [Valip][2] lib at work by
-validating our old `loginForm` friend.
-
-First you have to add the [forked Valip][2] library to the project
-dependencies.
-
-```clj
-(defproject ...
-   ...
-  :dependencies [...
-                 [com.cemerick/valip "0.3.2"]]
-  ...)
-```
+Let's see the [Valip][2] lib at work by validating our old `loginForm`
+friend.
 
 To follow at our best the principle of separation of concerns, let's
 create a new namespace specifically dedicated to the `loginForm` fields
