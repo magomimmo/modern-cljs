@@ -28,15 +28,6 @@ strategy. Specifically, we'll try to exercise both the DRY principle and
 the progressive enhancement strategy in one of the most relevant contexts
 in developing a web application: the form fields validation.
 
-> NOTE 1: when I wrote the first edition of this series of tutorials
-> (around winter 2012/13) there were almost no CLJS form
-> validators. Today, thanks to the awesome efforts of the CLJ/CLJS
-> community, the problem could become the opposite: there are too many
-> of them to choose from.
-> 
-> That said I decided to not modify to much this tutorial, because I
-> think it still has something interesting to say.
-
 Start by writing down few technical intermediate requirements to solve
 this problem space. We need to:
 
@@ -50,6 +41,15 @@ this problem space. We need to:
 That's a lot of work to be done for a single tutorial. Take your time
 to follow it step by step.
 
+> NOTE 1: when I wrote the first edition of this series of tutorials
+> (around winter 2012/13) there were almost no CLJS form
+> validators. Today, thanks to the awesome efforts of the CLJ/CLJS
+> community, the problem could become the opposite: there are too many
+> of them to choose from.
+> 
+> That said I decided to not modify to much this tutorial, because I
+> think it still has something interesting to say.
+
 # The selection process
 
 If you search GitHub for a CLJ validator library you'll find quite a
@@ -60,8 +60,7 @@ library only, you currently get just one result: [Valip][2].
 > edition of this tutorial. Nowadays it's not true anymore, but stay
 > with me. You'll not regret.
 
-
-Valip has been forked from the [original CLJ Valip][3] to make it
+[Valip][2] has been forked from the [original CLJ Valip][3] to make it
 portable to the CLJS platform. This is already a good result by
 itself, because it demonstrates that we share our long term objective
 with someone else. If you then take a look at the owners of those two
@@ -96,10 +95,10 @@ consists of a key, a predicate function and an error string, like so:
 ```
 
 To keep things simple, we are going to apply the Valip lib to our old
-`Login` tutorial sample. Here is a possible `validate` usage for the
+`Login` sample. Here is a possible `validate` usage for the
 `loginForm` input elements:
 
-```clojure
+```clj
 (validate {:email "you@yourdomain.com" :password "weak1"}
   [:email present? "Email can't be empty"]
   [:email email-address? "Invalid email format"]
@@ -116,15 +115,15 @@ understand, suppose for a moment that the email value passed to
 `validate` was not well formed and that the password was empty. You
 would get a result like the following:
 
-```clojure
-;;; the sample call
-(validate {:email "zzzz" :password ""}
+```clj
+;;; a sample call
+(validate {:email "zzzz" :password nil}
   [:email present? "Email can't be empty"]
   [:email email-address? "Invalid email format"]
   [:password present? "Password can't be empty"]
   [:password (matches *re-password*) "Invalid password format"])
 
-;;; will returns
+;;; should returns
 
 {:email ["Invalid email format"]
  :password ["Password can't be empty" "Invalid password format"]}
@@ -154,7 +153,7 @@ If you need to take some inspiration when defining your own predicates
 and functions, here are the definitions of the built-in `present?`
 predicate and the `matches` function which returns a predicate.
 
-```clojure
+```clj
 ;;; from valip.predictes namespace
 
 ;;; present? predicate
@@ -168,11 +167,24 @@ predicate and the `matches` function which returns a predicate.
   (fn [s] (boolean (re-matches re s))))
 ```
 
+Valip even offers the `defpredicate` macro, which allows you to easily
+compose new predicates returning a boolean value. Here is a sample got
+from the lib itself.
+
+```clj
+(defpredicate valid-email-domain?
+  "Returns true if the domain of the supplied email address has a MX DNS entry."
+  [email]
+  [email-address?]
+  (if-let [domain (second (re-matches #".*@(.*)" email))]
+    (boolean (dns-lookup domain "MX"))))
+```
+
 ## A doubt to be cleared
 
-If there is one thing that does not excite me about the
-original [Valip][3] library, it is its dependency on a lot of java
-packages in the `valip.predicates` namespace.
+If there was one thing that did not excite me about the original
+[Valip][3] library, it was its dependency on a lot of java packages in
+the `valip.predicates` namespace.
 
 ```clojure
 (ns valip.predicates
@@ -190,16 +202,17 @@ packages in the `valip.predicates` namespace.
 ```
 
 This is not a suprise if you take into account that it was made more
-than four years ago, when CLJS was floating around in just a few
+than five years ago, when CLJS was floating around in just a few
 clojure-ist minds.
 
-The surprise is that Chas Emerick chose it later, when CLJS had
-already been reified from a very smart idea into a programming
-language. So, if the original [Valip][3] library was so dependent on
-the JVM, why would Chas Emerick choose it over other, less-compromised
-CLJ validation libraries? Maybe the answer is just that the predefined
-predicates and functions were confined to the `valip.predicates`
-namespace and most of them were easily redefinable in portable terms.
+The surprise is that Chas Emerick chose it a couple of years later,
+when CLJS had already been reified from a very smart idea into a
+programming language. So, if the original [Valip][3] library was so
+dependent on the JVM, why would Chas Emerick choose it over other,
+less-compromised CLJ validation libraries? Maybe the answer is just
+that the predefined predicates and functions were confined to the
+`valip.predicates` namespace and most of them were easily redefinable
+in portable terms.
 
 ## Something new to take into account
 
@@ -208,24 +221,34 @@ such a way that you could use it from CLJ or from CLJS, at those time
 the so called [`Features Expression`][] problem was still to be solved
 in CLJ/CLJS.
 
-You had two ways to use a portable (or almost portable) CLJ/CLJS lib:
+You had two workarounds to use a portable (or almost portable)
+CLJ/CLJS lib:
 
-* the [`:crossover`][] option of the the [lein-cljsbuild][] plugin for
-  [`leiningen`][] which is now deprecated;
-* the [lein-cljx][] leiningen plugin, which added more complexities to
-  the `project.clj` declaration.
+* use the [`:crossover`][] option of the the [lein-cljsbuild][] plugin
+  for [`leiningen`][], which is now [deprecated][];
+* use the [lein-cljx][] leiningen plugin, which added other complexity
+  to the already complex enough `project.clj` declaration.
+
+> NOTE 3: in this second edition of the `modern-cljs` series of
+> tutorials I made the choice of using the `boot` building tools instead
+> of the more standard `leiningen` one. There are to main reason for
+> that:
+> 
+> * the `build.boot` becomes shorter/simpler than the corresponding
+>   `project.clj` when adding `CLJS` stuff;
+> * you can run everything in a single JVM instance.
 
 Starting with the `1.7.0` release, Clojure offers a new way to solve
 the `Feature Expression` problem. I'm not going to explain it right
-now. I'm anticipating you about it only because I rewrote the `valip`
-lib in such a way that we can easily use it inside our series of
-tutorials without having to do with the above complexities.
+now. I'm anticipating you about it only because I rewrote the
+[`valip`][] lib in such a way that we can easily use it inside our
+series of tutorials without having to do with the above complexities.
 
 ## Add valip dependency
 
 As usual when using a new lib, the first thing to be done is to add it
-to the `depenendecies` of the project contained in the `build.boot`
-build files.
+to the `dependencies` section of the project contained in the
+`build.boot` build file.
 
 ```clj
 (set-env!
@@ -250,9 +273,9 @@ Elapsed time: 19.288 sec
 
 and visit the [Login Form](http://localhost:3000/index.html).
 
-You can even start the `REPL`, but refrain yourself from starting the
-bREPL, because at the moment we're going to work on the server-side
-(i.e. CLJ)
+Start the `REPL` as well, but refrain yourself from starting the bREPL
+on top of it, because at the moment we're going to work on the
+server-side only (i.e. CLJ).
 
 ```bash
 # from a new terminal
@@ -262,29 +285,116 @@ boot repl -c
 boot.user=>
 ```
 
-## First try
+## REPLing with valip
 
-Let's see the [Valip][2] lib at work by validating our old `loginForm`
-friend.
+Require both `valip.core` and `valip.predicates` namespace from `valip`:
+
+```clj
+(use 'valip.core 'valip.predicates)
+```
+
+Test the `validate` form we cited above:
+
+```clj
+boot.user> (validate {:email "you@yourdomain.com" :password "weak1"}
+  [:email present? "Email can't be empty"]
+  [:email email-address? "Invalid email format"]
+  [:password present? "Password can't be empty"]
+  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+nil
+```
+
+As you see it correctly returns `nil` because both the passed `email`
+and `password` strings satisfy the validation tests.
+
+Let's see few failing cases:
+
+```clj
+boot.user> (validate {:email nil :password nil}
+  [:email present? "Email can't be empty"]
+  [:email email-address? "Invalid email format"]
+  [:password present? "Password can't be empty"]
+  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+{:email ["Email can't be empty" "Invalid email format"], :password ["Password can't be empty" "Invalid password format"]}
+```
+
+Here we passed a `nil` value for both the `email` and `password`
+arguments and the `validate` function returns a `map` containing the
+error massages for both the `:email` and `:password` keys.
+
+```clj
+boot.user> (validate {:email "you@yourdomain.com" :password nil}
+  [:email present? "Email can't be empty"]
+  [:email email-address? "Invalid email format"]
+  [:password present? "Password can't be empty"]
+  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+{:password ["Password can't be empty" "Invalid password format"]}
+```
+
+Here we passed a well formed `email` and a `nil` `password`
+arguments. The returned `map` contains the `:password` key/value pair
+only, because the `email` satisfies the validation predicates.
+
+```clj
+boot.user> (validate {:email nil :password "weak1"}
+  [:email present? "Email can't be empty"]
+  [:email email-address? "Invalid email format"]
+  [:password present? "Password can't be empty"]
+  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+{:email ["Email can't be empty" "Invalid email format"]}
+```
+
+Here we passed a void `mail` and and a `password` that matches the
+used regex. So the return `map` contains the `:email` key only.
+
+```clj
+boot.user> (validate {:email "bademail@baddomain" :password "weak1"}
+  [:email present? "Email can't be empty"]
+  [:email email-address? "Invalid email format"]
+  [:password present? "Password can't be empty"]
+  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+{:email ["Invalid email format"]}
+```
+
+Here we passed a bad `mail` and a valid `password` arguments. The
+return `map` contains one message only for the bad `email` address.
+
+```clj
+boot.user> (validate {:email "you@yourdomain.com" :password "badpasswd"}
+  [:email present? "Email can't be empty"]
+  [:email email-address? "Invalid email format"]
+  [:password present? "Password can't be empty"]
+  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+{:password ["Invalid password format"]}
+```
+
+Here we finally passed a nice `email` and an invalid `password`
+arguments. The return `map` contains the message for the bad
+`password` only.
+
+OK, we familiarized enough with the `validate` function. We can now
+start coding in a source file.
+
+## validators.clj
 
 To follow at our best the principle of separation of concerns, let's
-create a new namespace specifically dedicated to the `loginForm` fields
-validations. Create the `login` subdirectory under the
+create a new namespace specifically dedicated to the `loginForm`
+fields validations. Create the `login` subdirectory under the
 `src/clj/modern_cljs/` directory and then create a new file named
 `validators.clj`. Open it and declare the new
-`modern-cljs.login.validators` namespace by requiring the portable namespaces
-from the [Valip][2] library.
+`modern-cljs.login.validators` namespace by requiring the needed
+namespaces from the [Valip][] library patched by myself.
 
-```clojure
+```clj
 (ns modern-cljs.login.validators
   (:require [valip.core :refer [validate]]
             [valip.predicates :refer [present? matches email-address?]]))
 ```
 
 In the same file you now have to define the validators for the user
-credential (i.e `email` and `password`).
+credential (i.e `email` and `password`). 
 
-```clojure
+```clj
 (def ^:dynamic *re-password* #"^(?=.*\d).{4,8}$")
 
 (defn user-credential-errors [email password]
@@ -295,23 +405,20 @@ credential (i.e `email` and `password`).
             [:password (matches *re-password*) "The provided password is invalid"]))
 ```
 
-> NOTE 1: Again, to follow the separation of concerns principle, we
+As you see only wrapped the above `validate` call inside a function
+definition.
+
+> NOTE 4: Again, to follow the separation of concerns principle, we
 > moved here the *re-password* regular expression previously defined in
 > the `login.clj` source file.
 
-> NOTE 2: Valip provides the `email-address?` built-in
+> NOTE 5: Valip provides the `email-address?` built-in
 > predicate which matches the passed email value against an embedded
 > regular expression. This regular expression is based on RFC 2822 and
 > it is defined in the `valip.predicates` namespace. This is why the
 > `*re-email*` regular expression is not needed anymore.
 
-> NOTE 3: The original [Valip][3] also provides the built-in
-> `valid-domain-email?` predicate which, by running a DNS lookup,
-> verify even the validity of the email domain. This is not a portable
-> predicate and as such it now lives in the `valip.java.predicates`
-> namespace of the [forked by Chas Emerick Valip library][2].
-
-We now need to update the `login.clj` by calling the just defined
+We now need to update the `login.clj` file by calling the just defined
 `user-credential-errors` function.  Open the `login.clj` file from the
 `src/clj/modern_cljs/` directory and modify it as follows:
 
@@ -326,7 +433,7 @@ We now need to update the `login.clj` by calling the just defined
            " passed the formal validation, but we still have to authenticate you")))
 ```
 
-> NOTE 4: Even if we could have returned more detailed messages from
+> NOTE 6: Even if we could have returned more detailed messages from
 > the validator result to the user, to maintain the same behaviour of
 > the previous server-side login version we only return the *Please
 > complete the form.* message when the user typed something wrong in the
@@ -336,33 +443,53 @@ I don't know about you, but even for such a small and stupid case, the
 use of a validator library seems to be effective, at least in terms of
 code clarity and readability.
 
-Anyway, let's run the application as usual to verify that the
-interaction with the just-added validator is working as expected.
+Anyway, let's interactively verify if the just-added validator is
+working as expected.
 
-```bash
-rm -rf out # it's better to be safe than sorry
-lein do clean, cljsbuild clean, cljsbuild auto dev # it's better to be safe than sorry
-lein ring server-headless # in a new terminal
-```
+Visit [Login page](http://localhost:3000/index.html) and repeat all
+the interaction tests we executed in the
+[latest tutorial][14]. Remember to first disable the JS of the
+browser.
 
-Visit [login-dbg.html][7] page and repeat all the interaction tests we
-executed in the [latest tutorial][14]. Remember to first disable the JS
-of the browser.
-
-When you submit the [login-dbg.html][7] page you should receive a `Please
-complete the form` message anytime you do not provide the `email` and/or
-the `password` values and anytime the provided values do not pass the
+When you submit the Login Form you should receive a `Please complete
+the form` message anytime you do not provide the `email` and/or the
+`password` values and anytime the provided values do not pass the
 corresponding validation predicates.
 
-When the provided values for the email and password input elements pass
-the validator rules, you should receive the following message:
-*xxx.yyy@gmail.com and zzzx1 passed the formal validation, but we still
-have to authenticate you*. So far, so good.
+When the provided values for the email and password input elements
+pass the validator rules, you should receive a message looking like
+the following: *you@yourdomain.com and weak1 passed the formal
+validation, but we still have to authenticate you*. So far, so good.
 
-It's now time to take Chas Emerick seriously, and try to use the [Valip][2]
-library on the client-side.
+It's now time to take the `1.7.0` CLJ/CLJS additions seriously, and
+try to use the the [Valip][] portable library on the client-side as
+well.
 
 # Cross the border
+
+Before crossing the border between the server and the client sides,
+let's take into account a very important new features added to the
+Clojure from the `1.7.0` release on: [`Reader Conditional`][22].
+
+> Reader Conditionals are a new capability to support portable code that
+> can run on multiple Clojure platforms with only small changes. In
+> particular, this feature aims to support the increasingly common case
+> of libraries targeting both Clojure and ClojureScript.
+> 
+> Code intended to be common across multiple platforms should use a new
+> supported file extension: ".cljc". When requested to load a namespace,
+> the platform-specific file extension (.clj, .cljs) will be checked
+> prior to .cljc.
+
+The patched [Valip][] lib has been rewrote by using the above `Reader
+Conditional` which is the way CLJ/CLJS finally solved the `Feature
+Expression` problem.
+
+The `modern-cljs.login.validators` namespace we just wrote is
+currently hosted in the `src/clj` source directory of the project. It
+required portable namespace from the `valip` patched lib and did not
+used any expression available for the JVM platform only. 
+
 
 As you can read from the [readme][8] file of the Chas Cemerick's
 [Valip fork][2], he tried to make its code as portable as possibile
@@ -778,3 +905,4 @@ License, the same as Clojure.
 [19]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/remote-validator.png
 [20]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md
 [21]: https://help.github.com/articles/set-up-git
+[22]: https://github.com/clojure/clojure/blob/master/changes.md#22-reader-conditionals
