@@ -845,10 +845,10 @@ result of a server-side only validation on the the client-side. The
 
 ## First step - Create a server only validator
 
-First, you have to define a new validator which will not be shared with
-CLJS. Remembering how `lein-cljsbuild` crossovers magic works, you
-have to define a new namespace that will not be added to the
-`:crossover` option in the `project.clj`.
+
+First, you have to define a new validator which will not be shared
+with CLJS. Remembering how the `Reader Conditionals` magic works, you
+have to define a new namespace in the `src/clj` source path.
 
 Create a new `java` directory under the `src/clj/modern_cljs/login`
 directory. Then create a new `validators.clj` file in it and next define
