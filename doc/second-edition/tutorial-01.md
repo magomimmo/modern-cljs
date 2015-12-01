@@ -298,15 +298,6 @@ BOOT_CLOJURE_VERSION=1.7.0
 #App version: 2.4.2
 ```
 
-Finally, I strongly suggest to use `git` to manage your work.
-
-```bash
-git init
-echo '/target' > .gitignore
-git add .
-git commit -m "initial commit"
-```
-
 ## Next Step - [Tutorial 2: Immediate Feedback Principle][7]
 
 In the next [tutorial][7] we're going to approach as close as possible

@@ -13,7 +13,6 @@ assuming you've [git][13] installed, do as follows.
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
 git checkout se-tutorial-04
-git checkout -b tutorial-05-step-1
 ```
 
 ## Introduction
@@ -647,12 +646,11 @@ return false;
 
 You can now use the login form as usual by clicking its Login button.
 
-If you created a new git branch as suggested in the preamble of this
-tutorial, you should now stop any `boot` related process and commit
-the changes as follows
+You should now stop any `boot` related process and reset your git
+repository.
 
 ```bash
-git commit -am "introducing domina"
+git reset --hard
 ```
 
 # Next Step [Tutorial 6: The Easy Made Complex and Simple Made Easy][12]

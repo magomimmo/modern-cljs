@@ -17,7 +17,6 @@ assuming you've [git][10] installed, do as follows.
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
 git checkout se-tutorial-10
-git checkout -b tutorial-11-step-1
 ```
 
 # Introduction
@@ -358,11 +357,10 @@ layer. Before doing that by taking inspiration from the Shopping
 Calculator sample already done, in the next few tutorials we're
 going to cover a couple of entirely new topics.
 
-If you created a new git branch as suggested in the preamble of this
-tutorial, kill any `boot` related process and commit your work.
+You can now stop any `boot` related process and reset your git repository.
 
 ```bash
-git commit -am "highest and deepest"
+git reset --hard
 ```
 
 # Next Step - [Tutorial 12: Don't Repeat Yourself][9]

@@ -14,7 +14,6 @@ assuming you've [git][3] installed, do as follows.
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
 git checkout se-tutorial-01
-git checkout -b se-tutorial-02-step-1
 ```
 
 This way you're cloning the `se-tutorial-01` branch into a new branch to
@@ -487,21 +486,10 @@ To stop the bREPL, submit the `:cljs/quit` expression. Then stop the
 CLJ REPL (CTRL-D or `(exit)` or `(quit)`). Finally stop `boot`
 (CTRL-C).
 
-If you're using `git`, update the `.gitignore` content as follows:
+Before stepping to the next tutorial reset your git repository:
 
 ```bash
-/target
-.nrepl-port
-.nrepl-history
-/out
-```
-
-Then commit you changes to the project
-
-```bash
-git add .gitignore
-git commit -m "add .nrepl-port, .nrepl-history and out"
-git commit -am "immediate feedback"
+git reset --hard
 ```
 
 ## Next step - [Tutorial 3: House Keeping][9]

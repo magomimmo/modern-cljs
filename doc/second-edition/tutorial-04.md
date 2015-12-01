@@ -25,7 +25,6 @@ assuming you've [git][5] installed, do as follows.
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
 git checkout se-tutorial-03
-git checkout -b tutorial-04-step-1
 ```
 
 ## Introduction
@@ -44,18 +43,6 @@ So let's start by migrating his first example to CLJS, a login form,
 because it's very instructive both in explaining the evolution of the use
 of JS in the latest decade, and in starting CLJS programming without
 knowing much about Clojure and/or ClojureScript themselves.
-
-## Preamble
-
-If you want to start working from the end of the [previous tutorial][4],
-assuming you've [git][5] installed, do as follows.
-
-```bash
-git clone https://github.com/magomimmo/modern-cljs.git
-cd modern-cljs
-git checkout se-tutorial-03
-git checkout -b tutorial-04-step-1
-```
 
 ## Registration form
 
@@ -797,13 +784,11 @@ implemented in CLJ in a subsequent tutorial.
 Have you noted that we never had to stop/restart the IFDE during the
 porting of the login form validation from JS to CLJS?
 
-That's it for this tutorial and you can stop any `boot` related process.
-
-If you created a new git branch, as suggested in the preamble of the
-tutorial, quit everything and commit the changes.
+That's it for this tutorial and you can kill any `boot` related
+process and reset you git repository.
 
 ```bash
-git commit -am "resembling javascript in clojurescript"
+git reset --hard
 ```
 
 # Next Step [Tutorial 5: Introducing Domina][17]

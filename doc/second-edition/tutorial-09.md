@@ -22,7 +22,6 @@ assuming you've [git][30] installed, do as follows.
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
 git checkout se-tutorial-08
-git checkout -b tutorial-09-step-1
 ```
 
 # Introduction
@@ -333,14 +332,6 @@ the default `serve` task configuration, I'm with you too.
 That said, all that work has been done to be prepared for implementing
 the server side ajax endpoint we started from as the goal of this
 tutorial.
-
-Before going with the next step I suggest to kill any `boot` related
-process and commit your work.
-
-```bash
-git commit add --all
-git cimmit -m "step-1: add ring handler"
-```
 
 ## Back to shoreleave
 
@@ -823,12 +814,10 @@ from the remote `calculate` function like in the following image.
 
 That's it folks.
 
-If you created a new git branch as suggested in the preamble of this
-tutorial, kill any `boot` related process and commit your changes.
+You can now stop any `boot` related process and reset your git repository.
 
 ```bash
-git add --all
-git commit -m "introducing ajax"
+git reset --hard
 ```
 
 # Next step [Tutorial 10: A Deeper Understanding of Domina Events][25]

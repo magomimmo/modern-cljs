@@ -12,7 +12,6 @@ assuming you've [git][9] installed, do as follows.
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
 git checkout se-tutorial-05
-git checkout -b tutorial-06-step-1
 ```
 
 ## Introduction
@@ -236,12 +235,10 @@ boot.user=> (start-repl)
 cljs.user=>
 ```
 
-If you created a new git branch as suggested in the preamble of this
-tutorial, you should now stop any `boot` related process and commit
-the changes.
+You can now stop any `boot` related process and reset your git repository.
 
 ```bash
-git commit -am "Simple made easy."
+git reset --hard
 ```
 
 # Next step - [Tutorial 7: Introducing Domina Events][8]

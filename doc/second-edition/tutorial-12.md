@@ -17,7 +17,6 @@ assuming you've [git][21] installed, do as follows.
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
 git checkout se-tutorial-11
-git checkout -b tutorial-12-step-1
 ```
 
 # Introduction
@@ -1053,16 +1052,15 @@ you provide a well-formed email address whose domain doesn't exist.
 
 ![ajax validator][19]
 
-If you created a new git branch as suggested in the preamble of this
-tutorial, I suggest you to commit the changes as follows
-
-```bash
-git commit -am "DRY while crossing the border"
-```
-
 Stay tuned for the next tutorial.
 
-# Next step - [Tutorial 14: It's better to be safe than sorry (Part 1)][20]
+You can now stop any `boot` related process and reset your git repository.
+
+```bash
+git reset --hard
+```
+
+# Next step - [Tutorial 13: It's better to be safe than sorry (Part 1)][20]
 
 In the [next Tutorial][20] we are going to prepare the stage for
 affording the unit testing topic. We'll also introduce the `Enlive`

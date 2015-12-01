@@ -23,7 +23,6 @@ assuming you've [git][26] installed, do as follows.
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
 git checkout se-tutorial-09
-git checkout -b tutorial-10-step-1
 ```
 
 ## Introduction
@@ -570,11 +569,10 @@ communicate with the server via Ajax.
 
 We'll do our best in subsequent tutorials.
 
-If you created a new git branch as suggested in the preamble of this
-tutorial, stop any `boot` related process and commit your changes.
+You can now stop any `boot` related process and reset your git repository.
 
 ```bash
-git commit -am "deeper understanding"
+git reset --hard
 ```
 
 # Next Step - [Tutorial 11: HTML on Top, Clojure on the Bottom][25]

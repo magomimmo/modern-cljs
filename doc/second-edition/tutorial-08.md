@@ -16,7 +16,6 @@ assuming you've [git][12] installed, do as follows.
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
 git checkout se-tutorial-07
-git checkout -b tutorial-08-step-1
 ```
 
 # Introduction
@@ -487,11 +486,10 @@ As homework, I suggest you to modify `login.cljs` according to
 the approach used for `shopping.cljs` in this and in the
 [previous tutorial][1].
 
-If you created a new git branch as suggested in the preamble of this
-tutorial, stop any `boot` releated process and commit your changes.
+You can now stop any `boot` related process and reset your git repository.
 
 ```bash
-git commit -am "DOM manipulation"
+git reset --hard
 ```
 
 # Next step - [Tutorial 9: Introducing Ajax][11]

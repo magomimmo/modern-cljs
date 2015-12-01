@@ -25,7 +25,6 @@ assuming you've `git` installed, do as follows.
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
 git checkout se-tutorial-02
-git checkout -b tutorial-03-step-1
 ```
 
 This way you're cloning the original `se-tutorial-02` branch into a
@@ -381,11 +380,11 @@ nil
 cljs.user=>
 ```
 
-Play around as you like. When finished, quit everything and commit
-your work.
+Play around as you like. When finished, quit everything and reset you
+git repository.
 
 ```bash
-git commit -am "overwrite few defaults"
+git reset --hard
 ```
 
 ## Next step - [Tutorial 4: Modern ClojureScript][7]

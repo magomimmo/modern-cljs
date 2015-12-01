@@ -14,7 +14,6 @@ assuming you've [git][10] installed, do as follows.
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
 git checkout se-tutorial-06
-git checkout -b tutorial-07-step-1
 ```
 
 ## Introduction
@@ -276,11 +275,10 @@ cljs.user> (evt/capture! (dom/by-id "calc") :click shop/calculate)
 
 The `Calculate` button starts working again.
 
-If you created a new git branch as suggested in the preamble of this
-tutorial, stop any `boot` related process and commit the changes.
+You can now stop any `boot` related process and reset your git repository.
 
 ```bash
-git commit -am "introducing domina events"
+git reset --hard
 ```
 
 # Next Step - [Tutorial 8: DOM manipulation][9]
