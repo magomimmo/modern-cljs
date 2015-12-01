@@ -1,7 +1,7 @@
 # Tutorial 12 - Don't Repeat Yourself
 
 In the [latest tutorial][1] we implemented a very crude server-side
-validator for the `loginForm` which exercises the same kind of
+validator for the Login Form which exercises the same kind of
 syntactic rules previously implemented on the client-side.
 
 One of our long term objectives is to eliminate any code duplication
@@ -219,7 +219,7 @@ clojure-ist minds.
 The surprise is that Chas Emerick chose it a couple of years later,
 when CLJS had already been reified from a very smart idea into a
 programming language. So, if the original [valip][3] library was so
-dependent on the JVM, why would Chas Emerick choose it over other,
+dependent on the JVM, why would Chas Emerick chose it over other,
 less-compromised CLJ validation libraries? Maybe the answer is just
 that the predefined predicates and functions were confined to the
 `valip.predicates` namespace and most of them were easily redefinable
@@ -250,7 +250,7 @@ portable) CLJ/CLJS lib:
 > of the more standard `leiningen` one. There are two main reasons for
 > that:
 > 
-> * the `build.boot` becomes shorter/simpler than the corresponding
+> * the `build.boot` is shorter/simpler than the corresponding
 >   `project.clj` when adding `CLJS` stuff;
 > * you can run everything in a single JVM instance.
 
@@ -305,7 +305,8 @@ boot.user=>
 
 ## REPLing with valip
 
-Require both `valip.core` and `valip.predicates` namespace from `valip`:
+Require both `valip.core` and `valip.predicates` namespaces from
+`valip`:
 
 ```clj
 (use 'valip.core 'valip.predicates)
@@ -396,8 +397,8 @@ start coding in a source file.
 ## validators.clj
 
 To follow at our best the principle of separation of concerns, let's
-create a new namespace specifically dedicated to the `loginForm`
-fields validations.
+create a new namespace specifically dedicated to the Login Form fields
+validations.
 
 To do that, create the `login` subdirectory under the
 `src/clj/modern_cljs/` directory and then create a new file named
@@ -487,7 +488,7 @@ as expected.
 Visit [Login page](http://localhost:3000/index.html) and repeat all
 the interaction tests we executed in the
 [latest tutorial][14]. Remember to first disable the JS of the
-browser and eventually reload the page to.
+browser and eventually reload the page too.
 
 When you submit the Login Form you should receive a `Please complete
 the form` message anytime you do not provide the `email` and/or the
@@ -496,7 +497,7 @@ corresponding validation predicates.
 
 When the provided values for the email and password input elements
 pass the validator rules, you should receive a message looking like
-the following: **you@yourdomain.com and weak1 passed the formal
+the following: **me@me.com and weak1 passed the formal
 validation, but we still have to authenticate you**.
 
 So far, so good.
@@ -542,8 +543,8 @@ IFDE, make the changes and then restart it.
 
 After having stopped IFDE:
 
-* create the the `src/cljc/modern_cljs/login` directory structure;
-* move the there the `validators.clj` source file by renaming it as
+* create the `src/cljc/modern_cljs/login` directory structure;
+* move there the `validators.clj` source file by renaming it as
   `validators.cljc`;
 * update the `:source-paths` section of the `build.boot` file by
   adding to its set the `src/cljc` path;
@@ -601,8 +602,8 @@ corresponding validation predicates.
 
 When the provided values for the email and password input elements
 pass the validator rules, you should receive a message looking like
-the following: **you@yourdomain.com and weak1 passed the formal
-validation, but we still have to authenticate you**.
+the following: **me@yme.com and weak1 passed the formal validation,
+but we still have to authenticate you**.
 
 Aside from the annoyance of having to repeat the interactive tests to
 verify that everything is still working after the above refactoring,
@@ -637,8 +638,8 @@ cljs.user> (email-address? "me@me.com")
 true
 ```
 
-WOW, that's impressive. But let's go on an now try the `validate`
-expression we started from on the server side:
+WOW, that's impressive. Let's go on by trying the `validate`
+expressions we previously tested the server side:
 
 ```clj
 cljs.user> (validate {:email "you@yourdomain.com" :password "weak1"}
@@ -647,30 +648,45 @@ cljs.user> (validate {:email "you@yourdomain.com" :password "weak1"}
                      [:password present? "Password can't be empty"]
                      [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 nil
+```
+
+```clj
 cljs.user> (validate {:email nil :password nil}
                      [:email present? "Email can't be empty"]
                      [:email email-address? "Invalid email format"]
                      [:password present? "Password can't be empty"]
                      [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 {:email ["Email can't be empty" "Invalid email format"], :password ["Password can't be empty" "Invalid password format"]}
+```
+
+```clj
 cljs.user> (validate {:email "you@yourdomain.com" :password nil}
                      [:email present? "Email can't be empty"]
                      [:email email-address? "Invalid email format"]
                      [:password present? "Password can't be empty"]
                      [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 {:password ["Password can't be empty" "Invalid password format"]}
+```
+
+```clj
 cljs.user> (validate {:email nil :password "weak1"}
                      [:email present? "Email can't be empty"]
                      [:email email-address? "Invalid email format"]
                      [:password present? "Password can't be empty"]
                      [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 {:email ["Email can't be empty" "Invalid email format"]}
+```
+
+```clj
 cljs.user> (validate {:email "bademail@baddomain" :password "weak1"}
                      [:email present? "Email can't be empty"]
                      [:email email-address? "Invalid email format"]
                      [:password present? "Password can't be empty"]
                      [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 {:email ["Invalid email format"]}
+```
+
+```clj
 cljs.user> (validate {:email "you@yourdomain.com" :password "badpasswd"}
                      [:email present? "Email can't be empty"]
                      [:email email-address? "Invalid email format"]
@@ -689,12 +705,24 @@ function:
 ```clj
 cljs.user> (require '[modern-cljs.login.validators :refer [user-credential-errors]])
 nil
+```
+
+```clj
 cljs.user> (user-credential-errors nil nil)
 {:email ["Email can't be empty." "The provided email is invalid."], :password ["Password can't be empty." "The provided password is invalid"]}
+```
+
+```clj
 cljs.user> (user-credential-errors "bademail" nil)
 {:email ["The provided email is invalid."], :password ["Password can't be empty." "The provided password is invalid"]}
+```
+
+```clj
 cljs.user> (user-credential-errors "me@me.com" nil)
 {:password ["Password can't be empty." "The provided password is invalid"]}
+```
+
+```clj
 cljs.user> (user-credential-errors "me@me.com" "weak")
 {:password ["The provided password is invalid"]}
 cljs.user> (user-credential-errors "me@me.com" "weak1")
@@ -848,11 +876,11 @@ already done by introducing a server-side only validator which will be
 called via ajax by the client code.
 
 As we said, most valip predicates are portable between CLJ and
-CLJS. But not all of them. Just to make an example, the
-`valip.predicates` includes the `valid-email-domain?` predicate which
-verifies the existence of the domain of an email address passed by the
+CLJS. But not all of them. Just to make an example, `valip.predicates`
+includes the `valid-email-domain?` predicate which verifies the
+existence of the domain of the email address passed by the
 user. Because it's implemented in terms of java native code,
-`valid-email-domain?` is not available for the JSVM.
+`valid-email-domain?` is not available on a JS runtime platform.
 
 It often happens that some validations are not executable directly on
 the client-side. However, thanks to ajax machinery, you can bring the
@@ -869,10 +897,20 @@ the `valid-email-domain?` predicate:
 ```clj
 boot.user> (use 'valip.predicates)
 nil
+```
+
+```clj
 boot.user> (valid-email-domain? "me@me.com")
 true
+
+```
+
+```clj
 boot.user> (valid-email-domain? "me@yourdomain.com")
 true
+```
+
+```clj
 boot.user> (valid-email-domain? "me@google-nospam.com")
 false
 ```
@@ -887,9 +925,15 @@ We now want to verify if the `validate` function living in the
 ```clj
 boot.user> (use 'valip.core)
 nil
+```
+
+```clj
 boot.user> (validate {:email "me@me.com"}
                      [:email valid-email-domain? "The domain does not exist!"])
 nil
+```
+
+```clj
 boot.user> (validate {:email "me@google-nospam.com"}
                      [:email valid-email-domain? "The domain does not exist!"])
 {:email ["The domain does not exist!"]}
@@ -898,18 +942,18 @@ boot.user> (validate {:email "me@google-nospam.com"}
 So far, so good. 
 
 We have now to decide in which namespace to define a new validator
-verifying the domain of an email passed by the user.
+verifying the domain of the email passed by the user.
 
 ## Reader Conditionals
 
-As already said, the most obvious choice is to define such a validator
-in the same namespace where we already defined the
-`user-credential-errors` validator: the `modern-cljs.login.validators`
-namespace.
+The most obvious choice is to define such a validator in the same
+namespace where we already defined the `user-credential-errors`
+validator: the `modern-cljs.login.validators` namespace.
 
-The problem is that such a validator is definable for the JVM only and
-the `modern-cljs.logi.validators` namespace is a portable namespace
-code in the `validators.cljc` file (note the `.cljc` extension).
+The problem is that such new validator is definable for the JVM only
+and the `modern-cljs.logi.validators` namespace is a portable
+namespace code living in the `validators.cljc` file (note the `.cljc`
+extension).
 
 Fortunatelly, as already said, starting from `1.7.0` release CLJ offers
 a pretty handy way to conditionally evaluate a form/expression
@@ -924,19 +968,19 @@ runtime environments:
 * `:clr`: identify the MS Common Language Runtime (i.e., MS `.net`)
 
 There are two new reader literal forms: `#?` and `#?@`. At the moment
-we're only interested in the first one.
+we're only interested in the first one. The `#?` form is interpreted
+similarly to a `cond`: a feature condition is tested until a match is
+found, then the corresponding single expression is returned.
 
-The `#?` form is interpreted similarly to a `cond`: feature conditions
-are tested until a match is found, then the corresponding expression
-is returned.
+Take into account that those platform features and the corresponding
+reader literals are only available in source files with `.cljc`
+extension and you can't use them in `clj` and `cljs` source files.
 
-Those platform features and the corresponding reader literals are only
-available in source files with `.cljc` extension.
+That's enough to start using the not portable `valid-email-domain?`
+predicate in the portable `modern-cljs.login.validators` namespace to
+define a new non portable validator by using the `#?` reader literal.
 
-That's enough to start writing our our portable
-`modern-cljs.login.validators` namespace by using the `#?` reader
-literal to use the `valid-email-domain?` predicate that is available
-on the JVM platform only (we're not considering MS `.clr`).
+It's seems complex. Instead is very easy.
 
 ### validators.cljc
 
@@ -993,8 +1037,8 @@ We now have to call the new server-side-only validator in the
                                                   email-domain-errors]]))
 
 (defn authenticate-user [email password]
-  (if (or (boolean (email-domain-errors email))
-          (boolean (user-credential-errors email password)))
+  (if (or (boolean (user-credential-errors email password))
+          (boolean (email-domain-errors email)))
     (str "Please complete the form.")
     (str email " and " password
            " passed the formal validation, but we still have to authenticate you")))
@@ -1006,29 +1050,27 @@ to the `:refer` section of the namespace requirement.
 We also changes the `authenticate-user` definition by adding the new
 validator inside an `or` form with the old one. 
 
-> NOTE 9: To maintain the previous behaviour of the server-side validation
+> NOTE 11: To maintain the previous behaviour of the server-side validation
 > we're using the validators as if they were predicates which return just
 > `true` or `false`.
 
-If you now run the application and test it as usual by visiting the
-Login Form you will see that if you provide a well formed email
-address whose domain doesn't exist (e.g., `me@googlenospam.com`),
-you'll pass the client-side validator, but you'll fail the
-server-side-only validator. So far, so good. The new server side
-validation works as expected. We now need to remotize the newly
-defined validator for using its results on the client-side as well.
+If you now visit the Login Form you will see that if you provide a
+well formed email address whose domain doesn't exist (e.g.,
+`me@googlenospam.com`), you'll pass the client-side validator, but
+you'll fail the server-side-only validator. So far, so good. The new
+server side validation works as expected. We now need to remotize the
+newly defined validator for using its results on the client-side as
+well.
 
 ## Second step - Remotize the server-side-only validator
 
 As we already know, we can easly remotize a function by using the
 [shoreleave][18] machinery. Open the `remotes.clj` file and update the
 namespace declaration by requiring the `modern-cljs.login.validators`
-namespace, where we newly defined the `email-domain-errors`
-server-side-only validator. Next define the new remote function as you
-already did in the [10th Tutorial][10] with the `calculate`
-function. Here is the updated content of `remotes.clj`
-
-Here is the entire content of the modified source file.
+namespace, where we defined the `email-domain-errors` server-side-only
+validator. Next define the new remote function as you already did in
+the [9th Tutorial][24] with the `calculate` function. Here is the
+updated content of `remotes.clj`
 
 ```clj
 (ns modern-cljs.remotes 
@@ -1051,14 +1093,14 @@ Here is the entire content of the modified source file.
       (site)))
 ```
 
-> NOTE 10: Note as we now `:require` the namespace by using the `:as`
-> option instead of the `:refer` option because we want to use the
-> same name for the server-side-only validator and its remotization.
+> NOTE 12: We now require the namespace by using the `:as` option
+> instead of the `:refer` option because we want to use the same name
+> for the server-side validator and its remotization.
 
 ## Third step - Call the remotized validator
 
-The last step consists in calling from the client-side code (i.e. CLJS)
-the newly-remotized function.
+The last step consists in calling the newly remotized function from
+the client-side code (i.e. CLJS).
 
 Open the `login.cljs` file from `src/cljs/modern-cljs/` directory and
 update its content as follows:
@@ -1103,16 +1145,15 @@ adding the call to the newly defined `validate-email-domain` function.
 
 ## Last step - Test the magic again
 
-You should now check your work by interactively test the Login form
+You should now check your work by interactively test the Login Form
 again.  As usual visit the [index.html][7] page and see what
 happens when you provide a well-formed email address whose domain
 doesn't exist (e.g. `me@google-nospam.com`).
 
 ![ajax validator][19]
 
-We're done. Stay tuned for the next tutorial.
-
-You can now stop any `boot` related process and reset your git repository.
+We're done. You can now stop any `boot` related process and reset your
+git repository.
 
 ```bash
 git reset --hard
@@ -1139,7 +1180,7 @@ License, the same as Clojure.
 [4]: https://github.com/cemerick
 [5]: https://github.com/weavejester
 [6]: https://github.com/cemerick/valip/blob/master/README.md
-[7]: http:/localhost:3000/login-dbg.html
+[7]: http:/localhost:3000/index.html
 [8]: https://github.com/cemerick/valip/blob/master/README.md
 [9]: http://dev.clojure.org/display/design/Feature+Expressions
 [10]: https://github.com/emezeske/lein-cljsbuild
@@ -1156,4 +1197,4 @@ License, the same as Clojure.
 [21]: https://help.github.com/articles/set-up-git
 [22]: https://github.com/clojure/clojure/blob/master/changes.md#22-reader-conditionals
 [23]: http://leiningen.org/
-
+[24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
