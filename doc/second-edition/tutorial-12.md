@@ -163,13 +163,13 @@ sample from the `valip.predicates` namespace:
 > NOTE 3: I personally consider the above `matches` definition as
 > bugged. As you'll see in a subsequent tutorial specifically dedicated
 > to `unit tests`, I always like to start testing functions from border
-> scenarios. What does it happen when the passed argument `s` to the
+> cases. What does it happen when the passed argument `s` to the
 > above anonymous function returned from `matches` is `nil`?
 > 
 > You'll get a `NullPointerException` on the JVM and an almost
 > incomprehensible error on the JSVM.
 > 
-> A defensive approach is towrap the above `s` argument inside a `str`
+> A defensive approach is to wrap the above `s` argument inside a `str`
 > call:
 > 
 > ```clj
@@ -239,14 +239,14 @@ the so called
 [`Features Expression Problem`](http://dev.clojure.org/display/design/Feature+Expressions)
 was still to be solved in CLJ/CLJS.
 
-As those times You had two workarounds to use a portable (or almost
+As those times you had two workarounds to use a portable (or almost
 portable) CLJ/CLJS lib:
 
 * use the
   [`:crossover`](https://github.com/emezeske/lein-cljsbuild/blob/a627aeaf797f77bea7aebd6fb8c594852b3c156a/doc/CROSSOVERS.md#sharing-code-between-clojure-and-clojurescript-deprecated)
   option of the the
   [`lein-cljsbuild` plugin](https://github.com/emezeske/lein-cljsbuild)
-  for [`leiningen`][], which is now deprecated;
+  for [`leiningen`][23], which is now deprecated;
 * use the [lein-cljx](https://github.com/lynaghk/cljx) leiningen
   plugin, which added other complexity to the already complex enough
   `project.clj` declaration and it's now deprecated as well.
@@ -261,7 +261,7 @@ portable) CLJ/CLJS lib:
 > * you can run everything in a single JVM instance.
 
 Starting with the `1.7.0` release, Clojure offers a new way to solve
-the above `Feature Expression` Problem. I'm not going to explain it
+the above Feature Expression Problem. I'm not going to explain it
 right now. I'm anticipating you about it only because I rewrote the
 [`valip`](https://github.com/magomimmo/valip/tree/0.4.0-SNAPSHOT) lib
 in such a way that we can easily use it inside our series of tutorials
@@ -406,8 +406,8 @@ fields validations. Create the `login` subdirectory under the
 `src/clj/modern_cljs/` directory and then create a new file named
 `validators.clj`. Open it and declare the new
 `modern-cljs.login.validators` namespace by requiring the needed
-namespaces from the `valip` library patched by myself that above we
-added to the `build.boot` build file.
+namespaces from the `valip` library we just added to the `build.boot`
+build file.
 
 ```clj
 (ns modern-cljs.login.validators
@@ -434,18 +434,22 @@ definition.
 
 > NOTE 5: Again, to follow the separation of concerns principle, we
 > moved here the *re-password* regular expression previously defined
-> in the `login.clj` source file. So, remember to delete it from that
-> source file.
+> in the `login.clj` source file. So, later remember to delete it from
+> that source file.
 
-> NOTE 6: `valip` provides the `email-address?` built-in
-> predicate which matches the passed email value against an embedded
-> regular expression. This regular expression is based on RFC 2822 and
-> it is defined in the `valip.predicates` namespace. This is why the
-> `*re-email*` regular expression is not needed anymore.
+> NOTE 6: `valip` provides the `email-address?` built-in predicate
+> which matches the passed email value against an embedded regular
+> expression. This regular expression is based on RFC 2822 and it is
+> defined in the `valip.predicates` namespace. This is why the
+> `*re-email*` regular expression is not needed anymore and later you
+> have to delete it as well from the `login.clj` file.
 
-We now need to update the `login.clj` file by calling the just defined
-`user-credential-errors` function.  Open the `login.clj` file from the
-`src/clj/modern_cljs/` directory and modify it as follows:
+When you save the file you'll get a compilation error. This is because
+you still have to update the `login.clj` source file as a next
+step. You can safely go on. 
+
+Open the `login.clj` file from the `src/clj/modern_cljs/` directory
+and modify it as follows:
 
 ```clj
 (ns modern-cljs.login
@@ -457,6 +461,9 @@ We now need to update the `login.clj` file by calling the just defined
     (str email " and " password
            " passed the formal validation, but we still have to authenticate you")))
 ```
+
+Remember to delete anything else. As soon as you save the file the
+above compilation error disappear.
 
 > NOTE 7: we could have returned more detailed messages from the
 > validator result to the user. To maintain the same behaviour of the
@@ -509,8 +516,8 @@ Clojure from the `1.7.0` release on: [`Reader Conditional`][22].
 > prior to .cljc.
 
 The patched `valip` lib has been rewrote by using the above `Reader
-Conditional` which is the way CLJ/CLJS finally solved the `Feature
-Expression` problem.
+Conditional`, which is the named way CLJ/CLJS finally solved the
+`Feature Expression` problem.
 
 The `modern-cljs.login.validators` namespace we just wrote is
 currently hosted in the `src/clj` source directory of the project. It
@@ -524,9 +531,10 @@ directory in the `build.boot` building file.
 ## src/cljc
 
 Even if `boot` is so nice that allows you to modify the `environment`
-from the REPL, the updating of the `build.boot` file is one of the
-rare cases where I prefer to stop the IFDE, make the changes and then
-restart it.
+from the REPL with the `set-env!` function (e.g., `(set-env!
+:source-paths #(conj % "src/cljc")`), the updating of the `build.boot`
+file is one of the rare cases where I prefer to stop the IFDE, make
+the changes and then restart it.
 
 After having stopped IFDE:
 
@@ -653,10 +661,10 @@ cljs.user> (validate {:email nil :password "weak1"}
                      [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 {:email ["Email can't be empty" "Invalid email format"]}
 cljs.user> (validate {:email "bademail@baddomain" :password "weak1"}
-  [:email present? "Email can't be empty"]
-  [:email email-address? "Invalid email format"]
-  [:password present? "Password can't be empty"]
-  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+                     [:email present? "Email can't be empty"]
+                     [:email email-address? "Invalid email format"]
+                     [:password present? "Password can't be empty"]
+                     [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 {:email ["Invalid email format"]}
 cljs.user> (validate {:email "you@yourdomain.com" :password "badpasswd"}
                      [:email present? "Email can't be empty"]
@@ -674,6 +682,8 @@ Require the namespace and then call the `user-credential-errors`
 function:
 
 ```clj
+cljs.user> (require '[modern-cljs.login.validators :refer [user-credential-errors]])
+nil
 cljs.user> (user-credential-errors nil nil)
 {:email ["Email can't be empty." "The provided email is invalid."], :password ["Password can't be empty." "The provided password is invalid"]}
 cljs.user> (user-credential-errors "bademail" nil)
@@ -846,7 +856,7 @@ see how.
 
 ## REPLing with email domain
 
-Stop the bREPL (i.e., `:cljs/quit). You're now back at the CLJ
+Stop the bREPL (i.e., `:cljs/quit`). You're now back at the CLJ
 REPL. Use the `valip.predicates` namespace a familiarize yourself with
 the `valid-email-domain?` predicate:
 
@@ -866,7 +876,7 @@ has no cross site limitations as the browser conterpart.
 
 We now want to verify if the `validate` function living in the
 `valip.core` namespace works in tandem with the above
-`valip-email-domain?`:
+`valip-email-domain?` predicate:
 
 ```clj
 boot.user> (use 'valip.core)
@@ -1089,3 +1099,5 @@ License, the same as Clojure.
 [20]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md
 [21]: https://help.github.com/articles/set-up-git
 [22]: https://github.com/clojure/clojure/blob/master/changes.md#22-reader-conditionals
+[23]: http://leiningen.org/
+
