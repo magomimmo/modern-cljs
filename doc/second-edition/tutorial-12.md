@@ -440,15 +440,15 @@ definition.
 
 > NOTE 4: Again, to follow the separation of concerns principle, we
 > moved here the *re-password* regular expression previously defined
-> in the `login.clj` source file. Later you'll delete it from the that
-> source file.
+> in the `login.clj` source file. Later you'll delete it from there.
 
 > NOTE 5: `valip` provides the `email-address?` built-in predicate
 > which matches the passed email value against an embedded regular
 > expression. This regular expression is based on RFC 2822 and it is
-> defined in the `valip.predicates` namespace. This is why the
-> `*re-email*` regular expression is not needed anymore and later you
-> have to delete it as well from the `login.clj` file.
+> defined in the `valip.predicates` namespace. This is why we're not
+> defining here the `*re-email*` regular expression as we did above
+> with `*re-password*`.  Later, you'll delete the one previously
+> defined in the `login.clj` source file.
 
 So far, so good.
 
@@ -468,8 +468,8 @@ and modify it as follows:
            " passed the formal validation, but we still have to authenticate you")))
 ```
 
-Remember to delete anything else. As soon as you save the file the
-above compilation error disappear.
+Remember to delete anything else. As soon as you save the file,
+everything get recompiled.
 
 > NOTE 6: we could have returned more detailed messages from the
 > validator result to the user. To maintain the same behaviour of the
@@ -487,7 +487,7 @@ as expected.
 Visit [Login page](http://localhost:3000/index.html) and repeat all
 the interaction tests we executed in the
 [latest tutorial][14]. Remember to first disable the JS of the
-browser.
+browser and eventually reload the page to.
 
 When you submit the Login Form you should receive a `Please complete
 the form` message anytime you do not provide the `email` and/or the
@@ -501,15 +501,14 @@ validation, but we still have to authenticate you**.
 
 So far, so good.
 
-It's now time to take the `1.7.0` CLJ/CLJS additions seriously, and
-try to use the the `valip` portable library on the client-side as
-well.
+It's now time to see if we're able to use the `valip` portable library
+on the client-side as well.
 
-# Cross the border
+# Crossing the border
 
 Before crossing the border between the server and the client sides,
 let's take into account a very important new features added to the
-Clojure from the `1.7.0` release on: [`Reader Conditional`][22].
+Clojure `1.7.0` release: [`Reader Conditionals`][22].
 
 > Reader Conditionals are a new capability to support portable code that
 > can run on multiple Clojure platforms with only small changes. In
@@ -522,8 +521,8 @@ Clojure from the `1.7.0` release on: [`Reader Conditional`][22].
 > prior to .cljc.
 
 The patched `valip` lib has been rewrote by using the above `Reader
-Conditional`, which is the named way CLJ/CLJS finally solved the
-`Feature Expression` problem.
+Conditionals` new capability, which is the named CLJ/CLJS gave to the
+solution of the `Feature Expression` problem.
 
 The `modern-cljs.login.validators` namespace we just wrote is
 currently hosted in the `src/clj` source directory of the project. It
@@ -537,10 +536,9 @@ directory in the `build.boot` building file.
 ## src/cljc
 
 Even if `boot` is so nice that allows you to modify the `environment`
-from the REPL with the `set-env!` function (e.g., `(set-env!
-:source-paths #(conj % "src/cljc")`), the updating of the `build.boot`
-file is one of the rare cases where I prefer to stop the IFDE, make
-the changes and then restart it.
+from the REPL with the `set-env!` function, the updating of the
+`build.boot` file is one of the rare cases where I prefer to stop the
+IFDE, make the changes and then restart it.
 
 After having stopped IFDE:
 
@@ -557,6 +555,7 @@ The above steps are executed as follows:
 cd /path/to/modern-cljs
 mkdir -p src/cljc/modern_cljs/login
 mv src/clj/modern_cljs/login/validators.clj src/cljc/modern_cljs/login/validators.cljc
+rm -rf src/clj/modern_cljs/login
 ```
 
 Now open the `build.boot` building file to update the `:source-paths`
@@ -575,7 +574,7 @@ and finally restart IFDE and the REPL as well:
 cd /path/to/modern-cljs
 boot dev
 ...
-Elapsed time: 45.193 sec
+Elapsed time: 23.658 sec
 ```
 
 ```bash
@@ -710,7 +709,7 @@ the web planet.
 ## Back on Earth
 
 OK, we had enough magic for now. Let's came back on Earth to update
-the `modern-cljs.login` namespace by using those magics.
+the CLJS `modern-cljs.login` namespace by using those magics.
 
 Open the `login.cljs` source file living in the `src/cljs/modern_cljs`
 directory to start updating it while the IFDE is running:
@@ -759,7 +758,7 @@ the DOM.
 > [stop](http://conj.io/store/v1/org.clojure/clojure/1.7.0/clj/clojure.core/if-let/).
 
 The next function to be reviewed is `validate-password`. As you can see,
-the modifications are almost identical.
+the changes are almost identical.
 
 ```clj
 (defn validate-password [password]
@@ -833,8 +832,9 @@ We satisfied all the five requirements we started from:
   client code
 * exercise the defined validators on the server and client code.
 
-Best of all, we were able to follow the DRY and the separation of concerns
-principles while adhering to the progressive enhancement strategy.
+Best of all, we were able to follow the DRY and the separation of
+concerns principles while adhering to the progressive enhancement
+strategy.
 
 The only residual violation of the DRY principle regards the HTML5
 validations which are still duplicated in the `index.html` page. This
@@ -854,9 +854,9 @@ verifies the existence of the domain of an email address passed by the
 user. Because it's implemented in terms of java native code,
 `valid-email-domain?` is not available for the JSVM.
 
-Often it happens that some validations are not executable directly on
+It often happens that some validations are not executable directly on
 the client-side. However, thanks to ajax machinery, you can bring the
-result of a server-side only validation on the the client-side as
+result of a server-side only validation on the client-side as
 well. The `valid-email-domain?` predicate is one of such a case. Let's
 see how.
 
@@ -878,7 +878,7 @@ false
 ```
 
 By residing on the server-side, the `valid-email-domain?` predicate
-has no cross site limitations as the browser conterpart.
+has no cross site limitations as the browser counterpart.
 
 We now want to verify if the `validate` function living in the
 `valip.core` namespace works in tandem with the above
@@ -897,7 +897,7 @@ boot.user> (validate {:email "me@google-nospam.com"}
 
 So far, so good. 
 
-We have to decide in which namespace to define a new validator
+We have now to decide in which namespace to define a new validator
 verifying the domain of an email passed by the user.
 
 ## Reader Conditionals
@@ -909,73 +909,133 @@ namespace.
 
 The problem is that such a validator is definable for the JVM only and
 the `modern-cljs.logi.validators` namespace is a portable namespace
-code in the `validators.cljc` file. Note the `.cljc` extension!
+code in the `validators.cljc` file (note the `.cljc` extension).
 
-Fortunatelly, as already said, starting from `1.7.0` release CLJ offer
+Fortunatelly, as already said, starting from `1.7.0` release CLJ offers
 a pretty handy way to conditionally evaluate a form/expression
-depending on the features offered by the run-time envirnment: the
+depending on the features offered by the run-time environment: the
 Reader Conditionals.
 
-```clojure
-(ns modern-cljs.login.java.validators
-  (:require [valip.core :refer [validate]]
-            [valip.java.predicates :refer [valid-email-domain?]]))
+Currently there are three available platform features identifying the
+runtime environments:
 
-(defn email-domain-errors [email]
-  (validate {:email email}
-            [:email valid-email-domain? "The domain of the email doesn't exist."]))
+* `:clj`: identify the JVM runtime
+* `:cljs`: identify the JSVM runtime
+* `:clr`: identify the MS Common Language Runtime (i.e., MS `.net`)
+
+There are two new reader literal forms: `#?` and `#?@`. At the moment
+we're only interested in the first one.
+
+The `#?` form is interpreted similarly to a `cond`: feature conditions
+are tested until a match is found, then the corresponding expression
+is returned.
+
+Those platform features and the corresponding reader literals are only
+available in source files with `.cljc` extension.
+
+That's enough to start writing our our portable
+`modern-cljs.login.validators` namespace by using the `#?` reader
+literal to use the `valid-email-domain?` predicate that is available
+on the JVM platform only (we're not considering MS `.clr`).
+
+### validators.cljc
+
+Open the `validators.cljc` to modify its namespace declaration and to
+add a new `email-domain-errors` validator which use the JVM based
+`valid-email-domain?` predicate.
+
+
+```clj
+(ns modern-cljs.login.validators
+  (:require [valip.core :refer [validate]]
+            [valip.predicates :as pred :refer [present? 
+                                               matches 
+                                               email-address?]]))
+
+(def ^:dynamic *re-password* #"^(?=.*\d).{4,8}$")
+
+(defn user-credential-errors [email password]
+  (validate {:email email :password password}
+            [:email present? "Email can't be empty."]
+            [:email email-address? "The provided email is invalid."]
+            [:password present? "Password can't be empty."]
+            [:password (matches *re-password*) "The provided password is invalid"]))
+
+
+#? (:clj (defn email-domain-errors [email]
+           (validate 
+            {:email email}
+            [:email pred/valid-email-domain? "The domain of the email doesn't exist."])))
 ```
 
-Have you noticed that we required the `valip.java.predicates` which is
-only available to CLJ code? The definition of the new server-side only
-validator is very simple. It uses the valip predefined
-`valid-email-domain?` we talked about few lines above.
+There are few important notable aspects in the above code:
 
-Now we have to call the new server-side-only validator in the
+1. the `valip.predicates` requirement form is now using both the `:as`
+   and the `:refer` options. In this case the namespace declaration is
+   shared between CLJ and CLJS and you can't refer the
+   `valid-email-domain?` symbol on a JSVM platform. For this reason we
+   added the `:as` option;
+1. the `email-domain-errors` validator in now wrapped into the `#?`
+   reader literal and it's going to be defined only for the JVM
+   platform that's identified at runtime by the `:clj` feature;
+1. to refer to the `valid-email-domain?` predicate we're now using the
+   `pred` alias;
+1. there is no a `:cljs` condition/expression pair, meaning that the
+   newly defined `email-domain-errors` validator is only available on
+   the JVM platform.
+
+We now have to call the new server-side-only validator in the
 `authenticate-user` function which resides in the `login.clj` file.
 
-```clojure
+```clj
 (ns modern-cljs.login
-  (:require [modern-cljs.login.validators :refer [user-credential-errors]]
-            [modern-cljs.login.java.validators :refer [email-domain-errors]]))
+  (:require [modern-cljs.login.validators :refer [user-credential-errors
+                                                  email-domain-errors]]))
 
 (defn authenticate-user [email password]
-  (if (or (boolean (user-credential-errors email password)) (boolean (email-domain-errors email)))
+  (if (or (boolean (email-domain-errors email))
+          (boolean (user-credential-errors email password)))
     (str "Please complete the form.")
     (str email " and " password
            " passed the formal validation, but we still have to authenticate you")))
 ```
 
-As usual, we had to add the newly created namespace in the namespace
-declaration for using the `email-domain-errors` validator inside the
-`authenticate-user` function.
+In the namespace declaration we only added the `email-domain-errors`
+to the `:refer` section of the namespace requirement.
+
+We also changes the `authenticate-user` definition by adding the new
+validator inside an `or` form with the old one. 
 
 > NOTE 9: To maintain the previous behaviour of the server-side validation
 > we're using the validators as if they were predicates which return just
 > `true` or `false`.
 
 If you now run the application and test it as usual by visiting the
-[login-dbg.html][7] you will see that if you provide a well formed email
-address whose domain doesn't exist, you'll pass the client-side
-validator, but you'll fail the server-side-only validator. So far, so
-good.
+Login Form you will see that if you provide a well formed email
+address whose domain doesn't exist (e.g., `me@googlenospam.com`),
+you'll pass the client-side validator, but you'll fail the
+server-side-only validator. So far, so good. The new server side
+validation works as expected. We now need to remotize the newly
+defined validator for using its results on the client-side as well.
 
 ## Second step - Remotize the server-side-only validator
 
-As we already know from the [10th Tutorial][16], we can easly remotize a
-function by using the [shoreleave][18] machinery. Open the `remotes.clj`
-file and update the namespace declaration by requiring the
-`modern-cljs.login.java.validators` namespace, where we newly defined the
-`email-domain-errors` server-side-only validator. Next define the new
-remote function as you already did in the [10th Tutorial][16] with the
-`calculate` function. Here is the updated content of `remotes.clj`
+As we already know, we can easly remotize a function by using the
+[shoreleave][18] machinery. Open the `remotes.clj` file and update the
+namespace declaration by requiring the `modern-cljs.login.validators`
+namespace, where we newly defined the `email-domain-errors`
+server-side-only validator. Next define the new remote function as you
+already did in the [10th Tutorial][10] with the `calculate`
+function. Here is the updated content of `remotes.clj`
 
-```clojure
-(ns modern-cljs.remotes
+Here is the entire content of the modified source file.
+
+```clj
+(ns modern-cljs.remotes 
   (:require [modern-cljs.core :refer [handler]]
-            [modern-cljs.login.java.validators :as v]
             [compojure.handler :refer [site]]
-            [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]))
+            [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]
+            [modern-cljs.login.validators :as v]))
 
 (defremote calculate [quantity price tax discount]
   (-> (* quantity price)
@@ -985,14 +1045,15 @@ remote function as you already did in the [10th Tutorial][16] with the
 (defremote email-domain-errors [email]
   (v/email-domain-errors email))
 
-(def app (-> (var handler)
-             (wrap-rpc)
-             (site)))
+(def app
+  (-> (var handler)
+      (wrap-rpc)
+      (site)))
 ```
 
-> NOTE 10: Note as we now `:require` the namespce by using the `:as` option instead
-> of the `:refer` option because we want to use the same name for the
-> server-side-only validator and its remotization.
+> NOTE 10: Note as we now `:require` the namespace by using the `:as`
+> option instead of the `:refer` option because we want to use the
+> same name for the server-side-only validator and its remotization.
 
 ## Third step - Call the remotized validator
 
@@ -1002,7 +1063,7 @@ the newly-remotized function.
 Open the `login.cljs` file from `src/cljs/modern-cljs/` directory and
 update its content as follows:
 
-```clojure
+```clj
 (ns modern-cljs.login
   (:require-macros [hiccups.core :refer [html]]
                    [shoreleave.remotes.macros :as shore-macros])
@@ -1042,24 +1103,14 @@ adding the call to the newly defined `validate-email-domain` function.
 
 ## Last step - Test the magic again
 
-We can now compile, run and test again the magic provided to CLJ and
-CLJS by the lein-cljsbuild `:crossovers` option and the shoreleave
-library.
-
-```bash
-rm -rf out # it's better to be safe than sorry
-lein clean # it's better to be safe than sorry
-lein cljsbuild clean # it's better to be safe than sorry
-lein cljsbuild auto dev
-lein ring server-headless # in a new terminal
-```
-
-As usual visit the [login-dbg.html][7] page and see what happens when
-you provide a well-formed email address whose domain doesn't exist.
+You should now check your work by interactively test the Login form
+again.  As usual visit the [index.html][7] page and see what
+happens when you provide a well-formed email address whose domain
+doesn't exist (e.g. `me@google-nospam.com`).
 
 ![ajax validator][19]
 
-Stay tuned for the next tutorial.
+We're done. Stay tuned for the next tutorial.
 
 You can now stop any `boot` related process and reset your git repository.
 
