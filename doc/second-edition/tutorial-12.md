@@ -40,24 +40,19 @@ this problem space. We need to:
 That's a lot of work to be done for a single tutorial. Take your time
 to follow it step by step.
 
-> NOTE 1: when I wrote the first edition of this series of tutorials
-> (around winter 2012/13) there were almost no CLJS form
-> validators. Today, thanks to the awesome efforts of the CLJ/CLJS
-> community, the problem could become the opposite: there are too many
-> of them to choose from.
-> 
-> That said I decided to not modify to much this tutorial, because I
-> think it still has something interesting to say.
-
 # The selection process
 
 If you search GitHub for a CLJ validator library you'll find quite a
 large number of results, but if you restrict the search to CLJS
 library only, you currently get just one result: [Valip][2].
 
-> NOTE 2: the above assertion was true at the time I wrote the first
-> edition of this tutorial. Nowadays it's not true anymore, but stay
-> with me. You'll not regret.
+> NOTE 1: The above assertion is no more true. In winter 2012, when I
+> wrote the first edition of this series of tutorials, there were
+> almost no CLJS form validators. Today, thanks to the awesome efforts
+> of the CLJ/CLJS community, the problem has became the opposite:
+> there are many of them to choose from.  That said, I decided to keep
+> using the `valip` library in the series because it still has
+> something to be learnt from.
 
 [Valip][2] has been forked from the [original CLJ Valip][3] to make it
 portable to the CLJS platform. This is already a good result by
@@ -159,7 +154,7 @@ sample from the `valip.predicates` namespace:
   (fn [s] (boolean (re-matches re s))))
 ```
 
-> NOTE 3: I personally consider the above `matches` definition as
+> NOTE 2: I personally consider the above `matches` definition as
 > bugged. As you'll see in a subsequent tutorial specifically dedicated
 > to `unit tests`, I always like to start testing functions from border
 > cases. What does it happen when the passed argument `s` to the
@@ -238,7 +233,7 @@ the so called
 [`Features Expression Problem`](http://dev.clojure.org/display/design/Feature+Expressions)
 was still to be solved in CLJ/CLJS.
 
-As those times you had two workarounds to use a portable (or almost
+You had two workarounds to use a portable (or almost
 portable) CLJ/CLJS lib:
 
 * use the
@@ -250,9 +245,9 @@ portable) CLJ/CLJS lib:
   plugin, which added other complexity to the already complex enough
   `project.clj` declaration and it's now deprecated as well.
 
-> NOTE 4: in this second edition of the `modern-cljs` series of
+> NOTE 3: in this second edition of the `modern-cljs` series of
 > tutorials I made the choice of using the `boot` building tools instead
-> of the more standard `leiningen` one. There are to main reason for
+> of the more standard `leiningen` one. There are two main reasons for
 > that:
 > 
 > * the `build.boot` becomes shorter/simpler than the corresponding
@@ -263,8 +258,9 @@ Starting with the `1.7.0` release, Clojure offers a new way to solve
 the above Feature Expression Problem. I'm not going to explain it
 right now. I'm anticipating you about it only because I rewrote the
 [`valip`](https://github.com/magomimmo/valip/tree/0.4.0-SNAPSHOT) lib
-in such a way that we can easily use it inside our series of tutorials
-without having to do with the above complexities.
+by using that new feature in such a way that we can easily use it
+inside our series of tutorials without having to do with the above
+complexities.
 
 ## Add valip dependency
 
@@ -319,24 +315,24 @@ Test the `validate` form we cited above:
 
 ```clj
 boot.user> (validate {:email "you@yourdomain.com" :password "weak1"}
-  [:email present? "Email can't be empty"]
-  [:email email-address? "Invalid email format"]
-  [:password present? "Password can't be empty"]
-  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+                     [:email present? "Email can't be empty"]
+                     [:email email-address? "Invalid email format"]
+                     [:password present? "Password can't be empty"]
+                     [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 nil
 ```
 
 As you see it correctly returns `nil` because both the passed `email`
 and `password` strings satisfy the validation tests.
 
-Let's see few failing cases:
+Let's see few others failing cases:
 
 ```clj
 boot.user> (validate {:email nil :password nil}
-  [:email present? "Email can't be empty"]
-  [:email email-address? "Invalid email format"]
-  [:password present? "Password can't be empty"]
-  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+                     [:email present? "Email can't be empty"]
+                     [:email email-address? "Invalid email format"]
+                     [:password present? "Password can't be empty"]
+                     [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 {:email ["Email can't be empty" "Invalid email format"], :password ["Password can't be empty" "Invalid password format"]}
 ```
 
@@ -346,10 +342,10 @@ error massages for both the `:email` and `:password` keys.
 
 ```clj
 boot.user> (validate {:email "you@yourdomain.com" :password nil}
-  [:email present? "Email can't be empty"]
-  [:email email-address? "Invalid email format"]
-  [:password present? "Password can't be empty"]
-  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+                     [:email present? "Email can't be empty"]
+                     [:email email-address? "Invalid email format"]
+                     [:password present? "Password can't be empty"]
+                     [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 {:password ["Password can't be empty" "Invalid password format"]}
 ```
 
@@ -359,10 +355,10 @@ only, because the `email` satisfies the validation predicates.
 
 ```clj
 boot.user> (validate {:email nil :password "weak1"}
-  [:email present? "Email can't be empty"]
-  [:email email-address? "Invalid email format"]
-  [:password present? "Password can't be empty"]
-  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+                     [:email present? "Email can't be empty"]
+                     [:email email-address? "Invalid email format"]
+                     [:password present? "Password can't be empty"]
+                     [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 {:email ["Email can't be empty" "Invalid email format"]}
 ```
 
@@ -371,10 +367,10 @@ used regex. So the return `map` contains the `:email` key only.
 
 ```clj
 boot.user> (validate {:email "bademail@baddomain" :password "weak1"}
-  [:email present? "Email can't be empty"]
-  [:email email-address? "Invalid email format"]
-  [:password present? "Password can't be empty"]
-  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+                     [:email present? "Email can't be empty"]
+                     [:email email-address? "Invalid email format"]
+                     [:password present? "Password can't be empty"]
+                     [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 {:email ["Invalid email format"]}
 ```
 
@@ -383,10 +379,10 @@ return `map` contains one message only for the bad `email` address.
 
 ```clj
 boot.user> (validate {:email "you@yourdomain.com" :password "badpasswd"}
-  [:email present? "Email can't be empty"]
-  [:email email-address? "Invalid email format"]
-  [:password present? "Password can't be empty"]
-  [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
+                     [:email present? "Email can't be empty"]
+                     [:email email-address? "Invalid email format"]
+                     [:password present? "Password can't be empty"]
+                     [:password (matches #"^(?=.*\d).{4,8}$") "Invalid password format"])
 {:password ["Invalid password format"]}
 ```
 
@@ -401,9 +397,20 @@ start coding in a source file.
 
 To follow at our best the principle of separation of concerns, let's
 create a new namespace specifically dedicated to the `loginForm`
-fields validations. Create the `login` subdirectory under the
+fields validations.
+
+To do that, create the `login` subdirectory under the
 `src/clj/modern_cljs/` directory and then create a new file named
-`validators.clj`. Open it and declare the new
+`validators.clj`.
+
+```bash
+# from a new terminal
+cd /path/to/modern-cljs
+mkdir src/clj/modern_cljs/login
+touch src/clj/modern_cljs/login/validators.clj
+```
+
+Open the newly create source file and declare the new
 `modern-cljs.login.validators` namespace by requiring the needed
 namespaces from the `valip` library we just added to the `build.boot`
 build file.
@@ -431,21 +438,21 @@ credential (i.e `email` and `password`).
 As you see, we wrapped the above `validate` call inside a function
 definition.
 
-> NOTE 5: Again, to follow the separation of concerns principle, we
+> NOTE 4: Again, to follow the separation of concerns principle, we
 > moved here the *re-password* regular expression previously defined
-> in the `login.clj` source file. So, later remember to delete it from
-> that source file.
+> in the `login.clj` source file. Later you'll delete it from the that
+> source file.
 
-> NOTE 6: `valip` provides the `email-address?` built-in predicate
+> NOTE 5: `valip` provides the `email-address?` built-in predicate
 > which matches the passed email value against an embedded regular
 > expression. This regular expression is based on RFC 2822 and it is
 > defined in the `valip.predicates` namespace. This is why the
 > `*re-email*` regular expression is not needed anymore and later you
 > have to delete it as well from the `login.clj` file.
 
-When you save the file you'll get a compilation error. This is because
-you still have to update the `login.clj` source file as a next
-step. You can safely go on. 
+So far, so good.
+
+## Update login.clj
 
 Open the `login.clj` file from the `src/clj/modern_cljs/` directory
 and modify it as follows:
@@ -464,7 +471,7 @@ and modify it as follows:
 Remember to delete anything else. As soon as you save the file the
 above compilation error disappear.
 
-> NOTE 7: we could have returned more detailed messages from the
+> NOTE 6: we could have returned more detailed messages from the
 > validator result to the user. To maintain the same behaviour of the
 > previous server-side login version we only return the **Please
 > complete the form.** message when the user typed something wrong in
@@ -745,7 +752,7 @@ have reached. Now we are just returning any email validation error and
 passing the first of them to the `prepend!` function for manipulating
 the DOM.
 
-> NOTE 8: Here we used the `if-let` form. If you don't understand it,
+> NOTE 7: Here we used the `if-let` form. If you don't understand it,
 > I strongly suggest you to search the web for their usage. Generally
 > speaking, [ClojureDocs][17] and [Grimoire](http://conj.io/) are
 > [good][13]
@@ -764,7 +771,7 @@ the modifications are almost identical.
     true))
 ```
 
-> NOTE 9: As an exercise, you can define a new function, named
+> NOTE 8: As an exercise, you can define a new function, named
 > `validate-dom-element`, which extracts an abstraction from the
 > `validate-email` and `validate-password` structure definition. It's
 > just another application of the DRY principle. This could be the
@@ -798,7 +805,7 @@ Finally, we have to review the `validate-form` and the `init` functions as well.
       (listen! password :blur (fn [evt] (validate-password password))))))
 ```
 
-> NOTE 10: To maintain the same behaviour as before, we did not
+> NOTE 9: To maintain the same behaviour as before, we did not
 > refactor the `validate-form` too much and just added `email` and
 > `password` DOM elements to `validate-form` itself.
 
@@ -811,7 +818,7 @@ manually reload the page to see the result. So just reload the
 [`Login Form`](http://localhost:3000/index.html) and you'll be
 launched back to the sky again.
 
-> NOTE 11: if you did not reactivated your browser JS Engine, do it
+> NOTE 10: if you did not reactivated your browser JS Engine, do it
 > before reload the Login Form page
 
 Repeat all the interactive tests you did. I know, it's boring, but at
