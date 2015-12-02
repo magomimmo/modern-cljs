@@ -392,6 +392,7 @@ input fields of the form.
 resolve both `1.` and `4.` in a single shot.
 
 `deftemplate` accepts 4 arguments:
+
 * `name`
 * `source`
 * `args`
@@ -407,18 +408,17 @@ interested elements/nodes from the parsed HTML source. The right hand
 of the pair is a function which is applied to transform each selected
 element/node.
 
-<until here>
-
-As you perhaps remember from the tutorial on ajax, in the `build.boot`
-build file of the project, we passed the `"target"` directory as the
-value of the `:resource-root` option for the `serve` task.
+As you perhaps remember from the tutorial taht introduced ajax, in the
+`build.boot` build file of the project we passed the `"target"`
+directory as the value of the `:resource-root` option for the `serve`
+task.
 
 ```clj
 (deftask dev 
   "Launch immediate feedback dev environment"
   []
   (comp
-   (serve :dir "target"                                
+   (serve :dir "target"
           :handler 'modern-cljs.remotes/app            ;; ring hanlder
           :resource-root "target"                      ;; root classpath
           :reload true)                                ;; reload ns
@@ -426,6 +426,14 @@ value of the `:resource-root` option for the `serve` task.
    (reload)
    (cljs-repl) ;; before cljs
    (cljs)))
+```
+
+Let's start the CLJ REPL to verify it:
+
+```clj
+boot repl -c
+...
+boot.user>
 ```
 
 This means that we can pass the `target/shopping.html` file to
