@@ -319,7 +319,7 @@ requirement as follows:
                                  destroy! 
                                  set-value! 
                                  value]]
-            [domina.events :refer [listen! prevetn-default]]
+            [domina.events :refer [listen! prevent-default]]
             [hiccups.runtime]
             [shoreleave.remotes.http-rpc :refer [remote-callback]]
             [cljs.reader :refer [read-string]])
@@ -362,12 +362,12 @@ impedance mismatches.
 Our needs are very easy to describe. We have to:
 
 1. Read a pure HTML template/page from the file system representing
-the Shopping Calculator;
-2. read the parameters typed in by the user from the submitted HTTP
+   the Shopping Calculator;
+1. read the parameters typed in by the user from the submitted HTTP
    request;
-3. parse the extracted values and calculate the total;
-4. update the fields in the HTML form; and
-5. send the resulted page to the user.
+1. parse the extracted values and calculate the total;
+1. update the fields in the HTML form; and
+1. send the resulted page to the user.
 
 The following picture shows a sequence diagram of the above description.
 
@@ -385,8 +385,8 @@ already satisfied by the the `defremote` macro call from
 name.
 
 It seems that we just need to implement the step `1.` - read the
-`shopping.html` file from the `resources/public` directory and the
-step `4.` - update the input fields of the form.
+`shopping.html` file from its directory and the step `4.` - update the
+input fields of the form.
 
 [Enlive][9] offers a single macro, `deftemplate`, which allows us to
 resolve both `1.` and `4.` in a single shot.
@@ -407,10 +407,29 @@ interested elements/nodes from the parsed HTML source. The right hand
 of the pair is a function which is applied to transform each selected
 element/node.
 
-If you issue the `lein classpath` command from the terminal, you can
-verify that the `resources` directory is a member of the application
-`classpath`. This means that we can pass the
-`public/shopping.html` file to `deftemplate` as the `source` arg.
+<until here>
+
+As you perhaps remember from the tutorial on ajax, in the `build.boot`
+build file of the project, we passed the `"target"` directory as the
+value of the `:resource-root` option for the `serve` task.
+
+```clj
+(deftask dev 
+  "Launch immediate feedback dev environment"
+  []
+  (comp
+   (serve :dir "target"                                
+          :handler 'modern-cljs.remotes/app            ;; ring hanlder
+          :resource-root "target"                      ;; root classpath
+          :reload true)                                ;; reload ns
+   (watch)
+   (reload)
+   (cljs-repl) ;; before cljs
+   (cljs)))
+```
+
+This means that we can pass the `target/shopping.html` file to
+`deftemplate` as the `source` arg.
 
 As the `name` arg, we're going to use the same name of the POST route
 (i.e. `shopping`) previously defined inside the `defroutes` macro.
