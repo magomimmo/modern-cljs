@@ -1,4 +1,15 @@
-# Tutorial 14 - Better Safe Than Sorry (Part 1)
+# Tutorial 13 - Better Safe Than Sorry (Part 1)
+
+## Preamble
+
+To start working from the end of the previous tutorial, assuming
+you've `git` installed, do as follows.
+
+```bash
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout se-tutorial-12
+```
 
 In this part of the tutorial we're going to prepare the field for one
 of the main topics in the software development life cycle: *code
@@ -23,7 +34,7 @@ only on the passed input.
 
 Before we go ahead with the problem of testing your CLJ/CLJS
 code, we have to finish something we left behind in the previous
-tutorials. In the [Tutorial 10 - Introducing Ajax - ][1] we
+tutorials. In the [Tutorial 9 - Introducing Ajax - ][1] we
 implemented a Shopping Calculator by using the Ajax style of
 communication between the browser (i.e. ClojureScript) and the server
 (i.e. Clojure).
@@ -54,26 +65,25 @@ border.
 
 ## Review the Shopping Calculator
 
-Start by reviewing the Shopping Calculator program. If you want to keep
-track of your next steps do as follows:
+> ATTENTION NOTE: all the figures of this tutorials have been taken a
+> couple of years ago with old versions of Chrome/Canary and they are
+> outdated. That said, Mutatis Mutandis, you should be able to follow
+> the tutorial without any problem.
+
+Start the IFDE as usual
 
 ```bash
-git clone https://github.com/magomimmo/modern-cljs.git
-cd modern-cljs
-git checkout tutorial-13
-git checkout -b tutorial-14-step-1
+cd /path/to/modern-cljs
+boot dev
+...
+Elapsed time: 19.288 sec
 ```
 
-Then compile and run `modern-cljs` as usual:
+and visit the [shopping URI][2] for reviewing the Shopping Calculator
+program.
 
-```bash
-lein cljsbuild auto prod
-lein ring server-headless # in a new terminal from modern-cljs dir
-```
-
-Now visit the [shopping URI][2], and click the `Calculate` button. The
-`Total` field is valued with the result of the calculation executed via
-Ajax on the server-side.
+Click the `Calculate` button. The `Total` field is valued with the
+result of the calculation executed via Ajax on the server-side.
 
 Note that the `localhost:3000/shopping.html` URI shown in the address
 bar of the browser does not change when you click the `Calculate`
@@ -81,7 +91,7 @@ button. Only the value of the `Total` field will be updated, even if the
 calculation was executed by the server. That's one of the beauties of
 Ajax.
 
-As you already know from the [Tutorial 10 - Introducing Ajax - ][1] you
+As you already know from the [Tutorial 9 - Introducing Ajax - ][1] you
 can open the `Developer Tools` panel of your browser (I'm using Google
 Chrome) and take a look at the Network tab after having reloaded the
 [shopping URI][2].
@@ -170,19 +180,16 @@ again. You receive a plain `Page not found` text from the server. You
 also see the `localhost:3000/shopping` URI in the address bar of your
 browser instead of the previous `localhost:3000/shopping.html` URI.
 
-In the [Tutorial 3 - CLJ based http-server - ][5] we used
-[Compojure][6] to define the application's routes as follows:
+In the [Tutorial 9 - Introducing Ajax][5] we used [Compojure][6] to
+define the application's routes as follows:
 
-```clojure
-(defroutes app-routes
-  ;; to serve document root address
-  (GET "/" [] "<p>Hello from compojure</p>")
-  ;; to authenticate the user
+```clj
+(defroutes handler
+  (GET "/" [] "Hello from Compojure!")  ;; for testing only
+  (files "/" {:root "target"})          ;; to serve static resources
   (POST "/login" [email password] (authenticate-user email password))
-  ;; to server static pages saved in resources/public directory
-  (resources "/")
-  ;; if page is not found
-  (not-found "Page non found"))
+  (resources "/" {:root "target"})      ;; to serve anything else
+  (not-found "Page Not Found"))
 ```
 
 It explains why we received the `Page not found` page: we did not
@@ -206,13 +213,12 @@ To fix the failure we just met, we need to add a route for the
 `src/clj/modern_cljs/core.clj` file and add the "/shopping" POST route
 as follows.
 
-```clojure
-(defroutes app-routes
+```clj
+(defroutes handler
   ...
   (POST "/shopping" [quantity price tax discount]
         (str "You enter: "quantity " " price " " tax " and " discount "."))
-  ...
-)
+  ...)
 ```
 
 > NOTE 1: In the Restful communities, which I respect a lot, that
@@ -224,9 +230,8 @@ as follows.
 > `shoppingForm` by passing the args vector
 > `[quantity price tax discount]` to the POST call.
 
-Now reload the [shopping URI][2] and click again the `Calculate`
-button. You should receive a plain text of the input values of the
-form.
+Now click again the `Calculate` button. You should receive a plain
+text of the input values of the form.
 
 ![FictionShopping][7]
 
@@ -246,10 +251,10 @@ work anymore. What happened?
 ### Fix the failed test
 
 Now that we have changed the `Calculate` input from `type="button"` to
-`type="submit"`, when the user clicks it then control passes to
-the `action="/shopping"` and submits a POST request to the
-server. The server then responds by calling the handler function which
-is now associated with the POST "/shopping" route.
+`type="submit"`, when the user clicks it, the control passes to the
+`action="/shopping"` and submits a POST request to the server. The
+server then responds by calling the handler function which is now
+associated with the POST "/shopping" route.
 
 We already dealt with this problem in a [previous tutorial][8]
 dedicated to the `login` example. We solved it by preventing the
@@ -261,13 +266,22 @@ We need to code the same thing in the
 Open the `shopping.cljs` file and modify the function associated with the
 `click` event as follows.
 
-```clojure
+```clj
 (defn ^:export init []
   (when (and js/document
              (aget js/document "getElementById"))
-    (listen! (by-id "calc") :click (fn [evt] (calculate evt)))
-    (listen! (by-id "calc") :mouseover add-help!)
-    (listen! (by-id "calc") :mouseout remove-help!)))
+    (listen! (by-id "calc") 
+             :click 
+             (fn [evt] (calculate evt)))
+    (listen! (by-id "calc") 
+             :mouseover 
+             (fn []
+               (append! (by-id "shoppingForm")
+                        (html [:div.help "Click to calculate"]))))  ;; hiccups
+    (listen! (by-id "calc") 
+             :mouseout 
+             (fn []
+               (destroy! (by-class "help"))))))
 ```
 
 We wrapped the `calculate` function inside an anonymous function,
@@ -277,7 +291,7 @@ Now we need to modify the `calculate` function definition as follows, to
 prevent the `click` event from being passed to the `action` of the
 Shopping form.
 
-```clojure
+```clj
 (defn calculate [evt]
   (let [quantity (read-string (value (by-id "quantity")))
         price (read-string (value (by-id "price")))
@@ -297,34 +311,30 @@ The last modification we have to introduce is to add the
 `prevent-default` symbol to the `:refer` section of the `domina.events`
 requirement as follows:
 
-```clojure
+```clj
 (ns modern-cljs.shopping
-  (:require-macros [hiccups.core :refer [html]])
-  (:require [domina :refer [by-id value by-class set-value! append! destroy!]]
-            [domina.events :refer [listen! prevent-default]]
-            [hiccups.runtime :as hiccupsrt]
+  (:require [domina.core :refer [append! 
+                                 by-class
+                                 by-id 
+                                 destroy! 
+                                 set-value! 
+                                 value]]
+            [domina.events :refer [listen! prevetn-default]]
+            [hiccups.runtime]
             [shoreleave.remotes.http-rpc :refer [remote-callback]]
-            [cljs.reader :refer [read-string]]))
+            [cljs.reader :refer [read-string]])
+  (:require-macros [hiccups.core :refer [html]]
+                   [shoreleave.remotes.macros :as macros]))
 ```
 
-If you did not stop the `cljsbuild` auto compilation from the previous
-run, as soon as you save the file you should see the CLJS compiler
-producing an updated version of `modern.js` script file.
+As soon as you save the file everything get recompiled. As you
+remember, when we modify the exported `init` function we have to
+reload the corresponding page which call it from the script tag.
 
 Reload the [shopping URI][2]. You should now see the Ajax version of
 the Shopping Calculator working again as expected.
 
-Not bad so far. I suggest you to commit your work now by issuing
-the following `git` command:
-
-```bash
-git commit -am "Step 1"
-git checkout -b tutorial-14-step-2
-```
-
-The second `git` command clones the `tutorial-14-step-1` branch into
-the `tutorial-14-step-2` branch and sets the latter as the active
-branch in preparation for the next sage of our work.
+Not bad so far.
 
 ## Step 2 - Enliving the server-side
 
@@ -938,14 +948,14 @@ In the [next tutorial][28], after having added the validators for the
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-10.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
 [2]: http://localhost:3000/shopping.html
 [3]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/networkActivities01.png
 [4]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/DisableJavaScript.png
 [5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-03.md
 [6]: https://github.com/weavejester/compojure
 [7]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/fictionShopping.png
-[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-11.md#prevent-the-default
+[8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-10.md#prevent-the-default
 [9]: https://github.com/cgrand/enlive
 [10]: https://github.com/cgrand/enlive#enlive-
 [11]: https://github.com/swannodette
