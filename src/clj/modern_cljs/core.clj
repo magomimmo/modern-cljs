@@ -7,5 +7,7 @@
   (GET "/" [] "Hello from Compojure!")  ;; for testing only
   (files "/" {:root "target"})          ;; to serve static resources
   (POST "/login" [email password] (authenticate-user email password))
+  (POST "/shopping" [quantity price tax discount]
+        (str "You enter: "quantity " " price " " tax " and " discount "."))
   (resources "/" {:root "target"})      ;; to serve anything else
   (not-found "Page Not Found"))         ;; page not found
