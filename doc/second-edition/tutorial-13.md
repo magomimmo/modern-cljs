@@ -408,7 +408,7 @@ interested elements/nodes from the parsed HTML source. The right hand
 of the pair is a function which is applied to transform each selected
 element/node.
 
-As you perhaps remember from the tutorial taht introduced ajax, in the
+As you perhaps remember from the tutorial introducing Ajax, in the
 `build.boot` build file of the project we passed the `"target"`
 directory as the value of the `:resource-root` option for the `serve`
 task.
@@ -428,15 +428,7 @@ task.
    (cljs)))
 ```
 
-Let's start the CLJ REPL to verify it:
-
-```clj
-boot repl -c
-...
-boot.user>
-```
-
-This means that we can pass the `target/shopping.html` file to
+This means that we can pass the `shopping.html` file to
 `deftemplate` as the `source` arg.
 
 As the `name` arg, we're going to use the same name of the POST route
@@ -450,31 +442,62 @@ two `nil` values, which means no selectors and no transformations. I
 now expect that the source will be rendered exactly as the original
 HTML source.
 
-### Let's code
+## Stop, alter and restart
 
-First, as usual, we need to add the [Enlive][9] lib to the
-`project.clj`.
+As I already confessed, I alway stop the IFDE when I need to
+alter the `build.boot` building file, even if we could alter it from
+the REPL.
 
-```clojure
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  :dependencies [...
-                 [enlive "1.1.4"]]
-  ...)
+So, let's stop any `boot` related process, add the `enlive` lib to the
+`build.boot` dependencies section and restart the IFDE as usual:
+
+```clj
+(set-env!
+ ...
+ :dependencies '[..
+                 [enlive "1.1.6"]
+                 ])
+...
 ```
 
-We then have to decide where to create the CLJ file containing the
+start IFDE 
+
+```bash
+cd /path/to/modern-cljs
+boot dev
+...
+Elapsed time: 23.274 sec
+```
+and finally start the CLJ REPL
+
+```bash
+# in a new terminal
+cd /path/to/modern-cljs
+boot repl -c
+...
+boot.user>
+```
+
+### Let's code
+
+We have to decide where to create the CLJ file containing the
 template definition for the Shopping Calculator page. Because I prefer
-to mantain a directory structure which mimics the logical structure of
+to maintain a directory structure which mimics the logical structure of
 an application I decided to create a new `templates` directory under
 the `src/clj/modern_cljs/` directory.
 
 ```bash
+# in a new terminal
+cd /path/to/modern-cljs
 mkdir src/clj/modern_cljs/templates
 ```
 
 Inside this directory create the `shopping.clj` file where we can put the
 `deftemplate` macro call.
+
+```bash
+touch src/clj/modern_cljs/templates/shopping.clj
+```
 
 Following is the content of the `shopping.clj` file which contains the
 definition of the Shopping Calculator template
@@ -514,19 +537,6 @@ to the newly defined `shopping` function.
   ;; if page is not found
   (not-found "Page non found"))
 ```
-
-If the `lein ring server-headless` command is still running, stop it
-by `Ctr-C` and run it again to allow the server to import the new
-`enlive` dependencies.
-
-```bash
-lein ring server-headless`
-```
-
-> NOTE 3: We need to stop the running ring server because we added the
-> [Enlive][9] lib to the project dependencies. Thanks to
-> [Chas Emerick][16] we can now add new dependencies in the REPL to a
-> running project by using the [Pomegranate][17] lib.
 
 Now disable the JavaScript engine of your browser again and visit the
 [shopping][2] URI.
@@ -585,6 +595,8 @@ of the Shopping Calculator form. By clicking the `Calculate` button
 you'll receive the form with the same values you previously typed
 in. So far, so good.
 
+<up to here>
+
 It's now time to make the calculation and to set the result in the
 `Total` field of the `shoppingForm`.
 
@@ -597,7 +609,7 @@ It's now time to make the calculation and to set the result in the
 > of refactoring continuously, you'll find that it is easier to extend
 > and maintain code.   - Joshua Kerievsky, Refactoring to Patterns
 
-In the [Tutorial 10 - Introducing Ajax][1] we defined the remote
+In the [Tutorial 9 - Introducing Ajax][1] we defined the remote
 `calculate` function by calling the `defremote` macro. The
 `defremote` call implicitly define a function with the same name
 of the remote function and that's good, because we hate any kind of
@@ -613,7 +625,7 @@ the server side.
 Let's take a look at the CLJS `shopping.cljs` file where we defined
 the client side `calculate` function.
 
-```clojure
+```clj
 (defn calculate []
   (let [quantity (read-string (value (by-id "quantity")))
         price (read-string (value (by-id "price")))
