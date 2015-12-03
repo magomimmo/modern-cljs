@@ -572,14 +572,15 @@ attribute, you need to write `[:#quantity]` which corresponds to the
 > [syntax for selector][20] at least to have a decent understanding of
 > it.
 
-But what about the transformation functions? [Enlive][9]
-offers a lot of them but this is not a tutorial on [Enlive][9], and I'm
-going to use the only function we need in our context: the `(set-attr
-&kvs)` function.  It accepts keyword/value pairs where the keywords
-are the names of the attributes you want to set. In our sample, the
-only attribute we are going to set is the `value` attribute of each
-`input` field. So let's start by adding to the `deftemplate` call both
-the selector clause and the trasformation function as follows:
+But what about the transformation functions? [Enlive][9] offers a lot
+of them but this is not a tutorial on [Enlive][9], and I'm going to
+use the only function we need in our context: the `(set-attr &kvs)`
+function.  It accepts keyword/value pairs where the keywords are the
+names of the attributes you want to set. In our sample, the only
+attribute we are going to set is the `value` attribute of each `input`
+field. So let's start by adding to the `deftemplate` call both the
+selector clause and the trasformation function for each input field as
+follows:
 
 ```clojure
 (deftemplate shopping "public/shopping.html"
@@ -594,8 +595,6 @@ Reload the [shopping][2] URI and change the values of the input fields
 of the Shopping Calculator form. By clicking the `Calculate` button
 you'll receive the form with the same values you previously typed
 in. So far, so good.
-
-<up to here>
 
 It's now time to make the calculation and to set the result in the
 `Total` field of the `shoppingForm`.
@@ -615,8 +614,9 @@ In the [Tutorial 9 - Introducing Ajax][1] we defined the remote
 of the remote function and that's good, because we hate any kind of
 code duplication. We could immediately use it to calculate the result
 of the Shopping Calculator by just parsing the
-`[quantity price tax discount]` passed to the `deftemplate` call. But
-wait a minute. We [already parsed those arguments][21] on the CLJS
+`[quantity price tax discount]` passed to the `deftemplate` call.
+
+But wait a minute. We [already parsed those arguments][21] on the CLJS
 side of the `calculate` function and we don't want to parse them
 again. To reach this DRY objective we need to refactor the code by
 moving the parsing code of the fields values from the client side to
@@ -718,7 +718,7 @@ and CLJ source files. Open the `shopping.cljs` file under the
 calls to `read-string` in the `calculate` function definition as
 follows:
 
-```clojure
+```clj
 (ns modern-cljs.shopping
   (:require-macros [hiccups.core :refer [html]])
   (:require [domina :refer [by-id value by-class set-value! append! destroy!]]
