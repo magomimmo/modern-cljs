@@ -1,5 +1,24 @@
 # Tutorial 13 - Better Safe Than Sorry (Part 1)
 
+In this part of the tutorial we're going to prepare the field for one
+of the main topics in the software development life cycle: *code
+testing*. Code testing is a kind of continuum which goes from zero to
+almost full test coverage. I'm not going to open one of those endless
+discussions about the right amount of testing. Code testing
+is a need, full stop. How much coverage? It depends.
+
+I have to admit that I never took a program from a unit test that has
+to initially fail before I could proceed to success. When you are as
+old as I am, you can't change your habits. So, whoever is religious
+about TDD/BDD (Test Driven Development and Behavioural Driven
+Development) must forgive me.
+
+Nowadays, by using functional programming languages like CLJ/CLJS, the
+unit tests are much easier to implement, as compared with
+imperative and object-oriented programming languages, because most of
+the time you have to deal with pure functions whose output depends
+only on the passed input.
+
 ## Preamble
 
 To start working from the end of the previous tutorial, assuming
@@ -10,25 +29,6 @@ git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
 git checkout se-tutorial-12
 ```
-
-In this part of the tutorial we're going to prepare the field for one
-of the main topics in the software development life cycle: *code
-testing*. Code testing is a kind of continuum which goes from zero to
-almost full test coverage. I'm not going to open one of those endless
-discussions about the right amount of testing. Code testing
-is a need, full stop. How much coverage? It depends.
-
-I have to admit that I never took a program from a unit test that
-has to initially fail before I could proceed to success. When you are as
-old as I am,
-you can't change your habits. So, whoever is religious about TDD/BDD (Test
-Driven Development and Behavioural Driven Development) must forgive me.
-
-Nowadays, by using functional programming languages like CLJ/CLJS, the
-unit tests are much easier to implement, as compared with
-imperative and object-oriented programming languages, because most of
-the time you have to deal with pure functions whose output depends
-only on the passed input.
 
 ## Introduction
 
@@ -63,10 +63,29 @@ reason. By moving the border I mean that you can enable pieces
 of your code to be movable at will from one side to the other side of the
 border.
 
+## Add Enlive
+
+In this tutorial we're going to use [Enlive][9] by
+[Christophe Grand][27], one of the most famous CLJ libs in the Clojure
+communities. Even if it will take few paragraphs before you'll see it
+in action, we add it to the project before starting the IFDE.
+
+Open the `build.boot` file and add `enlive` to the dependencies
+section as usual with any lib:
+
+```clj
+(set-env!
+ ...
+ :dependencies '[..
+                 [enlive "1.1.6"]
+                 ])
+...
+```
+
 ## Review the Shopping Calculator
 
 > ATTENTION NOTE: all the figures of this tutorials have been taken a
-> couple of years ago with old versions of Chrome/Canary and they are
+> couple of years ago with old versions of Chrome/Canary that are now
 > outdated. That said, Mutatis Mutandis, you should be able to follow
 > the tutorial without any problem.
 
@@ -205,13 +224,14 @@ button and this URI does not exist.
 ### A kind of TDD
 
 By modifying the `shopping.html` file and disabling the JavaScript
-from the browser, we have just exercized a kind of virtual TDD (Test
-Driven Development) simulation.
+from the browser, we have just exercised a kind of TDD (Test Driven
+Development) approach.
 
 To fix the failure we just met, we need to add a route for the
-"/shopping" request to the `defroutes` macro call. Open the
-`src/clj/modern_cljs/core.clj` file and add the "/shopping" POST route
-as follows.
+"/shopping" request to the `defroutes` macro call.
+
+Open the `src/clj/modern_cljs/core.clj` file and add the "/shopping"
+POST route:
 
 ```clj
 (defroutes handler
@@ -222,7 +242,7 @@ as follows.
 ```
 
 > NOTE 1: In the Restful communities, which I respect a lot, that
-> whould be a blasphemy, because the Shopping Calculator is an
+> would be a blasphemy, because the Shopping Calculator is an
 > application resource which, in Restful parlance, is safe and
 > idempotent and we should have used the default GET verb/method.
 
@@ -277,7 +297,7 @@ Open the `shopping.cljs` file and modify the function associated with the
              :mouseover 
              (fn []
                (append! (by-id "shoppingForm")
-                        (html [:div.help "Click to calculate"]))))  ;; hiccups
+                        (html [:div.help "Click to calculate"]))))
     (listen! (by-id "calc") 
              :mouseout 
              (fn []
@@ -339,12 +359,12 @@ Not bad so far.
 ## Step 2 - Enliving the server-side
 
 In the previous pragraphs of this tutorial we prepared the stage for
-introducing [Enlive][9] by [Christophe Grand][27], one of the most
-famous CLJ libs in the Clojure communities. There are already few
-[Enlive tutorials][10] available online and I'm not going to add
-anything beyond the simplest use case to allow us to implement the
-server-side only Shopping Calculator in accordance with the
-progressive enhancement principle.
+introducing [Enlive][9].
+
+There are already few [Enlive tutorials][10] available online and I'm
+not going to add anything beyond the simplest use case to allow us to
+implement the server-side only Shopping Calculator in accordance with
+the progressive enhancement principle.
 
 The reasons why I chose [Enlive][9] are very well motivated by
 [David Nolen][11] in his [nice tutorial][12] on Enlive:
@@ -398,18 +418,18 @@ resolve both `1.` and `4.` in a single shot.
 * `args`
 * `& forms`.
 
-It creates a function with the same number of `args` and the same `name`
-as the template. The `source` can be any HTML file located in the
-`classpath` of the application.
+It implicitly creates a function with the same number of `args` and
+the same `name` as the template. The `source` argument can be any HTML
+file located in the `classpath` of the application.
 
-Finally `&forms` is composed of a sequence of pairs. The left hand of
-the pair is a vector of CSS-like selectors, used to select the
-interested elements/nodes from the parsed HTML source. The right hand
-of the pair is a function which is applied to transform each selected
-element/node.
+Finally, the `&forms` argument is composed of a sequence of pairs. The
+left hand of the pair is a vector of CSS-like selectors, used to
+select the interested elements/nodes from the parsed HTML source. The
+right hand of the pair is a function which is applied to transform
+each selected element/node.
 
 As you perhaps remember from the tutorial introducing Ajax, in the
-`build.boot` build file of the project we passed the `"target"`
+`build.boot` building file of the project we passed the `"target"`
 directory as the value of the `:resource-root` option for the `serve`
 task.
 
@@ -429,61 +449,26 @@ task.
 ```
 
 This means that we can pass the `shopping.html` file to
-`deftemplate` as the `source` arg.
+`deftemplate` as the `source` argument.
 
-As the `name` arg, we're going to use the same name of the POST route
-(i.e. `shopping`) previously defined inside the `defroutes` macro.
+As the `name` argument, we're going to use the same name of the POST
+route (i.e. `shopping`) previously defined inside the `defroutes`
+macro.
 
 Then, the `args` to be passed to `deftemplate` are the same we defined
-in the `(POST "/shopping" [quantity price tax discount] ...)` route.
+in the `"/shopping"` POST route: `[quantity price tax discount]`.
 
-Finally, regarding the `& forms` arg, start by instantiating it with
-two `nil` values, which means no selectors and no transformations. I
-now expect that the source will be rendered exactly as the original
-HTML source.
+Finally, regarding the `& forms` arguments, start by instantiating it
+with two `nil` values, which means no selectors and no
+transformations. We should now expect that the source will be rendered
+exactly as the original HTML source.
 
-## Stop, alter and restart
+## Let's code
 
-As I already confessed, I alway stop the IFDE when I need to
-alter the `build.boot` building file, even if we could alter it from
-the REPL.
-
-So, let's stop any `boot` related process, add the `enlive` lib to the
-`build.boot` dependencies section and restart the IFDE as usual:
-
-```clj
-(set-env!
- ...
- :dependencies '[..
-                 [enlive "1.1.6"]
-                 ])
-...
-```
-
-start IFDE 
-
-```bash
-cd /path/to/modern-cljs
-boot dev
-...
-Elapsed time: 23.274 sec
-```
-and finally start the CLJ REPL
-
-```bash
-# in a new terminal
-cd /path/to/modern-cljs
-boot repl -c
-...
-boot.user>
-```
-
-### Let's code
-
-We have to decide where to create the CLJ file containing the
-template definition for the Shopping Calculator page. Because I prefer
-to maintain a directory structure which mimics the logical structure of
-an application I decided to create a new `templates` directory under
+We have to decide where to create the CLJ file containing the template
+definition for the Shopping Calculator page. I prefer to maintain a
+directory structure which mimics the logical structure of an
+application. So I decided to create a new `templates` directory under
 the `src/clj/modern_cljs/` directory.
 
 ```bash
@@ -492,19 +477,19 @@ cd /path/to/modern-cljs
 mkdir src/clj/modern_cljs/templates
 ```
 
-Inside this directory create the `shopping.clj` file where we can put the
-`deftemplate` macro call.
+Inside this directory create now the `shopping.clj` file where we'll
+create the `deftemplate` macro call.
 
 ```bash
 touch src/clj/modern_cljs/templates/shopping.clj
 ```
 
-Following is the content of the `shopping.clj` file which contains the
-definition of the Shopping Calculator template
+Following is the content of the newly created `shopping.clj` file to
+define the Shopping Calculator template
 
-```clojure
+```clj
 (ns modern-cljs.templates.shopping
-  (:require [net.cgrand.enlive-html :refer [deftemplate set-attr]]))
+  (:require [net.cgrand.enlive-html :refer [deftemplate]]))
 
 (deftemplate shopping "public/shopping.html"
   [quantity price tax discount]
