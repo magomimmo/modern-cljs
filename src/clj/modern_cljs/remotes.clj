@@ -1,7 +1,5 @@
 (ns modern-cljs.remotes 
-  (:require [modern-cljs.core :refer [handler]]
-            [modern-cljs.login.validators :as v]
-            [compojure.handler :refer [site]]
+  (:require [modern-cljs.login.validators :as v]
             [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]))
 
 (defremote calculate [quantity price tax discount]
@@ -12,7 +10,3 @@
 (defremote email-domain-errors [email]
   (v/email-domain-errors email))
 
-(def app
-  (-> (var handler)
-      (wrap-rpc)
-      (site)))
