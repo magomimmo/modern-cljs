@@ -1,6 +1,6 @@
 (ns modern-cljs.remotes 
   (:require [modern-cljs.login.validators :as v]
-            [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]))
+            [shoreleave.middleware.rpc :refer [defremote]]))
 
 (defremote calculate [quantity price tax discount]
   (-> (* (read-string quantity) (read-string price))
