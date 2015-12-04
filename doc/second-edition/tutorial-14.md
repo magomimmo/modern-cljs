@@ -1,4 +1,4 @@
-# Tutorial 15 - Better Safe Than Sorry (Part 2)
+# Tutorial 14 - Better Safe Than Sorry (Part 2)
 
 To adhere to the progressive enhancement strategy in the
 [latest tutorial][1] we introduced [Enlive][2] by
@@ -547,7 +547,7 @@ git commit -am "Step 1"
 
 Stay tuned!
 
-# Next step - [Turorial 16: It's better to be safe than sorry (Part 3)][11]
+# Next step - [Turorial 15: It's better to be safe than sorry (Part 3)][11]
 
 In the [next Tutorial][11] of the series we're going to make the
 `modern-cljs.shopping.validators-test` runnable from CLJS too.  To
@@ -559,7 +559,7 @@ by [Chas Emerick][8] and the [cljx][13] lein plugin by [Kevin Lynagh][14].
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-14.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md
 [2]: https://github.com/cgrand/enlive
 [3]: http://en.wikipedia.org/wiki/Don%27t_repeat_yourself
 [4]: http://localhost:3000/shopping.html
@@ -567,9 +567,9 @@ License, the same as Clojure.
 [6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/AjaxServerError.png
 [7]: https://github.com/cemerick/valip
 [8]: https://github.com/cemerick
-[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-14.md
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md
 [10]: https://github.com/cgrand
-[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
+[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
 [12]: https://github.com/cemerick/clojurescript.test
 [13]: https://github.com/lynaghk/cljx
 [14]: https://github.com/lynaghk
