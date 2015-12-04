@@ -122,10 +122,10 @@ with the HTTP/1.1 202 status code (i.e. Accepted).
 ![AjaxNetwork][3]
 
 But what happens if you disable JavaScript? Let's try. On Google
-Chrome you disable the JavaScript engine by clicking on the Setting's
-icon positioned in the very right bottom of the `Developer tool`
-window. It opens a panel from where you can mark the `Disable
-JavaScript` check-box.
+Chrome you disable the JavaScript engine by clicking on the `Customize
+and Control Dev Tools` and then choosing the `Setting` menu item. It
+opens a panel from where you can mark the `Disable JavaScript`
+check-box.
 
 ![DisableJavaScript][4]
 
@@ -133,8 +133,8 @@ Now close the Setting's panel and reload the [shopping URI][2]. If you
 move the mouse cursor over the `Calculate` button nothing happens and
 nothing happens even if you click it.
 
-Take a look at the `shopping.html` file which is under the
-`resources/public` directory of the `modern-cljs` main directory.
+Take a look at the `shopping.html` file which is under the `html`
+directory of the `modern-cljs` main directory.
 
 ```html
 <!doctype html>
@@ -307,9 +307,9 @@ Open the `shopping.cljs` file and modify the function associated with the
 We wrapped the `calculate` function inside an anonymous function,
 which now receives an event as the sole argument.
 
-Now we need to modify the `calculate` function definition as follows, to
-prevent the `click` event from being passed to the `action` of the
-Shopping form.
+Now we need to modify the `calculate` function definition to prevent
+the `click` event from being passed to the `action` of the Shopping
+form.
 
 ```clj
 (defn calculate [evt]
@@ -553,7 +553,7 @@ For example, if you want to select a tag with an `id="quantity"`
 attribute, you need to write `[:#quantity]` which corresponds to the
 `#quantity` CSS selector.
 
-> NOTE 4: I strongly suggest you to read the enlive
+> NOTE 3: I strongly suggest you to read the enlive
 > [syntax for selector][20] at least to have a decent understanding of
 > it.
 
@@ -694,7 +694,7 @@ Open and modify the above file as follows:
                       (format "%.2f" (double (calculate quantity price tax discount)))))
 ```
 
-> NOTE 6: We added the `format` call to format the `Total` value with
+> NOTE 4: We added the `format` call to format the `Total` value with
 > two digits after the decimal point. Note that we [casted][32] the
 > `calculate` result to `double`.
 
@@ -708,15 +708,15 @@ dependencies are not allowed in CLJ so you need to refactor the code.
 
 The `modern-cljs.templates.shopping` namespace now requires the
 `modern-cljs.remotes` namespace to access the `calculate` remote
-function. The `modern-cljs.remotes` namespace requires the
+function. In turn, the `modern-cljs.remotes` namespace requires the
 `modern-cljs.core` namespace to access the `handler` function. In
-turns, the `modern-cljs.core` namespace requires the
+turn, the `modern-cljs.core` namespace requires the
 `modern.cljs.templates.shopping` namespace to access the `shopping`
 function implicitly defined by the `deftemplate` macro call.
 
 ```
-modern-cljs.templates.shopping -> modern-cljs.remotes ->
-modern-cljs.core -> modern-cljs.templates.shopping
+modern-cljs.templates.shopping -> modern-cljs.remotes
+-> modern-cljs.core -> modern-cljs.templates.shopping
 ```
 
 Our scenario is simple enough. Remove the `modern-cljs.core` reference
@@ -741,7 +741,6 @@ and the `app` symbol definition.
 ```clj
 (ns modern-cljs.remotes 
   (:require [modern-cljs.login.validators :as v]
-            [compojure.handler :refer [site]]
             [shoreleave.middleware.rpc :refer [defremote]]))
 
 (defremote calculate [quantity price tax discount]
@@ -753,13 +752,14 @@ and the `app` symbol definition.
   (v/email-domain-errors email))
 ```
 
-> NOTE 7: We also removed the reference to the `wrap-rpc` symbol from
-> the `shoreleave.middleware.rpc` requirement because it is not used
-> anymore by any functions defined in the file.
+> NOTE 5: We also removed the references to the `wrap-rpc` symbol and
+> to `site`from because they are not used anymore by any functions
+> defined in the file.
 
 Next, we need to add the `app` symbol definition in the
-`modern-cljs.core` namespace and add the `shoreleave.middleware.rpc`
-requirement to be able to reference the `wrap-rpc` symbol in the `app`
+`modern-cljs.core` namespace and add both the
+`shoreleave.middleware.rpc` and `compojure.handler` requirements to be
+able to reference `wrap-rpc` and `site` symbols in the `app`
 definition. Following is the modified content of the `core.clj` file.
 
 ```clj
@@ -785,9 +785,6 @@ definition. Following is the modified content of the `core.clj` file.
       (wrap-rpc)
       (site)))
 ```
-
-> NOTE 8: we needed to had the `compojure.handler` namespace to have
-> access to the `site` middleware used inside the `app` handler.
 
 Last, but not least, we have to modify the `build.boot` file to update
 the namespace of the `app` symbol in the `:handler` section of the
@@ -829,7 +826,7 @@ repository.
 git reset --hard
 ```
 
-# Next Step - [Tutorial 15: It's better to be safe than sorry (Part 2)][28]
+# Next Step - [Tutorial 14: It's better to be safe than sorry (Part 2)][28]
 
 In the [next tutorial][28], after having added the validators for the
 `shoppingForm`, we're going to introduce unit testing.
@@ -859,14 +856,14 @@ License, the same as Clojure.
 [18]: https://github.com/levand/domina#selectors
 [19]: http://jquery.com/
 [20]: http://cgrand.github.io/enlive/syntax.html
-[21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-10.md#the-client-side
+[21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md#the-client-side
 [22]: http://dev.clojure.org/display/design/Feature+Expressions
 [23]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md#cross-the-border
 [24]: https://github.com/cemerick/valip
 [25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md#the-selection-process
 [26]: https://github.com/cemerick/valip/blob/master/src/valip/predicates.clj
 [27]: https://github.com/cgrand
-[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
+[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-14.md
 [29]: https://github.com/emezeske/lein-cljsbuild
 [30]: https://github.com/emezeske/lein-cljsbuild#hooks
 [31]: https://github.com/technomancy/leiningen
