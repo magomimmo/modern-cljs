@@ -491,7 +491,7 @@ define the Shopping Calculator template
 (ns modern-cljs.templates.shopping
   (:require [net.cgrand.enlive-html :refer [deftemplate]]))
 
-(deftemplate shopping "public/shopping.html"
+(deftemplate shopping "shopping.html"
   [quantity price tax discount]
   nil nil)
 ```
@@ -568,6 +568,7 @@ selector clause and the trasformation function for each input field as
 follows:
 
 ```clojure
+
 (deftemplate shopping "public/shopping.html"
   [quantity price tax discount]
   [:#quantity] (set-attr :value quantity)
@@ -623,78 +624,14 @@ the client side `calculate` function.
 ```
 
 As you can see, to parse the input string, we used the `read-string`
-function from the `cljs.reader` lib of CLJS. We're again tripping over
-the [Features Expression Problem][22] we met in the previous
-[Tutorial 13 - Don't Repeat Yourself while crossing the border][23].
+function from the `cljs.reader` lib of CLJS.
 
-CLJ and CLJS have different ways to parse a string and different ways
-to convert a number, a stringfied integer, or double number. As usual
-[Chas Emerick][16] is going to help us a lot again. In the context of
-his [valip][24] lib we already used in the [Tutorial 13][25], he defined
-the following portable functions in the [valip.predicates][26]
-namespace:
-
-```clojure
-(ns valip.predicates
-  "Predicates useful for validating input strings, such as ones from HTML forms.
-All predicates in this namespace are considered portable between different
-Clojure implementations."
-  (:require [clojure.string :as str]
-            [cljs.reader :refer [read-string]])
-  (:refer-clojure :exclude [read-string]))
-
-(defn integer-string?
-  "Returns true if the string represents an integer."
-  [s]
-  (boolean (re-matches #"\s*[+-]?\d+\s*" s)))
-
-(defn decimal-string?
-  "Returns true if the string represents a decimal number."
-  [s]
-  (boolean (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" s)))
-
-;; private
-(defn- parse-number [x]
-  (if (and (string? x) (re-matches #"\s*[+-]?\d+(\.\d+M|M|N)?\s*" x))
-    (read-string x)))
-```
-
-### Portable functions
-
-By taking inspiration from there, we are going to create an
-`utils.clj` file containing the definition of few useful and portable
-functions to help us in parsing the input of the `shoppingForm`.
-
-Create the `utils.clj` file in the `src/clj/modern_cljs`
-directory and write the following content:
-
-```clojure
-(ns modern-cljs.utils
-  (:require [cljs.reader :refer [read-string]])
-  (:refer-clojure :exclude [read-string]))
-
-(defn parse-integer [s]
-  (if (and (string? s) (re-matches #"\s*[+-]?\d+\s*" s))
-    (read-string s)))
-
-(defn parse-double [s]
-  (if (and (string? s) (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" s))
-    (read-string s)))
-
-(defn parse-number [x]
-  (if (and (string? x) (re-matches #"\s*[+-]?\d+(\.\d+M|M|N)?\s*" x))
-    (read-string x)))
-```
-
-> NOTE 5: This is the first time we see the `:refer-clojure` section
-> in a namespace declaration. Its objective is to prevent namespace
-> conflicts. In our scenario, by using the `:exclude` keyword, we
-> prevent the CLJS `read-string` function from conflicting with the
-> corresponding CLJ `read-string` function.
-
-We now have three portable functions to parse a generic number, an
-integer and a double, which means we'll be free to use them both in
-the CLJS side and the CLJ side application code. Not bad.
+> ATTENTION NOTE: parsing a string coming from user input with
+> `read-string` is
+> [very dangerous](http://stackoverflow.com/questions/2640169/whats-the-easiest-way-to-parse-numbers-in-clojure)
+> from a security point of view. Here where are not taking care of
+> this issue, but you should. One possible solution is to use regular
+> expressions.
 
 Let's now refactor the `calculate` functions we defined in both CLJS
 and CLJ source files. Open the `shopping.cljs` file under the
@@ -725,30 +662,15 @@ follows:
 ```
 
 Now the `:calculate` remote-callback function accepts strings as
-arguments and we need to refactor it as well. Open the `remote.clj`
-file under the `src/clj/modern_cljs` directory and modify it by
-requiring `modern-cljs.utils` in the namespace declaration and by
-adding the `parse-integer` and `parse-double` calls to the `defremote`
-definition of `calculate`.
+arguments and we should refactor it as well. Open the `remote.clj`
+file under the `src/clj/modern_cljs` directory and modify the
+`calculate` function as follows:
 
-```clojure
-(ns modern-cljs.remotes
-  (:require [modern-cljs.core :refer [handler]]
-            [modern-cljs.login.java.validators :as v]
-            [modern-cljs.utils :refer [parse-integer parse-double]]
-            [compojure.handler :refer [site]]
-            [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]))
-
+```clj
 (defremote calculate [quantity price tax discount]
-  (let [q (parse-integer quantity)
-        p (parse-double price)
-        t (parse-double tax)
-        d (parse-double discount)]
-  (-> (* q p)
-      (* (+ 1 (/ t 100)))
-      (- d))))
-
-;;; the rest as before
+  (-> (* (read-string quantity) (read-string price))
+      (* (+ 1 (/ (read-string tax) 100)))
+      (- (read-string discount))))
 ```
 
 We're now ready to add the `calculate` function to the template
@@ -761,7 +683,7 @@ Open and modify the above file as follows:
 (ns modern-cljs.templates.shopping
   (:require [net.cgrand.enlive-html :refer [deftemplate set-attr]]
             [modern-cljs.remotes :refer [calculate]]))
-
+    
 (deftemplate shopping "public/shopping.html"
   [quantity price tax discount]
   [:#quantity] (set-attr :value quantity)
@@ -776,50 +698,56 @@ Open and modify the above file as follows:
 > two digits after the decimal point. Note that we [casted][32] the
 > `calculate` result to `double`.
 
-Assuming that you have stopped the `lein ring server-headless`
-command from the terminal, if you now try to launch the command again
-you receive a compilation error:
-
-```bash
-lein ring server-headless
-Exception in thread "main" java.lang.Exception: Cyclic load dependency: [ /modern_cljs/remotes ]->/modern_cljs/templates/shopping->/modern_cljs/core->[ /modern_cljs/remotes ]
-...
-...
-Subprocess failed
-```
+Assuming that you have your IFDE running, as soon as you save the file
+you'll receive an error.
 
 ### FIAT - Fix It Again Tony
 
 Too bad. We just met a cyclic namespaces dependency problem. Cyclic namespace
 dependencies are not allowed in CLJ so you need to refactor the code.
 
+The `modern-cljs.templates.shopping` namespace now requires the
+`modern-cljs.remotes` namespace to access the `calculate` remote
+function. The `modern-cljs.remotes` namespace requires the
+`modern-cljs.core` namespace to access the `handler` function. In
+turns, the `modern-cljs.core` namespace requires the
+`modern.cljs.templates.shopping` namespace to access the `shopping`
+function implicitly defined by the `deftemplate` macro call.
+
+```
+modern-cljs.templates.shopping -> modern-cljs.remotes ->
+modern-cljs.core -> modern-cljs.templates.shopping
+```
+
 Our scenario is simple enough. Remove the `modern-cljs.core` reference
 from the `modern-cljs.remotes` namespace declaration. There, we only
 referenced the `handler` symbol from the `modern-cljs.core` namespace
 in the `app` definition. By moving the `app` definition to the
-`modern-cljs.core` namespace we should be able to resolve the cyclic issue.
+`modern-cljs.core` namespace we should be able to resolve the cyclic
+issue.
+
+We just met another case in which it is easier to stop the IFDE than
+altering its runtime environment. This is because we now have to
+substitute the `:handler` value in the `serve` task of the
+`build.boot` from `modern-cljs.remotes/app` to `modern-cljs.core/app`.
+
+So, stop any `boot` related process and modify both the `remotes.clj`
+and the `build.boot` files.
 
 Following is the modified content of the `remotes.clj` file where we
 have removed both the reference to the `modern-cljs.core` namespace
 and the `app` symbol definition.
 
-```clojure
-(ns modern-cljs.remotes
-  (:require
-   ;;       [modern-cljs.core :refer [handler]]
-            [modern-cljs.login.java.validators :as v]
-            [modern-cljs.utils :refer [parse-integer parse-double]]
+```clj
+(ns modern-cljs.remotes 
+  (:require [modern-cljs.login.validators :as v]
             [compojure.handler :refer [site]]
             [shoreleave.middleware.rpc :refer [defremote]]))
 
 (defremote calculate [quantity price tax discount]
-  (let [q (parse-integer quantity)
-        p (parse-double price)
-        t (parse-double tax)
-        d (parse-double discount)]
-  (-> (* q p)
-      (* (+ 1 (/ t 100)))
-      (- d))))
+  (-> (* (read-string quantity) (read-string price))
+      (* (+ 1 (/ (read-string tax) 100)))
+      (- (read-string discount))))
 
 (defremote email-domain-errors [email]
   (v/email-domain-errors email))
@@ -834,132 +762,71 @@ Next, we need to add the `app` symbol definition in the
 requirement to be able to reference the `wrap-rpc` symbol in the `app`
 definition. Following is the modified content of the `core.clj` file.
 
-```clojure
-(ns modern-cljs.core
+```clj
+(ns modern-cljs.core 
   (:require [compojure.core :refer [defroutes GET POST]]
-            [compojure.route :refer [resources not-found]]
+            [compojure.route :refer [not-found files resources]]
             [compojure.handler :refer [site]]
             [modern-cljs.login :refer [authenticate-user]]
             [modern-cljs.templates.shopping :refer [shopping]]
             [shoreleave.middleware.rpc :refer [wrap-rpc]]))
 
-;; defroutes macro defines a function that chains individual route
-;; functions together. The request map is passed to each function in
-;; turn, until a non-nil response is returned.
-(defroutes app-routes
-  ;; to serve document root address
-  (GET "/" [] "<p>Hello from compojure</p>")
-  ;; to authenticate the user
+(defroutes handler
+  (GET "/" [] "Hello from Compojure!")  ;; for testing only
+  (files "/" {:root "target"})          ;; to serve static resources
   (POST "/login" [email password] (authenticate-user email password))
-  ;; to server shopping command
   (POST "/shopping" [quantity price tax discount]
         (shopping quantity price tax discount))
-  ;; to server static pages saved in resources/public directory
-  (resources "/")
-  ;; if page is not found
-  (not-found "Page non found"))
+  (resources "/" {:root "target"})      ;; to serve anything else
+  (not-found "Page Not Found"))         ;; page not found
 
-;;; site function create an handler suitable for a standard website,
-;;; adding a bunch of standard ring middleware to app-route:
-(def handler
-  (site app-routes))
-
-(def app (-> (var handler)
-             (wrap-rpc)
-             (site)))
+(def app
+  (-> (var handler)
+      (wrap-rpc)
+      (site)))
 ```
 
-Last, but not least, we have to modify the `project.clj` file to
-update the namespace of the `app` symbol in the `:ring` section.
+> NOTE 8: we needed to had the `compojure.handler` namespace to have
+> access to the `site` middleware used inside the `app` handler.
+
+Last, but not least, we have to modify the `build.boot` file to update
+the namespace of the `app` symbol in the `:handler` section of the
+`serve` task.
 
 ```clj
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  :ring {:handler modern-cljs.core/app}
-  ...)
+(deftask dev 
+  "Launch immediate feedback dev environment"
+  []
+  (comp
+   (serve :dir "target"                                
+          :handler 'modern-cljs.core/app               ;; new ring handler
+          :resource-root "target"                      ;; root classpath
+          :reload true)                                ;; reload ns
+   (watch)
+   (reload)
+   (cljs-repl) ;; before cljs
+   (cljs)))
 ```
 
-We are now ready to rebuild and run everything as follows:
+We are now ready to rebuild and run everything.
+
+Start the IFDE
 
 ```bash
-lein do clean, cljsbuild clean, cljsbuild once prod, ring server-headless
+boot dev
+...
+Elapsed time: 19.405 sec
 ```
 
-Now visit [shopping][2] URI and play with the form by enabling and
+visit [shopping][2] URI and play with the form by enabling and
 disabling the JavaScript engine of your browser. Everything should
 work as expected in both the scenarios.
 
-## Housekeeping
-
-As you have seen in all the previous tutorials concerning
-[lein-cljsbuild][29], most of the times you need to run both a `lein
-clean` and `lein cljsbuild clean` command to clean the entire
-project. Next you have to issue the `lein cljsbuild once` command to
-compile down the cljs files. Until now we use the `do` chaining
-feature of `lein` as a little workaround to those repetitions.
-
-[lein-cljsbuild][30] can hook into few Leiningen tasks to enable CLJS
-support in each of them. The following tasks are supported:
+When you're done, kill the `boot` process and reset your git
+repository.
 
 ```bash
-lein clean
-lein compile
-lein test
-lein jar
-```
-
-Add the following option to your project configuration:
-
-```clj
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  :hooks [leiningen.cljsbuild]
-  ...)
-```
-
-You can now run the following commands:
-
-```bash
-lein clean # it call lein cljsbuild
-lein compile # it call lein cljsbuild once
-```
-
-Note that you can't add a build-id to `lein compile` command as you
-can do with `lein cljsbuild once` command. So, if you just need to
-compile a single build-id you're forced to use the `lein cljsbuild
-once <build-id>` command.
-
-[Leiningen][31] even support project-specific task aliases. We'll
-introduce this feature in a next tutorial.
-
-## ATTENTION - FINAL NOTES
-
-To be able to run all the `modern-cljs` builds (i.e. `:dev`, `:prod`
-and `:dev`), you have to update the `shopping-dbg.html` and
-`shopping-prod.html` files with the same modification we did in the
-`shopping.html` file.
-
-Then, assuming you added the `:hooks` option to the `project.clj` as
-documented above, submit the following commands in the terminal from
-the main `modern-cljs` directory.
-
-```bash
-lein do clean, compile, ring server-headless
-```
-
-Now visit any version of the Shopping Calculator
-(i.e. `shopping-dbg.html`, `shopping-pre.html` or `shopping.html`) to
-see all of them still working equally, even if the Enlive template has
-been defined starting from the `shopping.html` file. This is because
-the different script tags in each version of the page are read only
-when the JavaScript engine is active.
-
-As a very last step, if everything is working as expected, I suggest you
-to commit the changes as follows:
-
-```bash
-git add .
-git commit -m "finished step-2"
+git reset --hard
 ```
 
 # Next Step - [Tutorial 15: It's better to be safe than sorry (Part 2)][28]
@@ -969,7 +836,7 @@ In the [next tutorial][28], after having added the validators for the
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
