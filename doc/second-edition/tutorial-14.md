@@ -44,7 +44,7 @@ Elapsed time: 23.261 sec
 
 ## Review the Shopping Form
 
-Now disable the JavaScript engine of your browser, visit the
+Now disable the JavaScript engine of your browser, visit or reload the
 [shopping URI][4], and click the `Calculate` button. The `Total` field
 is filled with the result of the calculation executed on the
 server-side via the "/shopping" action associated to the
@@ -58,8 +58,8 @@ the value of the `Price per Unit` field. Finally, click the
 `Calculate` button.
 
 You'll receive the infamous `HTTP ERROR: 500` page saying that
-`clojure.lang.Symbol` it can't be cast to `java.lang.Number`. This is
-a `java.lang.ClassCastException` as you can read from the warning
+`clojure.lang.Symbol` can't be cast to `java.lang.Number`. This is a
+`java.lang.ClassCastException` as you can read from the warning
 reported at the terminal as well.
 
 ```clj
@@ -82,12 +82,12 @@ unmarking the `Disable JavaScript` check-box from the Settings of the
 
 Try again to type `foo` instead of a number in one of the form fields
 and click `Calculate` after having reloaded the
-[Shopping page](http://localhost:3000/shopping.html).
+[Shopping From](http://localhost:3000/shopping.html) page.
 
 This time, due to the Ajax communication, even though the server
 returned the same 500 error code as before, the browser does not show
-the `ERROR PAGE` stacktrace. The result is not as bad as before, but
-still unacceptable for a professional web page.
+the same `ERROR PAGE`. The result is not as bad as before, but still
+unacceptable for a professional web page.
 
 Before we invest time and effort in unit testing, let's understand
 what the Shopping Form lacks?
@@ -102,10 +102,10 @@ We already used [Valip][7] lib by [Chas Emerick][8] in the
 to validate the `loginForm` fields, and we already know how to apply
 the same approach to the `shoppingForm` validation.
 
-We already know from the above tutorial that we can share the
-validation rules between the server and the client sides by creating a
-portable CLJ/CLJS source file with the `.cljc` extension in the
-`src/cljc` source directory's structure.
+We know from the above tutorial that we can share the validation rules
+between the server and the client sides by creating a portable
+CLJ/CLJS source file with the `.cljc` extension in the `src/cljc`
+source directory's structure.
 
 ### validators.cljc
 
@@ -163,7 +163,7 @@ Following is the content of the newly created `validators.cljc` file.
 
             [:quantity (gt 0) "Quantity can't be negative"]
 
-            ;; cross validations (not at the moment)
+            ;; other specific platform validations (not at the moment)
 
             ))
 ```
@@ -178,8 +178,8 @@ bunch of predicates that [Chas Emerick][8] was so kind to have defined
 for us in the `valip.predicates` namespace.
 
 Considering that `valip` is a portable lib, we can immediatly test the
-`validate-shopping-form` function first in the CLJ REPL and then in
-the CLJS bREPL.
+`validate-shopping-form` function at both the CLJ REPL and then at the
+CLJS bREPL as well.
 
 ### The server side
 
@@ -193,7 +193,7 @@ boot repl -c
 boot.user=> 
 ```
 
-and then exercise the `validate-shopping-form` newly defined function
+and then exercise the newly defined `validate-shopping-form` function
 as follows:
 
 ```clj
@@ -216,9 +216,9 @@ boot.user> (validate-shopping-form "-10" "0" "0" "")
 {:discount ["Discount can't be empty" "Discount has to be a number"], :quantity ["Quantity can't be negative"]} 
 ```
 
-### The client side
+### The magic again
 
-We now want to repeat the magic we already see at work in a previous
+We now want to repeat the magic we already saw at work in a previous
 tutorial dedicated to the `loginForm`.
 
 Start the CLJS bREPL from the the CLJ REPL as usual:
@@ -237,9 +237,13 @@ cljs.user>
 and repeat the above manual test procedure:
 
 ```clj
-cljs.user> (require '[modern-cljs.shopping.validators :refer [validate-shopping-form]])
+cljs.user> (use '[modern-cljs.shopping.validators :only [validate-shopping-form]])
 nil
 ```
+
+> NOTE 2: as you already know, one of the biggest
+> [differences](https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure#namespaces)
+> between CLJ and CLJS regards namespaces.
 
 ```clj
 cljs.user> (validate-shopping-form "1" "0" "0" "0")
@@ -256,7 +260,7 @@ cljs.user> (validate-shopping-form "-10" "0" "0" "0")
 ["Quantity can't be negative"]}
 ```
 
-WOW, the magic is working again. We have a single
+WOW, the magic is working again. We defined a single
 `validate-shopping-form` function which is able to be used without any
 modification on the server and on the client sides as well. Kudos to
 everyone who put this magic together.
@@ -267,13 +271,51 @@ do not substitute for unit testing, because as soon as we stop
 REPL/bREPL all the tests are gone. If we need to repeat them (which we
 certainly will), they will have to be manually retyped.
 
-## Unit testing with clojure.test
+## Unit testing
 
-I don't like any kind of code repetition. Retyping similar expressions
-again and again in the REPL is something that feels awful to me. So,
-let's introduce the `clojure.test` namespace to automate at least the
-need to retype the same tests anytime we change something in the
-`validate-shopping-form`.
+No programmer likes code repetition. Retyping similar expressions
+again and again in the REPL is something that should feel awful to any
+of us.
+
+Fortunately, both CLJ and CLJS have to offer a solution for reducing
+the above boring activities. Unfortunately, unit testing on CLJ/JVM is
+not exactly as unit testing on CLJS/JSVM. The two platforms are
+different from one another and they consequently require different
+namespaces:
+
+* `clojure.test` namespace for CLJ
+* `cljs.test` namespace for CLJS
+
+The `clojure.test` namespace has been implemented well before the
+corresponding `cljs.test` namespace and the latter, through a detailed
+porting on the JSVM preserved most of the functionalities provided by
+the former. So we are still in good position when you want write unit
+tests which are applicable to a portable CLJ/CLJS namespace.
+
+That said, most of the `cljs.test` functionalities are provided as
+macros, which means that you need the special CLJS `:require-macros`
+option in the requirement declaration of a testing namespace, while
+you do no need it in the corresponding CLJ namespace declaration.
+
+We already met a case in which, while writing the portable
+`modern-cljs.login.validators` namespace, we needed two differentiate
+the CLJ/JVM from the CLJS/JSVM platform.
+
+For that case we introduced the use of the `#?` reader literal to be
+able to make the `email-domain-errors` validator available on the
+CLJ/JVM platform only, even when writing portable code in a `cljc`
+source file.
+
+If we want to write a portable testing namespace for the portable
+`modern-cljs.shopping.validators` namespace we created above, we have
+to use the same `#?` trick to differentiate the different testing
+namespace declarations used by CLJ and CLJS.
+
+<ut to here>
+
+So, let's introduce the `clojure.test` and `cljs.test` to automate at
+least the need to retype the same tests anytime we change something in
+the `validate-shopping-form`.
 
 ### Mirroring the project structure
 
