@@ -29,7 +29,7 @@ other things:
 
 * review the Shopping Form
 * break the Shopping Form
-* add server side validation
+* add fields's validations
 
 ## Start the IFDE
 
@@ -58,18 +58,31 @@ the value of the `Price per Unit` field. Finally, click the
 `Calculate` button.
 
 You'll receive the infamous `HTTP ERROR: 500` page saying that
-`clojure.lang.Symbol` it can't be cast to `java.lang.Number`.
+`clojure.lang.Symbol` it can't be cast to `java.lang.Number`. This is
+a `java.lang.ClassCastException` as you can read from the warning
+reported at the terminal as well.
+
+```clj
+2015-12-05 10:49:28.421:WARN:oejs.HttpChannel:qtp540393068-80: /shopping
+java.lang.ClassCastException: clojure.lang.Symbol cannot be cast to java.lang.Number
+	at clojure.lang.Numbers.multiply(Numbers.java:148)
+	at modern_cljs.remotes$calculate.invoke(remotes.clj:6)
+...
+	at java.lang.Thread.run(Thread.java:745)
+```
 
 That's because the remote `calculate` function accepts only
-stringified numbers for its calculation.
+stringified numbers for its calculation and we're now passing to it a
+stringified symbol that can't be casted to a number.
 
 Now let's see what happens if we reactivate the JavaScript engine by
 unmarking the `Disable JavaScript` check-box from the Settings of the
-`Developer Tools`. Try again to type `foo` instead of a number in one of
-the form fields and click `Calculate` after having reloaded the [Shopping
-page](http://localhost:3000/shopping.html).
+`Developer Tools` and reload the
+[Shopping Form](http://localhost:3000/shopping.html) URL.
 
-![AjaxServerError][6]
+Try again to type `foo` instead of a number in one of the form fields
+and click `Calculate` after having reloaded the
+[Shopping page](http://localhost:3000/shopping.html).
 
 This time, due to the Ajax communication, even though the server
 returned the same 500 error code as before, the browser does not show
@@ -77,33 +90,39 @@ the `ERROR PAGE` stacktrace. The result is not as bad as before, but
 still unacceptable for a professional web page.
 
 Before we invest time and effort in unit testing, let's understand
-what the Shopping Form lacks? It needs input validation: both for the
-server and the client sides, as usual.
+what the Shopping Form lacks?
 
-## Server side validation
+It needs input validation: both for the server and the client sides,
+as usual.
+
+## Shopping Form validation
 
 We already used [Valip][7] lib by [Chas Emerick][8] in the
 [Tutorial-12 - Don't Repeat Yourself while crossing the border - ][9]
 to validate the `loginForm` fields, and we already know how to apply
 the same approach to the `shoppingForm` validation.
 
-As we did for the `loginForm`, we start from the server side
-validation.
+We already know from the above tutorial that we can share the
+validation rules between the server and the client sides by creating a
+portable CLJ/CLJS source file with the `.cljc` extension in the
+`src/cljc` source directory's structure.
 
-Create the directory `shopping` under the `src/clj/modern_cljs/`
+### validators.cljc
+
+Create the directory `shopping` under the `src/cljc/modern_cljs/`
 directory to reflect the project structure we already used for the
 `login` validation.
 
 ```bash
-mkdir src/clj/modern_cljs/shopping`
+mkdir src/cljc/modern_cljs/shopping
 ```
 
-In the `shopping` directory create the file `validators.clj` where we're
-going to define the `validate-shopping-form` function, which uses the
-`valip.core` and `valip.predicates` namespaces.
+In the `shopping` directory now create the file `validators.cljc`
+where we're going to define the `validate-shopping-form` function,
+which uses the `valip.core` and `valip.predicates` namespaces.
 
 ```bash
-touch src/clj/modern_cljs/shopping/validators.clj
+touch src/cljc/modern_cljs/shopping/validators.cljc
 ```
 
 To keep things simple, at first we will consider only very basic
@@ -113,7 +132,7 @@ validations:
 * the value of `quantity` has to be a positve integer
 * the values of `price`, `tax` and `discount` have to be numbers
 
-Following is the content of the newly created `validators.clj` file.
+Following is the content of the newly created `validators.cljc` file.
 
 ```clj
 (ns modern-cljs.shopping.validators
@@ -158,12 +177,13 @@ using the `validate` function from the `valip.core` namespace and a
 bunch of predicates that [Chas Emerick][8] was so kind to have defined
 for us in the `valip.predicates` namespace.
 
-As you remember `valip` is a portable lib. This means that we could
-use the `validate-shopping-form` function on the client-side too. But
-at the moment we just want test in on the server side.
+Considering that `valip` is a portable lib, we can immediatly test the
+`validate-shopping-form` function first in the CLJ REPL and then in
+the CLJS bREPL.
 
-You can immediatly test the `validate-shopping-form` function in the
-CLJ REPL by first starting it
+### The server side
+
+Let's start the CLJ REPL first:
 
 ```bash
 # in a new terminal
@@ -196,10 +216,56 @@ boot.user> (validate-shopping-form "-10" "0" "0" "")
 {:discount ["Discount can't be empty" "Discount has to be a number"], :quantity ["Quantity can't be negative"]} 
 ```
 
-The above REPL session for testing the `validate-shopping-form`
-function does not substitute for unit testing, because as soon as we
-stop the REPL all the tests are gone. If we need to repeat them (which
-we certainly will), they will have to be manually retyped.
+### The client side
+
+We now want to repeat the magic we already see at work in a previous
+tutorial dedicated to the `loginForm`.
+
+Start the CLJS bREPL from the the CLJ REPL as usual:
+
+```clj
+boot.user> (start-repl)
+<< started Weasel server on ws://127.0.0.1:49522 >>
+<< waiting for client to connect ... Connection is ws://localhost:49522
+Writing boot_cljs_repl.cljs...
+ connected! >>
+To quit, type: :cljs/quit
+nil
+cljs.user> 
+```
+
+and repeat the above manual test procedure:
+
+```clj
+cljs.user> (require '[modern-cljs.shopping.validators :refer [validate-shopping-form]])
+nil
+```
+
+```clj
+cljs.user> (validate-shopping-form "1" "0" "0" "0")
+nil
+```
+
+```clj
+cljs.user> (validate-shopping-form "-10" "0" "0" "0")
+{:quantity ["Quantity can't be negative"]}
+```
+
+```clj cljs.user> (validate-shopping-form "-10" "0" "0" "")
+{:discount ["Discount can't be empty" "Discount has to be a number"], :quantity
+["Quantity can't be negative"]}
+```
+
+WOW, the magic is working again. We have a single
+`validate-shopping-form` function which is able to be used without any
+modification on the server and on the client sides as well. Kudos to
+everyone who put this magic together.
+
+All the above REPL/bREPL sessions for testing the
+`validate-shopping-form` function on both sides of the `Shopping Form`
+do not substitute for unit testing, because as soon as we stop
+REPL/bREPL all the tests are gone. If we need to repeat them (which we
+certainly will), they will have to be manually retyped.
 
 ## Unit testing with clojure.test
 
