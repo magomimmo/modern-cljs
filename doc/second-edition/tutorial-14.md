@@ -3,41 +3,46 @@
 To adhere to the progressive enhancement strategy in the
 [latest tutorial][1] we introduced [Enlive][2] by
 [Christophe Grand][10] and used it to implement the server-side-only
-version of the Shopping Calculator. In doing that implementation,
-we were forced to refactor the code for two reasons:
+version of the Shopping Calculator. In doing that implementation, we
+were forced to refactor the code for two reasons:
 
 * to apply the [DRY principle][3]
 * to resolve a cyclic namespaces dependency problem we met on the way.
 
-We also defined a few utilies (i.e. `parse-number`, `parse-integer` and
-`parse-double`) to make the `calculate` function portable from CLJ to
-CLJS, even if, for now, it only lives in the server-side (i.e. CLJ).
+In this tutorial we're going to introduce *code testing*. 
 
-## Introduction
+## Preamble
 
-In this tutorial we're going to introduce *code testing*, but we first
-need to accomplish a few other things.
-
-## Review the Shopping Calculator
-
-We continue by reviewing the Shopping Calculator. You should do the
-following steps:
+To start working from the end of the previous tutorial, assuming
+you've git installed, do as follows
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
-git checkout tutorial-14 # to start from the tutorial-14 code
-git checkout -b tutorial-15-step-1 # to clone it in a new branch
+git checkout se-tutorial-13
 ```
 
-Then, assuming you've added the `:hooks [leiningen.cljsbuild]` to your
-`project.clj` as documented at the very end of the
-[previous tutorial][1], clean, compile and run the `modern-cljs`
-project as usual:
+## Introduction
+
+Before introducing *code testing* we first want to accomplish a few
+other things:
+
+* review the Shopping Form
+* break the Shopping Form
+* add server side validation
+
+## Start the IFDE
+
+As usual we first start the IFDE live environment
 
 ```bash
-lein do clean, compile, ring server-headless
+cd /path/to/modern-cljs
+boot dev
+...
+Elapsed time: 23.261 sec
 ```
+
+## Review the Shopping Form
 
 Now disable the JavaScript engine of your browser, visit the
 [shopping URI][4], and click the `Calculate` button. The `Total` field
@@ -48,42 +53,42 @@ server-side via the "/shopping" action associated to the
 
 ## Break the Shopping Calculator again and again
 
-Now open the Developer Tools and click its Network tab to visualize
-the network activites (I'm using Google Chrome), and enter an
-unexpected value in the form, for example the string "foo", as the
-value of the `Price per Unit` field. Finally, click the `Calculate`
-button.
+Now enter an unexpected value in the form, for example the `foo`, as
+the value of the `Price per Unit` field. Finally, click the
+`Calculate` button.
 
-![ServerNullPointer][5]
+You'll receive the infamous `HTTP ERROR: 500` page saying that
+`clojure.lang.Symbol` it can't be cast to `java.lang.Number`.
 
-You received a `java.lang.NullPonterException` and the Network
-activities panel shows the server returning the error 500 with a full
-Ring stacktrace.  That's because the remote `calculate` function
-accepts only stringified numbers for its calculation. Too bad.
+That's because the remote `calculate` function accepts only
+stringified numbers for its calculation.
 
 Now let's see what happens if we reactivate the JavaScript engine by
 unmarking the `Disable JavaScript` check-box from the Settings of the
-`Developer Tools`. Try again to type "foo" instead of a number in one of
-the form fields and click `Calculate` after having reloaded the Shopping
-page.
+`Developer Tools`. Try again to type `foo` instead of a number in one of
+the form fields and click `Calculate` after having reloaded the [Shopping
+page](http://localhost:3000/shopping.html).
 
 ![AjaxServerError][6]
 
-This time, due to the Ajax communication, even though the server returned
-the same 500 error code as before, the browser does not show the Ring
-stacktrace. The result is not as bad as before, but still unacceptable
-for a professional web page.
+This time, due to the Ajax communication, even though the server
+returned the same 500 error code as before, the browser does not show
+the `ERROR PAGE` stacktrace. The result is not as bad as before, but
+still unacceptable for a professional web page.
 
 Before we invest time and effort in unit testing, let's understand
-what the Shopping Calculator lacks? It needs input validation: both
-for the server and the client sides, as usual.
+what the Shopping Form lacks? It needs input validation: both for the
+server and the client sides, as usual.
 
 ## Server side validation
 
 We already used [Valip][7] lib by [Chas Emerick][8] in the
-[Tutorial-13 - Don't Repeat Yourself while crossing the border - ][9]
+[Tutorial-12 - Don't Repeat Yourself while crossing the border - ][9]
 to validate the `loginForm` fields, and we already know how to apply
 the same approach to the `shoppingForm` validation.
+
+As we did for the `loginForm`, we start from the server side
+validation.
 
 Create the directory `shopping` under the `src/clj/modern_cljs/`
 directory to reflect the project structure we already used for the
@@ -95,7 +100,11 @@ mkdir src/clj/modern_cljs/shopping`
 
 In the `shopping` directory create the file `validators.clj` where we're
 going to define the `validate-shopping-form` function, which uses the
-portable `valip.core` and `valip.predicates` namespaces.
+`valip.core` and `valip.predicates` namespaces.
+
+```bash
+touch src/clj/modern_cljs/shopping/validators.clj
+```
 
 To keep things simple, at first we will consider only very basic
 validations:
@@ -142,54 +151,49 @@ Following is the content of the newly created `validators.clj` file.
 
 > NOTE 1: At the moment we don't deal with any issues regarding
 > internationalization and we're hard-coding the text messages in the
-> source code. In a future tutorial we'll eventually take care of this
-> big issue.
+> source code.
 
 As you can see, we defined the `validate-shopping-form` function by
 using the `validate` function from the `valip.core` namespace and a
 bunch of predicates that [Chas Emerick][8] was so kind to have defined
 for us in the `valip.predicates` namespace.
 
-Both namespaces are portable to CLJS. This means that we could use
-the `validate-shopping-form` function on the client-side too, by just
-adding the `modern-cljs.shopping.validators` namespace in the
-`:crossovers` section of the `project.clj` file as follows.
-
-```clj
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  ...
-  :cljsbuild {:crossovers [valip.core valip.predicates
-                           modern-cljs.login.validators
-                           modern-cljs.shopping.validators]
-  ...
-  ...
-)
-```
+As you remember `valip` is a portable lib. This means that we could
+use the `validate-shopping-form` function on the client-side too. But
+at the moment we just want test in on the server side.
 
 You can immediatly test the `validate-shopping-form` function in the
-JVM REPL as follows:
+CLJ REPL by first starting it
+
+```bash
+# in a new terminal
+cd /path/to/modern-cljs
+boot repl -c
+...
+boot.user=> 
+```
+
+and then exercise the `validate-shopping-form` newly defined function
+as follows:
 
 ```clj
-lein repl
-nREPL server started on port 56283
-REPL-y 0.2.0
-Clojure 1.5.1
-    Docs: (doc function-name-here)
-          (find-doc "part-of-name-here")
-  Source: (source function-name-here)
- Javadoc: (javadoc java-object-or-class-here)
-    Exit: Control+D or (exit) or (quit)
+boot.user> (use 'modern-cljs.shopping.validators)
+nil
+```
 
-user=> (use 'modern-cljs.shopping.validators)
+```clj
+boot.user> (validate-shopping-form "1" "0" "0" "0")
 nil
-user=> (validate-shopping-form "1" "0" "0" "0")
-nil
-user=> (validate-shopping-form "-10" "0" "0" "0")
+```
+
+```clj
+boot.user> (validate-shopping-form "-10" "0" "0" "0")
 {:quantity ["Quantity can't be negative"]}
-user=> (validate-shopping-form "-10" "0" "0" "")
-{:quantity ["Quantity can't be negative"], :discount ["Discount can't be empty" "Discount has to be a number"]}
-user=>
+```
+
+```clj
+boot.user> (validate-shopping-form "-10" "0" "0" "")
+{:discount ["Discount can't be empty" "Discount has to be a number"], :quantity ["Quantity can't be negative"]} 
 ```
 
 The above REPL session for testing the `validate-shopping-form`
@@ -567,7 +571,7 @@ License, the same as Clojure.
 [6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/AjaxServerError.png
 [7]: https://github.com/cemerick/valip
 [8]: https://github.com/cemerick
-[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md
+[9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md
 [10]: https://github.com/cgrand
 [11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
 [12]: https://github.com/cemerick/clojurescript.test
