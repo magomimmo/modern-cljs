@@ -1,82 +1,27 @@
-# Tutorial 16 - Better Safe Than Sorry (Part 3)
+# Tutorial 15 - Better Safe Than Sorry (Part 3)
 
-> DEDICATION: I dedicate this tutorial to [Chas Emerick][3] for the
-> amazing stuff he's been able to do for all of us. Without his hard
-> work on a lot of CLJ/CLJS libs, I would have never been able to write
-> this series of tutorials. Thanks Chas!
+In the [previous tutorial][1] we introduced the CLJ/CLJS standard way
+to automate the unit testing of the `modern-cljs.shopping.validators`
+namespace. for reach that results we dynamically altered the `boot`
+runtime environment.
 
-In the [previous tutorial][1] we introduced the `clojure.test` lib to
-automate the testing of the `modern-cljs.shopping.validators`
-namespace. For now, that namespace lives only on the server-side of
-`modern-cljs` web app, but we have already arranged it to be able to
-run on the client-side too.
+In this tutorial we're going to freeze the needed changes in the
+`boot` building file while introducing two new tasks to manage unit
+testing.
+
+## Preamble
+
+To start working from the end of the previous tutorial, assuming
+you've git installed, do as follows
+
+```bash
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout se-tutorial-13
+```
 
 ## Introduction
 
-In this tutorial of the series we are going to make the complementary
-`modern-cljs.shopping.validators-test` namespace also be portable to
-the client side of the web app.
-
-> NOTE 1: this namespace contains tests of the
-> `modern-cljs.shopping.validators` namespace.
-
-## Repeating the DRY principle
-
-We insisted so many times on adhering to the DRY principle, that I'm
-pretty sure you remember we used the [portable version of the Valip][2]
-validation lib, because it allows us to share the same validation code
-on both sides of a web app.
-
-But what about the unit testing? The server-side test namespace
-(i.e. `modern-cljs.shopping.validators-test`) requires the
-`clojure.test` lib, which depends on the JVM, and cannot run on the
-client-side.
-
-As usual, if you search github for the [Chas Emerick][3] repositories
-you get a concrete answer to almost everything regarding CLJ/CLJS. He
-recently wrote the [clojurescript.test][4] testing lib with the goal
-of being a maximal port of `clojure.test` to CLJS.
-
-The motivation he gave in the [Why Paragraph][5] of the lib is the
-same we articulated for our `modern-cljs.shopping.validators`
-namespace.
-
-> I want to be able to write portable tests to go along with my
-> portable Clojure[Script], and clojure.test's model is Good Enough
-> (it's better than that, actually). Combine with something like cljx
-> or lein-cljsbuild's crossovers to make your ClojureScripting a whole
-> lot more pleasant.
-
-## Preparing the field to dance on the border again
-
-> NOTE 2: I suggest you to keep track of your work by issuing the
-> following commands at the terminal:
->
-> ```bash
-> git clone https://github.com/magomimmo/modern-cljs.git
-> cd modern-cljs
-> git checkout tutorial-15
-> git checkout -b tutorial-16-step-1
-> ```
-
-The first step, as usual, is to add the `clojurescript.test` lib to the
-`:plugins` section of the `project.clj` file.
-
-```clj
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  ....
-  :plugins [,,,
-            [com.cemerick/clojurescript.test "0.2.1"]]
-  ...
-  ...
-)
-```
-
-Chas Emerick even [explained][6] how to use the `clojurescript.test`
-lib within the `lein-cljsbuild` plugin. So, it seems we're in a good
-position to stride forward to satisfy my obsession with the DRY
-principle.
 
 ### Installing Phantoms
 
@@ -802,7 +747,7 @@ error messages when she/he types in invalid values in the form.
 Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
 License, the same as Clojure.
 
-[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-14.md
 [2]: https://github.com/cemerick/valip
 [3]: https://github.com/cemerick
 [4]: https://github.com/cemerick/clojurescript.test
@@ -822,5 +767,5 @@ License, the same as Clojure.
 [18]: https://github.com/emezeske/lein-cljsbuild
 [19]: https://github.com/technomancy/leiningen
 [20]: https://github.com/cgrand/enlive
-[21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
+[21]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
 [22]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-01.md
