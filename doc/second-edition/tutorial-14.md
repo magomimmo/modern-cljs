@@ -53,9 +53,9 @@ server-side via the "/shopping" action associated to the
 
 ## Break the Shopping Calculator again and again
 
-Now enter an unexpected value in the form, for example the `foo`, as
-the value of the `Price per Unit` field. Finally, click the
-`Calculate` button.
+Now enter an unexpected value in the form, for example `foo` as the
+value of the `Price per Unit` field. Finally, click the `Calculate`
+button.
 
 You'll receive the infamous `HTTP ERROR: 500` page saying that
 `clojure.lang.Symbol` can't be cast to `java.lang.Number`. This is a
@@ -181,9 +181,9 @@ using the `validate` function from the `valip.core` namespace and a
 bunch of predicates that [Chas Emerick][8] was so kind to have defined
 for us in the `valip.predicates` namespace.
 
-Considering that `valip` is a portable lib, we can immediatly test the
-`validate-shopping-form` function at both the CLJ REPL and then at the
-CLJS bREPL as well.
+Considering that `valip` is a portable lib, we can immediately test the
+`validate-shopping-form` function at the CLJ REPL and at the CLJS
+bREPL as well.
 
 ### The server side
 
@@ -270,7 +270,7 @@ WOW, the magic is working again. We defined a single
 modification on the server and on the client sides as well. Kudos to
 everyone who put this magic together.
 
-All the above REPL/bREPL sessions for manually testing the
+All the above REPL/bREPL sessions for testing the
 `validate-shopping-form` function on both sides of the `Shopping Form`
 do not substitute for unit testing, because as soon as we stop
 REPL/bREPL all the tests are gone. If we need to repeat them (which we
@@ -305,17 +305,13 @@ the CLJ/JVM platform from the CLJS/JSVM one.
 
 For that case we introduced the use of the `#?` reader literal. It
 allowed us to make the `email-domain-errors` validator available on
-the CLJ/JVM platform only, even when writing portable code in a `cljc`
+the CLJ/JVM platform only while writing portable code in a `cljc`
 source file.
 
 To write a portable testing namespace for the portable
 `modern-cljs.shopping.validators` namespace we created above, we have
 to use the same `#?` trick to differentiate the different testing
 namespace declarations used by CLJ and CLJS.
-
-Before to start writing any portable unit test, stop any `boot`
-related process because in a while we are going to alter the
-`build.boot` file.
 
 ## Mirroring the project structure
 
@@ -356,7 +352,7 @@ touch test/cljc/modern_cljs/shopping/validators_test.cljc
 > anything about the `test` directory structure in which the newly
 > created file lives.
 
-You'll end in the following test structure
+You'll end up the following test structure
 
 ```bash
 test
@@ -368,7 +364,7 @@ test
 
 ### Start testing at the borders
 
-The reason why we choose to start testing from the
+The reason why we chose to start testing from the
 `modern-cljs.shopping.validators` namespace is because it sits at the
 interface of our application to the external world; be it a user to be
 notified about her/his mistyped input, or an attacker trying to
@@ -422,7 +418,7 @@ expression. The code `(is (= nil (validate-shopping-form "1" "0" "0"
 "0")))` is saying that the acutal evaluation of the
 `(validate-shopping-form "1" "0" "0" "0")` form is expected to be equal
 to `nil` because all the input are valid. At the moment, we're just
-testing the working path.
+testing the happy path.
 
 ### On getting less bored
 
@@ -541,22 +537,24 @@ boot.core/set-env!
 nil
 ```
 
-As you see we are in last case. The value we passed for the
-`:source-paths` key is an anonymous function conjoining the
-`"test/cljc"` source dire to the previous value represented by the `%`
-symbol.
+As you see we hit last case. The value we passed for the
+`:source-paths` key is an anonymous function conjoining the
+`"test/cljc"` source directory to the previous value represented by
+the `%` symbol.
 
 This way you are dynamically adding the `test/cljc` directory to the
-`:source-paths` environment variable of `boot`. This means that now
+`:source-paths` environment variable of `boot`. It means that now
 `boot` knows about the `modern-cljs.shopping.validator-test` namespace
 we declared above.
 
 ## Light the fire on the server side
 
-While we're in the CLJ REPL, we can require the `clojure.test` namespace
+While we're in the CLJ REPL, we can require the `clojure.test` and the
+`modern-cljs.shopping.validators-test` namespace
 
 ```clj
-boot.user> (require '[clojure.test :as t])
+boot.user> (require '[clojure.test :as t]
+                    '[modern-cljs.shopping.validators-test])
 nil
 ```
 
@@ -729,7 +727,109 @@ Ran 1 tests containing 13 assertions.
 As you now have one test running 13 assertions and all of them
 succeeded.
 
-At the moment we're happy with what we reached. Now stop any `boot`
+## Light the fire on the client side
+
+We used a portable validation lib (i.e. `valip`). We implemented
+portable validation rules (i.e. `validators.cljc`). We wrote a
+portable unit tests file and finally we even ran those tests on the
+server side. All of that without stopping the running IFDE.
+
+The minimum we can now ask for is to run the same unit
+tests on the client side as well.
+
+But you'll met a problem. Once you stop a CLJS bREPL
+(i.e. `:cljs/quit`) started on top of a CLJ REPL, if you try to
+restart the bREPL, it hangs forever.
+
+> NOTE 8: if you use a smart nrepl editor able to create more
+> nrepl-client connections with the nrepl-server created by `boot`, this
+> problem will not affect you.
+
+This seems to be a bug of the `boot-cljs-repl` task. One way you have
+to solve this problem is to stop the CLJ REPL, stop the IFDE and
+restart all the stuff again
+
+```clj
+cd /path/to/modern-cljs
+boot dev
+...
+Elapsed time: 24.569 sec
+```
+
+visit the [Shopping URL](http://localhost:3000/shopping.html) and run
+the CLJ REPL
+
+```bash
+# from another terminal
+cd /path/to/modern-cljs
+boot repl -c
+...
+boot.user=>
+```
+
+Do you remember that we altered the `:source-paths` key by adding the
+newly created `test/cljc` test directory? Do that again.
+
+```clj
+boot.user> (set-env! :source-paths #(conj % "test/cljc"))
+nil
+```
+
+We can now start the CLJS bREPL on top of the CLJ REPL again
+
+```clj
+boot.user> (start-repl)
+<< started Weasel server on ws://127.0.0.1:53672 >>
+<< waiting for client to connect ... Connection is ws://localhost:53672
+Writing boot_cljs_repl.cljs...
+ connected! >>
+To quit, type: :cljs/quit
+nil
+```
+
+## Require the needed namespaces
+
+It's now time to see the magic at work one more time.
+
+First require the `cljs.test` namespace
+
+```clj
+cljs.user> (require '[cljs.test :as t :refer-macros [run-tests]])
+nil
+```
+
+As you see we had to use the `:refer-macros` option keyword to include
+the macros.
+
+Then we have to require `modern-cljs.shopping.validators-test`
+namespace containing the assertions of the associated with the
+`validate-shopping-form-test` unit test
+
+```clj
+cljs.user> (require '[modern-cljs.shopping.validators-test :as v])
+nil
+```
+
+Are you ready for the country? Evaluate the following expression:
+
+```clj
+cljs.user> (t/run-tests 'modern-cljs.shopping.validators-test)
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+nil
+cljs.user> (run-tests 'modern-cljs.shopping.validators-test)
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+nil
+```
+
+Boom. For this tutorial we're done. Stop any `boot`
 related process and reset you repository
 
 ```bash
@@ -741,8 +841,7 @@ Stay tuned!
 # Next step - [Turorial 15: It's better to be safe than sorry (Part 3)][11]
 
 In the [next Tutorial][11] of the series we're going to make some
-housekeeping before to run the same unit tests on the client-side as
-well.
+housekeeping with `boot`.
 
 # License
 
