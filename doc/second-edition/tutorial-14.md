@@ -741,9 +741,9 @@ But you'll met a problem. Once you stop a CLJS bREPL
 (i.e. `:cljs/quit`) started on top of a CLJ REPL, if you try to
 restart the bREPL, it hangs forever.
 
-> NOTE 8: if you use a smart nrepl editor able to create more
-> nrepl-client connections with the nrepl-server created by `boot`, this
-> problem will not affect you.
+> NOTE 8: if you use a smart nrepl compliant editor able to create
+> more nrepl-client connections with the nrepl-server created by
+> `boot`, this problem will not affect you.
 
 This seems to be a bug of the `boot-cljs-repl` task. One way you have
 to solve this problem is to stop the CLJ REPL, stop the IFDE and
@@ -802,7 +802,7 @@ As you see we had to use the `:refer-macros` option keyword to include
 the macros.
 
 Then we have to require `modern-cljs.shopping.validators-test`
-namespace containing the assertions of the associated with the
+namespace containing the assertions associated with the
 `validate-shopping-form-test` unit test
 
 ```clj
@@ -829,8 +829,8 @@ Ran 1 tests containing 13 assertions.
 nil
 ```
 
-Boom. For this tutorial we're done. Stop any `boot`
-related process and reset you repository
+Boom. For this tutorial we're done. Stop any `boot` related process
+and reset the repository
 
 ```bash
 git reset --hard
