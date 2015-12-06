@@ -259,7 +259,8 @@ cljs.user> (validate-shopping-form "-10" "0" "0" "0")
 {:quantity ["Quantity can't be negative"]}
 ```
 
-```clj cljs.user> (validate-shopping-form "-10" "0" "0" "")
+```clj
+cljs.user> (validate-shopping-form "-10" "0" "0" "")
 {:discount ["Discount can't be empty" "Discount has to be a number"], :quantity
 ["Quantity can't be negative"]}
 ```
