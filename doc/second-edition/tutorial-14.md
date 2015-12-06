@@ -125,6 +125,10 @@ which uses the `valip.core` and `valip.predicates` namespaces.
 touch src/cljc/modern_cljs/shopping/validators.cljc
 ```
 
+> NOTE 1: you'll get a `java.lang.AssertionError` because there is no an
+> `ns` form in the newly created file. Don't worry. As soon as you'll
+> save the edited file the error will disappear.
+
 To keep things simple, at first we will consider only very basic
 validations:
 
@@ -168,7 +172,7 @@ Following is the content of the newly created `validators.cljc` file.
             ))
 ```
 
-> NOTE 1: At the moment we don't deal with any issues regarding
+> NOTE 2: At the moment we don't deal with any issues regarding
 > internationalization and we're hard-coding the text messages in the
 > source code.
 
@@ -237,13 +241,13 @@ cljs.user>
 and repeat the above manual test procedure:
 
 ```clj
-cljs.user> (use '[modern-cljs.shopping.validators :only [validate-shopping-form]])
+cljs.user> (require '[modern-cljs.shopping.validators :refer [validate-shopping-form]])
 nil
 ```
 
 > NOTE 2: as you already know, one of the biggest
 > [differences](https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure#namespaces)
-> between CLJ and CLJS regards namespaces.
+> between CLJ and CLJS regards namespaces. 
 
 ```clj
 cljs.user> (validate-shopping-form "1" "0" "0" "0")
@@ -265,7 +269,7 @@ WOW, the magic is working again. We defined a single
 modification on the server and on the client sides as well. Kudos to
 everyone who put this magic together.
 
-All the above REPL/bREPL sessions for testing the
+All the above REPL/bREPL sessions for manually testing the
 `validate-shopping-form` function on both sides of the `Shopping Form`
 do not substitute for unit testing, because as soon as we stop
 REPL/bREPL all the tests are gone. If we need to repeat them (which we
@@ -280,77 +284,91 @@ of us.
 Fortunately, both CLJ and CLJS have to offer a solution for reducing
 the above boring activities. Unfortunately, unit testing on CLJ/JVM is
 not exactly as unit testing on CLJS/JSVM. The two platforms are
-different from one another and they consequently require different
-namespaces:
-
-* `clojure.test` namespace for CLJ
-* `cljs.test` namespace for CLJS
+different from one another and they require different namespaces:
+`clojure.test` namespace for CLJ and `cljs.test` namespace for CLJS.
 
 The `clojure.test` namespace has been implemented well before the
 corresponding `cljs.test` namespace and the latter, through a detailed
 porting on the JSVM preserved most of the functionalities provided by
-the former. So we are still in good position when you want write unit
-tests which are applicable to a portable CLJ/CLJS namespace.
+the former. So we are still in good position for writing unit tests
+that are applicable to a portable CLJ/CLJS namespace.
 
 That said, most of the `cljs.test` functionalities are provided as
 macros, which means that you need the special CLJS `:require-macros`
 option in the requirement declaration of a testing namespace, while
 you do no need it in the corresponding CLJ namespace declaration.
 
-We already met a case in which, while writing the portable
-`modern-cljs.login.validators` namespace, we needed two differentiate
-the CLJ/JVM from the CLJS/JSVM platform.
+We already met a case like that. Indeed, while writing the portable
+`modern-cljs.login.validators` namespace, we needed to differentiate
+the CLJ/JVM platform from the CLJS/JSVM one.
 
-For that case we introduced the use of the `#?` reader literal to be
-able to make the `email-domain-errors` validator available on the
-CLJ/JVM platform only, even when writing portable code in a `cljc`
+For that case we introduced the use of the `#?` reader literal. It
+allowed us to make the `email-domain-errors` validator available on
+the CLJ/JVM platform only, even when writing portable code in a `cljc`
 source file.
 
-If we want to write a portable testing namespace for the portable
+To write a portable testing namespace for the portable
 `modern-cljs.shopping.validators` namespace we created above, we have
 to use the same `#?` trick to differentiate the different testing
 namespace declarations used by CLJ and CLJS.
 
-<ut to here>
+Before to start writing any portable unit test, stop any `boot`
+related process because in a while we are going to alter the
+`build.boot` file.
 
-So, let's introduce the `clojure.test` and `cljs.test` to automate at
-least the need to retype the same tests anytime we change something in
-the `validate-shopping-form`.
+## Mirroring the project structure
 
-### Mirroring the project structure
+When creating unit tests, we want to host them in a different path
+from the application source files. Generally speaking you want to
+mimic in a test directory structure the same layout you created for
+the application source files.
 
-First, we need to prepare the structure of the `test` directory to
-reflect the corresponding layout of the project `src` directory.
+Under the `src` main directory we currently have three subdirectories,
+one for each source file extension: `clj`, `cljs` and `cljc`.
 
-Replicate the `src` directory structure into the `test` directory and
-remove the original `modern_cljs` directory created by the `lein new
-modern-cljs` command at the very beginning of the `modern-cljs` series
-of tutorials.
+At the moment we'll mimic the same structure for the `cljc` directory
+only
 
 ```bash
-mkdir -p test/{clj,cljs}/modern_cljs
-mkdir -p test/clj/modern_cljs/shopping
-rm -rf test/modern_cljs
+mkdir -p test/cljc/modern_cljs/shopping
 ```
 
-You'll end in the following file structure,
+because we're going to create the unit tests for the
+`modern-cljs.shopping.validators` namespace only.
+
+> NOTE 3: even if you do not need to mimic the source directory layout
+> in a corresponding test directory layout, by doing it the project
+> structure will be more readable.
+
+We now need to create the unit test file for the
+`modern-cljs.shopping.validators` namespace. You could name this file
+as you like, but I like to give it a name resembling the name of the
+file defining the source namespace (i.e. `validators`) and remembering
+me I'm taking care of its unit tests.
 
 ```bash
-tree test/
-test/
-├── clj
-│   └── modern_cljs
-│       └── shopping
-└── cljs
+touch test/cljc/modern_cljs/shopping/validators_test.cljc
+```
+
+> NOTE 4: this time you'll not receive any error regarding the file not
+> containing an `ns` form. This is because `boot` still does not know
+> anything about the `test` directory structure in which the newly
+> created file lives.
+
+You'll end in the following test structure
+
+```bash
+test
+└── cljc
     └── modern_cljs
+        └── shopping
+            └── validators_test.cljc
 ```
 
 ### Start testing at the borders
 
-Note that we have created the `shopping` directory where we're going
-to add our first unit test: the one aimed at testing the
-`modern-cljs.shopping.validators` namespace. The reason why we choose
-this namespace to introduce unit testing is because it sits at the
+The reason why we choose to start testing from the
+`modern-cljs.shopping.validators` namespace is because it sits at the
 interface of our application to the external world; be it a user to be
 notified about her/his mistyped input, or an attacker trying to
 leverage any useful information by breaking the Shopping Calculator.
@@ -365,16 +383,8 @@ the symbol itself.
 ### The first unit test
 
 At the moment the `modern-cljs.shopping.validators` namespace contains
-only the `validate-shopping-form` function, which is then the one
-we're going to unit test.
-
-Create the `validators_test.clj` file in the
-`test/clj/modern_cljs/shopping` directory. We could name this file as
-we want, but I prefer to adhere to some naming convention to
-simplifying the writing and the reading of the tests. When I write a
-file for testing a namespace (e.g. `validators`), I name it by
-appending `_test` (e.g. `validators_test.clj`) to the file name of the
-namespace to be tested (e.g. `validators.clj`).
+only the `validate-shopping-form` function, which is the one we're
+going to unit test.
 
 Following is the initial unit test code that mimics the short REPL
 testing session we did previously with the
@@ -382,8 +392,9 @@ testing session we did previously with the
 
 ```clj
 (ns modern-cljs.shopping.validators-test
-  (:require [clojure.test :refer [deftest is]]
-            [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
+  (:require [modern-cljs.shopping.validators :refer [validate-shopping-form]]
+            #?(:clj [clojure.test :refer [deftest is]]
+               :cljs [cljs.test :refer-macros [deftest is]])))
 
 (deftest validate-shopping-form-test
   (is (= nil (validate-shopping-form "1" "0" "0" "0")))
@@ -391,17 +402,19 @@ testing session we did previously with the
   (is (= nil (validate-shopping-form "100" "100.25" "8.25" "123.45"))))
 ```
 
-We started very simple. First in the
-`modern-cljs.shopping.validator-test` namespace declaration we
-required the `clojure.test` and the `modern-cljs.shopping.validators`
-namespaces.
+> NOTE 5: we made the `modern-cljs.shopping.validators-test` namespace
+> compatible with both CLJ and CLJS by using the `#?` reader
+> literal. Depending on the available feature at runtime, `:clj` of
+> `:cljs`, the reader will get the right namespace to be required in the
+> `ns` declaration.
 
-Then, by using the `deftest` and the `is` macros, we defined our first
-unit test named `validate-shopping-form-test`. As before, even if we
-are free to name anything as we want, I prefer to adopt some
-conventions for facilitating unit test writing and reading. If I want
-to test a function named `my-function`, I name the test
-`my-function-test`.
+We started very simple.
+
+By using the `deftest` and the `is` macros, we defined our first unit
+test named `validate-shopping-form-test`. As before, even if we are
+free to name anything as we want, I prefer to adopt some conventions
+for facilitating unit test writing and reading. If I want to test a
+function named `my-function`, I name the test `my-function-test`.
 
 The `is` macro allows to make assertions of any arbitrary
 expression. The code `(is (= nil (validate-shopping-form "1" "0" "0"
@@ -413,14 +426,15 @@ testing the working path.
 ### On getting less bored
 
 You'll get bored very quickly in typing `is` forms. That's way
-`clojure.test` includes the `are` macro which allows the programmer to
-save some typing. The above group of `is` forms can be reduced to the
-following equivalent `are` form:
+`clojure.test` and `cljs.test` include the `are` macro which allows
+the programmer to save some typing. The above group of `is` forms can
+be reduced to the following equivalent `are` form:
 
 ```clj
 (ns modern-cljs.shopping.validators-test
-  (:require [clojure.test :refer [deftest are]]
-            [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
+  (:require [modern-cljs.shopping.validators :refer [validate-shopping-form]]
+            #?(:clj [clojure.test :refer [deftest are]]
+               :cljs [cljs.test :refer-macros [deftest are]])))
 
 (deftest validate-shopping-form-test
   (are [expected actual] (= expected actual)
@@ -428,6 +442,9 @@ following equivalent `are` form:
        nil (validate-shopping-form "1" "0.0" "0.0" "0.0")
        nil (validate-shopping-form "100" "100.25" "8.25" "123.45")))
 ```
+
+> NOTE 6: don't forget to substitute `is` with `are` in the
+> `:refer`/`:refer-macros` sections of the requirements.
 
 In the above example, each `nil` value represents an expected value,
 while the evaluation of each `(validate-shopping-form ...)` call
@@ -443,8 +460,9 @@ number of `is/are` assertions.
 
 ```clj
 (ns modern-cljs.shopping.validators-test
-  (:require [clojure.test :refer [deftest are testing]]
-            [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
+  (:require [modern-cljs.shopping.validators :refer [validate-shopping-form]]
+            #?(:clj [clojure.test :refer [deftest are testing]]
+               :cljs [cljs.test :refer-macros [deftest are testing]])))
 
 (deftest validate-shopping-form-test
   (testing "Shopping Form Validation"
@@ -453,6 +471,9 @@ number of `is/are` assertions.
          nil (validate-shopping-form "1" "0.0" "0.0" "0.0")
          nil (validate-shopping-form "100" "100.25" "8.25" "123.45"))))
 ```
+
+> NOTE 7: again, don't forget to add the `testing` symbol in the
+> `:refer`/`:refer-macros` sections of the requirements.
 
 The string "Shopping Form Validation" will be included in failure
 reports. Calls to `testing` macros may be nested too to allow better
@@ -468,70 +489,90 @@ reporting of failure reports.
            nil (validate-shopping-form "100" "100.25" "8.25" "123.45")))))
 ```
 
-### Running the test
+## Running the test
 
-The easiest way to run the newly-defined tests for the
-`modern-cljs.shopping.validators` namespace is to use the `test` task
-of leiningen
+To run the newly defined unit test for the
+`modern-cljs.shopping.validators` namespace we have more options. The
+one we're going to use right now does not require to kill the running
+`boot` process even if we're going to alter the `boot` environment
+established by the `build.boot` file when we started IFDE with the
+`boot dev` command.
 
-```bash
-lein test
-Exception in thread "main" java.io.FileNotFoundException: Could not locate modern_cljs/shopping/validators_test__init.class or modern_cljs/shopping/validators_test.clj on classpath:
-...
-...
-Tests failed.
-```
+This is the first time in the series that we do no stop `boot` to
+alter its runtime environment. Sometimes it could be useful,
+especially when you're experimenting something new and this is our
+case.
 
-As you can see, the `lein test` command failed because was not able to
-find the `validators_test.clj` file in the project `classpath`. To fix
-this problem we have to add a `:test-paths` section into the
-`project.clj` to reflect the file structure for unit testing we defined
-above.
+### Dynamically alter the boot environment
+
+In the previous paragraphs we created the
+`test/cljc/modern_cljs/shopping` directory. Then we created the
+`validators_test.cljc` source file for unit testing the
+`modern-cljs.shopping.validators` namespace. At the moment `boot` does
+not know anything about this new source file, because the
+`:source-paths` environment variable of the `build.boot` building file
+has been set to `#{"src/clj" "src/cljs" "src/cljc"}`.
+
+There is a pretty easy way to add a new directory to
+`:source-paths`. Stop the CLJS bREPL session (i.e. `:cljs/quit`) you
+previously ran on top of the CLJ REPL session. You should now see the
+CLJ REPL `boot.user=>` prompt. Now evaluate the following expression
+at the REPL prompt:
 
 ```clj
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  ...
-  :test-paths ["test/clj"]
-  ...
-  ...
-)
+boot.user> (set-env! :source-paths #(conj % "test/cljc"))
+nil
 ```
 
-Now run again the test and everything should work nicely.
+If you're curious about the `set-env!` function, you can ask for its docstring
 
-```bash
-lein test
-Compiling ClojureScript.
+```clj
+boot.user> (doc set-env!)
+-------------------------
+boot.core/set-env!
+([& kvs])
+  Update the boot environment atom `this` with the given key-value pairs given
+  in `kvs`. See also `post-env!` and `pre-env!`. The values in the env map must
+  be both printable by the Clojure printer and readable by its reader. If the
+  value for a key is a function, that function will be applied to the current
+  value of that key and the result will become the new value (similar to how
+  clojure.core/update-in works.
+nil
+```
 
-lein test modern-cljs.shopping.validators-test
+As you see we are in last case. The value we passed for the
+`:source-paths` key is an anonymous function conjoining the
+`"test/cljc"` source dire to the previous value represented by the `%`
+symbol.
+
+This way you are dynamically adding the `test/cljc` directory to the
+`:source-paths` environment variable of `boot`. This means that now
+`boot` knows about the `modern-cljs.shopping.validator-test` namespace
+we declared above.
+
+## Light the fire on the server side
+
+While we're in the CLJ REPL, we can require the `clojure.test` namespace
+
+```clj
+boot.user> (require '[clojure.test :as t])
+nil
+```
+
+and then run the server-side unit tests for the shopping's fields
+validation as follows:
+
+```clj
+boot.user> (t/run-tests 'modern-cljs.shopping.validators-test)
+
+Testing modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 3 assertions.
 0 failures, 0 errors.
-Could not locate test command .
+{:test 1, :pass 3, :fail 0, :error 0, :type :summary}
 ```
 
-> NOTE 2: By having hooked the `cljsbuild` tasks to `lein` task with the
-> `:hooks` configuration option, when you run the `lein test` command
-> you will receive a `Could not locate test command .` message. This is
-> because at the moment there are no unit tests defined for CLJS in the
-> `test/cljs` path.
-
-By  default, the `lein test` command executes all the defined tests (at
-the moment just one test containing 3 assertions). If you want to run
-a specific test you have to pass its namespace to the `lein test`
-command as follows:
-
-```bash
-lein test modern-cljs.shopping.validators-test
-Compiling ClojureScript.
-
-lein test modern-cljs.shopping.validators-test
-
-Ran 1 tests containing 3 assertions.
-0 failures, 0 errors.
-Could not locate test command .
-```
+So far, so good.
 
 ### Break the test
 
@@ -548,39 +589,59 @@ an assertion to produce a failure.
            nil (validate-shopping-form "100" "100.25" "8.25" "123.45")))))
 ```
 
-Now run the `lein test` command again, and take a look at the failure
-report produced by the `calojure.test` framework.
+Now re-evaluate the above the above `run-tests` expression
 
-```bash
-lein test
+```clj
+boot.user> (t/run-tests 'modern-cljs.shopping.validators-test)
 
-lein test modern-cljs.shopping.validators-test
+Testing modern-cljs.shopping.validators-test
 
-lein test :only modern-cljs.shopping.validators-test/validate-shopping-form-test
+Ran 1 tests containing 3 assertions.
+0 failures, 0 errors.
+{:test 1, :pass 3, :fail 0, :error 0, :type :summary}
+```
 
-FAIL in (validate-shopping-form-test) (validators_test.clj:8)
-Shopping Form Validation / Happy Path
+Oops, nothing new happens. The unit test succeeded again. The problem
+is that even if the `validate-shopping-form-test` function got
+redefined and recompiled, `cojure.test` still knows about the old
+definition. To obtain the expected effect we have to explicitly reload
+the `modern-cljs.shopping.validators-test` namespace and re-run
+`run-tests`.
+
+```clj
+boot.user> (require '[modern-cljs.shopping.validators-test] :reload)
+nil
+boot.user> (t/run-tests 'modern-cljs.shopping.validators-test)
+
+Testing modern-cljs.shopping.validators-test
+
+FAIL in (validate-shopping-form-test) (validators_test.cljc:8)
+Shopping Form Validation
 expected: (= nil (validate-shopping-form "" "0" "0" "0"))
-  actual: (not (= nil {:quantity ["Quantity can't be empty" "Quantity has to be an integer number" "Quantity has to be positive"]}))
+  actual: (not (= nil {:quantity ["Quantity can't be empty" "Quantity has to be an integer number" "Quantity can't be negative"]}))
 
 Ran 1 tests containing 3 assertions.
 1 failures, 0 errors.
-Tests failed.
-Could not locate test command .
+{:test 1, :pass 2, :fail 1, :error 0, :type :summary}
 ```
 
-The failure report says that on the line 8 of `validators_test` source
-file there is a failed assertion because the actual value of the
-`(validate-shopping-form "" "0" "0" "0")` call is not equal to
-`nil`. Indeed, the actual value of this `validate-shop-form` call is
-equal to the `{:quantity [...]}` map.
+Now we talk. Even if the failure report does require a bit of
+interpretation at first, after a while you can grasp it quicker.
 
-The failure report does require a bit of interpretation at first, but
-after a while you can grasp it quicker.
+Now revert the above test to the good form, reload its namespace and
+rerun `run-tests to got back to the right test result.
 
-Now correct the failed assertion by rolling back to the previous version.
-Rerun the `lein test` command from the terminal to verify that all
-the assertions succeed.
+```clj
+boot.user> (require '[modern-cljs.shopping.validators-test] :reload)
+nil
+boot.user> (t/run-tests 'modern-cljs.shopping.validators-test)
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 3 assertions.
+0 failures, 0 errors.
+{:test 1, :pass 3, :fail 0, :error 0, :type :summary}
+```
 
 ### Do not cover only the working path
 
@@ -590,10 +651,6 @@ cover also the *alternative/exception paths*. Let's add few of them in
 our first test.
 
 ```clj
-(ns modern-cljs.shopping.validators-test
-  (:require [clojure.test :refer [deftest are testing]]
-            [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
-
 (deftest validate-shopping-form-test
   (testing "Shopping Form Validation"
     (testing "/ Happy Path"
@@ -650,21 +707,41 @@ Even if we could add more assertions, at the moment the coverage for
 the `modern-cljs.shopping.validators` namespace is enough to grasp the
 idea of the `clojure.test` mechanics.
 
-If you decided to keep track of steps, issue the following `git`
-command at the terminal.
+To run above unit tests do as before. First reload the namespace
+containing the test, then run the tests:
+
+```clj
+boot.user> (require '[modern-cljs.shopping.validators-test] :reload)
+nil
+```
+
+```clj
+boot.user> (t/run-tests 'modern-cljs.shopping.validators-test)
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+{:test 1, :pass 13, :fail 0, :error 0, :type :summary}
+```
+
+As you now have one test running 13 assertions and all of them
+succeeded.
+
+At the moment we're happy with what we reached. Now stop any `boot`
+related process and reset you repository
 
 ```bash
-git commit -am "Step 1"
+git reset --hard
 ```
 
 Stay tuned!
 
 # Next step - [Turorial 15: It's better to be safe than sorry (Part 3)][11]
 
-In the [next Tutorial][11] of the series we're going to make the
-`modern-cljs.shopping.validators-test` runnable from CLJS too.  To
-reach this objective, we'll introduce the [clojurescript.test][12] lib
-by [Chas Emerick][8] and the [cljx][13] lein plugin by [Kevin Lynagh][14].
+In the [next Tutorial][11] of the series we're going to make some
+housekeeping before to run the same unit tests on the client-side as
+well.
 
 # License
 
