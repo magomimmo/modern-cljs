@@ -102,10 +102,11 @@ We already used [Valip][7] lib by [Chas Emerick][8] in the
 to validate the `loginForm` fields, and we already know how to apply
 the same approach to the `shoppingForm` validation.
 
-We know from the above tutorial that we can share the validation rules
-between the server and the client sides by creating a portable
-CLJ/CLJS source file with the `.cljc` extension in the `src/cljc`
-source directory's structure.
+We know from the above tutorial that we can
+[share](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md#crossing-the-border)
+the validation rules between the server and the client sides by
+creating a portable CLJ/CLJS source file with the `.cljc` extension in
+the `src/cljc` source directory's structure.
 
 ### validators.cljc
 
@@ -628,7 +629,7 @@ Now we talk. Even if the failure report does require a bit of
 interpretation at first, after a while you can grasp it quicker.
 
 Now revert the above test to the good form, reload its namespace and
-rerun `run-tests to got back to the right test result.
+rerun `run-tests` to got back to the right test result.
 
 ```clj
 boot.user> (require '[modern-cljs.shopping.validators-test] :reload)
@@ -794,11 +795,11 @@ It's now time to see the magic at work one more time.
 First require the `cljs.test` namespace
 
 ```clj
-cljs.user> (require '[cljs.test :as t :refer-macros [run-tests]])
+cljs.user> (require '[cljs.test :as t :include-macros true])
 nil
 ```
 
-As you see we had to use the `:refer-macros` option keyword to include
+As you see we had to use the `:include-macros` option keyword to include
 the macros.
 
 Then we have to require `modern-cljs.shopping.validators-test`
@@ -814,13 +815,6 @@ Are you ready for the country? Evaluate the following expression:
 
 ```clj
 cljs.user> (t/run-tests 'modern-cljs.shopping.validators-test)
-
-Testing modern-cljs.shopping.validators-test
-
-Ran 1 tests containing 13 assertions.
-0 failures, 0 errors.
-nil
-cljs.user> (run-tests 'modern-cljs.shopping.validators-test)
 
 Testing modern-cljs.shopping.validators-test
 
