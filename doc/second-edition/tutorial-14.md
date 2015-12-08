@@ -188,7 +188,7 @@ bREPL as well.
 
 ### The server side
 
-Let's start the CLJ REPL first:
+Let's start from the server side
 
 ```bash
 # in a new terminal
@@ -198,8 +198,8 @@ boot repl -c
 boot.user=> 
 ```
 
-and then exercise the newly defined `validate-shopping-form` function
-as follows:
+Now exercise the newly defined `validate-shopping-form` function as
+follows:
 
 ```clj
 boot.user> (use 'modern-cljs.shopping.validators)
@@ -221,61 +221,12 @@ boot.user> (validate-shopping-form "-10" "0" "0" "")
 {:discount ["Discount can't be empty" "Discount has to be a number"], :quantity ["Quantity can't be negative"]} 
 ```
 
-### The magic again
-
-We now want to repeat the magic we already saw at work in a previous
-tutorial dedicated to the `loginForm`.
-
-Start the CLJS bREPL from the the CLJ REPL as usual:
-
-```clj
-boot.user> (start-repl)
-<< started Weasel server on ws://127.0.0.1:49522 >>
-<< waiting for client to connect ... Connection is ws://localhost:49522
-Writing boot_cljs_repl.cljs...
- connected! >>
-To quit, type: :cljs/quit
-nil
-cljs.user> 
-```
-
-and repeat the above manual test procedure:
-
-```clj
-cljs.user> (require '[modern-cljs.shopping.validators :refer [validate-shopping-form]])
-nil
-```
-
-> NOTE 2: as you already know, one of the biggest
-> [differences](https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure#namespaces)
-> between CLJ and CLJS regards namespaces. 
-
-```clj
-cljs.user> (validate-shopping-form "1" "0" "0" "0")
-nil
-```
-
-```clj
-cljs.user> (validate-shopping-form "-10" "0" "0" "0")
-{:quantity ["Quantity can't be negative"]}
-```
-
-```clj
-cljs.user> (validate-shopping-form "-10" "0" "0" "")
-{:discount ["Discount can't be empty" "Discount has to be a number"], :quantity
-["Quantity can't be negative"]}
-```
-
-WOW, the magic is working again. We defined a single
-`validate-shopping-form` function which is able to be used without any
-modification on the server and on the client sides as well. Kudos to
-everyone who put this magic together.
-
-All the above REPL/bREPL sessions for testing the
-`validate-shopping-form` function on both sides of the `Shopping Form`
-do not substitute for unit testing, because as soon as we stop
-REPL/bREPL all the tests are gone. If we need to repeat them (which we
-certainly will), they will have to be manually retyped.
+The above REPL session for testing the `validate-shopping-form`
+function of the `Shopping Form` do not substitute for unit testing,
+because as soon as we stop REPL all the tests are gone. Moreover,
+considering that the above `validate-shopping-form` validator is
+portable on CLJS as well, you'll need to manually repeat them on the
+client-side as well. 
 
 ## Unit testing
 
@@ -291,9 +242,10 @@ different from one another and they require different namespaces:
 
 The `clojure.test` namespace has been implemented well before the
 corresponding `cljs.test` namespace and the latter, through a detailed
-porting on the JSVM preserved most of the functionalities provided by
+porting on the JSVM, preserved most of the functionalities provided by
 the former. So we are still in good position for writing unit tests
-that are applicable to a portable CLJ/CLJS namespace.
+that are applicable to a portable CLJ/CLJS namespace like
+`modern-cljs.shopping.validators`.
 
 That said, most of the `cljs.test` functionalities are provided as
 macros, which means that you need the special CLJS `:require-macros`
@@ -325,14 +277,12 @@ Under the `src` main directory we currently have three subdirectories,
 one for each source file extension: `clj`, `cljs` and `cljc`.
 
 At the moment we'll mimic the same structure for the `cljc` directory
-only
+only, because we're going to create the unit tests for that
+`modern-cljs.shopping.validators` namespace only.
 
 ```bash
 mkdir -p test/cljc/modern_cljs/shopping
 ```
-
-because we're going to create the unit tests for the
-`modern-cljs.shopping.validators` namespace only.
 
 > NOTE 3: even if you do not need to mimic the source directory layout
 > in a corresponding test directory layout, by doing it the project
@@ -342,7 +292,8 @@ We now need to create the unit test file for the
 `modern-cljs.shopping.validators` namespace. You could name this file
 as you like, but I like to give it a name resembling the name of the
 file defining the source namespace (i.e. `validators`) and remembering
-me I'm taking care of its unit tests.
+me I'm taking care of its unit tests: `validators_test.cljc` seems to
+be a good file name speaking for itself.
 
 ```bash
 touch test/cljc/modern_cljs/shopping/validators_test.cljc
@@ -363,11 +314,11 @@ test
             └── validators_test.cljc
 ```
 
-### Start testing at the borders
+### Start unit testing at the borders
 
 The reason why we chose to start testing from the
 `modern-cljs.shopping.validators` namespace is because it sits at the
-interface of our application to the external world; be it a user to be
+border of our application with the external world: be it a user to be
 notified about her/his mistyped input, or an attacker trying to
 leverage any useful information by breaking the Shopping Calculator.
 
@@ -381,7 +332,7 @@ the symbol itself.
 ### The first unit test
 
 At the moment the `modern-cljs.shopping.validators` namespace contains
-only the `validate-shopping-form` function, which is the one we're
+the `validate-shopping-form` function only, which is the one we're
 going to unit test.
 
 Following is the initial unit test code that mimics the short REPL
@@ -416,7 +367,7 @@ function named `my-function`, I name the test `my-function-test`.
 
 The `is` macro allows to make assertions of any arbitrary
 expression. The code `(is (= nil (validate-shopping-form "1" "0" "0"
-"0")))` is saying that the acutal evaluation of the
+"0")))` is saying that the actual evaluation of the
 `(validate-shopping-form "1" "0" "0" "0")` form is expected to be equal
 to `nil` because all the input are valid. At the moment, we're just
 testing the happy path.
@@ -445,10 +396,10 @@ be reduced to the following equivalent `are` form:
 > `:refer`/`:refer-macros` sections of the requirements.
 
 In the above example, each `nil` value represents an expected value,
-while the evaluation of each `(validate-shopping-form ...)` call
-represents the actual value. The `are` macro verifies that for each
-pair of an expected and actual values `[expected actual]`, the
-assertion `(= expected actual)` is true.
+while the evaluation of each `validate-shopping-form` call represents
+the actual value. The `are` macro verifies that for each pair of an
+expected and actual values `[expected actual]`, the assertion `(=
+expected actual)` is true.
 
 ### How to read failure reports
 
@@ -474,7 +425,7 @@ number of `is/are` assertions.
 > `:refer`/`:refer-macros` sections of the requirements.
 
 The string "Shopping Form Validation" will be included in failure
-reports. Calls to `testing` macros may be nested too to allow better
+reports. Calls to `testing` macros may even be nested to allow better
 reporting of failure reports.
 
 ```clj
@@ -511,11 +462,8 @@ not know anything about this new source file, because the
 `:source-paths` environment variable of the `build.boot` building file
 has been set to `#{"src/clj" "src/cljs" "src/cljc"}`.
 
-There is a pretty easy way to add a new directory to
-`:source-paths`. Stop the CLJS bREPL session (i.e. `:cljs/quit`) you
-previously ran on top of the CLJ REPL session. You should now see the
-CLJ REPL `boot.user=>` prompt. Now evaluate the following expression
-at the REPL prompt:
+There is a pretty easy way to dynamically add a new directory to
+`:source-paths` at the REPL:
 
 ```clj
 boot.user> (set-env! :source-paths #(conj % "test/cljc"))
@@ -538,7 +486,7 @@ boot.core/set-env!
 nil
 ```
 
-As you see we hit last case. The value we passed for the
+As you see we hit the last case. The value we passed for the
 `:source-paths` key is an anonymous function conjoining the
 `"test/cljc"` source directory to the previous value represented by
 the `%` symbol.
@@ -551,7 +499,7 @@ we declared above.
 ## Light the fire on the server side
 
 While we're in the CLJ REPL, we can require the `clojure.test` and the
-`modern-cljs.shopping.validators-test` namespace
+`modern-cljs.shopping.validators-test` namespaces
 
 ```clj
 boot.user> (require '[clojure.test :as t]
@@ -728,6 +676,24 @@ Ran 1 tests containing 13 assertions.
 As you now have one test running 13 assertions and all of them
 succeeded.
 
+### The magic
+
+We now want to repeat the magic we already saw at work in a previous
+tutorial dedicated to the `loginForm`.
+
+Start the CLJS bREPL from the the CLJ REPL as usual
+
+```clj
+boot.user> (start-repl)
+<< started Weasel server on ws://127.0.0.1:49522 >>
+<< waiting for client to connect ... Connection is ws://localhost:49522
+Writing boot_cljs_repl.cljs...
+ connected! >>
+To quit, type: :cljs/quit
+nil
+cljs.user> 
+```
+
 ## Light the fire on the client side
 
 We used a portable validation lib (i.e. `valip`). We implemented
@@ -790,8 +756,6 @@ nil
 
 ## Require the needed namespaces
 
-It's now time to see the magic at work one more time.
-
 First require the `cljs.test` namespace
 
 ```clj
@@ -823,7 +787,10 @@ Ran 1 tests containing 13 assertions.
 nil
 ```
 
-Boom. For this tutorial we're done. Stop any `boot` related process
+Boom. The magic worked again. Kudos to everyone who put this magic
+together.
+
+For this tutorial we're done. Stop any `boot` related process
 and reset the repository
 
 ```bash
@@ -839,7 +806,7 @@ housekeeping with `boot`.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-14. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md
