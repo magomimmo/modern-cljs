@@ -799,7 +799,7 @@ git reset --hard
 
 Stay tuned!
 
-# Next step - [Turorial 15: It's better to be safe than sorry (Part 3)][11]
+# Next step - [Tutorial 15: It's better to be safe than sorry (Part 3)][11]
 
 In the [next Tutorial][11] of the series we're going to make some
 housekeeping with `boot`.
