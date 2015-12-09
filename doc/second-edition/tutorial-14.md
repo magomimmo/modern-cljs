@@ -564,7 +564,7 @@ boot.user> (t/run-tests 'modern-cljs.shopping.validators-test)
 Testing modern-cljs.shopping.validators-test
 
 FAIL in (validate-shopping-form-test) (validators_test.cljc:8)
-Shopping Form Validation
+Shopping Form Validation / Happy Path
 expected: (= nil (validate-shopping-form "" "0" "0" "0"))
   actual: (not (= nil {:quantity ["Quantity can't be empty" "Quantity has to be an integer number" "Quantity can't be negative"]}))
 
@@ -673,7 +673,7 @@ Ran 1 tests containing 13 assertions.
 {:test 1, :pass 13, :fail 0, :error 0, :type :summary}
 ```
 
-As you now have one test running 13 assertions and all of them
+As you see, we have one test running 13 assertions and all of them
 succeeded.
 
 ### The magic
@@ -692,66 +692,6 @@ Writing boot_cljs_repl.cljs...
 To quit, type: :cljs/quit
 nil
 cljs.user> 
-```
-
-## Light the fire on the client side
-
-We used a portable validation lib (i.e. `valip`). We implemented
-portable validation rules (i.e. `validators.cljc`). We wrote a
-portable unit tests file and finally we even ran those tests on the
-server side. All of that without stopping the running IFDE.
-
-The minimum we can now ask for is to run the same unit
-tests on the client side as well.
-
-But you'll met a problem. Once you stop a CLJS bREPL
-(i.e. `:cljs/quit`) started on top of a CLJ REPL, if you try to
-restart the bREPL, it hangs forever.
-
-> NOTE 8: if you use a smart nrepl compliant editor able to create
-> more nrepl-client connections with the nrepl-server created by
-> `boot`, this problem will not affect you.
-
-This seems to be a bug of the `boot-cljs-repl` task. One way you have
-to solve this problem is to stop the CLJ REPL, stop the IFDE and
-restart all the stuff again
-
-```clj
-cd /path/to/modern-cljs
-boot dev
-...
-Elapsed time: 24.569 sec
-```
-
-visit the [Shopping URL](http://localhost:3000/shopping.html) and run
-the CLJ REPL
-
-```bash
-# from another terminal
-cd /path/to/modern-cljs
-boot repl -c
-...
-boot.user=>
-```
-
-Do you remember that we altered the `:source-paths` key by adding the
-newly created `test/cljc` test directory? Do that again.
-
-```clj
-boot.user> (set-env! :source-paths #(conj % "test/cljc"))
-nil
-```
-
-We can now start the CLJS bREPL on top of the CLJ REPL again
-
-```clj
-boot.user> (start-repl)
-<< started Weasel server on ws://127.0.0.1:53672 >>
-<< waiting for client to connect ... Connection is ws://localhost:53672
-Writing boot_cljs_repl.cljs...
- connected! >>
-To quit, type: :cljs/quit
-nil
 ```
 
 ## Require the needed namespaces
