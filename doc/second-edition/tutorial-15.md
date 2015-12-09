@@ -1,13 +1,11 @@
 # Tutorial 15 - Better Safe Than Sorry (Part 3)
 
 In the [previous tutorial][1] we introduced the CLJ/CLJS standard way
-to automate the unit testing of the `modern-cljs.shopping.validators`
-namespace. for reach that results we dynamically altered the `boot`
-runtime environment.
+for unit testing a namespace. To reach that result we dynamically
+altered the `boot` runtime environment. 
 
-In this tutorial we're going to freeze the needed changes in the
-`boot` building file while introducing two new tasks to manage unit
-testing.
+In this tutorial we're going to freeze that needed changes in the
+`boot` building file. 
 
 ## Preamble
 
@@ -17,10 +15,11 @@ you've git installed, do as follows
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
 cd modern-cljs
-git checkout se-tutorial-13
+git checkout se-tutorial-14
 ```
 
 ## Introduction
+
 
 
 ### Installing Phantoms
