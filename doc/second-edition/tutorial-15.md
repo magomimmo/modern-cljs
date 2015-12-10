@@ -750,7 +750,7 @@ environment able to simultaneously satisfy the Bret Victor Immediate
 Feedback Principle and the application of the TDD workflow for both
 the client and the server code.
 
-``bash
+```bash
 cd /path/to/modern-cljs
 boot tdd
 Starting reload server on ws://localhost:51346
