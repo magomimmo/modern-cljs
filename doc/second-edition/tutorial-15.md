@@ -1,11 +1,13 @@
 # Tutorial 15 - Better Safe Than Sorry (Part 3)
 
 In the [previous tutorial][1] we introduced the CLJ/CLJS standard way
-for unit testing a namespace. To reach that result we dynamically
+to unit test namespaces. To reach that result we dynamically
 altered the `boot` runtime environment. 
 
-In this tutorial we're going to freeze that needed change in the
-`boot` building file.
+In this tutorial we start by freezing that needed change in the `boot`
+building file. Then we go on by configuring a development environment
+that simultaneously satisfy the Immediate Feedback Principle by Bret
+Victor and the Test Driven Development (TDD) workflow in a single JVM.
 
 ## Preamble
 
@@ -22,20 +24,23 @@ git checkout se-tutorial-14
 
 In the [previous tutorial][1] we added few assertions for unit testing
 the `modern-cljs.shopping.validators` namespace and then we exercised
-them by manually calling `run-tests` from both CLJ REPL and CLJS bREPL
-to run the unit tests containing those assertions. As you remember,
-before running the unit tests we had to alter the IFDE runtime
-environment to add the `test/cljc` to its `:source-paths` keyword
-option and then we had to require the appropriate CLJ/CLJS namespace
+those assertions by manually calling `run-tests` from the CLJ REPL and
+the CLJS bREPL as well.
+
+As you remember, before running those unit tests we had first to alter
+the IFDE runtime environment by adding the `test/cljc` directory to
+the `:source-paths` environment variable and then, depending from the
+runtime platform, we had to require the appropriate CLJ/CLJS namespace
 together with the namespace containing the unit tests themselves.
 
-Obviously this very manual workflow is only acceptable while you're
+Obviously this manual workflow is only acceptable while you're
 learning how to introduce unit testing in your CLJ/CLJS mixed project.
 
 In this tutorial of the series our objective is to progressively
-reduce as much as possible the above manual intervention to run unit
-tests on both the CLJ and the CLJS platforms.
-
+reduce as much as possible the above manual intervention. While doing
+that, we'll end up we a kind of live development environment which,
+while keeping the satisfaction of the Bret Victor's Immediate Feedback
+Principle, satisfy the TDD workflow as well.
 
 ## Testing task
 
@@ -43,21 +48,20 @@ The first thing we want to eliminate is the need to add the
 `test/cljc` directory to the `:source-paths` environment variable any
 time we start the IFDE runtime.
 
-Let's create a a new task in the `build.boot` configuration file for
-the project.
+Let's create a a new task in the `build.boot` configuration file and name it `testing`:
 
 ```clj
 (deftask testing
-  "Add test/cljc for CLJ/CLJS testing purpouse"
+  "Add test/cljc for CLJ/CLJS testing purpose"
   []
   (set-env! :source-paths #(conj % "test/cljc"))
   identity)
 ```
 
 As you see this new task, which has to be added immediately before the
-`dev`, replicates the same thing we manually did in the previous
+`dev` one, replicates the same thing we manually did in the previous
 tutorial while the IFDE was running. The `identity` function is
-returning the task itself in such a way that you can compose with
+returning the task itself in such a way that you can compose it with
 other tasks.
 
 ### Composing tasks
@@ -72,9 +76,9 @@ boot testing dev
 Elapsed time: 26.385 sec
 ```
 
-As you see for composing the `dev` task with the `testing` task which
-adds the `test/cljc` directory to the `:source/paths` environment
-variable, we only placed the `testing` task before the `testing` one.
+As you see for composing the `dev` task with the `testing` one for
+adding the `test/cljc` directory to the `:source/paths` environment
+variable, we only placed the `testing` task before the `dev` one.
 
 Let's see if it works like expected by starting the CLJ REPL:
 
@@ -90,7 +94,12 @@ Now verify that the `:source-paths` environment variable has been altered by the
 
 ```clj
 boot.user=> (get-env :source-paths)
-#{"/Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/3ap/6c94bi" "/Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/3ap/-9b70fr" "src/cljs" "test/cljc" "src/cljc" "src/clj"}
+#{"/Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/3ap/6c94bi"
+  "/Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/3ap/-9b70fr"
+  "src/cljs"
+  "test/cljc"
+  "src/cljc"
+  "src/clj"}
 ```
 
 As you see the `test/cljc` has been added to it. Now do the same
@@ -149,15 +158,15 @@ Ran 1 tests containing 13 assertions.
 nil
 ```
 
-Not so bad, but you want more, especially when adopting a Test Driven
-Development (TDD) methodology. Before proceeding to the next step, stop
+Not so bad, but we want more, especially when adopting a Test Driven
+Development (TDD) workflow. Before proceeding to the next step, stop
 any `boot` related process.
 
 ## boot-test task
 
 `boot` does not came with a `test` pre-build task like it does
 [Leiningen](https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md#tests). Fortunately,
-the `boot` community created a `boot-test` task for all of us. Let's
+the `boot` community created the `boot-test` task for all of us. Let's
 add it our `build.boot` file as usual.
 
 ```clj
@@ -172,7 +181,8 @@ add it our `build.boot` file as usual.
          '[adzerk.boot-test :refer [test]])
 ```
 
-As usual take a moment to get the help documentation for this new task:
+As usual take a moment to read the help documentation for this new
+task:
 
 ```bash
 boot test -h
@@ -209,18 +219,18 @@ Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
 ```
 
-WOW, it worked. All the assertions of the sole unit test we defined in
-the `modern-cljs.shopping.validators-test` namespace have been
-executed.
+It worked. All the assertions of the sole unit test we defined in the
+`modern-cljs.shopping.validators-test` namespace have been executed
+and they all succeeded.
 
 Don't forget that the `boot-test` task is for CLJ only and it has
 nothing to offer for CLJS. Later we'll afford CLJS testing as well.
 
 ## CLJ TDD
 
-We still want more to cover a typical TDD workflow in which any time
-you modify your source code the corresponding tests are executed again
-and again.
+Even if the progress is palpable, we still have to cover a typical TDD
+workflow. Any time you modify your source code the corresponding unit
+tests should be executed again.
 
 The composable nature of `boot` tasks is the answer. Do you remember
 when at the beginning of this series we introduced the `watch` task
@@ -242,14 +252,14 @@ Elapsed time: 4.244 sec
 ```
 
 Now modify one of the assertions in the
-`test/cljc/shopping/validators-test.cljc` to generate a failure:
+`test/cljc/shopping/validators-test.cljc` to force a failure:
 
 ```clj
 (deftest validate-shopping-form-test
   (testing "Shopping Form Validation"
     (testing "/ Happy Path"
       (are [expected actual] (= expected actual)
-           nil (validate-shopping-form "" "0" "0" "0")
+           nil (validate-shopping-form "" "0" "0" "0") ;; forced bug
            ...))))
 ```
 
@@ -287,7 +297,7 @@ Elapsed time: 0.473 sec
 ```
 
 > NOTE 2: on Mac OSX there is strange behavior producing a long waiting
-> time before you receive the above result.
+> time before the recompilation is triggered. 
 
 As you see the modified assertion pertaining the `Happy Path`
 failed. Correct it and save the file again. 
@@ -301,7 +311,7 @@ Elapsed time: 0.252 sec
 ```
 
 Even if we're now dealing with CLJ only, our tentative for supporting
-the TDD workflow seems to work. But we lost the CLJ REPL experience
+the TDD workflow seems to work. But we miss the CLJ REPL experience
 offered by IFDE.
 
 Could we have both of them? I have nothing against TDD approach, but
@@ -309,9 +319,9 @@ once you experienced a CLJ/CLJS REPL you'd like to have it at your
 disposal in whichever development environment you code, being it a TDD
 environment or not.
 
-We postpone the satisfaction of this requirement for later. At the
-moment we'd like first to replicate on the CLJS platform what we
-already got on the CLJ once.
+At the moment we postpone the satisfaction of this requirement for
+later paragraphs. Indeed, we'd like first to replicate on the CLJS platform
+what we already got on the CLJ once.
 
 Before proceeding with next step, stop the above `boot` process.
 
@@ -328,9 +338,9 @@ System. On any *nix OS it should be enough to download the compressed
 file, decompress it and add its `bin` directory to the `PATH` environment
 variable.
 
-> NOTE 3: I currently use phantomjs 1.9.2. In my understanding, if you
-> want to run the latest 2.0.0 release on Mac OS X you
-> [need a workaround](https://github.com/ariya/phantomjs/issues/12900).
+> NOTE 3: I currently use phantomjs 1.9.2. If you want to run the
+> latest 2.0.0 release on Mac OS X you
+> [need some work](https://github.com/ariya/phantomjs/issues/12900).
 
 ### boot-cljs-test
 
@@ -340,8 +350,8 @@ file the `boot-cljs-test` task specifically devoted for CLJS which is
 able to use a plethora of JS Engine, being [PhantomJS][7] one of them.
 
 The procedure to add a new task is always the same: add it to the
-dependencies section of the `build.boot` file and require the needed
-namespace/symbols.
+dependencies section of the `build.boot` file and require the its
+exported namespace by referring the needed symbols as well.
 
 
 ```clj
@@ -382,9 +392,10 @@ Options:
 
 At the moment we're interested in two options:
 
-* `-e`, regarding the engine environment to run tests within
-* `-n`, the same as `boot-test`, i.e. the namespaces containing we're
-  interested in.
+* `-e, --js-eval`, regarding the engine environment to run tests
+  within
+* `-n, --namespaces`, the same as `boot-test`, i.e. the namespaces
+  containing the unit tests we're interested in.
 
 ### Light the fire
 
@@ -409,17 +420,20 @@ Ran 1 tests containing 13 assertions.
 Elapsed time: 15.975 sec
 ```
 
-Great. We obtained the same results previously obtained from the
+Not so bad. We obtained the same results previously achieved with the
 `boot-test` task, which is exactly what we were expecting.
 
-There are few things to be noted. First, as we learnt form the
-`boot-cljs-test` help documentation, we passed the `-e phantom` JS
-engine environment we previously installed and the `-n
-modern-cljs.shopping.validators-test` namespace containing our unit
-tests. Secondly, `boot-test-cljs` internally uses the CLJS compiler
-using compiler options defaulted to some value. For example, instead
-of generating the `main.js` JS file as the `boot-cljs` did, it
-generates the `output.js` JS file.
+There are few things to be noted.
+
+First, as we learnt form the `boot-cljs-test` help documentation, we
+passed the `-e phantom` headless browser we previously installed and
+the `-n modern-cljs.shopping.validators-test` namespace as well. It
+contains our unit tests.
+
+Secondly, `boot-test-cljs` internally uses the CLJS compiler using
+compiler options defaulted to some value. For example, instead of
+generating the `main.js` JS file as the `boot-cljs` did, it generates
+the `output.js` JS file.
 
 Now repeat the same experiments we previously did by modifying an
 expected result from a unit test assertion in the
@@ -432,7 +446,7 @@ the changes.
   (testing "Shopping Form Validation"
     (testing "/ Happy Path"
       (are [expected actual] (= expected actual)
-           nil (validate-shopping-form "" "0" "0" "0")                ;; quantity is now empty
+           nil (validate-shopping-form "" "0" "0" "0")    ;; forced bug
            nil (validate-shopping-form "1" "0.0" "0.0" "0.0")
            nil (validate-shopping-form "100" "100.25" "8.25" "123.45")))
   ...))
@@ -441,7 +455,7 @@ the changes.
 When you save the file, the `watch` task triggers the CLJS
 recompilation and rerun the sole unit test contained in the
 `modern-cljs.shopping.validators-test` namespace. Following is the
-obtained result:
+reported result:
 
 ```clj
 Writing suite.cljs...
@@ -462,12 +476,12 @@ Elapsed time: 4.779 sec
 ```
 
 As you see the `(= nil (validate-shopping-form "" "0" "0" "0"))`
-failed, because `(validate-shopping-form "" "0" "0" "0")` is now
+failed because `(validate-shopping-form "" "0" "0" "0")` is now
 returning `{:quantity
 ["Quantity can't be empty." "Quantity has to be an integer number." "Quantity can't be negative."]}`
 instead of the expected `nil` value.
 
-Correct the induced bug, save the file and wait for the new result:
+Correct the induced bug, save the file and wait for the new report:
 
 ```clj
 Writing suite.cljs...
@@ -482,7 +496,7 @@ Ran 1 tests containing 13 assertions.
 Elapsed time: 3.906 sec
 ```
 
-Great. Everything got recompiled and the previously failed assertion
+Everything got recompiled and the previously failed assertion now
 passed. For proceeding to the next step, stop the `boot` process.
 
 ## More automation
@@ -491,13 +505,13 @@ Even if we reached a fairly good results with CLJ and CLJS unit
 testing approaching the TDD workflow, there are still few things we'd
 like to improve:
 
-1. we'like to combine the CLJ/CLJS unit testing in the same `boot`
+1. we'd like to combine the CLJ/CLJS unit testing in a single `boot`
   command;
-1. we'd like to combine the resulted combined `boot` command with the
+1. we'd like in turn to combine the combined `boot` command with the
   `boot dev` command in such a way that we're going to use one JVM
   only for all the tasks;
 1. we'd like to call the `boot` command without passing it such a long
-  option values;
+  option values to be remembered.
 
 Let's start from the first item.
 
@@ -507,7 +521,7 @@ As we previously learnt, the composable nature of `boot` tasks allows
 to define a new task that is the result of the composition of other
 already defined tasks.
 
-Let's try to define a new `tdd` (Test Driven Development) task which combine the `test` and the
+Let's try to define a new `tdd` task which combine the `test` and the
 `cljs-test` tasks.
 
 ```clj
@@ -524,7 +538,7 @@ Let's try to define a new `tdd` (Test Driven Development) task which combine the
 > Note 4: the above tasks composition first mimics the same
 > composition we previously created at the command line and then
 > appends the `test` task after the `test-cljs` task. The order of the
-> two unit testing task is important.
+> two unit testing tasks is important.
 
 Place the new task definition in the `build.boot` file after the
 definition of the `testing` task.
@@ -569,7 +583,7 @@ Now force again a failure for one of the assertions in the
   (testing "Shopping Form Validation"
     (testing "/ Happy Path"
       (are [expected actual] (= expected actual)
-           nil (validate-shopping-form "" "0" "0" "0")           ;; force a failure
+           nil (validate-shopping-form "" "0" "0" "0")      ;; forced bug
            nil (validate-shopping-form "1" "0.0" "0.0" "0.0")
            nil (validate-shopping-form "100" "100.25" "8.25" "123.45")))
 
@@ -628,7 +642,7 @@ crisptrutski.boot-cljs-test/eval621/fn/fn/fn  boot_cljs_test.clj:   79
 Elapsed time: 2.621 sec
 ```
 
-It worked again as expected. Because of the code change into the
+It worked again as expected. Because of the code change in the
 `validators_test.cljs` file, the `tdd` task recompiled all the CLJS
 source files, ran the CLJS unit test, reporting the failure, and
 finally ran the CLJ test reporting the same failure.
@@ -654,19 +668,18 @@ Ran 1 tests containing 13 assertions.
 Elapsed time: 2.033 sec
 ```
 
-Great. We obtained again the expected results and addressed the first
-item in the nice-to-have list we started from: we now have a TDD
-environment for both CLJ and CLJS in the same JVM. for proceeding with
-the next step, stop the `boot` process.
+We obtained again the expected results and we also addressed the first
+item in the nice-to-have list we started from: have a TDD environment
+for both CLJ and CLJS running in the same JVM. For proceeding with the
+next step, stop the `boot` process.
 
-## Approaching TDD
+## A single JVM instance
 
 As said at the beginning of the series, one of the most attractive
-features of `boot` building tool when compared with `leiningen` is its
-potential ability to run any task in the same JVM, being the other to
-be able to easily alter the runtime environment while you use it.
+features of `boot` building tool, when compared with `leiningen`, is
+its potential ability to run multiple tasks in the same JVM.
 
-Let's see if we are able to align ourselves to those potentialities.
+Let's see if we are able to align ourselves with those potentialities.
 
 As we previously saw, thanks to the `watch` task, the `test-cljs` task
 triggers the CLJS recompilation anytime we modify and save a `.cljs`
@@ -674,7 +687,8 @@ or a `.cljc` file.
 
 The rising question is now the following: could we compose the
 `test-cljs` task with the `serve`, `reload` and `cljs-repl` tasks in
-the same way we composed them in the `dev` task with the `cljs` task?
+the same way we already composed them in the `dev` task with the
+`cljs` task?
 
 Let's start by reading the `test-cljs` help documentation again:
 
@@ -703,12 +717,14 @@ Uhm, that's interesting. Aside form the `-e`, `-n`, `-s` and `-x`
 options, the remaining `-O`, `-o` and `-c` options seem to deal with
 the CLJS compiler options.
 
-At the moment we're only interested to the `-o` option, because is the
-one setting the name of the JS file generated by the CLJS compiler. As
-we previously while playing with the newly defined `tdd` task, the
-default filename is `output.js`, while the default filename generated
-by the `cljs` task that we composed in the `dev` task and included in
-the `html` pages (i.e. `index.html` and `shopping.html`) is `main.js`.
+At the moment we're only interested in the `-o` option, because it is
+the setting for naming of the JS file generated by the CLJS
+compiler. As we previously saw while playing with the newly defined
+`tdd` task, the default filename is `output.js`.
+
+Instead, the default filename generated by the `cljs` task that we
+composed in the `dev` task and included in the `html` pages is
+`main.js`.
 
 Let's try to rearrange the `tdd` task composition by:
 
@@ -721,8 +737,8 @@ Let's try to rearrange the `tdd` task composition by:
 * passing the `"main.js"` value to the `:out-file` option for the
   `test-cljs` task.
 
-Here is the updated `tdd` task definition you have to be substituted
-to the previous one in the `build.boot` file:
+Here is the updated `tdd` task definition you have substitute to the
+previous one in the `build.boot` file:
 
 ```clj
 (deftask tdd 
@@ -746,9 +762,9 @@ to the previous one in the `build.boot` file:
 ### Light the fire
 
 Here we'are. Let's see if we were able to build a development
-environment able to simultaneously satisfy the Bret Victor Immediate
+environment for simultaneously satisfying the Bret Victor's Immediate
 Feedback Principle and the application of the TDD workflow for both
-the client and the server code.
+the client and the server code. All of that in a single JVM.
 
 ```bash
 cd /path/to/modern-cljs
@@ -782,18 +798,19 @@ Ran 1 tests containing 13 assertions.
 Elapsed time: 29.060 sec
 ```
 
-So fa, so good. The web server started and the unit tests have been
-executed with success on both the client (i.e. CLJS) and the server sides
-(i.e. CLJ).
+So far, so good. The web server started and the unit tests have been
+executed with success on both the client (i.e. CLJS) and the server
+sides (i.e. CLJ).
 
 Now visit the usual
 [Shopping Form](http://localhost:3000/shopping.html) and play with it.
 
 > NOTE 4: remember that even if we already have defined and tested the
 > validators for both the client and the server sides of the Shopping
-> Form, we still have to attach them to form itself.
+> Form, we still have to attach them to form itself. So, if do not
+> follow the happy path you'll get an error anyway.
 
-So fa, so good. Everything is still working as expected.
+So far, so good. Everything is still working as expected.
 
 Now run the CLJ REPL as usual:
 
@@ -806,18 +823,19 @@ boot.user>
 
 And play with it. Still working. So far, so good.
 
-> NOTE 5: I use emacs+cider (release 0.10.0). It means that I can create
-> more `nrepl-client` connections with the running `nrepl-server`
-> implicitly started from the above `boot tdd` command. I use one
-> connection for the CLJ REPL, and another connection for the CLJS bREPL
-> without starting any new JVM instance. In other words I run everything
-> on a single JVM instance. On the contrary, when you run the above
-> `boot repl -c` command, you're creating a new JVM instance and if you
-> want to start a CLJS bREPL while keeping the CLJ REPL to play with,
-> you'll end up with a total of three JVM instance, without counting the
-> one eventually created by your IDE.
+> NOTE 5: I use emacs+cider (release 0.10.0). It means that I can
+> create more `nrepl-client` connections with the running
+> `nrepl-server` implicitly started from the above `boot tdd`
+> command. I use one connection for the CLJ REPL, and second
+> connection for the CLJS bREPL without starting any new JVM
+> instance. In other words I run everything on a single JVM
+> instance. On the contrary, when you run the above `boot repl -c`
+> command, you're creating a new JVM instance and if you want to start
+> a CLJS bREPL while keeping in foreground the CLJ REPL to play with,
+> you'll end up with a total of three JVM instance, without counting
+> the one eventually created by your Editor/IDE.
 
-Now start the CLJS bREPL.
+Now start the CLJS bREPL
 
 ```clj
 boot.user> (start-repl)
@@ -829,10 +847,10 @@ To quit, type: :cljs/quit
 nil
 ```
 
-Still working. So fa, so good.
+Still working. So far, so good.
 
-As a final verification repeat the kind of assertion failures we force
-above:
+As a final confirmation, repeat the kind of forced failures we did
+before:
 
 ```clj
 Writing suite.cljs...
@@ -890,8 +908,8 @@ crisptrutski.boot-cljs-test/eval621/fn/fn/fn  boot_cljs_test.clj:   79
 Elapsed time: 6.369 sec
 ```
 
-You'll got the same results as in the previous forced failure. So fa
-so good. Now correct the forced bug and see the results again:
+You'll got the same results as in the previous forced failure. Correct
+the forced bug and observe the report again:
 
 ```clj
 Writing suite.cljs...
@@ -912,13 +930,29 @@ Ran 1 tests containing 13 assertions.
 Elapsed time: 3.418 sec
 ```
 
-Success again. Even if we're very happy with the reached results,
-there are few things we still have to satisfy the third requirement of
-the list we auto-assigned to ourself....
+Success. We're happy with the achieved results, but there are few
+things we still want to improve.
+
+First, even if the `boot tdd` command has no options to be passed and
+remembered, we have to accept the ones screwed into the task
+definition code.
+
+What if we want to compile CLJS with a different optimization option
+from the default `none` one? What if create new namespace for unit
+testing other part of the source code? And what if we want to add
+namespaces for specifically unit test for CLJ or CLJS which are not in
+the portable `test/cljc` test directory?
+
+Enter
+[Task Options DSL](https://github.com/boot-clj/boot/wiki/Task-Options-DSL)
+for `boot`.
+
+## Task Options DSL
+
 
 Stay tuned for the next tutorial.
 
-# Next Step - [Tutorial 17: Enlive by REPLing][21]
+# Next Step - [Tutorial 16: Enlive by REPLing][21]
 
 In the [next tutorial][21] we're going to integrate the validators for
 the Shopping Calculator into the corresponding WUI (Web User
