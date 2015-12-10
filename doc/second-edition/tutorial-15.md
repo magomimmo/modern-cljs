@@ -4,8 +4,8 @@ In the [previous tutorial][1] we introduced the CLJ/CLJS standard way
 for unit testing a namespace. To reach that result we dynamically
 altered the `boot` runtime environment. 
 
-In this tutorial we're going to freeze that needed changes in the
-`boot` building file. 
+In this tutorial we're going to freeze that needed change in the
+`boot` building file.
 
 ## Preamble
 
@@ -20,717 +20,901 @@ git checkout se-tutorial-14
 
 ## Introduction
 
+In the [previous tutorial][1] we added few assertions for unit testing
+the `modern-cljs.shopping.validators` namespace and then we exercised
+them by manually calling `run-tests` from both CLJ REPL and CLJS bREPL
+to run the unit tests containing those assertions. As you remember,
+before running the unit tests we had to alter the IFDE runtime
+environment to add the `test/cljc` to its `:source-paths` keyword
+option and then we had to require the appropriate CLJ/CLJS namespace
+together with the namespace containing the unit tests themselves.
+
+Obviously this very manual workflow is only acceptable while you're
+learning how to introduce unit testing in your CLJ/CLJS mixed project.
+
+In this tutorial of the series our objective is to progressively
+reduce as much as possible the above manual intervention to run unit
+tests on both the CLJ and the CLJS platforms.
 
 
-### Installing Phantoms
+## Testing task
+
+The first thing we want to eliminate is the need to add the
+`test/cljc` directory to the `:source-paths` environment variable any
+time we start the IFDE runtime.
+
+Let's create a a new task in the `build.boot` configuration file for
+the project.
+
+```clj
+(deftask testing
+  "Add test/cljc for CLJ/CLJS testing purpouse"
+  []
+  (set-env! :source-paths #(conj % "test/cljc"))
+  identity)
+```
+
+As you see this new task, which has to be added immediately before the
+`dev`, replicates the same thing we manually did in the previous
+tutorial while the IFDE was running. The `identity` function is
+returning the task itself in such a way that you can compose with
+other tasks.
+
+### Composing tasks
+
+To see how the newly defined `testing` task can be used by composing
+it with the `dev` task, start the IFDE as follows:
+
+```bash
+cd /path/to/modern-cljs
+boot testing dev
+...
+Elapsed time: 26.385 sec
+```
+
+As you see for composing the `dev` task with the `testing` task which
+adds the `test/cljc` directory to the `:source/paths` environment
+variable, we only placed the `testing` task before the `testing` one.
+
+Let's see if it works like expected by starting the CLJ REPL:
+
+```bash
+# from a new terminal
+cd /path/to/modern-cljs
+boot repl -c
+...
+boot.user=>
+```
+
+Now verify that the `:source-paths` environment variable has been altered by the `testing` task:
+
+```clj
+boot.user=> (get-env :source-paths)
+#{"/Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/3ap/6c94bi" "/Users/mimmo/.boot/cache/tmp/Users/mimmo/tmp/modern-cljs/3ap/-9b70fr" "src/cljs" "test/cljc" "src/cljc" "src/clj"}
+```
+
+As you see the `test/cljc` has been added to it. Now do the same
+things we did in the [previous tutorial][1] by requiring the
+`clojure.test` and the `modern-cljs.shopping.validators-test`
+namespaces before calling `run-tests`:
+
+```clj
+boot.user=> (require '[clojure.test :as t]
+                     '[modern-cljs.shopping.validators-test])
+nil
+boot.user=> (t/run-tests 'modern-cljs.shopping.validators-test)
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+{:test 1, :pass 13, :fail 0, :error 0, :type :summary}
+```
+
+So far, so good. Let's now repeat the same thing in the CLJS
+bREPL. First start the bREPL as usual:
+
+```clj
+boot.user=> (start-repl)
+<< started Weasel server on ws://127.0.0.1:49916 >>
+<< waiting for client to connect ... Connection is ws://localhost:49916
+Writing boot_cljs_repl.cljs...
+ connected! >>
+To quit, type: :cljs/quit
+nil
+cljs.user=>
+```
+
+> NOTE 1: remember to visit the
+> [shopping URL](http://localhost:3000/shopping.html) to activate the
+> bREPL.
+
+Then require the appropriate namespaces
+
+```clj
+cljs.user=> (require '[cljs.test :as t :include-macros true]
+                     '[modern-cljs.shopping.validators-test :as v])
+nil
+```
+
+and finally evaluate the `run-test` function again
+
+```clj
+cljs.user=> (t/run-tests 'modern-cljs.shopping.validators-test)
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+nil
+```
+
+Not so bad, but you want more, especially when adopting a Test Driven
+Development (TDD) methodology. Before proceeding to the next step, stop
+any `boot` related process.
+
+## boot-test task
+
+`boot` does not came with a `test` pre-build task like it does
+[Leiningen](https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md#tests). Fortunately,
+the `boot` community created a `boot-test` task for all of us. Let's
+add it our `build.boot` file as usual.
+
+```clj
+(set-env!
+ ...
+ :dependencies '[
+                 ...
+                 [adzerk/boot-test "1.0.6"]
+                 ])
+
+(require ...
+         '[adzerk.boot-test :refer [test]])
+```
+
+As usual take a moment to get the help documentation for this new task:
+
+```bash
+boot test -h
+Run clojure.test tests in a pod.
+
+The --namespaces option specifies the namespaces to test. The default is to
+run tests in all namespaces found in the project.
+
+The --exclusions option specifies the namespaces to exclude from testing.
+
+The --filters option specifies Clojure expressions that are evaluated with %
+bound to a Var in a namespace under test. All must evaluate to true for a Var
+to be considered for testing by clojure.test/test-vars.
+
+Options:
+  -h, --help                  Print this help info.
+  -n, --namespaces NAMESPACE  Conj NAMESPACE onto the set of namespace symbols to run tests in.
+  -e, --exclusions NAMESPACE  Conj NAMESPACE onto the set of namespace symbols to be excluded from test.
+  -f, --filters EXPR          Conj EXPR onto the set of expressions to use to filter namespaces.
+  -r, --requires REQUIRES     Conj REQUIRES onto extra namespaces to pre-load into the pool of test pods for speed.
+```
+
+As you see there is a `-n` command line option we could use to specify
+a namespace to be run.
+
+Let's try it
+
+```bash
+boot testing test -n modern-cljs.shopping.validators-test
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+```
+
+WOW, it worked. All the assertions of the sole unit test we defined in
+the `modern-cljs.shopping.validators-test` namespace have been
+executed.
+
+Don't forget that the `boot-test` task is for CLJ only and it has
+nothing to offer for CLJS. Later we'll afford CLJS testing as well.
+
+## CLJ TDD
+
+We still want more to cover a typical TDD workflow in which any time
+you modify your source code the corresponding tests are executed again
+and again.
+
+The composable nature of `boot` tasks is the answer. Do you remember
+when at the beginning of this series we introduced the `watch` task
+for triggering the CLJS recompilation anytime we modify a CLJS source
+code? Here we're going to use it again for automating the execution of
+the tests anytime a CLJ file change is saved.
+
+```bash
+boot testing watch test -n modern-cljs.shopping.validators-test
+
+Starting file watcher (CTRL-C to quit)...
+
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+Elapsed time: 4.244 sec
+```
+
+Now modify one of the assertions in the
+`test/cljc/shopping/validators-test.cljc` to generate a failure:
+
+```clj
+(deftest validate-shopping-form-test
+  (testing "Shopping Form Validation"
+    (testing "/ Happy Path"
+      (are [expected actual] (= expected actual)
+           nil (validate-shopping-form "" "0" "0" "0")
+           ...))))
+```
+
+As soon as you save the file you'll receive the following failure:
+
+```bash
+Testing modern-cljs.shopping.validators-test
+
+FAIL in (validate-shopping-form-test) (validators_test.cljc:9)
+Shopping Form Validation / Happy Path
+expected: nil
+  actual: {:quantity
+           ["Quantity can't be empty."
+            "Quantity has to be an integer number."
+            "Quantity can't be negative."]}
+    diff: + {:quantity
+             ["Quantity can't be empty."
+              "Quantity has to be an integer number."
+              "Quantity can't be negative."]}
+
+Ran 1 tests containing 13 assertions.
+1 failures, 0 errors.
+clojure.lang.ExceptionInfo: Some tests failed or errored
+    data: {:test 1, :pass 12, :fail 1, :error 0, :type :summary}
+                clojure.core/ex-info       core.clj: 4593
+   adzerk.boot-test/eval549/fn/fn/fn  boot_test.clj:   73
+boot.task.built-in/fn/fn/fn/fn/fn/fn   built_in.clj:  233
+   boot.task.built-in/fn/fn/fn/fn/fn   built_in.clj:  233
+      boot.task.built-in/fn/fn/fn/fn   built_in.clj:  230
+                 boot.core/run-tasks       core.clj:  701
+                   boot.core/boot/fn       core.clj:  711
+ clojure.core/binding-conveyor-fn/fn       core.clj: 1916
+                                 ...
+Elapsed time: 0.473 sec
+```
+
+> NOTE 2: on Mac OSX there is strange behavior producing a long waiting
+> time before you receive the above result.
+
+As you see the modified assertion pertaining the `Happy Path`
+failed. Correct it and save the file again. 
+
+```bash
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+Elapsed time: 0.252 sec
+```
+
+Even if we're now dealing with CLJ only, our tentative for supporting
+the TDD workflow seems to work. But we lost the CLJ REPL experience
+offered by IFDE.
+
+Could we have both of them? I have nothing against TDD approach, but
+once you experienced a CLJ/CLJS REPL you'd like to have it at your
+disposal in whichever development environment you code, being it a TDD
+environment or not.
+
+We postpone the satisfaction of this requirement for later. At the
+moment we'd like first to replicate on the CLJS platform what we
+already got on the CLJ once.
+
+Before proceeding with next step, stop the above `boot` process.
+
+## CLJS TDD
 
 If you want to test any CLJS code, sooner or later you end up by
 testing the emitted JS on an headless browser. The most famous of them
 all is [PhantomJS][7] which is based on [WebKit][8].
+
+### Install phantomjs
 
 To install PhantomJS follow the [instruction][9] for your Operating
 System. On any *nix OS it should be enough to download the compressed
 file, decompress it and add its `bin` directory to the `PATH` environment
 variable.
 
-### Interfacing lein-cljsbuild with PhantomJS
+> NOTE 3: I currently use phantomjs 1.9.2. In my understanding, if you
+> want to run the latest 2.0.0 release on Mac OS X you
+> [need a workaround](https://github.com/ariya/phantomjs/issues/12900).
 
-We now need to interface the `lein-cljsbuild` plugin with the PhantomJS
-headless browser binary command. To make PhantomJS launchable from
-`lein-cljsbuild`, we have to exploit the `lein-cljsbuild` built-in
-support for running external CLJS test.
+### boot-cljs-test
 
-As always, [Chas Emerick][3] already interfaced PhantomJS for us by
-creating a JS script which is packaged with the
-[clojurescript.test][4] lib.
+To be able to run CLJS unit tests adopting the same TDD modality we
+ended up for CLJ unit testing, you need to add to the `build.boot`
+file the `boot-cljs-test` task specifically devoted for CLJS which is
+able to use a plethora of JS Engine, being [PhantomJS][7] one of them.
 
-> NOTE 3: I have the habit to [fork][11] any repository I use and I
-> suggest you to do the same. Sooner or later you can even offer
-> help in fixing bugs, correcting the spelling/grammar or other minutiae
-> by directly using the `GitHub` pull requests facility.
+The procedure to add a new task is always the same: add it to the
+dependencies section of the `build.boot` file and require the needed
+namespace/symbols.
 
-### Instructing lein-cljsbuild about PhantomJS
-
-To instruct `lein-cljsbuild` to launch PhantomJS for testing purpouse we
-need to add the built-in `:test-commands` subtask in the `:cljsbuild`
-section of the `project.clj` file as follows:
 
 ```clj
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  ...
-  :cljsbuild {...
-              ...
-              :test-commands {"phantomjs-whitespace"
-                              ["phantomjs" :runner "test/js/testable_dbg.js"]
+(set-env!
+ ...
+ :dependencies '[
+                 ...
+                 [crisptrutski/boot-cljs-test "0.2.1-SNAPSHOT"]
+                 ])
 
-                              "phantomjs-simple"
-                              ["phantomjs" :runner "test/js/testable_pre.js"]
-
-                              "phantomjs-advanced"
-                              ["phantomjs" :runner "test/js/testable.js"]}
-              ...
-              ...
-)
+(require ...
+         '[crisptrutski.boot-cljs-test :refer [test-cljs]])
 ```
 
-The value of `:test-commands` is a map in which each key is a name
-(.e.g `"phantomjs-whitespace"`), and each value is a vector of three
-elements: the name of the `phantomjs` command, the `:runner` keyword
-and the pathname of the JS file to be loaded in the headless browser
-(e.g. `"test/js/testable_dbg.js"`).
-
-In the `modern-cljs` project we already defined three CLJS `:builds`,
-one for each optimization option of the GCLS compiler
-(i.e. `whitespace`, `simple` and `advanced`).
-
-Each build emits a corresponding JS file (i.e. `modern_dbg.js`,
-`modern_pre.js` and `modern.js`). So, we need to end up with three
-test commands to be inserted in the map, one for each emitted JS file.
-
-But we don't want to add the emitted unit test JS code to the above
-CLJS builds. We just want to be able to run our unit tests without
-interfere with the above builds that have been already linked in the
-HTML pages.
-
-For this reason we need to create three new CLJS `:builds`, one for
-each Google Closure Compiler optimization.
-
-### Instructing lein-cljsbuild about CLJS test directory
-
-In the `:builds` section of the `:cljsbuild` task you can verify that
-the emitted `modern_dbg.js` and `modern_pre.js` JS files are generated
-by looking for the CLJS code saved in the `src/cljs` and in the
-`src/brepl` directories. The `modern.js` JS file, instead, is emitted
-by considering the CLJS files from the `src/cljs` directory only.
-
-In the [previous tutorial][1] we already arranged the `test` directory
-to host the `cljs` unit test code by creating the `test/cljs`
-directory.
-
-We now have to add this directory to the `:source-paths` option in all
-the three new CLJS builds we're going to configure for emitting the
-corresponding JS code.
-
-Here is the code snippet you have to add to your `profile.clj` file in
-both to the the `:builds` section of the `:cljsbuild` option
-configuration and to the Leiningen `:test-paths` (cf. ATTENTION NOTE
-in [Tutorial 1 - The Basics][22]).
-
-```clj
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  :test-paths ["test/clj" "test/cljs"]
-  :cljsbuild {...
-              :builds
-              {:ws-unit-tests
-               {;; CLJS source code and unit test paths
-                :source-paths ["src/brepl" "src/cljs" "test/cljs"]
-
-                ;; Google Closure Compiler options
-                :compiler {;; the name of emitted JS script file for unit testing
-                           :output-to "test/js/testable_dbg.js"
-
-                           ;; minimum optimization
-                           :optimizations :whitespace
-                           ;; prettyfying emitted JS
-                           :pretty-print true}}
-
-               :simple-unit-tests
-               {;; same path as above
-                :source-paths ["src/brepl" "src/cljs" "test/cljs"]
-
-                :compiler {;; different JS output name for unit testing
-                           :output-to "test/js/testable_pre.js"
-
-                           ;; simple optimization
-                           :optimizations :simple
-
-                           ;; no need prettification
-                           :pretty-print false}}
-
-               :advanced-unit-tests
-               {;; same path as above
-                :source-paths ["src/cljs" "test/cljs"]
-
-                :compiler {;; different JS output name for unit testing
-                           :output-to "test/js/testable.js"
-
-                           ;; advanced optimization
-                           :optimizations :advanced
-
-                           ;; no need prettification
-                           :pretty-print false}}
-)
-```
-
-This way, the CLJS/GCLS compilers will include any CLJS test file
-living in the `test/cljs` directory in the emitted JS file for each
-unit test build.
-
-### Falling in the expression problem again
-
-Our first instinct would be now to apply our beloved DRY principle by
-just adding the `modern-cljs.shopping.validators-test` namespace to
-the `:crossovers` section of the `:cljsbuild` project task, as we
-already did for the portable validators we defined in the project.
-
-Unfortunately there is an issue. The fact that `clojurescript.test`
-lib is a maximal *port* of the `clojure.test` lib on CLJS does not
-mean that **it is a portable lib**.
-
-Take a look at the namespace declaration of the [usage sample][12]
-included with the `clojurescript.test` lib.
-
-```cljs
-(ns cemerick.cljs.test.example
-  (:require-macros [cemerick.cljs.test :refer (is deftest with-test run-tests testing)])
-  (:require [cemerick.cljs.test :as t]))
-```
-
-And compare it with the corresponding declaration of the
-`modern-cljs.shopping.validators-test` namespace
-
-```clj
-(ns modern-cljs.shopping.validators-test
-  (:require [clojure.test :refer [deftest are testing]]
-            [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
-```
-
-The `:require-macro` keyword is one of the most annoying
-[differences between CLJ and CLJS][13].
-
-Because of those requirement differences, the simple addition of the
-`modern-cljs.shopping.validators-test` namespace to the `:crossovers`
-section of the project is not sufficient to solve our codebase
-duplication issue for the unit testing code.
-
-### Forgetting the DRY principle for a moment
-
-Lets ignore the DRY principle for the moment, and manually do what the
-`lein-cljsbuild` `:crossovers` would have done for us if the
-`clojurescript.test` was a portable CLJS/CLJ lib instead of a lib ported
-from CLJ to CLJS.
-
-Copy the `validators_test.clj` file from the
-`test/clj/modern_cljs/shopping` directory to the corresponding
-`test/cljs/modern_cljs/shopping` directory and change its extension form
-`.clj` to `cljs`.
+Then asks for its help documentation as usual:
 
 ```bash
-cp -R test/clj/modern_cljs/shopping test/cljs/modern_cljs/
-mv test/cljs/modern_cljs/shopping/validators_test.clj test/cljs/modern_cljs/shopping/validators_test.cljs
+cd /path/to/modern-cljs
+boot test-cljs -h
+Run cljs.test tests via the engine of your choice.
+
+ The --namespaces option specifies the namespaces to test. The default is to
+ run tests in all namespaces found in the project.
+
+Options:
+  -h, --help                 Print this help info.
+  -e, --js-env VAL           Set the environment to run tests within, eg. slimer, phantom, node,
+                                 or rhino to VAL.
+  -n, --namespaces NS        Conj NS onto namespaces whose tests will be run. All tests will be run if
+                                 ommitted.
+  -s, --suite-ns NS          Set test entry point. If this is not provided, a namespace will be
+                                 generated to NS.
+  -O, --optimizations LEVEL  Set the optimization level to LEVEL.
+  -o, --out-file VAL         Set output file for test script to VAL.
+  -c, --cljs-opts VAL        Set compiler options for CLJS to VAL.
+  -x, --exit?                Exit immediately with reporter's exit code.
 ```
 
-You'll end up with the following file structure
+At the moment we're interested in two options:
 
-```bash
-tree test
-test
-├── clj
-│   └── modern_cljs
-│       └── shopping
-│           └── validators_test.clj
-└── cljs
-    └── modern_cljs
-        └── shopping
-            └── validators_test.cljs
+* `-e`, regarding the engine environment to run tests within
+* `-n`, the same as `boot-test`, i.e. the namespaces containing we're
+  interested in.
 
-6 directories, 2 files
-```
+### Light the fire
 
-Now open the newly copied `validators_test.cljs` file and modify its
-namespace declaration by requiring the ported `clojurescript.test` lib
-instead of the original `clojure.test` lib.
+We're now ready to light the fire. Mutatis Mutandis, we're going to
+use the same tasks composition we already adopted for the `boot-test`
+task when dealing with CLJ unit testing:
 
 ```clj
-(ns modern-cljs.shopping.validators-test
-  (:require-macros [cemerick.cljs.test :refer (deftest are testing)])
-  (:require [cemerick.cljs.test :as t]
-            [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
-```
+boot testing watch test-cljs -e phantom -n modern-cljs.shopping.validators-test
 
-### Dancing alone on the client-side of the browser
+Starting file watcher (CTRL-C to quit)...
 
-Now cross your fingers and run the following command at the terminal:
-
-```bash
-lein cljsbuild test
-Compiling ClojureScript.
-Compiling "test/js/testable_pre.js" from ["src/brepl" "src/cljs" "test/cljs"]...
-Successfully compiled "test/js/testable_pre.js" in 12.860505 seconds.
-Compiling "test/js/testable_dbg.js" from ["src/brepl" "src/cljs" "test/cljs"]...
-Successfully compiled "test/js/testable_dbg.js" in 2.31121 seconds.
-Compiling "test/js/testable.js" from ["src/cljs" "test/cljs"]...
-Successfully compiled "test/js/testable.js" in 6.609482 seconds.
-Running all ClojureScript tests.
+Writing suite.cljs...
+Writing output.cljs.edn...
+Compiling ClojureScript...
+• output.js
+Running cljs tests...
 Testing modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
-
 0 failures, 0 errors.
-
-{:fail 0, :pass 13, :test 1, :type :summary, :error 0}
-Testing modern-cljs.shopping.validators-test
-
-Ran 1 tests containing 13 assertions.
-
-0 failures, 0 errors.
-
-{:fail 0, :pass 13, :test 1, :type :summary, :error 0}
-Testing modern-cljs.shopping.validators-test
-
-Ran 1 tests containing 13 assertions.
-
-0 failures, 0 errors.
-
-{:fail 0, :pass 13, :test 1, :type :summary, :error 0}
+Elapsed time: 15.975 sec
 ```
 
-Yes, it worked. The `lein cljsbuild test` command compiled all the
-three new builds by including in each emitted JS file the unit tests
-defined in the `test/cljs` directory and then it sequentially executed
-the `phantomjs-whitespace`, the `phantomjs-simple` and the
-`phantomjs-advanced` commands we defined in the `:test-commands`
-section of the `:cljsbuild` task. So far so good.
+Great. We obtained the same results previously obtained from the
+`boot-test` task, which is exactly what we were expecting.
 
-> NOTE 4: If you want to run the tests just for one build do as follows:
->
-> ```bash
-> lein cljsbuild test phantomjs-whitespace
-> Compiling ClojureScript.
-> Running ClojureScript test: phantomjs-whitespace
-> Testing modern-cljs.shopping.validators-test
->
-> Ran 1 tests containing 13 assertions.
->
-> 0 failures, 0 errors.
->
-> {:fail 0, :pass 13, :test 1, :type :summary, :error 0}
-> ```
+There are few things to be noted. First, as we learnt form the
+`boot-cljs-test` help documentation, we passed the `-e phantom` JS
+engine environment we previously installed and the `-n
+modern-cljs.shopping.validators-test` namespace containing our unit
+tests. Secondly, `boot-test-cljs` internally uses the CLJS compiler
+using compiler options defaulted to some value. For example, instead
+of generating the `main.js` JS file as the `boot-cljs` did, it
+generates the `output.js` JS file.
 
-Now let's see if the the CLJ version of the tests are still working
-after the implemented changes.
-
-```bash
-lein test
-
-lein test modern-cljs.shopping.validators-test
-
-Ran 1 tests containing 13 assertions.
-0 failures, 0 errors.
-```
-
-Yes, it's still working. Now force a failure for one of the assertion
-in the `validators_test.cljs` file and run again the `lein cljsbuild
-test` command to see how it reports the failure.
+Now repeat the same experiments we previously did by modifying an
+expected result from a unit test assertion in the
+`test/cljc/shopping/validators-test.cljc` file to verify if the
+process is able to recompile and rerun the tests as soon as we save
+the changes.
 
 ```clj
 (deftest validate-shopping-form-test
-  (testing ...
-    (testing ...
-      (are [... ...] (= ... ...)
-           nil (validate-shopping-form "foo" "0" "0" "0") ; force a failure
-           ...
-           ...))))
+  (testing "Shopping Form Validation"
+    (testing "/ Happy Path"
+      (are [expected actual] (= expected actual)
+           nil (validate-shopping-form "" "0" "0" "0")                ;; quantity is now empty
+           nil (validate-shopping-form "1" "0.0" "0.0" "0.0")
+           nil (validate-shopping-form "100" "100.25" "8.25" "123.45")))
+  ...))
 ```
 
+When you save the file, the `watch` task triggers the CLJS
+recompilation and rerun the sole unit test contained in the
+`modern-cljs.shopping.validators-test` namespace. Following is the
+obtained result:
+
+```clj
+Writing suite.cljs...
+Writing output.cljs.edn...
+Compiling ClojureScript...
+• output.js
+Running cljs tests...
+Testing modern-cljs.shopping.validators-test
+
+FAIL in (validate-shopping-form-test) (:)
+Shopping Form Validation / Happy Path
+expected: (= nil (validate-shopping-form "" "0" "0" "0"))
+  actual: (not (= nil {:quantity ["Quantity can't be empty." "Quantity has to be an integer number." "Quantity can't be negative."]}))
+
+Ran 1 tests containing 13 assertions.
+1 failures, 0 errors.
+Elapsed time: 4.779 sec
+```
+
+As you see the `(= nil (validate-shopping-form "" "0" "0" "0"))`
+failed, because `(validate-shopping-form "" "0" "0" "0")` is now
+returning `{:quantity
+["Quantity can't be empty." "Quantity has to be an integer number." "Quantity can't be negative."]}`
+instead of the expected `nil` value.
+
+Correct the induced bug, save the file and wait for the new result:
+
+```clj
+Writing suite.cljs...
+Writing output.cljs.edn...
+Compiling ClojureScript...
+• output.js
+Running cljs tests...
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+Elapsed time: 3.906 sec
+```
+
+Great. Everything got recompiled and the previously failed assertion
+passed. For proceeding to the next step, stop the `boot` process.
+
+## More automation
+
+Even if we reached a fairly good results with CLJ and CLJS unit
+testing approaching the TDD workflow, there are still few things we'd
+like to improve:
+
+1. we'like to combine the CLJ/CLJS unit testing in the same `boot`
+  command;
+1. we'd like to combine the resulted combined `boot` command with the
+  `boot dev` command in such a way that we're going to use one JVM
+  only for all the tasks;
+1. we'd like to call the `boot` command without passing it such a long
+  option values;
+
+Let's start from the first item.
+
+## TDD task
+
+As we previously learnt, the composable nature of `boot` tasks allows
+to define a new task that is the result of the composition of other
+already defined tasks.
+
+Let's try to define a new `tdd` (Test Driven Development) task which combine the `test` and the
+`cljs-test` tasks.
+
+```clj
+(deftask tdd 
+  "Launch a TDD Environment"
+  []
+  (comp 
+   (testing)
+   (watch)
+   (test-cljs :js-env :phantom :namespaces #{'modern-cljs.shopping.validators-test})
+   (test :namespaces #{'modern-cljs.shopping.validators-test})))
+```
+
+> Note 4: the above tasks composition first mimics the same
+> composition we previously created at the command line and then
+> appends the `test` task after the `test-cljs` task. The order of the
+> two unit testing task is important.
+
+Place the new task definition in the `build.boot` file after the
+definition of the `testing` task.
+
+Now run the newly defined `tdd` task:
+
 ```bash
-lein cljsbuild test
-Compiling ClojureScript.
-Compiling "test/js/testable_pre.js" from ["src/brepl" "src/cljs" "test/cljs"]...
-Successfully compiled "test/js/testable_pre.js" in 13.09958 seconds.
-Compiling "test/js/testable_dbg.js" from ["src/brepl" "src/cljs" "test/cljs"]...
-Successfully compiled "test/js/testable_dbg.js" in 2.344958 seconds.
-Compiling "test/js/testable.js" from ["src/cljs" "test/cljs"]...
-Successfully compiled "test/js/testable.js" in 6.427312 seconds.
-Running all ClojureScript tests.
+cd /path/to/modern-cljs
+boot tdd
+
+Starting file watcher (CTRL-C to quit)...
+
+Writing suite.cljs...
+Writing output.cljs.edn...
+Compiling ClojureScript...
+• output.js
+Running cljs tests...
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+Elapsed time: 18.276 sec
+```
+
+So far, so good. The `boot tdd` command first compiled any CLJS files,
+ran the CLJS unit tests and finally ran on the JVM the same unit tests
+contained in the `modern-cljs.shopping.valuators-test` namespace.
+
+The results are exactly the expected ones. All the assertions
+succeeded on both CLJS and CLJ platforms. 
+
+Now force again a failure for one of the assertions in the
+`validators_test.cljs`:
+
+```clj
+(deftest validate-shopping-form-test
+  (testing "Shopping Form Validation"
+    (testing "/ Happy Path"
+      (are [expected actual] (= expected actual)
+           nil (validate-shopping-form "" "0" "0" "0")           ;; force a failure
+           nil (validate-shopping-form "1" "0.0" "0.0" "0.0")
+           nil (validate-shopping-form "100" "100.25" "8.25" "123.45")))
+
+  ...))
+```
+
+After you save the file you'll receive the following report:
+
+```bash
+Writing suite.cljs...
+Writing output.cljs.edn...
+Compiling ClojureScript...
+• output.js
+Running cljs tests...
 Testing modern-cljs.shopping.validators-test
 
 FAIL in (validate-shopping-form-test) (:)
-
 Shopping Form Validation / Happy Path
-
-expected: (= nil (validate-shopping-form "foo" "0" "0" "0"))
-
-  actual: (not (= nil {:quantity ["Quantity has to be an integer number" "Quantity has to be positive"]}))
+expected: (= nil (validate-shopping-form "" "0" "0" "0"))
+  actual: (not (= nil {:quantity ["Quantity can't be empty." "Quantity has to be an integer number." "Quantity can't be negative."]}))
 
 Ran 1 tests containing 13 assertions.
-
 1 failures, 0 errors.
 
-{:fail 1, :pass 12, :test 1, :type :summary, :error 0}
 Testing modern-cljs.shopping.validators-test
 
-FAIL in (validate-shopping-form-test) (:)
-
+FAIL in (validate-shopping-form-test) (validators_test.cljc:9)
 Shopping Form Validation / Happy Path
-
-expected: (= nil (validate-shopping-form "foo" "0" "0" "0"))
-
-  actual: (not (= nil {:quantity ["Quantity has to be an integer number" "Quantity has to be positive"]}))
+expected: nil
+  actual: {:quantity
+           ["Quantity can't be empty."
+            "Quantity has to be an integer number."
+            "Quantity can't be negative."]}
+    diff: + {:quantity
+             ["Quantity can't be empty."
+              "Quantity has to be an integer number."
+              "Quantity can't be negative."]}
 
 Ran 1 tests containing 13 assertions.
-
 1 failures, 0 errors.
-
-{:fail 1, :pass 12, :test 1, :type :summary, :error 0}
-Testing modern-cljs.shopping.validators-test
-
-FAIL in (validate-shopping-form-test) (:)
-
-Shopping Form Validation / Happy Path
-
-expected: (= nil (validate-shopping-form "foo" "0" "0" "0"))
-
-  actual: (not (= nil {:quantity ["Quantity has to be an integer number" "Quantity has to be positive"]}))
-
-Ran 1 tests containing 13 assertions.
-
-1 failures, 0 errors.
-
-{:fail 1, :pass 12, :test 1, :type :summary, :error 0}
-Subprocess failed
+clojure.lang.ExceptionInfo: Some tests failed or errored
+    data: {:test 1, :pass 12, :fail 1, :error 0, :type :summary}
+                        clojure.core/ex-info            core.clj: 4593
+           adzerk.boot-test/eval549/fn/fn/fn       boot_test.clj:   73
+crisptrutski.boot-cljs-test/eval651/fn/fn/fn  boot_cljs_test.clj:  109
+           adzerk.boot-cljs/eval268/fn/fn/fn       boot_cljs.clj:  200
+           adzerk.boot-cljs/eval226/fn/fn/fn       boot_cljs.clj:  134
+crisptrutski.boot-cljs-test/eval621/fn/fn/fn  boot_cljs_test.clj:   79
+        boot.task.built-in/fn/fn/fn/fn/fn/fn        built_in.clj:  233
+           boot.task.built-in/fn/fn/fn/fn/fn        built_in.clj:  233
+              boot.task.built-in/fn/fn/fn/fn        built_in.clj:  230
+                         boot.core/run-tasks            core.clj:  701
+                           boot.core/boot/fn            core.clj:  711
+         clojure.core/binding-conveyor-fn/fn            core.clj: 1916
+                                         ...
+Elapsed time: 2.621 sec
 ```
 
 It worked again as expected. Because of the code change into the
-`validators_test.cljs` file, the `lein cljsbuild test` recompiles all
-the builds before launching the three `:test-commands` and it finally
-reports the assertion error for each of the build.
+`validators_test.cljs` file, the `tdd` task recompiled all the CLJS
+source files, ran the CLJS unit test, reporting the failure, and
+finally ran the CLJ test reporting the same failure.
 
-> NOTE 5: If you followed the suggestion in the previous NOTE 2, I now
-> suggest you to commit the changes by issuing the following `git`
-> command at the terminal.
->
-> ```bash
-> git add .
-> git commit -m "step-1 done"
-> git checkout -b tutorial-16-step-2
-> ```
-
-## Don't Repeat Yourself while crossing the border
-
-It's now time to actually solve the expression problem that we
-previously worked around by manually copying and changing the
-`test/clj/modern_cljs/shopping/validators_test.clj` file into the
-`test/cljs/modern_cljs/shopping/validators_test.cljs` file to test the
-`modern-cljs.shopping.validators` namespace on both sides of the
-border.
-
-We have two options:
-
-* use the `:crossovers` facility of the `lein-cljsbuild` plugin by
-  adding some *Black Magic*;
-* use the [cljx][16] lein plugin by [Kevin Lynagh][17].
-
-### No Black Magic
-
-As written by [Evan Mezeske][14] in the [lein-cljsbuild documentation][15]
-
-> In ClojureScript, macros are still written in Clojure, and can not be
-> written in the same file as actual ClojureScript code. Also, to use them
-> in a ClojureScript namespace, they must be required via :require-macros
-> rather than the usual :require.
->
-> This makes using the crossover feature to share macros between Clojure
-> and ClojureScript a bit difficult, but lein-cljsbuild has some special
-> constructs to make it possible.
-
-If you compare again the server-side version of the
-`modern-cljs.shopping.validators_test.clj` file with the corresponding
-client-side version, you can see that the only detectable variation is
-confined in the namespace declaration and it pertains the macros
-requirements.
-
-However, if you take a look at the documentation about the [cljx][16]
-lein plugin by [Kevin Lynagh][17] plugin, you'll discover that our
-scenario perfectly fits with its scope.
-
-> Cljx is a Lein plugin that emits Clojure and ClojureScript code from a
-> single metadata-annotated codebase.
-
-My personal opinion about the `:crossovers` option of the
-[lein-cljsbuild][18] and the [cljx][16] lein plugin is that the first
-is more convenient when you have to deal with **portable** libs
-(e.g. [valip][2]), the second is more convenient when you have to deal
-with **ported** libs (e.g. [clojurescript.test][4]).
-
-### Dancing with a chaperone while crossing the border
-
-So, let's dance with [cljx][16]. We start using it by moving the
-`modern_cljs` directory from the `test/clj` to a new `test/cljx`
-directory and then by renaming the `validators_test.clj` as
-`validators_test.cljx` (note the new `.cljx` file extension to denote
-annotated-metadata files).
-
-```bash
-mv test/clj/modern_cljs/ test/cljx
-mv test/cljx/modern_cljs/shopping/validators_test.clj test/cljx/modern_cljs/shopping/validators_test.cljx
-```
-
-Now delete both the `test/clj` and the `test/cljs` directories
-because, as we'll see in a moment, we are not going to use them
-anymore.
-
-```bash
-rm -rf test/clj test/cljs
-```
-
-We then need to modify the `validators_test.cljx` file by annotating the
-namespace declarations with the `#+clj` and the `#+cljs` feature annotations as
-follows:
+Now correct the above forced bug. You should receive the following
+report:
 
 ```clj
-#+clj (ns modern-cljs.shopping.validators-test
-        (:require [clojure.test :refer [deftest are testing]]
-                  [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
-
-#+cljs (ns modern-cljs.shopping.validators-test
-         (:require-macros [cemerick.cljs.test :refer (deftest are testing)])
-         (:require [cemerick.cljs.test :as t]
-                   [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
-```
-
-Finally we have to:
-
-* add the [cljx plugin][16] to the project
-* configure the `:cljx` task
-* consequently update the `:test-paths` keyword of the project
-* consequently update the `:source-paths` compiler option for each
-  CLJS unit testing build.
-
-Following is the interested code snippet from the `project.clj`
-
-```clj
-(defproject modern-cljs "0.1.0-SNAPSHOT"
-  ...
-  ...
-  :test-paths ["target/test/clj" "target/test/cljs"] ;; See ATTENTION NOTE in tutorial-01
-  ...
-  ...
-  :plugins [...
-            ...
-            [com.keminglabs/cljx "0.3.0"]] ;; cljx plugin
-
-  ;; cljx task configuration
-  :cljx {:builds [{:source-paths ["test/cljx"] ;; cljx source dir
-                   :output-path "target/test/clj" ;; clj output
-                   :rules :clj} ;; clj generation rules
-
-                  {:source-paths ["test/cljx"] ;; cljx source dir
-                   :output-path "target/test/cljs" ;; cljs output
-                   :rules :cljs}]} ;; cljs generation rules
-  ...
-  ...
-  :cljsbuild {...
-              ...
-              :builds
-              {:whitespace-unit-tests
-               {:source-paths [... ..."target/test/cljs"]
-                ...
-                ...
-                }
-
-               :simple-unit-tests
-               {:source-paths [... ... "target/test/cljs"]
-                ...
-                ...
-                }
-
-               :advanced-unit-tests
-               {:source-paths [... "target/test/cljs"]
-                ...
-                ...
-                }}})
-```
-
-Let's debrief the newly updated `project.clj` file.
-
-First, we added the `[com.keminglabs/cljx "0.3.0"]` to the `:plugins`
-section.
-
-Then, in the `:cljx` task configuration we decided to save the `cljx`
-generated code for CLJ and CLJS respectively under the
-`target/test/clj` and `target/test/cljs` directory.
-
-```clj
-  :cljx {:builds [{...
-                   :output-path "target/test/clj" ;; clj output
-                   ...}
-
-                  {...
-                   :output-path "target/test/cljs" ;; cljs output
-                   ...}]}
-```
-
-This way, thanks to the [leiningen][19] `:target-path` option, which
-defaults to the `target` directory in the main directory of the
-project, the `lein clean` command will deleted any `cljx` generated
-files.
-
-> NOTE 6: Many thanks to [Chas Emerick][3] for having suggested me this
-> smart trick.
-
-Accordingly to the above choice, we had to modify the leiningen
-`:test-paths` option with the `["target/test/clj" "target/test/cljs]`
-value in such a way that the `lein test` command used to run the CLJ
-unit tests knows where to find the generated files and to respect the
-fact that `cljsbuild` does not add back CLJS pathnames to the
-Leiningen `classpath` (cf. ATTENTION NOTE in
-[Tutorial 1 - The Basics][22]).
-
-*Mutatis mutandis*, we had to update the `:source-paths` option for
-each `cljsbuild` unit testing build by including the
-`"target/test/cljs"` directory. As before, in this way each
-`cljsbuild` unit testing build knows where to find the CLJS unit
-testing files generated by `cljx`.
-
-In the `:cljx` task configuration we defined two `cljx` generators
-(i.e. `:builds`).
-
-```clj
-  :cljx {:builds [{:source-paths ["test/cljx"]
-                   :output-path "target/test/clj"
-                   :rules :clj}
-
-                  {:source-paths ["test/cljx"]
-                   :output-path "target/test/cljs"
-                   :rules :cljs}]}
-```
-
-* The first is configured to generate the CLJ files: The `clj` files
-  will be generated into the `target/test/clj` directory starting from
-  any `cljx` file in the `test/cljx` directory by applying the
-  `:clj` rule.
-* The second is configured to generate the CLJS files: The `cljs`
-  files will be generated into the `target/test/cljs` directory
-  starting from any `cljx` file in the `test/cljx` directory by
-  applying the `:cljs` rule.
-
-The `:clj` and the `:cljs` keyword map to the corresponding
-`clj-rules` and `cljs-rules` which have been defined by `cljx` in the
-`cljx.rules` namespace and they remove from the generated code any
-definition marked respectively as `#+cljs` and `#+clj`.
-
-## Let's dance
-
-It's now time to verify that everything is working as expected.
-
-First, start from a clean codebase.
-
-```bash
-lein clean # do you remember the :hooks [leiningen.cljsbuild] option?
-```
-
-Next we need to generate the `clj` and `cljs` testing files starting
-from the shared annotated `validators-test.cljx` file by specifying
-the `cljx` task in the `lein` command.
-
-```bash
-lein cljx once
-Rewriting test/cljx to target/test/clj (clj) with features #{clj} and 0 transformations.
-Rewriting test/cljx to target/test/cljs (cljs) with features #{cljs} and 1 transformations.
-```
-
-> NOTE 7: `cljx` offers both `once` and `auto` subtask (the default is
-> `once`) and their behavior is the same of the corresponding `once`
-> and `auto` subtask of `cljsbuild`. In `auto` mode any change in any
-> `cljx` file will trigger a regeneration of the `clj` and `cljs`
-> files.
-
-> NOTE 8: You can even automatically run `cljx` task by adding
-> `cljx.hooks` to the `:hooks` option in your `project.clj` file as we
-> already did for `cljsbuild`, but I experienced strange behaviour
-> when configured together.
-
-You end up with the following structure for the test files
-
-```bash
-tree target/test
-target/test
-├── clj
-│   └── modern_cljs
-│       └── shopping
-│           └── validators_test.clj
-└── cljs
-    └── modern_cljs
-        └── shopping
-            └── validators_test.cljs
-
-6 directories, 2 files
-```
-
-We can now launch the CLJS compilation with the usual command.
-
-```bash
-lein cljsbuild once
-Compiling ClojureScript.
-Compiling "resources/public/js/modern_pre.js" from ["src/brepl" "src/cljs"]...
-Successfully compiled "resources/public/js/modern_pre.js" in 15.244085 seconds.
-Compiling "target/test/js/testable_dbg.js" from ["src/brepl" "src/cljs" "target/test/cljs"]...
-Successfully compiled "target/test/js/testable_dbg.js" in 3.642648 seconds.
-Compiling "resources/public/js/modern_dbg.js" from ["src/brepl" "src/cljs"]...
-Successfully compiled "resources/public/js/modern_dbg.js" in 2.734488 seconds.
-Compiling "target/test/js/testable_pre.js" from ["src/brepl" "src/cljs" "target/test/cljs"]...
-Successfully compiled "target/test/js/testable_pre.js" in 5.298994 seconds.
-Compiling "resources/public/js/modern.js" from ["src/cljs"]...
-Successfully compiled "resources/public/js/modern.js" in 7.121927 seconds.
-Compiling "target/test/js/testable.js" from ["src/cljs" "target/test/cljs"]...
-Successfully compiled "target/test/js/testable.js" in 5.7131 seconds.
-```
-
-### Play and Pray
-
-Finally, cross your finger and issue the commands to run the defined
-unit tests for both the sides of the world wide web.
-
-```bash
-lein test
-Compiling ClojureScript.
-
-lein test modern-cljs.shopping.validators-test
-
-Ran 1 tests containing 13 assertions.
-0 failures, 0 errors.
-Running all ClojureScript tests.
+Writing suite.cljs...
+Writing output.cljs.edn...
+Compiling ClojureScript...
+• output.js
+Running cljs tests...
 Testing modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
-
 0 failures, 0 errors.
 
-{:fail 0, :pass 13, :test 1, :type :summary, :error 0}
 Testing modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
-
 0 failures, 0 errors.
-
-{:fail 0, :pass 13, :test 1, :type :summary, :error 0}
-Testing modern-cljs.shopping.validators-test
-
-Ran 1 tests containing 13 assertions.
-
-0 failures, 0 errors.
-
-{:fail 0, :pass 13, :test 1, :type :summary, :error 0}
+Elapsed time: 2.033 sec
 ```
 
-We have reached our goal and we can't be happier! We now have a
-portable namespace (i.e. `modern-cljs.shopping.validators`) for the
-`shoppingForm` validators and a corresponding portable namespace
-(i.e. `modern-cljs.shopping.validators-test`) which tests it on both
-the client and the server side of `modern-cljs` web app.
+Great. We obtained again the expected results and addressed the first
+item in the nice-to-have list we started from: we now have a TDD
+environment for both CLJ and CLJS in the same JVM. for proceeding with
+the next step, stop the `boot` process.
 
-## Final note
+## Approaching TDD
 
-If you decided to follow the suggestion in NOTE 2, you can now commit
-your work with the following `git` commands;
+As said at the beginning of the series, one of the most attractive
+features of `boot` building tool when compared with `leiningen` is its
+potential ability to run any task in the same JVM, being the other to
+be able to easily alter the runtime environment while you use it.
+
+Let's see if we are able to align ourselves to those potentialities.
+
+As we previously saw, thanks to the `watch` task, the `test-cljs` task
+triggers the CLJS recompilation anytime we modify and save a `.cljs`
+or a `.cljc` file.
+
+The rising question is now the following: could we compose the
+`test-cljs` task with the `serve`, `reload` and `cljs-repl` tasks in
+the same way we composed them in the `dev` task with the `cljs` task?
+
+Let's start by reading the `test-cljs` help documentation again:
 
 ```bash
-git add .
-git commit -m "step-2 done"
+boot test-cljs -h
+Run cljs.test tests via the engine of your choice.
+
+ The --namespaces option specifies the namespaces to test. The default is to
+ run tests in all namespaces found in the project.
+
+Options:
+  -h, --help                 Print this help info.
+  -e, --js-env VAL           Set the environment to run tests within, eg. slimer, phantom, node,
+                                 or rhino to VAL.
+  -n, --namespaces NS        Conj NS onto namespaces whose tests will be run. All tests will be run if
+                                 ommitted.
+  -s, --suite-ns NS          Set test entry point. If this is not provided, a namespace will be
+                                 generated to NS.
+  -O, --optimizations LEVEL  Set the optimization level to LEVEL.
+  -o, --out-file VAL         Set output file for test script to VAL.
+  -c, --cljs-opts VAL        Set compiler options for CLJS to VAL.
+  -x, --exit?                Exit immediately with reporter's exit code.
 ```
+
+Uhm, that's interesting. Aside form the `-e`, `-n`, `-s` and `-x`
+options, the remaining `-O`, `-o` and `-c` options seem to deal with
+the CLJS compiler options.
+
+At the moment we're only interested to the `-o` option, because is the
+one setting the name of the JS file generated by the CLJS compiler. As
+we previously while playing with the newly defined `tdd` task, the
+default filename is `output.js`, while the default filename generated
+by the `cljs` task that we composed in the `dev` task and included in
+the `html` pages (i.e. `index.html` and `shopping.html`) is `main.js`.
+
+Let's try to rearrange the `tdd` task composition by:
+
+* prepending the `serve` task in the same way we did for the `dev`
+  task;
+* adding the `reload` task to trigger the reloading of static
+  resources as we did for the `dev` task;
+* adding the `cljs-repl` task immediately before the `test-cljs` task
+  in the same way we did for the `dev` task;
+* passing the `"main.js"` value to the `:out-file` option for the
+  `test-cljs` task.
+
+Here is the updated `tdd` task definition you have to be substituted
+to the previous one in the `build.boot` file:
+
+```clj
+(deftask tdd 
+  "Launch a TDD Environment"
+  []
+  (comp
+   (serve :dir "target"                                
+          :handler 'modern-cljs.core/app
+          :resource-root "target"
+          :reload true)
+   (testing)
+   (watch)
+   (reload)
+   (cljs-repl)
+   (test-cljs :out-file "main.js" 
+              :js-env :phantom 
+              :namespaces #{'modern-cljs.shopping.validators-test})
+   (test :namespaces #{'modern-cljs.shopping.validators-test})))
+```
+
+### Light the fire
+
+Here we'are. Let's see if we were able to build a development
+environment able to simultaneously satisfy the Bret Victor Immediate
+Feedback Principle and the application of the TDD workflow for both
+the client and the server code.
+
+``bash
+cd /path/to/modern-cljs
+boot tdd
+Starting reload server on ws://localhost:51346
+Writing boot_reload.cljs...
+Writing boot_cljs_repl.cljs...
+2015-12-10 19:19:57.361:INFO::clojure-agent-send-off-pool-0: Logging initialized @14127ms
+2015-12-10 19:20:02.689:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
+2015-12-10 19:20:02.753:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@4079c6c9{HTTP/1.1}{0.0.0.0:3000}
+2015-12-10 19:20:02.754:INFO:oejs.Server:clojure-agent-send-off-pool-0: Started @19520ms
+Started Jetty on http://localhost:3000
+
+Starting file watcher (CTRL-C to quit)...
+
+nREPL server started on port 51347 on host 127.0.0.1 - nrepl://127.0.0.1:51347
+Writing suite.cljs...
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+Running cljs tests...
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+Elapsed time: 29.060 sec
+```
+
+So fa, so good. The web server started and the unit tests have been
+executed with success on both the client (i.e. CLJS) and the server sides
+(i.e. CLJ).
+
+Now visit the usual
+[Shopping Form](http://localhost:3000/shopping.html) and play with it.
+
+> NOTE 4: remember that even if we already have defined and tested the
+> validators for both the client and the server sides of the Shopping
+> Form, we still have to attach them to form itself.
+
+So fa, so good. Everything is still working as expected.
+
+Now run the CLJ REPL as usual:
+
+```bash
+# from a new terminal
+boot repl -c
+...
+boot.user> 
+```
+
+And play with it. Still working. So far, so good.
+
+> NOTE 5: I use emacs+cider (release 0.10.0). It means that I can create
+> more `nrepl-client` connections with the running `nrepl-server`
+> implicitly started from the above `boot tdd` command. I use one
+> connection for the CLJ REPL, and another connection for the CLJS bREPL
+> without starting any new JVM instance. In other words I run everything
+> on a single JVM instance. On the contrary, when you run the above
+> `boot repl -c` command, you're creating a new JVM instance and if you
+> want to start a CLJS bREPL while keeping the CLJ REPL to play with,
+> you'll end up with a total of three JVM instance, without counting the
+> one eventually created by your IDE.
+
+Now start the CLJS bREPL.
+
+```clj
+boot.user> (start-repl)
+<< started Weasel server on ws://127.0.0.1:51363 >>
+<< waiting for client to connect ... Connection is ws://localhost:51363
+Writing boot_cljs_repl.cljs...
+ connected! >>
+To quit, type: :cljs/quit
+nil
+```
+
+Still working. So fa, so good.
+
+As a final verification repeat the kind of assertion failures we force
+above:
+
+```clj
+Writing suite.cljs...
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+Running cljs tests...
+Testing modern-cljs.shopping.validators-test
+
+FAIL in (validate-shopping-form-test) (:)
+Shopping Form Validation / Happy Path
+expected: (= nil (validate-shopping-form "" "0" "0" "0"))
+  actual: (not (= nil {:quantity ["Quantity can't be empty." "Quantity has to be an integer number." "Quantity can't be negative."]}))
+
+Ran 1 tests containing 13 assertions.
+1 failures, 0 errors.
+
+Testing modern-cljs.shopping.validators-test
+
+FAIL in (validate-shopping-form-test) (validators_test.cljc:9)
+Shopping Form Validation / Happy Path
+expected: nil
+  actual: {:quantity
+           ["Quantity can't be empty."
+            "Quantity has to be an integer number."
+            "Quantity can't be negative."]}
+    diff: + {:quantity
+             ["Quantity can't be empty."
+              "Quantity has to be an integer number."
+              "Quantity can't be negative."]}
+
+Ran 1 tests containing 13 assertions.
+1 failures, 0 errors.
+clojure.lang.ExceptionInfo: Some tests failed or errored
+    data: {:test 1, :pass 12, :fail 1, :error 0, :type :summary}
+                        clojure.core/ex-info            core.clj: 4593
+           adzerk.boot-test/eval549/fn/fn/fn       boot_test.clj:   73
+crisptrutski.boot-cljs-test/eval651/fn/fn/fn  boot_cljs_test.clj:  109
+           adzerk.boot-cljs/eval268/fn/fn/fn       boot_cljs.clj:  200
+           adzerk.boot-cljs/eval226/fn/fn/fn       boot_cljs.clj:  134
+crisptrutski.boot-cljs-test/eval621/fn/fn/fn  boot_cljs_test.clj:   79
+      adzerk.boot-cljs-repl/eval491/fn/fn/fn  boot_cljs_repl.clj:  171
+              boot.task.built-in/fn/fn/fn/fn        built_in.clj:  284
+              boot.task.built-in/fn/fn/fn/fn        built_in.clj:  281
+      adzerk.boot-reload/eval391/fn/fn/fn/fn     boot_reload.clj:  120
+         adzerk.boot-reload/eval391/fn/fn/fn     boot_reload.clj:  119
+        boot.task.built-in/fn/fn/fn/fn/fn/fn        built_in.clj:  233
+           boot.task.built-in/fn/fn/fn/fn/fn        built_in.clj:  233
+              boot.task.built-in/fn/fn/fn/fn        built_in.clj:  230
+         pandeiro.boot-http/eval314/fn/fn/fn       boot_http.clj:   83
+                         boot.core/run-tasks            core.clj:  701
+                           boot.core/boot/fn            core.clj:  711
+         clojure.core/binding-conveyor-fn/fn            core.clj: 1916
+                                         ...
+Elapsed time: 6.369 sec
+```
+
+You'll got the same results as in the previous forced failure. So fa
+so good. Now correct the forced bug and see the results again:
+
+```clj
+Writing suite.cljs...
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+Running cljs tests...Unexpected response code: 400
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+Elapsed time: 3.418 sec
+```
+
+Success again. Even if we're very happy with the reached results,
+there are few things we still have to satisfy the third requirement of
+the list we auto-assigned to ourself....
 
 Stay tuned for the next tutorial.
 
