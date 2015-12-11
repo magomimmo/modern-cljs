@@ -6,8 +6,8 @@ altered the `boot` runtime environment.
 
 In this tutorial we start by freezing that needed change in the `boot`
 building file. Then we go on by configuring a development environment
-that simultaneously satisfy the Immediate Feedback Principle by Bret
-Victor and the Test Driven Development (TDD) workflow in a single JVM.
+that simultaneously satisfy in a single JVM the Immediate Feedback
+Principle by Bret Victor and the Test Driven Development (TDD).
 
 ## Preamble
 
@@ -22,16 +22,17 @@ git checkout se-tutorial-14
 
 ## Introduction
 
-In the [previous tutorial][1] we added few assertions for unit testing
-the `modern-cljs.shopping.validators` namespace and then we exercised
-those assertions by manually calling `run-tests` from the CLJ REPL and
-the CLJS bREPL as well.
+In the [previous tutorial][1] we added few assertions to unit test the
+`modern-cljs.shopping.validators` namespace. We then exercised those
+assertions by manually calling `run-tests` from the CLJ REPL and the
+CLJS bREPL as well.
 
 As you remember, before running those unit tests we had first to alter
 the IFDE runtime environment by adding the `test/cljc` directory to
 the `:source-paths` environment variable and then, depending from the
-runtime platform, we had to require the appropriate CLJ/CLJS namespace
-together with the namespace containing the unit tests themselves.
+runtime platform of the active REPL, we had to require the appropriate
+CLJ/CLJS namespace together with the namespace containing the unit
+tests themselves.
 
 Obviously this manual workflow is only acceptable while you're
 learning how to introduce unit testing in your CLJ/CLJS mixed project.
@@ -45,7 +46,7 @@ Principle, satisfy the TDD workflow as well.
 ## Testing task
 
 The first thing we want to eliminate is the need to add the
-`test/cljc` directory to the `:source-paths` environment variable any
+`test/cljc` directory to the `:source-paths` environment variable each
 time we start the IFDE runtime.
 
 Let's create a a new task in the `build.boot` configuration file and name it `testing`:
@@ -58,7 +59,7 @@ Let's create a a new task in the `build.boot` configuration file and name it `te
   identity)
 ```
 
-As you see this new task, which has to be added immediately before the
+As you see, this new task, which has to be added immediately before the
 `dev` one, replicates the same thing we manually did in the previous
 tutorial while the IFDE was running. The `identity` function is
 returning the task itself in such a way that you can compose it with
@@ -66,8 +67,8 @@ other tasks.
 
 ### Composing tasks
 
-To see how the newly defined `testing` task can be used by composing
-it with the `dev` task, start the IFDE as follows:
+To see how the newly defined `testing` task can be used with the `dev`
+task, start the IFDE as follows:
 
 ```bash
 cd /path/to/modern-cljs
@@ -76,7 +77,7 @@ boot testing dev
 Elapsed time: 26.385 sec
 ```
 
-As you see for composing the `dev` task with the `testing` one for
+As you see, to compose the `dev` task with the `testing` one for
 adding the `test/cljc` directory to the `:source/paths` environment
 variable, we only placed the `testing` task before the `dev` one.
 
@@ -102,10 +103,10 @@ boot.user=> (get-env :source-paths)
   "src/clj"}
 ```
 
-As you see the `test/cljc` has been added to it. Now do the same
-things we did in the [previous tutorial][1] by requiring the
-`clojure.test` and the `modern-cljs.shopping.validators-test`
-namespaces before calling `run-tests`:
+The `test/cljc` has been correctly added to it. Now do the same things
+we did in the [previous tutorial][1] by requiring the `clojure.test`
+and the `modern-cljs.shopping.validators-test` namespaces before
+calling `run-tests`:
 
 ```clj
 boot.user=> (require '[clojure.test :as t]
@@ -146,7 +147,7 @@ cljs.user=> (require '[cljs.test :as t :include-macros true]
 nil
 ```
 
-and finally evaluate the `run-test` function again
+and finally evaluate the `run-tests` function again
 
 ```clj
 cljs.user=> (t/run-tests 'modern-cljs.shopping.validators-test)
@@ -164,10 +165,10 @@ any `boot` related process.
 
 ## boot-test task
 
-`boot` does not came with a `test` pre-build task like it does
-[Leiningen](https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md#tests). Fortunately,
-the `boot` community created the `boot-test` task for all of us. Let's
-add it our `build.boot` file as usual.
+`boot` does not came with a `test` pre-build task like
+[Leiningen](https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md#tests)
+does. Fortunately, the `boot` community created the `boot-test` task
+for that job. Let's add it our `build.boot` file as usual.
 
 ```clj
 (set-env!
@@ -205,7 +206,7 @@ Options:
   -r, --requires REQUIRES     Conj REQUIRES onto extra namespaces to pre-load into the pool of test pods for speed.
 ```
 
-As you see there is a `-n` command line option we could use to specify
+As you see, there is a `-n` command line option we could use to specify
 a namespace to be run.
 
 Let's try it
@@ -228,7 +229,7 @@ nothing to offer for CLJS. Later we'll afford CLJS testing as well.
 
 ## CLJ TDD
 
-Even if the progress is palpable, we still have to cover a typical TDD
+Even if our progress is palpable, we still have to cover a typical TDD
 workflow. Any time you modify your source code the corresponding unit
 tests should be executed again.
 
