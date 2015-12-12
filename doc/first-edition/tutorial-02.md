@@ -29,12 +29,19 @@ should be similar options for other OSs.
 > `SimpleHTTPServer`. If you have python installed on your operating
 > system, just launch it as follows:
 >
+> Python 2.7
 > ```bash
 > cd /path/to/modern-cljs/resources/public
 > python -m SimpleHTTPServer 8888
 > Serving HTTP on 0.0.0.0 port 8888 ...
 > ```
 >
+> Python 3
+> ```bash
+> cd /path/to/modern-cljs/resources/public
+> python -m http.server 8888
+> Serving HTTP on 0.0.0.0 port 8888 ...
+> ```
 > Thanks to [Max Penet][5] for the suggestion.
 >
  
