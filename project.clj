@@ -17,18 +17,23 @@
 
   :source-paths ["src/clj" "src/cljs"]
 
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2069"]
+  :dependencies [[org.clojure/clojure "1.6.0"]
+                 [org.clojure/clojurescript "0.0-3126"]
+                 [com.cemerick/piggieback "0.1.6-SNAPSHOT"]
                  [compojure "1.1.6"]
                  [hiccups "0.2.0"]
                  [domina "1.0.3-SNAPSHOT"]
                  [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1"]
                  [org.clojars.magomimmo/shoreleave-remote "0.3.1"]
                  [com.cemerick/valip "0.3.2"]
+                 [org.clojure/tools.nrepl "0.2.7"]
+                 [lein-cljsbuild "1.0.6-SNAPSHOT"]
                  [enlive "1.1.4"]]
 
   :plugins [[lein-ring "0.8.8"]
-            [lein-cljsbuild "1.0.0"]]
+            [com.cemeric/austin "0.1.6"]
+            [lein-clojurescript "1.1.0"]
+            [cider/cider-nrepl "0.9.0-SNAPSHOT"]]
 
   :hooks [leiningen.cljsbuild]
 

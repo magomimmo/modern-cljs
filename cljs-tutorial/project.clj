@@ -8,17 +8,21 @@
   :min-lein-version "2.3.4"
   :clean-targets ["out" :target-path]
   :source-paths ["src/clj" "src/cljs" "resources/tools/http" "resources/tools/repl"]
-  :dependencies [[org.clojure/clojure "1.5.1"]
+  :dependencies [[org.clojure/clojure "1.6.0"]
+                 [org.clojure/clojurescript "0.0-3126"]
+                 [com.cemerick/piggieback "0.1.6-SNAPSHOT"]
+                 [org.clojure/tools.nrepl "0.2.7"]
                  [ring "1.2.1"]
                  [compojure "1.1.6"]
                  [enlive "1.1.4"]
-                 [org.clojure/clojurescript "0.0-2138"]]
+                 [lein-cljsbuild "1.0.6-SNAPSHOT"]]
 
-  :plugins [[lein-cljsbuild "1.0.1"]
-            [com.cemerick/austin "0.1.3"]]
-  
+  :plugins [[com.cemerick/austin "0.1.6"]
+            [lein-clojurescript "1.1.0"]
+            [cider/cider-nrepl "0.9.0-SNAPSHOT"]]
+
   :hooks [leiningen.cljsbuild]
-  
+
   :cljsbuild
   {:builds {:cljs-tutorial
             {:source-paths ["src/cljs" "resources/tools/repl"]
