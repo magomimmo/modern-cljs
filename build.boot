@@ -21,12 +21,42 @@
                  [javax.servlet/servlet-api "2.5"]
                  [org.clojars.magomimmo/valip "0.4.0-SNAPSHOT"]
                  [enlive "1.1.6"]
+                 [adzerk/boot-test "1.0.6"]
+                 [crisptrutski/boot-cljs-test "0.2.1-SNAPSHOT"]
                  ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
          '[adzerk.boot-reload :refer [reload]]
-         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
+         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
+         '[adzerk.boot-test :refer [test]]
+         '[crisptrutski.boot-cljs-test :refer [test-cljs]])
+
+(deftask add-paths
+  "Add paths to :source-paths environment variable"
+  [t dirs PATH #{str} ":source-paths"]
+  (set-env! :source-paths #(into % dirs))
+  identity)
+
+(deftask tdd 
+  "Launch a Test Driven Development Environment."
+  [t dirs PATH #{str} ":SourCe-paths for unit testing purpose"
+   e js-env VAL kw "the JS environment to run test within"]
+  (let [test-paths (or dirs #{"test/cljc"})
+        js-engine (or js-env :phantom)] 
+    (comp
+     (serve :dir "target"                                
+            :handler 'modern-cljs.core/app
+            :resource-root "target"
+            :reload true)
+     (add-paths :dirs test-paths)
+     (watch)
+     (reload)
+     (cljs-repl)
+     (test-cljs :out-file "main.js" 
+                :js-env js-engine 
+                :namespaces '#{modern-cljs.shopping.validators-test})
+     (test :namespaces '#{modern-cljs.shopping.validators-test}))))
 
 ;;; add dev task
 (deftask dev 
