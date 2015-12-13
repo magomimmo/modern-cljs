@@ -1,40 +1,65 @@
-# Tutorial 16 - TBD
+# Tutorial 16 - Test Driven Development
 
-bla bla
+In the [previous tutorial][1] we afforded the problem of freezing in a
+single JVM a bunch of `boot` tasks supporting the convergence of the
+Bret Victor's Immediate Feedback Principle with the Test Driven
+Development (TDD) workflow. Even if we were able to find our way in
+approaching that objective, we ended up with few questions about the
+`tdd` task we defined: could we define the `tdd` task to make it
+parameterizable while keeping some sane defaults for its standard use?
 
-# Preview
+In this tutorial we're going to answer that question by introducing
+the `boot`'s
+[Task Options Domain Specific Language](https://github.com/boot-clj/boot/wiki/Task-Options-DSL).
 
-# Introduction
+## Preamble
 
+To start working from the end of the previous tutorial, assuming
+you've git installed, do as follows
 
-Enter
-[Task Options DSL](https://github.com/boot-clj/boot/wiki/Task-Options-DSL)
-for `boot`.
+```bash
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout se-tutorial-15
+```
 
-Before proceeding with the next step, stop any `boot` related process.
+## Introduction
+
+Even if I never started a new program from a test failure, that has
+more to do with my age that with my opinion about TDD. That said, the
+workflow induced from the `tdd` task we ended up in the previous
+tutorial would be insulted by any TDD practitioner.  We'd like to
+please them a little bit better than that.
 
 ## Task Options DSL
 
-As reported in the above wiki page, `boot` is a servant of more owners
-and it has to please all of them.
+As you can read from the Wiki page cited above, `boot` is a servant of
+more owners and it has to please them all:
 
-> `boot` tasks are intended to be used from the command line, from a REPL,
-> in the project's build.boot file, or from regular Clojure
+> `boot` tasks are intended to be used from the command line, from a
+> REPL, in the project's build.boot file, or from regular Clojure
 > namespaces. This requires support for two conceptually different
 > calling conventions: with command line options and optargs, and as
 > s-expressions in Clojure with argument values.
-> 
-> Furthermore, since tasks are boot's user interface it's important that
-> they provide good usage and help documentation in both environments.
+>
+> Furthermore, since tasks are boot's user interface it's important
+> that they provide good usage and help documentation in both
+> environments.
 
-Let's say we want to call the `testing` task we defined above by
-passing to it one or more directories to be added to the
-`:source-paths` environment variable. At the moment in our project we
-only have the `test/cljc` directory, but as soon as it gets more
-complicated we'll probably have to add more testing namespaces
-specifically dedicated CLJ or CLJS.
+[Command-Line options and optargs](http://www.catb.org/esr/writings/taoup/html/ch10s05.html)
+are Unix terms that any programmer should know about, while
+s-expression is a term that is specific for the LISPs'
+communities. But we don't want to bother you with long explanations
+about those things. Let's be pragmatic and directly afford our needs.
 
-Even if you may name your testing namespaces as you want and place
+## Short requirements
+
+At the moment in our project we only have the `test/cljc` test
+directory, but as soon as the project gets more complicated we'll
+probably have to add more testing namespaces specifically dedicated
+CLJ or CLJS.
+
+Even if you can name your testing namespaces as you want and place
 them wherever you like, it's considered a good practices to keep the
 testing namespaces specific for CLJ separated from the ones specific
 for CLJS and, in turns, keep both of them separated from testing
@@ -50,7 +75,7 @@ test/
 └── cljs
 ```
 
-which mimics the same directory layout for the source code
+that mimics the same directory layout for the source code
 
 ```bash
 src/
@@ -78,58 +103,74 @@ or like this
 boot tdd -t test/clj -t test/cljs -t test/cljc
 ```
 
-I know, you'd prefer the following form
+I know, you'd prefer something like the following form
 
 ```bash
 boot tdd -t test/clj:test/cljs:test/cljc
 ```
 
-Tasks options DSL (Domain Specific Language) offers 
+Task options DSL offers direct support for the former mode, named
+[multiple options](https://github.com/boot-clj/boot/wiki/Task-Options-DSL#multi-options). If
+you prefer (like I do) the `colon` separated directories mode, you
+have to parse it by yourself.
 
-like to be able to add paths of one or more directories
-containing the unit test namespaces to be run.
-
-At the same time we'd like to be able to directly call the `testing`
-task from the command line as follows:
-
-```bash
-boot testing -t test/clj
-boot testing -t test/cljs -t test/clj -t test/cljc
-```
-
-> NOTE 6: here we are using the
-> [multiple options](https://github.com/boot-clj/boot/wiki/Task-Options-DSL#multi-options)
-> features of the Task Options DSL.
-
-### A dummy task
+## A dummy task
 
 Let's temporarily create a dummy task in the `build.boot` to see how
-all that could work:
+all that could works:
 
 ```clj
 (deftask dummy
   "A dummy task"
   [t dirs PATH #{str} ":source-paths"]
-  (println *opts*))
+  *opts*)
 ```
 
-Now run the CLJ REPL and evaluate few `dummy` calls at the terminal:
+Here we're using the task options inside the arguments vector of the
+task definition.
+
+```clj
+[t dirs PATH #{str} ":source-path"]
+```
+
+* `t`: is the shortname
+* `dirs`: is the longname
+* `PATH`: is the optarg, if provided, indicates that the option expects
+  a value
+* #{str}: is the CLJ type hint for the option value 
+* `":source-path"`: is the description that will be incorporated into
+  command line help output
+
+The `dummy` task does not do anything and of you call it at the
+terminal, it does not return anything interesting:
 
 ```bash
 boot dummy
-{}
 boot dummy -t test/cljc
-{:dirs #{test/cljc}}
 boot dummy -t test/cljc -t test/cljs
-{:dirs #{test/cljc test/cljs}}
 boot dummy -t test/cljc -t test/cljs -t test/clj
-{:dirs #{test/clj test/cljc test/cljs}}
 ```
 
-Aside from the fact that the passed directories have been
-de-stringified by the printer, we obtained what we wanted.
+But if you not pass an argument to the `-t` options, it will return an
+error, because the optarg `PATH` has been provided in the definition.
 
-We can even please our users by showing them a short help:
+```bash
+boot dummy -t
+             clojure.lang.ExceptionInfo: java.lang.IllegalArgumentException: Missing required argument for "-t PATH"
+    data: {:file
+           "/var/folders/17/1jg3ghkx73q4jtgw4z500www0000gp/T/boot.user2289187480377868390.clj",
+           :line 29}
+java.util.concurrent.ExecutionException: java.lang.IllegalArgumentException: Missing required argument for "-t PATH"
+     java.lang.IllegalArgumentException: Missing required argument for "-t PATH"
+          boot.core/construct-tasks  core.clj:  682
+                                ...
+                 clojure.core/apply  core.clj:  630
+                  boot.core/boot/fn  core.clj:  712
+clojure.core/binding-conveyor-fn/fn  core.clj: 1916
+                                ...
+```
+
+We can even ask for the help documentation:
 
 ```bash
 boot dummy -h
@@ -140,10 +181,18 @@ Options:
   -t, --dirs PATH  Conj PATH onto :source-paths
 ```
 
+Let's now call the `dummy` task inside the CLJ REPL:
+
+```bash
+cd /path/to/modern-cljs
+boot repl
+```
+
+
 ### Update build.boot
 
 We know enough to update the `testing` task and even to change its
-name to `add-paths` by considering that all is does is to add one or
+name to `add-paths` by considering that all it does is to add one or
 more directories to the `:source-paths` environment variable.
 
 ```clj
