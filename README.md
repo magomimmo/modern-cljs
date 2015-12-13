@@ -160,7 +160,11 @@ namespaces dependency problem.
 
 Add validators to the `shoppingForm`, and do some unit testing.
 
-## Tutorial 15 - TBD
+## [Tutorial 15 - Better Safe Than Sorry (Part 3)][35]
+
+Configuring a development environment that simultaneously satisfy in a
+single JVM the Immediate Feedback Principle by Bret Victor and the
+Test Driven Development (TDD).
 
 # License
 
@@ -202,3 +206,4 @@ License, the same license as Clojure.
 [32]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-13.md
 [33]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-14.md
 [34]: https://github.com/clojure/clojurescript.git
+[35]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-15.md
