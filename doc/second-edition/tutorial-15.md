@@ -399,7 +399,7 @@ At the moment we're interested in two options:
 
 ### Light the fire
 
-We're now ready to light the fire. Mutatis Mutandis, we're going to
+We're now ready to light the fire. *Mutatis mutandis*, we're going to
 use the same tasks composition we already adopted for the `boot-test`
 task when dealing with CLJ unit testing:
 
@@ -432,8 +432,8 @@ test in.
 
 Secondly, the `boot-test-cljs` task internally uses the CLJS compiler
 exploiting some default values. For example, instead of generating the
-`main.js` JS file as the `boot-cljs` did, it generates the `output.js`
-JS file.
+`main.js` JS file as the `boot-cljs` task did, it generates the
+`output.js` JS file.
 
 Now repeat the same experiments we previously did by modifying an
 expected result from a unit test assertion in the
@@ -453,7 +453,7 @@ the changes.
 ```
 
 When you save the file, the `watch` task triggers the CLJS
-recompilation and rerun the sole unit test contained in the
+recompilation and reruns the sole unit test contained in the
 `modern-cljs.shopping.validators-test` namespace. Following is the
 reported result:
 
@@ -509,7 +509,7 @@ we'd like to improve:
   command, which means in a single JVM;
 1. in turn, we'd like to combine the combined command with the `boot
   dev` command, again to use a single JVM; 
-1. we'd like to call the `boot` command with same sane defaults to
+1. we'd like to call the `boot` command with some sane defaults to
    reduce its length and the options we have to remember.
 
 Let's start from the first one. 
@@ -537,7 +537,7 @@ combine the `test` and the `cljs-test` tasks.
 > Note 4: the above tasks composition mimics the same composition we
 > previously created at the command line and appends the `test` task
 > after the `test-cljs` task. The order of the two unit testing tasks
-> is important. A subsequent paragraph will better explain the Task
+> is important. A subsequent tutorial will better explain the Task
 > Options DSL (Domain Specific Language) used by `boot` to
 > simultaneously offer the same options at the command line and inside
 > the CLJ code (e.g. `build.boot` file).
@@ -678,8 +678,8 @@ next step, stop the `boot` process.
 ## A single JVM instance, multiple tasks
 
 As said at the beginning of the series, one of the most attractive
-features of `boot` building tool, when compared with `leiningen`, is
-its potential ability to run multiple tasks in the same JVM without
+features of `boot` building tool, when compared with `leiningen`, it
+is its potential ability to run multiple tasks in the same JVM without
 interfering each other. We already unified the CLJ and the CLJS unit
 testing tasks. Let's see if we are able to absorb in the same JVM the
 original `dev` task as well.
@@ -811,8 +811,8 @@ Now visit the usual
 
 > NOTE 4: remember that even if we already defined and tested the
 > validators for both the client and the server sides of the Shopping
-> Calculator, we still have to attach them to form itself. So, if you
-> do not follow the happy path you'll get an error anyway.
+> Calculator, we still have to attach them to the form itself. So, if
+> you do not follow the happy path you'll get an error anyway.
 
 Everything is still working as expected. Now run the CLJ REPL as
 usual:
@@ -964,15 +964,21 @@ Elapsed time: 3.418 sec
 Even if we succeeded again, there are few things we still want to
 improve.
 
-First, the `boot tdd` command has no options to be passed and we have
-to accept the ones screwed into the task definition code.
+The `boot tdd` command has no options to be passed and we have to
+accept the ones screwed into the task definition code.
 
 What if we want to compile CLJS with a different optimization option
 from the default `none` one? What if we create new namespaces for
 testing other portions of the source code? And what if we want to
 specifically test non portable CLJ or CLJS code?
 
-Stay tuned for the next tutorial.
+Now stop ant `boot` related process and reset the git repository
+
+```bash
+git reset --hard
+```
+
+Stay tuned for the next tutorial
 
 # Next Step - Tutorial 16 - TBD 
 
