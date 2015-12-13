@@ -968,9 +968,9 @@ First, the `boot tdd` command has no options to be passed and we have
 to accept the ones screwed into the task definition code.
 
 What if we want to compile CLJS with a different optimization option
-from the default `none` one? What if we create new namespace testing
-other portions of the source code? And what if we want to specifically
-test non portable CLJ or CLJS code?
+from the default `none` one? What if we create new namespaces for
+testing other portions of the source code? And what if we want to
+specifically test non portable CLJ or CLJS code?
 
 Enter
 [Task Options DSL](https://github.com/boot-clj/boot/wiki/Task-Options-DSL)
@@ -992,20 +992,21 @@ and it has to please all of them.
 > Furthermore, since tasks are boot's user interface it's important that
 > they provide good usage and help documentation in both environments.
 
-Let's say we want to allow to call the `testing` task we defined above
-by passing to one or more directories to be added to the
-`:source-paths` environment variable. At the moment we only have the
-`test/cljc` directory, but as soon as our project gets more
+Let's say we want to call the `testing` task we defined above by
+passing to it one or more directories to be added to the
+`:source-paths` environment variable. At the moment in our project we
+only have the `test/cljc` directory, but as soon as it gets more
 complicated we'll probably have to add more testing namespaces
 specifically dedicated CLJ or CLJS.
 
-Even if you may name your testing namespaces as you want and even
-place them wherever you like, it's considered a good practices to keep
-the testing namespaces specific for CLJ separated from the ones
-specific for CLJS and, in turns, keep both of them separated from
-testing namespaces which are portable on CLJ and CLJS as well.
+Even if you may name your testing namespaces as you want and place
+them wherever you like, it's considered a good practices to keep the
+testing namespaces specific for CLJ separated from the ones specific
+for CLJS and, in turns, keep both of them separated from testing
+namespaces which are portable on CLJ and CLJS as well.
 
-At the end you'll probably end up with a directory layout like the following:
+At some point in time you'll probably end up with a directory layout
+like the following:
 
 ```bash
 test/
@@ -1023,18 +1024,29 @@ src/
 └── cljs
 ```
 
-## Top to bottom
+## Be prepared for changes
 
 To be prepared for any testing scenario, while keeping the more
-frequent one as simple as possible, we need to approach the
-definitions of our tasks from top to bottom.
+frequent one as simple as possible (i.e., `boot tdd`), we need to
+approach the definitions of our tasks from top to bottom.
 
 For example, we would like to be able to call the `tdd` task by
 passing to it one or more test directories to be added to the
-`classpath` of the project. For example, something like that:
+`classpath` of the project. Something like that:
 
 ```bash
 boot tdd -t test/cljc
+```
+or like this
+
+```bash
+boot tdd -t test/clj -t test/cljs -t test/cljc
+```
+
+I know, you'd prefer the following form
+
+```bash
+boot tdd -t test/clj:test/cljs:test/cljc
 ```
 
 Tasks options DSL (Domain Specific Language) offers 
