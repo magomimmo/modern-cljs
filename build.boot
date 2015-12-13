@@ -32,31 +32,26 @@
          '[adzerk.boot-test :refer [test]]
          '[crisptrutski.boot-cljs-test :refer [test-cljs]])
 
-(deftask add-paths
-  "Add paths to :source-paths environment variable"
-  [t dirs PATH #{str} ":source-paths"]
-  (set-env! :source-paths #(into % dirs))
+(deftask testing
+  []
+  (set-env! :source-paths #(conj % "test/cljc"))
   identity)
 
 (deftask tdd 
-  "Launch a Test Driven Development Environment."
-  [t dirs PATH #{str} ":SourCe-paths for unit testing purpose"
-   e js-env VAL kw "the JS environment to run test within"]
-  (let [test-paths (or dirs #{"test/cljc"})
-        js-engine (or js-env :phantom)] 
-    (comp
-     (serve :dir "target"                                
-            :handler 'modern-cljs.core/app
-            :resource-root "target"
-            :reload true)
-     (add-paths :dirs test-paths)
-     (watch)
-     (reload)
-     (cljs-repl)
-     (test-cljs :out-file "main.js" 
-                :js-env js-engine 
-                :namespaces '#{modern-cljs.shopping.validators-test})
-     (test :namespaces '#{modern-cljs.shopping.validators-test}))))
+  []
+  (comp
+   (serve :dir "target"                                
+          :handler 'modern-cljs.core/app
+          :resource-root "target"
+          :reload true)
+   (testing)
+   (watch)
+   (reload)
+   (cljs-repl)
+   (test-cljs :out-file "main.js" 
+              :js-env js-engine 
+              :namespaces '#{modern-cljs.shopping.validators-test})
+   (test :namespaces '#{modern-cljs.shopping.validators-test})))
 
 ;;; add dev task
 (deftask dev 
