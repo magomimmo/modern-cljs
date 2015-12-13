@@ -201,9 +201,9 @@ License, the same license as Clojure.
 [27]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-08.md
 [28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/secon-edition/tutorial-09.md
 [29]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-10.md
-[30]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-11.md
-[31]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-12.md
-[32]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-13.md
-[33]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-14.md
+[30]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-11.md
+[31]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md
+[32]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md
+[33]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-14.md
 [34]: https://github.com/clojure/clojurescript.git
-[35]: https://github.com/magomimmo/modern-cljs/blob/master/doc/first-edition/tutorial-15.md
+[35]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
