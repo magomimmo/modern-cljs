@@ -27,9 +27,6 @@ cd modern-cljs
 git checkout se-tutorial-02
 ```
 
-This way you're cloning the original `se-tutorial-02` branch into a
-new branch to start working with.
-
 ## Introduction
 
 Let's start reviewing the `boot` commands we previously submitted to
@@ -381,7 +378,7 @@ cljs.user=>
 ```
 
 Play around as you like. When finished, quit everything and reset you
-git repository.
+git branch.
 
 ```bash
 git reset --hard
