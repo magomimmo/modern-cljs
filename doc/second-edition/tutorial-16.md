@@ -538,7 +538,7 @@ like to be exposed by the `tdd` task as its options:
   * `-e, --js-env VAL`
   * `-n, --namespaces NS`
   * `-O, --optimizations LEVEL`
-  * `o, --out-file VAL`
+  * `-o, --out-file VAL`
 * `test` task options
   * `-n, --namespaces NAMESPACE`
   * `-f, --filters EXPR`
