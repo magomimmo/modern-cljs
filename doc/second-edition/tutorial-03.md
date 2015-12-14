@@ -295,7 +295,7 @@ This way you can verify that the CLJS compiler correctly generated the
 served by the web server and that it sets the `js/main.out`
 subdirectory as the value of the `asset-path` compiler option.
 
-Now take a look at the layout if the `target` directory to confirm
+Now take a look at the layout of the `target` directory to confirm
 that the compiler options worked as expected
 
 ```bash
