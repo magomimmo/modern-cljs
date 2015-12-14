@@ -14,7 +14,7 @@ the `boot`'s
 
 ## Preamble
 
-To start working from the end of the previous tutorial, assuming
+To start working from the end of the [previous tutorial][1], assuming
 you've git installed, do as follows
 
 ```bash
@@ -27,9 +27,9 @@ git checkout se-tutorial-15
 
 Even if I never started a new program from a failed test, that has
 more to do with my age that with my opinion about TDD. That said, the
-workflow induced from the `tdd` task we ended up in the previous
-tutorial would be criticized by any TDD practitioner.  We'd like to
-please them a little bit better than that.
+workflow induced from the `tdd` task we ended up in the
+[previous tutorial][1] would be criticized by any TDD practitioner.
+We'd like to please them a little bit better than that.
 
 ## Task Options DSL
 
@@ -48,9 +48,10 @@ more owners and it has to please them all:
 
 [Command-Line options and optargs](http://www.catb.org/esr/writings/taoup/html/ch10s05.html)
 are Unix terms that any programmer should know about, while
-s-expression is a term that is specific for the LISP's
-communities. But we don't want to bother you with long explanations
-about those things. Let's be pragmatic and directly afford our needs.
+[s-expression](https://en.wikipedia.org/wiki/S-expression) is a term
+that is specific for the LISP's communities. But we don't want to
+bother you with long explanations about those things. Let's be
+pragmatic and directly afford our needs.
 
 ## Short requirements
 
@@ -112,7 +113,7 @@ boot tdd -t test/clj:test/cljs:test/cljc
 Task options DSL offers direct support for the former mode, named
 [multiple options](https://github.com/boot-clj/boot/wiki/Task-Options-DSL#multi-options). If
 you prefer (like I do) the `colon` separated directories mode, you
-have to parse it by yourself.
+have to parse the passed argument by yourself.
 
 ## A dummy task
 
@@ -166,8 +167,7 @@ java.util.concurrent.ExecutionException: java.lang.IllegalArgumentException: Mis
                                 ...
                  clojure.core/apply  core.clj:  630
                   boot.core/boot/fn  core.clj:  712
-clojure.core/binding-conveyor-fn/fn  core.clj: 1916
-                                ...
+clojure.core/binding-conveyor-fn/fn  core.clj: 1916                                ...
 ```
 
 We can even ask for the help documentation:
@@ -181,20 +181,31 @@ Options:
   -t, --dirs PATH  Conj PATH onto :source-paths
 ```
 
-Let's now call the `dummy` task inside the CLJ REPL:
+Let's now call the `dummy` task from the CLJ REPL:
 
 ```bash
 cd /path/to/modern-cljs
 boot repl
 ...
-boot.user=> (dummy "-t" "test/clj" "-t" "test/cljs" "-t" "test/cljc")
-{:dirs #{"test/clj" "test/cljs" "test/cljc"}}
+boot.user=>
+```
+
+```clj
 boot.user=> (dummy)
 {}
+```
+
+```clj
 boot.user=> (dummy "-t" "test/cljs")
 {:dirs #{"test/cljs"}}
+```
+
+```clj
 boot.user=> (dummy "-t" "test/clj" "-t" "test/cljs")
 {:dirs #{"test/clj" "test/cljs"}}
+```
+
+```clj
 boot.user=> (dummy "-t" "test/clj" "-t" "test/cljs" "-t" "test/cljc")
 {:dirs #{"test/clj" "test/cljs" "test/cljc"}}
 ```
@@ -219,11 +230,14 @@ well:
   identity)
 ```
 
-Boot's tasks are like [Ring][1] handlers, but instead of taking a
-request map and returning a response map, they take and return a
-[fileset object][2]. `add-source-paths` does not do anything
-special. It only alters the `:source-paths` environment variable and
-returns the identity function.
+Boot's tasks are like
+[Ring](https://github.com/ring-clojure/ring/wiki/Concepts#handlers)
+handlers, but instead of taking a request map and returning a response
+map, they take and return a
+[fileset object](https://github.com/boot-clj/boot/wiki/Filesets). `add-source-paths`
+does not do anything special. It only alters the `:source-paths`
+environment variable and returns the `identity` function to make it a
+composable task.
 
 Now substitute the newly defined `add-source-paths` task to the
 previous `testing` task in the `tdd` task definition:
@@ -247,10 +261,10 @@ previous `testing` task in the `tdd` task definition:
    (test :namespaces '#{modern-cljs.shopping.validators-test})))
 ```
 
-But there is more thing to be done for pleasing a `tdd` user. We can
-add the same task option to `tdd` as well, in such a way the she can
-pass a test directory to be added to the `:source-paths` variable from
-the command line:
+There is more thing to be done for pleasing a `tdd` user: add the same
+task option to `tdd` as well, in such a way the she can pass a test
+directory to be added to the `:source-paths` variable from the command
+line
 
 ```bash
 (deftask tdd
@@ -272,11 +286,17 @@ the command line:
      (test :namespaces '#{modern-cljs.shopping.validators-test}))))
 ```
 
+> NOTE 1: the `-t` default value is now `#{"test/cljc" "test/clj"
+> "test/cljs"}`. This is because even if none of those directories
+> exists or contains any testing namespace, the internal `set-env!`
+> function does not complain.
+
 Note how we used the DSL to define the same `-t` option of the
-`add-source-paths` task, with just a different description. Moreover,
-we used the `let` and the `or` forms to give it a default value and
-finally passed the evaluated value in the internal call to
-`add-source-paths`. This is an idiomatic way to use task options.
+`add-source-paths` task. It only has a different
+description. Moreover, we used the `let` and the `or` forms to give it
+a default value and finally passed the evaluated argument to the
+internal `add-source-paths` call. This is an idiomatic way to use task
+options.
 
 Before starting the newly updated `tdd` task, let see its help
 
@@ -309,21 +329,30 @@ Ran 1 tests containing 13 assertions.
 Elapsed time: 25.077 sec
 ```
 
+The report is still working as expected. To proceed with the next
+step, stop the `boot` process.
+
 ## Appetite comes with eating
 
 Now that we learned something new, we'd like to use it to make the
 `tdd` task even more customizable. There are more things in the `tdd`
 task to be treated with task options.
 
-As you'll see some of those nice to have customizable things are not
-easy at all to be introduced (e.g., namespaces to run test in), while
-others are very simple.
+As you'll see some of those things are not easy at all to be
+introduced (e.g., namespaces to run test in), while others are very
+simple.
 
 Let's start with the simplest ones.
 
 ## Start small, grow fast
 
-The first component of the `tdd` task is the `serve` one. Let's review its help:
+To have a more clear idea of the customization options we could
+introduce for the `tdd` tasks, let's review the help documentation for
+each subtask it internally uses.
+
+### serve task options
+
+Following is the `serve` task's help:
 
 ```bash
 boot serve -h
@@ -344,31 +373,153 @@ Options:
   -n, --nrepl REPL          Set nREPL server parameters e.g. "{:port 3001, :bind "0.0.0.0"}" to REPL.
 ```
 
-At the moment and in the contest of the `tdd` task, we could be
-interested in passing a port and a Ring handler. Personally, I'm very
-interested in testing the famous asynchronous httpkit as well.
+Some of those `serve` task options could be useful for `tdd` as well:
 
+* `-d, --dir PATH`
+* `-H, --handler SYM`
+* `-r, --resource-root ROOT`
+* `-p, --port PORT`
+* `-k, --httpkit`
 
+In the contest of the current project, I'm interested in the `-p` task
+option. But I'd like to test the project on the famous asynchronous
+`httpkit` web server as well.
 
-```bash boot tdd ...  Running cljs
-tests...  Testing modern-cljs.shopping.validators-test
+### watch task options
 
-Ran 1 tests containing 13 assertions.
-0 failures, 0 errors.
+Following is the `watch` task's help:
 
-Testing modern-cljs.shopping.validators-test
+```bash
+boot watch -h
+Call the next handler when source files change.
 
-Ran 1 tests containing 13 assertions.
-0 failures, 0 errors.
-Elapsed time: 24.912 sec
-```clj
+Debouncing time is 10ms by default.
 
-Everything is still working as expected. 
+Options:
+  -h, --help     Print this help info.
+  -q, --quiet    Suppress all output from running jobs.
+  -v, --verbose  Print which files have changed.
+  -M, --manual   Use a manual trigger instead of a file watcher.
+```
 
-Now that we know how to parameterize a task by using the task options
-DSL (Domain Specific Language), we'd like to apply this knowledge to
-the `tdd` task as well.
+Here the `-v` task option is the only one I'm interested in.
 
+### reload task options
+
+Following is the `reload` task's help:
+
+```bash
+boot reload -h
+Live reload of page resources in browser via websocket.
+
+The default configuration starts a websocket server on a random available
+port on localhost.
+
+Open-file option takes three arguments: line number, column number, relative
+file path. You can use positional arguments if you need different order.
+Arguments shouldn't have spaces.
+Examples:
+vim --remote +norm%sG%s| %s
+emacsclient -n +%s:%s %s
+
+Options:
+  -h, --help               Print this help info.
+  -b, --ids BUILD_IDS      Conj [BUILD IDS] onto only inject reloading into these builds (= .cljs.edn files)
+  -i, --ip ADDR            Set the (optional) IP address for the websocket server to listen on to ADDR.
+  -p, --port PORT          Set the (optional) port the websocket server listens on to PORT.
+  -w, --ws-host WSADDR     Set the (optional) websocket host address to pass to clients to WSADDR.
+  -j, --on-jsload SYM      Set the (optional) callback to call when JS files are reloaded to SYM.
+  -a, --asset-path PATH    Set the (optional) asset-path. This is removed from the start of reloaded urls to PATH.
+  -s, --secure             Flag to indicate whether the client should connect via wss. Defaults to false.
+  -o, --open-file COMMAND  Set the (optional) command to run when warning or exception is clicked on HUD. Passed to format to COMMAND.
+```
+
+Even if there are some very interesting options to be used in the
+future, when the project will evolve, at the moment I'm not interested
+in exposing some of them to the `tdd` task as well.
+
+### cljs-repl task options
+
+Following is the `cljs-repl` task's help:
+
+```bash
+boot cljs-repl -h
+Start a ClojureScript REPL server.
+
+The default configuration starts a websocket server on a random available
+port on localhost.
+
+Options:
+  -h, --help                   Print this help info.
+  -b, --ids BUILD_IDS          Conj [BUILD IDS] onto only inject reloading into these builds (= .cljs.edn files)
+  -i, --ip ADDR                Set the IP address for the server to listen on to ADDR.
+  -n, --nrepl-opts NREPL_OPTS  Set options passed to the repl task to NREPL_OPTS.
+  -p, --port PORT              Set the port the websocket server listens on to PORT.
+  -w, --ws-host WSADDR         Set the (optional) websocket host address to pass to clients to WSADDR.
+  -s, --secure                 Flag to indicate whether the client should connect via wss. Defaults to false.
+```
+
+As the previous `reload` task: at the moment I'm not interested to
+expose any of those options to the `tdd` task.
+
+### test-cljs task options
+
+Following is the `cljs-test` task's help:
+
+```bash
+boot test-cljs -h
+Run cljs.test tests via the engine of your choice.
+
+ The --namespaces option specifies the namespaces to test. The default is to
+ run tests in all namespaces found in the project.
+
+Options:
+  -h, --help                 Print this help info.
+  -e, --js-env VAL           Set the environment to run tests within, eg. slimer, phantom, node,
+                                 or rhino to VAL.
+  -n, --namespaces NS        Conj NS onto namespaces whose tests will be run. All tests will be run if
+                                 ommitted.
+  -s, --suite-ns NS          Set test entry point. If this is not provided, a namespace will be
+                                 generated to NS.
+  -O, --optimizations LEVEL  Set the optimization level to LEVEL.
+  -o, --out-file VAL         Set output file for test script to VAL.
+  -c, --cljs-opts VAL        Set compiler options for CLJS to VAL.
+  -x, --exit?                Exit immediately with reporter's exit code.
+```
+
+Here there are a bunch of interesting task options to be exposed to `tdd` as well, namely:
+
+* `-e, --js-env VAL` to choose the JS engine to be used as test bed;
+* `-n, --namespaces NS` to choose the test namespace to run test in
+* `-O, --optimizations LEVEL` to run the tests with different CLJS
+  optimizations (i.e. `none`, `whitespace`, `simple` and `advanced`;
+* `o, --out-file VAL` to choose the name of the JS file generated by
+  the CLJS compiler.
+
+### test task options
+
+Following is the `test` task's help:
+
+```bash
+boot test -h
+Run clojure.test tests in a pod.
+
+The --namespaces option specifies the namespaces to test. The default is to
+run tests in all namespaces found in the project.
+
+The --exclusions option specifies the namespaces to exclude from testing.
+
+The --filters option specifies Clojure expressions that are evaluated with %
+bound to a Var in a namespace under test. All must evaluate to true for a Var
+to be considered for testing by clojure.test/test-vars.
+
+Options:
+  -h, --help                  Print this help info.
+  -n, --namespaces NAMESPACE  Conj NAMESPACE onto the set of namespace symbols to run tests in.
+  -e, --exclusions NAMESPACE  Conj NAMESPACE onto the set of namespace symbols to be excluded from test.
+  -f, --filters EXPR          Conj EXPR onto the set of expressions to use to filter namespaces.
+  -r, --requires REQUIRES     Conj REQUIRES onto extra namespaces to pre-load into the pool of test pods for speed.
+```
 
 Stay tuned for the next tutorial.
 
@@ -378,4 +529,5 @@ Stay tuned for the next tutorial.
 Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
 
+[1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
 
