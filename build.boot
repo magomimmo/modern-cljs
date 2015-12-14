@@ -32,28 +32,50 @@
          '[adzerk.boot-test :refer [test]]
          '[crisptrutski.boot-cljs-test :refer [test-cljs]])
 
-(deftask testing
-  []
-  (set-env! :source-paths #(conj % "test/cljc"))
+(deftask dummy
+  "A dummy task"
+  [t dirs PATH #{str} ":source-paths"
+   v verbose bool "print which files have changed"
+   k httpkit bool "use httt-kit web server instead of jetty"]
+  *opts*)
+
+(deftask add-source-paths
+  "Add paths to :source-paths environment variable"
+  [t dirs PATH #{str} ":source-paths"]
+  (set-env! :source-paths #(into % dirs))
   identity)
 
-(deftask tdd 
-  []
-  (comp
-   (serve :dir "target"                                
-          :handler 'modern-cljs.core/app
-          :resource-root "target"
-          :reload true)
-   (testing)
-   (watch)
-   (reload)
-   (cljs-repl)
-   (test-cljs :out-file "main.js" 
-              :js-env js-engine 
-              :namespaces '#{modern-cljs.shopping.validators-test})
-   (test :namespaces '#{modern-cljs.shopping.validators-test})))
+(deftask tdd
+  "Launch a customizable TDD Environment"
+  [e testbed        ENGINE kw     "the JS testbed engine (default phantom)" 
+   k httpkit               bool   "Use http-kit web server (default jetty)"
+   n namespaces     NS     #{sym} "the set of namespace symbols to run tests in"
+   o output-to      NAME   str    "the JS output file name for test (default main.js)"
+   O optimizations  LEVEL  kw     "the optimization level (default none)"
+   p port           PORT   int    "the web server port to listen on (default 3000)"
+   t dirs           PATH   #{str} "test paths (default test/clj test/cljs test/cljc)"   
+   v verbose               bool   "Print which files have changed (default false)"]
+  (let [dirs (or dirs #{"test/cljc" "test/clj" "test/cljs"})
+        output-to (or output-to "main.js")
+        testbed (or testbed :phantom)
+        namespaces (or namespaces '#{modern-cljs.shopping.validators-test})]
+    (comp
+     (serve :dir "target"                                
+            :handler 'modern-cljs.core/app
+            :resource-root "target"
+            :reload true
+            :httpkit httpkit
+            :port port)
+     (add-source-paths :dirs dirs)
+     (watch :verbose verbose)
+     (reload)
+     (cljs-repl)
+     (test-cljs :out-file output-to 
+                :js-env testbed 
+                :namespaces namespaces
+                :optimizations optimizations)
+     (test :namespaces namespaces))))
 
-;;; add dev task
 (deftask dev 
   "Launch immediate feedback dev environment"
   []
