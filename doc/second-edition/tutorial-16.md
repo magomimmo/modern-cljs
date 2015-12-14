@@ -25,10 +25,10 @@ git checkout se-tutorial-15
 
 ## Introduction
 
-Even if I never started a new program from a test failure, that has
+Even if I never started a new program from a failed test, that has
 more to do with my age that with my opinion about TDD. That said, the
 workflow induced from the `tdd` task we ended up in the previous
-tutorial would be insulted by any TDD practitioner.  We'd like to
+tutorial would be criticized by any TDD practitioner.  We'd like to
 please them a little bit better than that.
 
 ## Task Options DSL
@@ -48,7 +48,7 @@ more owners and it has to please them all:
 
 [Command-Line options and optargs](http://www.catb.org/esr/writings/taoup/html/ch10s05.html)
 are Unix terms that any programmer should know about, while
-s-expression is a term that is specific for the LISPs'
+s-expression is a term that is specific for the LISP's
 communities. But we don't want to bother you with long explanations
 about those things. Let's be pragmatic and directly afford our needs.
 
@@ -56,11 +56,11 @@ about those things. Let's be pragmatic and directly afford our needs.
 
 At the moment in our project we only have the `test/cljc` test
 directory, but as soon as the project gets more complicated we'll
-probably have to add more testing namespaces specifically dedicated
+probably have to add more testing namespaces specifically dedicated to
 CLJ or CLJS.
 
-Even if you can name your testing namespaces as you want and place
-them wherever you like, it's considered a good practices to keep the
+Even if you may call your testing namespaces as you want and place
+them wherever you like, it's considered a good practices to keep any
 testing namespaces specific for CLJ separated from the ones specific
 for CLJS and, in turns, keep both of them separated from testing
 namespaces which are portable on CLJ and CLJS as well.
@@ -87,7 +87,7 @@ src/
 ## Be prepared for changes
 
 To be prepared for any testing scenario, while keeping the more
-frequent one as simple as possible (i.e., `boot tdd`), we need to
+frequent one as simple as possible (e.g., `boot tdd`), we need to
 approach the definitions of our tasks from top to bottom.
 
 For example, we would like to be able to call the `tdd` task by
@@ -133,16 +133,16 @@ task definition.
 [t dirs PATH #{str} ":source-path"]
 ```
 
-* `t`: is the shortname
-* `dirs`: is the longname
-* `PATH`: is the optarg, if provided, indicates that the option expects
-  a value
-* #{str}: is the CLJ type hint for the option value 
+* `t`: is the shortname;
+* `dirs`: is the longname;
+* `PATH`: is the optarg. When provided, indicates that the option expects
+  an argument to be passed at call time;
+* #{str}: is the CLJ type hint for the passed argument; 
 * `":source-path"`: is the description that will be incorporated into
-  command line help output
+  command line help output.
 
-The `dummy` task does not do anything and of you call it at the
-terminal, it does not return anything interesting:
+The `dummy` task does not do anything. If you call it at the terminal,
+it does not return anything interesting:
 
 ```bash
 boot dummy
@@ -151,7 +151,7 @@ boot dummy -t test/cljc -t test/cljs
 boot dummy -t test/cljc -t test/cljs -t test/clj
 ```
 
-But if you not pass an argument to the `-t` options, it will return an
+But if you do not pass an argument to the `-t` options, it will return an
 error, because the optarg `PATH` has been provided in the definition.
 
 ```bash
@@ -186,26 +186,47 @@ Let's now call the `dummy` task inside the CLJ REPL:
 ```bash
 cd /path/to/modern-cljs
 boot repl
+...
+boot.user=> (dummy "-t" "test/clj" "-t" "test/cljs" "-t" "test/cljc")
+{:dirs #{"test/clj" "test/cljs" "test/cljc"}}
+boot.user=> (dummy)
+{}
+boot.user=> (dummy "-t" "test/cljs")
+{:dirs #{"test/cljs"}}
+boot.user=> (dummy "-t" "test/clj" "-t" "test/cljs")
+{:dirs #{"test/clj" "test/cljs"}}
+boot.user=> (dummy "-t" "test/clj" "-t" "test/cljs" "-t" "test/cljc")
+{:dirs #{"test/clj" "test/cljs" "test/cljc"}}
 ```
 
+As you see the value assigned to the `:dirs` keyword in the `*opts*`
+map is a set of string, exactly like the DSL `#{str}` type hint we
+used in the `dummy` task definition. To proceed with the next step,
+stop the `boot` process.
 
 ### Update build.boot
 
-We know enough to update the `testing` task and even to change its
-name to `add-paths` by considering that all it does is to add one or
-more directories to the `:source-paths` environment variable.
+We know enough to start updating the `testing` task. Considering that
+what `testing` really does it is to add paths to the `:source-paths`
+environment variable, we'll change its name to `add-source-paths` as
+well:
 
 ```clj
-(deftask add-paths
+(deftask add-source-paths
   "Add paths to :source-paths environment variable"
   [t dirs PATH #{str} ":source-paths"]
   (set-env! :source-paths #(into % dirs))
   identity)
 ```
 
-Substitute the newly defined `add-paths` task to the previous
-`testing` task in the `tdd` task definition and finally start it at
-the terminal as usual:
+Boot's tasks are like [Ring][1] handlers, but instead of taking a
+request map and returning a response map, they take and return a
+[fileset object][2]. `add-source-paths` does not do anything
+special. It only alters the `:source-paths` environment variable and
+returns the identity function.
+
+Now substitute the newly defined `add-source-paths` task to the
+previous `testing` task in the `tdd` task definition:
 
 ```clj
 (deftask tdd
@@ -216,7 +237,7 @@ the terminal as usual:
           :handler 'modern-cljs.core/app
           :resource-root "target"
           :reload true)
-   (add-paths :dirs #{"test/cljc"})
+   (add-source-paths :dirs #{"test/cljc"})
    (watch)
    (reload)
    (cljs-repl)
@@ -226,11 +247,111 @@ the terminal as usual:
    (test :namespaces '#{modern-cljs.shopping.validators-test})))
 ```
 
+But there is more thing to be done for pleasing a `tdd` user. We can
+add the same task option to `tdd` as well, in such a way the she can
+pass a test directory to be added to the `:source-paths` variable from
+the command line:
+
 ```bash
-boot tdd
+(deftask tdd
+  "Launch a customizable TDD Environment"
+  [t dirs PATH #{str} "test paths"]
+  (let [dirs (or dirs #{"test/cljc" "test/clj" "test/cljs"})] 
+    (comp
+     (serve :dir "target"                                
+            :handler 'modern-cljs.core/app
+            :resource-root "target"
+            :reload true)
+     (add-source-paths :dirs dirs)
+     (watch)
+     (reload)
+     (cljs-repl)
+     (test-cljs :out-file "main.js" 
+                :js-env :phantom 
+                :namespaces '#{modern-cljs.shopping.validators-test})
+     (test :namespaces '#{modern-cljs.shopping.validators-test}))))
+```
+
+Note how we used the DSL to define the same `-t` option of the
+`add-source-paths` task, with just a different description. Moreover,
+we used the `let` and the `or` forms to give it a default value and
+finally passed the evaluated value in the internal call to
+`add-source-paths`. This is an idiomatic way to use task options.
+
+Before starting the newly updated `tdd` task, let see its help
+
+```bash
+boot tdd -h
+Launch a customizable TDD Environment
+
+Options:
+  -h, --help       Print this help info.
+  -t, --dirs PATH  Conj PATH onto test paths
+```
+
+Now call it at the command line:
+
+```bash
+boot tdd -t test/cljc
 ...
+Compiling ClojureScript...
+• main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+Elapsed time: 25.077 sec
+```
+
+## Appetite comes with eating
+
+Now that we learned something new, we'd like to use it to make the
+`tdd` task even more customizable. There are more things in the `tdd`
+task to be treated with task options.
+
+As you'll see some of those nice to have customizable things are not
+easy at all to be introduced (e.g., namespaces to run test in), while
+others are very simple.
+
+Let's start with the simplest ones.
+
+## Start small, grow fast
+
+The first component of the `tdd` task is the `serve` one. Let's review its help:
+
+```bash
+boot serve -h
+Start a web server on localhost, serving resources and optionally a directory.
+Listens on port 3000 by default.
+
+Options:
+  -h, --help                Print this help info.
+  -d, --dir PATH            Set the directory to serve; created if doesn't exist to PATH.
+  -H, --handler SYM         Set the ring handler to serve to SYM.
+  -i, --init SYM            Set a function to run prior to starting the server to SYM.
+  -c, --cleanup SYM         Set a function to run after the server stops to SYM.
+  -r, --resource-root ROOT  Set the root prefix when serving resources from classpath to ROOT.
+  -p, --port PORT           Set the port to listen on. (Default: 3000) to PORT.
+  -k, --httpkit             Use Http-kit server instead of Jetty
+  -s, --silent              Silent-mode (don't output anything)
+  -R, --reload              Reload modified namespaces on each request.
+  -n, --nrepl REPL          Set nREPL server parameters e.g. "{:port 3001, :bind "0.0.0.0"}" to REPL.
+```
+
+At the moment and in the contest of the `tdd` task, we could be
+interested in passing a port and a Ring handler. Personally, I'm very
+interested in testing the famous asynchronous httpkit as well.
+
+
+
+```bash boot tdd ...  Running cljs
+tests...  Testing modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
