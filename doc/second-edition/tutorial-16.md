@@ -1335,14 +1335,26 @@ As you see, the test machinery behavior is still unacceptable, but at
 least the newly defined unit test for the `login` form validator got
 seen and correctly evaluated by both the CLJ and CLJS engines.
 
-## TDD workflow
+## TDD workflow in short
 
-As said, even if tests return the expected results, from a TDD
-prospective the above experience is totally unacceptable: the last
-thing a TDD practitioner wants, it's to wait so long to see the test
-results. Moreover the above delay is not caused by the unit tests *in
-se*, but from the machinery set up by the `test` and the `test-cljs`
-subtask of `tdd`.
+I'm not a TDD practitioner, but if I were, I'd never accept to restart
+the environment to add new test files, like `tdd` requires if we
+launch it by specifying the initial test namespaces to be run with the
+`-n` option and neither I would accept to wait so long to see the test
+results as it happens when `tdd` is launched without specifying any
+test namespace to be run.
+
+We need a cure, especially for the `test` subtask running two times
+any portable namespace, test namespaces included.
+
+## The cure
+
+From the above `tdd` session we discovered that the `test` subtask
+calls two times any portable namespace.
+
+Let's see if this behavior occurs even when `test` is used
+By contextualizing a minimal TDD workflow in our CLJ/CLJS 
+
 
 
 
@@ -1359,7 +1371,6 @@ TBD
 Stay tuned for the next tutorial.
 
 # Next Step - Tutorial 17 - TBD 
-
 
 Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
