@@ -57,8 +57,7 @@
    v verbose               bool   "Print which files have changed (default false)"]
   (let [dirs (or dirs #{"test/cljc" "test/clj" "test/cljs"})
         output-to (or output-to "main.js")
-        testbed (or testbed :phantom)
-        namespaces (or namespaces '#{modern-cljs.shopping.validators-test})]
+        testbed (or testbed :phantom)]
     (comp
      (serve :dir "target"                                
             :handler 'modern-cljs.core/app
