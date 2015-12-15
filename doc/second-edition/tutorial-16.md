@@ -526,7 +526,7 @@ At the moment we are interested to expose to the `tdd` task both the
 
 ## Task options list for tdd
 
-To summarize, this is the list of the candidate options tasks we-d
+To summarize, this is the list of the candidate options tasks we'd
 like to be exposed by the `tdd` task as its options:
 
 * `serve` task options
@@ -544,7 +544,7 @@ like to be exposed by the `tdd` task as its options:
   * `-f, --filters EXPR`
 
 A total of 9 new task options to be exposed for the `tdd` task. Two of
-the, namely `-k` and `-v`, are
+them, namely `-k` and `-v`, are
 [flags boolean options](https://github.com/boot-clj/boot/wiki/Task-Options-DSL#flags). You
 recognize this kind of options from the fact that they do not have an
 optarg like the others (e.g., `PORT`, `VAL`, `NS`, `EXPR`, etc.).
@@ -592,8 +592,8 @@ boot.user=> (dummy "-t" "test/cljc" "-v" "-k")
 {:dirs #{"test/cljc"}, :verbose true, :httpkit true}
 ```
 
-As you see, when you use a boolean task option works like a flag to
-switch it on. To proceed with the next step, stop the REPL.
+As you see, a boolean task option works like a flag to switch it
+on. To proceed with the next step, stop the REPL.
 
 ## Add flag task options to tdd
 
@@ -622,7 +622,7 @@ We are now ready to add the `-k` and `-v` options to the `tdd` task definition.
      (test :namespaces '#{modern-cljs.shopping.validators-test}))))
 ```
 
-Note that this times we just passed down the boolean options as read
+Note that this time we just passed down the boolean options as read
 from the DSL machinery. This is because in a boolean context `nil` is
 equivalent to `false`.
 
@@ -665,7 +665,7 @@ Elapsed time: 27.700 sec
 This is the first time we used the `http-kit` asynchronous web server
 and as you see the `tdd` task first downloaded and then started
 it. The `-v` option correctly instructed the `watch` subtask to set
-its mode to `verbose`. If you now you modify one of the observed file
+its mode to `verbose`. If you now modify one of the observed file
 (e.g., `modern_cljs/shopping/validators_test.cljc`), you'll see the
 `watch` verbose option at work:
 
@@ -753,7 +753,7 @@ The `-p` option is very easy to be instructed as well.
      ...)))
 ```
 
-I leave to you the verification on passing or not passing the port
+I leave to you the verification of passing or not passing the port
 number (note above the `int` type hint) when starting the `tdd` task.
 To proceed to the next step, stop the `boot` process.
 
@@ -939,7 +939,7 @@ directory:
 ```bash
 # from a new terminal
 cd /path/to/modern-cljs
-s -lah target/main.js
+ls -lah target/main.js
 -rw-r--r--  1 mimmo  staff   2.1M Dec 15 00:27 target/main.js
 ```
 
@@ -969,7 +969,7 @@ Elapsed time: 43.847 sec
 
 Verify again that the
 [Shopping Form](http://localhost:3000/shopping.html) is still working
-as expected. Now read the dimension of the `main.js` file generated
+as expected. See now the dimension of the `main.js` file generated
 with the `advanced` option:
 
 ```bash
@@ -977,8 +977,8 @@ ls -lah target/main.js
 -rw-r--r--  1 mimmo  staff   387K Dec 15 00:34 target/main.js
 ```
 
-Less the 400K, included the `cljs.test` lib and the tests themselves
-and you still have to zip it. Not so bad.
+Less the 400K, included the `cljs.test` lib and the tests themselves.
+And you still have to zip the file. Not so bad.
 
 To proceed with the next step, stop the `boot` process.
 
