@@ -138,7 +138,9 @@ task definition.
 * `dirs`: is the longname;
 * `PATH`: is the optarg. When provided, indicates that the option expects
   an argument to be passed at call time;
-* #{str}: is the CLJ type hint for the passed argument; 
+* #{str}: is the CLJ type hint for the passed argument. Here the type
+  hint is saying that the arguments will be interpreted as a set of
+  strings;
 * `":source-path"`: is the description that will be incorporated into
   command line help output.
 
@@ -251,7 +253,7 @@ previous `testing` task in the `tdd` task definition:
           :handler 'modern-cljs.core/app
           :resource-root "target"
           :reload true)
-   (add-source-paths :dirs #{"test/cljc"})
+   (add-source-paths :dirs #{"test/cljc"}) ;; before was testing
    (watch)
    (reload)
    (cljs-repl)
@@ -261,10 +263,10 @@ previous `testing` task in the `tdd` task definition:
    (test :namespaces '#{modern-cljs.shopping.validators-test})))
 ```
 
-There is more thing to be done for pleasing a `tdd` user: add the same
-task option to `tdd` as well, in such a way the she can pass a test
-directory to be added to the `:source-paths` variable from the command
-line
+There is one more thing to be done for pleasing a `tdd` user: add the
+same task option to `tdd` as well, in such a way the she can pass a
+test directory to be added to the `:source-paths` variable from the
+command line
 
 ```bash
 (deftask tdd
@@ -336,11 +338,7 @@ step, stop the `boot` process.
 
 Now that we learned something new, we'd like to use it to make the
 `tdd` task even more customizable. There are more things in the `tdd`
-task to be treated with task options.
-
-As you'll see some of those things are not easy at all to be
-introduced (e.g., namespaces to run test in), while others are very
-simple.
+task to be treated as task options.
 
 Let's start with the simplest ones.
 
@@ -383,7 +381,7 @@ Some of those `serve` task options could be useful for `tdd` as well:
 
 In the contest of the current project, I'm interested in the `-p` task
 option. But I'd like to test the project on the famous asynchronous
-`httpkit` web server as well.
+[`http-kit`](http://www.http-kit.org/) web server as well.
 
 ### Watch task options
 
@@ -402,7 +400,7 @@ Options:
   -M, --manual   Use a manual trigger instead of a file watcher.
 ```
 
-Here the `-v` task option is the only one I'm interested in.
+Here the `-v` task option is the only one I'm currently interested in.
 
 ### Reload task options
 
@@ -435,8 +433,9 @@ Options:
 ```
 
 Even if there are some very interesting options to be used in the
-future, when the project will evolve, at the moment I'm not interested
-in exposing some of them to the `tdd` task as well.
+future (e.g. `-j, --on-jsload SYM`), when the project will evolve, at the
+moment I'm not interested in exposing some of them to the `tdd` task
+as well.
 
 ### Cljs-repl task options
 
@@ -592,8 +591,8 @@ boot.user=> (dummy "-t" "test/cljc" "-v" "-k")
 {:dirs #{"test/cljc"}, :verbose true, :httpkit true}
 ```
 
-As you see, a boolean task option works like a flag to switch it
-on. To proceed with the next step, stop the REPL.
+As you see, a boolean task option works like a switch. To proceed with
+the next step, stop the REPL.
 
 ## Add flag task options to tdd
 
@@ -603,8 +602,8 @@ We are now ready to add the `-k` and `-v` options to the `tdd` task definition.
 (deftask tdd
   "Launch a customizable TDD Environment"
   [t dirs PATH #{str} "test paths"
-   k httpkit bool "use http-kit web server instead of jetty"
-   v verbose bool "print which files have changed"]
+   k httpkit bool "Use http-kit web server instead of jetty"
+   v verbose bool "Print which files have changed"]
   (let [dirs (or dirs #{"test/cljc" "test/clj" "test/cljs"})]
     (comp
      (serve :dir "target"                                
@@ -734,8 +733,9 @@ Started Jetty on http://localhost:3000
 Elapsed time: 28.143 sec
 ```
 
-Still working on jetty and without a verbose report from the `watch`
-subtask.  To proceed with the next step, stop the `boot` process.
+Still working on [jetty](http://www.eclipse.org/jetty/) and without a
+verbose report from the `watch` subtask.  To proceed with the next
+step, stop the `boot` process.
 
 ## Add web server port
 
@@ -745,7 +745,7 @@ The `-p` option is very easy to be instructed as well.
 (deftask tdd
   "Launch a customizable TDD Environment"
   [...
-   p port PORT int "the web server port to listen on (default: 3000)"]
+   p port PORT int "The web server port to listen on (default: 3000)"]
   (let [...]
     (comp
      (serve ...
@@ -754,8 +754,8 @@ The `-p` option is very easy to be instructed as well.
 ```
 
 I leave to you the verification of passing or not passing the port
-number (note above the `int` type hint) when starting the `tdd` task.
-To proceed to the next step, stop the `boot` process.
+number (note the `int` type hint) when starting the `tdd` task.  To
+proceed to the next step, stop the `boot` process.
 
 ## Add CLJS compilation options
 
@@ -767,11 +767,9 @@ couple of compiler options we're interested in:
 * `-O, --optimizations LEVEL` to set the compiler optimization options
   (i.e., `none`, `whitespace`, `simple` and `advanced`).
 
-It also offers the `-e, --js-env VAL` option to choose the testbed JS
-engine to run test with. We'll leave the `-n, --namespaces NS` option
-to choose the test namespaces to be run within the testbed for later,
-because this option is very cumbersome from a TDD practitioner point
-of view.
+It also offers the `-e, --js-env VAL` option to choose the JS engine
+to run test with. We'll leave the `-n, --namespaces NS` option to for
+later, because this option is critical.
 
 We're not going to be too detailed in explaining the details of these
 `test-cljs` options, because they look like the previous ones. Here is
@@ -780,12 +778,12 @@ the update `tdd` task definition:
 ```clj
 (deftask tdd
   "Launch a customizable TDD Environment"
-  [e testbed        ENGINE kw     "the JS testbed engine (default phantom)" 
+  [e testbed        ENGINE kw     "The JS testbed engine (default phantom)" 
    k httpkit               bool   "Use http-kit web server (default jetty)"
-   o output-to      NAME   str    "the JS output file name for test (default main.js)"
-   O optimizations  LEVEL  kw     "the optimization level (default none)"
-   p port           PORT   int    "the web server port to listen on (default 3000)"
-   t dirs           PATH   #{str} "test paths (default test/clj test/cljs test/cljc)"   
+   o output-to      NAME   str    "The JS output file name for test (default main.js)"
+   O optimizations  LEVEL  kw     "The optimization level (default none)"
+   p port           PORT   int    "The web server port to listen on (default 3000)"
+   t dirs           PATH   #{str} "Test paths (default test/clj test/cljs test/cljc)"   
    v verbose               bool   "Print which files have changed (default false)"]
   (let [dirs (or dirs #{"test/cljc" "test/clj" "test/cljs"})
         output-to (or output-to "main.js")
@@ -861,7 +859,7 @@ generated JS code could quickly become a PITA.
 Those incidental complexities are gone. You still have `none`,
 `whitespace`, `simple` and `advanced` optimization mode, but the CLJS
 compilers is now able to manage by itself the addition of the needed
-Google Closure Libraries when you set the optimization mode to `node`.
+Google Closure Libraries when you set the optimization mode to `none`.
 The `source-map` features, which is activated by default with the
 `none` mode, can be set for the other optimization mode as
 well. Consequently, the debugging experience of CLJS code from the
@@ -891,14 +889,14 @@ The most intriguing compiler optimization mode (or level) is the
 `advanced` one. Do you remember when in the
 [Tutorial 6 - The Easy Made Complex and the Simple Made Easy](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-06.md)
 we introduced the `:export` metadata to allow the `init` function to
-be called from JS scripts in an HTML page? The reason of that
+be called from JS scripts in an HTML page? The reason for that
 `:export` metadata (i.e., `^`) was to protect the `init` function from
 being aggressively renamed by the CLJS compiler when set to `advanced`
 mode.
 
 The kind of job done by the Google Closure Compiler when used with
-`advanced` mode is already awesome by itself. Recently, it has been
-even been added a new
+`advanced` mode is already awesome by itself. Recently, it has even
+been added a new
 [`modules` option](https://github.com/clojure/clojurescript/wiki/Compiler-Options#modules)
 which is able to break the JS generated file in small pieces to better
 support the needs of Single Page Applications (SPA) to download only
@@ -983,6 +981,369 @@ And you still have to zip the file. Not so bad.
 To proceed with the next step, stop the `boot` process.
 
 ## Test Namespaces
+
+We expressly left the `-n, --namespace NAMESPACE` option as the latest
+to be treated. This option occurs in both the `test` task, specific
+for CLJ, and the `test-cljs` task, specific for CLJS.
+
+Let's see again the help for both the `test` and the `test-cljs`
+tasks:
+
+```bash
+boot test -h
+Run clojure.test tests in a pod.
+
+The --namespaces option specifies the namespaces to test. The default is to
+run tests in all namespaces found in the project.
+...
+Options:
+  -h, --help                  Print this help info.
+  -n, --namespaces NAMESPACE  Conj NAMESPACE onto the set of namespace symbols to run tests in.
+...
+```
+
+```bash
+boot test-cljs -h
+Run cljs.test tests via the engine of your choice.
+
+ The --namespaces option specifies the namespaces to test. The default is to
+ run tests in all namespaces found in the project.
+
+Options:
+...
+  -n, --namespaces NS        Conj NS onto namespaces whose tests will be run. All tests will be run if
+                                 ommitted.
+...
+```
+
+Note that they, as default, run tests in all available namespaces if
+you do not specify one or more test namespaces. Also, they both `conj`
+the optional namespace onto the set of namespace symbols to run tests
+in.
+
+This is very easily treated with the task options as follows:
+
+```clj
+(deftask tdd
+  "Launch a customizable TDD Environment"
+  [...
+   n namespaces     NS     #{sym} "the set of namespace symbols to run tests in"]
+  (let [...]
+    (comp
+     ...
+     (test-cljs ...
+                :namespaces namespaces)
+     (test :namespaces namespaces))))
+```
+
+Let's if this simple solution it works by first calling it with the
+portable `modern-cljs.shopping.validators-test` test namespace and the
+without any `-n` option:
+
+
+```bash
+boot tdd -n modern-cljs.shopping.validators-test
+...
+Compiling ClojureScript...
+• main.js
+Running cljs tests...
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+Elapsed time: 31.878 sec
+```
+
+The first test worked like a charm. Not stop the `boot` process and
+restart it without passing to it any option.
+
+```bash
+boot tdd
+...
+Compiling ClojureScript...
+• main.js
+Running cljs tests...
+Testing adzerk.boot-reload.connection
+
+Testing adzerk.boot-reload.reload
+
+Testing doo.runner
+
+Testing adzerk.boot-reload.display
+
+Testing domina.core
+
+Testing adzerk.boot-reload
+
+Testing modern-cljs.login
+
+Testing valip.core
+
+Testing clj-test.suite
+
+Testing weasel.repl
+
+Testing hiccups.runtime
+
+Testing shoreleave.remotes.protocols
+
+Testing shoreleave.remotes.http-rpc
+
+Testing shoreleave.remotes.common
+
+Testing clojure.browser.repl
+
+Testing weasel.impls.websocket
+
+Testing valip.predicates
+
+Testing cljs.core
+
+Testing modern-cljs.shopping
+
+Testing modern-cljs.shopping.validators
+
+Testing adzerk.boot-reload.websocket
+
+Testing domina.macros
+
+Testing shoreleave.browser.cookies
+
+Testing cljs.test
+
+Testing shoreleave.remotes.xhr
+
+Testing adzerk.boot-reload.client
+
+Testing adzerk.boot-cljs-repl
+
+Testing domina.events
+
+Testing jx.reporter.karma
+
+Testing cljs.pprint
+
+Testing clojure.browser.net
+
+Testing domina.support
+
+Testing shoreleave.remotes.macros
+
+Testing cljs.repl
+
+Testing clojure.string
+
+Testing valip.predicates.def
+
+Testing hiccups.core
+
+Testing cljs.reader
+
+Testing modern-cljs.shopping.validators-test
+
+Testing modern-cljs.login.validators
+
+Testing clojure.browser.event
+
+Testing cljs.user
+
+Testing clojure.template
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+
+Testing modern-cljs.core
+
+Testing modern-cljs.login
+
+Testing modern-cljs.login.validators
+
+Testing modern-cljs.remotes
+
+Testing modern-cljs.shopping.validators
+
+Testing modern-cljs.shopping.validators-test
+
+Testing modern-cljs.templates.shopping
+
+Testing modern-cljs.login.validators
+
+Testing modern-cljs.shopping.validators
+
+Testing modern-cljs.shopping.validators-test
+
+Testing valip.core
+
+Testing valip.predicates
+
+Ran 2 tests containing 26 assertions.
+0 failures, 0 errors.
+Elapsed time: 45.640 sec
+```
+
+What the hell is happening here? The `test-cljs` task evaluated all
+the project namespaces, including the ones from the used libs. The
+`test` task evaluates all the namespaces we defined in the project and
+for some reason it evaluated the portable test ones two times.
+
+Let's now see what happens if you force a bug in the `validators-test`
+namespace:
+
+```clj
+...
+Compiling ClojureScript...
+• main.js
+Running cljs tests...
+Testing adzerk.boot-reload.connection
+...
+Testing modern-cljs.shopping.validators-test
+
+FAIL in (validate-shopping-form-test) (:)
+Shopping Form Validation / Happy Path
+expected: (= nil (validate-shopping-form "" "0" "0" "0"))
+  actual: (not (= nil {:quantity ["Quantity can't be empty" "Quantity has to be an integer number" "Quantity can't be negative"]}))
+...
+Ran 1 tests containing 13 assertions.
+1 failures, 0 errors.
+
+...
+Testing modern-cljs.shopping.validators-test
+
+FAIL in (validate-shopping-form-test) (validators_test.cljc:9)
+Shopping Form Validation / Happy Path
+expected: nil
+  actual: {:quantity
+           ["Quantity can't be empty"
+            "Quantity has to be an integer number"
+            "Quantity can't be negative"]}
+    diff: + {:quantity
+             ["Quantity can't be empty"
+              "Quantity has to be an integer number"
+              "Quantity can't be negative"]}
+
+...
+Testing modern-cljs.shopping.validators-test
+
+FAIL in (validate-shopping-form-test) (validators_test.cljc:9)
+Shopping Form Validation / Happy Path
+expected: nil
+  actual: {:quantity
+           ["Quantity can't be empty"
+            "Quantity has to be an integer number"
+            "Quantity can't be negative"]}
+    diff: + {:quantity
+             ["Quantity can't be empty"
+              "Quantity has to be an integer number"
+              "Quantity can't be negative"]}
+
+Testing modern-cljs.templates.shopping
+
+Ran 2 tests containing 26 assertions.
+2 failures, 0 errors.
+clojure.lang.ExceptionInfo: Some tests failed or errored
+    data: {:test 2, :pass 24, :fail 2, :error 0, :type :summary}
+                        clojure.core/ex-info            core.clj: 4593
+           adzerk.boot-test/eval549/fn/fn/fn       boot_test.clj:   73
+crisptrutski.boot-cljs-test/eval651/fn/fn/fn  boot_cljs_test.clj:  109
+           adzerk.boot-cljs/eval268/fn/fn/fn       boot_cljs.clj:  200
+           adzerk.boot-cljs/eval226/fn/fn/fn       boot_cljs.clj:  134
+crisptrutski.boot-cljs-test/eval621/fn/fn/fn  boot_cljs_test.clj:   79
+      adzerk.boot-cljs-repl/eval491/fn/fn/fn  boot_cljs_repl.clj:  171
+              boot.task.built-in/fn/fn/fn/fn        built_in.clj:  284
+              boot.task.built-in/fn/fn/fn/fn        built_in.clj:  281
+      adzerk.boot-reload/eval391/fn/fn/fn/fn     boot_reload.clj:  120
+         adzerk.boot-reload/eval391/fn/fn/fn     boot_reload.clj:  119
+        boot.task.built-in/fn/fn/fn/fn/fn/fn        built_in.clj:  233
+           boot.task.built-in/fn/fn/fn/fn/fn        built_in.clj:  233
+              boot.task.built-in/fn/fn/fn/fn        built_in.clj:  230
+         pandeiro.boot-http/eval314/fn/fn/fn       boot_http.clj:   83
+                         boot.core/run-tasks            core.clj:  701
+                           boot.core/boot/fn            core.clj:  711
+         clojure.core/binding-conveyor-fn/fn            core.clj: 1916
+                                         ...
+Elapsed time: 9.480 sec
+```
+
+Oh my God. The `test-cljs` reevaluated again all the project
+namespaces, including the one defined in the used libs, and the `test`
+task evaluated all the project namespaces, not including the ones from
+the used libs, but it evaluated again the portable `validators-test`
+two times. Correct the forced bug and you'll see again the same
+behavior. Too bad. 
+
+That said, let's see at least if the current `tdd` configuration is
+able to manage a new test namespace while it's running.
+
+Create a new `validators_test.cljc` portable `.cljc` file in the
+`test/cljc/modern_cljs/login` test directory.
+
+Define a very simple unit test with a single assertion for the
+`user-credential-errors` validator we defined in a
+[previous tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md#validatorscljc).
+
+```clj
+(ns modern-cljs.login.validators-test
+  (:require [modern-cljs.login.validators :refer [user-credential-errors]]
+            #?(:clj [clojure.test :refer [deftest are testing]]
+               :cljs [cljs.test :refer-macros [deftest are testing]])))
+
+(deftest user-credential-errors-test
+  (testing "Login Form Validation"
+    (testing "/ Happy Path"
+      (are [expected actual] (= expected actual)
+           nil (user-credential-errors "me@me.com" "weak1")))))
+```
+
+As soon as you save the file the test machinery get triggered
+
+```bash
+Writing suite.cljs...
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+Running cljs tests...
+...
+Testing modern-cljs.login.validators-test
+...
+Testing modern-cljs.shopping.validators-test
+...
+
+Ran 2 tests containing 14 assertions.
+0 failures, 0 errors.
+
+...
+Testing modern-cljs.login.validators-test
+...
+Testing modern-cljs.shopping.validators-test
+...
+Testing modern-cljs.login.validators-test
+...
+Testing modern-cljs.shopping.validators-test
+...
+
+Ran 4 tests containing 28 assertions.
+0 failures, 0 errors.
+Elapsed time: 10.529 sec
+```
+
+As you see, the test machinery behavior is still unacceptable, but at
+least the newly defined unit test for the `login` form validator got
+seen and correctly evaluated by both the CLJ and CLJS engines.
+
+## TDD workflow
+
+As said, even if tests return the expected results, from a TDD
+prospective the above experience is totally unacceptable: the last
+thing a TDD practitioner wants, it's to wait so long to see the test
+results. Moreover the above delay is not caused by the unit tests *in
+se*, but from the machinery set up by the `test` and the `test-cljs`
+subtask of `tdd`.
+
 
 
 
