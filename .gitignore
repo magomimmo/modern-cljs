@@ -17,3 +17,4 @@ pom.xml
 .crossover-cljs
 .repl
 .nrepl-history
+.nrepl-port
