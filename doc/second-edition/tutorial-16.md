@@ -232,7 +232,7 @@ well:
   identity)
 ```
 
-> NOTE 1: here used the `merge-env!` expression instead of the
+> NOTE 1: here I used the `merge-env!` expression instead of the
 > `set-env!` one because it makes the code easier to be read.
 
 
@@ -292,7 +292,7 @@ command line
      (test :namespaces '#{modern-cljs.shopping.validators-test}))))
 ```
 
-> NOTE 1: the `-t` default value is now `#{"test/cljc" "test/clj"
+> NOTE 2: the `-t` default value is now `#{"test/cljc" "test/clj"
 > "test/cljs"}`. This is because even if none of those directories
 > exists or contains any testing namespace, the internal `merge-env!`
 > function does not complain.
@@ -774,9 +774,9 @@ It also offers the `-e, --js-env VAL` option to choose the JS engine
 to run test with. We'll leave the `-n, --namespaces NS` option to for
 later, because this option is critical.
 
-We're not going to explain the details of these `test-cljs` options,
-because they look like the previous ones. Here is the update `tdd`
-task definition:
+We're not going to explain the details of those options, because it
+looks like the previous ones. Here is the update `tdd` task
+definition:
 
 ```clj
 (deftask tdd
@@ -1020,7 +1020,10 @@ Options:
 ```
 
 Note that if you do not specify one or more test namespaces, they both
-run tests in all namespace of the project. Also, they both `conj` the
+run tests in all namespaces of the project (`test-cljs` even gests the
+namepaspace from the immutable classpath).
+
+Even if their behviour is not exactely the same, they both `conj` the
 optional namespace onto the set of namespace symbols to run tests in.
 
 This is very easily treated with the task options as follows:
@@ -1039,8 +1042,8 @@ This is very easily treated with the task options as follows:
 ```
 
 Let's if this simple solution it works by first calling it with the
-portable `modern-cljs.shopping.validators-test` test namespace and the
-without any `-n` option:
+portable `modern-cljs.shopping.validators-test` test namespace and
+then without any `-n` option:
 
 
 ```bash
@@ -1061,7 +1064,8 @@ Ran 1 tests containing 13 assertions.
 Elapsed time: 31.878 sec
 ```
 
-The first test worked like a charm. Now stop the `boot` process and
+The first test, aside form the time it takes the very first CLJS
+compilation, worked like a charm. Now stop the `boot` process and
 restart it without passing to it any option.
 
 ```bash
@@ -1071,117 +1075,36 @@ Compiling ClojureScript...
 • main.js
 Running cljs tests...
 Testing adzerk.boot-reload.connection
-
-Testing adzerk.boot-reload.reload
-
-Testing doo.runner
-
-Testing adzerk.boot-reload.display
-
-Testing domina.core
-
-Testing adzerk.boot-reload
-
-Testing modern-cljs.login
-
-Testing valip.core
-
-Testing clj-test.suite
-
-Testing weasel.repl
-
-Testing hiccups.runtime
-
-Testing shoreleave.remotes.protocols
-
-Testing shoreleave.remotes.http-rpc
-
-Testing shoreleave.remotes.common
-
-Testing clojure.browser.repl
-
-Testing weasel.impls.websocket
-
-Testing valip.predicates
-
-Testing cljs.core
-
-Testing modern-cljs.shopping
-
-Testing modern-cljs.shopping.validators
-
-Testing adzerk.boot-reload.websocket
-
-Testing domina.macros
-
-Testing shoreleave.browser.cookies
-
-Testing cljs.test
-
-Testing shoreleave.remotes.xhr
-
-Testing adzerk.boot-reload.client
-
-Testing adzerk.boot-cljs-repl
-
-Testing domina.events
-
-Testing jx.reporter.karma
-
-Testing cljs.pprint
-
-Testing clojure.browser.net
-
-Testing domina.support
-
-Testing shoreleave.remotes.macros
-
-Testing cljs.repl
-
-Testing clojure.string
-
-Testing valip.predicates.def
-
-Testing hiccups.core
-
-Testing cljs.reader
-
+...
 Testing modern-cljs.shopping.validators-test
-
-Testing modern-cljs.login.validators
-
-Testing clojure.browser.event
-
-Testing cljs.user
-
-Testing clojure.template
+...
 
 Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
 
 Testing modern-cljs.core
 
-Testing modern-cljs.login
+...
 
 Testing modern-cljs.login.validators
 
-Testing modern-cljs.remotes
+...
+
+Testing modern-cljs.shopping.validators
+
+...
+
+Testing modern-cljs.shopping.validators-test
+
+...
+
+Testing modern-cljs.login.validators
 
 Testing modern-cljs.shopping.validators
 
 Testing modern-cljs.shopping.validators-test
 
-Testing modern-cljs.templates.shopping
-
-Testing modern-cljs.login.validators
-
-Testing modern-cljs.shopping.validators
-
-Testing modern-cljs.shopping.validators-test
-
-Testing valip.core
-
-Testing valip.predicates
+...
 
 Ran 2 tests containing 26 assertions.
 0 failures, 0 errors.
@@ -1191,7 +1114,7 @@ Elapsed time: 45.640 sec
 What the hell is happening here? The `test-cljs` task evaluated all
 the project namespaces, even the ones from the used libs. The `test`
 task evaluates all the namespaces we defined in the project and for
-some reason it evaluated the portable test ones two times.
+some reason it evaluated the portable ones two times each.
 
 Let's now see what happens if you force a bug in the `validators-test`
 namespace:
@@ -1273,9 +1196,11 @@ Elapsed time: 9.480 sec
 
 Oh my God. The `test-cljs` reevaluated again all the project
 namespaces, including the one defined in the used libs, and the `test`
-task evaluated all the project namespaces and evaluated again the
-portable `validators-test` two times. Correct the forced bug and
-you'll see again the same behavior. Too bad.
+task evaluated all the project namespaces. Again it evaluated the
+portable `validators-test` two times.
+
+Correct the forced bug and you'll see again the same behavior. Too
+bad.
 
 That said, let's see at least if the current `tdd` configuration is
 able to manage a new test namespace while it's running.
@@ -1336,7 +1261,7 @@ As you see, the test machinery behavior is still unacceptable, but at
 least the newly defined unit test for the `login` form validator got
 seen and correctly evaluated by both the CLJ and CLJS engines.
 
-## Give up
+## Give up?
 
 I'm not a TDD practitioner, but if I were, I'd never accept to restart
 the environment to add new test files, like `tdd` requires if we
@@ -1345,11 +1270,12 @@ launch it by specifying the initial test namespaces to be run with the
 results as it happens when `tdd` is launched without specifying any
 test namespace to be run.
 
-At the moment we have to accept a tradeoff:
+At the moment we have to accept a trade off:
 
 * be explicit with the test namespaces you want to run test in by
   specifying them on the command line with the `-n`;
-* stop and restart the `tdd` task when you need to add tests in a new test namespace.
+* stop and restart the `tdd` task when you need to add tests in a new
+  test namespace.
 
 ```bash
 boot tdd -n modern-cljs.shopping.validators-test -n modern-cljs.login.validators-test
@@ -1390,93 +1316,74 @@ function:
 
 (deftest user-credential-errors-test
   (testing "Login Form Validation"
+    
     (testing "/ Happy Path"
       (are [expected actual] (= expected actual)
         nil (user-credential-errors "me@me.com" "weak1")))
-    (testing "/ Email Presence"
+    
+    (testing "/ Email presence"
       (are [expected actual] (= expected actual)
-        
-        {:email
-         ["Email can't be empty."
-          "The provided email is invalid."],
-         :password
-         ["Password can't be empty."
-          "The provided password is invalid"]}
-        (user-credential-errors nil nil)
+        "Email can't be empty."
+        (first (:email (user-credential-errors "" "")))
+        "Email can't be empty."
+        (first (:email (user-credential-errors "" nil)))
+        "Email can't be empty."
+        (first (:email (user-credential-errors "" "weak1")))
+        "Email can't be empty."
+        (first (:email (user-credential-errors "" "weak")))
+        "Email can't be empty."
+        (first (:email (user-credential-errors nil "")))
+        "Email can't be empty."
+        (first (:email (user-credential-errors nil nil)))
+        "Email can't be empty."
+        (first (:email (user-credential-errors nil "weak1")))
+        "Email can't be empty."
+        (first (:email (user-credential-errors nil "weak")))))
 
-        {:email
-         ["Email can't be empty."
-          "The provided email is invalid."],
-         :password
-         ["Password can't be empty."
-          "The provided password is invalid"]}
-        (user-credential-errors "" nil)
-
-        {:email
-         ["Email can't be empty."
-          "The provided email is invalid."],
-         :password
-         ["Password can't be empty."
-          "The provided password is invalid"]}
-        (user-credential-errors "" "")
-
-        {:email
-         ["Email can't be empty." "The provided email is invalid."],
-         :password 
-         ["The provided password is invalid"]}
-        (user-credential-errors "" "weak")
-
-        {:email
-         ["Email can't be empty." "The provided email is invalid."]}
-        (user-credential-errors "" "weak1")))
-
-    (testing "/ Email is invalid"
+    (testing "/ Password presence"
       (are [expected actual] (= expected actual)
-        
-        {:email ["The provided email is invalid."],
-         :password
-         ["Password can't be empty."
-          "The provided password is invalid"]}
-        (user-credential-errors "me" nil)
+        "Password can't be empty."
+        (first (:password (user-credential-errors "" "")))
+        "Password can't be empty."
+        (first (:password (user-credential-errors nil "")))
+        "Password can't be empty."
+        (first (:password (user-credential-errors "me@me.com" "")))
+        "Password can't be empty."
+        (first (:password (user-credential-errors "me" "")))
+        "Password can't be empty."
+        (first (:password (user-credential-errors "" nil)))
+        "Password can't be empty."
+        (first (:password (user-credential-errors nil nil)))
+        "Password can't be empty."
+        (first (:password (user-credential-errors "me@me.com" nil)))
+        "Password can't be empty."
+        (first (:password (user-credential-errors "me" nil)))))
 
-        {:email ["The provided email is invalid."],
-           :password
-           ["Password can't be empty."
-            "The provided password is invalid"]}
-        (user-credential-errors "me" "")
+    (testing "/ Email validity"
+      (are [expected actual] (= expected actual)
+        "The provided email is invalid."
+        (first (:email (user-credential-errors "me" "")))
+        "The provided email is invalid."
+        (first (:email (user-credential-errors "me.me" nil)))
+        "The provided email is invalid."
+        (first (:email (user-credential-errors "me@me" "weak")))
+        "The provided email is invalid."
+        (first (:email (user-credential-errors "me.me@me" "weak1")))))
 
-        {:email ["The provided email is invalid."],
-           :password ["The provided password is invalid"]}
-        (user-credential-errors "me" "weak")
-
-        {:email ["The provided email is invalid."]}
-        (user-credential-errors "me" "weak1")))))
+    (testing "/ Password validity"
+      (are [expected actual] (= expected actual)
+        "The provided password is invalid"
+        (first (:password (user-credential-errors nil "weak")))
+        "The provided password is invalid"
+        (first (:password (user-credential-errors "" "lessweak")))
+        "The provided password is invalid"
+        (first (:password (user-credential-errors nil "lessweak")))
+        "The provided password is invalid"
+        (first (:password (user-credential-errors nil "toolongforthat")))))))
 ```
 
 As you save the file, `tdd` will trigger the recompilation and the
-tests run as well.
-
-```bash
-Writing suite.cljs...
-Writing main.cljs.edn...
-Compiling ClojureScript...
-• main.js
-Running cljs tests...
-Testing modern-cljs.login.validators-test
-
-Testing modern-cljs.shopping.validators-test
-
-Ran 2 tests containing 23 assertions.
-0 failures, 0 errors.
-
-Testing modern-cljs.login.validators-test
-
-Testing modern-cljs.shopping.validators-test
-
-Ran 2 tests containing 23 assertions.
-0 failures, 0 errors.
-Elapsed time: 2.489 sec
-```
+tests run as well counting 38 assertions in 2 tests each.
 
 ## Specific CLJ test in a portable test namespace
 
@@ -1491,14 +1398,15 @@ email address:
                :cljs [cljs.test :refer-macros [deftest are testing]])))
 
 #?(:clj (deftest email-domain-errors-test
-          (testing "/ Happy Path" 
+          (testing "Email domain existence"
             (are [expected actual] (= expected actual)
-              nil (v/email-domain-errors "me@me.com")))))
+              "The domain of the email doesn't exist."
+              (first (:email (v/email-domain-errors "me@googlenospam.com")))))))
 ```
 
-Note as to still share the requirement of the
-`modern-cljs.login.validators` namespace between CLJ and CLJS we added
-the ``v` alias. This way we can call the `email-domain-errors`
+Note as to be able to continue to share the requirement of the
+`modern-cljs.login.validators` namespace between CLJ and CLJS, we
+added the ``v` alias. This way we can call the `email-domain-errors`
 function which is defined in the `modern-cljs.login.validators`
 portable namespace for CLJ only. Obviously we had to use the `#?`
 reader conditional.
@@ -1510,26 +1418,27 @@ Writing suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
-Running cljs tests...
+Running cljs tests...Unexpected response code: 400
+
 Testing modern-cljs.login.validators-test
 
 Testing modern-cljs.shopping.validators-test
 
-Ran 2 tests containing 23 assertions.
+Ran 2 tests containing 38 assertions.
 0 failures, 0 errors.
 
 Testing modern-cljs.login.validators-test
 
 Testing modern-cljs.shopping.validators-test
 
-Ran 3 tests containing 24 assertions.
+Ran 3 tests containing 39 assertions.
 0 failures, 0 errors.
-Elapsed time: 2.695 sec
+Elapsed time: 4.024 sec
 ```
 
-Note as the CLJS test namespaces still have 2 tests containing 23
+The CLJS test namespaces still have 2 tests containing 38
 assertions, while the the CLJ test namespaces now have 3 tests
-containing 24 assertions.
+containing 39 assertions.
 
 To proceed to the next step, stop any related `boot` process.
 
@@ -1648,7 +1557,7 @@ Note as we used a map to set the defaults for the various options
                               modern-cljs.login.validators-test}})
 ```
 
-and how we used the in the `let/or` form:
+and how we used the map of defaults in the `let/or` form:
 
 ```clj
 (deftask tdd
@@ -1667,6 +1576,19 @@ and how we used the in the `let/or` form:
         namespaces (or namespaces (:namespaces defaults))]
     (comp
      (...)))
+```
+
+One more things. The time it takes the `tdd` task to recompile and run
+the tests would be still judged unacceptable by a TDD
+practitioner. Most of time is taken by the `test-cljs` to create and
+start a new instance of the underlying phantom JS engine anytime it
+has to run the tests again. We're not going to solve this problem in
+this tutorial, but at least we now know where to look at if we wanted.
+
+That's it. Stop any `boot` related process and reset the git branch.
+
+```bash
+git reset --hard
 ```
 
 Stay tuned for the next tutorial.
