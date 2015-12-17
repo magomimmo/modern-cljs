@@ -156,8 +156,7 @@ task accordingly to our `target-path`.
   "Launch immediate feedback dev environment"
   []
   (comp
-   (serve :dir "target"
-          :handler 'modern-cljs.core/handler ;; add ring handler
+   (serve :handler 'modern-cljs.core/handler ;; add ring handler
           :resource-root "target"            ;; add resource-path
           :reload true)                      ;; reload server side ns
    (watch)
@@ -243,8 +242,7 @@ Here is the complete `build.boot` file
   "Launch immediate feedback dev environment"
   []
   (comp
-   (serve :dir "target"
-          :handler 'modern-cljs.core/handler           ;; ring hanlder
+   (serve :handler 'modern-cljs.core/handler           ;; ring hanlder
           :resource-root "target"                      ;; root classpath
           :reload true)                                ;; reload ns
    (watch)

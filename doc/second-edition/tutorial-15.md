@@ -749,8 +749,7 @@ previous one in the `build.boot` file:
   "Launch a TDD Environment"
   []
   (comp
-   (serve :dir "target"                                
-          :handler 'modern-cljs.core/app
+   (serve :handler 'modern-cljs.core/app
           :resource-root "target"
           :reload true)
    (testing)

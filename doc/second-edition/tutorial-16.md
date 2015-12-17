@@ -253,8 +253,7 @@ previous `testing` task in the `tdd` task definition:
   "Launch a TDD Environment"
   []
   (comp
-   (serve :dir "target"
-          :handler 'modern-cljs.core/app
+   (serve :handler 'modern-cljs.core/app
           :resource-root "target"
           :reload true)
    (add-source-paths :dirs #{"test/cljc"}) ;; before was testing
@@ -278,8 +277,7 @@ command line
   [t dirs PATH #{str} "test paths"]
   (let [dirs (or dirs #{"test/cljc" "test/clj" "test/cljs"})] 
     (comp
-     (serve :dir "target"                                
-            :handler 'modern-cljs.core/app
+     (serve :handler 'modern-cljs.core/app
             :resource-root "target"
             :reload true)
      (add-source-paths :dirs dirs)
@@ -609,8 +607,7 @@ We are now ready to add the `-k` and `-v` options to the `tdd` task definition.
    v verbose bool "Print which files have changed"]
   (let [dirs (or dirs #{"test/cljc" "test/clj" "test/cljs"})]
     (comp
-     (serve :dir "target"                                
-            :handler 'modern-cljs.core/app
+     (serve :handler 'modern-cljs.core/app
             :resource-root "target"
             :reload true
             :httpkit httpkit)
@@ -792,8 +789,7 @@ definition:
         output-to (or output-to "main.js")
         testbed (or testbed :phantom)]
     (comp
-     (serve :dir "target"                                
-            :handler 'modern-cljs.core/app
+     (serve :handler 'modern-cljs.core/app
             :resource-root "target"
             :reload true
             :httpkit httpkit
@@ -1517,8 +1513,7 @@ Here is the cleaned `build.boot` file:
         testbed (or testbed (:testbed defaults))
         namespaces (or namespaces (:namespaces defaults))]
     (comp
-     (serve :dir (:target defaults)                                
-            :handler 'modern-cljs.core/app
+     (serve :handler 'modern-cljs.core/app
             :resource-root (:target defaults)
             :reload true
             :httpkit httpkit
@@ -1537,8 +1532,7 @@ Here is the cleaned `build.boot` file:
   "Launch immediate feedback dev environment"
   []
   (comp
-   (serve :dir (:target defaults)                                
-          :handler 'modern-cljs.core/app               ;; ring hanlder
+   (serve :handler 'modern-cljs.core/app               ;; ring hanlder
           :resource-root (:target defaults)            ;; root classpath
           :reload true)                                ;; reload ns
    (watch)
