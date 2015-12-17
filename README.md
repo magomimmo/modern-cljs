@@ -162,9 +162,14 @@ Add validators to the `shoppingForm`, and do some unit testing.
 
 ## [Tutorial 15 - Better Safe Than Sorry (Part 3)][35]
 
-Configuring a development environment that simultaneously satisfy in a
+Configure a development environment that simultaneously satisfy in a
 single JVM the Immediate Feedback Principle by Bret Victor and the
 Test Driven Development (TDD).
+
+## [Tutorial 15 - On pleasing TDD practitioners][36]
+
+Make the Test Driven Development Environment more customizable.
+
 
 # License
 
@@ -207,3 +212,4 @@ License, the same license as Clojure.
 [33]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-14.md
 [34]: https://github.com/clojure/clojurescript.git
 [35]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
+[36]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
