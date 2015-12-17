@@ -1020,8 +1020,9 @@ Options:
 ```
 
 Note that if you do not specify one or more test namespaces, they both
-run tests in all namespaces of the project (`test-cljs` even gests the
-namepaspace from the immutable classpath).
+run tests in all namespaces of the project (`test-cljs` even gets the
+namepaspace from the immutable classpath, i.e., the project
+dependencies).
 
 Even if their behviour is not exactely the same, they both `conj` the
 optional namespace onto the set of namespace symbols to run tests in.
@@ -1578,13 +1579,13 @@ and how we used the map of defaults in the `let/or` form:
      (...)))
 ```
 
-One more thing. The time it takes the `tdd` task to recompile and run
-the tests would be still judged unacceptable by a TDD practitioner
-when is longer than a second. In the `tdd` task, most of time is spent
-by the `test-cljs` to internally create and start a new instance of
-the underlying phantom JS engine again and again anytime it has to
-rerun the tests. We're not going to solve this problem in this
-tutorial, but at least we now know where to look at if we wanted.
+One very last thing. The time it takes the `tdd` task to recompile and
+run the tests would be judged unacceptable by a TDD practitioner when
+is longer than a second. In the `tdd` task, most of time is spent by
+the `test-cljs` to internally create and start a new instance of the
+underlying phantom JS engine again and again anytime it has to rerun
+the tests. We're not going to solve this problem in this tutorial, but
+at least we now know where to look at if we wanted.
 
 That's it. Stop any `boot` related process and reset the git branch.
 
@@ -1600,4 +1601,5 @@ Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
+
 
