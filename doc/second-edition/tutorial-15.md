@@ -980,7 +980,10 @@ git reset --hard
 
 Stay tuned for the next tutorial
 
-# Next Step - Tutorial 16 - TBD 
+# [Next Step - Tutorial 16 - On pleasing TDD practitioners][5]
+
+In the [next tutorial][5] we're going to make the `tdd` task more
+customizable for in the attempt to please TDD practitioners.
 
 Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
@@ -989,3 +992,4 @@ License, the same as Clojure.
 [2]: http://phantomjs.org/
 [3]: http://en.wikipedia.org/wiki/WebKit
 [4]: http://phantomjs.org/download.html
+[5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
