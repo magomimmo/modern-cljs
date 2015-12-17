@@ -30,19 +30,20 @@
          '[adzerk.boot-reload :refer [reload]]
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
          '[adzerk.boot-test :refer [test]]
-         '[crisptrutski.boot-cljs-test :refer [test-cljs]])
+         '[crisptrutski.boot-cljs-test :refer [test-cljs]]
+         )
 
-(deftask dummy
-  "A dummy task"
-  [t dirs PATH #{str} ":source-paths"
-   v verbose bool "print which files have changed"
-   k httpkit bool "use httt-kit web server instead of jetty"]
-  *opts*)
+(def defaults {:test-dirs #{"test/cljc" "test/clj" "test/cljs"}
+               :output-to "main.js"
+               :testbed :phantom
+               :target "target"
+               :namespaces '#{modern-cljs.shopping.validators-test
+                              modern-cljs.login.validators-test}})
 
 (deftask add-source-paths
   "Add paths to :source-paths environment variable"
   [t dirs PATH #{str} ":source-paths"]
-  (set-env! :source-paths #(into % dirs))
+  (merge-env! :source-paths dirs)
   identity)
 
 (deftask tdd
@@ -55,13 +56,14 @@
    p port           PORT   int    "the web server port to listen on (default 3000)"
    t dirs           PATH   #{str} "test paths (default test/clj test/cljs test/cljc)"   
    v verbose               bool   "Print which files have changed (default false)"]
-  (let [dirs (or dirs #{"test/cljc" "test/clj" "test/cljs"})
-        output-to (or output-to "main.js")
-        testbed (or testbed :phantom)]
+  (let [dirs (or (:test-dirs defaults))
+        output-to (or output-to (:output-to defaults))
+        testbed (or testbed (:testbed defaults))
+        namespaces (or namespaces (:namespaces defaults))]
     (comp
-     (serve :dir "target"                                
+     (serve :dir (:target defaults)                                
             :handler 'modern-cljs.core/app
-            :resource-root "target"
+            :resource-root (:target defaults)
             :reload true
             :httpkit httpkit
             :port port)
@@ -79,9 +81,9 @@
   "Launch immediate feedback dev environment"
   []
   (comp
-   (serve :dir "target"                                
+   (serve :dir (:target defaults)                                
           :handler 'modern-cljs.core/app               ;; ring hanlder
-          :resource-root "target"                      ;; root classpath
+          :resource-root (:target defaults)            ;; root classpath
           :reload true)                                ;; reload ns
    (watch)
    (reload)
