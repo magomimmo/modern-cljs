@@ -1579,11 +1579,12 @@ and how we used the map of defaults in the `let/or` form:
 ```
 
 One more thing. The time it takes the `tdd` task to recompile and run
-the tests would be still judged unacceptable by a TDD
-practitioner. Most of time is taken by the `test-cljs` to create and
-start a new instance of the underlying phantom JS engine anytime it
-has to run the tests again. We're not going to solve this problem in
-this tutorial, but at least we now know where to look at if we wanted.
+the tests would be still judged unacceptable by a TDD practitioner
+when is longer than a second. In the `tdd` task, most of time is spent
+by the `test-cljs` to internally create and start a new instance of
+the underlying phantom JS engine again and again anytime it has to
+rerun the tests. We're not going to solve this problem in this
+tutorial, but at least we now know where to look at if we wanted.
 
 That's it. Stop any `boot` related process and reset the git branch.
 
