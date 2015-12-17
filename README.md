@@ -166,7 +166,7 @@ Configure a development environment that simultaneously satisfy in a
 single JVM the Immediate Feedback Principle by Bret Victor and the
 Test Driven Development (TDD).
 
-## [Tutorial 15 - On pleasing TDD practitioners][36]
+## [Tutorial 16 - On pleasing TDD practitioners][36]
 
 Make the Test Driven Development Environment more customizable.
 
