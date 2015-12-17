@@ -40,8 +40,7 @@
 (deftask tdd 
   []
   (comp
-   (serve :dir "target"                                
-          :handler 'modern-cljs.core/app
+   (serve :handler 'modern-cljs.core/app
           :resource-root "target"
           :reload true)
    (testing)
