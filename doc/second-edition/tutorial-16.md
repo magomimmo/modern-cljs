@@ -1578,7 +1578,7 @@ and how we used the map of defaults in the `let/or` form:
      (...)))
 ```
 
-One more things. The time it takes the `tdd` task to recompile and run
+One more thing. The time it takes the `tdd` task to recompile and run
 the tests would be still judged unacceptable by a TDD
 practitioner. Most of time is taken by the `test-cljs` to create and
 start a new instance of the underlying phantom JS engine anytime it
