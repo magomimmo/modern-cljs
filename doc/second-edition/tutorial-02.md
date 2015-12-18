@@ -130,11 +130,11 @@ boot wait serve -d target
 << started Jetty on http://localhost:3000 >>
 ```
 
-The `boot` command does not exit anymore and you'll obtaing the
-`index.html` page when connecting to http://localhost:3000 URL from
-your browser. Now kill the server (CTRL-C).
+The `boot` command does not exit anymore and you'll obtain the
+`index.html` page when connecting to `http://localhost:3000` from
+your browser. Now kill the server (`CTRL-C`).
 
-`boot` tasks can be easily chained as in a pipeline:
+`boot` tasks can be easily chained:
 
 ```bash
 boot wait serve -d target cljs
@@ -196,9 +196,8 @@ Elapsed time: 13.969 sec
 Visit `http://localhost:3000` again in your browser to confirm
 that "Hello, World!" has been printed in the JS console. Then open the
 `src/cljs/modern_cljs/core.cljs` source file in your preferred editor
-and modify the message to be printed. Save the file and take a look at
-the terminal. You should see that a new CLJS compilation task has been
-triggered and your new message has been written to the console.
+and modify the message to be printed. Save the file. You should see that
+a new CLJS compilation task has been triggered in the terminal.
 
 ```bash
 Writing main.cljs.edn...
@@ -296,7 +295,7 @@ command at the terminal.
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.1"]
-                 [adzerk/boot-cljs-repl "0.3.0"]]) ;; add REPL
+                 [adzerk/boot-cljs-repl "0.3.0"]]) ;; add bREPL
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
@@ -338,7 +337,7 @@ explicit about the project's required `Clojure` and `ClojureScript` versions.
                  [adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.2"]
-                 [adzerk/boot-cljs-repl "0.3.0"]       ;; add bREPL
+                 [adzerk/boot-cljs-repl "0.3.0"]
                  ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
@@ -375,12 +374,12 @@ dependencies and you have to explicitly add them in the
  :resource-paths #{"html"}
 
  :dependencies '[
-                 [org.clojure/clojure "1.7.0"]         ;; add CLJ
-                 [org.clojure/clojurescript "1.7.170"] ;; add CLJS
+                 [org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "1.7.170"]
                  [adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.2"]
-                 [adzerk/boot-cljs-repl "0.3.0"]       ;; add bREPL
+                 [adzerk/boot-cljs-repl "0.3.0"]
                  [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
                  [weasel "0.7.0"]                      ;; needed by bREPL
                  [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
@@ -393,10 +392,10 @@ dependencies and you have to explicitly add them in the
 ```
 
 > NOTE 3: At the moment we don't take care of the `:scope` of the
-> dependencies. We'll come back to this directive in a next tutorial.
+> dependencies. We'll come back to this directive in a later tutorial.
 
 After having quit the previous process, you can safety run the
-`boot` command in the terminal as follow:
+`boot` command in the terminal as follows:
 
 ```bash
 boot serve -d target watch reload cljs-repl cljs
@@ -450,7 +449,7 @@ boot.user=>
 
 This is a standard CLJ REPL defaulted to the `boot.user`
 namespace. From here we can launch a browser based CLJS REPL (bREPL) as
-follow:
+follows:
 
 ```cljs
 boot.user=> (start-repl)
