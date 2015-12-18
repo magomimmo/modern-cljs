@@ -1,14 +1,13 @@
 # Tutorial 2 - Immediate Feedback Principle
 
-This tutorial is aimed at configuring `modern-cljs` project to reach
-in our development environment a level of interaction that Bret Victor
-called Immediate Feedback in his seminal talk
-[Inventing on Principle][1].
+This tutorial is aimed at configuring a ClojureScript project to approach
+the Immediate Feedback principle, as described by Bret Victor in his
+[seminal talk][1].
 
 ## Preamble
 
 If you want to start working from the end of the [previous tutorial][2],
-assuming you've [git][3] installed, do as follows.
+assuming you have ve [git][3] installed, do as follows:
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
@@ -16,8 +15,8 @@ cd modern-cljs
 git checkout se-tutorial-01
 ```
 
-This way you're cloning the `se-tutorial-01` branch into a new branch to
-start working with.
+This clones the tutorial repo and starts you at the end
+of the first tutorial.
 
 > NOTE 1: the `se-` prefix means "second edition".
 
@@ -25,13 +24,13 @@ start working with.
 
 The `boot` building tool is more recent and less mature than the
 corresponding `leiningen` building tool, which is a kind of standard
-for CLJ developers. Howsoever, the `boot` community is working hard to
+for CLJ developers. However, the `boot` community is working hard to
 progressively enrich it with features, *tasks* in `boot` parlance,
-aimed at filling the gap and, perhaps, even overtaken them.
+aimed at filling the gaps and, perhaps, even overtake.
 
 If you take a look at the [tasks for `boot`][4] developed by the
 community, you'll discover that we already have anything we need to
-start approaching Bret Victor's principle of immediate feedback:
+start approaching Bret Victor's principle of Immediate Feedback:
 
 * [`boot-http`][5]: a `boot` task providing a simple CLJS based HTTP
   server;
@@ -63,10 +62,10 @@ As you see, we added the latest available release of `boot-http` to
 the project dependencies and made the `serve` task visible to the
 `boot` command by referring it in the `require` form.
 
-Note that we're still implicetely exploit few `boot` defaults:
+Note that we're still implicitly exploiting a few `boot` defaults:
 
 * the use of Clojure 1.7.0, defined in the `boot.properties` file;
-* the use of ClojureScript 1.7.170, implicetely imported by the
+* the use of ClojureScript 1.7.170, implicitly imported by the
   `boot-cljs` dependency;
 * the `"target"` directory as the default value used as `:target-path`
   by `boot` itself.
@@ -92,7 +91,7 @@ Options:
   -R, --reload              Reload modified namespaces on each request.
 ```
 
-The `-d` option is used to set the directory to be served and it will
+The `-d` option is used to set the directory to be served. It will
 be created if it does not exist. Let's try the following `boot`
 command at the terminal:
 
@@ -148,14 +147,14 @@ Compiling ClojureScript...
 ```
 
 Open the Developer Tool of your browser to verify that the `Hello,
-World!` string has been printed at the console. Before to proceed with
+World!` string has been printed at the console. Before proceeding with
 the next step, kill the current `boot` process (`CTRL-C`).
 
 ## CLJS source recompilation
 
-If we want to approach the Bret Victor's Immediate Feeback Principle,
-we should be able to recompile any CLJS source code as soon as we
-modify and save one of them.
+If we want to approach the Immediate Feeback principle,
+any changed CLJS source code should be recompiled as soon as we
+modify and save a `.cljs` file.
 
 `watch` task is another of the large number of the predefined tasks
 already included with `boot`.
@@ -173,7 +172,7 @@ Options:
   -M, --manual   Use a manual trigger instead of a file watcher.
 ```
 
-Aside from trigger the execution of the CLJS recompilation whenever a
+Aside from triggering the execution of the CLJS recompilation whenever a
 change in the CLJS source code is saved, the `watch` task can even
 substitute the `wait` tasks, because it is not blocking as well.
 
@@ -194,12 +193,12 @@ Compiling ClojureScript...
 Elapsed time: 13.969 sec
 ```
 
-Visit again the `http://localhost:3000` URL in your browser to confirm
-that "Hello, World!" has been printed in the JS console. Then open in
-your preferred editor the `src/cljs/modern_cljs/core.cljs` source file
+Visit `http://localhost:3000` again in your browser to confirm
+that "Hello, World!" has been printed in the JS console. Then open the
+`src/cljs/modern_cljs/core.cljs` source file in your preferred editor
 and modify the message to be printed. Save the file and take a look at
 the terminal. You should see that a new CLJS compilation task has been
-triggered.
+triggered and your new message has been written to the console.
 
 ```bash
 Writing main.cljs.edn...
@@ -212,20 +211,18 @@ Finally reload the html page to confirm that the `main.js` file linked
 to it has been updated by observing the message printed at the browser
 console. So far, so good.
 
-Before proceeding to the next step in approaching the immediate
-feedback goal, kill the `boot` process (`CTRL-C`).
+Before proceeding to the next step, kill the `boot` process (`CTRL-C`).
 
 ## Resources reloading
 
 Anytime you modify a CLJS source file you have to manually reload the
 html page pointing to it to verify the effect of your coding and we
-want to approach the immediate feedback principle much closer than
-that.
+want to get much closer to the Immediate Feedback principle.
 
 Luckily, there is a `boot` task developed by the community to automate
-the reload of any static resource: [`boot-reload`][6]. Again we have
+reloading of any static resource: [`boot-reload`][6]. Again we have
 to add the new task to the dependencies of the project and make it
-visible to `boot` by requiring its main command:
+visible to `boot` by requiring its primary command:
 
 ```clj
 (set-env!
@@ -260,34 +257,34 @@ Compiling ClojureScript...
 Elapsed time: 19.914 sec
 ```
 
-Now reload again the usual URL in your browser and repeat the above
-procedure by modifing the message to be printed at the browser
+Now reload the usual URL in your browser and repeat the above
+procedure by modifing the message to be printed in the browser
 console. As before you'll see that as soon as you save the `core.cljs`
 file the CLJS recompilation is triggered. This time, thanks to the
-`boot-reload` task, the page is reloaded as well, as you can confirm by
-seeing the new message printed in the browser console.
+`boot-reload` task, the page is reloaded as well. You can confirm this by
+seeing if the new message is printed in the browser console.
 
 You can even modify the html source file to obtain an almost immediate
 feedback from the browser.
 
-Nice stuff. Kill again the `boot` command (`CTRL-C`) before advancing to
+Nice stuff. Kill the `boot` command again (`CTRL-C`) before advancing to
 the next level.
 
 ## Browser REPL (bREPL)
 
 One of the main reasons to use a LISP dialect like CLJ is its REPL
 (Read Eval Print Loop), which enables a very interactive style of
-programming. CLJS communities worked very hard to bring into CLJS the
-same REPL-based programming experience available in CLJ, and created a
+programming. CLJS communities worked very hard to bring the
+same REPL-based programming experience to CLJS available in CLJ, and created a
 way to connect a CLJS REPL to almost any JS engine, included the one
 embedded in the your browser. This style of programming allows you to
 evaluate CLJS forms in the REPL and receive an immediate feedback in
 the browser to which the REPL is connected.
 
-`boot` community has a task to offer even in this area. Its name is
-`boot-cljs-repl`. As already done for the other tasks not included
-with `boot`, we need to add it to the dependencies of the `build.boot`
-project file. Then, as usual, we have to require its main tasks
+The `boot` community has a task to offer in this area, too. Its name is
+`boot-cljs-repl`. As we have already done for the other tasks that `boot`
+does not include, we need to add `boot-cljs-repl` to the dependencies of the `build.boot`
+project file. Then, as usual, we have to require its primary tasks
 (i.e. `cljs-repl` and `start-repl`) to make them visible to the `boot`
 command at the terminal.
 
@@ -328,9 +325,8 @@ Options:
 ```
 
 The `cljs-repl` task has to be positioned just before the `cljs`, not
-at the end of the pipeline and the `cljs-repl` author suggests to be
-explicit about the used `Clojure` and `ClojureScript` releases used in
-the project.
+at the end of the pipeline, and the `cljs-repl` author suggests we are
+explicit about the project's required `Clojure` and `ClojureScript` versions.
 
 ```clj
 (set-env!
@@ -399,8 +395,8 @@ dependencies and you have to explicitly add them in the
 > NOTE 3: At the moment we don't take care of the `:scope` of the
 > dependencies. We'll come back to this directive in a next tutorial.
 
-After having quitted the previous process, you can safety run the
-`boot` command at the terminal as follow:
+After having quit the previous process, you can safety run the
+`boot` command in the terminal as follow:
 
 ```bash
 boot serve -d target watch reload cljs-repl cljs
