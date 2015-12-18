@@ -79,7 +79,7 @@ project.
  ...
  :dependencies '[
                  ...
-                 [org.cljars.magomimmo/domina "2.0.0-SNAPSHOT"]
+                 [org.clojars.magomimmo/domina "2.0.0-SNAPSHOT"]
                  ])
 ```
 
