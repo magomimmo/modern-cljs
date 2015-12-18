@@ -1,7 +1,7 @@
 # Tutorial 3 - House Keeping
 
 In the [previous tutorial][1] we started approaching the Immediate
-Feedback Principle by using the `boot` building tool and piping few
+Feedback Principle by using the `boot` building tool and piping a few
 additional tasks developed by the community:
 
 * `boot-cljs`: to compile CLJS source code (introduced in
@@ -115,11 +115,11 @@ help your typing and your memory.
 
 ## Enter deftask
 
-From the user point of view, one of the interesting aspect of `boot` is
+From the user point of view, one of the interesting aspects of `boot` is
 the composable nature of its tasks, whether predefined by `boot` or
-not. You could spend days in studying `boot` source code to better
+not. You could spend days studying `boot` source code to better
 understand its architecture, but we want to be pragmatic. At the
-moment we are only interested in reducing the need of memorizing task
+moment we are only interested in reducing the need of to memorize task
 names and order while launching the `boot` command from the terminal.
 
 All we have to do is to open the `build.boot` and define a new task as
