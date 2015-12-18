@@ -7,7 +7,7 @@ the Immediate Feedback principle, as described by Bret Victor in his
 ## Preamble
 
 If you want to start working from the end of the [previous tutorial][2],
-assuming you have ve [git][3] installed, do as follows:
+assuming you have [git][3] installed, do as follows:
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
