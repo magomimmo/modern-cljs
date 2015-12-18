@@ -202,6 +202,8 @@ Compiling ClojureScript...
 • main.js
 ```
 
+> Note: You may need to run `boot cljs` twice the first time to get the compilation to complete. You'll know compilation is completed when you see `Compiling Clojurescript` in the output.
+
 You now know why we called the JS file included in the
 `<script>` tag of the `index.html` page `main.js`: just to adhere to an easy
 default.
