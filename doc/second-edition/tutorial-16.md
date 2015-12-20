@@ -1589,11 +1589,18 @@ git reset --hard
 
 Stay tuned for the next tutorial.
 
-# Next Step - Tutorial 17 - TBD 
+# [Next Step - Tutorial 17 - REPLing with Enlive][2]
+
+In the [next tutorial][2] we're going to integrate the validators for
+the Shopping Calculator into the corresponding WUI (Web User
+Interface) in such a way that the user will be notified with the
+corresponding help messages when the she/he enters invalid values in
+the form.
 
 Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
+[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
 
 

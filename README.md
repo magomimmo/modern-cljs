@@ -170,6 +170,11 @@ Test Driven Development (TDD).
 
 Make the Test Driven Development Environment more customizable.
 
+## [Tutorial 17 - REPLing with Enlive][37]
+
+Integrate validators for the into a web form in such a way that the
+user will be notified with the corresponding help messages when the
+she/he enters invalid values in the form.
 
 # License
 
@@ -213,3 +218,4 @@ License, the same license as Clojure.
 [34]: https://github.com/clojure/clojurescript.git
 [35]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
 [36]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
+[37]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md 
