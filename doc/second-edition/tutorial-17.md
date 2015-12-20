@@ -23,7 +23,7 @@ git checkout se-tutorial-16
 
 In this tutorial we're going to integrate the validators for the
 Shopping Calculator into the corresponding WUI (Web User Interface) in
-such a way that the user will be notified with the corresponding error
+such a way that the user will be notified with the corresponding help
 messages when the she/he enters invalid values in the form.
 
 We have two options. We can be religious about the progressive
@@ -98,7 +98,7 @@ All this work it's not useful at all without injecting the form
 validators in the form they are intended to validate. To reach this
 goal we need to refactor the code again.
 
-## Step One - The middle man
+### Step One - The middle man
 
 Instead of directly associating the `POST "/shopping` request with the
 corresponding `shopping` Enlive template, we are going to intermediate
@@ -173,8 +173,8 @@ validators tests for both CLJ and CLJS.
 
 ## Don't panic with Enlive
 
-We now need to manipulate the HTML source to inject the
-eventual error message in the right place for each invalid input value
+We now need to manipulate the HTML source to inject the eventual
+error/help message in the right place for each invalid input value
 typed in by the user.
 
 For example, if the user typed in "foo" as the value of the the
@@ -200,7 +200,7 @@ has to be transformed in the following HTML fragment
 
 ```html
 <div>
-   <label class="error" for="price">Price has to be a number</label>
+   <label class="help" for="price">Price has to be a number</label>
    <input type="text"
           name="price"
           id="price"
@@ -263,7 +263,10 @@ boot.user> (html [:div
                                  :min "1"
                                  :value "foo"
                                  :required "true"}]])
-"<div><label class=\"help\" for=\"price\">Price has to be a number</label><input id=\"price\" min=\"1\" name=\"price\" required=\"true\" value=\"foo\" /></div>"
+"<div>
+   <label class=\"help\" for=\"price\">Price has to be a number</label>
+   <input id=\"price\" min=\"1\" name=\"price\" required=\"true\" value=\"foo\" />
+</div>"
 ```
 
 > NOTE 2: As you can see, Hiccup also provides a CSS-like shortcut for
@@ -292,8 +295,9 @@ code.
 
 ```clj
 boot.user> (e/sniptest (html [:div [:label {:for "price"} "Price"]]))
-"<div><label for=\"price\">Price</label></div>"
-user>
+"<div>
+   <label for=\"price\">Price</label>
+</div>"
 ```
 
 Here we used the `sniptest` macro without any selector/transformation
@@ -306,7 +310,7 @@ number`.
 
 ```clj
 boot.user> (e/sniptest (html [:div [:label {:for "price"} "Price per Unit"]])
-                  [:label] (e/content "Price has to be a number"))
+                             [:label] (e/content "Price has to be a number"))
 "<div>
      <label for=\"price\">Price has to be a number</label>
  </div>"
@@ -318,8 +322,8 @@ contained in the `fieldset` element? Let's REPL this scenario.
 
 ```clj
 boot.user> (e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
-                                   [:div [:label {:for "tax"} "Tax (%)"]]])
-                  [:label] (e/content "Price has to be a number"))
+                                        [:div [:label {:for "tax"} "Tax (%)"]]])
+                       [:label] (e/content "Price has to be a number"))
 "<fieldset>
      <div>
          <label for=\"price\">Price has to be a number</label>
@@ -372,8 +376,8 @@ selector in a nested vector. Let's see if it works.
 
 ```clj
 boot.user> (e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
-                                   [:div [:label {:for "tax"} "Tax (%)"]]])
-                  [[:label (e/attr= :for "price")]] (e/content "Price has to be a number"))
+                                        [:div [:label {:for "tax"} "Tax (%)"]]])
+                       [[:label (e/attr= :for "price")]] (e/content "Price has to be a number"))
 "<fieldset>
      <div>
          <label for=\"price\">Price has to be a number</label>
@@ -503,7 +507,12 @@ the entire content of the `shopping.clj` source file.
 
 ```clj
 (ns modern-cljs.templates.shopping
-  (:require [net.cgrand.enlive-html :refer [deftemplate content do-> add-class set-attr attr=]]
+  (:require [net.cgrand.enlive-html :refer [deftemplate
+                                            content
+                                            do->
+                                            add-class
+                                            set-attr
+                                            attr=]]
             [modern-cljs.remotes :refer [calculate]]
             [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
 
@@ -560,13 +569,13 @@ You should receive the following feedback.
 
 ![Shopping  with error messages][13]
 
-Great, it works. We fixed the server-side code by refactoring it to
-inject the form validators into the Enlive template definition for the
-`shopping.html` page. And we also learnt a little bit more about the
-Enlive DSL.
+It worked as expected. We fixed the server-side code by refactoring it
+to inject the form validators into the Enlive template definition for
+the `shopping.html` page. And we also learned a little bit more about
+the Enlive DSL.
 
-As a very last step, stop the CLJS REPL and the `boot` processes and
-reset the branch:
+Stop the CLJ REPL and the `boot` processes and reset the branch as
+usual:
 
 ```bash
 git reset --hard
