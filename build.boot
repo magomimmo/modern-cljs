@@ -21,7 +21,7 @@
                  [javax.servlet/servlet-api "2.5"]
                  [org.clojars.magomimmo/valip "0.4.0-SNAPSHOT"]
                  [enlive "1.1.6"]
-                 [adzerk/boot-test "1.0.6"]
+                 [adzerk/boot-test "1.0.7"]
                  [crisptrutski/boot-cljs-test "0.2.1-SNAPSHOT"]
                  ])
 
