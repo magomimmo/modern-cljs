@@ -1183,19 +1183,15 @@ Elapsed time: 8.126 sec
 ```
 
 Oh my God. The `test-cljs` reevaluated again all the project
-namespaces, including the one defined in the used libs.
-
-Correct the forced bug and you'll see again the same behavior. Too
-bad.
-
-That said, let's see at least if the current `tdd` configuration is
-able to manage a new test namespace while it's running.
+namespaces, including the one defined in the used libs. Correct the
+forced bug and you'll see again the same behavior. That said, let's
+see at least if the current `tdd` configuration is able to manage a
+new test namespace while it's running.
 
 Create a new `validators_test.cljc` portable `.cljc` file in the
-`test/cljc/modern_cljs/login` test directory.
-
-Define a very simple unit test with a single assertion for the
-`user-credential-errors` validator we defined in a
+`test/cljc/modern_cljs/login` test directory. Define a very simple
+unit test with a single assertion for the `user-credential-errors`
+validator we defined in a
 [previous tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md#validatorscljc).
 
 ```clj
