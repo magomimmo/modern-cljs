@@ -1079,39 +1079,34 @@ Testing modern-cljs.shopping.validators-test
 Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
 
+Testing clojure.template
+
+Ran 1 tests containing 13 assertions.
+0 failures, 0 errors.
+
 Testing modern-cljs.core
 
-...
+Testing modern-cljs.login
 
 Testing modern-cljs.login.validators
 
-...
-
-Testing modern-cljs.shopping.validators
-
-...
-
-Testing modern-cljs.shopping.validators-test
-
-...
-
-Testing modern-cljs.login.validators
+Testing modern-cljs.remotes
 
 Testing modern-cljs.shopping.validators
 
 Testing modern-cljs.shopping.validators-test
 
-...
+Testing modern-cljs.templates.shopping
 
-Ran 2 tests containing 26 assertions.
+Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
-Elapsed time: 45.640 sec
+Elapsed time: 30.520 sec
 ```
 
 What the hell is happening here? The `test-cljs` task evaluated all
 the project namespaces, even the ones from the used libs. The `test`
-task evaluates all the namespaces we defined in the project and for
-some reason it evaluated the portable ones two times each.
+task, instead, correctly evaluates all the namespaces we defined in
+the project, even the ones not containing any test.
 
 Let's now see what happens if you force a bug in the `validators-test`
 namespace:
@@ -1133,22 +1128,16 @@ expected: (= nil (validate-shopping-form "" "0" "0" "0"))
 Ran 1 tests containing 13 assertions.
 1 failures, 0 errors.
 
-...
-Testing modern-cljs.shopping.validators-test
+Testing modern-cljs.core
 
-FAIL in (validate-shopping-form-test) (validators_test.cljc:9)
-Shopping Form Validation / Happy Path
-expected: nil
-  actual: {:quantity
-           ["Quantity can't be empty"
-            "Quantity has to be an integer number"
-            "Quantity can't be negative"]}
-    diff: + {:quantity
-             ["Quantity can't be empty"
-              "Quantity has to be an integer number"
-              "Quantity can't be negative"]}
+Testing modern-cljs.login
 
-...
+Testing modern-cljs.login.validators
+
+Testing modern-cljs.remotes
+
+Testing modern-cljs.shopping.validators
+
 Testing modern-cljs.shopping.validators-test
 
 FAIL in (validate-shopping-form-test) (validators_test.cljc:9)
@@ -1165,36 +1154,36 @@ expected: nil
 
 Testing modern-cljs.templates.shopping
 
-Ran 2 tests containing 26 assertions.
-2 failures, 0 errors.
+Ran 1 tests containing 13 assertions.
+1 failures, 0 errors.
 clojure.lang.ExceptionInfo: Some tests failed or errored
-    data: {:test 2, :pass 24, :fail 2, :error 0, :type :summary}
-                        clojure.core/ex-info            core.clj: 4593
-           adzerk.boot-test/eval549/fn/fn/fn       boot_test.clj:   73
-crisptrutski.boot-cljs-test/eval651/fn/fn/fn  boot_cljs_test.clj:  109
-           adzerk.boot-cljs/eval268/fn/fn/fn       boot_cljs.clj:  200
-           adzerk.boot-cljs/eval226/fn/fn/fn       boot_cljs.clj:  134
-crisptrutski.boot-cljs-test/eval621/fn/fn/fn  boot_cljs_test.clj:   79
-      adzerk.boot-cljs-repl/eval491/fn/fn/fn  boot_cljs_repl.clj:  171
-              boot.task.built-in/fn/fn/fn/fn        built_in.clj:  284
-              boot.task.built-in/fn/fn/fn/fn        built_in.clj:  281
-      adzerk.boot-reload/eval391/fn/fn/fn/fn     boot_reload.clj:  120
-         adzerk.boot-reload/eval391/fn/fn/fn     boot_reload.clj:  119
-        boot.task.built-in/fn/fn/fn/fn/fn/fn        built_in.clj:  233
-           boot.task.built-in/fn/fn/fn/fn/fn        built_in.clj:  233
-              boot.task.built-in/fn/fn/fn/fn        built_in.clj:  230
-         pandeiro.boot-http/eval314/fn/fn/fn       boot_http.clj:   83
-                         boot.core/run-tasks            core.clj:  701
-                           boot.core/boot/fn            core.clj:  711
-         clojure.core/binding-conveyor-fn/fn            core.clj: 1916
-                                         ...
-Elapsed time: 9.480 sec
+    data: {:test 1, :pass 12, :fail 1, :error 0, :type :summary}
+                             clojure.core/ex-info            core.clj: 4593
+                adzerk.boot-test/eval548/fn/fn/fn       boot_test.clj:   73
+ crisptrutski.boot-cljs-test/return-fileset/fn/fn  boot_cljs_test.clj:  144
+     crisptrutski.boot-cljs-test/eval705/fn/fn/fn  boot_cljs_test.clj:  129
+                adzerk.boot-cljs/eval267/fn/fn/fn       boot_cljs.clj:  200
+                adzerk.boot-cljs/eval225/fn/fn/fn       boot_cljs.clj:  134
+     crisptrutski.boot-cljs-test/eval675/fn/fn/fn  boot_cljs_test.clj:   98
+crisptrutski.boot-cljs-test/capture-fileset/fn/fn  boot_cljs_test.clj:  137
+           adzerk.boot-cljs-repl/eval490/fn/fn/fn  boot_cljs_repl.clj:  171
+                   boot.task.built-in/fn/fn/fn/fn        built_in.clj:  284
+                   boot.task.built-in/fn/fn/fn/fn        built_in.clj:  281
+           adzerk.boot-reload/eval390/fn/fn/fn/fn     boot_reload.clj:  120
+              adzerk.boot-reload/eval390/fn/fn/fn     boot_reload.clj:  119
+             boot.task.built-in/fn/fn/fn/fn/fn/fn        built_in.clj:  233
+                boot.task.built-in/fn/fn/fn/fn/fn        built_in.clj:  233
+                   boot.task.built-in/fn/fn/fn/fn        built_in.clj:  230
+              pandeiro.boot-http/eval313/fn/fn/fn       boot_http.clj:   83
+                              boot.core/run-tasks            core.clj:  701
+                                boot.core/boot/fn            core.clj:  711
+              clojure.core/binding-conveyor-fn/fn            core.clj: 1916
+                                              ...
+Elapsed time: 8.126 sec
 ```
 
 Oh my God. The `test-cljs` reevaluated again all the project
-namespaces, including the one defined in the used libs, and the `test`
-task evaluated all the project namespaces. Again it evaluated the
-portable `validators-test` two times.
+namespaces, including the one defined in the used libs.
 
 Correct the forced bug and you'll see again the same behavior. Too
 bad.
@@ -1222,37 +1211,7 @@ Define a very simple unit test with a single assertion for the
            nil (user-credential-errors "me@me.com" "weak1")))))
 ```
 
-As soon as you save the file the test machinery get triggered
-
-```bash
-Writing suite.cljs...
-Writing main.cljs.edn...
-Compiling ClojureScript...
-• main.js
-Running cljs tests...
-...
-Testing modern-cljs.login.validators-test
-...
-Testing modern-cljs.shopping.validators-test
-...
-
-Ran 2 tests containing 14 assertions.
-0 failures, 0 errors.
-
-...
-Testing modern-cljs.login.validators-test
-...
-Testing modern-cljs.shopping.validators-test
-...
-Testing modern-cljs.login.validators-test
-...
-Testing modern-cljs.shopping.validators-test
-...
-
-Ran 4 tests containing 28 assertions.
-0 failures, 0 errors.
-Elapsed time: 10.529 sec
-```
+As soon as you save the file the test machinery get triggered.
 
 As you see, the test machinery behavior is still unacceptable, but at
 least the newly defined unit test for the `login` form validator got
@@ -1541,7 +1500,7 @@ Here is the cleaned `build.boot` file:
    (cljs)))
 ```
 
-Note as we used a map to set the defaults for the various options
+Note that we used a map to set the defaults for the various options
 
 ```clj
 (def defaults {:test-dirs #{"test/cljc" "test/clj" "test/cljs"}
