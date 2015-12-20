@@ -119,7 +119,7 @@ boot tdd
 Elapsed time: 26.573 sec
 ```
 
-Launch the client REPL as well
+Now launch the client REPL as usual
 
 ```bash
 # from a new terminal
@@ -565,7 +565,7 @@ nothing as the value for `Discount`.
 
 ![Shopping with invalid values][12]
 
-You should receive the following feedback.
+You should receive the following feedback
 
 ![Shopping  with error messages][13]
 
@@ -598,6 +598,6 @@ License, the same as Clojure.
 [8]: https://github.com/weavejester/hiccup
 [9]: https://github.com/weavejester
 [10]: https://github.com/cgrand
-[11]: https://github.com/cgrand/enlive/blob/master/src/net/cgrand/enlive_html.clj#L959
+[11]: https://github.com/cgrand/enlive/blob/master/src/net/cgrand/enlive_html.clj#L982
 [12]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-invalid-values.png
 [13]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-with-invalid-messages.png
