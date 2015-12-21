@@ -209,7 +209,7 @@ License, the same license as Clojure.
 [25]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-06.md
 [26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-07.md
 [27]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-08.md
-[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/secon-edition/tutorial-09.md
+[28]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
 [29]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-10.md
 [30]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-11.md
 [31]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md
