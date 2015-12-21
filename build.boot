@@ -61,7 +61,7 @@
         testbed (or testbed (:testbed defaults))
         namespaces (or namespaces (:namespaces defaults))]
     (comp
-     (serve :dir "target" 
+     (serve ;:dir "target" 
             :handler 'modern-cljs.core/app
             :resource-root (:target defaults)
             :reload true
