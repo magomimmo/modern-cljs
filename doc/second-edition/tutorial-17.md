@@ -495,7 +495,7 @@ receives an expression and expands into the above convoluted code.
 ```clj
 (defmacro maybe-error [expr]
   `(if-let [x# ~expr]
-     (do-> (add-class "error")
+     (do-> (add-class "help")
            (content x#))
      identity))
 ```
