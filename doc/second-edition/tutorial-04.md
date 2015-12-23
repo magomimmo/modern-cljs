@@ -766,8 +766,9 @@ Add the following code at the end of the `login.cljs` file.
 (set! (.-onload js/window) init)
 ```
 
-As soon as you save the `login.cljs` everything get recompiled and
-reloaded in your browser.
+As soon as you save the `login.cljs` everything get recompiled. But
+this time you have to reload the Login Page because we attached the
+`init` function to the `onload` event.
 
 You can now safety play with the Login form from the browser itself:
 
