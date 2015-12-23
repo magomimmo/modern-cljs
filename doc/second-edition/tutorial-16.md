@@ -477,14 +477,16 @@ Run cljs.test tests via the engine of your choice.
 Options:
   -h, --help                 Print this help info.
   -e, --js-env VAL           Set the environment to run tests within, eg. slimer, phantom, node,
-                                 or rhino to VAL.
+                                  or rhino to VAL.
   -n, --namespaces NS        Conj NS onto namespaces whose tests will be run. All tests will be run if
-                                 ommitted.
+                                  ommitted.
   -s, --suite-ns NS          Set test entry point. If this is not provided, a namespace will be
-                                 generated to NS.
+                                  generated to NS.
   -O, --optimizations LEVEL  Set the optimization level to LEVEL.
   -o, --out-file VAL         Set output file for test script to VAL.
   -c, --cljs-opts VAL        Set compiler options for CLJS to VAL.
+  -u, --update-fs?           Only if this is set does the next task's filset include
+                                  and generated or compiled cljs from the tests.
   -x, --exit?                Exit immediately with reporter's exit code.
 ```
 
@@ -522,8 +524,13 @@ Options:
   -r, --requires REQUIRES     Conj REQUIRES onto extra namespaces to pre-load into the pool of test pods for speed.
 ```
 
-At the moment we are interested to expose to the `tdd` task the
-`-n, --namespaces NAMESPACE` option only.
+At the moment we are interested to expose to the `tdd` task the `-n,
+--namespaces NAMESPACE` option only. Note that the `test` task's
+default behavior when you do not specify any namespace with the `-n`
+option is different from the corresponding `test-cljs` tasks
+behavior. While `test-cljs` would run only namespaces containing
+tests, `test` would run any project's namespaces, without filtering
+out the ones not containing tests.
 
 ## Task options list for tdd
 
@@ -661,12 +668,19 @@ Ran 1 tests containing 13 assertions.
 Elapsed time: 27.700 sec
 ```
 
-This is the first time we used the `http-kit` asynchronous web server
-and as you see the `tdd` task first downloaded and then started
-it. The `-v` option correctly instructed the `watch` subtask to set
-its mode to `verbose`. If you now modify one of the watched file
-(e.g., `modern_cljs/shopping/validators_test.cljc`), you'll see the
-`watch` verbose option at work:
+This is the first time we explicitly used the `http-kit` asynchronous
+web server and as you see the `tdd` task first downloaded and then
+started it.
+
+> NOTE 3: actually the `reload` tasks internally uses `http-kit` to
+> establish a websocket connection with the browser, but it it uses an
+> older release of it.
+
+
+The `-v` option correctly instructed the `watch` subtask
+to set its mode to `verbose`. If you now modify one of the watched
+file (e.g., `modern_cljs/shopping/validators_test.cljc`), you'll see
+the `watch` verbose option at work:
 
 ```clj
 (deftest validate-shopping-form-test
@@ -857,8 +871,11 @@ generated JS code could quickly become a PITA.
 
 Those incidental complexities are gone. You still have `none`,
 `whitespace`, `simple` and `advanced` optimization mode, but the CLJS
-compilers is now able to manage by itself the addition of the needed
-Google Closure Libraries when you set the optimization mode to `none`.
+compilers is now
+[able to manage by itself](https://github.com/clojure/clojurescript/wiki/Compiler-Options#main)
+the addition of the needed Google Closure Libraries when you set the
+optimization mode to `none`.
+
 The `source-map` features, which is activated by default with the
 `none` mode, can be set for the other optimization modes as
 well. Consequently, the debugging experience of CLJS code from the
@@ -1015,10 +1032,10 @@ Options:
 ...
 ```
 
-Note that if you do not specify one or more test namespaces, they both
-run tests in all namespaces of the project (`test-cljs` even gets the
-namepaspace from the immutable classpath, i.e., the project
-dependencies).
+As we already said, if you do not specify one or more test namespaces,
+their behavior is different and is something we have to live with
+until `test` will be eventually updated to align itself to `test-cljs`
+task.
 
 Even if their behviour is not exactely the same, they both `conj` the
 optional namespace onto the set of namespace symbols to run tests in.
@@ -1038,7 +1055,7 @@ This is very easily treated with the task options as follows:
      (test :namespaces namespaces))))
 ```
 
-Let's if this simple solution it works by first calling it with the
+Let's see if this simple solution works by first calling it with the
 portable `modern-cljs.shopping.validators-test` test namespace and
 then without any `-n` option:
 
@@ -1067,19 +1084,24 @@ restart it without passing to it any option.
 
 ```bash
 boot tdd
-...
+Starting reload server on ws://localhost:50274
+Writing boot_reload.cljs...
+Writing boot_cljs_repl.cljs...
+2015-12-23 15:56:34.780:INFO::clojure-agent-send-off-pool-0: Logging initialized @10971ms
+2015-12-23 15:56:40.121:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
+2015-12-23 15:56:40.165:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@6cd12d4{HTTP/1.1}{0.0.0.0:3000}
+2015-12-23 15:56:40.167:INFO:oejs.Server:clojure-agent-send-off-pool-0: Started @16359ms
+Started Jetty on http://localhost:3000
+
+Starting file watcher (CTRL-C to quit)...
+
+nREPL server started on port 50275 on host 127.0.0.1 - nrepl://127.0.0.1:50275
+Writing clj_test/suite.cljs...
+Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
 Running cljs tests...
-Testing adzerk.boot-reload.connection
-...
 Testing modern-cljs.shopping.validators-test
-...
-
-Ran 1 tests containing 13 assertions.
-0 failures, 0 errors.
-
-Testing clojure.template
 
 Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
@@ -1100,31 +1122,30 @@ Testing modern-cljs.templates.shopping
 
 Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
-Elapsed time: 30.520 sec
+Elapsed time: 33.700 sec
 ```
 
-What the hell is happening here? The `test-cljs` task evaluated all
-the project namespaces, even the ones from the used libs. The `test`
-task, instead, correctly evaluates all the namespaces we defined in
-the project, even the ones not containing any test.
+As you see the different behavior of `test-cljs` and `test` when
+called without specifying any namespace is now evident: `test` task is
+wasting time in running tests even in namespaces which do not contain
+any test.
 
 Let's now see what happens if you force a bug in the `validators-test`
 namespace:
 
 ```clj
-...
+Writing clj_test/suite.cljs...
+Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
 Running cljs tests...
-Testing adzerk.boot-reload.connection
-...
 Testing modern-cljs.shopping.validators-test
 
 FAIL in (validate-shopping-form-test) (:)
 Shopping Form Validation / Happy Path
 expected: (= nil (validate-shopping-form "" "0" "0" "0"))
   actual: (not (= nil {:quantity ["Quantity can't be empty" "Quantity has to be an integer number" "Quantity can't be negative"]}))
-...
+
 Ran 1 tests containing 13 assertions.
 1 failures, 0 errors.
 
@@ -1160,12 +1181,12 @@ clojure.lang.ExceptionInfo: Some tests failed or errored
     data: {:test 1, :pass 12, :fail 1, :error 0, :type :summary}
                              clojure.core/ex-info            core.clj: 4593
                 adzerk.boot-test/eval548/fn/fn/fn       boot_test.clj:   73
- crisptrutski.boot-cljs-test/return-fileset/fn/fn  boot_cljs_test.clj:  144
-     crisptrutski.boot-cljs-test/eval705/fn/fn/fn  boot_cljs_test.clj:  129
+ crisptrutski.boot-cljs-test/return-fileset/fn/fn  boot_cljs_test.clj:  113
+     crisptrutski.boot-cljs-test/eval689/fn/fn/fn  boot_cljs_test.clj:   98
                 adzerk.boot-cljs/eval267/fn/fn/fn       boot_cljs.clj:  200
                 adzerk.boot-cljs/eval225/fn/fn/fn       boot_cljs.clj:  134
-     crisptrutski.boot-cljs-test/eval675/fn/fn/fn  boot_cljs_test.clj:   98
-crisptrutski.boot-cljs-test/capture-fileset/fn/fn  boot_cljs_test.clj:  137
+     crisptrutski.boot-cljs-test/eval660/fn/fn/fn  boot_cljs_test.clj:   66
+crisptrutski.boot-cljs-test/capture-fileset/fn/fn  boot_cljs_test.clj:  106
            adzerk.boot-cljs-repl/eval490/fn/fn/fn  boot_cljs_repl.clj:  171
                    boot.task.built-in/fn/fn/fn/fn        built_in.clj:  284
                    boot.task.built-in/fn/fn/fn/fn        built_in.clj:  281
@@ -1179,14 +1200,15 @@ crisptrutski.boot-cljs-test/capture-fileset/fn/fn  boot_cljs_test.clj:  137
                                 boot.core/boot/fn            core.clj:  711
               clojure.core/binding-conveyor-fn/fn            core.clj: 1916
                                               ...
-Elapsed time: 8.126 sec
+Elapsed time: 9.093 sec
 ```
 
-Oh my God. The `test-cljs` reevaluated again all the project
-namespaces, including the one defined in the used libs. Correct the
-forced bug and you'll see again the same behavior. That said, let's
-see at least if the current `tdd` configuration is able to manage a
-new test namespace while it's running.
+Same behavior. The `test-cljs` worked as expected, while `test`
+evaluated again all the project's namespaces.
+
+Correct the forced bug and you'll see again the same behavior. That
+said, let's see at least if the current `tdd` configuration is able to
+manage a new test namespace while it's running.
 
 Create a new `validators_test.cljc` portable (i.e., `.cljc`) file in
 the `test/cljc/modern_cljs/login` test directory. Define a very simple
@@ -1209,9 +1231,10 @@ validator we defined in a
 
 As soon as you save the file the test machinery get triggered.
 
-As you see, the test machinery behavior is still unacceptable, but at
-least the newly defined unit test for the `login` form validator got
-seen and correctly evaluated by both the CLJ and CLJS engines.
+As you see, the `test` machinery behavior is still unacceptable from a
+performance point of view, but at least the newly defined unit test
+for the `login` form validator got seen and correctly evaluated by
+both the CLJ and CLJS engines.
 
 ## Give up?
 
@@ -1219,8 +1242,8 @@ I'm not a TDD practitioner, but if I were, I'd never accept to restart
 the environment to add new test files, like `tdd` requires if we
 launch it by specifying the initial test namespaces to be run with the
 `-n` option and neither I would accept to wait so long to see the test
-results as it happens when `tdd` is launched without specifying any
-test namespace to be run.
+results as it happens because of the `test` behavior when `tdd` is
+launched without specifying any test namespace to be run.
 
 At the moment we have to accept a trade off:
 
@@ -1528,13 +1551,14 @@ and how we used the map of defaults in the `let/or` form:
      (...)))
 ```
 
-One very last thing. The time it takes the `tdd` task to recompile and
-run the tests would be judged unacceptable by a TDD practitioner when
-is longer than a second. In the `tdd` task, most of time is spent by
+One very last thing. The time taken by `tdd` to recompile and run the
+tests would be judged unacceptable by a TDD practitioner when is
+longer than a second. In the `tdd` task, most of time is spent by the
+`test` task to run unusefull namespaces not containing any test and by
 the `test-cljs` to internally create and start a new instance of the
 underlying phantom JS engine again and again anytime it has to rerun
 the tests. We're not going to solve this problem in this tutorial, but
-at least we now know where to look at if we wanted.
+at least we now know where to look at.
 
 That's it. Stop any `boot` related process and reset the git branch.
 
