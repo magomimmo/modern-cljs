@@ -49,6 +49,3 @@
 
            "Quantity can't be negative"
            (first (:quantity (validate-shopping-form "-1" "0" "0" "0")))))))
-
-
-
