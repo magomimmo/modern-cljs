@@ -10,7 +10,7 @@
 
 > **WARNING NOTE FOR WINDOWS USERS** At the moment `boot` does not run
 > well on MS Windows and I can't help you with this OS because I'm not
-> skilled at all on those OSs. I can only suggest you to use a
+> skilled at all with it. I can only suggest you to use a
 > [virtual machine](https://www.virtualbox.org/) or
 > [docker](https://docs.docker.com/windows/) to be able to follow the
 > `modern-cljs` series.
