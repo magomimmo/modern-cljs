@@ -48,7 +48,7 @@
    (reload)
    (cljs-repl)
    (test-cljs :out-file "main.js" 
-              :js-env js-engine 
+              :js-env :phantom 
               :namespaces '#{modern-cljs.shopping.validators-test})
    (test :namespaces '#{modern-cljs.shopping.validators-test})))
 
