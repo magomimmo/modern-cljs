@@ -1,14 +1,22 @@
 # Modern ClojureScript
 
-**ATTENTION NOTE**: I'm in the process of publishing the
-[second edition][1] of the series. The main difference from the
-[first edition][2] regards the use of the [Boot][3] build tool instead
-of [Leiningen][4]. This second edition is still a draft version and
-you should be forgiving if you'll find errors, typos or even bugs in
-the code. 
+> **ATTENTION NOTE**: I'm in the process of publishing the
+> [second edition][1] of the series. The main difference from the
+> [first edition][2] regards the use of the [Boot][3] build tool instead
+> of [Leiningen][4]. This second edition is still a draft version and
+> you should be forgiving if you'll find errors, typos or even bugs in
+> the code.
 
-Modern ClojureScript (`modern-cljs`) is a series of tutorials that guide you in 
-creating and running [ClojureScript][5] (CLJS) projects.
+
+> *WARNING NOTE FOR WINDOWS USERS* At the moment `boot` does not run
+> well on MS Windows and I can't help you with this OS because I'm not
+> skilled at all on those OSs. I can only suggest you to use a
+> [virtual machine](https://www.virtualbox.org/) or
+> [docker](https://docs.docker.com/windows/) to be able to follow the
+> `modern-cljs` series.
+
+Modern ClojureScript (`modern-cljs`) is a series of tutorials that
+guide you in creating and running [ClojureScript][5] (CLJS) projects.
 
 CLJS is a compiler for the Clojure programming language that targets
 JavaScript. It emits JavaScript code which runs in web browsers and
