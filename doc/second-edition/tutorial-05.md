@@ -548,7 +548,7 @@ to do with the `onsubmit` error we received before.
 ### A short troubleshooting session
 
 Let's go back to the login form by visiting the
-`http://localhost:3000/index.htnl` URL and click the Login botton.
+`http://localhost:3000/index.html` URL and click the Login botton.
 
 Ops, you got the Page Not Found notification. What happens?
 
