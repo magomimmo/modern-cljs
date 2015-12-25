@@ -313,10 +313,10 @@ attributes.
 
 ## Stop IFDE and add hiccups
 
-We can't use the IFDE to require a new lib that is not already listed
-in the `:dependencies` section of the `build.boot` file. So, to go on
-with the next step you need to stop any `boot` related process and add
-`hiccups` lib into the `build.boot` before starting IFDE again.
+Even if we could add a new dependencies to IFDE while it's running, as
+soon as we stop it that dependencies is gone. So, to go on with the
+next step, stop any `boot` related process and add `hiccups` lib into
+the `build.boot` before starting IFDE again.
 
 ```clj
 (set-env!
