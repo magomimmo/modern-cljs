@@ -262,7 +262,8 @@ previous `testing` task in the `tdd` task definition:
    (cljs-repl)
    (test-cljs :out-file "main.js" 
               :js-env :phantom 
-              :namespaces '#{modern-cljs.shopping.validators-test})
+              :namespaces '#{modern-cljs.shopping.validators-test}
+              :update-fs? true)
    (test :namespaces '#{modern-cljs.shopping.validators-test})))
 ```
 
@@ -286,7 +287,8 @@ command line
      (cljs-repl)
      (test-cljs :out-file "main.js" 
                 :js-env :phantom 
-                :namespaces '#{modern-cljs.shopping.validators-test})
+                :namespaces '#{modern-cljs.shopping.validators-test}
+                :update-fs? true)
      (test :namespaces '#{modern-cljs.shopping.validators-test}))))
 ```
 
@@ -624,7 +626,8 @@ We are now ready to add the `-k` and `-v` options to the `tdd` task definition.
      (cljs-repl)
      (test-cljs :out-file "main.js" 
                 :js-env :phantom 
-                :namespaces '#{modern-cljs.shopping.validators-test})
+                :namespaces '#{modern-cljs.shopping.validators-test}
+                :update-fs? true)
      (test :namespaces '#{modern-cljs.shopping.validators-test}))))
 ```
 
@@ -815,6 +818,7 @@ definition:
      (test-cljs :out-file output-to 
                 :js-env testbed 
                 :namespaces '#{modern-cljs.shopping.validators-test}
+                :update-fs? true
                 :optimizations optimizations)
      (test :namespaces '#{modern-cljs.shopping.validators-test}))))
 ```
@@ -1503,6 +1507,7 @@ Here is the cleaned `build.boot` file:
      (test-cljs :out-file output-to 
                 :js-env testbed 
                 :namespaces namespaces
+                :update-fs? true
                 :optimizations optimizations)
      (test :namespaces namespaces))))
 
