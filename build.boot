@@ -49,7 +49,8 @@
    (cljs-repl)
    (test-cljs :out-file "main.js" 
               :js-env :phantom 
-              :namespaces '#{modern-cljs.shopping.validators-test})
+              :namespaces '#{modern-cljs.shopping.validators-test}
+              :update-fs? true)
    (test :namespaces '#{modern-cljs.shopping.validators-test})))
 
 ;;; add dev task
