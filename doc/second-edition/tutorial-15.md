@@ -368,7 +368,6 @@ namespace by referring the needed symbols as well.
 Then asks for its help documentation as usual:
 
 ```bash
-cd /path/to/modern-cljs
 boot test-cljs -h
 Run cljs.test tests via the engine of your choice.
 
@@ -378,24 +377,31 @@ Run cljs.test tests via the engine of your choice.
 Options:
   -h, --help                 Print this help info.
   -e, --js-env VAL           Set the environment to run tests within, eg. slimer, phantom, node,
-                                 or rhino to VAL.
+                                  or rhino to VAL.
   -n, --namespaces NS        Conj NS onto namespaces whose tests will be run. All tests will be run if
-                                 ommitted.
+                                  ommitted.
   -s, --suite-ns NS          Set test entry point. If this is not provided, a namespace will be
-                                 generated to NS.
+                                  generated to NS.
   -O, --optimizations LEVEL  Set the optimization level to LEVEL.
   -o, --out-file VAL         Set output file for test script to VAL.
   -c, --cljs-opts VAL        Set compiler options for CLJS to VAL.
+  -u, --update-fs?           Only if this is set does the next task's filset include
+                                  and generated or compiled cljs from the tests.
   -x, --exit?                Exit immediately with reporter's exit code.
 ```
 
-At the moment we're interested in two options:
+At a first look it seems that we should be interested in two options:
 
 * `-e, --js-eval` (i.e. `:js-eval` inside `build.boot`), regarding the
   JS engine to run tests within
 * `-n, --namespaces` (i.e. `:namespaces` inside `build.boot`),
   regarding the namespaces that contain the unit tests we're
   interested in.
+
+By knowing a little bit about how `boot`
+[fileset](https://github.com/boot-clj/boot/wiki/Filesets) works, we
+should be interested in the `-u, --update-fs?` option as well, because
+it allows to populate the `target` directory as `cljs` does.
 
 ### Light the fire
 
@@ -404,7 +410,7 @@ use the same tasks composition we already adopted for the `boot-test`
 task when dealing with CLJ unit testing:
 
 ```clj
-boot testing watch test-cljs -e phantom -n modern-cljs.shopping.validators-test
+boot testing watch test-cljs -u -e phantom -n modern-cljs.shopping.validators-test
 
 Starting file watcher (CTRL-C to quit)...
 
@@ -431,8 +437,8 @@ used the `phantom` as headless browser and we also passed the
 test in.
 
 Secondly, the `boot-test-cljs` task internally uses the CLJS compiler
-exploiting some default values. For example, instead of generating the
-`main.js` JS file as the `boot-cljs` task did, it generates the
+by overwriting some default values. For example, instead of generating
+the `main.js` JS file as the `boot-cljs` task did, it generates the
 `output.js` JS file.
 
 Now repeat the same experiments we previously did by modifying an
@@ -530,7 +536,7 @@ combine the `test` and the `cljs-test` tasks.
   (comp 
    (testing)
    (watch)
-   (test-cljs :js-env :phantom :namespaces '#{modern-cljs.shopping.validators-test})
+   (test-cljs :update-fs? true :js-env :phantom :namespaces '#{modern-cljs.shopping.validators-test})
    (test :namespaces '#{modern-cljs.shopping.validators-test})))
 ```
 
@@ -705,18 +711,20 @@ Run cljs.test tests via the engine of your choice.
 Options:
   -h, --help                 Print this help info.
   -e, --js-env VAL           Set the environment to run tests within, eg. slimer, phantom, node,
-                                 or rhino to VAL.
+                                  or rhino to VAL.
   -n, --namespaces NS        Conj NS onto namespaces whose tests will be run. All tests will be run if
-                                 ommitted.
+                                  ommitted.
   -s, --suite-ns NS          Set test entry point. If this is not provided, a namespace will be
-                                 generated to NS.
+                                  generated to NS.
   -O, --optimizations LEVEL  Set the optimization level to LEVEL.
   -o, --out-file VAL         Set output file for test script to VAL.
   -c, --cljs-opts VAL        Set compiler options for CLJS to VAL.
+  -u, --update-fs?           Only if this is set does the next task's filset include
+                                  and generated or compiled cljs from the tests.
   -x, --exit?                Exit immediately with reporter's exit code.
 ```
 
-That's interesting. Aside form the `-e`, `-n`, `-s` and `-x`
+That's interesting. Aside form the `-e`, `-n`, `-s` , `-u` and `-x`
 options, the remaining `-O`, `-o` and `-c` options seem to deal with
 the CLJS compiler options.
 
@@ -746,7 +754,6 @@ previous one in the `build.boot` file:
 
 ```clj
 (deftask tdd 
-  "Launch a TDD Environment"
   []
   (comp
    (serve :handler 'modern-cljs.core/app
@@ -758,7 +765,8 @@ previous one in the `build.boot` file:
    (cljs-repl)
    (test-cljs :out-file "main.js" 
               :js-env :phantom 
-              :namespaces '#{modern-cljs.shopping.validators-test})
+              :namespaces '#{modern-cljs.shopping.validators-test}
+              :update-fs? true)
    (test :namespaces '#{modern-cljs.shopping.validators-test})))
 ```
 
@@ -876,11 +884,15 @@ Testing modern-cljs.shopping.validators-test
 
 Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
+WARNING: doo's exit function was not properly set
+#object[TypeError TypeError: Cannot read property 'call' of null]
 nil
 ```
 
-Still working. As a final confirmation, repeat the kind of forced
-failures we did before:
+Still working, even we're receiving a warning that regards
+[`doo`](https://github.com/bensu/doo), a library internally used by
+`test-cljs` to run `cljs.test` on different JS Environment. As a final
+confirmation, repeat the kind of forced failures we did before:
 
 ```clj
 Writing suite.cljs...
