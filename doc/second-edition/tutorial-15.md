@@ -889,7 +889,7 @@ WARNING: doo's exit function was not properly set
 nil
 ```
 
-Still working, even we're receiving a warning that regards
+Still working, even if we're receiving a warning that regards
 [`doo`](https://github.com/bensu/doo), a library internally used by
 `test-cljs` to run `cljs.test` on different JS Environment. As a final
 confirmation, repeat the kind of forced failures we did before:
