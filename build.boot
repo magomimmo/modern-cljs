@@ -74,6 +74,7 @@
      (test-cljs :out-file output-to 
                 :js-env testbed 
                 :namespaces namespaces
+                :update-fs? true
                 :optimizations optimizations)
      (test :namespaces namespaces))))
 
