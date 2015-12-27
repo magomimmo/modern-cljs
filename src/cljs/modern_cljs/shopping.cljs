@@ -3,9 +3,11 @@
                                  append! 
                                  by-class
                                  by-id 
-                                 destroy! 
+                                 destroy!
+                                 remove-class!
                                  set-value!
                                  set-text!
+                                 text
                                  value]]
             [domina.events :refer [listen! prevent-default]]
             [domina.css :refer [sel]]
@@ -18,37 +20,53 @@
   (:require-macros [hiccups.core :refer [html]]
                    [shoreleave.remotes.macros :as macros]))
 
-(defn validate-quantity [evt]
-  (if-let [error (validate-shopping-quantity (value (by-id "quantity")))]
-    (let [label (sel "label[for=quantity]")]
-      (add-class! label "help")
-      (set-text! label error)
-      false)
-    true))
+(defn validate-quantity [evt text]
+  (let [label (sel "label[for=quantity]")]
+    (remove-class! label "help")
+    (if-let [error (validate-shopping-quantity (value (by-id "quantity")))]
+      (do
+        (add-class! label "help")
+        (set-text! label error)
+        false)
+      (do
+        (set-text! label text)
+        true))))
 
-(defn validate-price [evt]
-  (if-let [error (validate-shopping-price (value (by-id "price")))]
-    (let [label (sel "label[for=price]")]
-      (add-class! label "help")
-      (set-text! label error)
-      false)
-    true))
+(defn validate-price [evt text]
+  (let [label (sel "label[for=price]")]
+    (remove-class! label "help")
+    (if-let [error (validate-shopping-price (value (by-id "price")))]
+      (do
+        (add-class! label "help")
+        (set-text! label error)
+        false)
+      (do
+        (set-text! label text)
+        true))))
 
-(defn validate-tax [evt]
-  (if-let [error (validate-shopping-tax (value (by-id "tax")))]
-    (let [label (sel "label[for=tax]")]
-      (add-class! label "help")
-      (set-text! label error)
-      false)
-    true))
+(defn validate-tax [evt text]
+  (let [label (sel "label[for=tax]")]
+    (remove-class! label "help")
+    (if-let [error (validate-shopping-tax (value (by-id "tax")))]
+      (do
+        (add-class! label "help")
+        (set-text! label error)
+        false)
+      (do
+        (set-text! label text)
+        true))))
 
-(defn validate-discount [evt]
-  (if-let [error (validate-shopping-discount (value (by-id "discount")))]
-    (let [label (sel "label[for=discount]")]
-      (add-class! label "help")
-      (set-text! label error)
-      false)
-    true))
+(defn validate-discount [evt text]
+  (let [label (sel "label[for=discount]")]
+    (remove-class! label "help")
+    (if-let [error (validate-shopping-discount (value (by-id "discount")))]
+      (do
+        (add-class! label "help")
+        (set-text! label error)
+        false)
+      (do
+        (set-text! label text)
+        true))))
 
 (defn calculate [evt]
   (let [quantity (value (by-id "quantity"))
@@ -63,22 +81,28 @@
 (defn ^:export init []
   (when (and js/document
              (aget js/document "getElementById"))
-    ;; blur quantity
-    (listen! (by-id "quantity")
-             :blur
-             (fn [evt] (validate-quantity evt)))
-    ;; blur price
-    (listen! (by-id "price")
-             :blur
-             (fn [evt] (validate-price evt)))
-    ;; blur tax
-    (listen! (by-id "tax")
-             :blur
-             (fn [evt] (validate-tax evt)))
-    ;; blur discount
-    (listen! (by-id "discount")
-             :blur
-             (fn [evt] (validate-discount evt)))
+    (let [quantity-text (text (sel "label[for=quantity]"))
+          price-text (text (sel "label[for=price]"))
+          tax-text (text (sel "label[for=tax]"))
+          discount-text (text (sel "label[for=discount]"))]
+      ;; blur quantity
+      (listen! (by-id "quantity")
+               :blur
+               (fn [evt] 
+                 (validate-quantity evt quantity-text)))
+      ;; blur price
+      (listen! (by-id "price")
+               :blur
+               (fn [evt] (validate-price evt price-text)))
+      ;; blur tax
+      (listen! (by-id "tax")
+               :blur
+               (fn [evt] (validate-tax evt tax-text)))
+      ;; blur discount
+      (listen! (by-id "discount")
+               :blur
+               (fn [evt] (validate-discount evt discount-text))))
+    
     ;; click
     (listen! (by-id "calc") 
              :click 
