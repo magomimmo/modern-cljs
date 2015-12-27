@@ -30,6 +30,13 @@
 
             ))
 
+(defn validate-shopping [field value]
+  (condp = field
+    :quantity (first (field (validate-shopping-form value "1.00" "0.0" "0.0")))
+    :price (first (field (validate-shopping-form "1" value "0.0" "0.0")))
+    :tax (first (field (validate-shopping-form "1" "1.00" value "0.0")))
+    :discount (first (field (validate-shopping-form "1" "1.00" "0.0" value)))))
+
 (defn validate-shopping-quantity [quantity]
   (first (:quantity (validate-shopping-form quantity "1.00" "0.0" "0.0"))))
 
