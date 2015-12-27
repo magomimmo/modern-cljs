@@ -1,9 +1,5 @@
 (ns modern-cljs.shopping.validators-test
-  (:require [modern-cljs.shopping.validators :refer [validate-shopping-form
-                                                     validate-shopping-quantity
-                                                     validate-shopping-price
-                                                     validate-shopping-tax
-                                                     validate-shopping-discount]]
+  (:require [modern-cljs.shopping.validators :refer [validate-shopping-form]]
             #?(:clj [clojure.test :refer [deftest are testing]]
                :cljs [cljs.test :refer-macros [deftest are testing]])))
 
