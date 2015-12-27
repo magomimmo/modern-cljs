@@ -36,16 +36,3 @@
     :price (first (field (validate-shopping-form "1" value "0.0" "0.0")))
     :tax (first (field (validate-shopping-form "1" "1.00" value "0.0")))
     :discount (first (field (validate-shopping-form "1" "1.00" "0.0" value)))))
-
-(defn validate-shopping-quantity [quantity]
-  (first (:quantity (validate-shopping-form quantity "1.00" "0.0" "0.0"))))
-
-(defn validate-shopping-price [price]
-  (first (:price (validate-shopping-form "1" price "0.0" "0.0"))))
-
-(defn validate-shopping-tax [tax]
-  (first (:tax (validate-shopping-form "1" "1.00" tax "0.0"))))
-
-(defn validate-shopping-discount [discount]
-  (first (:discount (validate-shopping-form "1" "1.00" "0.0" discount))))
-
