@@ -1,15 +1,54 @@
 (ns modern-cljs.shopping
-  (:require [domina.core :refer [append! 
+  (:require [domina.core :refer [add-class!
+                                 append! 
                                  by-class
                                  by-id 
                                  destroy! 
-                                 set-value! 
+                                 set-value!
+                                 set-text!
                                  value]]
             [domina.events :refer [listen! prevent-default]]
+            [domina.css :refer [sel]]
             [hiccups.runtime]
+            [modern-cljs.shopping.validators :refer [validate-shopping-quantity
+                                                     validate-shopping-price
+                                                     validate-shopping-tax
+                                                     validate-shopping-discount]]
             [shoreleave.remotes.http-rpc :refer [remote-callback]])
   (:require-macros [hiccups.core :refer [html]]
                    [shoreleave.remotes.macros :as macros]))
+
+(defn validate-quantity [evt]
+  (if-let [error (validate-shopping-quantity (value (by-id "quantity")))]
+    (let [label (sel "label[for=quantity]")]
+      (add-class! label "help")
+      (set-text! label error)
+      false)
+    true))
+
+(defn validate-price [evt]
+  (if-let [error (validate-shopping-price (value (by-id "price")))]
+    (let [label (sel "label[for=price]")]
+      (add-class! label "help")
+      (set-text! label error)
+      false)
+    true))
+
+(defn validate-tax [evt]
+  (if-let [error (validate-shopping-tax (value (by-id "tax")))]
+    (let [label (sel "label[for=tax]")]
+      (add-class! label "help")
+      (set-text! label error)
+      false)
+    true))
+
+(defn validate-discount [evt]
+  (if-let [error (validate-shopping-discount (value (by-id "discount")))]
+    (let [label (sel "label[for=discount]")]
+      (add-class! label "help")
+      (set-text! label error)
+      false)
+    true))
 
 (defn calculate [evt]
   (let [quantity (value (by-id "quantity"))
@@ -24,14 +63,33 @@
 (defn ^:export init []
   (when (and js/document
              (aget js/document "getElementById"))
+    ;; blur quantity
+    (listen! (by-id "quantity")
+             :blur
+             (fn [evt] (validate-quantity evt)))
+    ;; blur price
+    (listen! (by-id "price")
+             :blur
+             (fn [evt] (validate-price evt)))
+    ;; blur tax
+    (listen! (by-id "tax")
+             :blur
+             (fn [evt] (validate-tax evt)))
+    ;; blur discount
+    (listen! (by-id "discount")
+             :blur
+             (fn [evt] (validate-discount evt)))
+    ;; click
     (listen! (by-id "calc") 
              :click 
              (fn [evt] (calculate evt)))
+    ;; mouseover button
     (listen! (by-id "calc") 
              :mouseover 
              (fn []
                (append! (by-id "shoppingForm")
                         (html [:div.help "Click to calculate"]))))  ;; hiccups
+    ;; mouseout button
     (listen! (by-id "calc") 
              :mouseout 
              (fn []
