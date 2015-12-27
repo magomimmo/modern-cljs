@@ -42,39 +42,39 @@
 (defn ^:export init []
   (when (and js/document
              (aget js/document "getElementById"))
-    ;; close on original labels' texts
+    ;; get original labels' texts
     (let [quantity-text (text (sel "label[for=quantity]"))
           price-text (text (sel "label[for=price]"))
           tax-text (text (sel "label[for=tax]"))
           discount-text (text (sel "label[for=discount]"))]
-      ;; blur quantity
+      ;; quantity validation
       (listen! (by-id "quantity")
                :blur
                (fn [_] (validate-shopping-field :quantity quantity-text)))
-      ;; blur price
+      ;; price validation
       (listen! (by-id "price")
                :blur
                (fn [_] (validate-shopping-field :price price-text)))
-      ;; blur tax
+      ;; tax validation
       (listen! (by-id "tax")
                :blur
                (fn [_] (validate-shopping-field :tax tax-text)))
-      ;; blur discount
+      ;; discount validation
       (listen! (by-id "discount")
                :blur
                (fn [_] (validate-shopping-field :discount discount-text))))
     
-    ;; click
+    ;; calculate
     (listen! (by-id "calc") 
              :click 
              (fn [evt] (calculate evt)))
-    ;; mouseover button
+    ;; show help
     (listen! (by-id "calc") 
              :mouseover 
              (fn []
                (append! (by-id "shoppingForm")
                         (html [:div#help.help "Click to calculate"]))))  ;; hiccups
-    ;; mouseout button
+    ;; remove help
     (listen! (by-id "calc") 
              :mouseout 
              (fn []
