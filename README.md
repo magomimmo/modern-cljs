@@ -9,11 +9,10 @@
 
 
 > **WARNING NOTE FOR WINDOWS USERS** At the moment `boot` does not run
-> well on MS Windows and I can't help you with this OS because I'm not
-> skilled at all with it. I can only suggest you to use a
+> on MS Windows less than 10. If this is your case, to be able to
+> follow the `modern-cljs` series you can use use a
 > [virtual machine](https://www.virtualbox.org/) or
-> [docker](https://docs.docker.com/windows/) to be able to follow the
-> `modern-cljs` series.
+> [docker linux container](https://docs.docker.com/windows/).
 
 Modern ClojureScript (`modern-cljs`) is a series of tutorials that
 guide you in creating and running [ClojureScript][5] (CLJS) projects.
