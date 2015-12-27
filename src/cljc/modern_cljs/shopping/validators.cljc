@@ -29,3 +29,16 @@
             ;; other specific platform validations (not at the moment)
 
             ))
+
+(defn validate-shopping-quantity [quantity]
+  (validate-shopping-form quantity "1.00" "0.0" "0.0"))
+
+(defn validate-shopping-price [price]
+  (validate-shopping-form "1" price "0.0" "0.0"))
+
+(defn validate-shopping-tax [tax]
+           (validate-shopping-form "1" "1.00" tax "0.0"))
+
+(defn validate-shopping-discount [discount]
+  (validate-shopping-form "1" "1.00" "0.0" discount))
+
