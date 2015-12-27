@@ -17,7 +17,7 @@
   (:require-macros [hiccups.core :refer [html]]
                    [shoreleave.remotes.macros :as macros]))
 
-(defn validate-shopping-field [evt field text]
+(defn validate-shopping-field [field text]
   (let [attr (name field)
         label (sel (str "label[for=" attr "]"))]
     (remove-class! label "help")
@@ -51,20 +51,19 @@
       ;; blur quantity
       (listen! (by-id "quantity")
                :blur
-               (fn [evt] 
-                 (validate-shopping-field evt :quantity quantity-text)))
+               (fn [_] (validate-shopping-field :quantity quantity-text)))
       ;; blur price
       (listen! (by-id "price")
                :blur
-               (fn [evt] (validate-shopping-field evt :price price-text)))
+               (fn [_] (validate-shopping-field :price price-text)))
       ;; blur tax
       (listen! (by-id "tax")
                :blur
-               (fn [evt] (validate-shopping-field evt :tax tax-text)))
+               (fn [_] (validate-shopping-field :tax tax-text)))
       ;; blur discount
       (listen! (by-id "discount")
                :blur
-               (fn [evt] (validate-shopping-field evt :discount discount-text))))
+               (fn [_] (validate-shopping-field :discount discount-text))))
     
     ;; click
     (listen! (by-id "calc") 
