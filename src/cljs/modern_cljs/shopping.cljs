@@ -12,7 +12,7 @@
             [domina.events :refer [listen! prevent-default]]
             [domina.css :refer [sel]]
             [hiccups.runtime]
-            [modern-cljs.shopping.validators :refer [validate-shopping]]
+            [modern-cljs.shopping.validators :as v]
             [shoreleave.remotes.http-rpc :refer [remote-callback]])
   (:require-macros [hiccups.core :refer [html]]
                    [shoreleave.remotes.macros :as macros]))
@@ -21,23 +21,22 @@
   (let [attr (name field)
         label (sel (str "label[for=" attr "]"))]
     (remove-class! label "help")
-    (if-let [error (validate-shopping field (value (by-id attr)))]
+    (if-let [error (v/validate-shopping-field field (value (by-id attr)))]
       (do
         (add-class! label "help")
-        (set-text! label error)
-        false)
-      (do
-        (set-text! label text)
-        true))))
+        (set-text! label error))
+      (set-text! label text))))
 
 (defn calculate [evt]
   (let [quantity (value (by-id "quantity"))
         price (value (by-id "price"))
         tax (value (by-id "tax"))
-        discount (value (by-id "discount"))]
-    (remote-callback :calculate
-                     [quantity price tax discount]
-                     #(set-value! (by-id "total") (.toFixed % 2)))
+        discount (value (by-id "discount"))
+        errors (v/validate-shopping-form quantity price tax discount)]
+    (if-not errors
+      (remote-callback :calculate
+                       [quantity price tax discount]
+                       #(set-value! (by-id "total") (.toFixed % 2))))
     (prevent-default evt)))
 
 (defn ^:export init []
@@ -74,10 +73,10 @@
              :mouseover 
              (fn []
                (append! (by-id "shoppingForm")
-                        (html [:div.help "Click to calculate"]))))  ;; hiccups
+                        (html [:div#help.help "Click to calculate"]))))  ;; hiccups
     ;; mouseout button
     (listen! (by-id "calc") 
              :mouseout 
              (fn []
-               (destroy! (by-class "help"))))))
+               (destroy! (by-id "help"))))))
 
