@@ -29,3 +29,10 @@
             ;; other specific platform validations (not at the moment)
 
             ))
+
+(defn validate-shopping-field [field value]
+  (case field
+    :quantity (validate-shopping-form value "0" "0" "0")
+    :price (validate-shopping-form "1" value "0" "0")
+    :tax (validate-shopping-form "1" "0" value "0")
+    :discount (validate-shopping-form "1" "0" "0" value)))
