@@ -197,7 +197,7 @@ License, the same license as Clojure.
 [6]: https://github.com/clojure/clojurescript/wiki/Quick-Start#running-clojurescript-on-nodejs
 [7]: http://www.clojurebook.com/
 [8]: http://pragprog.com/book/shcloj2/programming-clojure
-[9]: http://joyofclojure.com/
+[9]: http://www.joyofclojure.com/
 [10]: http://shop.oreilly.com/product/0636920025139.do
 [11]: http://mitpress.mit.edu/sicp/
 [12]: http://racket-lang.org/
