@@ -31,7 +31,7 @@
             ))
 
 (defn validate-shopping-field [field value]
-  (condp = field
+  (case field
     :quantity (first (field (validate-shopping-form value "1.00" "0.0" "0.0")))
     :price (first (field (validate-shopping-form "1" value "0.0" "0.0")))
     :tax (first (field (validate-shopping-form "1" "1.00" value "0.0")))
