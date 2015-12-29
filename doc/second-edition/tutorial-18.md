@@ -1,4 +1,4 @@
-# Tutorial 18 - Live coding with TDD
+# Tutorial 18 - Augmented TDD Session
 
 In the [previous tutorial][1] we integrated the validators for the
 Shopping Calculator into the corresponding WUI (Web User Interface) in
@@ -55,9 +55,9 @@ maintainable code base. In that regard, Clojure(Script) REPLs are your
 best friends as they are for the ones, like myself, not starting to
 code from a test that has to fail.
 
-## Start the live coding TDD environment
+## Start TDD
 
-Start the live coding TDD environment:
+Start TDD environment:
 
 ```bash
 cd /path/to/modern-cljs
@@ -66,8 +66,10 @@ boot tdd
 Elapsed time: 26.573 sec
 ```
 
-Now launch the client REPL as usual
+### Start CLJ REPL
 
+Now launch the client REPL as usual
+ 
 ```bash
 # from a new terminal
 cd /path/to/modern-cljs
@@ -81,6 +83,8 @@ browser and then visit the
 [Shopping Calculator](http://localhost:3000/shopping.html) URI to
 activate the websocket connection used by `tdd` to reload pages when
 you save some changes.
+
+### Start CLJS bREPL
 
 Finally, launch the CLJS bREPL from the CLJ REPL
 
@@ -183,10 +187,10 @@ an input field does not pass the validation:
     ...))
 ```
 
-## Start from a test that has to fail
+## TDD Workflow: start from a test that has to fail
 
-On the client side WUI we want to individually validate an input value
-as soon as we leave the corresponding input fields (i.e. when the
+On the client side WUI we want to individually validate any input value
+as soon as we leave the corresponding field (i.e. when the
 `blur` event is fired) as we already did in a
 [previous tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md)
 with the `email` and `password` input of the `Login Form`:
@@ -224,7 +228,7 @@ with the `email` and `password` input of the `Login Form`:
 
 Open the `test/cljc/modern_cljs/shopping/validators_test.cljc` file to
 start adding new test assertions for the `quantity` input of the
-Shopping Calculator:
+Shopping Calculator form:
 
 ```clj
 (deftest validate-shopping-quantity-test 
@@ -238,8 +242,8 @@ Here the intention is to test an happy path: the validator
 `validate-shopping-quantity`, that still does not exist, should return
 `nil`, meaning no errors, when called with an integer argument.
 
-As soon as you save the file you'll receive the expected error from
-running the test on both CLJS and CLJS.
+As soon as you save the file you'll receive an expected error from
+the running CLJS/CLJ auto-test processes:
 
 ```bash
 Writing clj_test/suite.cljs...
@@ -258,13 +262,14 @@ Elapsed time: 2.487 sec
 
 Considering we intend to define the `validate-shopping-quantity`
 validator in the portable `modern-cljs.shopping.validators` namespace,
-we start fixing the error by adding `validate-shopping-quantity` to
-the `:refer` section of the `modern-cljs.shopping.validators`
-namespace requirement in the `modern-cljs.shopping.validators-test`
-namespace declaration:
+we start fixing the error by adding the `validate-shopping-quantity`
+symbol to the `:refer` section of the
+`modern-cljs.shopping.validators` namespace requirement in the
+`modern-cljs.shopping.validators-test` namespace declaration:
 
-> NOTE 1: we could define the individual client-side input validators in
-> a `.cljs` source file.
+> NOTE 1: we could define the individual client-side input validators
+> in a `.cljs` source file as well, but it does not hurts if we define
+> them in the portable namespace.
 
 ```clj
 (ns modern-cljs.shopping.validators-test
@@ -287,7 +292,7 @@ Note that the same error is notified in the browser as well.
 
 ## Satisfy the test
 
-To make the assertion to pass, we need to define the
+To make the assertion to pass, we need now to define the
 `validate-shopping-quantity` validator in the
 `modern-cljs.shopping.validators` namespace.
 
@@ -355,8 +360,8 @@ arguments.
 To implement `validate-shopping-field` we could use one of the
 CLJ/CLJS conditional forms: `cond`, `condp` or`case`. Perhaps we do
 not remember quite well how they work to be able to choose the one
-that better fit out case. Dont's worry, we have the REPL to experiment
-with:
+that better fit out case. Don't worry, we have the REPL to experiment
+with them:
 
 First require the needed namespace:
 
@@ -380,7 +385,8 @@ Macro
 nil
 ```
 
-and experiment with it
+and experiment with the `cond` form in the context of our case, by
+starting with the happy path
 
 ```clj
 cljs.user> (let [field :quantity
@@ -389,6 +395,8 @@ cljs.user> (let [field :quantity
                    (= field :price) (v/validate-shopping-form "1" val "0" "0")))
 nil
 ````
+
+and going on with an invalid value:
 
 ```clj
 cljs.user> (let [field :quantity
@@ -399,8 +407,8 @@ cljs.user> (let [field :quantity
 nil
 ```
 
-It works, but it's a little bit verbose. Let's see if `condp` has
-something better to offer by first getting its docstring:
+It works, but it's a little bit verbose. Let's see if the `condp` form
+has something better to offer by first getting its docstring
 
 ```clj
 cljs.user> (doc condp)
@@ -429,7 +437,7 @@ Macro
 nil
 ```
 
-and then experimenting with it
+and then experimenting with it, by starting again from an happy path
 
 ```clj
 cljs.user> (let [field :quantity
@@ -439,6 +447,8 @@ cljs.user> (let [field :quantity
                :price (v/validate-shopping-form "1" val "0" "0")))
 nil
 ```
+
+and continuing with an invalid input value
 
 ```clj
 cljs.user> (let [field :quantity
@@ -451,7 +461,7 @@ nil
 ```
 
 A little bit less verbose. Perhaps `case` form is even better than
-`condp`. Get its docstring:
+`condp`. Get its docstring
 
 ```cljs
 cljs.user=> (doc case)
@@ -484,7 +494,7 @@ Macro
 nil
 ```
 
-`case` macro seems to
+The `case` form seems to
 [better fit our need](http://insideclojure.org/2015/04/27/poly-perf/). Let's
 try it at bREPL:
 
@@ -495,6 +505,9 @@ cljs.user> (let [field :quantity
                :quantity (v/validate-shopping-form val "0" "0" "0")
                :price (v/validate-shopping-form "-1" val "0" "0")))
 nil
+```
+
+```clj
 cljs.user> (let [field :quantity
                  val "-1"]
              (case field
@@ -504,7 +517,7 @@ cljs.user> (let [field :quantity
 ```
 
 Now that we understood a little bit better our beloved CLJ/CLJS
-programming language by experimenting with it at the REPL, while
+programming language by experimenting with it at the REPL and while
 following a TDD approach, go back to the
 `modern-cljs.shopping.validators` namespace and substitute the
 previously defined `validate-shopping-quantity` validator with a more
@@ -540,7 +553,7 @@ Elapsed time: 1.477 sec
 ```
 
 because `validate-shopping-quantity` does not exist anymore, but it is
-still referenced in the test file. Let's fix it:
+still referenced in the test file. Let's fix it
 
 ```clj
 (ns modern-cljs.shopping.validators-test
@@ -588,7 +601,7 @@ While we were updating the test file to fix the above error, it was
 very easy to add few other assertions as well.
 
 As soon as you save the file, the `tdd` environment fires the
-recompilation and the re-execution of test tests:
+recompilation and the re-execution of all defined tests:
 
 ```bash
 Writing clj_test/suite.cljs...
@@ -613,255 +626,316 @@ Elapsed time: 2.513 sec
 ```
 
 I leave to you the addition of any other assertion you could be
-interested in.
+interested in for strengthening your confidence of the correctness of
+the newly defined fields validators.
 
 ## Fill the Gap
 
 In the previous paragraph we experimented an augmented TDD workflow by
-interleaving few experiments with the language in REPL while
-satisfying tests and consequently refactoring some code.
+interleaving few experiments with the language in the REPL while
+satisfying few tests and consequently refactoring some code.
 
 But we still have to attach the newly defined individual field
 validators to the Shopping Calculator. Let's do that.
 
+## Inject the validators
 
+To inject the individual validators for the input fields of the
+Shopping Calculator I'm not going to use a TDD workflow, but you could
+eventually do it by yourself.
 
-
+Let's start from the `quantity` input field. We'd like to mimic the
+same effect we reached on the server-side WUI. For example, if the
+user eventually typed a decimal number in the `quantity` input field,
+when the field looses the focus we'd like to transform the following
+HTML fragment
 
 ```html
 <div>
-   <label class="help" for="price">Price has to be a number</label>
-   <input type="text"
-          name="price"
-          id="price"
-          value="foo"
-          required>
+  <label for="quantity">Quantity</label>
+  <input type="number"
+         name="quantity"
+         id="quantity"
+         value="1"
+         min="1" required>
+</div>
 ```
 
-Ops, it did not work. What happened?
+in something like the following fragment
 
-### Hierarchical and conjunction rules
+```html
+<div>
+  <label class="help" for="quantity">Quantity has to be an integer number</label>
+  <input type="number"
+         name="quantity"
+         id="quantity"
+         value="1.2"
+         min="1" required>
+</div>
+```
 
-This unexpected behaiour has to do with the Enlive DSL grammar's
-rules. The syntax of the `[:label (e/attr= :for "price")]` selector
-says to select any element with a `for` attribute valued to `"price"`
-*contained* in a `label` element (i.e. hierarchical rule). In our
-scenario there were no other elements contained inside any `label`
-element, so the selector did not select any node and the trasformer
-does not do anything.
+## CSS selectors
 
-On the other hand, the syntax of the `[[:label (attr= :for "price")]]`
-selector is going to select any `label` which has a `for` attribute
-valued to `"price"` (i.e. conjunction rule) and this is what we
-want. So, to activate the conjunction rule, we need to put the whole
-selector in a nested vector. Let's see if it works.
+First note that the `label` tag does not have an `id` attribute to be
+used with the `by-id` function we already used more times in previous
+tutorials on `domina` library usage.
+
+Likely `domina` offers both `css` and `xpath` selectors for such a
+case. This is the first time we deal with `css` and `xpath` selectors
+from the `domina` lib and before to start coding we want to
+familiarize a little bit at least with one of them in the bREPL,
+namely with `css` selector.
+
+Perhaps you remember that due to a bug in the `boot-cljs-repl` task,
+before requiring a namespace of a dependency from the bREPL, you need
+to require it in a source file.
+
+Open the `src/cljs/modern_cljs/shopping.cljs` source file and add the
+`domina.css` namespace to the namespace declaration as follows:
 
 ```clj
-boot.user> (e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per Unit"]]
-                                        [:div [:label {:for "tax"} "Tax (%)"]]])
-                       [[:label (e/attr= :for "price")]] (e/content "Price has to be a number"))
-"<fieldset>
-     <div>
-         <label for=\"price\">Price has to be a number</label>
-     </div>
-     <div>
-         <label for=\"tax\">Tax (%)</label>
-     </div>
-</fieldset>"
+(ns modern-cljs.shopping
+  (:require [domina.core :refer [append! 
+                                 by-class
+                                 by-id 
+                                 destroy! 
+                                 set-value! 
+                                 value]]
+            [domina.events :refer [listen! prevent-default]]
+            [domina.css :refer [sel]] ;; domina css selector
+            [hiccups.runtime]
+            [shoreleave.remotes.http-rpc :refer [remote-callback]])
+  (:require-macros [hiccups.core :refer [html]]
+                   [shoreleave.remotes.macros :as macros]))
 ```
 
-Good. It worked and we're now ready to apply what we just learnt by
-REPLing with the `sniptest` macro.
+Note that the only referred symbol in the `domina.css` requirement is
+`sel`, for selector. We can now start playing with it at the bREPL. First we have to require the needed namespaces from `domina` library
 
-> NOTE 3: Enlive selector syntax offers a disjunction rule too, but
-> we're not using it in this tutorial. This rule use the
-> `#{[selector 1][selector 2]...[selector n]}` set syntax for meaning
-> disjunction between selectors.
-
-### Select and transform
-
-Let's resume the `update-shopping-form` template definition we wrote
-in the first refactoring step.
 
 ```clj
-(deftemplate update-shopping-form "shopping.html"
-  [quantity price tax discount errors]
-  [:#quantity] (set-attr :value quantity)
-  [:#price] (set-attr :value price)
-  [:#tax] (set-attr :value tax)
-  [:#discount] (set-attr :value discount)
-  [:#total] (set-attr :value
-                      (format "%.2f" (double (calculate quantity price tax discount)))))
+cljs.user> (require '[domina.core :as dom]
+                    '[domina.css :as css])
+nil
 ```
 
-Here we defined five pairs of selectors/transformations, one for each
-input field of the form. All but the final transformer just set the
-corresponding input field value to the value typed in by the user. The
-`:#total` input field, instead, is set to the value returned by
-the `calculate` function which throws the `NullPointer` exception when
-it receives a not stringified number as one of the argument.
-
-First, change the last selector/transformation pair to call the
-`calculate` function only when there are no validation errors
-(i.e. when `validate-shopping-form` return `nil`).
+an then let's see if we're able to select the label for the `quantity`
+input field by using the
+[`label[for=quantity]`](http://stackoverflow.com/questions/2599627/how-to-select-label-for-email-in-css)
+CSS attribute selector:
 
 ```clj
-(deftemplate update-shopping-form "shopping.html"
-  [quantity price tax discount errors]
-  [:#quantity] (set-attr :value quantity)
-  [:#price] (set-attr :value price)
-  [:#tax] (set-attr :value tax)
-  [:#discount] (set-attr :value discount)
-  [:#total] (if errors
-              (set-attr :value "0.00")
-              (set-attr :value (format "%.2f" (double (calculate quantity price tax discount))))))
+cljs.user> (css/sel "label[for=quantity]")
+#object[domina.css.t_domina$css8251]
 ```
 
-Now we have to substitute the content of each `label` relating each
-input field with the corresponding error message when its value is
-invalid.  As we learned from the previous REPL session with the
-`sniptest` macro, to select a single `label` content we can use the
-`[[:label (attr= :for <input-name>)]]` selector. But what about the
-corresponding transformer? We want to transform the `content` of the
-`label` and set its `class ` to `"help"` only when the related
-input field value is invalid, that is when there are error messages
-for it.
+So far, so good. Let's see if we are able to get the text associated
+with that label:
 
 ```clj
-(deftemplate update-shopping-form "shopping.html"
-  [quantity price tax discount errors]
-  ...
-  ...
-  [[:label (attr= :for "quantity")]] (if-let [err (first (:quantity errors))]
-                                        (do-> (add-class "help")
-					                          (content err))
-                                        identity)
-  ...
-  ...
-)
+cljs.user> (dom/text (css/sel "label[for=quantity]"))
+"Quantity"
 ```
 
-Let's analyze the above code. We already discussed the
-`[[:label (attr= :for <input-name>)]]` selector. The corresponding
-trasformer says:
-
-> **IF** there is an error message pertaining the value for the
-> `quantity` input field (i.e. `(first (:quantity errors))`), **THEN**
-> add the `"help"` class to the `label` element and set the help
-> message as the `content` of the `label`, **ELSE** do nothing
-> (i.e. `identity`).
-
-As you can see we are using few more Enlive symbols:
-
-* `do->`: It often happens that you need to apply multiple transformations
-  to the same selected HTML node. The `do->` function chains
-  (i.e. composes) transformations sequentially from left to right
-  (i.e. top to bottom);
-* `add-class`: lets you add one or more CSS classes to a selected
-  HTML node;
-* `content`: replaces the content of a selected HTML node with the
-  passed one.
-
-Note that when the value for the input field is valid, we use the CLJ
-`identity` predefined function to leave the content of the element as
-it was.
-
-### Syntactic sugar
-
-The above transformer is very boring to be repeated for each `label`
-of the corresponding `shoppingForm` input fields, but we're coding
-with a LISP programming language and we can express the above
-transformation with the following `maybe-error` simple macro which
-receives an expression and expands into the above convoluted code.
+It worked. Our goal is now to change that text with a new one and to
+add the `help` class to the label in such a way that the `styles.ccs`
+included in the project will render that text in red color
 
 ```clj
-(defmacro maybe-error [expr]
-  `(if-let [x# ~expr]
-     (do-> (add-class "help")
-           (content x#))
-     identity))
+cljs.user> (dom/set-text! (css/sel "label[for=quantity]") "Quantity has to be an integer number")
+#object[domina.css.t_domina$css8251]
 ```
 
-### Step 2 - Ready to go
-
-We're now ready to finish our `deftemplate` definition. Following is
-the entire content of the `shopping.clj` source file.
+If you now take a look at the Shopping Calculator form in the browser,
+you should see the new text instead of the original `Quantity`
+label. Now let's try to add the `help` class to the label:
 
 ```clj
-(ns modern-cljs.templates.shopping
-  (:require [net.cgrand.enlive-html :refer [deftemplate
-                                            content
-                                            do->
-                                            add-class
-                                            set-attr
-                                            attr=]]
-            [modern-cljs.remotes :refer [calculate]]
-            [modern-cljs.shopping.validators :refer [validate-shopping-form]]))
-
-(defmacro maybe-error [expr]
-  `(if-let [x# ~expr]
-     (do-> (add-class "help")
-           (content x#))
-     identity))
-
-(deftemplate update-shopping-form "shopping.html"
-  [q p t d errors]
-
-  ;; select and transform input label
-
-  [[:label (attr= :for "quantity")]] (maybe-error (first (:quantity errors)))
-  [[:label (attr= :for "price")]] (maybe-error (first (:price errors)))
-  [[:label (attr= :for "tax")]] (maybe-error (first (:tax errors)))
-  [[:label (attr= :for "discount")]] (maybe-error (first (:discount errors)))
-
-  ;; select and transform input value
-
-  [:#quantity] (set-attr :value q)
-  [:#price] (set-attr :value p)
-  [:#tax] (set-attr :value t)
-  [:#discount] (set-attr :value d)
-
-  ;; select and transform total
-
-  [:#total] (if errors
-              (set-attr :value "0.00")
-              (set-attr :value (format "%.2f" (double (calculate q p t d))))))
-
-(defn shopping [q p t d]
-  (update-shopping-form q p t d (validate-shopping-form q p t d)))
+cljs.user> (dom/add-class! (css/sel "label[for=quantity]") "help")
+#object[domina.css.t_domina$css8251]
 ```
 
-### Play and Pray
+But we'll need also to remove a class from an element
 
-We're now ready to verify if our long refactoring session works.
+```clj
+cljs.user> (dom/remove-class! (css/sel "label[for=quantity]") "help")
+#object[domina.css.t_domina$css8251]
+```
 
-Then, after having disabled the JavaScript engine of your browser,
-visit the [Shopping Calculator](http://localhost:3000/shopping.html)
-URI, fill the form with valid values and finally click the `Calculate`
-button. Everything should work as expected.
+We got it. We learned enough at the bREPL about `domina.core` and
+`domina.css` namespaces and we can start coding in the
+`src/cljs/modern_cljs/shopping.cljs` source file.
 
-Let's now see what happens if you type any invalid value into the form,
-for example `1.2` as the value for the `Quantity` input field, `foo`
-as the value for `Price`, `bar` as the value for `Tax` and finally
-nothing as the value for `Discount`.
+First, we start by adding `add-class`, `remove-class!`, `set-text!`
+and `text` symbols to the `refer` section of `domina.core`
+requirement:
 
-![Shopping with invalid values][12]
 
-You should receive the following feedback
+```clj
+(ns modern-cljs.shopping
+  (:require [domina.core :refer [add-class!    ;; to add a class
+                                 remove-class! ;; to remove a class
+                                 set-text!     ;; to set text
+                                 text          ;; to get text
+                                 ...]]
+            ...
+  (:require-macros ...))
+```
 
-![Shopping  with error messages][13]
+Then we need to add the `modern-cljs.shopping.validators` to the
+`require` section of the namespace declaration
 
-It worked as expected. We fixed the server-side code by refactoring it
-to inject the form validators into the Enlive template definition for
-the `shopping.html` page. And we also learned a little bit more about
-the Enlive DSL.
+```clj
+(ns modern-cljs.shopping
+  (:require ...
+            [modern-cljs.shopping.validators :as v])
+  (:require-macros ...))
+```
 
-Stop the CLJ REPL and the `boot` processes and reset the branch as
-usual:
+Note that this time we're not referring any symbol from the
+`modern-cljs.shopping.validators` namespace, but we're only aliasing
+it. This choice will become clearer later.
+
+Let's now attach a listener for the `blur` event to each field of the form:
+
+```clj
+(defn ^:export init []
+  (when (and js/document
+             (aget js/document "getElementById"))
+    ;; get original labels' texts
+    (let [quantity-text (text (sel "label[for=quantity]"))
+          price-text (text (sel "label[for=price]"))
+          tax-text (text (sel "label[for=tax]"))
+          discount-text (text (sel "label[for=discount]"))]
+      ;; quantity validation
+      (listen! (by-id "quantity")
+               :blur
+               (fn [_] (validate-shopping-field :quantity quantity-text)))
+      ;; price validation
+      (listen! (by-id "price")
+               :blur
+               (fn [_] (validate-shopping-field :price price-text)))
+      ;; tax validation
+      (listen! (by-id "tax")
+               :blur
+               (fn [_] (validate-shopping-field :tax tax-text)))
+      ;; discount validation
+      (listen! (by-id "discount")
+               :blur
+               (fn [_] (validate-shopping-field :discount discount-text))))
+    
+    ;; calculate
+    (listen! (by-id "calc") 
+             :click 
+             (fn [evt] (calculate evt)))
+    ;; show help
+    (listen! (by-id "calc") 
+             :mouseover 
+             (fn []
+               (append! (by-id "shoppingForm")
+                        (html [:div#help.help "Click to calculate"]))))  ;; hiccups
+    ;; remove help
+    (listen! (by-id "calc") 
+             :mouseout 
+             (fn []
+               (destroy! (by-id "help"))))))
+```
+
+There are few important things to be noted here:
+
+1. we wrapped the field listeners for `blur` events inside a `let`
+   form to keep memory of their original text labels. This is because
+   we need to set them again when the input values are valid;
+2. each `blur`listener uses the same `validate-shopping-field`
+   function and passes to it the input field is listening to and the
+   original text label captured by the `let` form; note that even if
+   the name of the listener is the same as the name of the validator
+   (i.e., `validate-shopping-field`), they are not the same
+   functions. That's why we previously aliased the
+   `modern-cljs.shopping.validators` as `v` instead of referring the
+   `validate-shopping-field`;
+3. we also modified the button listeners to `mouseover` and `mouseout`
+   events. This is because we want to protect the removal of the
+   `help` class from the invalid field when the user move the mouse
+   out of the button area.
+
+Let's now define the `validate-shopping-field` listener:
+
+```clj
+(defn validate-shopping-field [field text]
+  (let [attr (name field)
+        label (sel (str "label[for=" attr "]"))]
+    (remove-class! label "help")
+    (if-let [error (v/validate-shopping-field field (value (by-id attr)))]
+      (do
+        (add-class! label "help")
+        (set-text! label error))
+      (set-text! label text))))
+```
+
+As you see the injection of the `v/validate-shopping/field` validator
+is quite easy:
+
+* first we get the label for the input field in the `let` form;
+* then we remove from it the `help` class, even when it's not present
+  because it does not hurt;
+* next, if there is any error resulting from the validation of the
+  input value, we add the `help` class to the label and set its text
+  to the returned error;
+* if the input value is valid, we just set the text of the label to
+  its original value.
+
+We are not finished yet. what happens when some input values are
+invalid and the user click the Calculate button? As minimum we should
+prevent the remote calculate function from being called as follows:
+
+```clj
+(defn calculate [evt]
+  (let [quantity (value (by-id "quantity"))
+        price (value (by-id "price"))
+        tax (value (by-id "tax"))
+        discount (value (by-id "discount"))
+        errors (v/validate-shopping-form quantity price tax discount)]
+    (if-not errors
+      (remote-callback :calculate
+                       [quantity price tax discount]
+                       #(set-value! (by-id "total") (.toFixed % 2))))
+    (prevent-default evt)))
+```
+
+As soon as you save the file, the `tdd` environment recompiles the
+source files and re-executes both the CLJS and the CLJ tests.
 
 ```bash
-git reset --hard
+Writing clj_test/suite.cljs...
+Writing main.cljs.edn...
+Compiling ClojureScript...
+• main.js
+Running cljs tests...
+Testing modern-cljs.login.validators-test
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 3 tests containing 55 assertions.
+0 failures, 0 errors.
+
+Testing modern-cljs.login.validators-test
+
+Testing modern-cljs.shopping.validators-test
+
+Ran 4 tests containing 56 assertions.
+0 failures, 0 errors.
+Elapsed time: 2.347 sec
 ```
+
+As you remember, anytime you modify the exported `init` function that
+is attached to the `onload` event of the corresponding HTML page, you
+need to manually reload the page itself to appreciate the effects of
+your changes: just do it and see the individual fields validators at
+work by playing with the Shopping Form.
+
+
+```bash git reset --hard ```
 
 ## Next Step - TBD
 
