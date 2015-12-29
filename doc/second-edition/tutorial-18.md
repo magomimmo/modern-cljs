@@ -3,7 +3,7 @@
 In the [previous tutorial][1] we integrated the validators for the
 Shopping Calculator into the corresponding WUI (Web User Interface) in
 such a way that the user will be notified with the corresponding help
-messages when the she/he enters invalid values in the form. By first
+messages when she enters invalid values in the form. By first
 injecting the validators into the server-side code, we have been
 religious about the progressive enhancement strategy. It's now time to
 fill the gap by injecting the portable validators into the client-side
@@ -47,13 +47,13 @@ This statement is particularly true when you deal with OSS (Open
 Source Software) libraries which are frequently updated without
 their corresponding documentation been updated as well.
 
-Even if you are a TDD practitioner (and I'm that kind of guy), which
-means that you start coding from a failing test, you still need to
-know and to understand your programming language and the libraries
-you're going to use to fix the failed tests and to refactor your code
-to obtain a cleaner and more maintainable code base. In that regard,
-Clojure(Script) REPLs are the best friends for you as well as they are
-for the ones not starting to code from a test that has to fail.
+Even if you are a TDD practitioner, which means that you start coding
+from a failing test, you still need to know and to understand your
+programming language and the libraries you're going to use to fix the
+failed tests and to refactor your code to obtain a cleaner and more
+maintainable code base. In that regard, Clojure(Script) REPLs are your
+best friends as they are for the ones, like myself, not starting to
+code from a test that has to fail.
 
 ## Start the live coding TDD environment
 
@@ -77,10 +77,10 @@ boot.user=>
 ```
 
 Remember to reactivate the JS engine from the Developer Tools of your
-browser and the visit the
+browser and then visit the
 [Shopping Calculator](http://localhost:3000/shopping.html) URI to
-activate the websocket connection used by the `reload` task internally
-used by `tdd` to reload pages when you save some changes.
+activate the websocket connection used by `tdd` to reload pages when
+you save some changes.
 
 Finally, launch the CLJS bREPL from the CLJ REPL
 
@@ -100,17 +100,16 @@ and you're ready to go.
 ## Server side validators review
 
 In the [previous tutorial][1] we injected the portable
-`shopping-form-validators` validator in the `shopping` function
-defined in the `modern-cljs.templates.shopping` namespace:
+`validate-shopping-form` validator in the `shopping` function defined
+in the `modern-cljs.templates.shopping` namespace:
 
 ```clj
 (defn shopping [q p t d]
   (update-shopping-form q p t d (validate-shopping-form q p t d)))
 ```
 
-The portable `validate-shopping-form` validator has been defined in
-the portable `src/cljc/modern_cljs/shopping/validators.cljc` source
-file:
+The `validate-shopping-form` validator has been defined in the
+portable `src/cljc/modern_cljs/shopping/validators.cljc` source file:
 
 ```clj
 (defn validate-shopping-form [quantity price tax discount]
@@ -159,10 +158,10 @@ like the following
  :password ["Password can't be empty" "Invalid password format"]}
 ```
 
-For that reason the tests' assertions on the `validate-shopping-form`
-validator have been implemented by getting the `first` item of the
-errors vector associated with a `keyword` representing the field that
-does not pass the validation:
+For that reason the assertions of the `validate-shopping-form-test`
+test have been implemented by getting the `first` item of the vector
+of messages returned by the `validate-shopping-form` when the value of
+a field does not pass the validation:
 
 ```clj
 (deftest validate-shopping-form-test
@@ -187,14 +186,13 @@ does not pass the validation:
 
 ## Start from a test that has to fail
 
-Now that we reviewed the test assertions for the
-`validate-shopping-form` validators, let's start by defining the test
-assertions for validators acting on singles form's fields. This is
-because on the client side WUI we want to individually validate
-fields' values as soon as we leave the corresponding input fields
-(i.e. when the `blur` events are fired) in the same way we already did
-in a previous tutorial with the `email` and `password` fields of the
-`Login Form`:
+Now that we reviewed the assertions for the
+`validate-shopping-form-test` test, let's start by defining the
+assertions to individually test the input of the form. This is because
+on the client side WUI we want to individually validate an input value
+as soon as we leave the corresponding input fields (i.e. when the
+`blur` event is fired) as we already did in a previous tutorial with
+the `email` and `password` input of the `Login Form`:
 
 ```clj
 (defn ^:export init []
@@ -206,13 +204,13 @@ in a previous tutorial with the `email` and `password` fields of the
       (listen! password :blur (fn [evt] (validate-password password))))))
 ```
 
-Now open the `test/cljc/modern_cljs/shopping/validators_test.cljc`
-file to add new test assertions for the `quantity` field by starting
-from the happy path:
+Open the `test/cljc/modern_cljs/shopping/validators_test.cljc` file to
+start adding new test assertions for the `quantity` input of the
+Shopping Calculator:
 
 ```clj
 (deftest validate-shopping-quantity-test 
-  (testing "Shopping Form: Quantity Validation"
+  (testing "Shopping Form Quantity Validation"
     (testing "/ Happy Path"
       (are [expected actual] (= expected actual)
         nil (validate-shopping-quantity "1")))))
@@ -236,12 +234,10 @@ clojure.lang.Compiler$CompilerException: java.lang.RuntimeException: Unable to r
 Elapsed time: 2.487 sec
 ```
 
-Knowing the we still have to define the `validate-shopping-quantity`
-function, this is not a surprise at all. Moreover, we did not add the
+This is exactly what we expected. Moreover, we did not add the
 `validate-shopping-quantity` to the `:refer` section of the
-`modern-cljs.shopping.validators` namespace requirement in the
-`modern-cljs.shopping.validators-test` namespace declaration. Let's do
-that first:
+`modern-cljs.shopping.validators` namespace requirement. Let's do that
+first:
 
 ```clj
 (ns modern-cljs.shopping.validators-test
@@ -252,7 +248,7 @@ that first:
 ```
 
 As soon as you save the file, you'll receive again an error which is
-more informative:
+even more informative:
 
 ```bash
 Writing clj_test/suite.cljs...
@@ -264,11 +260,11 @@ adzerk.boot_cljs.util.proxy$clojure.lang.ExceptionInfo$ff19274a: Referred var mo
 Elapsed time: 0.275 sec
 ```
 
-Note that the same error is notified by the `reload` task in the browser as well.
+Note that the same error is notified in the browser as well.
 
 ## Satisfy the test
 
-To make the new test to pass, we now need to define the
+To make the assertion to pass, we need to define the
 `validate-shopping-quantity` validator in the
 `modern-cljs.shopping.validators` namespace.
 
@@ -278,9 +274,9 @@ To make the new test to pass, we now need to define the
 ```
 
 Here we're reusing the previously defined `validate-shopping-form`
-validator by passing to it values we know are good for `price`, `tax`
-and `discount` because the newly defined `validate-shopping-quantity`
-validator is for `quantity` validation only.
+validator by passing to it the values we know are good for `price`,
+`tax` and `discount` because the newly defined
+`validate-shopping-quantity` validator is for `quantity` only.
 
 As soon as you save the file you'll see that the newly defined
 assertion for the `validate-shopping-validate-test` unit test passed.
@@ -310,20 +306,28 @@ Elapsed time: 7.119 sec
 ## Code Refactoring
 
 The `validate-shopping-quantity` validator is very simple, but at the
-same time it's suggesting us that a `validate-shopping-price`
-validator it would be almost identical:
+same time it's suggesting us that `validate-shopping-price`,
+`validate-shopping-tax` and `validate-shopping-discount` validators
+would be almost identical:
 
 ```clj
 (defn validate-shopping-price [price]
   (validate-shopping-form "1" price "0" "0"))
+
+(defn validate-shopping-tax [tax]
+  (validate-shopping-form "1" "0" price "0"))
+
+(defn validate-shopping-discount [discount]
+  (validate-shopping-form "1" "0" "0" discount))
 ```
 
-A clear case for code refactoring. You could implement a more general
-`validate-shopping-field` function/validator which would call
-`validate-shopping-form` assuming different default values for the
-other fields of the form we're not interested in. A clear case for
-conditional forms: `cond`, `condp`, `case`, `cond->` and
-`cond->>`. But which of them to choose? Enter the CLJS bREPL:
+A clear case for code refactoring, because we could implement a more
+general `validate-shopping-field` function calling
+`validate-shopping-form` and passing to it good values for the fields
+of the form we're not interested in.
+
+A clear case for conditional forms: `cond`, `condp`, `case`, `cond->`
+and `cond->>`. But which of them to choose? Enter the CLJS bREPL:
 
 Should we use `cond`?
 
@@ -430,8 +434,8 @@ general one as follows:
 > conditionals forms. Some of them even launched an
 > [Anti-IF Campaign](http://antiifcampaign.com/). I'm not religious in
 > anyway about anything, because I'm a Philosopher, but sometime it
-> happens that a smart use of `defprotocol` or `defmulti` could improve
-> the abstraction and the extendibility of your code (i.e.,
+> happens that a smart use of `defprotocol` or `defmulti` could
+> improve the abstraction and the extendibility of your code (i.e.,
 > polymorphism).
 
 As soon as you save the file you'll receive the expected error:
