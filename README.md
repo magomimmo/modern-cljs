@@ -183,6 +183,11 @@ Integrate validators for the into a web form in such a way that the
 user will be notified with the corresponding help messages when the
 she/he enters invalid values in the form.
 
+## [Tutorial 18 - Augmented TDD session][38]
+
+Complete the client-side form validation by exploiting the TDD
+environment augmented with CLJ/CLJS REPLs.
+
 # License
 
 Copyright © Mimmo Cosenza, 2012-2015. Released under the Eclipse Public
@@ -225,4 +230,5 @@ License, the same license as Clojure.
 [34]: https://github.com/clojure/clojurescript.git
 [35]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
 [36]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
-[37]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md 
+[37]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
+[38]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md 

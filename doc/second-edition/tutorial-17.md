@@ -581,7 +581,11 @@ usual:
 git reset --hard
 ```
 
-## Next Step - TBD
+## Next Step - [Tutorial 18 - Augmented TDD Session][14]
+
+In the [next tutorial][14] we're going to complete the client-side
+form validation by exploiting the TDD environment augmented with
+CLJ/CLJS REPLs.
 
 # License
 
@@ -601,3 +605,4 @@ License, the same as Clojure.
 [11]: https://github.com/cgrand/enlive/blob/master/src/net/cgrand/enlive_html.clj#L982
 [12]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-invalid-values.png
 [13]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-with-invalid-messages.png
+[14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md

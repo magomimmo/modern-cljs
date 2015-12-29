@@ -143,7 +143,7 @@ portable `src/cljc/modern_cljs/shopping/validators.cljc` source file:
 ```
 
 `validate-shopping-form` validates the `quantity`, `price`, `tax` and
-`discount` inout fields all together. As you remember, when some
+`discount` input fields all together. As you remember, when some
 values do not pass the validation rules, the validator returns a map
 of the corresponding error messages. Something like the following
 
@@ -268,7 +268,7 @@ symbol to the `:refer` section of the
 `modern-cljs.shopping.validators-test` namespace declaration:
 
 > NOTE 1: we could define the individual client-side input validators
-> in a `.cljs` source file as well, but it does not hurts if we define
+> in a `.cljs` source file as well, but it does not hurt if we define
 > them in the portable namespace.
 
 ```clj
@@ -404,7 +404,6 @@ cljs.user> (let [field :quantity
              (cond (= field :quantity) (v/validate-shopping-form val "0" "0" "0")
                    (= field :price) (v/validate-shopping-form "1" val "0" "0")))
 {:quantity ["Quantity can't be negative"]}
-nil
 ```
 
 It works, but it's a little bit verbose. Let's see if the `condp` form
@@ -457,7 +456,6 @@ cljs.user> (let [field :quantity
                :quantity (v/validate-shopping-form val "0" "0" "0")
                :price (v/validate-shopping-form "-1" val "0" "0")))
 {:quantity ["Quantity can't be negative"]}
-nil
 ```
 
 A little bit less verbose. Perhaps `case` form is even better than
@@ -517,7 +515,7 @@ cljs.user> (let [field :quantity
 ```
 
 Now that we understood a little bit better our beloved CLJ/CLJS
-programming language by experimenting with it at the REPL and while
+programming language by experimenting with it at the REPL while
 following a TDD approach, go back to the
 `modern-cljs.shopping.validators` namespace and substitute the
 previously defined `validate-shopping-quantity` validator with a more
@@ -633,10 +631,9 @@ the newly defined fields validators.
 
 In the previous paragraph we experimented an augmented TDD workflow by
 interleaving few experiments with the language in the REPL while
-satisfying few tests and consequently refactoring some code.
-
-But we still have to attach the newly defined individual field
-validators to the Shopping Calculator. Let's do that.
+satisfying few tests and consequently refactoring some code. But we
+still have to attach the newly defined individual field validators to
+the Shopping Calculator. Let's do that.
 
 ## Inject the validators
 
@@ -676,11 +673,11 @@ in something like the following fragment
 
 ## CSS selectors
 
-First note that the `label` tag does not have an `id` attribute to be
-used with the `by-id` function we already used more times in previous
-tutorials on `domina` library usage.
+First note that the `label` element does not have an `id` attribute to
+be used with the `by-id` function we already used more times in
+previous tutorials on `domina` library usage.
 
-Likely `domina` offers both `css` and `xpath` selectors for such a
+Likely `domina` offers both `css` or `xpath` selectors for such a
 case. This is the first time we deal with `css` and `xpath` selectors
 from the `domina` lib and before to start coding we want to
 familiarize a little bit at least with one of them in the bREPL,
@@ -788,13 +785,15 @@ Then we need to add the `modern-cljs.shopping.validators` to the
 ```clj
 (ns modern-cljs.shopping
   (:require ...
-            [modern-cljs.shopping.validators :as v])
+            [modern-cljs.shopping.validators :refer [validate-shopping-field
+                                                     validate-shopping-form]])
   (:require-macros ...))
 ```
 
-Note that this time we're not referring any symbol from the
-`modern-cljs.shopping.validators` namespace, but we're only aliasing
-it. This choice will become clearer later.
+Note that we're referring both the newly defined individual
+`validate-shopping-field` validator and the aggregate
+`validate-shopping-form` validator.„ This choice will become clearer
+later when we'll update the `calculate` function.
 
 Let's now attach a listener for the `blur` event to each field of the form:
 
@@ -810,24 +809,24 @@ Let's now attach a listener for the `blur` event to each field of the form:
       ;; quantity validation
       (listen! (by-id "quantity")
                :blur
-               (fn [_] (validate-shopping-field :quantity quantity-text)))
+               (fn [_] (validate-shopping-field! :quantity quantity-text)))
       ;; price validation
       (listen! (by-id "price")
                :blur
-               (fn [_] (validate-shopping-field :price price-text)))
+               (fn [_] (validate-shopping-field! :price price-text)))
       ;; tax validation
       (listen! (by-id "tax")
                :blur
-               (fn [_] (validate-shopping-field :tax tax-text)))
+               (fn [_] (validate-shopping-field! :tax tax-text)))
       ;; discount validation
       (listen! (by-id "discount")
                :blur
-               (fn [_] (validate-shopping-field :discount discount-text))))
-    
+               (fn [_] (validate-shopping-field! :discount discount-text))))
+
     ;; calculate
     (listen! (by-id "calc") 
              :click 
-             (fn [evt] (calculate evt)))
+             (fn [evt] (calculate! evt)))
     ;; show help
     (listen! (by-id "calc") 
              :mouseover 
@@ -846,56 +845,57 @@ There are few important things to be noted here:
 1. we wrapped the field listeners for `blur` events inside a `let`
    form to keep memory of their original text labels. This is because
    we need to set them again when the input values are valid;
-2. each `blur`listener uses the same `validate-shopping-field`
+2. each `blur`listener uses the same `validate-shopping-field!`
    function and passes to it the input field is listening to and the
-   original text label captured by the `let` form; note that even if
-   the name of the listener is the same as the name of the validator
-   (i.e., `validate-shopping-field`), they are not the same
-   functions. That's why we previously aliased the
-   `modern-cljs.shopping.validators` as `v` instead of referring the
-   `validate-shopping-field`;
+   original text label captured by the `let` form; note that the name
+   of the listener is almost the same as the name of the validator
+   (i.e., `validate-shopping-field`). We only added the bang `!` to
+   underline that it has side-effect on the DOM;
 3. we also modified the button listeners to `mouseover` and `mouseout`
    events. This is because we want to protect the removal of the
    `help` class from the invalid field when the user move the mouse
-   out of the button area.
+   out of the button area;
+4. we changes the name of the button click listener from `calculate`
+   to `calculate!`, because this function is going to have side-effect
+   on the DOM as well.
 
-Let's now define the `validate-shopping-field` listener:
+Let's now define the `validate-shopping-field!` listener:
 
 ```clj
-(defn validate-shopping-field [field text]
+(defn validate-shopping-field! [field text]
   (let [attr (name field)
         label (sel (str "label[for=" attr "]"))]
     (remove-class! label "help")
-    (if-let [error (v/validate-shopping-field field (value (by-id attr)))]
+    (if-let [error (validate-shopping-field field (value (by-id attr)))]
       (do
         (add-class! label "help")
         (set-text! label error))
       (set-text! label text))))
 ```
 
-As you see the injection of the `v/validate-shopping/field` validator
+As you see the definition of the `validate-shopping-field!` listener
 is quite easy:
 
 * first we get the label for the input field in the `let` form;
 * then we remove from it the `help` class, even when it's not present
   because it does not hurt;
-* next, if there is any error resulting from the validation of the
-  input value, we add the `help` class to the label and set its text
-  to the returned error;
+* next, if there is any error resulting from the individual input
+  validator, we add the `help` class to the label and set its text to
+  the returned error;
 * if the input value is valid, we just set the text of the label to
   its original value.
 
-We are not finished yet. what happens when some input values are
+We are not finished yet. What happens when some input values are
 invalid and the user click the Calculate button? As minimum we should
 prevent the remote calculate function from being called as follows:
 
 ```clj
-(defn calculate [evt]
+(defn calculate! [evt]
   (let [quantity (value (by-id "quantity"))
         price (value (by-id "price"))
         tax (value (by-id "tax"))
         discount (value (by-id "discount"))
-        errors (v/validate-shopping-form quantity price tax discount)]
+        errors (validate-shopping-form quantity price tax discount)]
     (if-not errors
       (remote-callback :calculate
                        [quantity price tax discount]
@@ -934,8 +934,11 @@ need to manually reload the page itself to appreciate the effects of
 your changes: just do it and see the individual fields validators at
 work by playing with the Shopping Form.
 
+Stop the CLJ REPL and the boot processes and reset the branch as usual:
 
 ```bash git reset --hard ```
+
+Stay tuned for the next tutorial
 
 ## Next Step - TBD
 
@@ -946,16 +949,3 @@ License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
-
-[2]: https://github.com/cgrand/enlive
-[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-13.md
-[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-14.md#break-the-shopping-calculator-again-and-again
-[5]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/ServerNullPointer.png
-[6]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/price-error.png
-[7]: https://github.com/swannodette/enlive-tutorial/
-[8]: https://github.com/weavejester/hiccup
-[9]: https://github.com/weavejester
-[10]: https://github.com/cgrand
-[11]: https://github.com/cgrand/enlive/blob/master/src/net/cgrand/enlive_html.clj#L982
-[12]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-invalid-values.png
-[13]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-with-invalid-messages.png
