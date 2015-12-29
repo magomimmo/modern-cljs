@@ -138,11 +138,10 @@ portable `src/cljc/modern_cljs/shopping/validators.cljc` source file:
             ))
 ```
 
-The validator validates the `quantity`, `price`, `tax` and `discount`
-fields all together. As you remember, when some values do not pass the
-validation rules, the `validate` function from the `valip` portable
-library returns a map of the corresponding error messages. Something
-like the following
+`validate-shopping-form` validates the `quantity`, `price`, `tax` and
+`discount` inout fields all together. As you remember, when some
+values do not pass the validation rules, the validator returns a map
+of the corresponding error messages. Something like the following
 
 ```clj
 ;;; a sample call like the following
@@ -160,8 +159,8 @@ like the following
 
 For that reason the assertions of the `validate-shopping-form-test`
 test have been implemented by getting the `first` item of the vector
-of messages returned by the `validate-shopping-form` when the value of
-a field does not pass the validation:
+of messages returned by the `validate-shopping-form` when a value of
+an input field does not pass the validation:
 
 ```clj
 (deftest validate-shopping-form-test
@@ -186,21 +185,40 @@ a field does not pass the validation:
 
 ## Start from a test that has to fail
 
-Now that we reviewed the assertions for the
-`validate-shopping-form-test` test, let's start by defining the
-assertions to individually test the input of the form. This is because
-on the client side WUI we want to individually validate an input value
+On the client side WUI we want to individually validate an input value
 as soon as we leave the corresponding input fields (i.e. when the
-`blur` event is fired) as we already did in a previous tutorial with
-the `email` and `password` input of the `Login Form`:
+`blur` event is fired) as we already did in a
+[previous tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md)
+with the `email` and `password` input of the `Login Form`:
 
 ```clj
+;; individually validate email input field
+(defn validate-email [email]
+  (destroy! (by-class "email"))
+  (if-let [errors (:email (user-credential-errors (value email) nil))]
+    (do
+      (prepend! (by-id "loginForm") (html [:div.help.email (first errors)]))
+      false)
+    (validate-email-domain (value email))))
+
+;; individually validate password input field
+(defn validate-password [password]
+  (destroy! (by-class "password"))
+  (if-let [errors (:password (user-credential-errors nil (value password)))]
+    (do
+      (append! (by-id "loginForm") (html [:div.help.password (first errors)]))
+      false)
+    true))
+    
 (defn ^:export init []
   (if (and ...)
     (let [email (by-id "email")
           password (by-id "password")]
       ...
+      ;; validate email input field on blur event
       (listen! email :blur (fn [evt] (validate-email email)))
+      l
+      ;; validate password input field on blur event
       (listen! password :blur (fn [evt] (validate-password password))))))
 ```
 
@@ -216,8 +234,12 @@ Shopping Calculator:
         nil (validate-shopping-quantity "1")))))
 ```
 
-As soon as you save the file you'll receive the following error from
-the terminal running the TDD environment.
+Here the intention is to test an happy path: the validator
+`validate-shopping-quantity`, that still does not exist, should return
+`nil`, meaning no errors, when called with an integer argument.
+
+As soon as you save the file you'll receive the expected error from
+running the test on both CLJS and CLJS.
 
 ```bash
 Writing clj_test/suite.cljs...
@@ -234,10 +256,15 @@ clojure.lang.Compiler$CompilerException: java.lang.RuntimeException: Unable to r
 Elapsed time: 2.487 sec
 ```
 
-This is exactly what we expected. Moreover, we did not add the
-`validate-shopping-quantity` to the `:refer` section of the
-`modern-cljs.shopping.validators` namespace requirement. Let's do that
-first:
+Considering we intend to define the `validate-shopping-quantity`
+validator in the portable `modern-cljs.shopping.validators` namespace,
+we start fixing the error by adding `validate-shopping-quantity` to
+the `:refer` section of the `modern-cljs.shopping.validators`
+namespace requirement in the `modern-cljs.shopping.validators-test`
+namespace declaration:
+
+> NOTE 1: we could define the individual client-side input validators in
+> a `.cljs` source file.
 
 ```clj
 (ns modern-cljs.shopping.validators-test
@@ -247,14 +274,10 @@ first:
                :cljs [cljs.test :refer-macros [deftest are testing]])))
 ```
 
-As soon as you save the file, you'll receive again an error which is
-even more informative:
+As soon as you save the file, you'll receive again an expected error:
 
 ```bash
-Writing clj_test/suite.cljs...
-Writing main.cljs.edn...
-Compiling ClojureScript...
-• main.js
+...
 adzerk.boot_cljs.util.proxy$clojure.lang.ExceptionInfo$ff19274a: Referred var modern-cljs.shopping.validators/validate-shopping-quantity does not exist
     ...    
 Elapsed time: 0.275 sec
@@ -270,13 +293,16 @@ To make the assertion to pass, we need to define the
 
 ```clj
 (defn validate-shopping-quantity [quantity]
-  (validate-shopping-form quantity "0" "0" "0"))
+  (first (:quantity (validate-shopping-form quantity "0" "0" "0"))))
 ```
 
 Here we're reusing the previously defined `validate-shopping-form`
-validator by passing to it the values we know are good for `price`,
-`tax` and `discount` because the newly defined
-`validate-shopping-quantity` validator is for `quantity` only.
+validator by passing to it acceptable values for `price`, `tax` and
+`discount` because the newly defined `validate-shopping-quantity`
+validator is for the `quantity` input field only.
+
+Also note that `validate-shopping-quantity` returns the `first` error
+message, if any, associated with the `:quantity` keyword.
 
 As soon as you save the file you'll see that the newly defined
 assertion for the `validate-shopping-validate-test` unit test passed.
@@ -322,18 +348,26 @@ would be almost identical:
 ```
 
 A clear case for code refactoring, because we could implement a more
-general `validate-shopping-field` function calling
-`validate-shopping-form` and passing to it good values for the fields
-of the form we're not interested in.
+general `validate-shopping-field` receiving a field (e.g.,
+`:quantity`, `:price`, etc.) and the value to be validated as
+arguments.
 
-A clear case for conditional forms: `cond`, `condp`, `case`, `cond->`
-and `cond->>`. But which of them to choose? Enter the CLJS bREPL:
+To implement `validate-shopping-field` we could use one of the
+CLJ/CLJS conditional forms: `cond`, `condp` or`case`. Perhaps we do
+not remember quite well how they work to be able to choose the one
+that better fit out case. Dont's worry, we have the REPL to experiment
+with:
 
-Should we use `cond`?
+First require the needed namespace:
 
 ```clj
 cljs.user> (require '[modern-cljs.shopping.validators :as v])
 nil
+```
+
+Then get the `cond` docstring:
+
+```clj
 cljs.user> (doc cond)
 -------------------------
 cljs.core/cond
@@ -344,11 +378,19 @@ Macro
   the value of the corresponding expr and doesn't evaluate any of the
   other tests or exprs. (cond) returns nil.
 nil
+```
+
+and experiment with it
+
+```clj
 cljs.user> (let [field :quantity
                  val "1"]
              (cond (= field :quantity) (v/validate-shopping-form val "0" "0" "0")
                    (= field :price) (v/validate-shopping-form "1" val "0" "0")))
 nil
+````
+
+```clj
 cljs.user> (let [field :quantity
                  val "-1"]
              (cond (= field :quantity) (v/validate-shopping-form val "0" "0" "0")
@@ -357,7 +399,8 @@ cljs.user> (let [field :quantity
 nil
 ```
 
-or `condp`?
+It works, but it's a little bit verbose. Let's see if `condp` has
+something better to offer by first getting its docstring:
 
 ```clj
 cljs.user> (doc condp)
@@ -384,12 +427,20 @@ Macro
   expression is provided and no clause matches, an
   IllegalArgumentException is thrown.
 nil
+```
+
+and then experimenting with it
+
+```clj
 cljs.user> (let [field :quantity
                  val "1"]
              (condp = field
                :quantity (v/validate-shopping-form val "0" "0" "0")
                :price (v/validate-shopping-form "1" val "0" "0")))
 nil
+```
+
+```clj
 cljs.user> (let [field :quantity
                  val "-1"]
              (condp = field
@@ -399,7 +450,43 @@ cljs.user> (let [field :quantity
 nil
 ```
 
-Perhaps `case` form is even better.
+A little bit less verbose. Perhaps `case` form is even better than
+`condp`. Get its docstring:
+
+```cljs
+cljs.user=> (doc case)
+-------------------------
+cljs.core/case
+([e & clauses])
+Macro
+  Takes an expression, and a set of clauses.
+
+  Each clause can take the form of either:
+
+  test-constant result-expr
+
+  (test-constant1 ... test-constantN)  result-expr
+
+  The test-constants are not evaluated. They must be compile-time
+  literals, and need not be quoted.  If the expression is equal to a
+  test-constant, the corresponding result-expr is returned. A single
+  default expression can follow the clauses, and its value will be
+  returned if no clause matches. If no default expression is provided
+  and no clause matches, an Error is thrown.
+
+  Unlike cond and condp, case does a constant-time dispatch, the
+  clauses are not considered sequentially.  All manner of constant
+  expressions are acceptable in case, including numbers, strings,
+  symbols, keywords, and (ClojureScript) composites thereof. Note that since
+  lists are used to group multiple constants that map to the same
+  expression, a vector can be used to match a list if needed. The
+  test-constants need not be all of the same type.
+nil
+```
+
+`case` macro seems to
+[better fit our need](http://insideclojure.org/2015/04/27/poly-perf/). Let's
+try it at bREPL:
 
 ```clj
 cljs.user> (let [field :quantity
@@ -416,21 +503,23 @@ cljs.user> (let [field :quantity
 {:quantity ["Quantity can't be negative"]}
 ```
 
-I'd go for `case`, which is the most readable of them all. Go back to
-the `modern-cljs.shopping.validators` namespace and substitute the
+Now that we understood a little bit better our beloved CLJ/CLJS
+programming language by experimenting with it at the REPL, while
+following a TDD approach, go back to the
+`modern-cljs.shopping.validators` namespace and substitute the
 previously defined `validate-shopping-quantity` validator with a more
 general one as follows:
 
 ```clj
 (defn validate-shopping-field [field value]
   (case field
-    :quantity (validate-shopping-form value "0" "0" "0")
-    :price (validate-shopping-form "1" value "0" "0")
-    :tax (validate-shopping-form "1" "0" value "0")
-    :discount (validate-shopping-form "1" "0" "0" value)))
+    :quantity (first (:quantity (validate-shopping-form value "0" "0" "0")))
+    :price (first (:price (validate-shopping-form "1" value "0" "0")))
+    :tax (first (:tax (validate-shopping-form "1" "0" value "0")))
+    :discount (first (:discount (validate-shopping-form "1" "0" "0" value)))))
 ```
 
-> NOTE 1: OOP (Object Oriented Programming) practitioners hate
+> NOTE 2: OOP (Object Oriented Programming) practitioners hate
 > conditionals forms. Some of them even launched an
 > [Anti-IF Campaign](http://antiifcampaign.com/). I'm not religious in
 > anyway about anything, because I'm a Philosopher, but sometime it
@@ -438,7 +527,7 @@ general one as follows:
 > improve the abstraction and the extendibility of your code (i.e.,
 > polymorphism).
 
-As soon as you save the file you'll receive the expected error:
+As soon as you save the file you'll receive again an expected error
 
 ```bash
 Writing clj_test/suite.cljs...
@@ -450,8 +539,8 @@ adzerk.boot_cljs.util.proxy$clojure.lang.ExceptionInfo$ff19274a: Referred var mo
 Elapsed time: 1.477 sec
 ```
 
-because `validate-shopping-field` does not exist anymore, but it is
-still referenced in the test file. Go there and update it as well
+because `validate-shopping-quantity` does not exist anymore, but it is
+still referenced in the test file. Let's fix it:
 
 ```clj
 (ns modern-cljs.shopping.validators-test
@@ -463,24 +552,40 @@ still referenced in the test file. Go there and update it as well
 ;;; ...
 
 (deftest validate-shopping-field-test 
-  (testing "Shopping Form: Fields Validation"
+  (testing "Shopping Form Fields Validation"
+    ;; happy path
     (testing "/ Happy Path"
       (are [expected actual] (= expected actual)
         nil (validate-shopping-field :quantity "1")
-        nil (validate-shopping-field :price "0")
-        nil (validate-shopping-field :tax "0")
-        nil (validate-shopping-field :discount "0")))
+        nil (validate-shopping-field :price "1.0")
+        nil (validate-shopping-field :tax "8.25")
+        nil (validate-shopping-field :discount "0.0")))
+    ;; presence
     (testing "/ Presence"
       (are [expected actual] (= expected actual)
-        "Quantity can't be empty" (first (:quantity (validate-shopping-field :quantity "")))
-        "Quantity can't be empty" (first (:quantity (validate-shopping-field :quantity nil)))
-        "Price can't be empty" (first (:price (validate-shopping-field :price "")))
-        "Price can't be empty" (first (:price (validate-shopping-field :price nil)))
-        "Tax can't be empty" (first (:tax (validate-shopping-field :tax "")))
-        "Tax can't be empty" (first (:tax (validate-shopping-field :tax nil)))
-        "Discount can't be empty" (first (:discount (validate-shopping-field :discount "")))
-        "Discount can't be empty" (first (:discount (validate-shopping-field :discount nil)))))))
+        "Quantity can't be empty" (validate-shopping-field :quantity "")
+        "Quantity can't be empty" (validate-shopping-field :quantity nil)
+        "Price can't be empty" (validate-shopping-field :price "")
+        "Price can't be empty" (validate-shopping-field :price nil)
+        "Tax can't be empty" (validate-shopping-field :tax "")
+        "Tax can't be empty" (validate-shopping-field :tax nil)
+        "Discount can't be empty" (validate-shopping-field :discount "")
+        "Discount can't be empty" (validate-shopping-field :discount "")))
+    ;; type
+    (testing "/ Type"
+      (are [expected actual] (= expected actual)
+        "Quantity has to be an integer number" (validate-shopping-field :quantity "1.1")
+        "Price has to be a number" (validate-shopping-field :price "foo")
+        "Tax has to be a number" (validate-shopping-field :tax "foo")
+        "Discount has to be a number" (validate-shopping-field :discount "foo")))
+    ;; range
+    (testing "/ Range"
+      (are [expected actual] (= expected actual)
+        "Quantity can't be negative" (validate-shopping-field :quantity "-1")))))
 ```
+
+While we were updating the test file to fix the above error, it was
+very easy to add few other assertions as well.
 
 As soon as you save the file, the `tdd` environment fires the
 recompilation and the re-execution of test tests:
@@ -490,39 +595,37 @@ Writing clj_test/suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
-Running cljs tests...Unexpected response code: 400
-
+Running cljs tests...
 Testing modern-cljs.login.validators-test
 
 Testing modern-cljs.shopping.validators-test
 
-Ran 3 tests containing 50 assertions.
+Ran 3 tests containing 55 assertions.
 0 failures, 0 errors.
 
 Testing modern-cljs.login.validators-test
 
 Testing modern-cljs.shopping.validators-test
 
-Ran 4 tests containing 51 assertions.
+Ran 4 tests containing 56 assertions.
 0 failures, 0 errors.
-Elapsed time: 8.395 sec
+Elapsed time: 2.513 sec
 ```
 
-So far, so good. I leave to you the addition of any other assertion
-you could be interested in. If you are lazy like I do, you'd prefer to
-integrate your test coverage with
-[test.check](https://github.com/clojure/test.check) library.
+I leave to you the addition of any other assertion you could be
+interested in.
 
-I'll probably write a tutorial on this topic in the next future. In
-the mean time the best introduction to Generative Testing I found
-around is from
-[Misophistful](https://www.youtube.com/watch?v=u0TkAw8QqrQ).
+## Fill the Gap
+
+In the previous paragraph we experimented an augmented TDD workflow by
+interleaving few experiments with the language in REPL while
+satisfying tests and consequently refactoring some code.
+
+But we still have to attach the newly defined individual field
+validators to the Shopping Calculator. Let's do that.
 
 
-```html <div> <label for="price">Price Per Unit</label> <input
-type="text" name="price" id="price" value="1.00" required> </div> ```
 
-has to be transformed in the following HTML fragment
 
 
 ```html
