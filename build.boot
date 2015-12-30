@@ -61,8 +61,7 @@
         testbed (or testbed (:testbed defaults))
         namespaces (or namespaces (:namespaces defaults))]
     (comp
-     (serve ;:dir "target" 
-            :handler 'modern-cljs.core/app
+     (serve :handler 'modern-cljs.core/app
             :resource-root (:target defaults)
             :reload true
             :httpkit httpkit
