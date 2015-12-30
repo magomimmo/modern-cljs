@@ -9,7 +9,7 @@
                                  set-text!
                                  text
                                  value]]
-            [domina.events :refer [listen!]]
+            [domina.events :refer [listen! prevent-default]]
             [domina.css :refer [sel]]
             [hiccups.runtime]
             [modern-cljs.shopping.validators :refer [validate-shopping-field
@@ -29,7 +29,7 @@
                        [quantity price tax discount]
                        #(set-value! (by-id "total") (.toFixed % 2))))))
 
-(defn validate-shopping-field! [field text]
+(defn validate-shopping-field! [evt field text]
   (let [attr (name field)
         label (sel (str "label[for=" attr "]"))]
     (remove-class! label "help")
@@ -39,18 +39,12 @@
         (set-text! label error))
       (do 
         (set-text! label text)
-        (calculate!)))))
-
-(defn- destroy-button! [id]
-  (destroy! (by-id "calc"))
-  (destroy! (sel "br"))
-  (add-class! (by-id "total") "help"))
+        (calculate!)
+        (prevent-default evt)))))
 
 (defn ^:export init []
   (when (and js/document
              (aget js/document "getElementById"))
-    ;; we don't need the calc button anymore
-    (destroy-button! "calc")
     ;; get original labels' texts
     (let [quantity-text (text (sel "label[for=quantity]"))
           price-text (text (sel "label[for=price]"))
@@ -59,18 +53,32 @@
       ;; quantity validation
       (listen! (by-id "quantity")
                :input
-               (fn [_] (validate-shopping-field! :quantity quantity-text)))
+               (fn [evt] (validate-shopping-field! evt :quantity quantity-text)))
       ;; price validation
       (listen! (by-id "price")
                :input
-               (fn [_] (validate-shopping-field! :price price-text)))
+               (fn [evt] (validate-shopping-field! evt :price price-text)))
       ;; tax validation
       (listen! (by-id "tax")
                :input
-               (fn [_] (validate-shopping-field! :tax tax-text)))
+               (fn [evt] (validate-shopping-field! evt :tax tax-text)))
       ;; discount validation
       (listen! (by-id "discount")
                :input
-               (fn [_] (validate-shopping-field! :discount discount-text))))
+               (fn [evt] (validate-shopping-field! evt :discount discount-text))))
+    (listen! (by-id "calc") 
+             :click 
+             (fn [evt] 
+               (calculate!)
+               (prevent-default evt)))
+    (listen! (by-id "calc") 
+             :mouseover 
+             (fn [_]
+               (append! (by-id "shoppingForm")
+                        (html [:div.help "Click to calculate"]))))  ;; hiccups
+    (listen! (by-id "calc") 
+             :mouseout 
+             (fn [_]
+               (destroy! (by-class "help"))))
     (calculate!)))
 
