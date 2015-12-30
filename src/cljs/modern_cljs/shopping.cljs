@@ -71,5 +71,6 @@
       ;; discount validation
       (listen! (by-id "discount")
                :input
-               (fn [_] (validate-shopping-field! :discount discount-text))))))
+               (fn [_] (validate-shopping-field! :discount discount-text))))
+    (calculate!)))
 
