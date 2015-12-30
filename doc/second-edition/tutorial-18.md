@@ -1038,10 +1038,10 @@ changed the `init` function, you need to manually reload the
 as you type a value in any input field, the Shopping Calculator will
 show you in red the calculated Total.
 
-I'm really bad with HTML/CSS and I'm pretty sure that most of you cam
+I'm really bad with HTML/CSS and I'm pretty sure that most of you can
 improve the UX even better than this.
 
-You can now stop the CLJ REPL and the boot process and reset the
+You can now stop the CLJ REPL and the boot process, and then reset the
 branch as usual:
 
 ```bash
