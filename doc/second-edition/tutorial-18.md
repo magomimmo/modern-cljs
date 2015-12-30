@@ -953,9 +953,11 @@ not, it's really easy to satisfy this new requirement:
 * next, we can trigger the `calculate!` function inside the
   `validate-shopping-field!` listener when the internal validator does
   not grab an invalid input value;
-* finally, we can get rid of the `event` argument passed to the
+* then, we can get rid of the `event` argument passed to the
   `calculate!` function, because there is no more a button event to
-  listen at.
+  listen at;
+* finally, we need to trigger the calculation as the latest activity
+  done by the `init` function.
 
 Following is the final `shopping.cljs` source code updated with the
 above improvements:
@@ -1034,7 +1036,8 @@ above improvements:
       ;; discount validation
       (listen! (by-id "discount")
                :input
-               (fn [_] (validate-shopping-field! :discount discount-text))))))
+               (fn [_] (validate-shopping-field! :discount discount-text))))
+    (calculate!)))
 ```
 
 As usual, when you save the above changes, the TDD environment
