@@ -934,7 +934,119 @@ need to manually reload the page itself to appreciate the effects of
 your changes: just do it and see the individual fields validators at
 work by playing with the Shopping Form.
 
-Stop the CLJ REPL and the boot processes and reset the branch as usual:
+## On Improving UX (User eXperience)
+
+One more thing: while playing with the Shopping Calculator, you'll get
+quickly stuck with the need of clicking the `Calculate` button to get the
+total anytime you change an input value. We could be much more
+pleasant with the user of the Shopping Calculator.
+
+The `Calculate` button itself is no more useful if we could trigger
+the calculation any time the user modify an input value. Believe it or
+not, it's really easy to satisfy this new requirement:
+
+* first, we can get rid of the `Calculate` button function by
+  destroying it in the exported `init` function;
+* then we can very easily change the event observed by each input
+  field listener from `blur` to
+  [`input`](http://www.w3schools.com/jsref/event_oninput.asp);
+* next, we can trigger the `calculate!` function inside the
+  `validate-shopping-field!` listener when the internal validator does
+  not grab an invalid input value;
+* finally, we can get rid of the `event` argument passed to the
+  `calculate!` function, because there is no more a button event to
+  listen at.
+
+Following is the final `shopping.cljs` source code updated with the
+above improvements:
+
+```clj
+(ns modern-cljs.shopping
+  (:require [domina.core :refer [add-class!
+                                 append! 
+                                 by-class
+                                 by-id 
+                                 destroy!
+                                 remove-class!
+                                 set-value!
+                                 set-text!
+                                 text
+                                 value]]
+            [domina.events :refer [listen!]]
+            [domina.css :refer [sel]]
+            [hiccups.runtime]
+            [modern-cljs.shopping.validators :refer [validate-shopping-field
+                                                     validate-shopping-form]]
+            [shoreleave.remotes.http-rpc :refer [remote-callback]])
+  (:require-macros [hiccups.core :refer [html]]
+                   [shoreleave.remotes.macros :as macros]))
+
+(defn calculate! []
+  (let [quantity (value (by-id "quantity"))
+        price (value (by-id "price"))
+        tax (value (by-id "tax"))
+        discount (value (by-id "discount"))
+        errors (validate-shopping-form quantity price tax discount)]
+    (if-not errors
+      (remote-callback :calculate
+                       [quantity price tax discount]
+                       #(set-value! (by-id "total") (.toFixed % 2))))))
+
+(defn validate-shopping-field! [field text]
+  (let [attr (name field)
+        label (sel (str "label[for=" attr "]"))]
+    (remove-class! label "help")
+    (if-let [error (validate-shopping-field field (value (by-id attr)))]
+      (do
+        (add-class! label "help")
+        (set-text! label error))
+      (do 
+        (set-text! label text)
+        (calculate!)))))
+
+(defn- destroy-button! [id]
+  (destroy! (by-id "calc"))
+  (destroy! (sel "br"))
+  (add-class! (by-id "total") "help"))
+
+(defn ^:export init []
+  (when (and js/document
+             (aget js/document "getElementById"))
+    ;; we don't need the calc button anymore
+    (destroy-button! "calc")
+    ;; get original labels' texts
+    (let [quantity-text (text (sel "label[for=quantity]"))
+          price-text (text (sel "label[for=price]"))
+          tax-text (text (sel "label[for=tax]"))
+          discount-text (text (sel "label[for=discount]"))]
+      ;; quantity validation
+      (listen! (by-id "quantity")
+               :input
+               (fn [_] (validate-shopping-field! :quantity quantity-text)))
+      ;; price validation
+      (listen! (by-id "price")
+               :input
+               (fn [_] (validate-shopping-field! :price price-text)))
+      ;; tax validation
+      (listen! (by-id "tax")
+               :input
+               (fn [_] (validate-shopping-field! :tax tax-text)))
+      ;; discount validation
+      (listen! (by-id "discount")
+               :input
+               (fn [_] (validate-shopping-field! :discount discount-text))))))
+```
+
+As usual, when you save the above changes, the TDD environment
+triggers the recompilation and re-executes the tests. By having
+changed the `init` function, you need to manually reload the
+[Shopping Calculator page](localhost:3000/shopping.html). When the
+page reload terminates you do not see the `Calculate` button
+anymore. Now, as soon as you type a value in any input field, the
+Shopping Calculator will show you in red the calculated Total.
+
+You can now stop the CLJ REPL and the boot process and reset the
+branch as usual:
 
 ```bash
 git reset --hard
