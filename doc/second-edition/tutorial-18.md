@@ -936,7 +936,9 @@ work by playing with the Shopping Form.
 
 Stop the CLJ REPL and the boot processes and reset the branch as usual:
 
-```bash git reset --hard ```
+```bash
+git reset --hard
+```
 
 Stay tuned for the next tutorial
 
