@@ -36,7 +36,7 @@ The `:source-paths` directive instructs Google Closure/CLJS pair of
 compilers to look for any CLJS source code in the `src/cljs` directory
 structure for doing its job.
 
-I'm not going to explain every single detail of the CLJS/GCSL pair of
+I'm not going to explain every detail of the CLJS/GCSL
 compilers. The only detail that is useful for investigating and
 eventually solving the above issue is that the pair of compilers
 generates a **single** JS file (i.e., `js/main.js`) from **all** of
@@ -63,8 +63,8 @@ You have to duplicate the directory structure and the corresponding
 build options for each html page that is going to include the single
 generated JS file.
 
-I don't know about you, but if there is a things that I hate more than
-a WARNING notification by a compiler is code duplication. So, I'm not
+I don't know about you, but if there is something that I hate more than
+a WARNING notification by a compiler it is code duplication. So, I'm not
 even going to explain how to duplicate your code to modestly solve the
 above error.
 
@@ -136,14 +136,14 @@ And here is the related fragment of `shopping.html`
 
 As you see, by inserting a script snippet in the HTML pages, we're
 violating the unobtrusive principle expressed by a lot of webapps
-designers. The life is full of compromises and this is one of those
+designers. Life is full of compromises and this is one of those
 tradeoffs.
 
 All those changes could have been done while the IFDE is running. But
 there is one more thing we want to take care of and we can't do it
 while the IFDE is running.
 
-As you noted, to adhere to the convention of keeping any JS resourses
+As noted, to adhere to the convention of keeping any JS resourses
 confined in a `js` subdirectory of the directory serving HTML pages, in
 [Tutorial-03][4] we had to create the `html/js/main.cljs.edn`
 file.
@@ -155,8 +155,8 @@ maintain the `require` section of that file. This is a clear case of
 Hopefully some day the `boot-cljs` maintainers will solve this issue
 in a less convoluted way. In the meantime, to bypass that incidental
 complexity, we are going to violate the above convention. A second
-tradeoff. Keep this two tradeoffs in your memory, because you got two
-debits that one day or the other you're going to pay for.
+tradeoff. Keep these two tradeoffs in mind, because you got two
+debits that sooner or later you're going to have to pay for.
 
 Let's apply this second tradeoff.
 
@@ -197,9 +197,9 @@ to `main.js`.
 
 One last thing. In the [first tutorial][3] of this series we created
 the `core.cljs` source file in the `src/cljs/modern_cljs`
-directory. It only prints `Hello, world!` at the console of the
-browser and it was created just as a kind of a placeholder for making
-our IFDE working. We do not need it anymore and you can safely delete
+directory. It only prints `Hello, world!` in the console of the
+browser and it was created just as a kind of a placeholder to show
+our IFDE was working. We do not need it anymore and you can safely delete
 it.
 
 ```bash
@@ -223,7 +223,7 @@ http://localhost:3000/shopping.html URLs for verifying the two forms
 are now working as expected.
 
 As usual, if you want to play with the bREPL, launch it as usual and
-then reload on of the above URLs.
+then reload one of the above URLs.
 
 ```clj
 # from a new terminal
@@ -243,7 +243,7 @@ git reset --hard
 
 # Next step - [Tutorial 7: Introducing Domina Events][8]
 
-In the [next tutorial][8] we'll introduce [domina event][6] management
+In the [next tutorial][8] we'll introduce [domina event handling][6]
 to further improve our functional style in porting
 [Modern JavaScript samples][7] to CLJS.
 
