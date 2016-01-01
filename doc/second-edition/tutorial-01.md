@@ -295,22 +295,6 @@ the console in your Development Tool (e.g. Chrome Development Tool).
 If everything went ok, you should see "Hello, World!" printed at the
 console.
 
-It's a good practice to save into the `boot.properties` file the
-version of boot core libraries and clojure language used in the
-project by issuing the following command at the terminal:
-
-```bash
-boot -V > boot.properties
-# see the result
-boot -V
-#https://github.com/boot-clj/boot
-#Thu Nov 26 09:01:31 CET 2015
-BOOT_CLOJURE_NAME=org.clojure/clojure
-BOOT_VERSION=2.4.2
-BOOT_CLOJURE_VERSION=1.7.0
-#App version: 2.4.2
-```
-
 ## Next Step - [Tutorial 2: Immediate Feedback Principle][7]
 
 In the next [tutorial][7] we're going to adhere as closely as possible to
