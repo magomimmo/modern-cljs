@@ -1000,35 +1000,35 @@ for improving the Shopping Calculator UX.
           discount-text (text (sel "label[for=discount]"))]
       ;; quantity validation
       (listen! (by-id "quantity")
-               :input                  ;; now listen to oninput event
+               :input
                (fn [evt] (validate-shopping-field! evt :quantity quantity-text)))
       ;; price validation
       (listen! (by-id "price")
-               :input                  ;; now listen to oninput event
+               :input
                (fn [evt] (validate-shopping-field! evt :price price-text)))
       ;; tax validation
       (listen! (by-id "tax")
-               :input                  ;; now listen to oninput event
+               :input
                (fn [evt] (validate-shopping-field! evt :tax tax-text)))
       ;; discount validation
       (listen! (by-id "discount")
-               :input                  ;; now listen to oninput event
+               :input
                (fn [evt] (validate-shopping-field! evt :discount discount-text))))
     (listen! (by-id "calc") 
              :click 
              (fn [evt] 
-               (calculate!)            ;; does not take an event arg anymore 
-               (prevent-default evt))) ;; directly call prevent default submission
+               (calculate!)
+               (prevent-default evt)))
     (listen! (by-id "calc") 
              :mouseover 
              (fn [_]
                (append! (by-id "shoppingForm")
-                        (html [:div.help "Click to calculate"]))))  ;; hiccups
+                        (html [:div#help.help "Click to calculate"]))))  ;; hiccups
     (listen! (by-id "calc") 
              :mouseout 
              (fn [_]
-               (destroy! (by-class "help"))))
-    (calculate!)))                    ;; force calculation
+               (destroy! (by-id "help"))))
+    (calculate!)))
 ```
 
 As usual, when you save the above changes, the TDD environment
