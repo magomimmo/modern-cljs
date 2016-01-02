@@ -154,11 +154,10 @@ corresponding releases it knows to work well with it.
 Finally, the `require` form makes the `cljs` task visible to the
 `boot` command.
 
-> ATTENTION NOTE: currently the `modern-cljs` series of tutorials is
-> pinned to `2.4.2` release of `boot`.
-> 
-> To be able to run the content of the tutorial without problems you
-> need to pin `boot` to `2.4.2` release as follows:
+> **ATTENTION NOTE**: currently the `modern-cljs` series of tutorials
+> is pinned to **`2.4.2`** release of `boot`. To be able to run the
+> content of the tutorial without problems you need to pin `boot` to
+> **`2.4.2`** release as follows:
 
 ```bash
 cd /path/to/modern-cljs
@@ -213,7 +212,9 @@ Compiling ClojureScript...
 • main.js
 ```
 
-> Note: You may need to run `boot cljs` twice the first time to get the compilation to complete. You'll know compilation is completed when you see `Compiling Clojurescript` in the output.
+> Note: You may need to run `boot cljs` twice the first time to get
+> the compilation to complete. You'll know compilation is completed
+> when you see `Compiling Clojurescript` in the output.
 
 You now know why we called the JS file included in the
 `<script>` tag of the `index.html` page `main.js`: just to adhere to an easy
