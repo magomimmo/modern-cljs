@@ -52,19 +52,19 @@
           discount-text (text (sel "label[for=discount]"))]
       ;; quantity validation
       (listen! (by-id "quantity")
-               :input
+               :input                   ; now listen to input event
                (fn [evt] (validate-shopping-field! evt :quantity quantity-text)))
       ;; price validation
       (listen! (by-id "price")
-               :input
+               :input                   ; now listen to input event 
                (fn [evt] (validate-shopping-field! evt :price price-text)))
       ;; tax validation
       (listen! (by-id "tax")
-               :input
+               :input                   ; now listen to input event
                (fn [evt] (validate-shopping-field! evt :tax tax-text)))
       ;; discount validation
       (listen! (by-id "discount")
-               :input
+               :input                   ; now liste to input event
                (fn [evt] (validate-shopping-field! evt :discount discount-text))))
     (listen! (by-id "calc") 
              :click 
@@ -75,10 +75,10 @@
              :mouseover 
              (fn [_]
                (append! (by-id "shoppingForm")
-                        (html [:div.help "Click to calculate"]))))  ;; hiccups
+                        (html [:div#help.help "Click to calculate"]))))  ; now add id as well
     (listen! (by-id "calc") 
              :mouseout 
              (fn [_]
-               (destroy! (by-class "help"))))
-    (calculate!)))
+               (destroy! (by-id "help")))) ; now destroy id instead of class
+    (calculate!)))                         ; now force calculation
 
