@@ -1,7 +1,6 @@
 (set-env!
  :source-paths #{"src/clj" "src/cljs" "src/cljc"}
  :resource-paths #{"html"}
- :target-path "target"
 
  :dependencies '[
                  [org.clojure/clojure "1.7.0"]         ;; add CLJ
@@ -36,7 +35,6 @@
 (def defaults {:test-dirs #{"test/cljc" "test/clj" "test/cljs"}
                :output-to "main.js"
                :testbed :phantom
-               :target "target"
                :namespaces '#{modern-cljs.shopping.validators-test
                               modern-cljs.login.validators-test}})
 
@@ -61,9 +59,8 @@
         testbed (or testbed (:testbed defaults))
         namespaces (or namespaces (:namespaces defaults))]
     (comp
-     (serve ;:dir "target" 
-            :handler 'modern-cljs.core/app
-            :resource-root (:target defaults)
+     (serve :handler 'modern-cljs.core/app
+            :resource-root "target"
             :reload true
             :httpkit httpkit
             :port port)
@@ -76,16 +73,18 @@
                 :namespaces namespaces
                 :update-fs? true
                 :optimizations optimizations)
-     (test :namespaces namespaces))))
+     (test :namespaces namespaces)
+     (target :dir #{"target"}))))
 
 (deftask dev 
   "Launch immediate feedback dev environment"
   []
   (comp
    (serve :handler 'modern-cljs.core/app               ;; ring hanlder
-          :resource-root (:target defaults)            ;; root classpath
+          :resource-root "target"                      ;; root classpath
           :reload true)                                ;; reload ns
    (watch)
    (reload)
    (cljs-repl) ;; before cljs
-   (cljs)))
+   (cljs)
+   (target :dir #{"target"})))
