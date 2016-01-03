@@ -50,6 +50,7 @@ located in the `modern-cljs` home directory.
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
+ :target-dir "target"
  
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]]) ;; add http dependency
@@ -67,8 +68,6 @@ Note that we're still implicitly exploiting a few `boot` defaults:
 * the use of Clojure 1.7.0, defined in the `boot.properties` file;
 * the use of ClojureScript 1.7.170, implicitly imported by the
   `boot-cljs` dependency;
-* the `"target"` directory as the default value used as `:target-path`
-  by `boot` itself.
 
 As usual let's take a look at the help documentation of the newly
 added `serve` task:
@@ -137,18 +136,22 @@ your browser. Now kill the server (`CTRL-C`).
 `boot` tasks can be easily chained:
 
 ```bash
-boot wait serve -d target cljs
-2015-10-26 21:50:25.555:INFO:oejs.Server:jetty-7.6.13.v20130916
-2015-10-26 21:50:25.660:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
-<< started Jetty on http://localhost:3000 >>
+boot wait serve -d target cljs target -d target
+2016-01-03 11:14:09.949:INFO::clojure-agent-send-off-pool-0: Logging initialized @7356ms
+Directory 'target' was not found. Creating it...2016-01-03 11:14:10.011:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
+2016-01-03 11:14:10.048:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@31c694ca{HTTP/1.1}{0.0.0.0:3000}
+2016-01-03 11:14:10.049:INFO:oejs.Server:clojure-agent-send-off-pool-0: Started @7455ms
+Started Jetty on http://localhost:3000
 Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
+Writing target dir(s)...
 ```
 
-Open the Developer Tool of your browser to verify that the `Hello,
-World!` string has been printed at the console. Before proceeding with
-the next step, kill the current `boot` process (`CTRL-C`).
+Visit the `http://localhost:3000` URL and open the Developer Tool of
+your browser to verify that the `Hello, World!` string has been
+printed at the console. Before proceeding with the next step, kill the
+current `boot` process (`CTRL-C`).
 
 ## CLJS source recompilation
 
@@ -180,17 +183,20 @@ It seems that just inserting the `watch` task before calling the
 `cljs` task we should be able to trigger the source recompilation.
 
 ```bash
-boot serve -d target watch cljs
-2015-10-26 21:54:00.904:INFO:oejs.Server:jetty-7.6.13.v20130916
-2015-10-26 21:54:00.995:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
-<< started Jetty on http://localhost:3000 >>
+boot serve -d target watch cljs target -d target
+2016-01-03 11:17:19.733:INFO::clojure-agent-send-off-pool-0: Logging initialized @7494ms
+2016-01-03 11:17:19.796:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
+2016-01-03 11:17:19.834:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@523e2274{HTTP/1.1}{0.0.0.0:3000}
+2016-01-03 11:17:19.836:INFO:oejs.Server:clojure-agent-send-off-pool-0: Started @7596ms
+Started Jetty on http://localhost:3000
 
 Starting file watcher (CTRL-C to quit)...
 
 Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
-Elapsed time: 13.969 sec
+Writing target dir(s)...
+Elapsed time: 6.197 sec
 ```
 
 Visit `http://localhost:3000` again in your browser to confirm
@@ -203,7 +209,8 @@ a new CLJS compilation task has been triggered in the terminal.
 Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
-Elapsed time: 0.168 sec
+Writing target dir(s)...
+Elapsed time: 0.174 sec
 ```
 
 Finally reload the html page to confirm that the `main.js` file linked
@@ -227,6 +234,7 @@ visible to `boot` by requiring its primary command:
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
+ :target-path "target"
  
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
@@ -241,27 +249,30 @@ This task has to be inserted in the `boot` command immediately before
 the `cljs` compilation. Give it a try:
 
 ```bash
-boot serve -d target watch reload cljs
-Starting reload server on ws://localhost:50557
+boot serve -d target watch reload cljs target -d target
+Starting reload server on ws://localhost:58020
 Writing boot_reload.cljs...
-2015-10-26 21:59:29.219:INFO:oejs.Server:jetty-7.6.13.v20130916
-2015-10-26 21:59:29.283:INFO:oejs.AbstractConnector:Started SelectChannelConnector@0.0.0.0:3000
-<< started Jetty on http://localhost:3000 >>
+2016-01-03 11:22:21.323:INFO::clojure-agent-send-off-pool-0: Logging initialized @9526ms
+2016-01-03 11:22:21.387:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
+2016-01-03 11:22:21.410:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@3117f174{HTTP/1.1}{0.0.0.0:3000}
+2016-01-03 11:22:21.411:INFO:oejs.Server:clojure-agent-send-off-pool-0: Started @9614ms
+Started Jetty on http://localhost:3000
 
 Starting file watcher (CTRL-C to quit)...
 
 Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
-Elapsed time: 19.914 sec
+Writing target dir(s)...
+Elapsed time: 8.281 sec
 ```
 
 Now reload the usual URL in your browser and repeat the above
-procedure by modifing the message to be printed in the browser
+procedure by modifying the message to be printed in the browser
 console. As before you'll see that as soon as you save the `core.cljs`
 file the CLJS recompilation is triggered. This time, thanks to the
-`boot-reload` task, the page is reloaded as well. You can confirm this by
-seeing if the new message is printed in the browser console.
+`boot-reload` task, the page is reloaded as well. You can confirm this
+by seeing if the new message is printed in the browser's console.
 
 You can even modify the html source file to obtain an almost immediate
 feedback from the browser.
@@ -291,6 +302,7 @@ command at the terminal.
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
+ :target-path "target"
  
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
@@ -323,14 +335,16 @@ Options:
   -s, --secure                 Flag to indicate whether the client should connect via wss. Defaults to false.
 ```
 
-The `cljs-repl` task has to be positioned just before the `cljs`, not
-at the end of the pipeline, and the `cljs-repl` author suggests we are
-explicit about the project's required `Clojure` and `ClojureScript` versions.
+The `cljs-repl` task has to be positioned just before the `cljs` and
+the `cljs-repl` author suggests to be explicit about the `Clojure` and
+`ClojureScript` releases to be added in the dependencies section of
+the `build.boot` build file.
 
 ```clj
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
+ :target-path "target"
  
  :dependencies '[[org.clojure/clojure "1.7.0"]         ;; add CLJ
                  [org.clojure/clojurescript "1.7.170"] ;; add CLJS
@@ -350,7 +364,7 @@ If you now launch the following `boot` command you'll received a
 warning and an error:
 
 ```bash
-boot serve -d target watch reload cljs-repl cljs
+boot serve -d target watch reload cljs-repl cljs target -d target
 Starting reload server on ws://localhost:55540
 Writing boot_reload.cljs...
 You are missing necessary dependencies for boot-cljs-repl.
@@ -372,7 +386,8 @@ dependencies and you have to explicitly add them in the
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
-
+ :target-path "target"
+ 
  :dependencies '[
                  [org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.170"]
@@ -398,23 +413,24 @@ After having quit the previous process, you can safety run the
 `boot` command in the terminal as follows:
 
 ```bash
-boot serve -d target watch reload cljs-repl cljs
-Starting reload server on ws://localhost:55571
+boot serve -d target watch reload cljs-repl cljs target -d target
+Starting reload server on ws://localhost:58051
 Writing boot_reload.cljs...
 Writing boot_cljs_repl.cljs...
-2015-11-15 11:11:15.148:INFO::clojure-agent-send-off-pool-0: Logging initialized @19819ms
-2015-11-15 11:11:15.270:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
-2015-11-15 11:11:15.317:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@2b86e605{HTTP/1.1}{0.0.0.0:3000}
-2015-11-15 11:11:15.319:INFO:oejs.Server:clojure-agent-send-off-pool-0: Started @19990ms
+2016-01-03 11:32:46.553:INFO::clojure-agent-send-off-pool-0: Logging initialized @9256ms
+2016-01-03 11:32:46.613:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
+2016-01-03 11:32:46.636:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@4a94a06{HTTP/1.1}{0.0.0.0:3000}
+2016-01-03 11:32:46.637:INFO:oejs.Server:clojure-agent-send-off-pool-0: Started @9340ms
 Started Jetty on http://localhost:3000
 
 Starting file watcher (CTRL-C to quit)...
 
-nREPL server started on port 55572 on host 127.0.0.1 - nrepl://127.0.0.1:55572
+nREPL server started on port 58053 on host 127.0.0.1 - nrepl://127.0.0.1:58053
 Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
-Elapsed time: 38.074 sec
+Writing target dir(s)...
+Elapsed time: 18.949 sec
 ```
 
 The command output informs you that [`nrepl server`][8] has been
@@ -429,7 +445,7 @@ with `boot` and passing it the `-c` (i.e. client) option:
 
 ```bash
 # in a new terminal
-cd modern-cljs
+cd /path/to/modern-cljs
 boot repl -c
 REPL-y 0.3.5, nREPL 0.2.12
 Clojure 1.7.0
