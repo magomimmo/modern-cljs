@@ -1,7 +1,6 @@
 (set-env!
  :source-paths #{"src/clj" "src/cljs" "src/cljc"}
  :resource-paths #{"html"}
- :target-path "target"
 
  :dependencies '[
                  [org.clojure/clojure "1.7.0"]         ;; add CLJ
@@ -51,7 +50,8 @@
               :js-env :phantom 
               :namespaces '#{modern-cljs.shopping.validators-test}
               :update-fs? true)
-   (test :namespaces '#{modern-cljs.shopping.validators-test})))
+   (test :namespaces '#{modern-cljs.shopping.validators-test})
+   (target :dir #{"target"})))
 
 ;;; add dev task
 (deftask dev 
@@ -65,4 +65,5 @@
    (watch)
    (reload)
    (cljs-repl) ;; before cljs
-   (cljs)))
+   (cljs)
+   (target :dir #{"target"})))
