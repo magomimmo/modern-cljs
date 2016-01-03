@@ -1,8 +1,7 @@
 (set-env!
  :source-paths #{"src/clj" "src/cljs" "src/cljc"}
  :resource-paths #{"html"}
- :target-path "target"
-
+ 
  :dependencies '[
                  [org.clojure/clojure "1.7.0"]         ;; add CLJ
                  [org.clojure/clojurescript "1.7.170"] ;; add CLJS
@@ -40,4 +39,5 @@
    (watch)
    (reload)
    (cljs-repl) ;; before cljs
-   (cljs)))
+   (cljs)
+   (target :dir #{"target"})))
