@@ -29,5 +29,6 @@
    (watch)
    (reload)
    (cljs-repl) ;; before cljs
-   (cljs)))
+   (cljs)
+   (target :dir #{"target"})))
 
