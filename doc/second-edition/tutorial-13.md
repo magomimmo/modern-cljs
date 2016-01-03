@@ -444,7 +444,8 @@ task.
    (watch)
    (reload)
    (cljs-repl) ;; before cljs
-   (cljs)))
+   (cljs)
+   (target :dir #{"target"})))
 ```
 
 This means that we can pass the `shopping.html` file to
@@ -800,7 +801,8 @@ the namespace of the `app` symbol in the `:handler` section of the
    (watch)
    (reload)
    (cljs-repl) ;; before cljs
-   (cljs)))
+   (cljs)
+   (target :dir #{"target"})))
 ```
 
 We are now ready to rebuild and run everything.
