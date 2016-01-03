@@ -1,6 +1,7 @@
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
+ :target-dir "target"
 
  :dependencies '[
                  [org.clojure/clojure "1.7.0"]         ;; add CLJ
