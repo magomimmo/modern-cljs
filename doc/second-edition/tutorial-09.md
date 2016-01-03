@@ -162,7 +162,8 @@ task accordingly to our `target-path`.
    (watch)
    (reload)
    (cljs-repl) ;; before cljs
-   (cljs)))
+   (cljs)
+   (target :dir #{"target"})))
 ```
 
 Here we set the `ring handler` option to the `handler` symbol in the
@@ -185,13 +186,8 @@ Now we have to add the newly created `src/clj` directory to the
 (set-env!
  :source-paths #{"src/clj" "src/cljs"}  ;; add CLJ source dir
  :resource-paths #{"html"}
- :target-path "target"                  ;; added for clarity
  ...
 ```
-
-As you see, for clarity reason we also explicitly set the
-`target-path` to the `"target"` directory, even if that's the `boot`
-default value.
 
 ### Compojure
 
@@ -216,7 +212,6 @@ Here is the complete `build.boot` file
 (set-env!
  :source-paths #{"src/clj" "src/cljs"}
  :resource-paths #{"html"}
- :target-path "target"
 
  :dependencies '[
                  [org.clojure/clojure "1.7.0"]         ;; add CLJ
@@ -248,7 +243,8 @@ Here is the complete `build.boot` file
    (watch)
    (reload)
    (cljs-repl) ;; before cljs
-   (cljs)))
+   (cljs)
+   (target :dir #{"target"})))
 ```
 
 ### The handler
@@ -512,7 +508,6 @@ Here is the complete and final `build.boot` file.
 (set-env!
  :source-paths #{"src/clj" "src/cljs"}
  :resource-paths #{"html"}
- :target-path "target"
 
  :dependencies '[
                  [org.clojure/clojure "1.7.0"]         ;; add CLJ
@@ -549,7 +544,8 @@ Here is the complete and final `build.boot` file.
    (watch)
    (reload)
    (cljs-repl) ;; before cljs
-   (cljs)))
+   (cljs)
+   (target :dir #{"target"})))
 ```
 
 Great: the server-side is done. We are ready to accordingly update the
