@@ -50,7 +50,6 @@ located in the `modern-cljs` home directory.
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- :target-dir "target"
  
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]]) ;; add http dependency
@@ -234,7 +233,6 @@ visible to `boot` by requiring its primary command:
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- :target-path "target"
  
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
@@ -302,7 +300,6 @@ command at the terminal.
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- :target-path "target"
  
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
@@ -344,7 +341,6 @@ the `build.boot` build file.
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- :target-path "target"
  
  :dependencies '[[org.clojure/clojure "1.7.0"]         ;; add CLJ
                  [org.clojure/clojurescript "1.7.170"] ;; add CLJS
@@ -386,7 +382,6 @@ dependencies and you have to explicitly add them in the
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- :target-path "target"
  
  :dependencies '[
                  [org.clojure/clojure "1.7.0"]

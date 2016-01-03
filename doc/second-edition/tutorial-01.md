@@ -295,20 +295,7 @@ Let's get rid of these warnings. First, delete the `target` directory:
 rm -rf target
 ```
 
-Then, explicitly add a target directory into the `build.boot` file:
-
-```clj
-(set-env!
- :source-paths #{"src/cljs"}
- :resource-paths #{"html"}
- :target-dir "target"                 ; explicitly add the target directory
-
- :dependencies '[[adzerk/boot-cljs "1.7.170-3"]])
-
-(require '[adzerk.boot-cljs :refer [cljs]])
-```
-
-Next, create a new `boot.properties` file as follows:
+Then, create a new `boot.properties` file as follows:
 
 ```bash
 boot -V > boot.properties
@@ -332,9 +319,9 @@ account that `boot` maintainers are working hard to continuously add
 new features and correcting bugs. This means that in a very short time
 a new release could be available. `boot` maintainers follow the rules
 of [semantic versioning](http://semver.org/). So, to be sure that the
-project we're building runs without problem, the best thing you can do
-is to explicitly pin the project to the above `2.5.5.` release as
-follows:
+project we're building runs without any problem, the best thing you
+can do it's to explicitly pin the project to the above `2.5.5.`
+release as follows:
 
 ```bash
 BOOT_VERSION=2.5.5 boot -V > boot.properties
