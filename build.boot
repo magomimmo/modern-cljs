@@ -1,7 +1,6 @@
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- :target-dir "target"
 
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]])
 
