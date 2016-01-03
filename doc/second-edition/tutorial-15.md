@@ -537,7 +537,8 @@ combine the `test` and the `cljs-test` tasks.
    (testing)
    (watch)
    (test-cljs :update-fs? true :js-env :phantom :namespaces '#{modern-cljs.shopping.validators-test})
-   (test :namespaces '#{modern-cljs.shopping.validators-test})))
+   (test :namespaces '#{modern-cljs.shopping.validators-test})
+   (target :dir #{"target"})))
 ```
 
 > Note 4: the above tasks composition mimics the same composition we
@@ -767,7 +768,8 @@ previous one in the `build.boot` file:
               :js-env :phantom 
               :namespaces '#{modern-cljs.shopping.validators-test}
               :update-fs? true)
-   (test :namespaces '#{modern-cljs.shopping.validators-test})))
+   (test :namespaces '#{modern-cljs.shopping.validators-test})
+   (target :dir #{"target"})))
 ```
 
 ### Light the fire

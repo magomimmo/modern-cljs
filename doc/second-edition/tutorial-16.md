@@ -264,7 +264,8 @@ previous `testing` task in the `tdd` task definition:
               :js-env :phantom 
               :namespaces '#{modern-cljs.shopping.validators-test}
               :update-fs? true)
-   (test :namespaces '#{modern-cljs.shopping.validators-test})))
+   (test :namespaces '#{modern-cljs.shopping.validators-test})
+   (target :dir #{"target"})))
 ```
 
 There is one more thing to be done for pleasing a `tdd` user: add the
@@ -289,7 +290,8 @@ command line
                 :js-env :phantom 
                 :namespaces '#{modern-cljs.shopping.validators-test}
                 :update-fs? true)
-     (test :namespaces '#{modern-cljs.shopping.validators-test}))))
+     (test :namespaces '#{modern-cljs.shopping.validators-test})
+     (target :dir #{"target"}))))
 ```
 
 > NOTE 2: the `-t` default value is now `#{"test/cljc" "test/clj"
@@ -628,7 +630,8 @@ We are now ready to add the `-k` and `-v` options to the `tdd` task definition.
                 :js-env :phantom 
                 :namespaces '#{modern-cljs.shopping.validators-test}
                 :update-fs? true)
-     (test :namespaces '#{modern-cljs.shopping.validators-test}))))
+     (test :namespaces '#{modern-cljs.shopping.validators-test})
+     (target :dir #{"target"}))))
 ```
 
 Note that this time we just passed down the boolean options as read
@@ -820,7 +823,8 @@ definition:
                 :namespaces '#{modern-cljs.shopping.validators-test}
                 :update-fs? true
                 :optimizations optimizations)
-     (test :namespaces '#{modern-cljs.shopping.validators-test}))))
+     (test :namespaces '#{modern-cljs.shopping.validators-test})
+     (target :dir #{"target"}))))
 ```
 
 You should only note how we exploited the idiomatic way (i.e. `let`
@@ -1056,7 +1060,8 @@ This is very easily treated with the task options as follows:
      ...
      (test-cljs ...
                 :namespaces namespaces)
-     (test :namespaces namespaces))))
+     (test :namespaces namespaces)
+     (target :dir #{"target"}))))
 ```
 
 Let's see if this simple solution works by first calling it with the
@@ -1435,7 +1440,6 @@ Here is the cleaned `build.boot` file:
 (set-env!
  :source-paths #{"src/clj" "src/cljs" "src/cljc"}
  :resource-paths #{"html"}
- :target-path "target"
 
  :dependencies '[
                  [org.clojure/clojure "1.7.0"]         ;; add CLJ
@@ -1470,7 +1474,6 @@ Here is the cleaned `build.boot` file:
 (def defaults {:test-dirs #{"test/cljc" "test/clj" "test/cljs"}
                :output-to "main.js"
                :testbed :phantom
-               :target "target"
                :namespaces '#{modern-cljs.shopping.validators-test
                               modern-cljs.login.validators-test}})
 
@@ -1496,7 +1499,7 @@ Here is the cleaned `build.boot` file:
         namespaces (or namespaces (:namespaces defaults))]
     (comp
      (serve :handler 'modern-cljs.core/app
-            :resource-root (:target defaults)
+            :resource-root "target"
             :reload true
             :httpkit httpkit
             :port port)
@@ -1509,19 +1512,21 @@ Here is the cleaned `build.boot` file:
                 :namespaces namespaces
                 :update-fs? true
                 :optimizations optimizations)
-     (test :namespaces namespaces))))
+     (test :namespaces namespaces)
+     (target :dir #{"target"}))))
 
 (deftask dev 
   "Launch immediate feedback dev environment"
   []
   (comp
    (serve :handler 'modern-cljs.core/app               ;; ring hanlder
-          :resource-root (:target defaults)            ;; root classpath
+          :resource-root "target"                      ;; root classpath
           :reload true)                                ;; reload ns
    (watch)
    (reload)
    (cljs-repl) ;; before cljs
-   (cljs)))
+   (cljs)
+   (target :dir #{"target"})))
 ```
 
 Note that we used a map to set the defaults for the various options
@@ -1530,7 +1535,6 @@ Note that we used a map to set the defaults for the various options
 (def defaults {:test-dirs #{"test/cljc" "test/clj" "test/cljs"}
                :output-to "main.js"
                :testbed :phantom
-               :target "target"
                :namespaces '#{modern-cljs.shopping.validators-test
                               modern-cljs.login.validators-test}})
 ```
