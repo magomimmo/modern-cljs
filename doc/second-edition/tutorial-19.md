@@ -41,15 +41,15 @@ features by the
 
 The problem with those alternatives to make your code portable between
 CLJ and CLJS is that they are now both deprecated in favor of the much
-more powerful and flexible
+easier, more powerful and more flexible
 [Reader Conditionals](http://clojure.org/reader#The%20Reader--Reader%20Conditionals)
 extension we cited above.
 
 When I recently decide to switch this series of tutorials on CLJS from
 the [leiningen](http://leiningen.org/) build tool to the
 [boot](https://github.com/boot-clj/boot) one, I realized that I could
-exploit that decision to migrate `valip` portable to the new CLJ/CLJS
-Reader Conditional extension as well.
+exploit that decision to accommodate the `valip` portable library to
+the new CLJ/CLJS Reader Conditional extension as well.
 
 This tutorial is a kind of a walk-through of that migration
 experience. The reason why I decided to put that experience in words
@@ -94,7 +94,7 @@ github is supported by an articulated, although easy, issue and
 version control management systems. Those two systems help a lot in
 managing almost any distributed and remote collaboration requirements.
 
-## Valip Library
+## The Valip Library
 
 As said, the main purpose of Chas Emerick while forking the original
 `valip` library was to make it portable from CLJ to
@@ -173,7 +173,7 @@ if you do not specify a `:test-paths` it will assume the `test`
 directory as default and so on. That's why the `project.clj` is so
 noise free in such a case.
 
-## Look at the directory layout
+## Directory layout
 
 The very second thing take I generally look into, is the directory
 layout of the project directory:
@@ -317,23 +317,28 @@ With the Reader Conditionals machinery in our hands we can now proceed
 with the next steps, namely:
 
 1. delete the `src/cljs` directory and the `reader.clj` file as well;
-2. change the extension of the `predicates.clj` file hosted in the
-  `src/valip` directory from `.clj` to `.cljc`;
-3. move the specific JVM symbols' definitions from the `predicates.clj`
-  file hosted in the `src/valip/java` directory to the above
-  `predicates.cljc` file;
+2. change the extension of the `predicates.clj` and `core.clj` files
+   hosted in the `src/valip` directory from `.clj` to `.cljc`;
+3. move the specific JVM symbols' definitions from the
+   `predicates.clj` file hosted in the `src/valip/java` directory to
+   the above `predicates.cljc` file;
 4. move the specific JSVM symbols' definitions from the
-  `predicates.cljs` file to the above `predicates.cljc` file;
+   `predicates.cljs` file to the above `predicates.cljc` file;
 5. use the `#?` reader macro to differentiate the namespaces'
-  requirements in the `valip.predicates` namespace declaration
-  depending on the feature made available by the hosting platform at
-  runtime;
+   requirements in the `valip.core` and `valip.predicates` namespaces
+   declaration depending on the feature made available by the hosting
+   platform at runtime;
 6. use the `#?` reader macro to differentiate the symbols' definitions
-  in the `valip.predicates` namespace as well;
-7. eventually move the `def.clj` file containing the macros definitions
-  to the `src/valip` directory and rename it as `macros.clj`;
+   in the `valip.predicates` namespace as well;
+7. eventually move the `def.clj` file containing the macros
+   definitions to the `src/valip` directory and rename it as
+   `macros.clj`;
 8. use the `#?` reader macro to differentiate the namespaces'
-  requirements and the symbols' definitions for the unit tests as well.
+   requirements and the symbols' definitions for the unit tests as
+   well;
+9. delete the original `src/valip/java/predicates.clj` and
+   `src/valip/js/predicates.cljs` source files, because we absorbed
+   their content in the `predicates.cljc` source file.
 
 Not such a big deal, right? **Wrong!**
 
@@ -370,17 +375,18 @@ rm -rf src/cljs
 
 ### Step 2
 
-We now need to rename the `predicates.clj` source file hosted in the
-`src/valip` directory to `predicates.cljc`:
+We now need to rename the `predicates.clj` and `core.clj` source files
+hosted in the `src/valip` directory respectively to `predicates.cljc`
+and `core.cljc`:
 
 ```bash
 mv src/valip/predicates.clj src/valip/predicates.cljc
+mv src/valip/core.clj src/valip/core.cljc
 ```
 
-This file already contains all the symbols' definitions that are
-already portable between CLJ and CLJS. Obviously we have to update its
-namespace declaration, but we'll take care of this later, after we'd
-imported any platform specific definition as well.
+These files contains all the symbols' definitions that are already
+portable between CLJ and CLJS. Obviously we have to update their
+namespace declarations, but we'll take care of this later.
 
 ### Step 3 
 
@@ -455,22 +461,399 @@ on the feature of the platform at runtime, being it JVM or JSVM.
 
 ### Step 5
 
-The next step is the most tedious. You have to update the
-`valip.predicates` namespace declaration to accommodate the different
-CLJ and CLJS namespace requirements. Let's start by accommodating the
-namespaces requirements that are common between CLJ and CLJS:
-
-
-<up-to-here>
-
+The next step is the most tedious one. You have to update the
+`valip.core` and `valip.predicates` namespaces' declarations to
+accommodate the different CLJ and CLJS namespaces' requirements. Lets
+first review all those namespaces' declarations.
 
 ```clj
-(defproject com.cemerick/valip
-"1.0.0-SNAPSHOT" :description "Functional validation library for
-Clojure and ClojureScript, forked from
-https://github.com/weavejester/valip" :url
-"http://github.com/cemerick/valip" :dependencies
-[[org.clojure/clojure "1.7.0"]]) ```
+(ns valip.core
+  "Functional validations.")
+```
+
+Here there is really nothing to be done. Go on by reviewing and
+comparing the original JVM and JSVM specific namespaces' declarations
+with the `valip.predicates` one:
+
+```clj
+(ns valip.java.predicates
+  "Useful validation predicates implemented for JVM Clojure."
+  (:require [valip.predicates :as preds]
+            [valip.predicates.def :refer (defpredicate)])
+  (:import
+    (java.net URI URISyntaxException)
+    java.util.Hashtable
+    javax.naming.NamingException
+    javax.naming.directory.InitialDirContext))
+```
+
+```clj
+(ns valip.js.predicates
+  "Useful validation predicates implemented for ClojureScript using the Google Closure libraries
+where necessary."
+  (:import goog.Uri))
+```
+
+```clj
+(ns valip.predicates
+  "Predicates useful for validating input strings, such as ones from HTML forms.
+All predicates in this namespace are considered portable between different
+Clojure implementations."
+  (:require [clojure.string :as str]
+            [cljs.reader :refer [read-string]])
+  (:refer-clojure :exclude [read-string]))
+```
+
+#### Never read from untrusted source
+
+First we have to make a short digression about security writing a
+strong statement:
+
+[**Never use `clojure.core/read` and `clojure.core/read-string`
+functions when dealing with untrusted sources in CLJ**](https://groups.google.com/forum/#!topic/clojure/YBkUaIaRaow)
+
+That said, both `cljs.reader/read` and `cljs.reader/read-string` are
+not affected from the same security issues, because they adopted the
+same approach used to implement `clojure.edn/read` and
+`clojure.edn/read-string` which can read data structure, but are not
+able to evaluate them.
+
+Based on that strong statement, even if we could differentiate the
+CLJS `cljs.reader` namespace requirement from the corresponding CLJ
+`clojure.edn` namespace requirement in the `valip.predicates`
+namespace declaration, we prefer to require `clojure.edn` for both of
+them and exclude the corresponding standard `read-string` as well.
+
+### Step 5 bis
+
+Following is the temporary `valip.predicates` namespace declaration
+absorbing the above security issues and any specific namespace
+declaration for the two considered platform (i.e., JVM an JSVM):
+
+```clj
+(ns valip.predicates
+  "Predicates useful for validating input strings, such as ones from HTML forms." 
+  ;; common
+  (:refer-clojure :exclude [read-string])
+  ;; clj specific requires
+  #?(:clj (:require [valip.predicates.def :refer [defpredicate]]
+                    [clojure.string :as str]
+                    [clojure.edn :refer [read-string]])
+     ;; cljs specific requires
+     :cljs (:require [clojure.string :as str]
+                     [clojure.edn :refer [read-string]]))
+  ;; cljs specific require-macros
+  #?(:cljs (:require-macros [valip.predicates.def :refer [defpredicate]]))
+  ;; clj specific imports
+  #?(:clj (:import (java.net URI URISyntaxException)
+                   java.util.Hashtable
+                   javax.naming.NamingException
+                   javax.naming.directory.InitialDirContext)
+     ;; cljs specific imports
+     :cljs (:import goog.Uri)))
+```
+
+Note that in the above namespace declaration we preferred not to share
+all the common namespace requirement (i.e., `clojure.string` and
+`clojure.edn`) to not make the requirement itself difficult to be
+read. If you want to make the declaration more compact you could use
+[this smart trick](https://github.com/polytypic/poc.cml/blob/6c80c55aa16ab1253ad3e85705b5360fbed73f7e/src/poc/cml/sem.cljc).
+
+## STEP 6
+
+We already differentiated any platform specific symbol definition in
+the `valip.predicates` namespace while we paste those symbols during
+the execution of the Step 3. So there is nothing else left to be done
+in this Step 6.
+
+## STEP 7
+
+At the moment we do not need to move/rename the
+`src/valip/predicates/def.clj` source file containing any `valip`
+macros. We keep the eventual execution of this Step 7 for a later
+time.
+
+# Step 8
+
+We now have to deal with the `valip` unit tests confined in the
+`src/test` directory. All we have to do here it is to reapply,
+*mutatis mutandis*, the above Step 2, Step 4 and Step 5 to the content
+of the `test/valip/test` directory:
+
+Start by updating the files extensions:
+
+```bash
+mv test/valip/test/core.clj test/valip/test/core.cljc
+mv test/valip/test/predicates.clj test/valip/test/predicates.cljc
+```
+
+Then open the two files and update their namespaces' declarations and
+symbols definitions as follows:
+
+```clj
+;;; core.cljc
+(ns valip.test.core
+  #?(:clj (:require [valip.core :refer [validation-on validate]]
+                    [clojure.test :refer [deftest is]])
+     :cljs (:require [valip.core :refer [validation-on validate]]
+                     [cljs.test :refer-macros [deftest is]])))
+```
+
+As in the previous cases, you could compact the `:require` expression,
+but I can better read this more explicit, though longer.
+
+```clj
+(ns valip.test.predicates
+  #?(:cljs (:require [valip.predicates :refer [present?
+                                               matches
+                                               max-length
+                                               min-length
+                                               email-address?
+                                               digits?
+                                               integer-string?
+                                               decimal-string?
+                                               gt
+                                               gte
+                                               lt
+                                               lte
+                                               over
+                                               under
+                                               at-most
+                                               at-least
+                                               between]]
+                     [cljs.test :refer-macros [deftest is]])
+     :clj (:use valip.predicates clojure.test)))
+
+;;; some tests following...
+
+#?(:clj (deftest test-valid-email-domain?
+          (is (valid-email-domain? "example@google.com"))
+          (is (not (valid-email-domain? "foo@example.com")))
+          (is (not (valid-email-domain? "foo@google.com.nospam")))
+          (is (not (valid-email-domain? "foo")))))
+
+;;; some tests following
+```
+
+> NOTE 2: When you want to `:use` a namespace instead of `:require` it,
+> you must use the `:only` form of `:use`. In those cases I still prefer
+> to use the `:refer` form of `:require`.
+
+> NOTE 3: the `valid-email-domain?` predicate can only be evaluated on
+> JVM and so it is the corresponding test.
+
+## Step 9
+
+We can now get rid of the original source files containing platforms
+specific predicates, because they have been absorbed in the
+`predicates.cljc` file:
+
+```bash
+rm -rf src/valip/java
+rm -rf src/valip/js
+```
+
+We end up with the following directory layout:
+
+```bash
+tree
+.
+├── README.md
+├── project.clj
+├── src
+│   └── valip
+│       ├── core.cljc
+│       ├── predicates
+│       │   └── def.clj
+│       └── predicates.cljc
+└── test
+    └── valip
+        └── test
+            ├── core.cljc
+            └── predicates.cljc
+
+6 directories, 7 files
+```
+
+As you see the only survived pure CLJ file is `def.clj` which is the
+one containing the macros' definitions.
+
+All those 9 Steps represent the easiest parts of making the `valip`
+validation library compliant with the Reader Conditionals
+extension. We now have to afford the difficult ones:
+
+* the addition of the
+  [`lein-cljsbuild`](https://github.com/emezeske/lein-cljsbuild)
+  plugin to the `project.clj`;
+* the tests execution on both CLJ and CLJS.
+
+## Making some noise
+
+[`Leiningen`](http://leiningen.org/) is the standard build tool used
+by the *clojurians*. It has been created by
+[Phil Hagelberg](https://github.com/technomancy) in 2009, in the early
+days of CLJ itself, when CLJS was not even an idea. In reality
+`Leiningen` is much more than a CLJ build tool and its default list of
+tasks can be extended via
+[plugins](https://github.com/technomancy/leiningen/blob/master/doc/PLUGINS.md). Leiningen
+even offers a
+[template facility](https://github.com/technomancy/leiningen/blob/master/doc/TEMPLATES.md)
+which allows to recreate at will an inter project's structure, no
+matter how complicate it could be. `Leiningen` template facility could
+be even used to create a
+[`boot` based project](https://github.com/martinklepsch/tenzing).
+
+[`lein-cljsbuild`](https://github.com/emezeske/lein-cljsbuild) is a
+`leiningen` plugin created at the end of 2011 to manage practically
+any compilation tasks required by CLJS an its plethora of compilation
+options. In some way you could consider `cljsbuild` as a build tool
+specialized for CLJS.
+
+[`cljx`](https://github.com/lynaghk/cljx) is a second `leiningen`
+plugin that got a lot of attention when clojurians realized the
+opportunity of writing code able to be ran on JVM and JSVM with few
+platform differences.
+
+Before the advent of the Reader Conditionals extension, these were the
+two fundamentals tools used to make Clojure(Script) libraries portable
+on JVM and JSVM. As said more times, `cljx` is now deprecated, while
+`cljsbuild` is still the most used building tool for CLJS.
+
+Enough words. Let's get started with updating the `project.clj` build
+file.
+
+### CLJS build
+
+As said few paragraphs ago, the Reader Conditional extension has been
+introduced with the CLJ/CLJS `1.7.0``1.7.170` releases. So, update the
+`project.clj` dependencies consequently:
+
+```clj
+(defproject com.cemerick/valip "0.3.2"
+  :description "Functional validation library for Clojure and ClojureScript, forked from https://github.com/weavejester/valip"
+  :url "http://github.com/cemerick/valip"
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "1.7.170"]])
+```
+
+> NOTE 4: `1.7.170` is currently the latest stable release of CLJS.
+
+We now need to introduce the `lein-cljsbuild` plugin by adding it to
+the `:plugins` section of the build file:
+
+```clj
+(defproject com.cemerick/valip "0.3.2"
+  :description "Functional validation library for Clojure and ClojureScript, forked from https://github.com/weavejester/valip"
+  :url "http://github.com/cemerick/valip"
+
+  ;; project dependencies
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "1.7.170"]]
+  ;; plugins
+  :plugins [[lein-cljsbuild "1.1.2"]
+            [lein-doo "0.1.6"]])
+```
+
+> NOTE 5: While introducing the `:plugins` section to add `cljsbuild`,
+> we accommodate the `lein-doo` plugin as well. It will be used to run
+> the JSVM tests on the `phantomjs` engine. We used the latest
+> available releases of `cljsbuild` and `lein-doo` at the time of
+> writing.
+
+It's now time to afford the most boring stuff: the `cljsbuild`
+configuration to trigger the CLJS compilation.
+
+We want to be sure that the updated `valip` code is able to run for
+any CLJS compiler optimization option: 
+
+* `:none`: No optimizations. Completely bypass the Google Closure Compiler;
+* `:whitespace`: Remove comments, unnecessary whitespace, and punctuation;
+* `:simple`: like `:whitespace` plus local variables and function
+  parameters renaming;
+* `:advanced`: like `:simple` plus aggressive renaming, inlining, dead
+  code elimination.
+
+For each of these optimization options, we need to create a different
+build configuration. The build configurations are represented as
+nested maps in the `:cljsbuild` section, that is a map as well, of the
+`project.clj` build file, like so:
+
+```clj
+(defproject com.cemerick/valip "0.3.2"
+  :description "Functional validation library for Clojure and ClojureScript, forked from https://github.com/weavejester/valip"
+  :url "http://github.com/cemerick/valip"
+
+  ;; project dependencies
+  :dependencies [[org.clojure/clojure "1.7.0"]
+                 [org.clojure/clojurescript "1.7.170"]]
+  ;; plugins
+  :plugins [[lein-cljsbuild "1.1.2"]
+            [lein-doo "0.1.6"]]
+  ;; cljsbuild builds 
+  :cljsbuild {:builds {;; keywordized build name
+                       :none
+                       ;; build map associated with the build name
+                       {;; source and tests directories of the build
+                        :source-paths ["src" "test"] 
+                        ;; compiler options (a nested map)
+                        :compiler {;; the JS pathname generated by the compiler
+                                   :output-to "target/none/none.js"
+                                   ;; output dir for temp files 
+                                   :output-dir "target/none"
+                                   ;; entry point namespace
+                                   :main valip.runner
+                                   ;; optimization level
+                                   :optimization :none
+                                   ;; human-readable output
+                                   :pretty-print true}}
+                       :whitespace
+                       {:source-paths ["src" "test"]
+                        :compiler {:output-to "target/whitespace/whitespace.js"
+                                   :output-dir "target/whitespace"
+                                   :main valip.runner
+                                   :optimization :whitespace
+                                   :pretty-print true}}
+                       :simple
+                       {:source-paths ["src" "test"]
+                        :compiler {:output-to "target/simple/simple.js"
+                                   :output-dir "target/simple"
+                                   :main valip.runner
+                                   :optimization :simple
+                                   :pretty-print false}}
+                       :advanced
+                       {:source-paths ["src" "test"]
+                        :compiler {:output-to "target/advanced/advanced.js"
+                                   :output-dir "target/advanced"
+                                   :main valip.runner
+                                   :optimization :advanced
+                                   :pretty-print false}}}}
+  :doo {:build "none"}
+  :clean-targets ^{:protect false} [:target-path "resources" "dev-resources"])
+```
+
+NOTE 6: As you see the `cljsbuild` gets quickly noisy when you have to
+manage so many options. Also note that we already added the
+configuration for the `lein-doo` plugin to run `cljs.test` on
+`phantomjs`. The `:doo {:build "none"}` key/value represent the default build to be run (i.e., `:none`)
+
+
+in a `map`, where the `key` is the keywordized name of the build and
+the `value` is a nested `map`.
+
+```clj
+
+```
+
+composed by a keywordized name (e.g., `:none`, `:whitespace`, etc.)
+and a CLJ structured `map` composed of a `:source-paths`
+
+```clj
+
+```
+
+
+* `:none`: meaning that the CLJS will not trigger the Google Closure Compiler at all;
+* `:whitespace`: menaing 
 
 Note as we updated `valip` release from the original `0.3.2` to
 `1.0.0-SNAPSHOT` as well. This is because we want to adhere to the
