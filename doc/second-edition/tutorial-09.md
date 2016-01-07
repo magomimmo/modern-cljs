@@ -223,7 +223,8 @@ Here is the complete `build.boot` file
                  [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
                  [weasel "0.7.0"]                      ;; needed by bREPL
                  [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
-                 [org.cljars.magomimmo/domina "2.0.0-SNAPSHOT"] ;; DOM manip
+                 [org.clojars.magomimmo/domina "2.0.0-SNAPSHOT"] ;; DOM manip
+                 [hiccups "0.3.0"]
                  [compojure "1.4.0"]                   ;; routing lib
                  ])
 
