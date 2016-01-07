@@ -183,13 +183,22 @@ of the passed element, and `set-value!` which sets its value.
 
 ## bREPLing with the login form
 
+> NOTE 3: Due to a bug of the `boot-cljs-repl` task, we need to first
+> require a namespace from a namespace declaration to be able to
+> require it in the bREPL as well.
+
+> ```clj
+> (ns modern-cljs.login
+>   (:require [domina.core :refer [by-id value set-value!]]))
+> ```
+
 Let's now familiarize ourselves in the bREPL with the above `domina`
 functions.
 
 First we need to require the `domina.core` namespace.
 
 ```clj
-cljs.user=> (require '[domina.core :refer [by-id value set-value!]] :reload)
+cljs.user=> (require '[domina.core :refer [by-id value set-value!]])
 nil
 ```
 
@@ -506,7 +515,7 @@ Open the `html/js/main.cljs.edn` file and do the above addition.
  :compiler-options {:asset-path "js/main.out"}}
 ```
 
-> NOTE 3: this an incidental complexity produced by the `boot-cljs`
+> NOTE 4: this an incidental complexity produced by the `boot-cljs`
 > task. Do you remember when at the beginning of this series I wrote
 > about the idiosyncrasies of the building tools when you walk a
 > little bit out of its defaults? This is one them. Here you have to
