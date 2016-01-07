@@ -1335,20 +1335,22 @@ suggested by the
 in the CLJS wiki.
 
 But, then, in the thread first macro expression `(-> goog.Uri/parse)`,
-`goog.Uri` is used as a namespace to call the `parse` static function.
+`goog.Uri` is used as a namespace while calling the `parse` static
+function.
 
 Moreover, by taking a look at the
 [`goog.Uri` documentation](https://google.github.io/closure-library/api/class_goog_Uri.html),
 you'll note that the `getSchemeSpecificPart` getter does not exist and
-it's only available on the [Java counterpart](http://docs.oracle.com/html/E18812_01/html/fc830ed0-6054-3c49-4d9b-ec34f10e92fb.htm).
+it's only available on the
+[Java counterpart](http://docs.oracle.com/html/E18812_01/html/fc830ed0-6054-3c49-4d9b-ec34f10e92fb.htm).
 
 I'm inclined to conclude that the `url?` predicate has never been
 tested by anyone on a CLJS.
 
 If you want to keep using the `url?` predicate, one thing you can do
 without implementing a better algorithm is just to upgrade the
-`:import` form to the `:require` form and comment out the
-`.getSchemeSpecificPart`:
+`:import` form to the `:require` form, comment out the
+`.getSchemeSpecificPart` and you're done:
 
 ```clj
 (ns valip.predicates
@@ -1457,18 +1459,12 @@ That said, we still have work to do, namely:
 * publish the `valip` library to [`clojars`](https://clojars.org/) to
   make it available to whoever will be interested to.
 
-### boot pom task
+### Boot task 
 
-
-
-
-potential security issue, by substituting the `clojure.core/read-string` function with the `clojure.edn/read-string` function   there is still
-something to be done, namely:
-
-* 
-
-
-
+If you take a look at any CLJ/CLJS project based on `boot` build tool,
+you'll quickly discover that the standard way to build a jar and push
+it to a repository is
+[bootlaces](https://github.com/adzerk-oss/bootlaces).
 
 
 ## Start TDD
