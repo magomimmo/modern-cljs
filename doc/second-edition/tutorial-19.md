@@ -785,32 +785,625 @@ user=> (v/valid-email-domain? "me@googlenospam.com")
 false
 ```
 
-So far, so good. But the fact that the migrated `valip` library has
-been successful tested on CLJ does not mean that it will work on CLJS
-as well. We should now afford the boring part regarding tooling.
+```clj
+user=> (v/url? "www.google.com")
+nil
+```
+
+As you know, when evaluated in boolean context, in CLJ/CLJS `nil` is
+like `false`. I would prefer that the last expression would returned
+`false`, but I can live with it.
+
+## Digression about corner cases
+
+One of the few tests I like to write are the ones testing corner
+cases. If we want to be serious about functional programming, we
+should never forget that a
+[function](https://en.wikipedia.org/wiki/Function_(mathematics) is a
+relation between a set of inputs and a set of permissible outputs with
+the property that each input is related to exactly one output. The
+corner cases are where the things became interesting.
+
+Just to make an example, evaluate the following expression at the
+REPL:
+
+```clj
+(+ 1)
+1
+```
+
+But what about the following?
+
+```clj
+(+)
+0
+```
+
+This corner case is interesting. In mathematics, the element `0` is
+the *identity element* (or *neutral element*) for the `+` operation.
+
+Let's try with the multiplication:
+
+```clj
+user=> (* 10)
+10
+```
+
+```clj
+user=> (*)
+1
+```
+
+As you see the *identity element* for the multiplication is the
+element `1`.  On the contrary, subtraction and division do not have an
+identity element, as you can verify by yourself:
+
+```clj
+user=> (-)
+
+ArityException Wrong number of args (0) passed to: core/-  clojure.lang.AFn.throwArity (AFn.java:429)
+```
+
+```clj
+user=> (/)
+
+ArityException Wrong number of args (0) passed to: core//  clojure.lang.AFn.throwArity (AFn.java:429)
+```
+
+Do you see how important is to test the corner cases? Let's now see
+how `valip` behaves on corner cases. We already met two of them:
+
+```clj
+(v/present? nil)
+false
+```
+and
+
+```clj
+user=> (v/url? "www.google.com")
+nil
+```
+
+These corner cases does'not regards the arities of the functions. They
+regard their domains/co-domains.
+
+Let's now test other corner cases of the functions/predicates defined
+by the `valip` library.
+
+```clj
+user=> ((v/matches #"...") "foo")
+true
+user=> ((v/matches #"...") "")
+false
+user=> ((v/matches #"...") nil)
+
+NullPointerException   java.util.regex.Matcher.getTextLength (Matcher.java:1283)
+user=>
+```
+
+That's bad. The `present?` and the `url?` predicates are defined for
+the `nil` element, while the function returned by the `matches` HOF
+function is not, as you can verify from it's source code:
+
+```clj
+(source v/matches)
+(defn matches
+  "Creates a predicate that returns true if the supplied regular expression
+  matches its argument."
+  [re]
+  (fn [s] (boolean (re-matches re s))))
+nil
+```
+
+Let's go one with few other functions/predicates corner cases:
+
+```clj
+user=> (v/email-address? nil)
+
+NullPointerException   java.util.regex.Matcher.getTextLength (Matcher.java:1283)
+```
+
+```clj
+user=> (v/integer-string? nil)
+
+NullPointerException   java.util.regex.Matcher.getTextLength (Matcher.java:1283)
+```
+
+```clj
+user=> (v/decimal-string? nil)
+
+NullPointerException   java.util.regex.Matcher.getTextLength (Matcher.java:1283)
+```
+
+```clj
+user=> (v/digits? nil)
+
+NullPointerException   java.util.regex.Matcher.getTextLength (Matcher.java:1283)
+```
+
+```clj
+user=> (v/alphanumeric? nil)
+
+NullPointerException   java.util.regex.Matcher.getTextLength (Matcher.java:1283)
+```
+
+Oh my God. They all raised a **null pointer exception** with the `nil`
+corner cases. I'm not saying they should not. I'm saying that once you
+decided your library behaves in some way, for example not considering
+that `nil` element as member of a function, you should uniformly stay
+with this decision, and `valip` does not. 
+
+Do you want to see other misalignment? Evaluate a couple of `valip`
+HOF functions returning predicates?
+
+```clj
+user=> ((v/min-length 5) nil)
+false
+user=> ((v/max-length 5) nil)
+true
+```
+
+I don't know about you, but I can't accept such a misaligned
+behaviors, because I'd be sure they're going to generate bugs very
+difficult to be caught.
+
+Now exit the REPL, because it's time to enter in a TDD session to fix
+`valip` original library.
+
+## Enter boot
+
+Even if we could update the `project.clj` buy adding to it the
+[`lein-auto`](https://github.com/weavejester/lein-auto) plugin, we
+prefer to switch to `boot`, because we already know everything about
+creating a `build.boot` build file to support TDD.
+
+First, as you learned in the
+[first tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-01.md#get-rid-of-warnings)
+we want to pin the current `boot` release to `2.5.5` and get rid of
+the warning about the deprecated implicit target directory emission:
+
+```bash
+cd /path/to/valip
+boot -V > boot.properties
+```
+Now edit the `boot.properties` to remove the deprecation warning as follows:
+
+```bash
+#http://boot-clj.com
+#Fri Jan 08 12:16:18 CET 2016
+BOOT_CLOJURE_NAME=org.clojure/clojure
+BOOT_CLOJURE_VERSION=1.7.0
+BOOT_VERSION=2.5.5
+BOOT_EMIT_TARGET=no
+```
+
+> NOTE 5: The latest available stable `boot` release at time of writing
+> was `2.5.5`.
+
+Now create the `build.file` for the `valip` project with the following content:
+
+```clj
+(set-env!
+ :source-paths #{"src"}
+
+ :dependencies '[[org.clojure/clojure "1.7.0"]
+                 [adzerk/boot-test "1.0.7"]])
+
+(require '[adzerk.boot-test :refer [test]])
+
+(deftask testing
+  []
+  (merge-env! :source-paths #{"test"})
+  identity)
+
+(deftask clj-tdd
+  "Launch a CLJ TDD Environment"
+  []
+  (comp
+   (testing)
+   (watch)
+   (test :namespaces #{'valip.test.core 'valip.test.predicates})))
+```
+
+Here we set the `:source-paths` environment variable to the `src`
+directory. Then we set the need dependencies and made the `test`
+symbol visible. Next we define two new tasks:
+
+* `testing` task: to add the `test` directory to the `:source-paths`
+  environment variable;
+* `clj-tdd`: to launch a CLJ based TDD session.
+
+## TDD session
+
+We're now ready to go. Launch the `clj-tdd` environment:
+
+```bash
+cd /path/to/valip
+boot clj-tdd
+
+Starting file watcher (CTRL-C to quit)...
+
+
+Testing valip.test.core
+
+Testing valip.test.predicates
+
+Ran 20 tests containing 75 assertions.
+0 failures, 0 errors.
+Elapsed time: 4.832 sec
+```
+
+All the assertions of all tests succeeded. This is not a surprise,
+because we already knew form the previous `lein test` session.
+
+### Add corner cases assertions
+
+Now edit the `test/valip/test/predicates.cljc` file to start adding
+the assertions covering the domain corner cases we did not like in the
+previous `lein repl` session:
+
+```clj
+(deftest test-matches
+  (is ((matches #"...") "foo"))
+  (is (not ((matches #"...") "foobar")))
+  (is (not ((matches #"...") nil)))) ; corner case
+```
+
+As soon as you save the file you'll receive the expected error:
+
+```bash
+Testing valip.test.core
+
+Testing valip.test.predicates
+
+ERROR in (test-matches) (Matcher.java:1283)
+expected: (not ((matches #"...") nil))
+  actual: java.lang.NullPointerException: null
+ at ...
+ 
+Ran 20 tests containing 76 assertions.
+0 failures, 1 errors.
+clojure.lang.ExceptionInfo: Some tests failed or errored
+    data: {:test 20, :pass 75, :fail 0, :error 1, :type :summary}
+    ...
+Elapsed time: 0.647 sec
+```
+
+Open the `src/valip/predicates.cljs` to take a look at the `matches`
+function definition:
+
+```clj
+(defn matches
+  "Creates a predicate that returns true if the supplied regular expression
+  matches its argument."
+  [re]
+  (fn [s] (boolean (re-matches re s))))
+```
+
+The `java.lang.NullPointerException: null` has been raised because we
+passed the `nil` value to the anonymous function returned by `matches`
+and `re-matches` does not like it, because it expects the argument to
+be a string.
+
+Now launch the CLJ REPL as usual
+
+```bash
+# from a new terminal
+cd /path/to/valip
+boot repl
+nREPL server started on port 50035 on host 127.0.0.1 - nrepl://127.0.0.1:50035
+REPL-y 0.3.7, nREPL 0.2.12
+Clojure 1.7.0
+Java HotSpot(TM) 64-Bit Server VM 1.8.0_66-b17
+        Exit: Control+D or (exit) or (quit)
+    Commands: (user/help)
+        Docs: (doc function-name-here)
+              (find-doc "part-of-name-here")
+Find by Name: (find-name "part-of-name-here")
+      Source: (source function-name-here)
+     Javadoc: (javadoc java-object-or-class-here)
+    Examples from clojuredocs.org: [clojuredocs or cdoc]
+              (user/clojuredocs name-here)
+              (user/clojuredocs "ns-here" "name-here")
+boot.user=>
+```
+
+because we want to play a little bit with the `re-matches` function:
+
+```clj
+boot.user=> (re-matches #"..." nil)
+
+java.lang.NullPointerException:
+```
+
+Ok. Let's see if we pass it a void string `""` instead of the `nil` value.
+
+```clj
+boot.user=> (re-matches #"..." "")
+nil
+```
+
+Could we transform `nil` into `""`? Sure, with the `str` function:
+
+```cl
+boot.user=> (str nil)
+""
+```
+
+We can now go back to the `predicates.cljc` file to fix the bug:
+
+```clj
+(defn matches
+  "Creates a predicate that returns true if the supplied regular expression
+  matches its argument."
+  [re]
+  (fn [s] (boolean (re-matches re (str s))))) ;; wrap s within str
+```
+
+As soon as you save the file `clj-tdd` re-execute the tests and
+returns success:
+
+```bash
+Testing valip.test.core
+
+Testing valip.test.predicates
+
+Ran 20 tests containing 76 assertions.
+0 failures, 0 errors.
+Elapsed time: 0.656 sec
+```
+
+While we are there, let's add the `((matches #"...") "")` corner
+case. We already know it will succeed as well.
+
+```clj
+(deftest test-matches
+  (is (not ((matches #"...") "")))   ; corner case
+  (is (not ((matches #"...") nil)))  ; corner case
+  (is ((matches #"...") "foo"))
+  (is (not ((matches #"...") "foobar"))))
+```
+
+```bash
+Testing valip.test.core
+
+Testing valip.test.predicates
+
+Ran 20 tests containing 77 assertions.
+0 failures, 0 errors.
+Elapsed time: 0.561 sec
+```
+
+## Extend the coverage
+
+If you consider that all `valip` functions/predicates receive strings
+as arguments to be evaluates, we already have the hint to extend the
+current `valip` test assertions to cover and fix the `nil` corners
+cases in the corresponding source code: just wrap any string argument
+within a `str` function.
+
+```clj
+(deftest test-max-length
+  (is ((max-length 5) ""))       ; corner case
+  (is ((max-length 5) nil))
+  (is ((max-length 5) "hello"))  ; corner case
+  (is ((max-length 5) "hi"))
+  (is (not ((max-length 5) "hello world"))))
+```
+
+While extending the tests assertions, you'll note that the
+`test-max-length` has bee defined two times with a different
+body. Something that the CLJ compiler was not able to catch. The
+second occurrence had to be renamed has `test-min-length`:
+
+```clj
+(deftest test-min-length
+  (is (not ((min-length 5) "")))    ; corner case
+  (is (not ((min-length 5) nil)))   ; corner case
+  (is ((min-length 5) "hello"))
+  (is ((min-length 5) "hello world"))
+  (is (not ((min-length 5) "hi"))))
+```
+
+The next failure you'll met will be with the `test-email-address?`
+predicate:
+
+```clj
+(deftest test-email-address?
+  (is (not (email-address? "")))    ; corner case
+  (is (not (email-address? nil)))   ; corner case
+  (is (email-address? "foo@example.com"))
+  (is (email-address? "foo+bar@example.com"))
+  (is (email-address? "foo-bar@example.com"))
+  (is (email-address? "foo.bar@example.com"))
+  (is (email-address? "foo@example.co.uk"))
+  (is (not (email-address? "foo")))
+  (is (not (email-address? "foo@bar")))
+  (is (not (email-address? "foo bar@example.com")))
+  (is (not (email-address? "foo@foo_bar.com"))))
+```
+
+Here us the assertion failure report:
+
+```bash
+Testing valip.test.core
+
+Testing valip.test.predicates
+
+ERROR in (test-email-address?) (Matcher.java:1283)
+expected: (not (email-address? nil))
+  actual: java.lang.NullPointerException: null
+...
+Ran 21 tests containing 86 assertions.
+0 failures, 1 errors.
+clojure.lang.ExceptionInfo: Some tests failed or errored
+    data: {:test 21, :pass 85, :fail 0, :error 1, :type :summary}
+...
+Elapsed time: 0.609 sec
+```
+
+As said above, to fix the bug we just to need to wrap the passed
+argument within a `str` call:
+
+```clj
+(defn email-address?
+  "Returns true if the email address is valid, based on RFC 2822. Email
+  addresses containing quotation marks or square brackets are considered
+  invalid, as this syntax is not commonly supported in practise. The domain of
+  the email address is not checked for validity."
+  [email]
+  (let [re (str "(?i)[a-z0-9!#$%&'*+/=?^_`{|}~-]+"
+                "(?:\\.[a-z0-9!#$%&'*+/=?" "^_`{|}~-]+)*"
+                "@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+"
+                "[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]
+    (boolean (re-matches (re-pattern re) (str email))))) ; wrap within str
+```
+
+Some thing with the `test-url?` corner cases assertion about `nil`
+argument:
+
+```clj
+(deftest test-url?
+  (is (not (url? "")))
+  (is (not (url? nil)))
+  (is (url? "http://google.com"))
+  (is (url? "http://foo"))
+  (is (not (url? "foobar"))))
+```
+
+```bash
+Testing valip.test.core
+
+Testing valip.test.predicates
+
+ERROR in (test-url?) (URI.java:3042)
+expected: (not (url? nil))
+  actual: java.lang.NullPointerException: null
+ at java.net.URI$Parser.parse (URI.java:3042)
+    ...
+Ran 21 tests containing 89 assertions.
+0 failures, 1 errors.
+clojure.lang.ExceptionInfo: Some tests failed or errored
+    data: {:test 21, :pass 88, :fail 0, :error 1, :type :summary}
+...
+Elapsed time: 0.572 sec
+```
+
+Again, just wrap the passed string argument within an `str` call:
+
+```clj
+#?(:clj (defn url?
+          "Returns true if the string is a valid URL."
+          [s]
+          (try
+            (let [uri (URI. (str s))]      ; wrap within str
+              (and (seq (.getScheme uri))
+                   (seq (.getSchemeSpecificPart uri))
+                   (re-find #"//" (str s)) ; wrap within str
+                   true))
+            (catch URISyntaxException _ false)))
+   :cljs (defn url?
+           [s]
+           (let [uri (-> s goog.Uri/parse)]
+             (and (seq (.getScheme uri))
+                  (seq (.getSchemeSpecificPart uri))
+                  (re-find #"//" s)))))
+```
+
+> NOTE 6: at the moment we do not care about the CLJS definition of
+> `url?` predicate.
+
+Keep going on with the corner cases coverage. Next stop is `test-digit?`.
+
+```clj
+(deftest test-digits?
+  (is (not (digits? "")))
+  (is (not (digits? nil)))
+  (is (digits? "01234"))
+  (is (not (digits? "04xa"))))
+```
+
+Same failure, same solution:
+
+```clj
+(defn decimal-string?
+  "Returns true if the string represents a decimal number."
+  [s]
+  (boolean (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" s)))
+```
+
+I know, it's going to be boring, but the happy paths assertion are
+much more boring than those corner cases.
+
+Next stop is `test-integer-string?`. Some story as above
+
+```clj
+(deftest test-integer-string?
+  (is (not (integer-string? "")))
+  (is (not (integer-string? nil)))
+  (is (integer-string? "10"))
+  (is (integer-string? "-9"))
+  (is (integer-string? "0"))
+  (is (integer-string? "  8  "))
+  (is (not (integer-string? "10,000")))
+  (is (not (integer-string? "foo")))
+  (is (not (integer-string? "10x")))
+  (is (not (integer-string? "1.1"))))
+```
+
+and same fix too:
+
+```cljs
+(defn integer-string?
+  "Returns true if the string represents an integer."
+  [s]
+  (boolean (re-matches #"\s*[+-]?\d+\s*" (str s))))
+```
+
+You'll have to keep going in the same way up to the end of the
+`predicates.cljc` testing file and you're done. Your final test report
+should be the following:
+
+```bash
+Testing valip.test.core
+
+Testing valip.test.predicates
+
+Ran 21 tests containing 97 assertions.
+0 failures, 0 errors.
+Elapsed time: 0.619 sec
+```
+
+You can now stop the `boot` process to proceed with the next step.
 
 ## Choosing among alternatives
 
+The fact the migrated `valip` library has been successful tested on
+CLJ does not mean that it will work on CLJS as well. We should now
+afford another boring part: tooling.
+
+As you saw above, it was very easy to run and test the CLJ version of
+`valip` library by using a couple of default
+[`leiningen`](http://leiningen.org/) tasks (e.g., `repl` and `test`).
+
+On the contrary, we switched to `boot` building tool to easily create
+test automation (i.e., `clj-tdd` task).
+
 We have two alternatives to go on with CLJS:
 
-* we could stay with [`Leiningen`](http://leiningen.org/), which is
-  the standard build tool used by the *clojurians*, by adding to it the
+* we could stay with `Leiningen`, which is the standard build tool
+  used by the *clojurians*, by adding to it the
   [`lein-cljsbuild`](https://github.com/emezeske/lein-cljsbuild)
   plugin to compile the CLJS version of the `valip` library;
 * we could switch to `boot`.
 
-[`Leiningen`](http://leiningen.org/) has been created by
+`Leiningen` has been created by
 [Phil Hagelberg](https://github.com/technomancy) in 2009, in the early
 days of CLJ itself, when CLJS was not even an idea.
 
-As you saw above, it has been very easy to run and test the CLJ
-version of `valip` library by using a couple of default `lein` tasks
-(e.g., `repl` and `test`).
-
-In reality `Leiningen` is much more than a CLJ build tool and its
-default list of tasks can be extended via
-[plugins](https://github.com/technomancy/leiningen/blob/master/doc/PLUGINS.md). Leiningen
-even offers a
+`Leiningen` can be extended via
+[plugins](https://github.com/technomancy/leiningen/blob/master/doc/PLUGINS.md)
+and even offers a
 [template facility](https://github.com/technomancy/leiningen/blob/master/doc/TEMPLATES.md)
 which allows to recreate at will a new project based on a
 *templatificated* project's structure, no matter how complicate it
@@ -825,8 +1418,8 @@ specialized for CLJS.
 
 [`cljx`](https://github.com/lynaghk/cljx) is a second `leiningen`
 plugin that got a lot of attention when clojurians realized the
-opportunity of writing code able to be ran on JVM and JSVM with few
-platform differences.
+opportunity of writing code able to be ran on JVM and JSVM as well
+with few platform differences.
 
 Before the advent of the Reader Conditionals extension, these were the
 two fundamentals tools used to make Clojure(Script) libraries portable
@@ -836,53 +1429,35 @@ on JVM and JSVM. As said more times, `cljx` is now deprecated, but
 I personally used `cljsbuild` quite a lot in the past and it saved me
 more times from headaches. That said, from when I recently started
 using `boot` and few of the tasks implemented by they community, I
-always prefer stay with the `boot` building tool when I have to deal
-with CLJS, as this new edition of the `modern-cljs` series attests.
+always prefer to stay with the `boot` building tool when I have to
+deal with CLJS, as this new edition of the `modern-cljs` series
+attests.
 
 Enough words. Let's get started.
 
-## Bootify valip 
+## Bootify CLJS valip 
 
-First we want to create the `boot.properties` file to pin the `boot`
-version to the latest available stable release:
+To be able to quickly set up a CLJ TDD environment, in the previous
+paragraph we already created the `boot.properties` and `build.boot`
+files. It is now very easy to update the `build.boot` file to be able
+to extend it for covering the CLJS version of `valip` as well. We
+start very simple, by just adding the `boot-cljs` boot task and
+requiring its main `cljs` task to run the CLJS compiler.
 
-```bash
-cd /path/to/valip
-boot -V > boot.properties
-```
-
-Then, to get rid from the deprecated implicit target directory
-emission, as we already did in the very first tutorial while creating
-the `modern-cljs` project, we need to add the `BOOT_EMIT_TARGET=no`
-statement in the newly generated `boot.properties` file:
-
-```bash
-#http://boot-clj.com
-#Wed Jan 06 09:43:32 CET 2016
-BOOT_CLOJURE_NAME=org.clojure/clojure
-BOOT_CLOJURE_VERSION=1.7.0
-BOOT_VERSION=2.5.5
-BOOT_EMIT_TARGET=no
-```
-
-Next, we have to create the `build.boot` file in the main project
-directory as well. *Mutatis mutandis* it corresponds to the
-`leiningen` `project.clj` build file.
 
 ```clj
 (set-env!
- :source-paths #{"src"}
-
- :dependencies '[[org.clojure/clojure "1.7.0"]
+ ...
+ :dependencies '[...
                  [org.clojure/clojurescript "1.7.170"]
                  [adzerk/boot-cljs "1.7.170-3"]])
 
-(require '[adzerk.boot-cljs :refer [cljs]])
+(require '...
+         '[adzerk.boot-cljs :refer [cljs]])
 ```
 
-As you see, we started very simple, by setting the `:source-paths` and
-the `:dependencies` of the project and finally making the `cljs`
-compilation tasks visible with the `require` form.
+> NOTE 7: note that we also added the latest stable CLJS release to the
+> `:dependencies` section.
 
 ## Shoot the gun
 
@@ -898,50 +1473,79 @@ WARNING: No such namespace: goog.Uri, could not locate goog/Uri.cljs, goog/Uri.c
 WARNING: Use of undeclared Var goog.Uri/parse at line 127 src/valip/predicates.cljc
 ```
 
-Ops. As you see the fact that we previously succeeded with CLJ it does
-not mean that the CLJS compilation would succeeded as well.
+Ops. We immediately get a couple of warning. The first says the CLJS
+compiler was not able to find the
+[`goog.Uri`](https://google.github.io/closure-library/api/class_goog_Uri.html)
+namespace, which is both a class and a namespace defined in the Google
+Closure Library. The second warning says that the `parse` symbol, that
+should live in the `goog.Uri` namespace, it is undefined.
 
-> NOTE 5: we did not use the `target -d target` task to generate the
-> output of the CLJS compiler in the `target` directory, because at the
-> moment we're only interested in verifying if the CLJS compilation
-> succeeds.
+Uhm, pretty weird warnings.
 
-At the moment I prefer to move on quickly and I postpone the solution of this bad warning for a later time. To get rid of the above warning:
+## Getting rid of warnings
 
-* open the `predicates.cljc` file;
-* remove the CLJS import form from the namespace declaration;
-* remove the CLJS `url?` definition.
+To me actual warnings are potential errors and I don't like at all to
+let them survive to eventually wake me up at night or while I'm on
+vacation. This to say that we're now going to get rid of them.
+
+First, let's get a look at the `predicates.cljc` source file starting
+from its namespace declaration:
 
 ```clj
 (ns valip.predicates
   "Predicates useful for validating input strings, such as ones from HTML forms."
-  #?(:clj (:require [clojure.string :as str]
-                    [clojure.edn :refer [read-string]]
-                    [valip.predicates.def :refer [defpredicate]])
-     :cljs (:require [clojure.string :as str]
-                     [cljs.reader :refer [read-string]]))
-  #?(:clj (:refer-clojure :exclude [read-string])
-     :cljs (:require-macros [valip.predicates.def :refer [defpredicate]]))
+  ...
   #?(:clj (:import (java.net URI URISyntaxException)
                    java.util.Hashtable
                    javax.naming.NamingException
-                   javax.naming.directory.InitialDirContext)))
+                   javax.naming.directory.InitialDirContext)
+     :cljs (:import goog.Uri)))
 ```
+
+As you see, in the `:cljs` condition of the `#?` reader macro, the
+namespace declaration `:import` the Google Closure `goog.Uri` class as
+suggested by the
+[corresponding paragraph](https://github.com/clojure/clojurescript/wiki/Google-Closure-Library/8c86561dd33cae261c987cfe8e8a92f0ff5a9c7c#using-google-closure-directly)
+in the CLJS wiki.
+
+Now proceed to the `url?` definition:
+
+``clj
+#?(:clj  (...)
+   :cljs (defn url?
+           [s]
+           (let [uri (-> s goog.Uri/parse)]
+             (and (seq (.getScheme uri))
+                  (seq (.getSchemeSpecificPart uri))
+                  (re-find #"//" s)))))
+```
+
+In the thread first macro expression `(-> s goog.Uri/parse)`,
+`goog.Uri` is used as a namespace while calling the `parse` static
+function. Moreover, by taking a look at the
+[`goog.Uri` documentation](https://google.github.io/closure-library/api/class_goog_Uri.html),
+you'll note that the `getSchemeSpecificPart` getter does not exist and
+it's only available on the
+[Java counterpart](http://docs.oracle.com/html/E18812_01/html/fc830ed0-6054-3c49-4d9b-ec34f10e92fb.htm).
+
+Considering that `url` validation is a very complicated topic and
+would even necessitate of a URL parser, I would be inclined to remove
+the current CLJ and CLJS definitions.
+
+That said, just as a matter of explanation on how to remove the above
+warnings, here it's the solution:
 
 ```clj
-#?(:clj (defn url?
-          "Returns true if the string is a valid URL."
-          [s]
-          (try
-            (let [uri (URI. s)]
-              (and (seq (.getScheme uri))
-                   (seq (.getSchemeSpecificPart uri))
-                   (re-find #"//" s)
-                   true))
-            (catch URISyntaxException _ false))))
+#?(:clj (...)
+   :cljs (defn url?
+           [s]
+           (let [uri (.parse goog.Uri (str s))]
+             (and (seq (.getScheme uri))
+                  ;(seq (.getSchemeSpecificPart uri))
+                  (re-find #"//" (str s))))))
 ```
 
-Now launch the CLJS compilation again:
+and launch the CLJS compilation again:
 
 ```bash
 boot cljs
@@ -950,8 +1554,15 @@ Compiling ClojureScript...
 • main.js
 ```
 
-Nice job. Note that when you do not specify any option to the `cljs`
-task, it uses some defaults:
+Good shot. Note as in the above code we also covered the corner case
+of `nil` argument passed to `url?` as we already did for the CLJ
+definition of the same function.
+
+## CLJS compiler optimizations
+
+Note that in the above `boot cljs` command we did not specify any
+option to the `cljs` task. As you already know from previous
+tutorials, this is because `cljs` uses some defaults:
 
 ```bash
 cljs -h
@@ -988,7 +1599,7 @@ Options:
   -c, --compiler-options OPTS  Set options to pass to the Clojurescript compiler to OPTS.
 ```
 
-Let's see if `valip` compiles with `whitespace`, `simple` and
+Let's now see if `valip` compiles with `whitespace`, `simple` and
 `advanced` options as well:
 
 ```bash
@@ -1012,141 +1623,16 @@ Compiling ClojureScript...
 • main.js
 ```
 
-So far, so good. Let's move on with the test task.
+So far, so good. Let's move on with the CLJS test task.
 
-## CLJ test
+## cljs-tdd
 
-As we learned in a
-[previous tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-14.md#light-the-fire-on-the-server-side)
-`boot` does not come with a predefined CLJ test as `lein` does, but we
-can run the CLJ test from within the CLJ REPL:
-
-```bash
-boot repl
-nREPL server started on port 50242 on host 127.0.0.1 - nrepl://127.0.0.1:50242
-REPL-y 0.3.7, nREPL 0.2.12
-Clojure 1.7.0
-Java HotSpot(TM) 64-Bit Server VM 1.8.0_66-b17
-        Exit: Control+D or (exit) or (quit)
-    Commands: (user/help)
-        Docs: (doc function-name-here)
-              (find-doc "part-of-name-here")
-Find by Name: (find-name "part-of-name-here")
-      Source: (source function-name-here)
-     Javadoc: (javadoc java-object-or-class-here)
-    Examples from clojuredocs.org: [clojuredocs or cdoc]
-              (user/clojuredocs name-here)
-              (user/clojuredocs "ns-here" "name-here")
-boot.user=>
-```
-
-First we have to dynamically add the `test` directory to
-`:source-paths` environment variable of `boot`:
-
-```clj
-boot.user=> (merge-env! :source-paths #{"test"})
-nil
-```
-
-Then we have to require the `clojure.test` namespace and the test
-namespaces we defined in the `test` directory as well:
-
-```clj
-boot.user> (require '[clojure.test :as t]
-                    '[valip.test.core :as tc]
-                    '[valip.test.predicates :as tp])
-nil
-```
-
-We can know launch the tests from the CLJ REPL
-
-```clj
-boot.user> (t/run-tests 'valip.test.core 'valip.test.predicates)
-
-Testing valip.test.core
-
-Testing valip.test.predicates
-
-Ran 20 tests containing 75 assertions.
-0 failures, 0 errors.
-{:test 20, :pass 75, :fail 0, :error 0, :type :summary}
-```
-
-Nothing new, because we already knew from the previous `lein test` run
-that the CLJ tests would passed. But at least we have been able to
-obtain the same results. But `boot` want to be serious about covering
-what it's already offered to clojurians by the `lein` build tool.
-
-Enter `boot-test` task.
-
-## boot-test task
-
-Now kill the active CLJ REPL and update the `build.boot` build file as follows:
-
-```clj
-(set-env!
- :source-paths #{"src"}
-
- :dependencies '[[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.170"]
-                 [adzerk/boot-cljs "1.7.170-3"]
-                 [adzerk/boot-test "1.1.0"]])
-
-(require '[adzerk.boot-cljs :refer [cljs]]
-         '[adzerk.boot-test :refer [test]])
-
-(deftask testing
-  []
-  (merge-env! :source-paths #{"test"})
-  identity)
-```
-
-Here we added the `boot-test` dependency, required its main namespace
-to make the `test` task visible and finally defined a `testing` task
-to add the `test` directory to the `:source-paths` environment
-variable of `boot`.
-
-We can now launch the `test` task as follows:
-
-```clj
-boot testing test
-
-Testing valip.core
-
-Testing valip.predicates
-
-Testing valip.predicates.def
-
-Testing valip.test.core
-
-Testing valip.test.predicates
-
-Ran 20 tests containing 75 assertions.
-0 failures, 0 errors.
-```
-
-By default the `test` task runs all the project namespaces, but you
-can restrict the namespaces to run `test` into by passing to the
-`test` task the namespaces you're interested in as follows:
-
-```clj
-boot testing test -n valip.test.core -n valip.test.predicates
-
-Testing valip.test.core
-
-Testing valip.test.predicates
-
-Ran 20 tests containing 75 assertions.
-0 failures, 0 errors.
-```
-
-So far, so good. Let's move on with CLJS tests.
-
-# boot-cljs-test
-
-As usual, to use a new `boot` task we have to add it to the
-`:dependencies` environment variable of the `build.boot` boot file and
-require its main namespace to make the task visible to `boot` itself.
+We already ran the `clj-tdd` environment in a previous
+paragraph. Let's now update the `build.boot` build file to be able to
+launch a `cljs-tdd` environment as well. As usual, to use a new `boot`
+task we have to add it to the `:dependencies` environment variable of
+the `build.boot` boot file and require its main namespace to make the
+task visible to `boot` itself.
 
 ```clj
 (set-env!
@@ -1157,108 +1643,50 @@ require its main namespace to make the task visible to `boot` itself.
 
 (require '...
          '[crisptrutski.boot-cljs-test :refer [test-cljs]])
+...
 
+(deftask cljs-tdd
+  "Launch a CLJ TDD Environment"
+  []
+  (comp
+   (testing)
+   (watch)
+   (test-cljs :namespaces #{'valip.test.core 'valip.test.predicates})))
 ```
 
-Even if we already used the `test-cljs` task in previous tutorials, it
-does not hurt to refresh how it works by asking for its docstring:
-
-```clj
-boot test-cljs -h
-Run cljs.test tests via the engine of your choice.
-
- The --namespaces option specifies the namespaces to test. The default is to
- run tests in all namespaces found in the project.
-
-Options:
-  -h, --help                 Print this help info.
-  -e, --js-env VAL           Set the environment to run tests within, eg. slimer, phantom, node,
-                                  or rhino to VAL.
-  -n, --namespaces NS        Conj NS onto namespaces whose tests will be run. All tests will be run if
-                                  ommitted.
-  -s, --suite-ns NS          Set test entry point. If this is not provided, a namespace will be
-                                  generated to NS.
-  -O, --optimizations LEVEL  Set the optimization level to LEVEL.
-  -o, --out-file VAL         Set output file for test script to VAL.
-  -c, --cljs-opts VAL        Set compiler options for CLJS to VAL.
-  -u, --update-fs?           Only if this is set does the next task's filset include
-                                  and generated or compiled cljs from the tests.
-  -x, --exit?                Exit immediately with reporter's exit code.
-```
-
-As you see, there are a couple of interesting option to be used:
-
-* the `-n` option, to specify the namespaces whose tests will be run;
-* the `-O` option, to specify the desired optimization level.
-
-You can now safely launch the `test-cljs` as follows.
+You can now safely launch the `cljs-tdd` newly defined task as
+follows.
 
 ```bash
-boot testing test-cljs -n valip.test.core -n valip.test.predicates
+boot cljs-tdd
+
+Starting file watcher (CTRL-C to quit)...
+
 Writing clj_test/suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
 • output.js
-WARNING: test-max-length at line 32 is being replaced at line 37 test/valip/test/predicates.cljc
-WARNING: Use of undeclared Var valip.test.predicates/url? at line 60 test/valip/test/predicates.cljc
-WARNING: Use of undeclared Var valip.test.predicates/url? at line 61 test/valip/test/predicates.cljc
-WARNING: Use of undeclared Var valip.test.predicates/url? at line 62 test/valip/test/predicates.cljc
-WARNING: Use of undeclared Var valip.test.predicates/url? at line 63 test/valip/test/predicates.cljc
 Running cljs tests...
 Testing valip.test.core
 
 Testing valip.test.predicates
 
-ERROR in (test-url?) (TypeError:NaN:NaN)
-expected: (url? "http://google.com")
-  actual: #object[TypeError TypeError: 'undefined' is not an object (evaluating 'valip.test.predicates.url_QMARK_.call')]
-
-ERROR in (test-url?) (TypeError:NaN:NaN)
-expected: (url? "http://foo")
-  actual: #object[TypeError TypeError: 'undefined' is not an object (evaluating 'valip.test.predicates.url_QMARK_.call')]
-
-ERROR in (test-url?) (TypeError:NaN:NaN)
-expected: (not (url? "foobar"))
-  actual: #object[TypeError TypeError: 'undefined' is not an object (evaluating 'valip.test.predicates.url_QMARK_.call')]
-
-ERROR in (test-url?) (TypeError:NaN:NaN)
-expected: (not (url? ""))
-  actual: #object[TypeError TypeError: 'undefined' is not an object (evaluating 'valip.test.predicates.url_QMARK_.call')]
-
-Ran 19 tests containing 71 assertions.
-0 failures, 4 errors.
+Ran 20 tests containing 91 assertions.
+0 failures, 0 errors.
+Elapsed time: 15.061 sec
 ```
 
-Ops, we got some *WARNINGs* and some *ERRORs* too. The first *WARNING*
-regards the `text-max-lenght` symbol be defined at line 32 and the
-redefined at line 37 of the `predicates.cljc` test file, something
-that CLJ compiler was not able to detect. All the other *WARNINGs*
-regard the use of the undefined `url?` symbol. This in not a surprise,
-because we previously remove it from the CLJS version of the `valip`
-library. Moreover, those *WARNINGs* became *ERRORs* during the tests
-execution.
-
-Let's fix all these issues. Open the `predicates.cljc` living in the
-`test/valip/test` directory. You'll see that, due to some cut&paste
-command, Chas Emerick defined the `test-max-length` two times with a different body. Just rename the second definition as `text-min-length`.
-
-To fix the *WARNINGs* and the *ERRORs* about the `url?` not been
-defined, remove the `url?` symbol from the `:refer` section of the
-CLJS `valip.predicates` namespace requirement and wrap the `test-url?`
-definition in the `#?` reader macro as follows:
+Nice shot. But considering that we are dealing with a portable
+library, we'd like to run the CLJ and CLJS tests all together, as we
+already did for the `modern-cljs` project. That's very easy
+too. Substitute the previously defined `clj-tdd` and `cljs-tdd` with
+the following `tdd` new task definition:
 
 ```clj
-#?(:clj (deftest test-url?
-          (is (url? "http://google.com"))
-          (is (url? "http://foo"))
-          (is (not (url? "foobar")))
-          (is (not (url? "")))))
-```
+boot tdd
 
-Re-run the above `boot` command:
+Starting file watcher (CTRL-C to quit)...
 
-```bash
-boot testing test-cljs -n valip.test.core -n valip.test.predicates
 Writing clj_test/suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
@@ -1268,194 +1696,19 @@ Testing valip.test.core
 
 Testing valip.test.predicates
 
-Ran 18 tests containing 67 assertions.
+Ran 20 tests containing 91 assertions.
 0 failures, 0 errors.
-```
-
-Now we talk. You can even run the CLJ and CLJS test all together as follows:
-
-```bash
-boot testing test -n valip.test.core -n valip.test.predicates test-cljs -n valip.test.core -n valip.test.predicates
 
 Testing valip.test.core
 
 Testing valip.test.predicates
 
-Ran 20 tests containing 75 assertions.
+Ran 21 tests containing 97 assertions.
 0 failures, 0 errors.
-Writing clj_test/suite.cljs...
-Writing output.cljs.edn...
-Compiling ClojureScript...
-• output.js
-Running cljs tests...
-Testing valip.test.core
-
-Testing valip.test.predicates
-
-Ran 18 tests containing 67 assertions.
-0 failures, 0 errors.
+Elapsed time: 18.135 sec
 ```
 
-Not so bad, but it's now time to get rid of *WARNING* we got about
-`goog.Uri` namespace the very first time we try to launched the `cljs`
-task and that we temporally solved by removing the CLJS version of the
-`url?` predicate.
-
-## Fix the bug
-
-Let's get a look at the original CLJ and CLJS code:
-
-```clj
-;; CLJ
-(ns valip.java.predicates
-  "Useful validation predicates implemented for JVM Clojure."
-  (:require [valip.predicates :as preds]
-            [valip.predicates.def :refer (defpredicate)])
-  (:import
-    (java.net URI URISyntaxException)
-    java.util.Hashtable
-    javax.naming.NamingException
-    javax.naming.directory.InitialDirContext))
-
-(defn url?
-  "Returns true if the string is a valid URL."
-  [s]
-  (try
-    (let [uri (URI. s)]
-      (and (seq (.getScheme uri))
-           (seq (.getSchemeSpecificPart uri))
-           (re-find #"//" s)
-           true))
-    (catch URISyntaxException _ false)))
-```
-
-```clj
-(ns valip.js.predicates
-  "Useful validation predicates implemented for ClojureScript using the Google Closure libraries
-where necessary."
-  (:import goog.Uri))
-
-(defn url?
-  [s]
-  (let [uri (-> s goog.Uri/parse)]
-    (and (seq (.getScheme uri))
-         (seq (.getSchemeSpecificPart uri))
-         (re-find #"//" s))))
-```
-
-First note that in the CLJS version, the namespace declaration uses
-the `:import` form for the needed Google Closure `goog.Uri` class as
-suggested by the
-[corresponding paragraph](https://github.com/clojure/clojurescript/wiki/Google-Closure-Library/8c86561dd33cae261c987cfe8e8a92f0ff5a9c7c#using-google-closure-directly)
-in the CLJS wiki.
-
-But, then, in the thread first macro expression `(-> goog.Uri/parse)`,
-`goog.Uri` is used as a namespace while calling the `parse` static
-function.
-
-Moreover, by taking a look at the
-[`goog.Uri` documentation](https://google.github.io/closure-library/api/class_goog_Uri.html),
-you'll note that the `getSchemeSpecificPart` getter does not exist and
-it's only available on the
-[Java counterpart](http://docs.oracle.com/html/E18812_01/html/fc830ed0-6054-3c49-4d9b-ec34f10e92fb.htm).
-
-I'm inclined to conclude that the `url?` predicate has never been
-tested by anyone on a CLJS.
-
-If you want to keep using the `url?` predicate, one thing you can do
-without implementing a better algorithm is just to upgrade the
-`:import` form to the `:require` form, comment out the
-`.getSchemeSpecificPart` and you're done:
-
-```clj
-(ns valip.predicates
-  "Predicates useful for validating input strings, such as ones from HTML forms."
-  #?(:clj (:require [clojure.string :as str]
-                    [clojure.edn :refer [read-string]]
-                    [valip.predicates.def :refer [defpredicate]])
-     :cljs (:require [clojure.string :as str]
-                     [cljs.reader :refer [read-string]]
-                     [goog.Uri :as guri]))               ; instead of import 
-  #?(:clj (:refer-clojure :exclude [read-string])
-     :cljs (:require-macros [valip.predicates.def :refer [defpredicate]]))
-  #?(:clj (:import (java.net URI URISyntaxException)
-                   java.util.Hashtable
-                   javax.naming.NamingException
-                   javax.naming.directory.InitialDirContext)))
-
-;;; follow definitions
-
-#?(:clj (defn url?
-          "Returns true if the string is a valid URL."
-          [s]
-          (try
-            (let [uri (URI. s)]
-              (if (and (seq (.getScheme uri))
-                       (seq (.getSchemeSpecificPart uri))
-                       (re-find #"//" s))
-                true
-                false))
-            (catch URISyntaxException _ false)))
-   :cljs (defn url?
-           [s]
-           (let [uri (-> s goog.Uri/parse)]
-             (and (seq (.getScheme uri))
-                  #_(seq (.getSchemeSpecificPart uri)) ; not existent
-                  (re-find #"//" s)))))
-```
-
-Re-run the test task as above:
-
-```bash
-boot testing test-cljs -n valip.test.core -n valip.test.predicates
-Writing clj_test/suite.cljs...
-Writing output.cljs.edn...
-Compiling ClojureScript...
-• output.js
-Running cljs tests...
-Testing valip.test.core
-
-Testing valip.test.predicates
-
-Ran 20 tests containing 74 assertions.
-0 failures, 0 errors.
-```
-
-You can repeat a full CLJ and CLJS tests execution as follows:
-
-```bash
-boot testing test-cljs -n valip.test.core -n valip.test.predicates
-Writing clj_test/suite.cljs...
-Writing output.cljs.edn...
-Compiling ClojureScript...
-• output.js
-Running cljs tests...
-Testing valip.test.core
-
-Testing valip.test.predicates
-
-Ran 20 tests containing 74 assertions.
-0 failures, 0 errors.
-Giacomos-MacBook-Pro:valip mimmo$ boot testing test -n valip.test.core -n valip.test.predicates test-cljs -n valip.test.core -n valip.test.predicates
-
-Testing valip.test.core
-
-Testing valip.test.predicates
-
-Ran 21 tests containing 78 assertions.
-0 failures, 0 errors.
-Writing clj_test/suite.cljs...
-Writing output.cljs.edn...
-Compiling ClojureScript...
-• output.js
-Running cljs tests...
-Testing valip.test.core
-
-Testing valip.test.predicates
-
-Ran 20 tests containing 74 assertions.
-0 failures, 0 errors.
-```
+Ok. We're done
 
 ## What's next
 
