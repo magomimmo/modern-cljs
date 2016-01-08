@@ -6,17 +6,6 @@ the corresponding WUI (Web User Interface) in such a way that the user
 will be notified with the corresponding help messages when she enters
 invalid values in the form itself.
 
-## Preamble
-
-To start working from the end of the [previous tutorial][1], assuming
-you've git installed, do as follows
-
-```bash
-git clone https://github.com/magomimmo/modern-cljs.git
-cd modern-cljs
-git checkout se-tutorial-18
-```
-
 ## Introduction
 
 As you remember, the injected validators have been implemented by
@@ -148,10 +137,10 @@ and you're ready to start collaborating.
 ## Look at the `project.clj` file
 
 When I want to grasp an initial understanding of a new CLJ/CLJS
-library, the very first thing that I do, aside from reading the
+library, the very first thing I do, aside from reading the
 corresponding `README.md` file when available, it's to view its
-`project.clj` build file (or its `build.boot` build file, for the rare
-case in which the library has been based on `boot`):
+`project.clj` build file, or its `build.boot` build file, in the still
+rare case in which the library has been based on `boot`:
 
 ```clj
 (defproject com.cemerick/valip "0.3.2"
@@ -161,10 +150,23 @@ case in which the library has been based on `boot`):
 ```
 
 A pretty minimal build file in such a case. As you see, `valip`
-depends on CLJS `1.4.0` release. To be able to use the Reader
+depends on CLJ `1.4.0` release. To be able to use the Reader
 Conditionals extension, the very first thing to be updated is the CLJ
 dependency: from `1.4.0` to `1.7.0` (in a very short time the
-clojure-dev team will deliver the `1.8.0` release).
+clojure-dev team will deliver the `1.8.0` release):
+
+```clj
+(defproject com.cemerick/valip "0.3.2"
+  :description "Functional validation library for Clojure and ClojureScript, forked from https://github.com/weavejester/valip"
+  :url "http://github.com/cemerick/valip"
+  :dependencies [[org.clojure/clojure "1.7.0"]])
+```
+
+> NOTE 1: In this tutorial we're going to use the
+> [`leiningen`](http://leiningen.org/) build tool and you needs to
+> install it by following
+> [this very easy instruction](http://leiningen.org/#install).
+
 
 [`leiningen`](http://leiningen.org/) has a lot of sane defaults for
 its build directives. For example, if you do not specify a
@@ -176,8 +178,8 @@ noise free in such a case.
 
 ## Directory layout
 
-The very second thing take I generally look into, is the directory
-layout of the project directory:
+The second thing I generally look into, is the directory layout of the
+project directory:
 
 ```bash
 tree
@@ -207,16 +209,23 @@ tree
 
 As you see the source files are confined in the `src` directory, while
 the `test` source files are confined in the `test` directory,
-mimicking the layout of the `src` directory. Nothing new even coming
-from a `boot` background.
+mimicking the layout of the `src` directory. Nothing new, even coming
+from a `boot` background. As you'll later discover, you can use
+exactly the same arrangement of the directory layout regardless of the
+build tool you are going to use for the project itself. If you want to
+be a very good clojurian citizen, I would even suggest to set your
+projects to be built with both `leiningen` and `boot`, by defining the
+corresponding `project.clj` and `build.boot` build files.
 
 ## Migration preparation
 
 To introduce the Reader Conditionals extension into a library
-originally implemented for CLJ only there few steps you should follow:
+originally implemented for CLJ only, there few steps you should
+follow:
 
 * update the CLJ dependency to the `1.7.0` release, because the Reader
-  Conditional extension has been introduced from that release;
+  Conditional extension has been introduced from that release on (we
+  already did);
 * identify all the functions that are specific for the
   JVM and that can't be evaluate in a CLJS context;
 * identify all the macros defined in the library, because CLJS's
@@ -239,12 +248,12 @@ library:
 * all the functions specific to the JVM are confined in the
   `predicates.clj` source file hosted in the `src/valip/java`
   directory;
-* all the functions specific to the JSVM are confined in the
-  `predicates.cljs` source file hosted in the `src/valip/js`
-  directory;
-* all the functions which are agnostic from the platform are confined
-  in the `core.clj` and `predicates.clj` source files hosted in the
-  `src/valip` directory;
+* all the functions specific to the JSVM (JavaScript Virtual Machine)
+  are confined in the `predicates.cljs` source file hosted in the
+  `src/valip/js` directory;
+* all the functions which are agnostic from the hosting platform are
+  confined in the `core.clj` and `predicates.clj` source files living
+  in the `src/valip` directory;
 * all the macros are confined in the `def.clj` source file hosted in
   the `src/valip/predicates` directory.
 
@@ -253,10 +262,11 @@ file hosted in the `src/cljs` directory?
 
 ## A smart trick by a smart guy
 
-Consider that the `:source-paths` directive of the `project.clj` file
-is set by default to `src`. Now, by knowing the way CLJ maps namespace
+As said, the `:source-paths` directive of the `project.clj` file is
+set by default to `src`. By knowing the way CLJ maps namespace
 segments to file pathnames, there is a smell of something strange
-going on there. Let's take a look at the `reader.clj` source file:
+going on in that `src/cljs/reader.clj` source file. Let's take a look
+at the it:
 
 ```clj
 (ns cljs.reader
@@ -268,13 +278,14 @@ so as to allow portable usage of `read-string`."
 ```
 
 Ahah! This is were the smart trick lurks. Chas Emerick defined a dummy
-`cljs.reader` namespace mimicking the CLJS `cljs.reader` namespace. It
-only aliases the `read-string` from the `clojure.core` namespace in
-such a way that the `cljs.reader` can be required even when `valip`
-runs on a JVM.
+`cljs.reader` namespace mimicking the predefined CLJS `cljs.reader`
+namespace. This dummy namespace aliases the `read-string` from the
+`clojure.core` namespace in such a way that the `cljs.reader` can be
+required even when `valip` runs on a JVM.
 
-Let's take a look at the `valip.predicates` namespace declaration from
-the `predicates.clj` hosted in the `src/valip` directory:
+To see how this dummy namespace is used, let's take a look at the
+`valip.predicates` namespace declaration from the `predicates.clj`
+hosted in the `src/valip` directory:
 
 ```clj
 (ns valip.predicates
@@ -295,12 +306,14 @@ with one of the
 [differences between CLJ and CLJS](https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure#the-reader),
 namely:
 
-* The `read` and `read-string` symbols are defined in the
+* The CLJS `read` and `read-string` symbols are defined in the
   `cljs.reader` namespace, while the corresponding CLJ symbols are
   defined in the `clojure.core` namespace.
 
 This incidental complexity was needed because the Reader Conditionals
-were not available at the time of writing the `valip` library.
+were not available at the time of writing the `valip` library. As
+we'll see later, even if the dummy namespace seems to be a very smart
+trick, it is also affected by a subtle and serious security issue.
 
 ## What's next
 
@@ -316,10 +329,10 @@ only be used inside`.cljc` source files:
 With the Reader Conditionals machinery in our hands we can now proceed
 with the next steps, namely:
 
-1. delete the `src/cljs` directory and the `reader.clj` file as well;
+1. get rid of the above smart and dangerous trick, by deleting the
+   `src/cljs` directory and the `reader.clj` file as well;
 2. change the file extension of the `predicates.clj` and `core.clj`
-   source files hosted in the `src/valip` directory from `.clj` to
-   `.cljc`;
+   source files hosted in the `src/valip` directory from to `.cljc`;
 3. move the specific JVM symbols' definitions from the
    `predicates.clj` source file hosted in the `src/valip/java`
    directory to the above `predicates.cljc` source file;
@@ -328,7 +341,7 @@ with the next steps, namely:
    file;
 5. use the `#?` reader macro to differentiate the namespaces'
    requirements in the `valip.core` and `valip.predicates` namespaces
-   declaration depending on the feature made available by the hosting
+   declaration, depending on the feature made available by the hosting
    platform at runtime;
 6. use the `#?` reader macro to differentiate the symbols' definitions
    in the `valip.predicates` namespace as well;
@@ -341,9 +354,9 @@ with the next steps, namely:
 
 Not such a big deal, right? **Wrong!**
 
-The `project.clj` build file is for the `leiningen` build tool. If we
-want to able to compile and test the migrated `valip` library on CLJS,
-we need to add both the `lein-cljsbuild` and the
+The `project.clj` build file is for CLJ only. If we want to able to
+compile and test the migrated `valip` library on CLJS, we need to add
+both the `lein-cljsbuild` and the
 [`lein-doo`](https://github.com/bensu/doo) plugins.
 
 Moreover, unless you got the chance to read the
@@ -355,8 +368,8 @@ with the `project.clj` we started from.
 
 But don't worry! We're not going to use the `lein`/`cljsbuild` pair of
 build tools to make `valip` compliant with Reader Conditionals
-extension. We're going to use `boot` for `valip` as we already did for
-any previous tutorial of the series.
+extension. We'll continue to use `boot` as we already did for any
+previous tutorial of the series.
 
 ## Execution (Part I)
 
@@ -366,7 +379,7 @@ above plan.
 ### Step 1
 
 As said, we first have to delete the `src/cljs` directory and the
-contained `reader.clj` file as well because we do not need the Chas
+contained `reader.clj` file as well, because we do not need the Chas
 Emerick trick anymore:
 
 ```bash
@@ -396,7 +409,7 @@ above `predicates.cljc` source file. Open the `predicates.clj` source
 file hosted in the `src/valip/java` directory, copy all the symbols'
 definitions and append them in the `predicates.cljc` source file.
 
-While you are there, introduce the `#?` reader macro to inform the
+While you are at it, introduce the `#?` reader macro to inform the
 compiler that these definition are specific for the JVM platform. This
 way you're partially anticipating the Step 6:
 
@@ -438,9 +451,10 @@ way you're partially anticipating the Step 6:
 ### Step 4
 
 You should now do the same thing with the `predicates.cljs` currently
-living in the `valip.js` directory. While you're here, take advantage
-of the opportunity and add the CLJS `url?` definition inside the `#?`
-reader macro already used for the CLJ `url?` definition as follows:
+living in the `valip.js` directory. While you're there, take advantage
+of the opportunity of adding the CLJS `url?` definition inside the
+`#?` reader macro already used for the CLJ `url?` definition as
+follows:
 
 ```clj
 #?(:clj (defn url?
@@ -511,8 +525,8 @@ Clojure implementations."
 
 #### Never read from untrusted source
 
-First we have to make a short digression about security writing a
-strong statement:
+First we have to make a short digression about the security issue we
+talked about above:
 
 [**Never use** `clojure.core/read` and `clojure.core/read-string`](https://groups.google.com/forum/#!topic/clojure/YBkUaIaRaow)
 functions when dealing with untrusted sources in CLJ.
@@ -527,9 +541,10 @@ All that to say that in the `valip.predicates` namespace declaration
 we have to differentiate the reader namespace requirement between CLJ
 and CLJS.
 
-Following is the temporary `valip.predicates` namespace declaration
-absorbing the above security issues and any other specific namespace
-declaration for the two considered platforms (i.e., JVM an JSVM):
+Following is the `valip.predicates` namespace declaration absorbing
+the solution for the cited security issue and any other specific
+namespace declaration specific for the two considered platforms (i.e.,
+JVM an JSVM):
 
 ```clj
 (ns valip.predicates
@@ -666,7 +681,7 @@ tree
 As you see the only survived pure CLJ file is `def.clj` which is the
 one containing the macros definitions.
 
-Those steps represent the easiest parts of making the `valip`
+Those steps represent the easiest part of making the `valip`
 validation library compliant with the Reader Conditionals
 extension. We should now have to afford the difficult ones:
 
@@ -675,15 +690,15 @@ extension. We should now have to afford the difficult ones:
   plugin to the `project.clj`;
 * the execution of the tests on the JSVM platform.
 
-Before digging in that new sea, we have the opportunity to see if
-we're able to run the newly updated `valip` library in CLJ.
+Before digging in that new sea, take the opportunity to see if we're
+able to run the newly updated `valip` library in CLJ.
 
 ## Run and test in CLJ
 
 The only thing we need to do for running and test the updated CLJ
 version of the `valip` library is to update its `project.clj` build
 file by upgrading the pinned CLJ release in the `:dependencies`
-section:
+section, but we already did it at the beginning of the tutorial:
 
 ```clj
 (defproject com.cemerick/valip "0.3.2"
