@@ -1752,7 +1752,7 @@ tree ~/.m2/repository/org/clojars/<your_github_name>/valip
 You are now ready to test the portable `valip` validation library in
 the context of the `modern-cljs` project.
 
-First, if clone the `modern-cljs` project in a temporary directory and
+First, clone the `modern-cljs` project in a temporary directory and
 checkout the latest tutorial branch as follows:
 
 ```bash
