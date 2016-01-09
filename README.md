@@ -26,7 +26,7 @@ she/he enters invalid values in the form.
 > the code.
 
 
-> **WARNING NOTE FOR WINDOWS USERS** At the moment `boot` does not run
+> **WARNING NOTE FOR WINDOWS USERS**: At the moment `boot` does not run
 > on MS Windows less than 10. If this is your case, to be able to
 > follow the `modern-cljs` series you can use use a
 > [virtual machine](https://www.virtualbox.org/) or
