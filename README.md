@@ -1,6 +1,6 @@
 ## Latest tutorials
 
-### [Tutorial 19 - Linvin' on the edge][39]
+### [Tutorial 19 - Livin' on the edge][39]
 
 Explain how to make a library compliant with the new Reader
 Conditionals extension of CLJ/CLJS compilers.
