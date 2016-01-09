@@ -776,7 +776,7 @@ As you know, when evaluated in boolean context, `nil` is like
 One of the few tests I like to write are the ones testing corner
 cases. If we want to be serious about functional programming, we
 should never forget that a
-[function](https://en.wikipedia.org/wiki/Function_(mathematics) is a
+[function](https://en.wikipedia.org/wiki/Function_(mathematics)) is a
 relation between a set of inputs and a set of permissible outputs with
 the property that each input is related to exactly one output. The
 corner cases are where the things became interesting.
