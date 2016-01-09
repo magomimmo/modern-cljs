@@ -1501,7 +1501,7 @@ would even necessitate of a URL parser, I would be inclined to remove
 the current CLJ and CLJS definitions from `valip`.
 
 That said, just as a matter of explanation on how to remove the above
-warnings, here is the solution:
+warnings, here is a possible solution:
 
 ```clj
 #?(:clj (...)
@@ -1509,11 +1509,75 @@ warnings, here is the solution:
            [s]
            (let [uri (.parse goog.Uri (str s))]
              (and (seq (.getScheme uri))
-                  ;(seq (.getSchemeSpecificPart uri))
+                  ;(seq (.getSchemeSpecificPart uri)) ;; commented out
                   (re-find #"//" (str s))))))
 ```
 
-Now launch the CLJS compilation again:
+As you already know, to invoke a JS method from an object/class we
+need to prefix it with the dot `.` interop special form `(.method
+jsObj arg1 ... argn)` as above.
+
+But you can even use `(. jsObj (method arg1 ... argn))`, i.e., the syntactic
+sugar form:
+
+```clj
+#?(:clj (...)
+   :cljs (defn url?
+           [s]
+           (let [uri (. goog.Uri (parse (str s)))]
+             (and (seq (. uri (getScheme)))
+                  ;; (seq (.getSchemeSpecificPart uri))
+                  (re-find #"//" (str s))))))
+```
+
+It's not enough? You have a third form too: `(jsObj.method arg1 ... argn)`
+
+```clj
+#?(:clj (...)
+   :cljs (defn url?
+           [s]
+           (let [uri (goog.Uri.parse (str s))]
+             (and (seq (.getScheme uri))
+                  ;; (seq (.getSchemeSpecificPart uri))
+                  (re-find #"//" (str s))))))
+```
+
+Are you getting confused? So do I. Even because there is even a forth
+form. It uses `:require` instead of `:import` in the declaration and
+then uses the class as a namespace:
+
+```clj
+(ns valip.predicates
+  "Predicates useful for validating input strings, such as ones from HTML forms."
+  #?(:clj (:require [clojure.string :as str]
+                    [clojure.edn :refer [read-string]]
+                    [valip.macros :refer [defpredicate]])
+     :cljs (:require [clojure.string :as str]
+                     [cljs.reader :refer [read-string]]
+                     [goog.Uri :as guri])) ;; as a namespace
+  #?(:clj (:refer-clojure :exclude [read-string])
+     :cljs (:require-macros [valip.macros :refer [defpredicate]]))
+  #?(:clj (:import (java.net URI URISyntaxException)
+                   java.util.Hashtable
+                   javax.naming.NamingException
+                   javax.naming.directory.InitialDirContext)))
+```
+
+```clj
+#?(:clj (...)
+   :cljs (defn url?
+           [s]
+           (let [uri (guri/parse (str s))]
+             (and (seq (.getScheme uri))
+                  ;; (seq (.getSchemeSpecificPart uri))
+                  (re-find #"//" (str s))))))
+```
+
+We have to make a choice and be coherent with it to not make a reader
+of our code disoriented, but be prepared to read all the other three
+form in the wild.
+
+So, make your choice and launch the CLJS compilation again:
 
 ```bash
 boot cljs
