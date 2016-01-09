@@ -1302,10 +1302,10 @@ Same failure, same solution:
   (boolean (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" (str s))))
 ```
 
-I know, it's going to be boring, but the happy paths assertion are
+I know, it's going to be boring, but the happy path assertions are
 even more boring than those corner cases.
 
-Next stop is `test-integer-string?`. Some story as above
+Next stop is `test-integer-string?`. Same story as above
 
 ```clj
 (deftest test-integer-string?
@@ -1613,8 +1613,8 @@ Elapsed time: 15.061 sec
 Nice. But considering that we are dealing with a portable library,
 we'd like to run the CLJ and CLJS tests all together, as we already
 did for the `modern-cljs` project. That's very easy too. Substitute
-the previously defined `clj-tdd` and `cljs-tdd` with the following
-`tdd` new task definition
+the previously defined `clj-tdd` and `cljs-tdd` tasks with the
+following `tdd` new task definition
 
 ```clj
 (deftask tdd
@@ -1682,7 +1682,7 @@ tutorial we'll deal with the next item.
 ## Locally install valip
 
 To quickly finish with this tutorial, we're going to locally install
-the update version of `valip` by using the `lein install` task.
+the updated version of `valip` by using the `lein install` task.
 
 First we have to update the `project.clj` build file as follows:
 
@@ -1763,7 +1763,7 @@ git checkout se-tutorial-18
 ```
 
 Then edit the `build.boot` file by substituting the `valip` dependency
-with the new update version:
+with the new updated version:
 
 ```clj
 (set-env!
@@ -1792,7 +1792,8 @@ and visit the
 with the Shopping Calculator. Everything should still work as at the
 end of the [Tutorial 18][1].
 
-You can now stop the boot process and stay tuned for the next tutorial
+You can now stop the `boot` process and stay tuned for the next
+tutorial
 
 ## Next Step - TBD
 
