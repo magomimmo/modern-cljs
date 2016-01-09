@@ -30,8 +30,7 @@ features by the
   [Kevin Lynagh](https://github.com/lynaghk).
 
 The problem with those alternatives is that they are now both
-deprecated in favor of the much easier, more powerful and more
-flexible
+deprecated in favor of the much easier, more powerful and flexible
 [Reader Conditionals](http://clojure.org/reader#The%20Reader--Reader%20Conditionals)
 extension we cited above.
 
@@ -41,29 +40,13 @@ the [leiningen](http://leiningen.org/) build tool to the
 exploit that decision to accommodate the `valip` portable library to
 the new CLJ/CLJS Reader Conditional extension as well.
 
-This tutorial is a kind of a walk-through of that migration
-experience. The reason why I decided to put that experience in words
-is that I believe that one of the main advantages of CLJ/CLJS pair
-over other programming languages is that it allows to unify two
-completely different worlds: the front-end and the back-end. If you're
-thinking that, thanks to [`nodejs`](https://nodejs.org/en/),
-JavaScript has the same bipolar insanity, you're right. But even
-without starting a never ending discussion about JS's pitfalls, the
-CLJ/CLJS pair has still some advantages to carry on with itself,
-because it allows you to decide on which back-end platform to run your
-services, being it `JVM`, `nodejs` or even `.net`.
-
-My personal hope is to see in the near future an increasing number of
-CLJ/CLJS libraries able to be used indifferently on JS or JVM
-platforms and eventually dynamically moved at runtime from one side to
-the other and *vice versa*.
-    
-This tutorial of the series has to be intended as an effort to
-stimulate CLJ/CLJS newbies to start learning that pair of programming
-languages while doing, namely while being collaborative with the
-maintainers of CLJ/CLJS libraries, because most of the time the
-migration path needed to make a CLJ library portable on CLJS via
-Reader Conditionals is not as hard as you may think.
+This tutorial is a kind of a walk-through of that migration experience
+and has to be intended as an effort to stimulate CLJ/CLJS newbies to
+start learning that pair of programming languages while doing, namely
+while being collaborative with the maintainers of CLJ/CLJS libraries.
+Most of the time the migration path needed to make a CLJ library
+portable on CLJS via Reader Conditionals is not as hard as you may
+think.
 
 ## Livin' on the edge
 
@@ -134,13 +117,13 @@ Switched to a new branch 'reader-conditionals'
 
 and you're ready to start collaborating.
 
-## Look at the `project.clj` file
+## Look at the build file
 
 When I want to grasp an initial understanding of a new CLJ/CLJS
 library, the very first thing I do, aside from reading the
-corresponding `README.md` file when available, it's to view its
-`project.clj` build file, or its `build.boot` build file, in the still
-rare case in which the library has been based on `boot`:
+corresponding `README.md` file when available, it's to take a look at
+its build file. As most of the CLJ/CLJS library, `valip`, being based
+on `leiningen` build tool uses the `project.clj` build file:
 
 ```clj
 (defproject com.cemerick/valip "0.3.2"
@@ -162,23 +145,23 @@ clojure-dev team will deliver the `1.8.0` release):
   :dependencies [[org.clojure/clojure "1.7.0"]])
 ```
 
-> NOTE 1: In this tutorial we're going to use the
-> [`leiningen`](http://leiningen.org/) build tool and you needs to
-> install it by following
+> NOTE 1: this tutorial use [`leiningen`](http://leiningen.org/) build
+> tool. You needs to install it by following
 > [this very easy instruction](http://leiningen.org/#install).
 
 
-[`leiningen`](http://leiningen.org/) has a lot of sane defaults for
-its build directives. For example, if you do not specify a
+[`leiningen`](http://leiningen.org/) has a lot of
+[sane defaults](https://en.wikipedia.org/wiki/Convention_over_configuration)
+for its build directives. For example, if you do not specify a
 `:source-paths` directive, it assumes `src` as default. If you do not
-specify a `:target-path` directive, it assume `target` as default and
-if you do not specify a `:test-paths` it will assume the `test`
-directory as default and so on. That's why the `project.clj` is so
-noise free in such a case.
+specify a `:target-path` directive, it assume `target` directory as
+default and if you do not specify a `:test-paths` it will assume the
+`test` directory as default and so on. That's why the `project.clj` is
+so concise.
 
 ## Directory layout
 
-The second thing I generally look into, is the directory layout of the
+The second thing I generally look at, it's the directory layout of the
 project directory:
 
 ```bash
@@ -211,39 +194,33 @@ As you see the source files are confined in the `src` directory, while
 the `test` source files are confined in the `test` directory,
 mimicking the layout of the `src` directory. Nothing new, even coming
 from a `boot` background. As you'll later discover, you can use
-exactly the same arrangement of the directory layout regardless of the
-build tool you are going to use for the project itself. If you want to
-be a very good clojurian citizen, I would even suggest to set your
-projects to be built with both `leiningen` and `boot`, by defining the
-corresponding `project.clj` and `build.boot` build files.
+exactly the same directory arrangement regardless of the build tool
+you are going to use for the project itself.
 
 ## Migration preparation
 
-To introduce the Reader Conditionals extension into a library
-originally implemented for CLJ only, there few steps you should
-follow:
+To prepare a library originally implemented for CLJ only to cover CLJS
+via Reader Conditionals extension, there few steps you should follow:
 
 * update the CLJ dependency to the `1.7.0` release, because the Reader
   Conditional extension has been introduced from that release on (we
   already did);
-* identify all the functions that are specific for the
-  JVM and that can't be evaluate in a CLJS context;
+* identify all the functions that being JVM specific, can't target
+  CLJS;
 * identify all the macros defined in the library, because CLJS's
   macros must be defined in a different compilation stage from the one
   where they are consumed.
 
 ## Valip current state
 
-With `valip` we're in good position. Indeed, the above directory
-layout of the `valip` validation library already partially fits with
-the above preparation, because Chas Emerick's goal was to make `valip`
-portable on JSVM (JavaScript Virtual Machine) either via the
-`:crossover` feature of the
+With `valip` we're in good position. Indeed, its directory layout
+already partially fits with the above preparation, because Chas
+Emerick's goal was to make `valip` portable on JSVM (JavaScript
+Virtual Machine) either via the `:crossover` feature of the
 [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild) plugin or
 via the [`lein-cljx`](https://github.com/lynaghk/cljx) plugin.
 
-Let's comment a little bit the current directory layout of the `valip`
-library:
+Let's comment the current directory layout of the `valip` library:
 
 * all the functions specific to the JVM are confined in the
   `predicates.clj` source file hosted in the `src/valip/java`
@@ -297,12 +274,11 @@ Clojure implementations."
   (:refer-clojure :exclude [read-string]))
 ```
 
-That smart guy first refereed the `read-string` function from the
-`cljs.reader` namespace we just saw above. Then, to prevent a symbol
-collision with the `read-string` symbol from the `clojure.core`
-namespace, he excluded it from been interned in the `valip.predicates`
-namespace. But they have exactly the same definition. This has to do
-with one of the
+The `read-string` function is first referred from the `cljs.reader`
+namespace we just saw above. Then, to prevent a symbol collision with
+the `read-string` symbol from the `clojure.core` namespace, it's
+excluded from been interned in the `valip.predicates` namespace. This
+has to do with one of the
 [differences between CLJ and CLJS](https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure#the-reader),
 namely:
 
@@ -315,18 +291,17 @@ were not available at the time of writing the `valip` library. As
 we'll see later, even if the dummy namespace seems to be a very smart
 trick, it is also affected by a subtle and serious security issue.
 
-## What's next
+## Steps
 
 As we learned few tutorials ago, the Reader Conditionals extension
 offers the `#?` reader macro to dynamically differentiate at runtime
 the forms to be evaluated depending on the features of the hosting
-platform. At the moment we are interested in two features that can
-only be used inside`.cljc` source files:
+platform. At the moment we are interested in two features:
 
 * `:clj` is available when CLJ runs on a JVM;
 * `:cljs` is available when CLJ runs on a JSVM.
 
-With the Reader Conditionals machinery in our hands we can now proceed
+With the Reader Conditionals machinery in our hands we can proceed
 with the next steps, namely:
 
 1. get rid of the above smart and dangerous trick, by deleting the
@@ -354,24 +329,25 @@ with the next steps, namely:
 
 Not such a big deal, right? **Wrong!**
 
-The `project.clj` build file is for CLJ only. If we want to able to
-compile and test the migrated `valip` library on CLJS, we need to add
-both the `lein-cljsbuild` and the
+The `valip` `project.clj` build file is for CLJ only. If we want to
+able to compile and test the migrated `valip` library on CLJS, we need
+to add both the
+[`lein-cljsbuild`](https://github.com/emezeske/lein-cljsbuild) and the
 [`lein-doo`](https://github.com/bensu/doo) plugins.
 
 Moreover, unless you got the chance to read the
 [first edition](https://github.com/magomimmo/modern-cljs/tree/master/doc/first-edition)
-of this series or you do not already know about the `leiningen` build
-tool, all those stuff are new to you and the noise/signal ratio of the
-final `project.clj` build file is going to get worst when compared
-with the `project.clj` we started from.
+of this series or you already know about the `leiningen` build tool,
+all those stuff are new to you and the noise/signal ratio of the final
+`project.clj` build file is going to get much worst when compared with
+the `project.clj` we started from.
 
-But don't worry! We're not going to use the `lein`/`cljsbuild` pair of
-build tools to make `valip` compliant with Reader Conditionals
-extension. We'll continue to use `boot` as we already did for any
-previous tutorial of the series.
+But don't worry! Instead of complicating the `project.clj` file by
+adding We're not going to complicate the `project.clj` file to make
+`valip` compliant with Reader Conditionals extension, we'll continue
+to use `boot`.
 
-## Execution (Part I)
+## Execution
 
 In the following paragraphs we're going to execute step by step the
 above plan.
@@ -542,7 +518,7 @@ we have to differentiate the reader namespace requirement between CLJ
 and CLJS.
 
 Following is the `valip.predicates` namespace declaration absorbing
-the solution for the cited security issue and any other specific
+the above solution for the cited security issue and any other specific
 namespace declaration specific for the two considered platforms (i.e.,
 JVM an JSVM):
 
@@ -683,7 +659,8 @@ one containing the macros definitions.
 
 Those steps represent the easiest part of making the `valip`
 validation library compliant with the Reader Conditionals
-extension. We should now have to afford the difficult ones:
+extension. If we want to stay with the `leiningen` build tool, we
+should now afford the difficult ones:
 
 * the addition of the
   [`lein-cljsbuild`](https://github.com/emezeske/lein-cljsbuild)
@@ -790,8 +767,8 @@ user=> (v/url? "www.google.com")
 nil
 ```
 
-As you know, when evaluated in boolean context, in CLJ/CLJS `nil` is
-like `false`. I would prefer that the last expression would returned
+As you know, when evaluated in boolean context, `nil` is like
+`false`. I would prefer that the last expression would returned
 `false`, but I can live with it.
 
 ## Digression about corner cases
@@ -851,21 +828,15 @@ ArityException Wrong number of args (0) passed to: core//  clojure.lang.AFn.thro
 ```
 
 Do you see how important is to test the corner cases? Let's now see
-how `valip` behaves on corner cases. We already met two of them:
+how `valip` behaves on corner cases. We already met one of them:
 
 ```clj
 (v/present? nil)
 false
 ```
-and
 
-```clj
-user=> (v/url? "www.google.com")
-nil
-```
-
-These corner cases does'not regards the arities of the functions. They
-regard their domains/co-domains.
+This corner cases does'not regards the arities of the function. It
+regards its domain/co-domain.
 
 Let's now test other corner cases of the functions/predicates defined
 by the `valip` library.
@@ -881,9 +852,9 @@ NullPointerException   java.util.regex.Matcher.getTextLength (Matcher.java:1283)
 user=>
 ```
 
-That's bad. The `present?` and the `url?` predicates are defined for
-the `nil` element, while the function returned by the `matches` HOF
-function is not, as you can verify from it's source code:
+That's bad. The `present?` predicate it defined for the `nil` element,
+while the function returned by the `matches` HOF function it is not, as
+you can verify from it's source code:
 
 ```clj
 (source v/matches)
@@ -944,7 +915,7 @@ true
 ```
 
 I don't know about you, but I can't accept such a misaligned
-behaviors, because I'd be sure they're going to generate bugs very
+behaviors, because I'm sure they're going to later generate bugs very
 difficult to be caught.
 
 Now exit the REPL, because it's time to enter in a TDD session to fix
@@ -977,8 +948,8 @@ BOOT_VERSION=2.5.5
 BOOT_EMIT_TARGET=no
 ```
 
-> NOTE 5: The latest available stable `boot` release at time of writing
-> was `2.5.5`.
+> NOTE 5: The latest available stable `boot` release at time of
+> writing is `2.5.5`.
 
 Now create the `build.file` for the `valip` project with the following content:
 
@@ -1006,8 +977,8 @@ Now create the `build.file` for the `valip` project with the following content:
 ```
 
 Here we set the `:source-paths` environment variable to the `src`
-directory. Then we set the need dependencies and made the `test`
-symbol visible. Next we define two new tasks:
+directory. Then we set the needed dependencies and made the `test`
+symbol visible. Next we defined two new tasks:
 
 * `testing` task: to add the `test` directory to the `:source-paths`
   environment variable;
@@ -1033,14 +1004,14 @@ Ran 20 tests containing 75 assertions.
 Elapsed time: 4.832 sec
 ```
 
-All the assertions of all tests succeeded. This is not a surprise,
-because we already knew form the previous `lein test` session.
+All assertions succeeded. This is not a surprise, because we already
+knew form the previous `lein test` session.
 
 ### Add corner cases assertions
 
 Now edit the `test/valip/test/predicates.cljc` file to start adding
-the assertions covering the domain corner cases we did not like in the
-previous `lein repl` session:
+the assertions covering the domain corner cases we did not like from
+the previous `lein repl` session:
 
 ```clj
 (deftest test-matches
@@ -1082,10 +1053,11 @@ function definition:
 
 The `java.lang.NullPointerException: null` has been raised because we
 passed the `nil` value to the anonymous function returned by `matches`
-and `re-matches` does not like it, because it expects the argument to
-be a string.
+and `re-matches` does not like it. `re-matches` expects its argument
+to be a string.
 
-Now launch the CLJ REPL as usual
+Now launch the CLJ REPL as usual for playing a little bit with
+`re-matches` function:
 
 ```bash
 # from a new terminal
@@ -1108,8 +1080,6 @@ Find by Name: (find-name "part-of-name-here")
 boot.user=>
 ```
 
-because we want to play a little bit with the `re-matches` function:
-
 ```clj
 boot.user=> (re-matches #"..." nil)
 
@@ -1123,7 +1093,7 @@ boot.user=> (re-matches #"..." "")
 nil
 ```
 
-Could we transform `nil` into `""`? Sure, with the `str` function:
+Could we transform `nil` into `""`? Sure. Use the `str` function:
 
 ```cl
 boot.user=> (str nil)
@@ -1153,8 +1123,8 @@ Ran 20 tests containing 76 assertions.
 Elapsed time: 0.656 sec
 ```
 
-While we are there, let's add the `((matches #"...") "")` corner
-case. We already know it will succeed as well.
+While we are there, let's add the `((matches #"...") "")` corner case
+as well. We already know it will succeed.
 
 ```clj
 (deftest test-matches
@@ -1223,7 +1193,7 @@ predicate:
   (is (not (email-address? "foo@foo_bar.com"))))
 ```
 
-Here us the assertion failure report:
+Here is the assertion failure report:
 
 ```bash
 Testing valip.test.core
@@ -1313,7 +1283,7 @@ Again, just wrap the passed string argument within an `str` call:
 > NOTE 6: at the moment we do not care about the CLJS definition of
 > `url?` predicate.
 
-Keep going on with the corner cases coverage. Next stop is `test-digit?`.
+Keep going on with the corner cases coverage. Next stop is `test-digit?`:
 
 ```clj
 (deftest test-digits?
@@ -1329,11 +1299,11 @@ Same failure, same solution:
 (defn decimal-string?
   "Returns true if the string represents a decimal number."
   [s]
-  (boolean (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" s)))
+  (boolean (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" (str s))))
 ```
 
 I know, it's going to be boring, but the happy paths assertion are
-much more boring than those corner cases.
+even more boring than those corner cases.
 
 Next stop is `test-integer-string?`. Some story as above
 
@@ -1362,7 +1332,7 @@ and same fix too:
 
 You'll have to keep going in the same way up to the end of the
 `predicates.cljc` testing file and you're done. Your final test report
-should be the following:
+should be something like the following:
 
 ```bash
 Testing valip.test.core
@@ -1449,7 +1419,7 @@ requiring its main `cljs` task to run the CLJS compiler.
 (set-env!
  ...
  :dependencies '[...
-                 [org.clojure/clojurescript "1.7.170"]
+                 [org.clojure/clojurescript "1.7.228"]
                  [adzerk/boot-cljs "1.7.170-3"]])
 
 (require '...
@@ -1473,12 +1443,11 @@ WARNING: No such namespace: goog.Uri, could not locate goog/Uri.cljs, goog/Uri.c
 WARNING: Use of undeclared Var goog.Uri/parse at line 127 src/valip/predicates.cljc
 ```
 
-Ops. We immediately get a couple of warning. The first says the CLJS
+Ops. We immediately got a couple of warning. The first says the CLJS
 compiler was not able to find the
 [`goog.Uri`](https://google.github.io/closure-library/api/class_goog_Uri.html)
-namespace, which is both a class and a namespace defined in the Google
-Closure Library. The second warning says that the `parse` symbol, that
-should live in the `goog.Uri` namespace, it is undefined.
+namespace. The second warning says that its `parse` symbol it is
+undefined.
 
 Uhm, pretty weird warnings.
 
@@ -1510,7 +1479,7 @@ in the CLJS wiki.
 
 Now proceed to the `url?` definition:
 
-``clj
+```clj
 #?(:clj  (...)
    :cljs (defn url?
            [s]
@@ -1530,10 +1499,10 @@ it's only available on the
 
 Considering that `url` validation is a very complicated topic and
 would even necessitate of a URL parser, I would be inclined to remove
-the current CLJ and CLJS definitions.
+the current CLJ and CLJS definitions from `valip`.
 
 That said, just as a matter of explanation on how to remove the above
-warnings, here it's the solution:
+warnings, here is the solution:
 
 ```clj
 #?(:clj (...)
@@ -1545,7 +1514,7 @@ warnings, here it's the solution:
                   (re-find #"//" (str s))))))
 ```
 
-and launch the CLJS compilation again:
+Now launch the CLJS compilation again:
 
 ```bash
 boot cljs
@@ -1562,42 +1531,7 @@ definition of the same function.
 
 Note that in the above `boot cljs` command we did not specify any
 option to the `cljs` task. As you already know from previous
-tutorials, this is because `cljs` uses some defaults:
-
-```bash
-cljs -h
-Compile ClojureScript applications.
-
-Multiple builds can be compiled parallel. To define builds use .cljs.edn
-files. ID of build is the name of .cljs.edn file without the extension.
-To compile only specific builds, use ids option to select .cljs.edn files
-by name. Output files of build will be put below id.out folder in fileset.
-
-If no .cljs.edn files exists, default one is created. It will depend on
-all .cljs files in fileset.
-
-Available --optimization levels (default 'none'):
-
-* none         No optimizations. Bypass the Closure compiler completely.
-* whitespace   Remove comments, unnecessary whitespace, and punctuation.
-* simple       Whitespace + local variable and function parameter renaming.
-* advanced     Simple + aggressive renaming, inlining, dead code elimination.
-
-Source maps can be enabled via the --source-map flag. This provides what the
-browser needs to map locations in the compiled JavaScript to the corresponding
-locations in the original ClojureScript source files.
-
-The --compiler-options option can be used to set any other options that should
-be passed to the Clojurescript compiler. A full list of options can be found
-here: https://github.com/clojure/clojurescript/wiki/Compiler-Options.
-
-Options:
-  -h, --help                   Print this help info.
-  -i, --ids IDS                Conj IDS onto the ids option.
-  -O, --optimizations LEVEL    Set the optimization level to LEVEL.
-  -s, --source-map             Create source maps for compiled JS.
-  -c, --compiler-options OPTS  Set options to pass to the Clojurescript compiler to OPTS.
-```
+tutorials, this is because `cljs` uses `:none` as default.
 
 Let's now see if `valip` compiles with `whitespace`, `simple` and
 `advanced` options as well:
@@ -1623,12 +1557,12 @@ Compiling ClojureScript...
 • main.js
 ```
 
-So far, so good. Let's move on with the CLJS test task.
+So far, so good. Let's move on to the CLJS test task.
 
 ## cljs-tdd
 
 We already ran the `clj-tdd` environment in a previous
-paragraph. Let's now update the `build.boot` build file to be able to
+paragraph. Let's update the `build.boot` build file to be able to
 launch a `cljs-tdd` environment as well. As usual, to use a new `boot`
 task we have to add it to the `:dependencies` environment variable of
 the `build.boot` boot file and require its main namespace to make the
@@ -1676,11 +1610,24 @@ Ran 20 tests containing 91 assertions.
 Elapsed time: 15.061 sec
 ```
 
-Nice shot. But considering that we are dealing with a portable
-library, we'd like to run the CLJ and CLJS tests all together, as we
-already did for the `modern-cljs` project. That's very easy
-too. Substitute the previously defined `clj-tdd` and `cljs-tdd` with
-the following `tdd` new task definition:
+Nice. But considering that we are dealing with a portable library,
+we'd like to run the CLJ and CLJS tests all together, as we already
+did for the `modern-cljs` project. That's very easy too. Substitute
+the previously defined `clj-tdd` and `cljs-tdd` with the following
+`tdd` new task definition
+
+```clj
+(deftask tdd
+  "Launch a CLJ TDD Environment"
+  []
+  (comp
+   (testing)
+   (watch)
+   (test-cljs :namespaces #{'valip.test.core 'valip.test.predicates})
+   (test :namespaces #{'valip.test.core 'valip.test.predicates})))
+```
+
+and launch it:
 
 ```clj
 boot tdd
@@ -1713,75 +1660,137 @@ Ok. We're done
 ## What's next
 
 We reached our first objective of making the `valip` library compliant
-with the Reader Conditional extension. During the process, we were also
-able to solve a couple of problems affecting the original `valip`
+with the Reader Conditional extension. During the process, we were
+also able to solve few problems affecting the original `valip`
 library:
 
 * the potential security issue created by the use of the
   `clojure.core/read-string` function;
+* the uncovered corner cases;
 * the bug in the `url?` predicate defined in the context of CLJS.
 
 That said, we still have work to do, namely:
 
-* locally install the updated `valip` library;
+* locally install the updated `valip` library to test it in a context
+  of a project;
 * publish the `valip` library to [`clojars`](https://clojars.org/) to
   make it available to whoever will be interested to.
 
-### Boot task 
+In this tutorial we're going to explain the first item only. In a next
+tutorial we'll deal with the next item.
 
-If you take a look at any CLJ/CLJS project based on `boot` build tool,
-you'll quickly discover that the standard way to build a jar and push
-it to a repository is
-[bootlaces](https://github.com/adzerk-oss/bootlaces).
+## Locally install valip
+
+To quickly finish with this tutorial, we're going to locally install
+the update version of `valip` by using the `lein install` task.
+
+First we have to update the `project.clj` build file as follows:
+
+```clj
+(defproject org.clojars.magomimmo/valip "0.4.0-SNAPSHOT"
+  :description "Functional validation library for Clojure and ClojureScript. 
+                Forked from https://github.com/cemerick/valip"
+  :url "http://github.com/magomimmo/valip"
+  :dependencies [[org.clojure/clojure "1.7.0"]]
+  :clean-targets ^{:protect false} ["resources" "dev-resources" :target-path])
+```
+
+Note that I changed the `groupId/artifactID` identifier from
+`com.cemerick/valip "0.3.2"` to `org.clojars.magomimmo/valip
+"0.4.0-SNAPSHOT"`. In a later tutorial I'll be more detailed about
+artifact identifier. Note also that in the above identifier **you
+should substitute** `magomimmo` with **your github name**.
+
+> NOTE 8: I also added the
+> [`:clean-targets`](https://github.com/technomancy/leiningen/blob/master/sample.project.clj#L295)
+> directive of `lein`.
+
+Now locally install the updated `valip` library as follows:
+
+```bash
+cd /path/to/valip
+lein install
+```
+
+The `lein install` task generates the `org.clojars.<your_github_name>/valip
+"0.4.0-SNAPSHOT"` artifact in the `target` directory:
+
+```bash
+tree target
+target
+├── classes
+│   └── META-INF
+│       └── maven
+│           └── org.clojars.magomimmo
+│               └── valip
+│                   └── pom.properties
+├── stale
+│   └── extract-native.dependencies
+└── valip-0.4.0-SNAPSHOT.jar
+
+6 directories, 3 files
+```
+
+and then it locally installs the artifact itself in your local
+[maven repository](http://stackoverflow.com/a/21048959/1310302) by
+overwriting the one that was eventually already installed:
+
+```bash
+tree ~/.m2/repository/org/clojars/<your_github_name>/valip
+├── 0.4.0-SNAPSHOT
+│   ├── _maven.repositories
+│   ├── maven-metadata-local.xml
+│   ├── valip-0.4.0-SNAPSHOT.jar
+│   └── valip-0.4.0-SNAPSHOT.pom
+└── maven-metadata-local.xml
+
+1 directory, 5 files
+```
+
+## Test valip in a project context
+
+You are now ready to test the portable `valip` validation library in
+the context of the `modern-cljs` project.
+
+First, if clone the `modern-cljs` project in a temporary directory and
+checkout the latest tutorial branch as follows:
+
+```bash
+cd /path/to/tmp
+git clone https://github.com/magomimmo/modern-cljs.git
+cd modern-cljs
+git checkout se-tutorial-18
+```
+
+Then edit the `build.boot` file by substituting the `valip` dependency
+with the new update version:
+
+```clj
+(set-env!
+ ...
+ 
+ :dependencies '[
+                 ...
+                 [org.clojars.<your_github_name>/valip "0.4.0-SNAPSHOT"]
+                 ...
+                 ])
+```
 
 
 ## Start TDD
 
-Start TDD environment:
+Start the TDD environment
 
 ```bash
-cd /path/to/modern-cljs
 boot tdd
 ...
 Elapsed time: 26.573 sec
 ```
 
-### Start CLJ REPL
-
-Now launch the client REPL as usual
- 
-```bash
-# from a new terminal
-cd /path/to/modern-cljs
-boot repl -c
-...
-boot.user=>
-```
-
-Remember to reactivate the JS engine from the Developer Tools of your
-browser and then visit the
-[Shopping Calculator](http://localhost:3000/shopping.html) URI to
-activate the websocket connection used by `tdd` to reload pages when
-you save some changes.
-
-### Start CLJS bREPL
-
-Finally, launch the CLJS bREPL from the CLJ REPL
-
-```bash
-boot.user=> (start-repl)
-<< started Weasel server on ws://127.0.0.1:49974 >>
-<< waiting for client to connect ... Connection is ws://localhost:49974
-Writing boot_cljs_repl.cljs...
- connected! >>
-To quit, type: :cljs/quit
-nil
-cljs.user=> 
-```
-
-and you're ready to go.
-
-
+and visit the
+[Shopping Calculator](http://localhost:3000/shopping.html) URL to play
+with the Shopping Calculator. Everything should still work as at the
+end of the [Tutorial 18][1].
 
 You can now stop the CLJ REPL and the boot process, and then reset the
 branch as usual:
@@ -1800,4 +1809,3 @@ Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
-[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
