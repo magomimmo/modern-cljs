@@ -3,7 +3,7 @@
 ### [Tutorial 19 - Linvin' on the edge][39]
 
 Explain how to make a library compliant with the new Reader
-Conditionals extension on CLJ/CLJS compilers.
+Conditionals extension of CLJ/CLJS compilers.
 
 ### [Tutorial 18 - Augmented TDD session][38]
 
