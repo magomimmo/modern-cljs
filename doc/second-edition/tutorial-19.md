@@ -51,7 +51,7 @@ think.
 ## Livin' on the edge
 
 When you start using a library implemented by others, you can easily
-end up with few misunderstandings of its use or even with some
+end up with few misunderstandings of its use or even with same
 unexpected issues. In these cases, the first thing you should do is to
 browse and read its documentation. As you know, one problem with open
 source software regards the corresponding documentation which is
@@ -342,10 +342,9 @@ all those stuff are new to you and the noise/signal ratio of the final
 `project.clj` build file is going to get much worst when compared with
 the `project.clj` we started from.
 
-But don't worry! Instead of complicating the `project.clj` file by
-adding We're not going to complicate the `project.clj` file to make
-`valip` compliant with Reader Conditionals extension, we'll continue
-to use `boot`.
+But don't worry! We're not going to complicate with `cljsbuild` the
+`project.clj` file to make `valip` compliant with Reader Conditionals
+extension, we'll continue to use `boot`.
 
 ## Execution
 
@@ -1229,7 +1228,7 @@ argument within a `str` call:
     (boolean (re-matches (re-pattern re) (str email))))) ; wrap within str
 ```
 
-Some thing with the `test-url?` corner cases assertion about `nil`
+Same thing with the `test-url?` corner cases assertion about `nil`
 argument:
 
 ```clj
