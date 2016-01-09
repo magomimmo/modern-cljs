@@ -161,7 +161,7 @@ so concise.
 
 ## Directory layout
 
-The second thing I generally look at, it's the directory layout of the
+The second thing I generally look at is the layout of the
 project directory:
 
 ```bash
