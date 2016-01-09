@@ -353,9 +353,9 @@ testing session we did previously with the
 
 > NOTE 5: we made the `modern-cljs.shopping.validators-test` namespace
 > compatible with both CLJ and CLJS by using the `#?` reader
-> literal. Depending on the available feature at runtime, `:clj` of
-> `:cljs`, the reader will get the right namespace to be required in the
-> `ns` declaration.
+> literal. Depending on the available feature at compile-time, `:clj`
+> of `:cljs`, the reader will get the right namespace to be required
+> in the `ns` declaration.
 
 We started very simple.
 

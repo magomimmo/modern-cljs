@@ -880,7 +880,7 @@ CLJS. But not all of them. Just to make an example, `valip.predicates`
 includes the `valid-email-domain?` predicate which verifies the
 existence of the domain of the email address passed by the
 user. Because it's implemented in terms of java native code,
-`valid-email-domain?` is not available on a JS runtime platform.
+`valid-email-domain?` is not available on a JS platform.
 
 It often happens that some validations are not executable directly on
 the client-side. However, thanks to ajax machinery, you can bring the
@@ -961,10 +961,10 @@ depending on the features offered by the run-time environment: the
 Reader Conditionals.
 
 Currently there are three available platform features identifying the
-runtime environments:
+environments at compile-time:
 
-* `:clj`: identify the JVM runtime
-* `:cljs`: identify the JSVM runtime
+* `:clj`: to identify JVM
+* `:cljs`: to identify JSVM
 * `:clr`: identify the MS Common Language Runtime (i.e., MS `.net`)
 
 There are two new reader literal forms: `#?` and `#?@`. At the moment
@@ -1021,7 +1021,7 @@ There are few important notable aspects in the above code:
    added the `:as` option;
 1. the `email-domain-errors` validator in now wrapped into the `#?`
    reader literal and it's going to be defined only for the JVM
-   platform that's identified at runtime by the `:clj` feature;
+   platform that's identified at compile by the `:clj` feature;
 1. to refer to the `valid-email-domain?` predicate we're now using the
    `pred` alias;
 1. there is no a `:cljs` condition/expression pair, meaning that the
