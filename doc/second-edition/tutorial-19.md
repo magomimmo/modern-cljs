@@ -294,12 +294,12 @@ trick, it is also affected by a subtle and serious security issue.
 ## Steps
 
 As we learned few tutorials ago, the Reader Conditionals extension
-offers the `#?` reader macro to dynamically differentiate at runtime
-the forms to be evaluated depending on the features of the hosting
-platform. At the moment we are interested in two features:
+offers the `#?` reader macro to dynamically differentiate at
+compile-time the forms to be evaluated depending on the features of
+the hosting platform. At the moment we are interested in two features:
 
-* `:clj` is available when CLJ runs on a JVM;
-* `:cljs` is available when CLJ runs on a JSVM.
+* `:clj` is available when CLJ compiles on a JVM;
+* `:cljs` is available when CLJ compiles on a JSVM.
 
 With the Reader Conditionals machinery in our hands we can proceed
 with the next steps, namely:
@@ -317,7 +317,7 @@ with the next steps, namely:
 5. use the `#?` reader macro to differentiate the namespaces'
    requirements in the `valip.core` and `valip.predicates` namespaces
    declaration, depending on the feature made available by the hosting
-   platform at runtime;
+   platform at compile-time;
 6. use the `#?` reader macro to differentiate the symbols' definitions
    in the `valip.predicates` namespace as well;
 7. use the `#?` reader macro to differentiate the namespaces'
@@ -452,7 +452,7 @@ follows:
 ```
 
 As you see, you're conditionally defining the `url?` symbol depending
-on the feature of the platform at runtime, being it JVM or JSVM.
+on the feature of the platform at compile-time, being it JVM or JSVM.
 
 ### Step 5
 
