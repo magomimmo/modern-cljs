@@ -146,7 +146,7 @@ clojure-dev team will deliver the `1.8.0` release):
 ```
 
 > NOTE 1: this tutorial use [`leiningen`](http://leiningen.org/) build
-> tool. You needs to install it by following
+> tool. You need to install it by following
 > [this very easy instruction](http://leiningen.org/#install).
 
 
