@@ -1,5 +1,3 @@
-# Modern ClojureScript
-
 ## Latest tutorials
 
 ### [Tutorial 19 - Linvin' on the edge][39]
@@ -17,6 +15,8 @@ environment augmented with CLJ/CLJS REPLs.
 Integrate validators for the into a web form in such a way that the
 user will be notified with the corresponding help messages when the
 she/he enters invalid values in the form.
+
+# Modern ClojureScript
 
 > **ATTENTION NOTE**: I'm in the process of publishing the
 > [second edition][1] of the series. The main difference from the
