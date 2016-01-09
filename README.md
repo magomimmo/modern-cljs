@@ -188,6 +188,12 @@ she/he enters invalid values in the form.
 Complete the client-side form validation by exploiting the TDD
 environment augmented with CLJ/CLJS REPLs.
 
+## [Tutorial 19 - Living' on the edge][39]
+
+Explain how to make a library compliant with the new Reader
+Conditionals extension on CLJ/CLJS compilers.
+
+
 # License
 
 Copyright © Mimmo Cosenza, 2012-2015. Released under the Eclipse Public
@@ -232,3 +238,4 @@ License, the same license as Clojure.
 [36]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
 [37]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
 [38]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md 
+[39]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md 

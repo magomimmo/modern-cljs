@@ -1792,14 +1792,7 @@ and visit the
 with the Shopping Calculator. Everything should still work as at the
 end of the [Tutorial 18][1].
 
-You can now stop the CLJ REPL and the boot process, and then reset the
-branch as usual:
-
-```bash
-git reset --hard
-```
-
-Stay tuned for the next tutorial
+You can now stop the boot process and stay tuned for the next tutorial
 
 ## Next Step - TBD
 

@@ -1048,9 +1048,11 @@ branch as usual:
 git reset --hard
 ```
 
-Stay tuned for the next tutorial
+## Next Step - [Tutorial 19 - Living' on the edge][3]
 
-## Next Step - TBD
+In the [next tutorial][3] we're going to explain how to make a library
+compliant with the new Reader Conditionals extension on CLJ/CLJS
+compilers.
 
 # License
 
@@ -1059,3 +1061,4 @@ License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
+[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
