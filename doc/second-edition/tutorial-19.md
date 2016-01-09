@@ -1543,8 +1543,8 @@ It's not enough? You have a third form too: `(jsObj.method arg1 ... argn)`
 ```
 
 Are you getting confused? So do I. Even because there is even a forth
-form. It uses `:require` instead of `:import` in the declaration and
-then uses the class as a namespace:
+form. It uses `:require` instead of `:import` in the namespace
+declaration and then uses the class as a namespace:
 
 ```clj
 (ns valip.predicates
@@ -1576,6 +1576,8 @@ then uses the class as a namespace:
 We have to make a choice and be coherent with it to not make a reader
 of our code disoriented, but be prepared to read all the other three
 form in the wild.
+
+NOTE 8: [Shane Kilkelly](https://github.com/ShaneKilkelly) suggested me to use the third form, `(goog.Uri.parse (str s))`, because `parse` is a static method of the `goog.Uri` class. Instead she would use use the sugared form, like in `(. uri (gestScheme))`, for instance methods. It makes sense to me. 
 
 So, make your choice and launch the CLJS compilation again:
 
@@ -1764,7 +1766,7 @@ Note that I changed the `groupId/artifactID` identifier from
 artifact identifier. Note also that in the above identifier **you
 should substitute** `magomimmo` with **your github name**.
 
-> NOTE 8: I also added the
+> NOTE 9: I also added the
 > [`:clean-targets`](https://github.com/technomancy/leiningen/blob/master/sample.project.clj#L295)
 > directive of `lein`.
 
