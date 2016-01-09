@@ -1577,7 +1577,11 @@ We have to make a choice and be coherent with it to not make a reader
 of our code disoriented, but be prepared to read all the other three
 form in the wild.
 
-NOTE 8: [Shane Kilkelly](https://github.com/ShaneKilkelly) suggested me to use the third form, `(goog.Uri.parse (str s))`, because `parse` is a static method of the `goog.Uri` class. Instead she would use use the sugared form, like in `(. uri (gestScheme))`, for instance methods. It makes sense to me. 
+> NOTE 8: [Shane Kilkelly](https://github.com/ShaneKilkelly) suggested
+> me to use the third form, `(goog.Uri.parse (str s))`, because `parse`
+> is a static method of the `goog.Uri` class. Instead she would use use
+> the sugared form, like in `(. uri (getScheme))`, for instance
+> methods. It makes sense to me.
 
 So, make your choice and launch the CLJS compilation again:
 
