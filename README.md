@@ -206,7 +206,7 @@ she/he enters invalid values in the form.
 Complete the client-side form validation by exploiting the TDD
 environment augmented with CLJ/CLJS REPLs.
 
-## [Tutorial 19 - Living' on the edge][39]
+## [Tutorial 19 - Livin' on the edge][39]
 
 Explain how to make a library compliant with the new Reader
 Conditionals extension on CLJ/CLJS compilers.
