@@ -105,7 +105,7 @@ now it's too late to change.
 
 As said, this is the [second edition][1] of the series and is based on
 the [Boot][3] build tool. I'm not going to update or support the
-[first edition][2] of the series which is based on the [Leiningen][4]
+[first edition][2] of the series which was based on the [Leiningen][4]
 build tool.
 
 ## Introduction
