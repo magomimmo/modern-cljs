@@ -1,5 +1,23 @@
 # Modern ClojureScript
 
+## Latest tutorials
+
+### [Tutorial 19 - Linvin' on the edge][39]
+
+Explain how to make a library compliant with the new Reader
+Conditionals extension on CLJ/CLJS compilers.
+
+### [Tutorial 18 - Augmented TDD session][38]
+
+Complete the client-side form validation by exploiting the TDD
+environment augmented with CLJ/CLJS REPLs.
+
+### [Tutorial 17 - REPLing with Enlive][37]
+
+Integrate validators for the into a web form in such a way that the
+user will be notified with the corresponding help messages when the
+she/he enters invalid values in the form.
+
 > **ATTENTION NOTE**: I'm in the process of publishing the
 > [second edition][1] of the series. The main difference from the
 > [first edition][2] regards the use of the [Boot][3] build tool instead
