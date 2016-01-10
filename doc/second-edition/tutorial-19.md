@@ -542,14 +542,14 @@ To make the code more readable, we adopted an expanded declaration
 form. If you want to make the declaration more compact you could use
 [this smart trick](https://github.com/polytypic/poc.cml/blob/6c80c55aa16ab1253ad3e85705b5360fbed73f7e/src/poc/cml/sem.cljc).
 
-## STEP 6
+### Step 6
 
 We already differentiated any platform specific symbol definition in
 the `valip.predicates` namespace while we pasted those symbols during
 the execution of the Step 3. So there is nothing else left to be done
 in this Step 6.
 
-# Step 7
+### Step 7
 
 We now have to deal with the `valip` unit tests confined in the
 `src/test` directory. *Mutatis mutandis*, we have to replicate the
@@ -620,7 +620,7 @@ by using the same cited
 > NOTE 4: the `valid-email-domain?` predicate can only be evaluated on
 > JVM and so it is the corresponding test.
 
-## Step 8
+### Step 8
 
 We can now get rid of the original source files containing platforms
 specific predicates, because they have been completely absorbed in the
