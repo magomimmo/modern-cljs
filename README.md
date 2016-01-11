@@ -2,7 +2,7 @@
 
 ### [Tutorial 20 - House Keeping][40]
 
-Step to step guide for publishing a library to clojar repository by
+Step to step guide for publishing a library to clojars repository by
 using `boot`.
 
 ### [Tutorial 19 - Livin' on the edge][39]
