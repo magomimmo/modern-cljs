@@ -3,10 +3,10 @@
 In the [previous tutorial][1] we tried to explain how to make a
 library compliant with the
 [Reader Conditionals](http://clojure.org/reader#The%20Reader--Reader%20Conditionals). As
-an example, we used the [`valip`](https://github.com/magomimmo/valip)
-library that we already used in the `modern-cljs` project for
-validating the input field of the Login and Shopping forms we used as
-CLJ/CLJS playground.
+an example, we exploited the
+[`valip`](https://github.com/magomimmo/valip) library that we already
+used in the `modern-cljs` project for validating the input fields of
+the Login and Shopping forms we adopted as CLJ/CLJS playground.
 
 Even if we reached a decent result, we left some work to be done,
 namely the deployment of the updated library to
@@ -18,37 +18,39 @@ for open source Clojure libraries.
 In this tutorial we're going to fill that gap. But first we have to
 digress on a couple of topics we left uncover about the `boot` build
 tool, because they constitute a prerequisite to the `clojars`
-deployment itself:
+deployment itself, namely:
 
 * [POM](https://maven.apache.org/pom.html#Introduction) (Project
   Object Model): information about the project
 * [Dependency Scope](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html):
-  used to limit the transitivity of a dependency.
+  management of dependencies' transitivity.
 
 ## Minimal POM (Project Object Model)
 
 To quickly finish the
 [previous tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md#locally-install-valip),
-we locally installed the updated version of `valip` by using the `lein
-install` task instead of of using the `boot`build tool. This was
-because the `project.clj` build file used by `lein` already had the
+we switched to `leiningen` and locally installed the updated version
+of `valip` by using the `lein install` task. This was because the
+`project.clj` build file used by `leiningen` already had the
 [minimal information](https://maven.apache.org/guides/introduction/introduction-to-the-pom.html#Minimal_POM)
 needed to create and package the `valip` library, while we did not
 informed the corresponding `build.boot` build file used by `boot` with
-the same information:
+the same information, namely:
 
-* `groupId:` it has to follow the java package name rules; e.g.,
+* the `groupId:` it has to follow the java package name rules; e.g.,
   `org.clojars.magomimmo`;
-* `artifactId`: it is the name of the `jar` file without version; e.g., `valip`;
-* `version`: it is strongly suggested to follow the
+* the `artifactId`: it is the name of the `jar` file without version;
+  e.g., `valip`;
+* the `version`: it is strongly suggested to follow the
   [Semantic Version Specification](http://semver.org/); e.g., "0.4.0-SNAPSHOT".
 
-    > NOTE 1: `-SNAPSHOT` qualifies a version "as-yet-unreleased". Under the
-    > wood, `maven`, on which both `leiningen` and `boot` are based are
-    > based, will fetch the most recently deployed `-SNAPSHOT` version. Even
-    > if this behavior slows down the build process, in a continuous
-    > integration scenario it guarantees up-to-date builds, while minimizing
-    > the amount of rebuilding that is required for each integration step.
+    > NOTE 1: `-SNAPSHOT` qualifies a version
+    > "as-yet-unreleased". Under the wood, `maven`, on which both
+    > `leiningen` and `boot` are based, will fetch the most recently
+    > deployed `-SNAPSHOT` version. Even if this behavior slows down
+    > the build process, in a continuous integration scenario it
+    > guarantees up-to-date builds, while minimizing the amount of
+    > rebuilding that is required for each integration step.
 
 In `boot`, to create a project's POM, package it in a `jar` and
 finally install it in the local `maven` repository on your machine,
@@ -87,15 +89,15 @@ As you see, to create a minimal `pom.xml` file for a project you need
 to specify at least the `-p` and the `-v` command line options. Before
 testing the `pom` task, let's first get rid of the stuff generated in
 the
-[previous tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md#locally-install-valip)
+[previous tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md#locally-install-valip),
 when we ran the `lein install` command:
 
 ```bash
-# remove files generated in the project directory
+# delete files generated in the project directory
 cd /path/to/valip
 lein clean
 rm -rf pom.xml
-# remove the jar file from the local maven repository
+# delete the jar file from the local maven repository
 rm -rf ~/.m2/repository/org/clojars/magomimmo/valip
 ```
 
@@ -135,9 +137,9 @@ tree
 ```
 
 > NOTE 3: after I wrote the [previous tutorial][1], I decided to move
-> and rename the `def.clj` file containing the `valip` macros to a
-> more conventional place and rename it as `macros.clj`. You could do
-> the same thing as a very simple exercise.
+> the `def.clj` file containing the `valip` macros to a more
+> conventional place and rename it as `macros.clj`. You could do the
+> same thing as a very simple exercise.
 
 This is because we did not chain the `target` task after the `pom`
 one. Before the `2.5.5.` release, `boot` did not have a `target` task.
@@ -202,7 +204,7 @@ valip
 
 Initially, the `fileset` includes the `valip` source code files
 only. Then, the `pom` task adds the `META-INF` directory containing
-what's later will be needed to package the project into a `jar` file.
+what later will be needed to package the project into a `jar` file.
 
 ## The `jar` task
 
@@ -220,10 +222,10 @@ Options:
 ```
 
 At the moment we're not interested in any of its command line
-options. Even if the `jar`'s help does not tell you, if you do not
-specify a file name with the `-f` option, the `jar` task will use the
-[concatenation](https://github.com/boot-clj/boot/blob/master/boot/core/src/boot/task/built_in.clj#L629)
-of the project's `artifactId` and `version` as
+options. The `jar`'s help does not tell you, but if you do not specify
+a file name with the `-f` option, the `jar` task will
+[concatenate](https://github.com/boot-clj/boot/blob/master/boot/core/src/boot/task/built_in.clj#L629)
+the project's `artifactId` and `version` as
 [default name](https://github.com/boot-clj/boot/blob/master/boot/core/src/boot/task/built_in.clj#L630).
 
 Try it:
@@ -298,7 +300,7 @@ Options:
 
 This help is mostly about corner cases, which it's not our
 scenario. We'll stay with the default behavior, without passing any
-option to the `install` task, by chaining it as follows:
+option to the `install` task:
 
 ```bash
 boot pom -p org.clojars.<your_github_name>/valip -v 0.4.0-SNAPSHOT jar install
@@ -307,7 +309,7 @@ Writing valip-0.4.0-SNAPSHOT.jar...
 Installing valip-0.4.0-SNAPSHOT.jar...
 ```
 
-Now take a look at your local maven repository:
+Now take a look at your local `maven` repository:
 
 ```bash
 tree ~/.m2/repository/org/clojars/<your_github_name>/valip
@@ -352,7 +354,7 @@ install` command we used in the [previous tutorial][1].
 
 ## Enter `task-options!
 
-`task-options!` allows to add any task option in the `build.boot`
+`task-options!` allows to add any task option to the `build.boot`
 build file.  If you're only using built-in tasks, you can place it
 just after the `set-env!` form. If you are using other tasks you place
 `task-options!` after the requirement form. Here it's the complete
@@ -402,10 +404,10 @@ project:
    (test)))
 ```
 
-> NOTE 4: we also moved the `test` and the `test-cljs` option arguments into
-> the `task-options!` form as well.
-> 
-> NOTE 5: we also enrich the `pom` task with more information, even the
+> NOTE 4: we moved the `test` and the `test-cljs` option arguments
+> into the `task-options!` form as well.
+
+> NOTE 5: we enrich the `pom` task with more information, even the
 > ones, like `:description`, `:url`, `:scm` and `:license` that do no
 > make part of a minimal POM for the project to be packaged and
 > installed.
@@ -441,8 +443,9 @@ Ran 21 tests containing 97 assertions.
 Elapsed time: 15.959 sec
 ```
 
-It worked. Now stop the running `boot` process and reinstall `valip`
-in the local maven repository by chaining the three tasks as follows:
+It worked. Now stop the running `boot` process and try to reinstall
+`valip` in the local `maven` repository by chaining the three cited
+tasks as follows:
 
 ```bash
 boot pom jar install
@@ -483,7 +486,7 @@ cd modern-cljs
 git checkout se-tutorial-18
 ```
 
-Then edit the `build.boot` file by substituting the `valip` dependency
+Then edit its `build.boot` file by substituting the `valip` dependency
 with the newly updated one:
 
 ```clj
@@ -536,8 +539,8 @@ jar -tvf ~/.m2/repository/org/clojars/magomimmo/valip/0.4.0-SNAPSHOT/valip-0.4.0
 
 That's very bad. The locally installed `jar` package for the `valip`
 library does not contain any `valip` source files. How this could
-happen? *The answer, my friend, is blowin' in the* `boot`, namely in
-its
+happen? *The answer, my friend, is blowin' in the wind*, namely in the
+`boot`
 [wiki](https://github.com/boot-clj/boot/wiki/Boot-Environment#env-keys):
 
 * `:resource-paths`: A set of path strings. These paths will be on the
@@ -551,7 +554,7 @@ Ahah! Even if the `:source-paths` set of directories will be on the
 `classpath` of the project, as we already knew from the fact that
 `valip` was able to be compiled and tested, the contained files have
 been not emitted in the final artifacts, as we just discovered by
-listing the content of the `jar` file.
+listing the content of the generated `jar` file.
 
 On the contrary, the files contained in the set of directories of the
 `:resource-paths` would be emitted in the final `jar` file as well.
@@ -644,7 +647,7 @@ Conditionals extension, we changed its version identifier from
 stable, they never get versioned with a major version number. In the
 mean time, as dictated by the
 [The Semantic Version Specification](http://semver.org/), anything
-could change. By considering that a lot of open source libraries stand
+could change. By considering that a lot of open source libraries stay
 as unstable for a long time, their minor version number is generally
 treated as major version numbers, meaning that minor version number
 increments do not guarantee any backward compatibility. This is why we
@@ -713,24 +716,22 @@ repository, which is the one we're going to use, has no restrictions
 and anyone may publish a lib into it.
 
 That said, if you want to push your own version of somebody else's
-library, which is our case, do not use the original `groupId`: use you
-personal `groupId`, e.g., `org.clojars.<your_github_name>`.
-
-We can move to the next step.
+library, which is our case, do not use the original `groupId`: use
+your personal `groupId`, e.g., `org.clojars.<your_github_name>`.
 
 ## Register and publish on clojars.org
 
 To publish a library on clojars Classic repository, you first need to
 [register](https://clojars.org/register) with it and you're almost
-ready to publish the `valip` SNAPSHOT. Indeed, there is another very
+ready to publish the `valip` SNAPSHOT. Actually, there is another very
 handy `boot` task to be used:
 [`bootlaces`](https://github.com/adzerk-oss/bootlaces) and it's aimed
 at simplifying a lot the libraries publication to clojars.
 
 ### `bootlaces` task
 
-Open the `build.boot` file and edit it to add the `bootlaces` task and
-require its main namespace:
+Open the `build.boot` file to add the `bootlaces` task and require its
+main namespace:
 
 ```clj
 (set-env!
