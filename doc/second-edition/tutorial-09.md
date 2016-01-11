@@ -328,6 +328,8 @@ That said, all that work has been done to be prepared for implementing
 the server side ajax endpoint we started from as the goal of this
 tutorial.
 
+To proceed with the next paragraph, stop the `boot` process.
+
 ## Back to shoreleave
 
 When thinking about Ajax, most of us instinctively associate it with
@@ -458,7 +460,7 @@ Here is the complete `remotes.clj` source file.
 ```clj
 (ns modern-cljs.remotes
   (:require [modern-cljs.core :refer [handler]]
-            [shoreleave.handler :refer [site]]
+            [compojure.handler :refer [site]]
             [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]))
 
 (defremote calculate [quantity price tax discount]
@@ -538,8 +540,7 @@ Here is the complete and final `build.boot` file.
   "Launch immediate feedback dev environment"
   []
   (comp
-   (serve :dir "target"                                
-          :handler 'modern-cljs.remotes/app            ;; ring hanlder
+   (serve :handler 'modern-cljs.remotes/app            ;; ring hanlder
           :resource-root "target"                      ;; root classpath
           :reload true)                                ;; reload ns
    (watch)
