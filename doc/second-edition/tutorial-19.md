@@ -1861,10 +1861,13 @@ and visit the
 with the Shopping Calculator. Everything should still work as at the
 end of the [Tutorial 18][1].
 
-You can now stop the `boot` process and stay tuned for the next
-tutorial
+You can now stop the `boot` process.
 
-## Next Step - TBD
+## Next Step - [Tutorial 20 House Keeping][2]
+
+In the [next tutorial][2] will guide you step by step in publishing
+the updated version of `valip` using `boot` to the notorious `clojars`
+community repository.
 
 # License
 
@@ -1872,3 +1875,4 @@ Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
+[2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md

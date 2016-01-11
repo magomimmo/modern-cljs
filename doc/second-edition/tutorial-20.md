@@ -787,7 +787,7 @@ Writing pom.xml and pom.properties...
 Writing valip-0.4.0-SNAPSHOT.jar...
 Installing valip-0.4.0-SNAPSHOT.jar...
 CLOJARS_USER and CLOJARS_PASS were not set; please enter your Clojars credentials.
-Username: magomimmo
+Username: 
 Password:
              clojure.lang.ExceptionInfo: java.lang.AssertionError: Assert failed: current git branch is reader-conditionals but must be master
                                          (or (not ensure-branch) (= b ensure-branch))
@@ -864,7 +864,7 @@ Writing pom.xml and pom.properties...
 Writing valip-0.4.0-SNAPSHOT.jar...
 Installing valip-0.4.0-SNAPSHOT.jar...
 CLOJARS_USER and CLOJARS_PASS were not set; please enter your Clojars credentials.
-Username: magomimmo
+Username: 
 Password:
              clojure.lang.ExceptionInfo: java.lang.AssertionError: Assert failed: project repo is not clean
                                          (or (not ensure-clean) clean?)
@@ -890,7 +890,7 @@ Writing pom.xml and pom.properties...
 Writing valip-0.4.0-SNAPSHOT.jar...
 Installing valip-0.4.0-SNAPSHOT.jar...
 CLOJARS_USER and CLOJARS_PASS were not set; please enter your Clojars credentials.
-Username: magomimmo
+Username:
 Password:
 Deploying valip-0.4.0-SNAPSHOT.jar...
 ```
@@ -933,29 +933,115 @@ The very last topic of this tutorial has to do with the dependency
 management. `boot`, being based on `maven`, uses the same semantic of
 `maven` when dealing with the dependency scope. Take into account that
 the dependency scope controls the dependency transitivity as well. In
-`maven` there are 6 scopes available, but I have to admit that I never
-saw more than a couple of them, namely "test" and "provide", in the
-contest of `boot` build files and even less with `leiningen`, which
-offers `profiles` for such a thing. 
+`maven` there are [6 scopes available](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Dependency_Scope):
+
+* compile
+* provided
+* runtime
+* test
+* system
+* import
+
+
+I have to admit that I never saw more than a couple of them, namely
+"test" and "provided", in the contest of `boot` build files and even
+less with `leiningen`, which offers
+[`profiles` for such a thing](http://librelist.com/browser//leiningen/2014/9/7/clarifications-about-scope-in-dependencies/#32fcd639eb09c94545bec6a56c200167).
+
+> NOTE 6: when you no specify a `:scope`, `maven` assumes `"compile"`
 
 ### Test Scope
 
 The test scope indicates that a dependency is only required for the
 compilation and the test phases of the library itself and it's not
-required to consume the library itself from another application.
+required to consume the library from another application.
 
 Let's contextualize this concept within the `valip` library by
-analyzing its dependencies starting from the ones catheterized by
-a very clear role. All the `boot` tasks play a role in the building,
+analyzing its dependencies starting from the ones catheterized by a
+very clear role. All the `boot` tasks play a role in the building,
 test and deployment of a library, but they are not consumed by an
-application using the library itself. We can safely set all of the
-with the `:scope` of "test".
+application using the library itself. We can safely say that all of
+them should have the `:scope` set to `"test"`
 
-But what about the Clojure and the ClojureScript compilers? We need
-them to compile and test `valip` for both CLJ and CLJS, but the
-eventual consumer of the source code of the library will provide the
-Clojure and/or the ClojureScript compilers anyway.
+### Provided Scope
 
+But what about Clojure and ClojureScript compilers? Obviously, we need
+them to compile `valip`. Any application consuming the `valip` source
+code need to compile it as well, but it will provide those compiler by
+itself. We can safely say that both the CLJ and the CLJS compilers should have the `:scope` set to `"provided"`.
+
+Following if the entire `build.boot` build file filled with the
+dependencies scope.
+
+```clj
+(set-env!
+ :source-paths #{"src"}
+ 
+ :dependencies '[[org.clojure/clojure "1.7.0" :scope "provided"]
+                 [org.clojure/clojurescript "1.7.228" :scope "provided"]
+                 [adzerk/boot-test "1.1.0" :scope "test"]
+                 [adzerk/boot-cljs "1.7.170-3" :scope "test"]
+                 [crisptrutski/boot-cljs-test "0.2.1" :scope "test"]
+                 [adzerk/bootlaces "0.1.13" :scope "test"]])
+
+(require '[adzerk.boot-test :refer [test]]
+         '[adzerk.boot-cljs :refer [cljs]]
+         '[crisptrutski.boot-cljs-test :refer [test-cljs]]
+         '[adzerk.bootlaces :refer [bootlaces! build-jar push-snapshot]])
+
+(def +version+ "0.4.0-SNAPSHOT")
+(bootlaces! +version+)
+
+(task-options!
+ push {:ensure-branch nil}
+ pom {:project 'org.clojars.magomimmo/valip
+      :version +version+
+      :description "Functional validation library for Clojure and ClojureScript. 
+                    Forked from https://github.com/cemerick/valip"
+      :url "http://github.com/magomimmo/valip"
+      :scm {:url "http://github.com/magomimmo/valip"}
+      :license {"Eclipse Public License" "http://www.eclipse.org/legal/epl-v10.html"}}
+ test {:namespaces #{'valip.test.core 'valip.test.predicates}}
+ test-cljs {:namespaces #{'valip.test.core 'valip.test.predicates}})
+
+(deftask testing
+  []
+  (merge-env! :source-paths #{"test"})
+  identity)
+
+(deftask tdd
+  "Launch a CLJ TDD Environment"
+  []
+  (comp
+   (testing)
+   (watch)
+   (test-cljs)
+   (test)))
+
+(deftask install-jar
+  []
+  (merge-env! :resource-paths #{"src"})
+  (comp
+   (pom)
+   (jar)
+   (install)))
+```
+
+You can now re-publish `valip` to `clojars`
+
+```bash
+boot build-jar push-snapshot
+Writing pom.xml and pom.properties...
+Writing valip-0.4.0-SNAPSHOT.jar...
+Installing valip-0.4.0-SNAPSHOT.jar...
+CLOJARS_USER and CLOJARS_PASS were not set; please enter your Clojars credentials.
+Username: 
+Password:
+Deploying valip-0.4.0-SNAPSHOT.jar...
+```
+
+That's all folks. Stay tune for the next tutorial.
+ 
 ## Next Step - TBD
 
 # License

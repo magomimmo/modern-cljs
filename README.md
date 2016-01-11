@@ -1,5 +1,10 @@
 ## Latest tutorials
 
+### [Tutorial 20 - House Keeping][40]
+
+Step to step guide for publishing a library to clojar repository by
+using `boot`.
+
 ### [Tutorial 19 - Livin' on the edge][39]
 
 Explain how to make a library compliant with the new Reader
@@ -9,12 +14,6 @@ Conditionals extension of CLJ/CLJS compilers.
 
 Complete the client-side form validation by exploiting the TDD
 environment augmented with CLJ/CLJS REPLs.
-
-### [Tutorial 17 - REPLing with Enlive][37]
-
-Integrate validators for the into a web form in such a way that the
-user will be notified with the corresponding help messages when the
-she/he enters invalid values in the form.
 
 # Modern ClojureScript
 
@@ -211,6 +210,10 @@ environment augmented with CLJ/CLJS REPLs.
 Explain how to make a library compliant with the new Reader
 Conditionals extension on CLJ/CLJS compilers.
 
+## [Tutorial 20 - House Keeping][40]
+
+Step to step guide for publishing a library to clojar repository by
+using `boot`.
 
 # License
 
@@ -256,4 +259,5 @@ License, the same license as Clojure.
 [36]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
 [37]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
 [38]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md 
-[39]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md 
+[39]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
+[40]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md 
