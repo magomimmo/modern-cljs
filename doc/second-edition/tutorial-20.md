@@ -13,6 +13,20 @@ namely the deployment of the updated library to
 [clojars](https://clojars.org/), the notorious community repository
 for open source Clojure libraries.
 
+## Preamble
+
+Unless you completed the [previous tutorial][1] and finally committed
+your work in the `reader-conditionals` branch of the `valip` project
+you created while following the tutorial itself, to be able to work on
+this new tutorial, you need to do as follows:
+
+```bash
+git clone https://github.com/magomimmo/valip.git
+cd valip
+git checkout se-tutorial-19
+git checkout -b reader-conditionals
+```
+
 ## Introduction
 
 In this tutorial we're going to fill that gap. But first we have to
@@ -41,8 +55,9 @@ the same information, namely:
   `org.clojars.magomimmo`;
 * the `artifactId`: it is the name of the `jar` file without version;
   e.g., `valip`;
-* the `version`: it is strongly suggested to follow the
-  [Semantic Version Specification](http://semver.org/); e.g., "0.4.0-SNAPSHOT".
+* the `version`: it is suggested to follow the
+  [Semantic Version Specification](http://semver.org/); e.g.,
+  "0.4.0-SNAPSHOT"
 
     > NOTE 1: `-SNAPSHOT` qualifies a version
     > "as-yet-unreleased". Under the wood, `maven`, on which both
@@ -190,6 +205,7 @@ valip
 ├── macros.clj
 └── predicates.cljc
 Writing pom.xml and pom.properties...
+
 META-INF
 └── maven
     └── org.clojars.magomimmo
@@ -221,12 +237,13 @@ Options:
   -m, --main MAIN         Set the namespace containing the -main function to MAIN.
 ```
 
-At the moment we're not interested in any of its command line
+At the moment, we're not interested in any of its command line
 options. The `jar`'s help does not tell you, but if you do not specify
 a file name with the `-f` option, the `jar` task will
 [concatenate](https://github.com/boot-clj/boot/blob/master/boot/core/src/boot/task/built_in.clj#L629)
 the project's `artifactId` and `version` as
-[default name](https://github.com/boot-clj/boot/blob/master/boot/core/src/boot/task/built_in.clj#L630).
+[default name](https://github.com/boot-clj/boot/blob/master/boot/core/src/boot/task/built_in.clj#L630),
+which is what we want.
 
 Try it:
 
@@ -321,8 +338,8 @@ tree ~/.m2/repository/org/clojars/<your_github_name>/valip
 └── maven-metadata-local.xml
 ```
 
-Also verify that the `valip` directory is still clean, because we did
-not chain any `target` task:
+It is worth nothing that the `valip` directory is still clean, because
+we did not chain any `target` task:
 
 ```bash
 tree
@@ -350,33 +367,29 @@ step by step, but it is not something you'd like to repeat again and
 again after any project change.
 
 From a build tool as `boot` you would expect something like the `lein
-install` command we used in the [previous tutorial][1].
-
-## Enter `task-options!
+install` command we used in the [previous tutorial][1]: enter
+`task-options!`.
 
 `task-options!` allows to add any task option to the `build.boot`
 build file.  If you're only using built-in tasks, you can place it
-just after the `set-env!` form. If you are using other tasks you place
-`task-options!` after the requirement form. Here it's the complete
-revisited version of the `build.boot` build file for the `valip`
-project:
+just after the `set-env!` form. If you are using other tasks, you'll
+place `task-options!` after the requirement form. Following it is the
+complete revisited version of the `build.boot` build file for the
+`valip` project:
 
 ```clj
 (set-env!
  :source-paths #{"src"}
  
- :dependencies '[
-                 [org.clojure/clojure "1.7.0"]
+ :dependencies '[[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.228"]
                  [adzerk/boot-test "1.1.0"]
                  [adzerk/boot-cljs "1.7.170-3"]
-                 [crisptrutski/boot-cljs-test "0.2.1"]
-                 ])
+                 [crisptrutski/boot-cljs-test "0.2.1"]])
 
 (require '[adzerk.boot-test :refer [test]]
          '[adzerk.boot-cljs :refer [cljs]]
-         '[crisptrutski.boot-cljs-test :refer [test-cljs]]
-         )
+         '[crisptrutski.boot-cljs-test :refer [test-cljs]])
 
 (task-options!
  pom {:project 'org.clojars.magomimmo/valip
@@ -407,7 +420,7 @@ project:
 > NOTE 4: we moved the `test` and the `test-cljs` option arguments
 > into the `task-options!` form as well.
 
-> NOTE 5: we enrich the `pom` task with more information, even the
+> NOTE 5: we enriched the `pom` task with more information, even the
 > ones, like `:description`, `:url`, `:scm` and `:license` that do no
 > make part of a minimal POM for the project to be packaged and
 > installed.
@@ -468,9 +481,9 @@ tree ~/.m2/repository/org/clojars/<your_github_name/valip/
 1 directory, 5 files
 ```
 
-Nice job, but if you now think we're done, you're **wrong!**.  At
-least, we have to test the local installation of the `valip` library
-in the context of a project, as we already did in the
+Nice job, but if you now think we're done, you're **wrong!** At least,
+we have to test the local installation of the `valip` library in the
+context of a project, as we already did in the
 [previous tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md#test-valip-in-a-project-context).
 
 ## Test valip in a project context
@@ -523,8 +536,9 @@ Argh. This is not so lovely! What's is happening here? It seems that
 the `boot tdd` task is not able to find the source files of the
 `valip` library in the `classpath`.
 
-Perhaps, we should have taken a look at the content of the generated
-`jar` file installed by `boot` in the local maven repository:
+Previously, we should have taken a look at the content of the
+generated `jar` file installed by `boot` in the local repository,
+instead of quickly proceeding with the `valip` installation:
 
 ```bash
 jar -tvf ~/.m2/repository/org/clojars/magomimmo/valip/0.4.0-SNAPSHOT/valip-0.4.0-SNAPSHOT.jar
@@ -552,30 +566,39 @@ happen? *The answer, my friend, is blowin' in the wind*, namely in the
 
 Ahah! Even if the `:source-paths` set of directories will be on the
 `classpath` of the project, as we already knew from the fact that
-`valip` was able to be compiled and tested, the contained files have
-been not emitted in the final artifacts, as we just discovered by
-listing the content of the generated `jar` file.
+`valip` was able to be compiled and tested, the contained source files
+would never be emitted in the final artifacts, as we just discovered
+by listing the content of the generated `jar` file.
 
 On the contrary, the files contained in the set of directories of the
 `:resource-paths` would be emitted in the final `jar` file as well.
 
-So, the easiest solution seems to be to set the `:resource-paths`
-`boot` environment variable with the same `#{"src"}` value of the
-`:source-paths` one:
+## `install-jar` task
+
+Now, go back to the `valip`'s `build.boot` build file. By just setting
+the `:resource-paths` environment variable with the same `#{"src"}`
+value of the `:source-paths` one, we should be able to solve the
+problem of including into the `jar` the `valip`'s source files. While
+we are at it, let's define a new `install-jar` task, which first sets
+the `:resource-paths` environment variable and then composes the
+`pom`, `jar` and `install` built-in tasks:
 
 ```clj
-(set-env!
- :source-paths #{"src"}
- :resource-paths #{"src"}
- 
- :dependencies '[...])
- ```
+;; append at the end of `build.boot`
+(deftask install-jar
+  []
+  (merge-env! :resource-paths #{"src"})
+  (comp
+   (pom)
+   (jar)
+   (install)))
+```
 
-Let's try:
+Let's see if it works:
 
 ```bash
 cd /path/to/valip
-boot pom jar install
+boot install-jar
 Writing pom.xml and pom.properties...
 Writing valip-0.4.0-SNAPSHOT.jar...
 Installing valip-0.4.0-SNAPSHOT.jar...
@@ -633,25 +656,25 @@ the end of the
 visit the [Shopping Calculator](http://localhost:3000/shopping.html)
 URL to play with the Shopping Calculator.
 
-You can now stop the `boot` process and go back to `valip` project
-directory, because there is something new to learn before deploying
-the `valip` library to `clojars` for making it available to anybody
-else.
+You can now stop the `boot` process and go back again to the `valip`
+project directory, because there is something new to learn before
+deploying the `valip` library to `clojars` for making it available to
+anybody else.
 
-## Artifact
+## Artifact Versioning
 
 When we made the `valip` library compliant with the Reader
 Conditionals extension, we changed its version identifier from
 `"0.3.2"` to `"0.4.0-SNAPSHOT"`. The reason why there are so many
-`0.x.y` versioned libraries around it's because until their APIs get
+`0.x.y` versioned libraries around, it's because until their APIs get
 stable, they never get versioned with a major version number. In the
 mean time, as dictated by the
 [The Semantic Version Specification](http://semver.org/), anything
 could change. By considering that a lot of open source libraries stay
 as unstable for a long time, their minor version number is generally
-treated as major version numbers, meaning that minor version number
+treated as major version number, meaning that minor version number
 increments do not guarantee any backward compatibility. This is why we
-incremented the minor version only and not the major version as well,
+incremented the minor version only, and not the major version as well,
 even if our `valip` version is not backward compatible with the
 `0.3.2`
 
@@ -668,7 +691,7 @@ Let's first summarize what we already did with `valip`:
   make it compatible with the Reader Conditionals extension of
   CLJ/CLJS compilers and to introduce few corner cases tests;
 * we increment the minor-version only of the library, because, even if
-  it will break any preexisting use of the `valip` library, its major
+  it would break any preexisting use of the `valip` library, its major
   version is still `0`;
 * we qualified the new minor version as SNAPSHOT, because it's
   as-yet-unreleased;
@@ -680,7 +703,7 @@ Let's first summarize what we already did with `valip`:
 
 In a real world scenario, the next step would be to submit a pull
 request to the upstream `valip` repository, and wait until the owner
-would eventually accept and merge our pull request.
+of the repo would eventually accept and merge our pull request.
 
 But what if the owner is lazy or for any reason she/he does not agree
 to merge our pull requests?
@@ -691,7 +714,7 @@ other computers.
 
 You have more options:
 
-* you can publish the updated library in the clojars public
+* you can publish the updated library to clojars public
   repository. This way the library will be available to everybody;
 * you can publish a lib on a private repository. This way the
   accessibility to the updated `valip` library is governed by the
@@ -702,9 +725,9 @@ You have more options:
 In the next part of this tutorial we're going to inspect the first
 option only.
 
-## A Survival guide
+## A Quick Survival Guide
 
-The process of publishing a CLJ/CLJS lib on clojars is pretty simple.
+The process of publishing a CLJ/CLJS lib to clojars is pretty simple.
 As already said, keep in mind that any release ending in "-SNAPSHOT"
 is not an official release and you should rely on them only when you
 really need (which it is not our fictional scenario). Also remember
@@ -713,84 +736,225 @@ any build tool to slow down its dependencies search.
 
 Clojars offers two repositories, Classic and Releases. The Classic
 repository, which is the one we're going to use, has no restrictions
-and anyone may publish a lib into it.
+and anyone may publish a lib to it.
 
 That said, if you want to push your own version of somebody else's
 library, which is our case, do not use the original `groupId`: use
 your personal `groupId`, e.g., `org.clojars.<your_github_name>`.
 
-## Register and publish on clojars.org
-
-To publish a library on clojars Classic repository, you first need to
-[register](https://clojars.org/register) with it and you're almost
-ready to publish the `valip` SNAPSHOT. Actually, there is another very
-handy `boot` task to be used:
-[`bootlaces`](https://github.com/adzerk-oss/bootlaces) and it's aimed
-at simplifying a lot the libraries publication to clojars.
-
 ### `bootlaces` task
 
-Open the `build.boot` file to add the `bootlaces` task and require its
-main namespace:
+To publish a library to clojars's Classic Repository, you first need
+to [register](https://clojars.org/register) with it and you're almost
+ready. Actually, there is another very handy `boot` task to be used:
+[`bootlaces`](https://github.com/adzerk-oss/bootlaces).
+
+`bootlaces` task is aimed at simplifying a tipical workflow of
+publishing a library to clojars.
+
+Open the `build.boot` file to add the `bootlaces` task and to require
+its main namespace as well:
 
 ```clj
 (set-env!
  :source-paths #{"src"}
  
- :dependencies '[
-                 [org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.228"]
-                 [adzerk/boot-test "1.1.0"]
-                 [adzerk/boot-cljs "1.7.170-3"]
-                 [crisptrutski/boot-cljs-test "0.2.1"]
-                 [adzerk/bootlaces "0.1.13"]
-                 ])
+ :dependencies '[...
+                 [adzerk/bootlaces "0.1.13"]])
 
-(require '[adzerk.boot-test :refer [test]]
-         '[adzerk.boot-cljs :refer [cljs]]
-         '[crisptrutski.boot-cljs-test :refer [test-cljs]]
-         '[adzerk.bootlaces :refer :all]
-         )
+(require '...
+         '[adzerk.bootlaces :refer [bootlaces! build-jar push-snapshot]])
+```
+
+Now edit the `valip`'s `build.boot` file as suggested by the
+`bootlaces`'s
+[README.md](https://github.com/adzerk-oss/bootlaces#usage) file
+
+```clj
+(set-env! ...)
+
+(require ...)
 
 (def +version+ "0.4.0-SNAPSHOT")
 (bootlaces! +version+)
-
-(task-options!
- pom {:project 'org.clojars.magomimmo/valip
-      :version +version+
-      :description "Functional validation library for Clojure and ClojureScript. 
-                    Forked from https://github.com/cemerick/valip"
-      :url "http://github.com/magomimmo/valip"
-      :scm {:url "http://github.com/magomimmo/valip"}
-      :license {"Eclipse Public License" "http://www.eclipse.org/legal/epl-v10.html"}}
- test {:namespaces #{'valip.test.core 'valip.test.predicates}}
- test-cljs {:namespaces #{'valip.test.core 'valip.test.predicates}})
-
-(deftask testing
-  []
-  (merge-env! :source-paths #{"test"})
-  identity)
-
-(deftask tdd
-  "Launch a CLJ TDD Environment"
-  []
-  (comp
-   (testing)
-   (watch)
-   (test-cljs)
-   (test)))
 ```
 
-First note that we removed the `:resource-paths` setting, because
-`bootlaces`
-[will add by himself](https://github.com/adzerk-oss/bootlaces/blob/master/src/adzerk/bootlaces.clj#L24)
-the set of directories specified in the `:source-paths` variable to
-the emitted final artifact.
+and you're ready to go:
 
-Then note how we specify the `valip` version as a symbol passed to the
-`bootlaces!` function and to the `pom` task as well.
+```bash
+boot build-jar push-snapshot
+Writing pom.xml and pom.properties...
+Writing valip-0.4.0-SNAPSHOT.jar...
+Installing valip-0.4.0-SNAPSHOT.jar...
+CLOJARS_USER and CLOJARS_PASS were not set; please enter your Clojars credentials.
+Username: magomimmo
+Password:
+             clojure.lang.ExceptionInfo: java.lang.AssertionError: Assert failed: current git branch is reader-conditionals but must be master
+                                         (or (not ensure-branch) (= b ensure-branch))
+    data: {:file
+           "/var/folders/8z/yj2xnrdj0hb5mswc1kfyjmw00000gn/T/boot.user8233124078905763746.clj",
+           :line 33}
+java.util.concurrent.ExecutionException: java.lang.AssertionError: Assert failed: current git branch is reader-conditionals but must be master
+                                         (or (not ensure-branch) (= b ensure-branch))
+               java.lang.AssertionError: Assert failed: current git branch is reader-conditionals but must be master
+                                         (or (not ensure-branch) (= b ensure-branch))
+     boot.task.built-in/fn/fn/fn/fn   built_in.clj:  782
+  adzerk.bootlaces/eval715/fn/fn/fn  bootlaces.clj:   54
+  adzerk.bootlaces/eval754/fn/fn/fn  bootlaces.clj:   62
+     boot.task.built-in/fn/fn/fn/fn   built_in.clj:  716
+     boot.task.built-in/fn/fn/fn/fn   built_in.clj:  618
+     boot.task.built-in/fn/fn/fn/fn   built_in.clj:  342
+                boot.core/run-tasks       core.clj:  794
+                  boot.core/boot/fn       core.clj:  804
+clojure.core/binding-conveyor-fn/fn       core.clj: 1916
+                                ...
+```
 
+Uhm, not such a nice shot. After having required your clojars's
+credentials, `boot` complained about the fact that your current branch
+is not the master. As default, `bootlaces` assumes that you only
+publish a snapshot release from a master branch, but you can overwrite
+the default with `task-options!`. Indeed, the `push-snapshot` task
+internally uses the built-in `push` task:
 
+```clj
+(deftask push-snapshot
+  "Deploy snapshot version to Clojars."
+  [f file PATH str "The jar file to deploy."]
+  (comp (collect-clojars-credentials)
+        (push :file file :ensure-snapshot true)))
+```
+
+Now take a look at the `push`'s docstring and concentrate your
+attention on the `--ensure-*` options:
+
+```bash
+boot push -h
+Deploy jar file to a Maven repository.
+
+...
+Options:
+  ...
+  -B, --ensure-branch BRANCH  Set the required current git branch to BRANCH.
+  -C, --ensure-clean          Ensure that the project git repo is clean.
+  -R, --ensure-release        Ensure that the current version is not a snapshot.
+  -S, --ensure-snapshot       Ensure that the current version is a snapshot.
+  -T, --ensure-tag TAG        Set the SHA1 of the commit the pom's scm tag must contain to TAG.
+  -V, --ensure-version VER    Set the version the jar's pom must contain to VER.
+```
+
+Interesting, we can easily change the `push` task behavior by just
+setting the `:ensure-branch` options to `nil` in the `task-options!`
+section we already used previosly to set configure `pom`, `test` and
+`test-cljs` tasks:
+
+```clj
+(task-options!
+ push {:ensure-branch nil}
+ pom {...}
+ test {...}
+ test-cljs {...})
+```
+
+Shoot again:
+
+```bash
+boot build-jar push-snapshot
+Writing pom.xml and pom.properties...
+Writing valip-0.4.0-SNAPSHOT.jar...
+Installing valip-0.4.0-SNAPSHOT.jar...
+CLOJARS_USER and CLOJARS_PASS were not set; please enter your Clojars credentials.
+Username: magomimmo
+Password:
+             clojure.lang.ExceptionInfo: java.lang.AssertionError: Assert failed: project repo is not clean
+                                         (or (not ensure-clean) clean?)
+...
+```
+
+This time, `push-snapshot` task complain about the fact that the git
+branch is not clean. This is something that we should like, because
+generally speaking your not publishing something that it's still to be
+committed, right? So, let's be nice with ourself, commit the work
+we have done so far
+
+```clj
+cd /path/to/valip
+got commit -am "prepare for publish to clojar"
+```
+
+and shoot the snapshot again:
+
+```bash
+boot build-jar push-snapshot
+Writing pom.xml and pom.properties...
+Writing valip-0.4.0-SNAPSHOT.jar...
+Installing valip-0.4.0-SNAPSHOT.jar...
+CLOJARS_USER and CLOJARS_PASS were not set; please enter your Clojars credentials.
+Username: magomimmo
+Password:
+Deploying valip-0.4.0-SNAPSHOT.jar...
+```
+
+## Real world check
+
+Even if we already checked the Reader Conditionals compliant `valip`
+library within the `modern-cljs` context, we want to be sure
+`modern-cljs` is still working with the new snaphost release of
+`valip` by downloading it from `clojars`, instead of using the one we
+installed in the local `maven` repository of our machine. The
+accomplishment of this assignment is very easy.
+
+First, delete the installed `valip` form the local `maven` repository
+
+```bash
+rm -rf ~/.m2/repository/org/clojars/<your_github_name/valip
+```
+
+then re-run the `tdd` task from the `modern-cljs` project home
+directory:
+
+```bash
+cd /path/to/modern-cljs
+boot tdd
+Retrieving valip-0.4.0-20160111.164819-6.jar from https://clojars.org/repo/
+...
+Elapsed time: 36.476 sec
+```
+
+Boom! Did you note the `Retrieving valip-....` notification? Now,
+interactively test the usual
+[Shopping Calculator](http://localhost:3000/shopping.html) to verify
+that everything is still working. Then stop the `boot` process, but if
+you think you're done, you're **wrong** again!
+
+## Dependency scope
+
+The very last topic of this tutorial has to do with the dependency
+management. `boot`, being based on `maven`, uses the same semantic of
+`maven` when dealing with the dependency scope. Take into account that
+the dependency scope controls the dependency transitivity as well. In
+`maven` there are 6 scopes available, but I have to admit that I never
+saw more than a couple of them, namely "test" and "provide", in the
+contest of `boot` build files and even less with `leiningen`, which
+offers `profiles` for such a thing. 
+
+### Test Scope
+
+The test scope indicates that a dependency is only required for the
+compilation and the test phases of the library itself and it's not
+required to consume the library itself from another application.
+
+Let's contextualize this concept within the `valip` library by
+analyzing its dependencies starting from the ones catheterized by
+a very clear role. All the `boot` tasks play a role in the building,
+test and deployment of a library, but they are not consumed by an
+application using the library itself. We can safely set all of the
+with the `:scope` of "test".
+
+But what about the Clojure and the ClojureScript compilers? We need
+them to compile and test `valip` for both CLJ and CLJS, but the
+eventual consumer of the source code of the library will provide the
+Clojure and/or the ClojureScript compilers anyway.
 
 ## Next Step - TBD
 
