@@ -32,7 +32,7 @@
 
 (defn validate-shopping-field [field value]
   (case field
-    :quantity (first (field (validate-shopping-form value "1.00" "0.0" "0.0")))
-    :price (first (field (validate-shopping-form "1" value "0.0" "0.0")))
-    :tax (first (field (validate-shopping-form "1" "1.00" value "0.0")))
-    :discount (first (field (validate-shopping-form "1" "1.00" "0.0" value)))))
+    :quantity (first (field (validate-shopping-form value nil nil nil)))
+    :price (first (field (validate-shopping-form nil value nil nil)))
+    :tax (first (field (validate-shopping-form nil nil value nil)))
+    :discount (first (field (validate-shopping-form nil nil nil value)))))
