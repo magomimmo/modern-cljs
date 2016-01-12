@@ -958,7 +958,7 @@ required to consume the library from another application.
 Let's contextualize this concept within the `valip` library by
 analyzing its dependencies starting from the ones catheterized by a
 very clear role. All the `boot` tasks play a role in the building,
-test and deployment of a library, but they are not consumed by an
+testing and publishing of a library, but they are not consumed by an
 application using the library itself. We can safely say that all of
 them should have the `:scope` set to `"test"`
 
