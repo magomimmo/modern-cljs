@@ -35,9 +35,8 @@ tool, because they constitute a prerequisite to the `clojars`
 deployment itself, namely:
 
 * [POM](https://maven.apache.org/pom.html#Introduction) (Project
-  Object Model): information about the project
-* [Dependency Scope](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html):
-  management of dependencies' transitivity.
+  Object Model)
+* [Dependency Scope](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html)
 
 ## Minimal POM (Project Object Model)
 
