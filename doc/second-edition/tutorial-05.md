@@ -185,7 +185,9 @@ of the passed element, and `set-value!` which sets its value.
 
 > NOTE 3: Due to a bug of the `boot-cljs-repl` task, we need to first
 > require a namespace from a namespace declaration to be able to
-> require it in the bREPL as well.
+> require it in the bREPL as well. We will use `domina` later to update 
+> our `validate-form` function in `login.cljs`. You can require the
+> `domina.core` namespace there.
 
 > ```clj
 > (ns modern-cljs.login
