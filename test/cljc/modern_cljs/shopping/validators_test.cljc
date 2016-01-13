@@ -16,40 +16,52 @@
       (are [expected actual] (= expected actual)
 
            "Quantity can't be empty"
-           (first (:quantity (validate-shopping-form "" "0" "0" "0")))
+           (first (:quantity (validate-shopping-form "" nil nil nil)))
+
+           "Quantity can't be empty"
+           (first (:quantity (validate-shopping-form nil nil nil nil)))
 
            "Price can't be empty"
-           (first (:price (validate-shopping-form "1" "" "0" "0")))
+           (first (:price (validate-shopping-form nil "" nil nil)))
+
+           "Price can't be empty"
+           (first (:price (validate-shopping-form nil nil nil nil)))
 
            "Tax can't be empty"
-           (first (:tax (validate-shopping-form "1" "0" "" "0")))
+           (first (:tax (validate-shopping-form nil nil  "" nil)))
+
+           "Tax can't be empty"
+           (first (:tax (validate-shopping-form nil nil nil nil)))
 
            "Discount can't be empty"
-           (first (:discount (validate-shopping-form "1" "0" "0" "")))))
+           (first (:discount (validate-shopping-form nil nil nil "")))
+
+           "Discount can't be empty"
+           (first (:discount (validate-shopping-form nil nil nil nil)))))
 
     (testing "/ Value Type"
       (are [expected actual] (= expected actual)
 
            "Quantity has to be an integer number"
-           (first (:quantity (validate-shopping-form "foo" "0" "0" "0")))
+           (first (:quantity (validate-shopping-form "foo" nil nil nil)))
 
            "Quantity has to be an integer number"
-           (first (:quantity (validate-shopping-form "1.1" "0" "0" "0")))
+           (first (:quantity (validate-shopping-form "1.1" nil nil nil)))
 
            "Price has to be a number"
-           (first (:price (validate-shopping-form "1" "foo" "0" "0")))
+           (first (:price (validate-shopping-form nil "foo" nil nil)))
 
            "Tax has to be a number"
-           (first (:tax (validate-shopping-form "1" "0" "foo" "0")))
+           (first (:tax (validate-shopping-form nil nil "foo" nil)))
 
            "Discount has to be a number"
-           (first (:discount (validate-shopping-form "1" "0" "0" "foo")))))
+           (first (:discount (validate-shopping-form nil nil nil "foo")))))
 
     (testing "/ Value Range"
       (are [expected actual] (= expected actual)
 
            "Quantity can't be negative"
-           (first (:quantity (validate-shopping-form "-1" "0" "0" "0")))))))
+           (first (:quantity (validate-shopping-form "-1" nil nil nil)))))))
 
 (deftest validate-shopping-field-test
   (testing "Shopping Form Field Validation"
