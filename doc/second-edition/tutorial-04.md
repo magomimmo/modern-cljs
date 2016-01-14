@@ -715,7 +715,7 @@ able to define a CLJS function resembling the corresponding JS
 `submit` button of the login form when the `index.html` page is loaded
 into the browser.
 
-Here us the original JS code:
+Here is the original JS code:
 
 ```js
 // Function called when the window has been loaded.
