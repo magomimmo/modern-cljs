@@ -16,6 +16,10 @@ Test the installation by issuing the `boot -h` command at the
 terminal. Then submit the `boot -u` command to get the latest `boot`
 updates.
 
+> NOTE 1: I strongly suggest to use Java 8. If you're using Java 7, it
+> might be worth mentioning
+> https://github.com/boot-clj/boot/wiki/JVM-Options#permgen-errors
+
 ## Create the project structure
 
 A minimum CLJS web project is composed of 3 files:
@@ -53,14 +57,14 @@ modern-cljs/
 * `src/cljs/` hosts CLJS source files;
 * `html` hosts html resources;
 
-> NOTE 1: Single segment namespace are
+> NOTE 2: Single segment namespace are
 > [discouraged in CLJ/CLJS][5]. That's why we created the
 > `modern_cljs` directory name. Due to [Java difficulties][6] in
 > managing hyphen "-" (or other special characters) in package names,
 > we substituted an underscore (`_`) for any hyphen (`-`) in
 > corresponding directory names.
 
-> NOTE 2: Please note that the filename extension for ClojureScript
+> NOTE 3: Please note that the filename extension for ClojureScript
 > source is **cljs**, not **clj**.
 
 Issue the following command at the terminal:
