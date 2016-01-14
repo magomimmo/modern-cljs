@@ -955,10 +955,10 @@ and the `modern-cljs.logi.validators` namespace is a portable
 namespace code living in the `validators.cljc` file (note the `.cljc`
 extension).
 
-Fortunatelly, as already said, starting from `1.7.0` release CLJ offers
-a pretty handy way to conditionally evaluate a form/expression
-depending on the features offered by the run-time environment: the
-Reader Conditionals.
+Fortunatelly, as already said, starting from `1.7.0` release CLJ
+offers a pretty handy way to conditionally evaluate a form/expression
+depending on the features offered by the environment at compile-time:
+the Reader Conditionals.
 
 Currently there are three available platform features identifying the
 environments at compile-time:
