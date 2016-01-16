@@ -269,7 +269,7 @@ previous `testing` task in the `tdd` task definition:
 ```
 
 There is one more thing to be done for pleasing a `tdd` user: add the
-same task option to `tdd` as well, in such a way the she can pass a
+same task option to `tdd` as well, in such a way that she can pass a
 test directory to be added to the `:source-paths` variable from the
 command line
 
