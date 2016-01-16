@@ -141,7 +141,7 @@ follows:
    (reload)
    (cljs-repl) ;; before cljs task
    (cljs)
-   (target :dir #{"target"}))
+   (target :dir #{"target"})))
 ```
 
 Note the use of the `comp` function in the body of the newly created
