@@ -5,9 +5,9 @@ file to be able to install a CLJ/CLJS library to the local `maven`
 repository and finally publish it to
 [`clojars`](https://clojars.org/).
 
-In this tutorial we'll came back to the Clojure(Script) programming
-language by introducing the most explained and commented library in
-the brief history of this awesome programming language:
+In this tutorial we're coming back to the Clojure(Script)
+programming language by introducing the most explained and commented
+library in the brief history of this awesome programming language:
 [`core.async`](https://github.com/clojure/core.async).
 
 ## Preamble
@@ -24,9 +24,10 @@ git checkout se-tutorial-18
 
 There is no way I could explain the
 [`core.async`](https://github.com/clojure/core.async) library any
-better than others already did, given that the others we're talking
-about are [Rich Hickey](https://github.com/richhickey), the inventor
-of Clojure(Script) and `core.async` library as well,
+better than others already did, given that between the others we're
+talking about, you'll find
+[Rich Hickey](https://github.com/richhickey), the inventor of
+Clojure(Script) and `core.async` library as well,
 [Timothy Baldridge](https://github.com/halgari), the guy that
 implemented the
 [`go` macro](https://github.com/clojure/core.async/blob/a833f6262cdaf92c6b16dd201d1876e0de424e14/src/main/clojure/cljs/core/async/macros.clj)
@@ -34,7 +35,8 @@ and [David Nolen](), perhaps the most fruitful and persevering
 clojurian and current maintainer of the ClojureScript compiler.
 
 Thats said, this is a series of tutorials for serious CLJS beginners
-and I can't avoid to afford the `core.async` topic as well.
+and I can't avoid to afford the `core.async` topic as well, because of
+the event-based nature of the browser itself.
 
 ## Nothing new under the sun
 
@@ -48,14 +50,104 @@ sixties.
 Even if a bunch of very innovative programming languages implemented
 the CSP computational model,
 [The Go Programming Language](https://golang.org/) was the one that 30
-years later, in 2009, brought to CSP some notoriety in the programming
-communities. The `core.async` library is directly inspired to the
-corresponding implementation of the `go` programming language.
+years later, at the end of 2009, brought to CSP some notoriety in the
+programming communities. The `core.async` library is directly inspired
+to the corresponding characteristics of the `go` programming language.
 
-## What's the problem
+## Synchronous computation
 
-Let's start by asking ourself what's the problem the CSP computational
-model wants to solve?
+Let's start very easy. In the standard synchronous model of
+computation, when a function (caller) calls another function (callee),
+the caller waits for the result of the callee to be able to proceed
+with the computation, as in the following example:
+
+```clj
+(h (g (f arg)))
+```
+
+which is equivalent to a function composition like this:
+
+```clj
+((comp h g f) arg)
+```
+
+The prefix nature of LISP expressions could make the above forms of
+nested function calls difficult to be read. Actually, LISP source
+files have to be read bottom-up and inside-out to understand the order
+of execution. Aside from the complaint about the number of parentheses
+used by LISP, which is not even true, the second most controversial
+aspect of the LISP syntax regards the cited way to read the code.
+
+To overcome that reading difficulty, Clojure offers two threading
+macros, namely the threading first macro (i.e., `->`) and the
+threading last macro (i.e., `->>`). By using the threading first
+macro, but in such a case we could have used the threading last macro
+as well, the above function composition is transformed in a form that
+is more readable by developers accustomed with the imperative syntax:
+
+```clj
+(-> arg
+    (f)
+    (g)
+    (h))
+```
+
+The expression is now much more readable, because the order of
+execution is linear/sequential from top to bottom.
+
+> NOTE 1: `arg` is implicitly passed to `f` as its first argument, the
+> result of `f` is then implicitly passed as first argument to the
+> next function and so on. This is why `->` is called threading first
+> macro.
+
+Note that the entire computation is blocked until each callee returns
+its result to the corresponding caller. This model of computation is
+said **synchronous**.
+
+The problem with the synchronous model of computation is of efficiency
+nature. Say that the `g` function internally does a long I/O
+operation, the next `h` function has to wait until `g` returns, and
+the system does not use its resources for doing something useful in
+the meantime.
+
+To overcome this kind of paralysis, which is especially annoying in
+the user interface context, it has been introduced the
+[event-driven programming](https://en.wikipedia.org/wiki/Event-driven_programming)
+paradigm in which the flow of the program execution is no more
+sequential, but it's determined by events such user actions, sensors
+output or messages from other programs/thread.
+
+## Function chains make poor machine
+
+As usual, by solving a problem, we're frequently creating the premises
+for a new problem ready to later manifest itself. In an event-driven
+approach, there is usually a main loop listening for events of various
+types. When an event type appears, the loop triggers a function,
+conveniently known as callback, that has been previously attached to
+the corresponding event type. This is exactly what we did in the
+previous tutorials on DOM manipulation when we attached few listeners
+(another name for callbacks) to various user generated events:
+`click`, `blur`, `input`, `mouseover`, `mouseout`, etc.
+
+This way, the logic of the program starts to get fragmented in more
+places. When the application becomes more complex, as it happens
+within a Single Page Application, it becomes very difficult to reason
+about the application logic and its state as well. A triggered
+callback triggers in turn another callback, which triggers a third
+callback an so on. This situation is very well known in the JS
+programming language and it also deserved a name: callback hell:
+
+```js
+a(function (resultFromA) {
+  b(resultFromA, function (resultFromB) {
+    c(resultFromB, function (resultFromC) {
+      d
+```
+
+
+
+
+
 
 As said by Rich Hickey in presenting the `core.async` library, *"there
 comes a time in all good programs when component or subsystem must
