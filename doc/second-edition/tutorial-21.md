@@ -54,15 +54,27 @@ years later, at the end of 2009, brought to CSP some notoriety in the
 programming communities. The `core.async` library is directly inspired
 to the corresponding characteristics of the `go` programming language.
 
-## Synchronous computation
+## Simulate the real world
 
-Let's start very easy. In the standard synchronous model of
-computation, when a function (caller) calls another function (callee),
-the caller waits for the result of the callee to be able to proceed
-with the computation, as in the following example:
+As said by [Rob Pike](https://en.wikipedia.org/wiki/Rob_Pike) in his
+awesome talk on
+[Go Concurrency Patterns](https://www.youtube.com/watch?v=f6kdp27TYZs),
+if we want to simulate or interact with the real world, which is
+populated of independent entities, the single sequence execution
+computational model is not adequate. Let's say that you're modeling a
+car factory.
+
+> NOTE 1: I'm steeling the car factory sample from
+> [Tom Baldrige](https://tbaldridge.pivotshare.com) and
+> [Eric Normand](http://www.purelyfunctional.tv/core-async).
+
+By using the traditional single sequence execution paradigm, also
+called **synchronous**, you could start with something like
+this:
 
 ```clj
-(h (g (f arg1) arg2) arg3)
+(defn assemble-car []
+   (add-engine (add-tires (add-body (make-frame)) 4)))
 ```
 
 The prefix nature of LISP expressions could make the above forms of
@@ -75,31 +87,74 @@ aspect of the LISP syntax regards the cited way to read the code.
 To overcome that reading difficulty, Clojure offers two threading
 macros, namely the threading first macro (i.e., `->`) and the
 threading last macro (i.e., `->>`). By using the threading first
-macro, the above function composition is transformed in the following form:
+macro, the above `assemble-car` is transformed in the following form:
 
 ```clj
-(-> (f arg1)
-    (g arg2)
-    (h arg3))
+(defn assemble-car []
+   (-> (make-frame)
+       (add-body)
+       (add-tires 4)
+       (add-engine)))
 ```
 
-The expression is now much more readable, because the order of
-execution is linear/sequential from top to bottom.
+> NOTE 2: the result of `make-frame` is implicitly passed as **first**
+> argument to `add-body`. The result of `add-body` is then implicitly
+> passed as **first** argument to `add-tires` and so on. This is why
+> `->` is called threading **first** macro.
 
-> NOTE 1: the result of `f` is implicitly passed as **first** argument
-> to `g`. The result of `g` is then implicitly passed as **first**
-> argument to `h`. This is why `->` is called threading **first**
-> macro.
+The `assemble-car` definition is now much more readable than before,
+because the order of execution is sequential, from top to bottom. In
+the standard **synchronous** model of computation, when a function
+(caller) calls another function (callee), the caller waits for the
+result of the callee to be able to proceed with the computation. The
+entire computation is blocked until each callee returns its result to
+the corresponding caller.
 
-Note that the entire computation is blocked until each callee returns
-its result to the corresponding caller. This model of computation is
-said **synchronous**.
+Obviously, this is not the way a factory would assemble cars in a real
+world, because it would be very inefficient.
 
-The problem with the synchronous model of computation is of efficiency
-nature. Say that the `g` function internally does a long I/O
-operation, the next `h` function has to wait until `g` returns. In the
-meantime `g` does its I/O jobs, the system is blocked and is not using
-its computation resources at its best for doing something useful.
+Another way to describe a car factory is to see it as a number of
+independent processes (i.e., computations) to be coordinated or
+combined in some way:
+
+* a process to make the frame
+* a process to add the body to the frame
+* a process to make tires
+* a process to add the tires to the body
+* a process to add the engine to the body
+
+The  way  to  combine  those   processes  is  through  an  assembly
+line. When a  process is done, it  puts its result on  a conveyor belt
+for the next process to be taken  and so on. Each conveyor belt can be
+interpreted  as   a  communication  channel  between   processes.  The
+processes coordination  is implicitly  defined by  channels connecting
+the process and  this is exactly what CSP is  all about: processes and
+communication channels.
+
+One of the nice thing about CSP channels, is that they support many
+writers ans many readers as well and this allows easily improve
+performance. For example, say that the `assemble-car`
+
+To create a channel you use the `chan` function as follows:
+
+```clj
+(def c (chan))
+```
+
+By default the created channel is unbuffered (0 size). To `put` a value into a channel, you use the ``put!` function as follows:
+
+
+. This is
+exactly how CSP works. There are Processes and there are Channels. 
+
+
+
+The problem with the synchronous
+model of computation is of efficiency nature. Say that the `g`
+function internally does a long I/O operation, the next `h` function
+has to wait until `g` returns. In the meantime `g` does its I/O jobs,
+the system is blocked and is not using its computation resources at
+its best for doing something useful.
 
 Moreover, consider that in same period of time the processor power
 growth millions of times, while the speed of I/O operations growth
