@@ -24,27 +24,27 @@ git checkout se-tutorial-18
 
 There is no way I could explain the
 [`core.async`](https://github.com/clojure/core.async) library any
-better than others already did, given that between the others we're
-talking about, you'll find
-[Rich Hickey](https://github.com/richhickey), the inventor of
+better than others already did, given that between the others you'll
+find [Rich Hickey](https://github.com/richhickey), the inventor of
 Clojure(Script) and `core.async` library as well,
 [Timothy Baldridge](https://github.com/halgari), the guy that
 implemented the
 [`go` macro](https://github.com/clojure/core.async/blob/a833f6262cdaf92c6b16dd201d1876e0de424e14/src/main/clojure/cljs/core/async/macros.clj)
-and [David Nolen](), perhaps the most fruitful and persevering
+and [David Nolen](), one of the most fruitful and persevering
 clojurian and current maintainer of the ClojureScript compiler.
 
 Thats said, this is a series of tutorials for serious CLJS beginners
-and I can't avoid to afford the `core.async` topic as well, because of
-the event-based nature of the browser itself.
+and I can't avoid to afford the `core.async` topic as well, even
+because of the event-driven nature of the browser itself.
 
 ## Nothing new under the sun
 
-The computational model adopted by `core.async` and named
-[Communicating Sequential Processes (CSP)](https://en.wikipedia.org/wiki/Communicating_sequential_processes)
+The computational model adopted by `core.async`, named
+[Communicating Sequential Processes (CSP)](https://en.wikipedia.org/wiki/Communicating_sequential_processes),
 has been established in the seventies by
 [Tony Hoare](https://en.wikipedia.org/wiki/Tony_Hoare), the same
-British scientist who invented the Quick Sort algorithm in the
+British scientist who invented the
+[quicksort](https://en.wikipedia.org/wiki/Quicksort) algorithm in the
 sixties.
 
 Even if a bunch of very innovative programming languages implemented
@@ -62,13 +62,7 @@ the caller waits for the result of the callee to be able to proceed
 with the computation, as in the following example:
 
 ```clj
-(h (g (f arg)))
-```
-
-which is equivalent to a function composition like this:
-
-```clj
-((comp h g f) arg)
+(h (g (f arg1) arg2) arg3)
 ```
 
 The prefix nature of LISP expressions could make the above forms of
@@ -81,23 +75,20 @@ aspect of the LISP syntax regards the cited way to read the code.
 To overcome that reading difficulty, Clojure offers two threading
 macros, namely the threading first macro (i.e., `->`) and the
 threading last macro (i.e., `->>`). By using the threading first
-macro, but in such a case we could have used the threading last macro
-as well, the above function composition is transformed in a form that
-is more readable by developers accustomed with the imperative syntax:
+macro, the above function composition is transformed in the following form:
 
 ```clj
-(-> arg
-    (f)
-    (g)
-    (h))
+(-> (f arg1)
+    (g arg2)
+    (h arg3))
 ```
 
 The expression is now much more readable, because the order of
 execution is linear/sequential from top to bottom.
 
-> NOTE 1: `arg` is implicitly passed to `f` as its first argument, the
-> result of `f` is then implicitly passed as first argument to the
-> next function and so on. This is why `->` is called threading first
+> NOTE 1: the result of `f` is implicitly passed as **first** argument
+> to `g`. The result of `g` is then implicitly passed as **first**
+> argument to `h`. This is why `->` is called threading **first**
 > macro.
 
 Note that the entire computation is blocked until each callee returns
@@ -106,12 +97,16 @@ said **synchronous**.
 
 The problem with the synchronous model of computation is of efficiency
 nature. Say that the `g` function internally does a long I/O
-operation, the next `h` function has to wait until `g` returns, and
-the system does not use its resources for doing something useful in
-the meantime.
+operation, the next `h` function has to wait until `g` returns. In the
+meantime `g` does its I/O jobs, the system is blocked and is not using
+its computation resources at its best for doing something useful.
 
-To overcome this kind of paralysis, which is especially annoying in
-the user interface context, it has been introduced the
+Moreover, consider that in same period of time the processor power
+growth millions of times, while the speed of I/O operations growth
+only few times. 
+
+To overcome this kind of slowness, which is especially annoying in the
+user interface context, it has been introduced the
 [event-driven programming](https://en.wikipedia.org/wiki/Event-driven_programming)
 paradigm in which the flow of the program execution is no more
 sequential, but it's determined by events such user actions, sensors
@@ -119,34 +114,28 @@ output or messages from other programs/thread.
 
 ## Function chains make poor machine
 
-As usual, by solving a problem, we're frequently creating the premises
-for a new problem ready to later manifest itself. In an event-driven
+As usual, by solving a current problem, we're frequently setting the
+bases for a new problem to manifest itself later. In an event-driven
 approach, there is usually a main loop listening for events of various
-types. When an event type appears, the loop triggers a function,
-conveniently known as callback, that has been previously attached to
-the corresponding event type. This is exactly what we did in the
-previous tutorials on DOM manipulation when we attached few listeners
-(another name for callbacks) to various user generated events:
-`click`, `blur`, `input`, `mouseover`, `mouseout`, etc.
+types. When an event of some type appears, the loop triggers a
+function, conveniently known as callback, that has been previously
+attached to the corresponding event type. This is exactly what we did
+in previous tutorials on DOM manipulation when, in the `init`
+functions for the `index.html` and `shopping.html`, we attached few
+listeners (another name for callbacks) to various user generated
+events: `click`, `blur`, `input`, `mouseover`, `mouseout`, etc.
 
 This way, the logic of the program starts to get fragmented in more
-places. When the application becomes more complex, as it happens
-within a Single Page Application, it becomes very difficult to reason
-about the application logic and its state as well. A triggered
-callback triggers in turn another callback, which triggers a third
-callback an so on. This situation is very well known in the JS
-programming language and it also deserved a name: callback hell:
+places. When the application becomes more complex, as it always
+happens with Single Page Applications, it becomes very difficult to
+reason about the application logic and its state. A callback triggered
+by the occurrence of an event will trigger a second callback which, in
+turn, will triggers a third callback an so on.
 
-```js
-a(function (resultFromA) {
-  b(resultFromA, function (resultFromB) {
-    c(resultFromB, function (resultFromC) {
-      d
-```
-
-
-
-
+This situation is very well known and it also deserved a name:
+callback hell. Callback hell affects JS on the client-side (browser)
+and even more the server-side (nodejs). Obviously, there are more ways
+to approach this issue in JS. 
 
 
 As said by Rich Hickey in presenting the `core.async` library, *"there
