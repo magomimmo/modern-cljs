@@ -236,7 +236,7 @@ visible to `boot` by requiring its primary command:
  
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.2"]]) ;; add boot-realod
+                 [adzerk/boot-reload "0.4.2"]]) ;; add boot-reload
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
