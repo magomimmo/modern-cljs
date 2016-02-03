@@ -324,7 +324,7 @@ cljs.user=>
 > should be able to connect it to the `nrepl` server launched by the
 > `boot dev` command without launching a new JVM instance. I
 > personally use `emacs` editor and [cider][16] only because I'm aged
-> and `emacs` is the editor I better know how to configure and use.
+> and `emacs` is the editor I know how to configure and use the best.
 
 
 We can now evaluate CLJS expressions at the bREPL, but we first need a
@@ -391,7 +391,7 @@ cljs.user> (.log js/console "Hello from ClojureScript!")
 nil
 ```
 
-Here we called the `log` function by passing to it both the `console`
+Here we called the `log` function, passing it both the `console`
 object and the `"Hello from ClojureScript!"` string as arguments.
 
 You should see the `Hello from ClojureScript!` message printed again to
@@ -564,9 +564,9 @@ expressions, while `>` is a regular function and finally `if` is a
 special form. In the first position of a list expression you'll always
 find one of those three forms, unless the list expression is quoted
 with the `quote` special form which stands for preventing the form
-evaluation. I don't know about you, but after decades I'm still
-waiting for a programming language that has a simpler syntax to be
-remember than a LISP, whichever of its dialect you consider.
+evaluation. I don't know about you, but after many decades I've
+yet to see a programming language with a syntax easier to
+remember than a LISP, regardless of dialect.
 
 You can even ask at the bREPL for the source code definitions of
 symbols which are defined as macros or regular functions.
