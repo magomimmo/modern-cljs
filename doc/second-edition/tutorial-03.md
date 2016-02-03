@@ -238,15 +238,15 @@ to support this new files organization:
   the web server.
 
 How could we pass these options to the `boot-cljs` which launches the
-CLJS compiler? You could get soon crazy in understanding how to solve
+CLJS compiler? You could easily go crazy trying to solve
 this very simple problem by reading the `boot-cljs`
 documentation. Some compiler options can be set at the task level,
 other can be set by defining appropriate [`edn`][8] files located in
 the right position in the resources directories (e.g. into the `html`
 directory in our project).
 
-Without going into much details about the reason why or the way
-`boot-cljs` supports the compiler options, let's be pragmatic again
+Let's not go into too many details about the reasons that
+`boot-cljs` supports the compiler options the way it does; instead, let's be pragmatic again
 and just list what you need to do:
 
 First you have to create the `js` subdirectory in the `html` directory
