@@ -568,7 +568,9 @@ selector clause and the trasformation function for each input field as
 follows:
 
 ```clojure
-
+(ns modern-cljs.templates.shopping
+  (:require [net.cgrand.enlive-html :refer [deftemplate set-attr]]))
+  
 (deftemplate shopping "public/shopping.html"
   [quantity price tax discount]
   [:#quantity] (set-attr :value quantity)
@@ -643,7 +645,7 @@ follows:
 ```clj
 (ns modern-cljs.shopping
   (:require-macros [hiccups.core :refer [html]])
-  (:require [domina :refer [by-id value by-class set-value! append! destroy!]]
+  (:require [domina.core :refer [by-id value by-class set-value! append! destroy!]]
             [domina.events :refer [listen! prevent-default]]
             [hiccups.runtime :as hiccupsrt]
             [shoreleave.remotes.http-rpc :refer [remote-callback]]))
