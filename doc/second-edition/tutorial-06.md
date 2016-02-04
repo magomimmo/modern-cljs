@@ -19,7 +19,7 @@ git checkout se-tutorial-05
 Our latest tutorial ended with a not so nice error.  We discovered
 that as soon as we have two HTML pages linking the same `js/main.js`
 generated JS file, the `init` function we set for the `onload`
-property of the JS `window` object for the `login.html` page was not
+property of the JS `window` object for the `index.html` page was not
 the one we defined in `login.cljs`, but the one we defined in
 `shopping.cljs`.
 
@@ -77,7 +77,7 @@ Now the simple made easy way:
 * add the `:export` tag (metadata) to the `init` function in both
   `login.cljs` and `shopping.cljs` files;
 * add a `script` tag calling the correponding `init` function in both
-  `login.html` and `shopping.html` files;
+  `index.html` and `shopping.html` files;
 * you're done.
 
 > NOTE 2: If you do not `^:export` a CLJS function, it will be subject
@@ -118,7 +118,7 @@ And here is the related fragment of `shopping.cljs`
 ;; (set! (.-onload js/window) init)
 
 ```
-Here is the related fragment of `login.html`
+Here is the related fragment of `index.html`
 
 ```html
     <script src="js/main.js"></script>
@@ -154,8 +154,8 @@ maintain the `require` section of that file. This is a clear case of
 
 Hopefully some day the `boot-cljs` maintainers will solve this issue
 in a less convoluted way. In the meantime, to bypass that incidental
-complexity, we are going to violate the above convention. A second
-tradeoff. Keep these two tradeoffs in mind, because you got two
+complexity, we are going to violate the above convention. This is a second
+tradeoff. Keep these two tradeoffs in mind, because you've got two
 debits that sooner or later you're going to have to pay for.
 
 Let's apply this second tradeoff.
