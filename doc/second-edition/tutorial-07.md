@@ -38,7 +38,7 @@ introduce a server-side script we are going to use a `button` type
 with the `calc` id. For the same reason we are also removing both the
 `action` and `method` attributes from the corresponding `form` tag.
 
-> NOTE 1: By substituting `submit` with `button` type, we're breaking
+> NOTE 1: By replacing `submit` with `button`, we're breaking
 > the progressive enhancement strategy. We will fix this issue in a subsequent
 > tutorial. Here we're focusing on the [domina events][2] machinery. 
 
@@ -191,7 +191,7 @@ cljs.user> (evt/listen! (dom/by-id "calc") :click shop/calculate)
 (#object[Object [object Object]])
 ```
 
-> NOTE 4: `domina` keywordize any event name. This is the reason we
+> NOTE 4: `domina` uses the "keywordized" version of event names. This is the reason we
 > can use the `:click` keyword to identify the `click` event.
 
 Go to the browser and test the shopping form to verify that it works as expected.
