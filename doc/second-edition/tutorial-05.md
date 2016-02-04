@@ -256,8 +256,8 @@ the corresponding fields in the login form have been updated?
 
 ## Update `login.cljs`
 
-Now that we better understood few `domina` functions, we are going to
-consequently update the `validate-form` function. Open the
+Now that we better understand a few `domina` functions, we are going to 
+update the `validate-form` function. Open the
 `login.cljs` file and update both the namespace declaration and the
 `validate-form` function definition as follows:
 
@@ -417,7 +417,7 @@ Uncaught TypeError: Cannot set property 'onsubmit' of null
 
 pertaining the `login.cljs` CLJS source file. This is because the
 `shopping.html` does not have any `loginForm` id available on which to
-set the value for the `onsubmit` property. At the moment don't care
+set the value for the `onsubmit` property. At the moment, we don't care
 about this issue.
 
 ### bREPLing with the Shopping Calculator
@@ -491,11 +491,11 @@ enter the following code:
 ```
 
 Here we created the `modern-cljs.shopping` namespace and required
-`domina.core` namespace by interning its `by-id`, `value`, and
-`set-value!` symbols into the first.
+`domina.core` namespace, referring `by-id`, `value`, and
+`set-value!` into the current namespace.
 
-Then we grasped the needed values to calculate the total amount and
-set it as the value of the `total` field of the form before returning
+We then retrieved the values required to calculate the total amount, setting
+it as the value of the `total` field of the form, before finally returning
 the `false` boolean value.
 
 The `init` function is almost identical to the one defined for the
