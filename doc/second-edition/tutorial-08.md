@@ -275,12 +275,12 @@ Few things to be noted about the above code:
    a namespace inside a new namespace declaration. Moreover, what you
    like while writing code (e.g., minimizing typing) could be
    different from what you like when reading code (e.g., maximizing
-   readability). When your namespace declaration require a not so
+   readability). When your namespace declaration requires more than a
    small number of other namespaces, and each namespace has a lot of
    public symbols, I always prefer to alias the required namespaces,
    because in a short time my role as a code writer changes very
-   quickly into a code reader and don't want to get crazy to identify
-   what symbol came from what namespace;
+   quickly into a code reader and I don't want to get crazy trying to identify
+   which symbol came from which namespace;
 2. the original `false` boolean value returned by the `calculate`
    function has been removed, because the `shoppingForm` does not have
    an `action` property any more;
@@ -300,23 +300,23 @@ string like we did when we manipulated the DOM to add a `div` to the
 PITA.
 
 That's why I searched around to see if someone else, having my same
-pain, created a lib to represents those elments as CLJS data structure
+pain, has created a lib to represent those elments as CLJS data structure
 instead of strings of HTML.
 
 ## hiccups
 
 The first CLJS library I found to relieve my pain was
 [hiccups][6]. Even if it's an incomplete port of [hiccup][7] on CLJS,
-it's solid and stable enough for the purpose of this tutorial.  It
+it's solid and stable enough for the purposes of this tutorial.  It
 uses vectors to represent HTML tags and maps to represent a tag's
 attributes.
 
 ## Stop IFDE and add hiccups
 
-Even if we could add a new dependencies to IFDE while it's running, as
-soon as we stop it that dependencies is gone. So, to go on with the
-next step, stop any `boot` related process and add `hiccups` lib into
-the `build.boot` before starting IFDE again.
+Even if we could add a new dependency to IFDE while it's running, as
+soon as we the IFDE exits that dependency is gone. So, to go on with the
+next step, stop any `boot` related process and add the `hiccups` lib into
+`build.boot` before starting the IFDE again:
 
 ```clj
 (set-env!
@@ -375,7 +375,7 @@ requirements of the namespace declaration.
   (:require-macros [hiccups.core :refer [html]]))
 ```
 
-> NOTE 1: As noted in the [previous tutorial][1], due to a bug of the
+> NOTE 1: As noted in the [previous tutorial][1], due to a bug in the
 > `boot-cljs-repl` task, we need to first require a namespace from a
 > namespace declaration to be able to require it in the bREPL as well.
 
@@ -383,16 +383,16 @@ requirements of the namespace declaration.
 > we're not going to use its symbols. For this reason we neither
 > aliased it or `refer` any symbol.
 
-> NOTE 3: the `hiccups.core` contains macros (e.g. `html`), which are
+> NOTE 3: the `hiccups.core` namespace contains macros (e.g. `html`), which are
 > written in CLJ. Namespaces containing macros are referenced via the
-> `:require-macros` keyword in namespace declaration and via
+> `:require-macros` keyword in the namespace declaration and via
 > `require-macros` in the bREPL.
 
-As soon as you save the file, IFDE recompile and reload it.
+As soon as you save the file, the IFDE will recompile and reload it.
 
 ## bREPLing with hiccups
 
-Before start bREPLing with `hiccups`, we need to require its namespace
+Before we start bREPLing with `hiccups`, we need to require its namespace
 in the bREPL as well.
 
 ```clj
@@ -402,13 +402,10 @@ cljs.user> (require-macros '[hiccups.core :refer [html]])
 nil
 ```
 
-As above, we did not alias any namespace and we interned the `html`
-symbol only from `hiccups.core` namespace, because it's the only one
-we're going to exercise.
+As mentioned above, we refer only the `html` macro from the `hiccups.core` namespace,
+since it's the only one we're going to exercise.
 
-Here are some basic documented examples of hiccups usage we're going
-to experiment within the bREPL.
-
+Here are some simple examples of using `hiccups` in the bREPL:
 
 ```clj
 cljs.user> (html [:span {:class "foo"} "bar"])
