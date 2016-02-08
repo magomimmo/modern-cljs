@@ -112,7 +112,7 @@ world!")` prints `Hello, World!` to the console.
 We now need a way to compile down `core.cljs` to JS and link it to the
 `index.html` page.
 
-First, open the file `html/index.html` and edit it as follow:
+First, open the file `html/index.html` and edit it as follows:
 
 ```html
 <!doctype html>
