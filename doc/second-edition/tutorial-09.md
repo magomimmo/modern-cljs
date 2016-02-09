@@ -81,7 +81,7 @@ integrated libraries that focuses on:
 * ClojureScript's advantages
 
 Shoreleave builds upon efforts found in other ClojureScript projects, such
-as [fetch][11] and ClojureScriptOne (now http://clojurescriptkoans.com/#equality/deprecated).
+as [fetch][11] and ClojureScriptOne (now deprecated).
 
 # KISS (Keep It Small and Stupid)
 
