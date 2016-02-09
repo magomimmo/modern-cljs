@@ -80,8 +80,8 @@ integrated libraries that focuses on:
 * HTML5 capabilities
 * ClojureScript's advantages
 
-And it builds upon efforts found in other ClojureScript projects, such
-as [fetch][11] and ClojureScriptOne (the link is no more available).
+Shoreleave builds upon efforts found in other ClojureScript projects, such
+as [fetch][11] and ClojureScriptOne (now http://clojurescriptkoans.com/#equality/deprecated).
 
 # KISS (Keep It Small and Stupid)
 
@@ -93,7 +93,7 @@ What we'd like to do is move the calculation from the client-side code
 (i.e., CLJS) to the server-side code (i.e., CLJ), then let the former
 ask the latter to produce the result to be manipulated by CLJS.
 
-The following sequence diagram visualizes our requirements.
+The following sequence diagram visualizes our requirements:
 
 ![Shopping Ajax][16]
 
@@ -102,23 +102,21 @@ calculate the total. Where we start from?
 
 ## The server side
 
-First consider that the Immediate Feedback Development Environment
+Recall that the Immediate Feedback Development Environment
 (IFDE) we setup on [Tutorial 3][19] already has an internal web server
 offered by the [`boot-http`][32] task.
 
 `boot-http` is configured to run [`Jetty`][34] by default, but you can
-eventually use [`http-kit`][35].
+also use [`http-kit`][35].
 
-Whichever web server you want to run, `boot-http` adopted the
-[`ring`][36] CLJS library for serving web pages you created while
-developing your web application.
+Regardless of which web server you use, `boot-http` has adopted the
+[`ring`][36] library for serving the web pages of your application.
 
-This series of tutorials is not about CLJ, but as soon as you need to
+This series of tutorials is not about CLJ, but in order to
 make an ajax call, we need a server side endpoint as well.
 
 This is why `boot-http` allows us to pass a [`ring handler`][37] to the
-`serve` task as you can verify by taking a look at its documentation
-at the terminal:
+`serve` task, as you can see from its built-in documentation:
 
 ```bash
 boot serve -h
@@ -139,11 +137,11 @@ Options:
   -n, --nrepl REPL          Set nREPL server parameters e.g. "{:port 3001, :bind "0.0.0.0"}" to REPL.
 ```
 
-Aside from the `handler` option, we are interested at the
+In addition to the `handler` option, we are interested in the
 `resource-root` option as well. At the moment we're not interested in
 configuring the `init` and the `cleanup` options. While developing, we
-also want to set the `reload` option to `true` to reload any modified
-server side namespace on each incoming request.
+also want to set the `reload` option to `true` in order to reload any modified
+server side namespaces.
 
 ### build.boot
 
@@ -273,21 +271,20 @@ There are few things to be noted here:
 * the `handler` is just a list of routes;
 * we defined four routes:
   * the `GET` macro from the `compojure.core` namespace has been used
-    to return the `Hello from Compojure` text when a client ask for
+    to return the `Hello from Compojure` text when a client asks for
     the `http://localhost:3000/` URL;
   * the `files` function, defined in the `compojure.route` namespace,
-    has been used for serving static file from the `target` directory,
+    is used for serving static files from the `target` directory,
     accordingly to the directory we previously set for the
     `target-path`;
   * the `resources` function, defined in the `compojure.route`
     namespace as well, has been used for serving resources living in
     the classpath accordingly to the `target-path` we previously set
     in the `build.boot` file;
-  * finally we used the `not-found` function to return a `Page Not
-    Found` page for any request which has not been found neither by
-    the `files` or the `resources` functions.
+  * finally we used the `not-found` function to return `Page Not
+    Found` for any request not matching any of the previous routes.
   
-We're now ready to verify if our set up is still able to serve the
+We're now ready to verify that our setup is still able to serve the
 `shopping.html` and the `index.html` pages.
 
 Start the IFDE as usual:
@@ -315,20 +312,20 @@ Elapsed time: 17.941 sec
 Now visit the `http://localhost:3000/index.html` and the
 `http://localhost:3000/shopping.html` URLs. Everything should still
 work as expected. Then visit the `http://localhost:3000` URL. You
-should receive the `Hello from Compojure!` message in the
+should see the message `Hello from Compojure!` in the
 browser. Finally, if you visit any other URL
 (e.g. `http://localhost:3000/foo`) you should receive the `Page Not
 Found` message.
 
-If you're complaining about the amount of work you have to do just for
-reaching a behavior similar to the one obtainable for free by using
-the default `serve` task configuration, I'm with you too.
+If you're ready to complain about the amount of work you have to do just to get
+behavior similar to that obtainable by using
+the default `serve` task configuration, I'm with you.
 
-That said, all that work has been done to be prepared for implementing
-the server side ajax endpoint we started from as the goal of this
+That being said, the work we have done is in preparation for implementing
+the server side ajax endpoint which is our goal for this section of the
 tutorial.
 
-To proceed with the next paragraph, stop the `boot` process.
+Before proceeding, please stop the `boot` process.
 
 ## Back to shoreleave
 
@@ -338,19 +335,20 @@ the asynchronous programming model and the way callbacks support it.
 Even if this association is not wrong *per se*, it does not mean that
 there are no other ways to implement ajax calls.
 
-What is easier than RPC (Remote Procedure Call) to bring with us the
-familiarity we all have with the standard way to locally call a
-function?  Someone could convince you that the RPC model is
-synchronous. This has not to be true. You can easily have an RPC model
-which is implemented using asynchronicity. This is exactly the way the
-`shoreleave` lib works: it internally uses ajax asynchronicity to
-offer you a very familiar RPC programming model.
+What is easier than RPC (Remote Procedure Call), which mimics the
+familiarity we call a local function?  
+Some might try to convince you that the RPC model is
+synchronous. That does not have to be true. You could build an RPC system
+which is implemented asynchronously. This is exactly the way the
+`shoreleave` lib works: internally it uses asynchronous ajax calls to
+give the appearance of the familiar RPC programming model.
 
 Thanks to [Chas Emerick][17], one of the most active and fruitful
 Clojurists, we can exploit [shoreleave-remote-ring][10] to reach that
-objective: it allows to define a remote functions returning a result
-calculated server-side based on the input values got on the
-client-side. Does this remember you the `Shopping Form` sample?
+objective. It allows us to define a remote function which will be called from
+the client (with any required arguments), which will be evaluated on the server, and which will 
+return the function result back to the client. 
+Does this remind you the `Shopping Form` sample?
 
 ### Update dependencies
 
@@ -364,7 +362,7 @@ of the `ITransientAssociative` and the `ITransientMap` CLJS protocols.
 
 To overcome these issues I upgraded all the `shoreleave` libs used in
 the `modern-cljs` series. So, instead of adding the canonical
-`shoreleave` libs you have to use the following forks:
+`shoreleave` libs you must use the following forks:
 
 ```clj
   ...
@@ -387,7 +385,7 @@ The `shoreleave-remote-ring` library offers the `defremote` macro
 which is like `defn` plus adding the defining function to a registry
 implemented as a reference type map (e.g., `(def remotes (atom {}))`).
 
-We like to keep the things separated. Considering we're probably going
+In our code, we like to keep separate things separate. Since we're probably going
 to create more `remote` functions, let's create a new CLJ file named
 `remotes.clj` in the `src/clj/modern_cljs` directory to host all of
 them and start writing the first one:
@@ -416,10 +414,10 @@ Then we used `defremote` to define the `calculate` function.
 ### Update the handler
 
 When we introduced [Compojure][18] in the previous section, we defined
-an handler to manage the essential routes for serving our
+a handler to manage the essential routes for serving our
 `shopping.html` and `index.html` pages.
 
-That said the `shoreleave-remote-ring` library requires that you add
+That being said, the `shoreleave-remote-ring` library requires that you add
 the `wrap-rpc` wrapper to the top-level handler in such a way that it
 will be ready to receive Ajax calls.
 
@@ -441,17 +439,14 @@ with `wrap-rpc`. Here is the complete `remotes.clj` content.
              (wrap-rpc)))
 ```
 
-As you see, in the namespace declaration we added a requirement
-relative to the `modern-cljs.core` namespace to be able to intern the
-`handler` symbol we previously defined.
+As you can see in the namespace declaration, we now refer the `handler` symbol
+from `modern-cljs.core` into the current namespace. We have also referred in 
+the `wrap-rpc` symbol from `shoreleave.middleware.rpc`, which is used in the
+thread-first macro `->` to wrap the original handler so that it can handle
+an ajax request.
 
-We also added the `wrap-rpc` symbol to the `:refer` option of the
-`shoreleave.middleware.rpc` namespace to be able to call it in the
-threading first macro `->` used to wrap the original handler with the
-things needed to manage an ajax request.
-
-This is not not enough. To be able to parse the request received from
-an ajax client we also need to enrich the handler with the
+However, this is not not enough. In order to parse the request received from
+an ajax client, we will also need to enrich the handler with the
 [`site`][41] middleware which adds some standard features to the
 received request map:
 
@@ -475,8 +470,8 @@ Here is the complete `remotes.clj` source file.
 
 The last thing to be done to finally enable the server-side ajax
 endpoint to serve an ajax client-side call is to update the `:handler`
-option of the `serve` task in the `build.boot` file by replacing the
-`modern-cljs.core/handler` handler with the new one (i.e., `app`).
+option of the `serve` task in the `build.boot` file by replacing the 
+original handler (`modern-cljs.core/handler`) with the new one (`app`).
 
 ```clj
 (deftask dev 
@@ -487,10 +482,10 @@ option of the `serve` task in the `build.boot` file by replacing the
    ...
 ```
 
-Even if what we did is seems to be all we had to do on the server
-side, there is a subtle issue we could run up against during
-development as reported into the
-[`ring` readme](https://github.com/ring-clojure/ring#upgrade-notice):
+While it may seem that we are finished updating the server
+side code, there is a subtle issue we could run up against during
+development, as reported in the
+[`ring` README file](https://github.com/ring-clojure/ring#upgrade-notice):
 
 > From version 1.2.1 onward, the ring/ring-core package no longer comes
 > with the javax.servlet/servlet-api package as a dependency.
@@ -501,11 +496,10 @@ development as reported into the
 > 
 > `[javax.servlet/servlet-api "2.5"]`
 
-In a next tutorial we'll further investigate the `boot` way to manage
-such things as [leiningen profiles][42]. At the moment we just want to
-add the above lib to the `boot dependencies` section.
-
-Here is the complete and final `build.boot` file.
+In a future tutorial, we'll further investigate the `boot` way of managing
+configuration analagous to [leiningen profiles][42]. For the moment, we just want to
+add the above lib to the `boot dependencies` section of `build.boot`. 
+Here is the complete file:
 
 ```clj
 (set-env!
@@ -550,7 +544,7 @@ Here is the complete and final `build.boot` file.
    (target :dir #{"target"})))
 ```
 
-Great: the server-side is done. We are ready to accordingly update the
+Great: the server-side is done. We are now ready to update the
 client-side code, which means the `shopping.cljs` file.
 
 Will do this in the IFDE live environment.
@@ -566,7 +560,7 @@ boot dev
 Elapsed time: 18.859 sec
 ```
 
-Then launch the standard CLJ REPL
+Then launch the standard CLJ REPL (note that we are not starting the CLJS REPL here!)
 
 ```bash
 # from a new terminal
@@ -577,7 +571,7 @@ boot.user=>
 ```
 
 If you want to test the remote `calculate` function, require the
-`modern-cljs.remotes` namespace and call it at the CLJS REPL prompt.
+`modern-cljs.remotes` namespace and call it at the CLJ REPL prompt.
 
 ```clj
 boot.user=> (require '[modern-cljs.remotes :as r])
@@ -640,9 +634,9 @@ First we need to update the namespace declaration by requiring the
 
 > NOTE 3: We also added the `cljs.reader` namespace to refer
 > `read-string`. The reason will become clear in the following
-> section, after we'll update the client-side `calculate` function.
+> section, after we update the client-side `calculate` function.
 
-Let's finish the work by modifying the `calculate` function.
+Let's finish this work by modifying the `calculate` function.
 
 ```clj
 (defn calculate []
@@ -660,20 +654,20 @@ As soon as you save the file, IFDE will recompile it and reload the
 
 If you now click the `Calculate` button of the Shopping Form you'll
 see that is still working, but this time the `Total` value has been
-calculated via ajax by the server-side.
+calculated on the server-side via ajax.
 
-You can confirm it by selecting the Network Panel of the Developer
-Tool of your browser. If you then select the XHR type of network
-traffic, any time you hit the `Calculate` button you'll see a new
-`_shoreleave` raw been shown in the panel.
+You can confirm the use of AJAX by opening your browser's Developer Tools and
+selecting the Network Panel. By selecting the XHR view, any time you hit 
+the `Calculate` button in the Shopping Calculator the browser will record a new
+`_shoreleave` XHR event.
 
 ### The arithmetic is not always the same
 
-First, take a look at the above `let` form of the `calculate`
+Take a look at the above `let` form of the `calculate`
 function.
 
-We wrapped the reading of all the input field values inside a
-`read-string` form, which returns the JS object coded by the given
+We wrapped each input field value inside a
+`read-string` form, which returns the JS object encoded by the given
 string. That's because CLJS has the same arithmetic semantics as JS,
 which is different than CLJ on the JVM.
 
@@ -698,8 +692,9 @@ WARNING: cljs.core/*, all arguments must be numbers, got [string string] instead
 42
 ```
 
-As you can see, CLJS implicitly casts strings to numbers when applies
-some arithmetic functions, but not all them. As an example try to add
+As you can see, CLJS can implicitly convert strings to numbers when it applies
+the multiplication function. However, this does not apply to
+all arithmetic functions. As an example try to add
 two stringified numbers and then multiply the result by 2 (stringified
 or not, it's the same).
 
@@ -733,11 +728,11 @@ cast a `String` to a `Number`.
 It should now be clear why we added `cljs.reader` to the
 `modern-cljs.shopping` namespace declaration to refer to the CLJS
 `read-string` function: we never want to get in trouble by using
-stringified number in numeric calculations.
+stringified numbers in numeric calculations.
 
 ### The remote callback
 
-Take another look at the `calculate` definition:
+Let's take another look at the `calculate` definition:
 
 ```clj
 (defn calculate []
@@ -751,23 +746,21 @@ Take another look at the `calculate` definition:
 ```
 
 After having read the values from the input fields of the shopping
-form, the client-site `calculate` function calls the `remote-callback` one,
+form, the client-site `calculate` function calls `remote-callback`,
 which accepts:
 
 * the keywordize remote function name (i.e., `:calculate`);
 * a vector of arguments to be passed to the remote function (i.e.,
   `[quantity price tax discount]`);
-* an anonymous function which receives the result (i.e., `%`) from the
-  remote calculation through the `remote-callback` call, then formats
-  the result (i.e., `.toFixed`) and finally manipulates the DOM by
-  setting the value of the `total` input field (i.e., `set-value!`) to
-  the formatted one.
+* an anonymous function which receives the result of the
+  remote calculation (i.e. `%`), then formats the result via `.toFixed`, and
+  saves it into the DOM using `set-value!` as before.
 
 Congratulations! You implemented a very simple, yet representative
 Ajax web application by using CLJS on the client-side and CLJ on the
 server-side.
 
-# Make you a favor
+# Bonus Section
 
 > NOTE 4: The images of this paragraph have been generated with a
 > previous version of `shoreleave` libs. *Mutatis Mutandis* (e.g.,
