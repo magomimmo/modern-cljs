@@ -332,9 +332,9 @@ Options:
   -s, --secure                 Flag to indicate whether the client should connect via wss. Defaults to false.
 ```
 
-The `cljs-repl` task has to be positioned just before the `cljs` and
-the `cljs-repl` author suggests to be explicit about the `Clojure` and
-`ClojureScript` releases to be added in the dependencies section of
+The `cljs-repl` task has to be positioned just before the `cljs` task.
+The `cljs-repl` author also suggests being explicit about the `Clojure` 
+and `ClojureScript` releases to be added in the dependencies section of
 the `build.boot` build file.
 
 ```clj
