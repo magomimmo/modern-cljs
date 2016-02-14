@@ -32,7 +32,7 @@ If you take a look at the [tasks for `boot`][4] developed by the
 community, you'll discover that we already have anything we need to
 start approaching Bret Victor's principle of Immediate Feedback:
 
-* [`boot-http`][5]: a `boot` task providing a simple CLJS based HTTP
+* [`boot-http`][5]: a `boot` task providing a simple CLJ based HTTP
   server;
 * [`boot-reload`][6]: a `boot` task providing a live-reload of static
   resources (i.e. CSS, images, etc.);
