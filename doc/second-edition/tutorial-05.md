@@ -119,7 +119,7 @@ cljs.user=>
 
 ## Review the Login form
 
-Before to start bREPLing, let's review the content of the
+Before we start bREPLing, let's review the content of the
 `html/index.html` file containing the login form we used in
 [Tutorial 4][2].
 
