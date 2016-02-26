@@ -510,7 +510,7 @@ to the newly defined `shopping` function.
             [modern-cljs.login :refer [authenticate-user]]
             [modern-cljs.templates.shopping :refer [shopping]]))
 
-(defroutes app-routes
+(defroutes handler
   ;; to serve document root address
   (GET "/" [] "<p>Hello from compojure</p>")
   ;; to authenticate the user
@@ -571,7 +571,7 @@ follows:
 (ns modern-cljs.templates.shopping
   (:require [net.cgrand.enlive-html :refer [deftemplate set-attr]]))
   
-(deftemplate shopping "public/shopping.html"
+(deftemplate shopping "shopping.html"
   [quantity price tax discount]
   [:#quantity] (set-attr :value quantity)
   [:#price] (set-attr :value price)
@@ -686,7 +686,7 @@ Open and modify the above file as follows:
   (:require [net.cgrand.enlive-html :refer [deftemplate set-attr]]
             [modern-cljs.remotes :refer [calculate]]))
     
-(deftemplate shopping "public/shopping.html"
+(deftemplate shopping "shopping.html"
   [quantity price tax discount]
   [:#quantity] (set-attr :value quantity)
   [:#price] (set-attr :value price)
