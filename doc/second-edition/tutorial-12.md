@@ -1109,7 +1109,7 @@ update its content as follows:
 (ns modern-cljs.login
   (:require-macros [hiccups.core :refer [html]]
                    [shoreleave.remotes.macros :as shore-macros])
-  (:require [domina :refer [by-id by-class value append! prepend! destroy! attr log]]
+  (:require [domina.core :refer [by-id by-class value append! prepend! destroy! attr log]]
             [domina.events :refer [listen! prevent-default]]
             [hiccups.runtime :as hiccupsrt]
             [modern-cljs.login.validators :refer [user-credential-errors]]
