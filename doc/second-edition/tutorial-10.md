@@ -288,7 +288,7 @@ safely leave it as before.
     (listen! (by-id "submit") :click (fn [e] (validate-form e)))))
 ```
 
-Save the file and reload the [`index.html`][12] page. As you peraphs
+Save the file and reload the [`index.html`][12] page. As you perhaps
 remember, the `init` function is called, as a JS script, when the page
 is loaded. This is one of the rare case in which the live IFDE is not
 able to automate this manual activity.
