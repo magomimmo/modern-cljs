@@ -521,11 +521,11 @@ Open the `html/js/main.cljs.edn` file and do the above addition.
 > task. Do you remember when at the beginning of this series I wrote
 > about the idiosyncrasies of the building tools when you walk a
 > little bit out of its defaults? This is one them. Here you have to
-> choose between two alternatives: or you adhere to the very diffused
+> choose between two alternatives: either you adhere to the very widespread
 > convention of keeping the `js` resources confined in a `js`
-> subdirectory of the directory where your html pages live, either, to
-> not incur into the above incidental complexity, you stay with the
-> defaults of `boot-cljs` task and completely give up with an almost
+> subdirectory of the directory where your html pages live; or, to
+> not incur the above incidental complexity, you stay with the
+> defaults of `boot-cljs` task and abandon an almost
 > universal convention of the web.
 
 ### bREPLing with the calculator

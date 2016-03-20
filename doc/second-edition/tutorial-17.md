@@ -335,7 +335,7 @@ boot.user> (e/sniptest (html [:fieldset [:div [:label {:for "price"} "Price per 
 ```
 
 The `[:label]` selector selected both `label` elements inside the
-`fieldset` element. The corresponding transformer consequentely
+`fieldset` element. The corresponding transformer consequently
 changed the content of both of them. Luckly, Enlive offers a rich set
 of predicates which can be applied to be more specific within the
 selectors. One of them is `attr=`, which tests if an attribute has a

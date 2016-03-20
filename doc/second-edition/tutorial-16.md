@@ -34,7 +34,7 @@ We'd like to please them a little bit better than that.
 ## Task Options DSL
 
 As you can read from the Wiki page cited above, `boot` is a servant of
-more owners and it has to please them all:
+many owners and it has to please them all:
 
 > `boot` tasks are intended to be used from the command line, from a
 > REPL, in the project's build.boot file, or from regular Clojure
@@ -219,7 +219,7 @@ step, stop the `boot` process.
 
 ### Update build.boot
 
-We know enough to start updating the `testing` task. Considering that
+We now know enough to start updating the `testing` task. Considering that
 what `testing` really does it is to add paths to the `:source-paths`
 environment variable, we'll change its name to `add-source-paths` as
 well:

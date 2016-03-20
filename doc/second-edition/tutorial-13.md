@@ -101,7 +101,7 @@ Elapsed time: 19.288 sec
 and visit the [shopping URI][2] for reviewing the Shopping Calculator
 program.
 
-Click the `Calculate` button. The `Total` field is valued with the
+Click the `Calculate` button. The `Total` field is populated with the
 result of the calculation executed via Ajax on the server-side.
 
 Note that the `localhost:3000/shopping.html` URI shown in the address
@@ -173,7 +173,7 @@ does not respond to any event.
 Now modify the `shoppingForm` by adding the `action="/shopping"` and
 the `method="POST"` attribute/value pairs. Next, change the Calculate
 input from `type="button"` to `type="submit"` attribute/value
-pair. Following is the interested snippet of the modified HTML code.
+pair. Following is the interesting snippet of the modified HTML code.
 
 ```html
   ...
@@ -697,7 +697,7 @@ Open and modify the above file as follows:
 ```
 
 > NOTE 4: We added the `format` call to format the `Total` value with
-> two digits after the decimal point. Note that we [casted][32] the
+> two digits after the decimal point. Note that we [cast][32] the
 > `calculate` result to `double`.
 
 Assuming that you have your IFDE running, as soon as you save the file
@@ -721,7 +721,7 @@ modern-cljs.templates.shopping -> modern-cljs.remotes
 -> modern-cljs.core -> modern-cljs.templates.shopping
 ```
 
-Our scenario is simple enough. Remove the `modern-cljs.core` reference
+Our solution is simple enough. Remove the `modern-cljs.core` reference
 from the `modern-cljs.remotes` namespace declaration. There, we only
 referenced the `handler` symbol from the `modern-cljs.core` namespace
 in the `app` definition. By moving the `app` definition to the

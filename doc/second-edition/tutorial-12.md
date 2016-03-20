@@ -256,7 +256,7 @@ portable) CLJ/CLJS lib:
 
 Starting with the `1.7.0` release, Clojure offers a new way to solve
 the above Feature Expression Problem. I'm not going to explain it
-right now. I'm anticipating you about it only because I rewrote the
+right now. I'm alerting you about it now only because I rewrote the
 [`valip`](https://github.com/magomimmo/valip/tree/0.4.0-SNAPSHOT) lib
 by using that new feature in such a way that we can easily use it
 inside our series of tutorials without having to do with the above
@@ -536,7 +536,7 @@ directory in the `build.boot` building file.
 
 ## src/cljc
 
-Even if `boot` is so nice that allows you to modify the `environment`
+Even though `boot` is so nice that it allows you to modify the `environment`
 from the REPL with the `set-env!` function, the updating of the
 `build.boot` file is one of the rare cases where I prefer to stop the
 IFDE, make the changes and then restart it.
@@ -622,7 +622,7 @@ cljs.user=>
 ```
 
 Do you want to see if the `valip` namespaces are available from the
-CLJS as well? Require them an interact with some of the predicates.
+CLJS as well? test them by interacting with some of the predicates.
 
 ```clj
 cljs.user> (require '[valip.core :refer [validate]]
@@ -730,14 +730,14 @@ nil
 ```
 
 WOW, I don't know about you, but anytime I see this magic at work, I
-would kiss any CLJ/CLJS contributor one by one. No way that anybody
-could convince me to that there is something better than CLJ/CLJS on
+could kiss the CLJ/CLJS contributors one by one. No way that anybody
+could convince me that there is something better than CLJ/CLJS on
 the web planet.
 
 ## Back on Earth
 
 OK, we had enough magic for now. Let's came back on Earth to update
-the CLJS `modern-cljs.login` namespace by using those magics.
+the CLJS `modern-cljs.login` namespace by using this magic.
 
 Open the `login.cljs` source file living in the `src/cljs/modern_cljs`
 directory to start updating it while the IFDE is running:

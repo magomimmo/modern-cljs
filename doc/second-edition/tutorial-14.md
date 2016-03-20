@@ -250,7 +250,7 @@ that are applicable to a portable CLJ/CLJS namespace like
 That said, most of the `cljs.test` functionalities are provided as
 macros, which means that you need the special CLJS `:require-macros`
 option in the requirement declaration of a testing namespace, while
-you do no need it in the corresponding CLJ namespace declaration.
+you do not need it in the corresponding CLJ namespace declaration.
 
 We already met a case like that. Indeed, while writing the portable
 `modern-cljs.login.validators` namespace, we needed to differentiate
@@ -442,12 +442,12 @@ reporting of failure reports.
 
 To run the newly defined unit test for the
 `modern-cljs.shopping.validators` namespace we have more options. The
-one we're going to use right now does not require to kill the running
+one we're going to use right now does not require killing the running
 `boot` process even if we're going to alter the `boot` environment
 established by the `build.boot` file when we started IFDE with the
 `boot dev` command.
 
-This is the first time in the series that we do no stop `boot` to
+This is the first time in the series that we do not stop `boot` to
 alter its runtime environment. Sometimes it could be useful,
 especially when you're experimenting something new and this is our
 case.
@@ -551,7 +551,7 @@ Ran 1 tests containing 3 assertions.
 
 Oops, nothing new happens. The unit test succeeded again. The problem
 is that even if the `validate-shopping-form-test` function got
-redefined and recompiled, `cojure.test` still knows about the old
+redefined and recompiled, `clojure.test` still knows about the old
 definition. To obtain the expected effect we have to explicitly reload
 the `modern-cljs.shopping.validators-test` namespace and re-run
 `run-tests`.
@@ -573,11 +573,11 @@ Ran 1 tests containing 3 assertions.
 {:test 1, :pass 2, :fail 1, :error 0, :type :summary}
 ```
 
-Now we talk. Even if the failure report does require a bit of
+Now we are talking. Even if the failure report does require a bit of
 interpretation at first, after a while you can grasp it quicker.
 
 Now revert the above test to the good form, reload its namespace and
-rerun `run-tests` to got back to the right test result.
+rerun `run-tests` to get back to the right test result.
 
 ```clj
 boot.user> (require '[modern-cljs.shopping.validators-test] :reload)
@@ -595,7 +595,7 @@ Ran 1 tests containing 3 assertions.
 
 The coded test includes only few assertions regarding the working path
 of the `validate-shopping-form` calls. Generally speaking you should
-cover also the *alternative/exception paths*. Let's add few of them in
+also cover the *alternative/exception paths*. Let's add few of them in
 our first test.
 
 ```clj
