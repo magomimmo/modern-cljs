@@ -196,9 +196,9 @@ Make the Test Driven Development Environment more customizable.
 
 ## [Tutorial 17 - REPLing with Enlive][37]
 
-Integrate validators for the into a web form in such a way that the
-user will be notified with the corresponding help messages when the
-she/he enters invalid values in the form.
+Integrate validators into a web form in such a way that the
+user will be notified with the corresponding help messages when they 
+enter invalid values in the form.
 
 ## [Tutorial 18 - Augmented TDD session][38]
 
