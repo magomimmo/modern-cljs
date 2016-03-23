@@ -212,7 +212,7 @@ Conditionals extension on CLJ/CLJS compilers.
 
 ## [Tutorial 20 - House Keeping][40]
 
-Step to step guide for publishing a library to clojar repository by
+Step by step guide for publishing a library to clojar repository by
 using `boot`.
 
 # License
