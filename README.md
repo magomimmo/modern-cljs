@@ -148,7 +148,7 @@ tutorial.
 
 ## [Tutorial 7 - Introducing Domina Events][26]
 
-Use Domina events for a more Clojure-ish approach to handing DOM events.
+Use Domina events for a more Clojure-ish approach to handling DOM events.
 
 ## [Tutorial 8 - DOM Manipulation][27]
 
