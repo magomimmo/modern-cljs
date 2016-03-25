@@ -41,7 +41,7 @@ agreement with the following reasoning:
 > structures or those pesky parentheses.
 
 > NOTE 1: both `clojurescriptone` repo and the corresponding `Design
-> and templating` documentation have been removed and are no more
+> and templating` documentation have been removed and are no longer
 > available.
 
 Our old `index.html` friend is going to be our pure HTML/CSS template
