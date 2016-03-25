@@ -324,7 +324,7 @@ new features and correcting bugs. This means that in a very short time
 a new release could be available. `boot` maintainers follow the rules
 of [semantic versioning](http://semver.org/). So, to be sure that the
 project we're building runs without any problem, the best thing you
-can do it's to explicitly pin the project to the above `2.5.5.`
+can do is explicitly pin the project to the above `2.5.5.`
 release as follows:
 
 ```bash
