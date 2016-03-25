@@ -503,7 +503,7 @@ previous login form. Finally we set the `init` function itself as the
 value of the `onsubmit` property of the `window` object defined in the
 `js` special namespace.
 
-As soon as you save the `shopping.cljs` file, it get recompiled and
+As soon as you save the `shopping.cljs` file, it gets recompiled and
 the corresponding `shopping.html` page reloaded.
 
 But we still have to make another change. We need to add the newly
