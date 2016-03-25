@@ -358,10 +358,10 @@ cljs.user> (js/console.log "Hello from ClojureScript!")
 nil
 ```
 
-> NOTE 2: The Iceweasel web browser throws an error message when
+> NOTE 2: The `Iceweasel` web browser throws an error message when
 > console log is called from the bREPL but still outputs to the console.
 > This error message does not occur when the bREPL connects to the 
-> Chromium web browser.
+> `Chromium` web browser.
 
 Here we called the `log` function on the `console` object living in
 the `js` special namespace by passing to it the `"Hello from
