@@ -86,7 +86,7 @@ project.
 ## Launch the Immediate Feedback Development Environment (IFDE)
 
 As we learnt in the [previous tutorial][2], the use of the IFDE allows
-to familiarize ourselves with the CLJS language by evaluating
+us to familiarize ourselves with the CLJS language by evaluating
 expressions in the bREPL before extending an application by directly
 coding into the source files.
 
