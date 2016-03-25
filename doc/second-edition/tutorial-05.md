@@ -277,7 +277,7 @@ As you can see, by using `domina` the code is now more fluid and
 idiomatic than before.  Leave the rest of the file as is.
 
 As soon as you save the changes, the IFDE triggers the CLJS compiler
-and reload the `index.html` file as well.
+and reloads the `index.html` file as well.
 
 You can safely interact with the login form which is now managed via the
 `domina` lib.
