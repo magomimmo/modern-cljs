@@ -67,7 +67,7 @@ single segment namespace. Even if those warnings do not affect the
 behavior of the lib in the context of this tutorial, I really hate
 warnings. So I prepared [a non canonical `domina` release][15] which fixes
 those warnings.  That said, even if I would never suggest to use
-`domina` in a new CLJS project, this tutorial could be still useful to
+`domina` in a new CLJS project, this tutorial could still be useful to
 understand the way CLJS works.
 
 As usual to use a new library, you need to add it to the dependencies'
