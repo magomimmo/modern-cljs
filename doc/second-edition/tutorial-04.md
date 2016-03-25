@@ -138,7 +138,7 @@ client-side validation does not pass, we do not need to make a
 round-trip to the server and we can immediately return the errors to
 the user.
 
-But we still have few problems. The client-side validation cannot
+But we still have a few problems. The client-side validation cannot
 check if the username is registered. This bring us to Ajax and the
 third sequence diagram.
 
