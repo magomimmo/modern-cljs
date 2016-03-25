@@ -108,7 +108,7 @@ to the server-side. The `id` value will be used by JS/CSS.
 
 `login.php` script is associated with the `form action`. And
 `login.js` is linked within the html page. Aside from `login.js`,
-there is no any other direct connection between the `form` and the JS
+there is not any other direct connection between the `form` and the JS
 script. This choice has to do with the so called *progressive
 enhancement* and *unobtrusive JS* approaches that Larry Ullman clearly
 explains in his book.
