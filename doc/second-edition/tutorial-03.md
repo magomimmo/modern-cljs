@@ -189,7 +189,7 @@ Writing target dir(s)...
 Elapsed time: 19.929 sec
 ```
 
-You can then repeat all the tests we already shown in [Tutorial 2][1]
+You can then repeat all the tests already shown in [Tutorial 2][1]
 including the bREPL creation from a nrepl client.
 
 Not bad. You now have a very simple command, `boot dev`, to launch a
