@@ -319,7 +319,7 @@ cljs.user=>
 
 
 > NOTE 1: the main `boot` advantage over [`leiningen`][15] build tool
-> it's the ability to use one JVM only by exploiting the JVM
+> is the ability to use one JVM only by exploiting the JVM
 > classloader. If you work with an `nrepl` compliant editor, you
 > should be able to connect it to the `nrepl` server launched by the
 > `boot dev` command without launching a new JVM instance. I
