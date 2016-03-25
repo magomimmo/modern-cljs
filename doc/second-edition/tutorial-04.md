@@ -440,10 +440,10 @@ object) arg)` form. Let's try to set the `value` property of the
 
 ```clj
 cljs.user> (set! (.-value (.getElementById js/document "password"))
-                 "weekpassword")
-"weekpassword"
+                 "weakpassword")
+"weakpassword"
 cljs.user> (.-value (.getElementById js/document "password"))
-"weekpassword"
+"weakpassword"
 ```
 
 > NOTE 2: in CLJ/CLJS when a function changes the state of a mutable
