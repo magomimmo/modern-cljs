@@ -286,7 +286,7 @@ Few things to be noted about the above code:
    an `action` property any more;
 3. the original `if` form has been substituted by the `when` form,
    because we now need to do more things when the predicate returns
-   `true` and there is no an else path to be followed;
+   `true` and there is no else path to be followed;
 
 # I hate HTML
 
