@@ -290,7 +290,7 @@ Few things to be noted about the above code:
 
 # I hate HTML
 
-I have to admit of being very bad at both HTML and CSS coding and I
+I have to admit I'm very bad at both HTML and CSS coding and I
 always prefer to have a professional designer available to do that
 job.
 
