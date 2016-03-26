@@ -98,7 +98,7 @@ The following sequence diagram visualizes our requirements:
 ![Shopping Ajax][16]
 
 The first thing we want to do is implement the server-side function to
-calculate the total. Where we start from?
+calculate the total. Where do we start from?
 
 ## The server side
 
