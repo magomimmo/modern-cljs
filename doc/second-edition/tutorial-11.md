@@ -161,7 +161,7 @@ Open the `login.cljs` file and edit it as follows:
 ```
 
 > NOTE 1: we added the `attr` symbol to the `:refer` section of the
-> `domina.core` requirement and that we deleted both `*email-re*` and
+> `domina.core` requirement and then we deleted both `*email-re*` and
 > `*password-re*` previous definitions.
 
 As usual, check that the Login Form is still working as expected.
