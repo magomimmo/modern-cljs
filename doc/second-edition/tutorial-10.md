@@ -277,7 +277,7 @@ function to improve its Clojure-ish style. The semantics of the
 > so returning `false` would be redundant.
 
 To make the above mechanics more clear, we also update the `init`
-function by wrapping the `validate-forma` listener inside an anonymous
+function by wrapping the `validate-form` listener inside an anonymous
 function taking the event `e` as argument. If you want, you can can
 safely leave it as before.
 
