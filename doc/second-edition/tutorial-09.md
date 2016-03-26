@@ -547,7 +547,7 @@ Here is the complete file:
 Great: the server-side is done. We are now ready to update the
 client-side code, which means the `shopping.cljs` file.
 
-Will do this in the IFDE live environment.
+We will do this in the IFDE live environment.
 
 ## Launch IFDE
 
