@@ -348,7 +348,7 @@ Clojurists, we can exploit [shoreleave-remote-ring][10] to reach that
 objective. It allows us to define a remote function which will be called from
 the client (with any required arguments), which will be evaluated on the server, and which will 
 return the function result back to the client. 
-Does this remind you the `Shopping Form` sample?
+Does this remind you of the `Shopping Form` sample?
 
 ### Update dependencies
 
