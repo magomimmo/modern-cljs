@@ -62,7 +62,7 @@ from a web browser.
 That said, directly interacting with `XmlHttpRequest` or with
 `goog.net.XhrIo` and `goog.net.XhrManager` could easily become
 cumbersome. Let's see if the CLJS community has done something to
-alleviate a certain PITA.
+alleviate a certain [PITA][43].
 
 # Introducing shoreleave
 
@@ -861,3 +861,4 @@ License, the same as Clojure.
 [40]: https://github.com/shoreleave/shoreleave-browser
 [41]: https://weavejester.github.io/compojure/compojure.handler.html#var-site
 [42]: https://github.com/technomancy/leiningen/blob/master/doc/PROFILES.md
+[43]: https://en.wiktionary.org/wiki/pain_in_the_ass
