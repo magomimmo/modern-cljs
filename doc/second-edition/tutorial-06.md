@@ -54,7 +54,7 @@ structures?
 
 ## Easy made complex
 
-From the above discussion the reader could infer that that CLJS is
+From the above discussion the reader could infer that CLJS is
 good only for *Single Page Application* (SPA). Indeed, there is a very
 modest solution to the above conflict between more calls setting the
 same `onload` property of the JS `window` object: code duplication!
