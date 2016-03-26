@@ -209,7 +209,7 @@ cljs.user> (dom/destroy! (dom/by-class "help"))
 nil
 ```
 
-The last experiment we want to do within the bREPL before starting coding
+The last experiment we want to do within the bREPL before we start coding
 in the `shopping.cljs` file is to attach a listener to the `mouseout`
 event for the `calc` button.
 
