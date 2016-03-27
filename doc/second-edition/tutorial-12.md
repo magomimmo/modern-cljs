@@ -391,7 +391,7 @@ There we finally passed a nice `email` and an invalid `password`
 arguments. The return `map` contains the message for the bad
 `password` only.
 
-OK, we familiarized enough with the `validate` function. We can now
+OK, we are familiarized enough with the `validate` function. We can now
 start coding in a source file.
 
 ## validators.clj
