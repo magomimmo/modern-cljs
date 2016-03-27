@@ -177,7 +177,7 @@ Functions), but another nice feature to have in your hands.
 
 `valip` even offers the `defpredicate` macro, which allows you to
 easily compose new predicates returning a boolean value. Here is a
-sample got from the lib itself.
+sample from `valip` itself.
 
 ```clj
 (defpredicate valid-email-domain?
