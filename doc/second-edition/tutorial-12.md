@@ -736,8 +736,8 @@ the web planet.
 
 ## Back on Earth
 
-OK, we had enough magic for now. Let's came back on Earth to update
-the CLJS `modern-cljs.login` namespace by using those magics.
+OK, we had enough magic for now. Let's came back to Earth to update
+the CLJS `modern-cljs.login` namespace by using that magics.
 
 Open the `login.cljs` source file living in the `src/cljs/modern_cljs`
 directory to start updating it while the IFDE is running:
