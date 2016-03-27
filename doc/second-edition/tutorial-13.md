@@ -257,7 +257,7 @@ text of the input values of the form.
 
 Let's know go back for a while and see what happens if we re-enable the
 JavaScript engine of the browser. Open again the Setting of the
-Developer Tools and enable the JavaScript engine by unmarking the
+Developer Tools and [enable the JavaScript engine][33] by unmarking the
 `Disable JavaScript` check-box.
 
 Next, reload the [shopping URI][2] and finally click the `Calculate`
@@ -870,3 +870,4 @@ License, the same as Clojure.
 [30]: https://github.com/emezeske/lein-cljsbuild#hooks
 [31]: https://github.com/technomancy/leiningen
 [32]: http://clojuredocs.org/clojure_core/clojure.core/format#example_839
+[33]: https://github.com/learningcljs/modern-cljs/blob/se-js-enable-disable/doc/supplemental-material/enable-disable-js.md
