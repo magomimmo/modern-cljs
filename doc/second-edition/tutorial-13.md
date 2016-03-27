@@ -255,7 +255,7 @@ text of the input values of the form.
 
 ![FictionShopping][7]
 
-Let's know go back for a while and see what happens if we re-enable the
+Let's now go back for a while and see what happens if we re-enable the
 JavaScript engine of the browser. Open again the Setting of the
 Developer Tools and enable the JavaScript engine by unmarking the
 `Disable JavaScript` check-box.
