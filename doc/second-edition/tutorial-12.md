@@ -487,7 +487,7 @@ as expected.
 
 Visit [Login page](http://localhost:3000/index.html) and repeat all
 the interaction tests we executed in the
-[latest tutorial][14]. Remember to first disable the JS of the
+[latest tutorial][14]. Remember to first [disable the JS][25] of the
 browser and eventually reload the page too.
 
 When you submit the Login Form you should receive a `Please complete
