@@ -1,6 +1,6 @@
 # Tutorial 13 - Better Safe Than Sorry (Part 1)
 
-In this part of the tutorial we're going to prepare the field for one
+In this tutorial we're going to prepare the field for one
 of the main topics in the software development life cycle: *code
 testing*. Code testing is a kind of continuum which goes from zero to
 almost full test coverage. I'm not going to open one of those endless
