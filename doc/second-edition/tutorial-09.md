@@ -146,7 +146,7 @@ server side namespaces.
 ### build.boot
 
 Let's start by modifying the `build.boot` to configure the `serve`
-task accordingly to our `target-path`.
+task:
 
 ```clj
 ...
@@ -274,13 +274,9 @@ There are few things to be noted here:
     to return the `Hello from Compojure` text when a client asks for
     the `http://localhost:3000/` URL;
   * the `files` function, defined in the `compojure.route` namespace,
-    is used for serving static files from the `target` directory,
-    accordingly to the directory we previously set for the
-    `target-path`;
-  * the `resources` function, defined in the `compojure.route`
-    namespace as well, has been used for serving resources living in
-    the classpath accordingly to the `target-path` we previously set
-    in the `build.boot` file;
+    is used for serving static files from the `target` directory;
+  * the `resources` function, also defined in the `compojure.route`, is
+    used for serving resources on the classpath;
   * finally we used the `not-found` function to return `Page Not
     Found` for any request not matching any of the previous routes.
   
