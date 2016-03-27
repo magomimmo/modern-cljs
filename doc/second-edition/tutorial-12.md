@@ -445,7 +445,7 @@ definition.
 
 > NOTE 5: `valip` provides the `email-address?` built-in predicate
 > which matches the passed email value against an embedded regular
-> expression. This regular expression is based on RFC 2822 and it is
+> expression. This regular expression is based on [RFC 2822][25] and it is
 > defined in the `valip.predicates` namespace. This is why we're not
 > defining here the `*re-email*` regular expression as we did above
 > with `*re-password*`.  Later, you'll delete the one previously
@@ -1198,3 +1198,4 @@ License, the same as Clojure.
 [22]: https://github.com/clojure/clojure/blob/master/changes.md#22-reader-conditionals
 [23]: http://leiningen.org/
 [24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
+[25]: https://tools.ietf.org/html/rfc2822
