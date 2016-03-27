@@ -121,15 +121,9 @@ with the HTTP/1.1 202 status code (i.e. Accepted).
 
 ![AjaxNetwork][3]
 
-But what happens if you disable JavaScript? Let's try. On Google
-Chrome you disable the JavaScript engine by clicking on the `Customize
-and Control Dev Tools` and then choosing the `Setting` menu item. It
-opens a panel from where you can mark the `Disable JavaScript`
-check-box.
+But what happens if you disable JavaScript? Let's try.
 
-![DisableJavaScript][4]
-
-Now close the Setting's panel and reload the [shopping URI][2]. If you
+[Disable JavaScript][33] and then reload the [shopping URI][2]. If you
 move the mouse cursor over the `Calculate` button nothing happens and
 nothing happens even if you click it.
 
