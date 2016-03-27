@@ -523,7 +523,7 @@ to the newly defined `shopping` function.
   (not-found "Page non found"))
 ```
 
-Now disable the JavaScript engine of your browser again and visit the
+Now [disable the JavaScript engine][33] of your browser again and visit the
 [shopping][2] URI.
 
 You should see the Shopping Calculator page showing the default field
