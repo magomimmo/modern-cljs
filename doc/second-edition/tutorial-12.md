@@ -845,8 +845,8 @@ manually reload the page to see the result. So just reload the
 [`Login Form`](http://localhost:3000/index.html) and you'll be
 launched back to the sky again.
 
-> NOTE 10: if you did not reactivated your browser JS Engine, do it
-> before reload the Login Form page
+> NOTE 10: if you did not [reactivated your browser JS Engine][25], do it
+> before reloading the Login Form page
 
 Repeat all the interactive tests you did. I know, it's boring, but at
 least you will be proud of the CLJ/CLJS community you're now part of.
