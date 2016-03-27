@@ -1024,7 +1024,7 @@ There are few important notable aspects in the above code:
    platform that's identified at compile by the `:clj` feature;
 1. to refer to the `valid-email-domain?` predicate we're now using the
    `pred` alias;
-1. there is no a `:cljs` condition/expression pair, meaning that the
+1. there is not a `:cljs` condition/expression pair, meaning that the
    newly defined `email-domain-errors` validator is only available on
    the JVM platform.
 
