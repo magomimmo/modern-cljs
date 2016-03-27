@@ -528,7 +528,7 @@ solution of the `Feature Expression` problem.
 The `modern-cljs.login.validators` namespace we just wrote is
 currently hosted in the `src/clj` source directory of the project. It
 required portable namespace from the `valip` patched lib and did not
-used any expression available for the JVM platform only. 
+use any expression available for the JVM platform only. 
 
 What does that means? It means you can safely rename the file with the
 `cljc` extension and move it under a new `src/cljc` source path
