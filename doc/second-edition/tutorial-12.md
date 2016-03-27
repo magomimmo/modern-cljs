@@ -46,7 +46,7 @@ If you search GitHub for a CLJ validator library you'll find quite a
 large number of results, but if you restrict the search to CLJS
 library only, you currently get just one result: [Valip][2].
 
-> NOTE 1: The above assertion is no more true. In winter 2012, when I
+> NOTE 1: The above assertion is no longer true. In winter 2012, when I
 > wrote the first edition of this series of tutorials, there were
 > almost no CLJS form validators. Today, thanks to the awesome efforts
 > of the CLJ/CLJS community, the problem has became the opposite:
