@@ -1198,3 +1198,4 @@ License, the same as Clojure.
 [22]: https://github.com/clojure/clojure/blob/master/changes.md#22-reader-conditionals
 [23]: http://leiningen.org/
 [24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
+[25]: https://github.com/learningcljs/modern-cljs/blob/se-js-enable-disable/doc/supplemental-material/enable-disable-js.md
