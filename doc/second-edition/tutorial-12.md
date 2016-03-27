@@ -157,7 +157,7 @@ sample from the `valip.predicates` namespace:
 > NOTE 2: I personally consider the above `matches` definition as
 > bugged. As you'll see in a subsequent tutorial specifically dedicated
 > to `unit tests`, I always like to start testing functions from border
-> cases. What does it happen when the passed argument `s` to the
+> cases. What happens when the passed argument `s` to the
 > above anonymous function returned from `matches` is `nil`?
 > 
 > You'll get a `NullPointerException` on the JVM and an almost
