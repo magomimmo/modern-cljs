@@ -536,7 +536,7 @@ directory in the `build.boot` building file.
 
 ## src/cljc
 
-Even if `boot` is so nice that allows you to modify the `environment`
+Even if `boot` is so nice that it allows you to modify the `environment`
 from the REPL with the `set-env!` function, the updating of the
 `build.boot` file is one of the rare cases where I prefer to stop the
 IFDE, make the changes and then restart it.
