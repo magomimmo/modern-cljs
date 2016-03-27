@@ -168,7 +168,7 @@ As usual, check that the Login Form is still working as expected.
 
 ## HTML5 Validation
 
-Now disable JavaScript in your browser, reload the page and click
+Now [disable JavaScript][11] in your browser, reload the page and click
 the `Login` button without having filled the email and the password
 fields.
 
@@ -314,7 +314,7 @@ it's now defined in that namespace.
 
 ## First try
 
-Disable the browser JavaScript and remember that we removed the
+[Disable JavaScript][11] in the browser and remember that we removed the
 `novalidate` attribute flag from the `loginForm`.
 
 Click the `Login` button without having filled any fields.
@@ -385,3 +385,4 @@ License, the same as Clojure.
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
 [9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md
 [10]: https://help.github.com/articles/set-up-git
+[11]: https://github.com/learningcljs/modern-cljs/blob/se-js-enable-disable/doc/supplemental-material/enable-disable-js.md
