@@ -41,7 +41,7 @@ agreement with the following reasoning:
 > structures or those pesky parentheses.
 
 > NOTE 1: both `clojurescriptone` repo and the corresponding `Design
-> and templating` documentation have been removed and are no more
+> and templating` documentation have been removed and are no longer
 > available.
 
 Our old `index.html` friend is going to be our pure HTML/CSS template
@@ -64,10 +64,10 @@ has not been updated to follow the evolution of CLJS compiler. If you
 use the canonical `domina` release (i.e., `[domina "1.0.3"]`), during
 the compilation you'll get a warning about the fact that it uses a
 single segment namespace. Even if those warnings do not affect the
-behavior of the lib in the contest of this tutorial, I really hate
+behavior of the lib in the context of this tutorial, I really hate
 warnings. So I prepared [a non canonical `domina` release][15] which fixes
 those warnings.  That said, even if I would never suggest to use
-`domina` in a new CLJS project, this tutorial could be still useful to
+`domina` in a new CLJS project, this tutorial could still be useful to
 understand the way CLJS works.
 
 As usual to use a new library, you need to add it to the dependencies'
@@ -86,7 +86,7 @@ project.
 ## Launch the Immediate Feedback Development Environment (IFDE)
 
 As we learnt in the [previous tutorial][2], the use of the IFDE allows
-to familiarize ourselves with the CLJS language by evaluating
+us to familiarize ourselves with the CLJS language by evaluating
 expressions in the bREPL before extending an application by directly
 coding into the source files.
 
@@ -277,7 +277,7 @@ As you can see, by using `domina` the code is now more fluid and
 idiomatic than before.  Leave the rest of the file as is.
 
 As soon as you save the changes, the IFDE triggers the CLJS compiler
-and reload the `index.html` file as well.
+and reloads the `index.html` file as well.
 
 You can safely interact with the login form which is now managed via the
 `domina` lib.
@@ -503,7 +503,7 @@ previous login form. Finally we set the `init` function itself as the
 value of the `onsubmit` property of the `window` object defined in the
 `js` special namespace.
 
-As soon as you save the `shopping.cljs` file, it get recompiled and
+As soon as you save the `shopping.cljs` file, it gets recompiled and
 the corresponding `shopping.html` page reloaded.
 
 But we still have to make another change. We need to add the newly
