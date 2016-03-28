@@ -209,7 +209,7 @@ cljs.user> (dom/destroy! (dom/by-class "help"))
 nil
 ```
 
-The last experiment we want to within the bREPL before starting coding
+The last experiment we want to do within the bREPL before we start coding
 in the `shopping.cljs` file is to attach a listener to the `mouseout`
 event for the `calc` button.
 
@@ -286,11 +286,11 @@ Few things to be noted about the above code:
    an `action` property any more;
 3. the original `if` form has been substituted by the `when` form,
    because we now need to do more things when the predicate returns
-   `true` and there is no an else path to be followed;
+   `true` and there is no else path to be followed;
 
 # I hate HTML
 
-I have to admit of being very bad at both HTML and CSS coding and I
+I have to admit I'm very bad at both HTML and CSS coding and I
 always prefer to have a professional designer available to do that
 job.
 
