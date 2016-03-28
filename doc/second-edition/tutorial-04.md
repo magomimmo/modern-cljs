@@ -280,7 +280,7 @@ function validateForm() {
 
 Here, the `validateForm()` function gets the `email` and the
 `password` ids from the form input and verifies that both have value
-(i.e. `lenght > 0`).
+(i.e. `length > 0`).
 
 The `validateForm()` function returns `true` if the validation passes,
 `false` otherwise.

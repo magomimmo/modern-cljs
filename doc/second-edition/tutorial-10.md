@@ -129,7 +129,7 @@ reviewing the html code of `index.html` (i.e., the Login Form).
 > tutorial we're going to replace it with a corresponding service
 > implemented in CLJ.
 
-As you remember, when we reviewed the `Shopping Calculator` code to
+As you remember, when we revised the `Shopping Calculator` code to
 make it more Clojure-ish, we started by changing the `type` attribute
 of the Shopping Form's button from `type="submit"` to
 `type="button"`. But having decided to adhere to a progressive

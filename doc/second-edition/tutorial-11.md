@@ -195,8 +195,8 @@ progressive enhancement strategy.
 As you already know, this series of tutorials is about CLJS, not
 CLJ. On the net there are already some very good tutorials on CLJ web
 application development using [ring][7] and [compojure][5]. Despite
-this, we should at least provide a starting point and a track to be
-followed.
+this, we should at least provide a starting point and a direction to
+follow.
 
 ## index.html
 

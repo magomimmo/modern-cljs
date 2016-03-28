@@ -220,7 +220,7 @@ Virtual Machine) either via the `:crossover` feature of the
 [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild) plugin or
 via the [`lein-cljx`](https://github.com/lynaghk/cljx) plugin.
 
-Let's comment the current directory layout of the `valip` library:
+Let's explore the current directory layout of the `valip` library:
 
 * all the functions specific to the JVM are confined in the
   `predicates.clj` source file hosted in the `src/valip/java`
@@ -234,7 +234,7 @@ Let's comment the current directory layout of the `valip` library:
 * all the macros are confined in the `def.clj` source file hosted in
   the `src/valip/predicates` directory.
 
-So far, so good. But what does it stand for that `reader.clj` source
+So far, so good. But what does it mean that `reader.clj` source
 file hosted in the `src/cljs` directory?
 
 ## A smart trick by a smart guy
@@ -507,7 +507,7 @@ talked about above:
 functions when dealing with untrusted sources in CLJ.
 
 That said, both `cljs.reader/read` and `cljs.reader/read-string` are
-not affected from the same security issues, because they adopted the
+not affected by the same security issues, because they adopted the
 same approach used to implement `clojure.edn/read` and
 `clojure.edn/read-string` which can read data structure, but are not
 able to evaluate them.
@@ -516,7 +516,7 @@ All that to say that in the `valip.predicates` namespace declaration
 we have to differentiate the reader namespace requirement between CLJ
 and CLJS.
 
-Following is the `valip.predicates` namespace declaration absorbing
+Following is the `valip.predicates` namespace declaration incorporating
 the above solution for the cited security issue and any other specific
 namespace declaration specific for the two considered platforms (i.e.,
 JVM an JSVM):
@@ -653,13 +653,13 @@ tree
 6 directories, 7 files
 ```
 
-As you see the only survived pure CLJ file is `def.clj` which is the
+As you see the only surviving pure CLJ file is `def.clj`, which is the
 one containing the macros definitions.
 
 Those steps represent the easiest part of making the `valip`
 validation library compliant with the Reader Conditionals
 extension. If we want to stay with the `leiningen` build tool, we
-should now afford the difficult ones:
+should now attempt the difficult ones:
 
 * the addition of the
   [`lein-cljsbuild`](https://github.com/emezeske/lein-cljsbuild)
@@ -1349,7 +1349,7 @@ You can now stop the `boot` process to proceed with the next step.
 
 The fact the migrated `valip` library has been successful tested on
 CLJ does not mean that it will work on CLJS as well. We should now
-afford another boring part: tooling.
+attempt another boring part: tooling.
 
 As you saw above, it was very easy to run and test the CLJ version of
 `valip` library by using a couple of default
@@ -1442,7 +1442,7 @@ WARNING: No such namespace: goog.Uri, could not locate goog/Uri.cljs, goog/Uri.c
 WARNING: Use of undeclared Var goog.Uri/parse at line 127 src/valip/predicates.cljc
 ```
 
-Ops. We immediately got a couple of warning. The first says the CLJS
+Oops. We immediately got a couple of warning. The first says the CLJS
 compiler was not able to find the
 [`goog.Uri`](https://google.github.io/closure-library/api/class_goog_Uri.html)
 namespace. The second warning says that its `parse` symbol it is
@@ -1452,7 +1452,7 @@ Uhm, pretty weird warnings.
 
 ## Getting rid of warnings
 
-To me actual warnings are potential errors and I don't like at all to
+To me, warnings are potential errors and I don't at all like to
 let them survive to eventually wake me up at night or while I'm on
 vacation. This to say that we're now going to get rid of them.
 
@@ -1573,9 +1573,9 @@ declaration and then uses the class as a namespace:
                   (re-find #"//" (str s))))))
 ```
 
-We have to make a choice and be coherent with it to not make a reader
-of our code disoriented, but be prepared to read all the other three
-form in the wild.
+We have to make a choice and we need to be coherent with it, so we
+don't disorient the readers of our code. But be prepared to read
+all the other three form in the wild.
 
 > NOTE 8: [Shane Kilkelly](https://github.com/ShaneKilkelly) suggested
 > me to use the third form, `(goog.Uri.parse (str s))`, because

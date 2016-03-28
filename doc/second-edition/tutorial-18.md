@@ -279,7 +279,7 @@ symbol to the `:refer` section of the
                :cljs [cljs.test :refer-macros [deftest are testing]])))
 ```
 
-As soon as you save the file, you'll receive again an expected error:
+As soon as you save the file, you'll again receive an expected error:
 
 ```bash
 ...

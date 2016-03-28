@@ -46,8 +46,8 @@ we switched to `leiningen` and locally installed the updated version
 of `valip` by using the `lein install` task. This was because the
 `project.clj` build file used by `leiningen` already had the
 [minimal information](https://maven.apache.org/guides/introduction/introduction-to-the-pom.html#Minimal_POM)
-needed to create and package the `valip` library, while we did not
-informed the corresponding `build.boot` build file used by `boot` with
+needed to create and package the `valip` library, while we had not
+updated the corresponding `build.boot` build file used by `boot` with
 the same information, namely:
 
 * the `groupId:` it has to follow the java package name rules; e.g.,
@@ -373,7 +373,7 @@ install` command we used in the [previous tutorial][1]: enter
 build file.  If you're only using built-in tasks, you can place it
 just after the `set-env!` form. If you are using other tasks, you'll
 place `task-options!` after the requirement form. Following it is the
-complete revisited version of the `build.boot` build file for the
+complete updated version of the `build.boot` build file for the
 `valip` project:
 
 ```clj
@@ -620,7 +620,7 @@ jar -tvf ~/.m2/repository/org/clojars/magomimmo/valip/0.4.0-SNAPSHOT/valip-0.4.0
     25 Sun Jan 10 15:25:14 CET 2016 META-INF/MANIFEST.MF
 ```
 
-That's much better. Run again the `modern-cljs` project to see the
+That's much better. Run the `modern-cljs` again project to see the
 result:
 
 ```bash
@@ -649,8 +649,8 @@ Writing target dir(s)...
 Elapsed time: 28.470 sec
 ```
 
-Now we talk. Just to be sure that everything is still working as for
-the end of the
+Now we are talking. Just to be sure that everything is still working
+as at the end of the
 [Tutorial 18](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md#on-improving-ux-user-experience),
 visit the [Shopping Calculator](http://localhost:3000/shopping.html)
 URL to play with the Shopping Calculator.
@@ -1041,7 +1041,7 @@ Deploying valip-0.4.0-SNAPSHOT.jar...
 
 That's all folks. Stay tune for the next tutorial.
  
-## Next Step - TBD
+## Next Step - [Tutorial 21 The Real World][3]
 
 # License
 
@@ -1050,3 +1050,4 @@ License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
+[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-21.md

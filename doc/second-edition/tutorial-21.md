@@ -64,7 +64,7 @@ populated of independent entities, the single sequence execution
 computational model is not adequate. Let's say that you're modeling a
 car factory.
 
-> NOTE 1: I'm steeling the car factory sample from
+> NOTE 1: I'm stealing the car factory sample from
 > [Tom Baldrige](https://tbaldridge.pivotshare.com) and
 > [Eric Normand](http://www.purelyfunctional.tv/core-async).
 
@@ -132,7 +132,7 @@ the process and  this is exactly what CSP is  all about: processes and
 communication channels.
 
 One of the nice thing about CSP channels, is that they support many
-writers ans many readers as well and this allows easily improve
+writers as well as many readers, and this allows easily improved
 performance. For example, say that the `assemble-car`
 
 To create a channel you use the `chan` function as follows:
@@ -144,13 +144,11 @@ To create a channel you use the `chan` function as follows:
 By default the created channel is unbuffered (0 size). To `put` a value into a channel, you use the ``put!` function as follows:
 
 
-. This is
-exactly how CSP works. There are Processes and there are Channels. 
-
+This is exactly how CSP works. There are Processes and there are Channels.
 
 
 The problem with the synchronous
-model of computation is of efficiency nature. Say that the `g`
+model of computation is one of efficiency. Say that the `g`
 function internally does a long I/O operation, the next `h` function
 has to wait until `g` returns. In the meantime `g` does its I/O jobs,
 the system is blocked and is not using its computation resources at
@@ -170,7 +168,7 @@ output or messages from other programs/thread.
 ## Function chains make poor machine
 
 As usual, by solving a current problem, we're frequently setting the
-bases for a new problem to manifest itself later. In an event-driven
+basis for a new problem to manifest itself later. In an event-driven
 approach, there is usually a main loop listening for events of various
 types. When an event of some type appears, the loop triggers a
 function, conveniently known as callback, that has been previously
@@ -185,7 +183,7 @@ places. When the application becomes more complex, as it always
 happens with Single Page Applications, it becomes very difficult to
 reason about the application logic and its state. A callback triggered
 by the occurrence of an event will trigger a second callback which, in
-turn, will triggers a third callback an so on.
+turn, will triggers a third callback and so on.
 
 This situation is very well known and it also deserved a name:
 callback hell. Callback hell affects JS on the client-side (browser)
@@ -258,10 +256,10 @@ nil
 ```
 
 As you probably heard from Rich Hickey talk on `core.async`, *function
-chains make poor machines*. What does it means? We should first find
+chains make poor machines*. What does it mean? We should first find
 out what are function chains and what are machine to be able to
-eventually understand what does it means the function chains make poor
-machine and why this statement should be true.
+eventually understand what does it mean that function chains make poor
+machines and why this statement should be true.
 
 A function chain is very easy to be understand. It's just a function
 calling another function, calling another function, and so on, like so:
