@@ -277,7 +277,7 @@ function to improve its Clojure-ish style. The semantics of the
 > so returning `false` would be redundant.
 
 To make the above mechanics more clear, we also update the `init`
-function by wrapping the `validate-forma` listener inside an anonymous
+function by wrapping the `validate-form` listener inside an anonymous
 function taking the event `e` as argument. If you want, you can can
 safely leave it as before.
 
@@ -344,7 +344,7 @@ validation:
   #"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
 ```
 
-If you add the chance to read the
+If you had the chance to read the
 [differences between CLJ and CLJS](https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure),
 you already know that CLJS support for regular-expressions is JS
 support.
