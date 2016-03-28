@@ -179,7 +179,7 @@ fill out the email field and the text specified as the value of the
 If you don't use an HTML5 browser, the new attributes are just ignored
 and the process continues by calling the still non-existent
 `login.php` server-side script, resulting in the usual `Not found page`
-from the [compojure][5] routes we defined in the [3rd Tutorial][6].
+from the [compojure][5] routes we defined in the [9th Tutorial][8].
 
 You can simulate this last effect with an HTML5 compliant browser by
 re-adding the `novalidate` attribute to `loginForm`.
@@ -380,7 +380,6 @@ License, the same as Clojure.
 [2]: https://github.com/levand/domina
 [4]: http://localhost:3000/index.html
 [5]: https://github.com/magomimmo/compojure
-[6]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-03.md
 [7]: https://github.com/magomimmo/ring
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
 [9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md
