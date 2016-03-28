@@ -98,7 +98,7 @@ The following sequence diagram visualizes our requirements:
 ![Shopping Ajax][16]
 
 The first thing we want to do is implement the server-side function to
-calculate the total. Where we start from?
+calculate the total. Where do we start from?
 
 ## The server side
 
@@ -348,7 +348,7 @@ Clojurists, we can exploit [shoreleave-remote-ring][10] to reach that
 objective. It allows us to define a remote function which will be called from
 the client (with any required arguments), which will be evaluated on the server, and which will 
 return the function result back to the client. 
-Does this remind you the `Shopping Form` sample?
+Does this remind you of the `Shopping Form` sample?
 
 ### Update dependencies
 
@@ -547,7 +547,7 @@ Here is the complete file:
 Great: the server-side is done. We are now ready to update the
 client-side code, which means the `shopping.cljs` file.
 
-Will do this in the IFDE live environment.
+We will do this in the IFDE live environment.
 
 ## Launch IFDE
 
