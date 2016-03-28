@@ -951,7 +951,7 @@ namespace where we already defined the `user-credential-errors`
 validator: the `modern-cljs.login.validators` namespace.
 
 The problem is that such new validator is definable for the JVM only
-and the `modern-cljs.logi.validators` namespace is a portable
+and the `modern-cljs.login.validators` namespace is a portable
 namespace code living in the `validators.cljc` file (note the `.cljc`
 extension).
 
