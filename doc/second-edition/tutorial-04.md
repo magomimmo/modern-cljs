@@ -358,6 +358,11 @@ cljs.user> (js/console.log "Hello from ClojureScript!")
 nil
 ```
 
+> NOTE 2: The `Iceweasel` web browser throws an error message when
+> console log is called from the bREPL but still outputs to the console.
+> This error message does not occur when the bREPL connects to the 
+> `Chromium` web browser.
+
 Here we called the `log` function on the `console` object living in
 the `js` special namespace by passing to it the `"Hello from
 ClojureScript!"` string as an argument. The `/` char keeps a namespace
@@ -446,7 +451,7 @@ cljs.user> (.-value (.getElementById js/document "password"))
 "weakpassword"
 ```
 
-> NOTE 2: in CLJ/CLJS when a function changes the state of a mutable
+> NOTE 3: in CLJ/CLJS when a function changes the state of a mutable
 > object, it is idiomatic to append the `!` char to it. This happens
 > very frequently in interoperable scenarios with the underlining
 > hosting platforms (i.e. JVM, JSVM and CLR at the moment).
@@ -490,7 +495,7 @@ into it.
           false))))
 ```
 
-> NOTE 3: Note that in CLJ/CLJS the use of CamelCase to name things is
+> NOTE 4: Note that in CLJ/CLJS the use of CamelCase to name things is
 > not idiomatic. That's why we translated `validateForm` to
 > `validate-form`.
 
