@@ -297,7 +297,7 @@ job.
 If you're like me, you do not want to code any HTML/CSS fragment as a
 string like we did when we manipulated the DOM to add a `div` to the
 `shoppingForm` form. Debugging such a code could quickly become a
-PITA.
+[PITA][13].
 
 That's why I searched around to see if someone else, having my same
 pain, has created a lib to represent those elments as CLJS data structure
@@ -512,3 +512,4 @@ License, the same as Clojure.
 [10]: http://localhost:3000/shopping.html
 [11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
 [12]: https://help.github.com/articles/set-up-git
+[13]: https://en.wiktionary.org/wiki/pain_in_the_ass
