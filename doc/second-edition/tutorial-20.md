@@ -1041,7 +1041,7 @@ Deploying valip-0.4.0-SNAPSHOT.jar...
 
 That's all folks. Stay tune for the next tutorial.
  
-## Next Step - [Tutorial 21 The Real World][3]
+## Next Step - TBD
 
 # License
 
@@ -1050,4 +1050,3 @@ License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
-[3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-21.md
