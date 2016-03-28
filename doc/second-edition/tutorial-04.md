@@ -108,7 +108,7 @@ to the server-side. The `id` value will be used by JS/CSS.
 
 `login.php` script is associated with the `form action`. And
 `login.js` is linked within the html page. Aside from `login.js`,
-there is no any other direct connection between the `form` and the JS
+there is not any other direct connection between the `form` and the JS
 script. This choice has to do with the so called *progressive
 enhancement* and *unobtrusive JS* approaches that Larry Ullman clearly
 explains in his book.
@@ -138,7 +138,7 @@ client-side validation does not pass, we do not need to make a
 round-trip to the server and we can immediately return the errors to
 the user.
 
-But we still have few problems. The client-side validation cannot
+But we still have a few problems. The client-side validation cannot
 check if the username is registered. This bring us to Ajax and the
 third sequence diagram.
 
@@ -319,7 +319,7 @@ cljs.user=>
 
 
 > NOTE 1: the main `boot` advantage over [`leiningen`][15] build tool
-> it's the ability to use one JVM only by exploiting the JVM
+> is the ability to use one JVM only by exploiting the JVM
 > classloader. If you work with an `nrepl` compliant editor, you
 > should be able to connect it to the `nrepl` server launched by the
 > `boot dev` command without launching a new JVM instance. I
@@ -440,10 +440,10 @@ object) arg)` form. Let's try to set the `value` property of the
 
 ```clj
 cljs.user> (set! (.-value (.getElementById js/document "password"))
-                 "weekpassword")
-"weekpassword"
+                 "weakpassword")
+"weakpassword"
 cljs.user> (.-value (.getElementById js/document "password"))
-"weekpassword"
+"weakpassword"
 ```
 
 > NOTE 2: in CLJ/CLJS when a function changes the state of a mutable
