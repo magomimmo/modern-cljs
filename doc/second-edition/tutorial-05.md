@@ -282,8 +282,13 @@ and reloads the `index.html` file as well.
 You can safely interact with the login form which is now managed via the
 `domina` lib.
 
-Require the `modern-cljs.login` namespace and then repeat the kind of
-experiments we did in [the previous tutorial][2].
+Require the `modern-cljs.login` namespace.
+```clj
+cljs.user=> (require '[modern-cljs.login :as l] :reload)
+nil
+```
+
+Then repeat the kind of experiments we did in [the previous tutorial][2].
 
 ```clj
 cljs.user=> l/validate-form
