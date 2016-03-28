@@ -6,8 +6,7 @@ communication between the browser and the server by exploiting the
 
 In this tutorial, prior to extending our comprehension of Ajax in the
 CLJS/CLJ context, we're going to get a better and deeper understanding
-of a few features of DOM events management provided by
-[domina][4].
+of DOM event management provided by [domina][4].
 
 To fulfill this objective, we're first going to line up the login
 example introduced in the [4th Tutorial][5] with the more Clojure-ish
@@ -17,7 +16,7 @@ in the previous tutorials.
 ## Preamble
 
 If you want to start working from the end of the [previous tutorial][1],
-assuming you've [git][26] installed, do as follows.
+assuming you have [git][26] installed, do the following:
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
