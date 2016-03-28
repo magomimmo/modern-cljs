@@ -172,7 +172,7 @@ domina.events/capture!
 nil
 ```
 
-Here we used the `apropos` macro to find all public method definitions
+Here we used the `apropos` macro to find all public function definitions
 that match the string "capture" in all currently-loaded namespaces.
 
 Our search returned two definitions from the `domina.events`
