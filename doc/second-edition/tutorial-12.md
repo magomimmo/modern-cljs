@@ -487,7 +487,7 @@ as expected.
 
 Visit [Login page](http://localhost:3000/index.html) and repeat all
 the interaction tests we executed in the
-[latest tutorial][14]. Remember to first disable the JS of the
+[latest tutorial][14]. Remember to first [disable the JS][25] of the
 browser and eventually reload the page too.
 
 When you submit the Login Form you should receive a `Please complete
@@ -592,7 +592,7 @@ You're now ready to repeat yourself.
 
 Visit [Login page](http://localhost:3000/index.html) and repeat all
 the interaction tests we executed in the
-[latest tutorial][14]. Remember to first disable the JS of the
+[latest tutorial][14]. Remember to first [disable the JS][25] of the
 browser.
 
 When you submit the Login Form you should receive a `Please complete
@@ -845,8 +845,8 @@ manually reload the page to see the result. So just reload the
 [`Login Form`](http://localhost:3000/index.html) and you'll be
 launched back to the sky again.
 
-> NOTE 10: if you did not reactivated your browser JS Engine, do it
-> before reload the Login Form page
+> NOTE 10: if you did not [reactivated your browser JS Engine][25], do it
+> before reloading the Login Form page
 
 Repeat all the interactive tests you did. I know, it's boring, but at
 least you will be proud of the CLJ/CLJS community you're now part of.
@@ -1198,3 +1198,4 @@ License, the same as Clojure.
 [22]: https://github.com/clojure/clojure/blob/master/changes.md#22-reader-conditionals
 [23]: http://leiningen.org/
 [24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
+[25]: https://github.com/learningcljs/modern-cljs/blob/se-js-enable-disable/doc/supplemental-material/enable-disable-js.md
