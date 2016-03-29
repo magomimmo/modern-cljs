@@ -1,6 +1,6 @@
 # Tutorial 13 - Better Safe Than Sorry (Part 1)
 
-In this part of the tutorial we're going to prepare the field for one
+In this tutorial we're going to prepare the field for one
 of the main topics in the software development life cycle: *code
 testing*. Code testing is a kind of continuum which goes from zero to
 almost full test coverage. I'm not going to open one of those endless
@@ -255,7 +255,7 @@ text of the input values of the form.
 
 ![FictionShopping][7]
 
-Let's know go back for a while and see what happens if we re-enable the
+Let's now go back for a while and see what happens if we re-enable the
 JavaScript engine of the browser. Open again the Setting of the
 Developer Tools and enable the JavaScript engine by unmarking the
 `Disable JavaScript` check-box.
