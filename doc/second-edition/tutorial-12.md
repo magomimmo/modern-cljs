@@ -1,6 +1,6 @@
 # Tutorial 12 - Don't Repeat Yourself
 
-In the [latest tutorial][1] we implemented a very crude server-side
+In the [last tutorial][1] we implemented a very crude server-side
 validator for the Login Form which exercises the same kind of
 syntactic rules previously implemented on the client-side.
 
@@ -44,7 +44,7 @@ to follow it step by step.
 
 If you search GitHub for a CLJ validator library you'll find quite a
 large number of results, but if you restrict the search to CLJS
-library only, you currently get just one result: [Valip][2].
+libraries only, you currently get just one result: [Valip][2].
 
 > NOTE 1: The above assertion is no more true. In winter 2012, when I
 > wrote the first edition of this series of tutorials, there were
@@ -52,7 +52,7 @@ library only, you currently get just one result: [Valip][2].
 > of the CLJ/CLJS community, the problem has became the opposite:
 > there are many of them to choose from.  That said, I decided to keep
 > using the `valip` library in the series because it still has
-> something to be learnt from.
+> valuable lessons.
 
 [Valip][2] has been forked from the [original CLJ Valip][3] to make it
 portable to the CLJS platform. This is already a good result by
@@ -123,17 +123,16 @@ would get a result like the following:
  :password ["Password can't be empty" "Invalid password format"]}
 ```
 
-The value of each key of an error map is a vector, because the
+The value of each key in the error map is a vector, because the
 `validate` function can catch more than one predicate failure for
 each key. That's a very nice feature to have.
 
 ## User defined predicates and functions
 
-Even if `valip` library already provides, via the `valip.predicates`
+Even though the `valip` library already provides, via the `valip.predicates`
 namespace, a relatively wide range of portable and pre-defined
 predicates and functions returning predicates, at some point you'll need
-to define new predicates by yourself. `valip` lets you do this very easily
-too.
+to define new predicates by yourself. `valip` makes this easy.
 
 A predicate accepts a single argument and returns `true` or
 `false`. Here is a sample from the `valip.predicates` namespace:
@@ -144,8 +143,8 @@ A predicate accepts a single argument and returns `true` or
   (not (string/blank? x)))
 ```
 
-You can also write a function returning a predicate accepting a single
-argument and returning a boolean value as well. Again, here is a
+You can also write a function which returns a predicate. The returned predicate should
+accept a single argument and return a boolean value as well. Again, here is a
 sample from the `valip.predicates` namespace:
 
 ```clj
@@ -155,16 +154,16 @@ sample from the `valip.predicates` namespace:
 ```
 
 > NOTE 2: I personally consider the above `matches` definition as
-> bugged. As you'll see in a subsequent tutorial specifically dedicated
+> buggy. As you'll see in a subsequent tutorial specifically dedicated
 > to `unit tests`, I always like to start testing functions from border
-> cases. What does it happen when the passed argument `s` to the
-> above anonymous function returned from `matches` is `nil`?
+> cases. In the above returned predicate, what happens when the 
+> argument `s` is `nil`?
 > 
 > You'll get a `NullPointerException` on the JVM and an almost
 > incomprehensible error on the JSVM.
 > 
-> A defensive approach is to wrap the above `s` argument inside a `str`
-> call:
+> A more defensive approach is to wrap the argument `s` with the `str`
+> function:
 > 
 > ```clj
 > (defn matches
@@ -256,10 +255,10 @@ portable) CLJ/CLJS lib:
 
 Starting with the `1.7.0` release, Clojure offers a new way to solve
 the above Feature Expression Problem. I'm not going to explain it
-right now. I'm alerting you about it now only because I rewrote the
-[`valip`](https://github.com/magomimmo/valip/tree/0.4.0-SNAPSHOT) lib
-by using that new feature in such a way that we can easily use it
-inside our series of tutorials without having to do with the above
+right now. I'm only mentioning it now because I rewrote the
+[`valip`](https://github.com/magomimmo/valip/tree/0.4.0-SNAPSHOT) library
+using the new feature in such a way that we can use it
+inside this tutorial without needing the above
 complexities.
 
 ## Add valip dependency
