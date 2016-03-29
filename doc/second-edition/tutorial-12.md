@@ -46,7 +46,7 @@ If you search GitHub for a CLJ validator library you'll find quite a
 large number of results, but if you restrict the search to CLJS
 library only, you currently get just one result: [Valip][2].
 
-> NOTE 1: The above assertion is no more true. In winter 2012, when I
+> NOTE 1: The above assertion is no longer true. In winter 2012, when I
 > wrote the first edition of this series of tutorials, there were
 > almost no CLJS form validators. Today, thanks to the awesome efforts
 > of the CLJ/CLJS community, the problem has became the opposite:
@@ -157,7 +157,7 @@ sample from the `valip.predicates` namespace:
 > NOTE 2: I personally consider the above `matches` definition as
 > bugged. As you'll see in a subsequent tutorial specifically dedicated
 > to `unit tests`, I always like to start testing functions from border
-> cases. What does it happen when the passed argument `s` to the
+> cases. What happens when the passed argument `s` to the
 > above anonymous function returned from `matches` is `nil`?
 > 
 > You'll get a `NullPointerException` on the JVM and an almost
@@ -391,7 +391,7 @@ There we finally passed a nice `email` and an invalid `password`
 arguments. The return `map` contains the message for the bad
 `password` only.
 
-OK, we familiarized enough with the `validate` function. We can now
+OK, we are familiarized enough with the `validate` function. We can now
 start coding in a source file.
 
 ## validators.clj
@@ -528,7 +528,7 @@ solution of the `Feature Expression` problem.
 The `modern-cljs.login.validators` namespace we just wrote is
 currently hosted in the `src/clj` source directory of the project. It
 required portable namespace from the `valip` patched lib and did not
-used any expression available for the JVM platform only. 
+use any expression available for the JVM platform only. 
 
 What does that means? It means you can safely rename the file with the
 `cljc` extension and move it under a new `src/cljc` source path
@@ -1024,7 +1024,7 @@ There are few important notable aspects in the above code:
    platform that's identified at compile by the `:clj` feature;
 1. to refer to the `valid-email-domain?` predicate we're now using the
    `pred` alias;
-1. there is no a `:cljs` condition/expression pair, meaning that the
+1. there is not a `:cljs` condition/expression pair, meaning that the
    newly defined `email-domain-errors` validator is only available on
    the JVM platform.
 
