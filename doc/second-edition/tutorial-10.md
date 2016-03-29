@@ -83,7 +83,7 @@ boot.user=> (start-repl)
 Writing boot_cljs_repl.cljs...
 ```
 
-and visit the `http://localhost/index.html` URL to activate the bREPL
+and visit the `http://localhost:3000/index.html` URL to activate the bREPL
 
 ```clj
  connected! >>
@@ -172,10 +172,10 @@ Clojur-ish
 > event of the `submit` button, instead of attaching it to the
 > `loginForm`.
 
-As soon as you save the file, it get recompiled and reload. 
+As soon as you save the file, it gets recompiled and reloaded. 
 
 Reload the [`index.html`][12] URL to allow the updated `init` function
-to be called again. Do not fill any field (or fill just one of them),
+to be called again. Do not fill in any field (or fill in just one of them),
 and click the Login button. The application reacts by showing you the
 usual `alert` window reminding you to complete the form.  Click the
 `OK` button and be prepared for an unexpected result.
@@ -232,8 +232,8 @@ process of passing control from the `submit` button to the form
 `action` attribute.
 
 The `prevent-default` function requires the fired event (e.g.,
-`:click`) be passed to the `validate-form` listener. Let's modify its
-definition accordingly to the above information.
+`:click`) to be passed to the `validate-form` listener. Let's modify its
+definition according to the above information.
 
 First we have to update the `domina.events` requirement by adding
 `prevent-default` symbol to the `:refer` option
@@ -259,7 +259,7 @@ follows:
 
 Here we took advantage of the necessity to update the `validate-form`
 function to improve its Clojure-ish style. The semantics of the
-`validation-form` is now much more readable than before:
+`validation-form` are now much more readable than before:
 
 * if the `value` of the `email` or `password` is empty, prevent the
   form action from being fired, raise the alert window asking the user
@@ -434,12 +434,12 @@ follows:
         (prevent-default evt)))))
 ```
 
-Note that now the `validate-form` internally calls the two newly-defined
-validators and if they do not both return `true`, it calls
+Note that `validate-form` now internally calls the two newly-defined
+validators, and if they do not both return `true`, it calls
 `prevent-default` to prevent the `action` attached to
 the `loginForm` from being fired.
 
-Following is the complete and final `login.cljs` source code.
+The following is the complete and final `login.cljs` source code:
 
 ```clj
 (ns modern-cljs.login
@@ -522,9 +522,9 @@ pictures.
 
 ## Event Types
 
-If you're interested in knowing all the event types supported by
-[domina][4], here is the native code [goog.events.eventtype.js][15]
-which enumerates all events supported by the Google Closure native code on
+If you're interested in knowing all of the event types supported by
+[domina][4], here is the native code from [goog.events.eventtype.js][15],
+which enumerates the event types supported by the Google Closure native code on
 which `domina` is based.
 
 Another way to know which events are supported by `domina` is to
