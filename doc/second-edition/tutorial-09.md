@@ -119,7 +119,7 @@ This is why `boot-http` allows us to pass a [`ring handler`][37] to the
 `serve` task, as you can see from its built-in documentation:
 
 ```bash
-boot serve -h
+> boot serve -h
 Start a web server on localhost, serving resources and optionally a directory.
 Listens on port 3000 by default.
 
@@ -271,7 +271,7 @@ There are few things to be noted here:
 * the `handler` is just a list of routes;
 * we defined four routes:
   * the `GET` macro from the `compojure.core` namespace has been used
-    to return the `Hello from Compojure` text when a client asks for
+    to return the string `"Hello from Compojure"` when a client asks for
     the `http://localhost:3000/` URL;
   * the `files` function, defined in the `compojure.route` namespace,
     is used for serving static files from the `target` directory;
@@ -332,7 +332,7 @@ Even if this association is not wrong *per se*, it does not mean that
 there are no other ways to implement ajax calls.
 
 What is easier than RPC (Remote Procedure Call), which mimics the
-familiarity we call a local function?  
+familiar way we call a local function?  
 Some might try to convince you that the RPC model is
 synchronous. That does not have to be true. You could build an RPC system
 which is implemented asynchronously. This is exactly the way the
@@ -441,7 +441,7 @@ the `wrap-rpc` symbol from `shoreleave.middleware.rpc`, which is used in the
 thread-first macro `->` to wrap the original handler so that it can handle
 an ajax request.
 
-However, this is not not enough. In order to parse the request received from
+However, this is not enough. In order to parse the request received from
 an ajax client, we will also need to enrich the handler with the
 [`site`][41] middleware which adds some standard features to the
 received request map:
