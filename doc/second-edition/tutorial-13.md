@@ -121,15 +121,9 @@ with the HTTP/1.1 202 status code (i.e. Accepted).
 
 ![AjaxNetwork][3]
 
-But what happens if you disable JavaScript? Let's try. On Google
-Chrome you disable the JavaScript engine by clicking on the `Customize
-and Control Dev Tools` and then choosing the `Setting` menu item. It
-opens a panel from where you can mark the `Disable JavaScript`
-check-box.
+But what happens if you disable JavaScript? Let's try.
 
-![DisableJavaScript][4]
-
-Now close the Setting's panel and reload the [shopping URI][2]. If you
+[Disable JavaScript][33] and then reload the [shopping URI][2]. If you
 move the mouse cursor over the `Calculate` button nothing happens and
 nothing happens even if you click it.
 
@@ -257,7 +251,7 @@ text of the input values of the form.
 
 Let's now go back for a while and see what happens if we re-enable the
 JavaScript engine of the browser. Open again the Setting of the
-Developer Tools and enable the JavaScript engine by unmarking the
+Developer Tools and [enable the JavaScript engine][33] by unmarking the
 `Disable JavaScript` check-box.
 
 Next, reload the [shopping URI][2] and finally click the `Calculate`
@@ -523,7 +517,7 @@ to the newly defined `shopping` function.
   (not-found "Page non found"))
 ```
 
-Now disable the JavaScript engine of your browser again and visit the
+Now [disable the JavaScript engine][33] of your browser again and visit the
 [shopping][2] URI.
 
 You should see the Shopping Calculator page showing the default field
@@ -870,3 +864,4 @@ License, the same as Clojure.
 [30]: https://github.com/emezeske/lein-cljsbuild#hooks
 [31]: https://github.com/technomancy/leiningen
 [32]: http://clojuredocs.org/clojure_core/clojure.core/format#example_839
+[33]: https://github.com/learningcljs/modern-cljs/blob/se-js-enable-disable/doc/supplemental-material/enable-disable-js.md
