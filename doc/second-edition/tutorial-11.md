@@ -40,7 +40,7 @@ boot dev
 Elapsed time: 20.296 sec
 ```
 
-Visit the [`index.html`](http://localhost:3000/index.html) page and
+Visit [`localhost:3000/index.html`](http://localhost:3000/index.html) and
 then run the bREPL
 
 ```bash
@@ -161,8 +161,8 @@ Open the `login.cljs` file and edit it as follows:
 ```
 
 > NOTE 1: we added the `attr` symbol to the `:refer` section of the
-> `domina.core` requirement and then we deleted both `*email-re*` and
-> `*password-re*` previous definitions.
+> `domina.core` requirement, and we then deleted the previous definitions 
+> of both `*email-re*` and `*password-re*`.
 
 As usual, check that the Login Form is still working as expected.
 
@@ -236,7 +236,7 @@ Following is the updated `core.clj` source code.
 
 ```clj
 (ns modern-cljs.core 
-  (:require [compojure.core :refer [defroutes GET POST]]
+  (:require [compojure.core :refer [defroutes GET POST]]  ; <- add POST
             [compojure.route :refer [not-found files resources]]))
 
 (declare authenticate-user)
@@ -244,7 +244,7 @@ Following is the updated `core.clj` source code.
 (defroutes handler
   (GET "/" [] "Hello from Compojure!")  ;; for testing only
   (files "/" {:root "target"})          ;; to serve static resources
-  (POST "/login" [email password] (authenticate-user email password))
+  (POST "/login" [email password] (authenticate-user email password))  ; <- add POST route
   (resources "/" {:root "target"})      ;; to serve anything else
   (not-found "Page Not Found"))         ;; page not found
 ```
@@ -254,10 +254,10 @@ URI, the `email` and `password` parameters are extracted from the body
 of the POST request and the `authenticate-user` function will be called
 with those parameters. 
 
-At the moment the `authenticate-user` function is only declared,
-because to respect the separation of concern principle we'll define it
+We have not yet defined the `authenticate-user` function. In order
+to respect the separation of concerns principle, we'll define it
 later inside a new `modern-cljs.login` namespace which is going to be
-declared in the corresponding `login.clj` CLJ source file.
+declared in the corresponding `login.clj` Clojure source file.
 
 Keep in mind that we're now working on the server-side, which means
 we're coding with CLJ, not CLJS.
@@ -266,7 +266,7 @@ we're coding with CLJ, not CLJS.
 
 To keep things simple, at the moment we're not going to be concerned
 with user authentication or with any security issues. We also don't
-want to return any nice HTML response page. We just want to see if the
+want to worry about returning a nice HTML response page. We just want to see if the
 working parts have been correctly set up.
 
 Create the file `login.clj` in the `src/clj/modern_cljs/` directory and
@@ -367,10 +367,9 @@ of the 4 layers of the progressive enhancement approach for web
 application development. And we used Clojure on the server-side and
 ClojureScript on the client-side. Not bad so far.
 
-We already know from the [9th Tutorial][8] how to implement the Ajax
-layer. Before doing that by taking inspiration from the Shopping
-Calculator sample already done, in the next few tutorials we're
-going to cover a couple of entirely new topics.
+We already know from the [Shopping Calculator example (9th Tutorial)][8] how to implement the Ajax
+layer. Before returning to that, the next few tutorials will introduce us
+to a couple of entirely new topics.
 
 You can now stop any `boot` related process and reset your git repository.
 
