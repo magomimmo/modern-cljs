@@ -5,19 +5,19 @@ of the main topics in the software development life cycle: *code
 testing*. Code testing is a kind of continuum which goes from zero to
 almost full test coverage. I'm not going to open one of those endless
 discussions about the right amount of testing. Code testing
-is a need, full stop. How much coverage? It depends.
+is necessary. How much testing is needed? It depends.
 
-I have to admit that I never took a program from a unit test that has
-to initially fail before I could proceed to success. When you are as
-old as I am, you can't change your habits. So, whoever is religious
-about TDD/BDD (Test Driven Development and Behavioural Driven
-Development) must forgive me.
+I have to admit that I have never created a program by first writing a
+failing unit test, then writing the code to make the test
+succeed. When you are as old as I am, you can't change your
+habits. So, if you are religious about TDD/BDD (Test-Driven
+Development and Behavior-Driven Development), please forgive me.
 
-Nowadays, by using functional programming languages like CLJ/CLJS, the
-unit tests are much easier to implement, as compared with
-imperative and object-oriented programming languages, because most of
-the time you have to deal with pure functions whose output depends
-only on the passed input.
+Nowadays, using functional programming languages like CLJ/CLJS, the
+unit tests are much easier to implement, compared with
+imperative and object-oriented programming languages, since most of
+the time you are dealing with pure functions whose output depends
+only on their input.
 
 ## Preamble
 
@@ -61,14 +61,14 @@ little attention anytime you cross the border in either direction.
 And remember, you can even move the border, if this is useful for any
 reason. By moving the border I mean that you can enable pieces
 of your code to be movable at will from one side to the other side of the
-border.
+CLJ/CLJS border.
 
 ## Add Enlive
 
 In this tutorial we're going to use [Enlive][9] by
-[Christophe Grand][27], one of the most famous CLJ libs in the Clojure
-communities. Even if it will take few paragraphs before you'll see it
-in action, we add it to the project before starting the IFDE.
+[Christophe Grand][27], one of the most famous libraries in the Clojure
+ecosystem. Even though it will take few paragraphs before we see it
+in action, we begin by adding it to `build.boot` before starting the IFDE.
 
 Open the `build.boot` file and add `enlive` to the dependencies
 section as usual with any lib:
@@ -110,7 +110,7 @@ button. Only the value of the `Total` field will be updated, even if the
 calculation was executed by the server. That's one of the beauties of
 Ajax.
 
-As you already know from the [Tutorial 9 - Introducing Ajax - ][1] you
+As you already know from [Tutorial 9 - Introducing Ajax][1], you
 can open the `Developer Tools` panel of your browser (I'm using Google
 Chrome) and take a look at the Network tab after having reloaded the
 [shopping URI][2].
@@ -218,7 +218,7 @@ button and this URI does not exist.
 ### A kind of TDD
 
 By modifying the `shopping.html` file and disabling the JavaScript
-from the browser, we have just exercised a kind of TDD (Test Driven
+from the browser, we have just exercised a kind of TDD (Test-Driven
 Development) approach.
 
 To fix the failure we just met, we need to add a route for the
@@ -231,21 +231,21 @@ POST route:
 (defroutes handler
   ...
   (POST "/shopping" [quantity price tax discount]
-        (str "You enter: "quantity " " price " " tax " and " discount "."))
+        (str "You entered: "quantity " " price " " tax " and " discount "."))
   ...)
 ```
 
-> NOTE 1: In the Restful communities, which I respect a lot, that
-> would be a blasphemy, because the Shopping Calculator is an
-> application resource which, in Restful parlance, is safe and
+> NOTE 1: In the RESTful community, which I respect a lot, this
+> would be a blasphemy, since the Shopping Calculator is an
+> application resource which, in RESTful parlance, is safe and
 > idempotent and we should have used the default GET verb/method.
 
-> NOTE 2: we also extract the values of the input parameters of the
+> NOTE 2: We extract the values of the input parameters of the
 > `shoppingForm` by passing the args vector
 > `[quantity price tax discount]` to the POST call.
 
-Now click again the `Calculate` button. You should receive a plain
-text of the input values of the form.
+Now click again the `Calculate` button. You should receive as plain
+text the input values of the form.
 
 ![FictionShopping][7]
 
@@ -270,12 +270,10 @@ Now that we have changed the `Calculate` input from `type="button"` to
 server then responds by calling the handler function which is now
 associated with the POST "/shopping" route.
 
-We already dealt with this problem in a [previous tutorial][8]
+We have dealt with this problem in a [previous tutorial][8]
 dedicated to the `login` example. We solved it by preventing the
-above from happening.
-
-We need to code the same thing in the
-`src/cljs/modern_cljs/shopping.cljs` file.
+above from happening. We need to use the same code in
+`src/cljs/modern_cljs/shopping.cljs`.
 
 Open the `shopping.cljs` file and modify the function associated with the
 `click` event as follows.
@@ -341,26 +339,26 @@ requirement as follows:
                    [shoreleave.remotes.macros :as macros]))
 ```
 
-As soon as you save the file everything get recompiled. As you
+As soon as you save the file, everything gets recompiled. As you
 remember, when we modify the exported `init` function we have to
-reload the corresponding page which call it from the script tag.
+reload the corresponding page which calls it from the script tag.
 
 Reload the [shopping URI][2]. You should now see the Ajax version of
-the Shopping Calculator working again as expected.
+the Shopping Calculator working as expected.
 
 Not bad so far.
 
 ## Step 2 - Enliving the server-side
 
-In the previous pragraphs of this tutorial we prepared the stage for
+In the previous pragraphs of this tutorial we set the stage for
 introducing [Enlive][9].
 
-There are already few [Enlive tutorials][10] available online and I'm
+There are already several [Enlive tutorials][10] available online and I'm
 not going to add anything beyond the simplest use case to allow us to
 implement the server-side only Shopping Calculator in accordance with
 the progressive enhancement principle.
 
-The reasons why I chose [Enlive][9] are very well motivated by
+The reasons I chose [Enlive][9] are very well motivated by
 [David Nolen][11] in his [nice tutorial][12] on Enlive:
 
 > Enlive gives you the advantages of designer accessible templates
@@ -377,11 +375,11 @@ Our needs are very easy to describe. We have to:
 
 1. Read a pure HTML template/page from the file system representing
    the Shopping Calculator;
-1. read the parameters typed in by the user from the submitted HTTP
+1. Read the parameters typed in by the user from the submitted HTTP
    request;
-1. parse the extracted values and calculate the total;
-1. update the fields in the HTML form; and
-1. send the resulted page to the user.
+1. Parse the extracted values and calculate the total;
+1. Update the fields in the HTML form; and
+1. Send the resulting page to the user.
 
 The following picture shows a sequence diagram of the above description.
 
@@ -398,12 +396,12 @@ already satisfied by the the `defremote` macro call from
 [Shoreleave][15], which implicitly defines a function with the same
 name.
 
-It seems that we just need to implement the step `1.` - read the
-`shopping.html` file from its directory and the step `4.` - update the
-input fields of the form.
+It seems that we just need to implement step `1.` (read the
+`shopping.html` file from its directory) and the step `4.` (update the
+input fields of the form).
 
 [Enlive][9] offers a single macro, `deftemplate`, which allows us to
-resolve both `1.` and `4.` in a single shot.
+solve both steps `1.` and `4.` in a single shot.
 
 `deftemplate` accepts 4 arguments:
 
@@ -417,15 +415,13 @@ the same `name` as the template. The `source` argument can be any HTML
 file located in the `classpath` of the application.
 
 Finally, the `&forms` argument is composed of a sequence of pairs. The
-left hand of the pair is a vector of CSS-like selectors, used to
+item from the pair is a vector of CSS-like selectors, used to
 select the interested elements/nodes from the parsed HTML source. The
-right hand of the pair is a function which is applied to transform
+second item from the pair is a function which is applied to transform
 each selected element/node.
 
-As you perhaps remember from the tutorial introducing Ajax, in the
-`build.boot` building file of the project we passed the `"target"`
-directory as the value of the `:resource-root` option for the `serve`
-task.
+As you perhaps remember from the tutorial introducing Ajax, in `build.boot`
+the `serve` task had its `:resource-root` set to the `"target"` directory.
 
 ```clj
 (deftask dev 
@@ -445,15 +441,15 @@ task.
 This means that we can pass the `shopping.html` file to
 `deftemplate` as the `source` argument.
 
-As the `name` argument, we're going to use the same name of the POST
+For the `name` argument, we're going to use the same POST
 route (i.e. `shopping`) previously defined inside the `defroutes`
 macro.
 
-Then, the `args` to be passed to `deftemplate` are the same we defined
+Then, the `args` to be passed to `deftemplate` are the same ones as 
 in the `"/shopping"` POST route: `[quantity price tax discount]`.
 
-Finally, regarding the `& forms` arguments, start by instantiating it
-with two `nil` values, which means no selectors and no
+Finally, regarding the `& forms` arguments, start by using
+two `nil` values, which means no selectors and no
 transformations. We should now expect that the source will be rendered
 exactly as the original HTML source.
 
@@ -532,11 +528,11 @@ It's now time to fill the gap in the `deftemplate` call by adding the
 appropriate selector/transformation pairs.
 
 For a deeper understanding of the CSS-like selectors accepted by
-`deftemplate`, you need to understand CSS selectors. You should know
-them even if you want to use [Domina][18] or [JQuery][19]. So, even if
-we'd like to have a unified language all over the places, you can't
-avoid to learn a little bit of HTML, CSS and JS to use
-CLJ/CLJS. That's the life we have to live with.
+`deftemplate`, you need to understand CSS selectors. You need to know
+this anyway if you want to use [Domina][18], [JQuery][19], etc. So, even if
+we'd like to have a unified language for everything, you can't
+avoid to learning a little bit of HTML, CSS and JS to use
+CLJ/CLJS. That's the world we have to live in.
 
 A selector in [Enlive][9] is almost identical to the corresponding CSS
 selector. Generally speaking you just need to wrap the CSS selector
@@ -547,19 +543,18 @@ For example, if you want to select a tag with an `id="quantity"`
 attribute, you need to write `[:#quantity]` which corresponds to the
 `#quantity` CSS selector.
 
-> NOTE 3: I strongly suggest you to read the enlive
-> [syntax for selector][20] at least to have a decent understanding of
-> it.
+> NOTE 3: I strongly suggest that you read the Enlive
+> [syntax for selectors][20] so you have at least a basic understanding of
+> the subject.
 
 But what about the transformation functions? [Enlive][9] offers a lot
-of them but this is not a tutorial on [Enlive][9], and I'm going to
-use the only function we need in our context: the `(set-attr &kvs)`
-function.  It accepts keyword/value pairs where the keywords are the
+of them but this is not a tutorial on [Enlive][9]. I'm going to use
+the only function we need in our context: the `(set-attr &kvs)`
+function.  It accepts keyword/value pairs, where the keywords are the
 names of the attributes you want to set. In our sample, the only
 attribute we are going to set is the `value` attribute of each `input`
 field. So let's start by adding to the `deftemplate` call both the
-selector clause and the trasformation function for each input field as
-follows:
+selector clause and the trasformation function for each input field:
 
 ```clojure
 (ns modern-cljs.templates.shopping
@@ -578,7 +573,7 @@ of the Shopping Calculator form. By clicking the `Calculate` button
 you'll receive the form with the same values you previously typed
 in. So far, so good.
 
-It's now time to make the calculation and to set the result in the
+It's now time to calculate the result for the
 `Total` field of the `shoppingForm`.
 
 ### Evolve by refactoring the code
@@ -593,12 +588,12 @@ It's now time to make the calculation and to set the result in the
 In the [Tutorial 9 - Introducing Ajax][1] we defined the remote
 `calculate` function by calling the `defremote` macro. The
 `defremote` call implicitly define a function with the same name
-of the remote function and that's good, because we hate any kind of
+as the remote function; that's good, since we hate any kind of
 code duplication. We could immediately use it to calculate the result
 of the Shopping Calculator by just parsing the
 `[quantity price tax discount]` passed to the `deftemplate` call.
 
-But wait a minute. We [already parsed those arguments][21] on the CLJS
+But wait a minute. We've [already parsed those arguments][21] on the CLJS
 side of the `calculate` function and we don't want to parse them
 again. To reach this DRY objective we need to refactor the code by
 moving the parsing code of the fields values from the client side to
@@ -608,15 +603,15 @@ Let's take a look at the CLJS `shopping.cljs` file where we defined
 the client side `calculate` function.
 
 ```clj
-(defn calculate []
-  (let [quantity (read-string (value (by-id "quantity")))
-        price (read-string (value (by-id "price")))
-        tax (read-string (value (by-id "tax")))
-        discount (read-string (value (by-id "discount")))]
+(defn calculate [evt]
+  (let [quantity    (read-string (value (by-id "quantity")))
+        price       (read-string (value (by-id "price")))
+        tax         (read-string (value (by-id "tax")))
+        discount    (read-string (value (by-id "discount"))) ]
     (remote-callback :calculate
-                     [quantity price tax discount]
-                     #(set-value! (by-id "total") (.toFixed % 2)))))
-
+                     [quantity price tax discount] 
+                     #(set-value! (by-id "total") (.toFixed % 2)))
+    (prevent-default evt)))
 ```
 
 As you can see, to parse the input string, we used the `read-string`
@@ -645,10 +640,10 @@ follows:
             [shoreleave.remotes.http-rpc :refer [remote-callback]]))
 
 (defn calculate [evt]
-  (let [quantity (value (by-id "quantity"))
-        price (value (by-id "price"))
-        tax (value (by-id "tax"))
-        discount (value (by-id "discount"))]
+  (let [quantity   (value (by-id "quantity"))
+        price      (value (by-id "price"))
+        tax        (value (by-id "tax"))
+        discount   (value (by-id "discount")) ]
     (remote-callback :calculate
                      [quantity price tax discount]
                      #(set-value! (by-id "total") (.toFixed % 2)))
@@ -707,7 +702,7 @@ The `modern-cljs.templates.shopping` namespace now requires the
 function. In turn, the `modern-cljs.remotes` namespace requires the
 `modern-cljs.core` namespace to access the `handler` function. In
 turn, the `modern-cljs.core` namespace requires the
-`modern.cljs.templates.shopping` namespace to access the `shopping`
+`modern.cljs.templates.shopping` namespace to access the `shopping`
 function implicitly defined by the `deftemplate` macro call.
 
 ```
@@ -722,8 +717,8 @@ in the `app` definition. By moving the `app` definition to the
 `modern-cljs.core` namespace we should be able to resolve the cyclic
 issue.
 
-We just met another case in which it is easier to stop the IFDE than
-altering its runtime environment. This is because we now have to
+We have just met another case in which it is easier to restart the IFDE than
+it is to alter its runtime environment. This is because we now have to
 substitute the `:handler` value in the `serve` task of the
 `build.boot` from `modern-cljs.remotes/app` to `modern-cljs.core/app`.
 
@@ -749,8 +744,8 @@ and the `app` symbol definition.
 ```
 
 > NOTE 5: We also removed the references to the `wrap-rpc` symbol and
-> to `site`from because they are not used anymore by any functions
-> defined in the file.
+> to `site` since they are not used anymore by any functions
+> defined in this file.
 
 Next, we need to add the `app` symbol definition in the
 `modern-cljs.core` namespace and add both the
@@ -829,7 +824,7 @@ In the [next tutorial][28], after having added the validators for the
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-2016. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
