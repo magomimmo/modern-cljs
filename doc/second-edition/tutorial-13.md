@@ -7,11 +7,11 @@ almost full test coverage. I'm not going to open one of those endless
 discussions about the right amount of testing. Code testing
 is necessary. How much testing is needed? It depends.
 
-I have to admit that I have never created a program by first writing  
-a failing unit test, then writing the code to make the test succeed. When you are as
-old as I am, you can't change your habits. So, if you are religious
-about TDD/BDD (Test-Driven Development and Behavior-Driven
-Development), please forgive me.
+I have to admit that I have never created a program by first writing a
+failing unit test, then writing the code to make the test
+succeed. When you are as old as I am, you can't change your
+habits. So, if you are religious about TDD/BDD (Test-Driven
+Development and Behavior-Driven Development), please forgive me.
 
 Nowadays, using functional programming languages like CLJ/CLJS, the
 unit tests are much easier to implement, compared with
@@ -218,7 +218,7 @@ button and this URI does not exist.
 ### A kind of TDD
 
 By modifying the `shopping.html` file and disabling the JavaScript
-from the browser, we have just exercised a kind of TDD (Test Driven
+from the browser, we have just exercised a kind of TDD (Test-Driven
 Development) approach.
 
 To fix the failure we just met, we need to add a route for the
@@ -548,12 +548,12 @@ attribute, you need to write `[:#quantity]` which corresponds to the
 > the subject.
 
 But what about the transformation functions? [Enlive][9] offers a lot
-of them but this is not a tutorial on [Enlive][9]. I'm going to
-use the only function we need in our context: the `(set-attr &kvs)`
+of them but this is not a tutorial on [Enlive][9]. I'm going to use
+the only function we need in our context: the `(set-attr &kvs)`
 function.  It accepts keyword/value pairs, where the keywords are the
 names of the attributes you want to set. In our sample, the only
 attribute we are going to set is the `value` attribute of each `input`
-field. So let's start by adding to the `deftemplate` call to both the
+field. So let's start by adding to the `deftemplate` call both the
 selector clause and the trasformation function for each input field:
 
 ```clojure
@@ -702,7 +702,7 @@ The `modern-cljs.templates.shopping` namespace now requires the
 function. In turn, the `modern-cljs.remotes` namespace requires the
 `modern-cljs.core` namespace to access the `handler` function. In
 turn, the `modern-cljs.core` namespace requires the
-`modern.cljs.templates.shopping` namespace to access the `shopping`
+`modern.cljs.templates.shopping` namespace to access the `shopping`
 function implicitly defined by the `deftemplate` macro call.
 
 ```
