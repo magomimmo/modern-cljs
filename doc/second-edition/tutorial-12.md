@@ -591,7 +591,7 @@ You're now ready to repeat our UI tests.
 
 Visit [Login page](http://localhost:3000/index.html) and repeat all
 the interaction tests we executed in the
-[last tutorial][14]. Remember to first disable the JS of the
+[last tutorial][14]. Remember to first [disable the JS][26] of the
 browser.
 
 When you submit the Login Form you should receive a `Please complete
