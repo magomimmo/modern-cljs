@@ -21,7 +21,7 @@ environment augmented with CLJ/CLJS REPLs.
 > [second edition][1] of the series. The main difference from the
 > [first edition][2] regards the use of the [Boot][3] build tool instead
 > of [Leiningen][4]. This second edition is still a draft version and
-> you should be forgiving if you'll find errors, typos or even bugs in
+> you should be forgiving if you find errors, typos or even bugs in
 > the code.
 
 
