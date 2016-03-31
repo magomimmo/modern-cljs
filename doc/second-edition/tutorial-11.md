@@ -398,4 +398,4 @@ License, the same as Clojure.
 [8]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
 [9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md
 [10]: https://help.github.com/articles/set-up-git
-[11]: https://github.com/learningcljs/modern-cljs/blob/se-js-enable-disable/doc/supplemental-material/enable-disable-js.md
+[11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
