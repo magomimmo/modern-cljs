@@ -554,7 +554,7 @@ selector clause and the trasformation function for each input field:
 (ns modern-cljs.templates.shopping
   (:require [net.cgrand.enlive-html :refer [deftemplate set-attr]]))
   
-(deftemplate shopping "public/shopping.html"
+(deftemplate shopping "shopping.html"
   [quantity price tax discount]
   [:#quantity] (set-attr :value quantity)
   [:#price] (set-attr :value price)
