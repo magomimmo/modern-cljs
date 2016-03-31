@@ -485,7 +485,7 @@ as expected.
 
 Visit [the login page](http://localhost:3000/index.html) and repeat all
 the interaction tests we executed in the
-[latest tutorial][14]. Remember to first [disable the JS][25] of the
+[latest tutorial][14]. Remember to first [disable the JS][26] of the
 browser and eventually reload the page too.
 
 When you submit the Login Form you should receive a `Please complete
@@ -591,7 +591,7 @@ You're now ready to repeat our UI tests.
 
 Visit [Login page](http://localhost:3000/index.html) and repeat all
 the interaction tests we executed in the
-[last tutorial][14]. Remember to first disable the JS of the
+[last tutorial][14]. Remember to first [disable the JS][26] of the
 browser.
 
 When you submit the Login Form you should receive a `Please complete
@@ -843,7 +843,7 @@ manually reload the page to see the result. So, just reload the
 [`Login Form`](http://localhost:3000/index.html) and you'll be
 launched back to the sky again.
 
-> NOTE 10: if you did not [reactivated your browser JS Engine][25], do it
+> NOTE 10: if you did not [reactivated your browser JS Engine][26], do it
 > before reloading the Login Form page
 
 Repeat all the interactive tests you did. I know, it's boring, but at
@@ -1197,3 +1197,4 @@ License, the same as Clojure.
 [23]: http://leiningen.org/
 [24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
 [25]: http://jafingerhut.github.io/cheatsheet/clojuredocs/cheatsheet-tiptip-cdocs-summary.html
+[26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md

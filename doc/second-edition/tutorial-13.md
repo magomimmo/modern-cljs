@@ -250,11 +250,9 @@ text the input values of the form.
 ![FictionShopping][7]
 
 Let's now go back for a while and see what happens if we re-enable the
-JavaScript engine of the browser. Open again the Setting of the
-Developer Tools and [enable the JavaScript engine][33] by unmarking the
-`Disable JavaScript` check-box.
+JavaScript engine of the browser.
 
-Next, reload the [shopping URI][2] and finally click the `Calculate`
+[Enable JS][33] and reload the [shopping URI][2] and finally click the `Calculate`
 button again.
 
 ![FictionShopping2][7]
@@ -859,4 +857,4 @@ License, the same as Clojure.
 [30]: https://github.com/emezeske/lein-cljsbuild#hooks
 [31]: https://github.com/technomancy/leiningen
 [32]: http://clojuredocs.org/clojure_core/clojure.core/format#example_839
-[33]: https://github.com/learningcljs/modern-cljs/blob/se-js-enable-disable/doc/supplemental-material/enable-disable-js.md
+[33]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
