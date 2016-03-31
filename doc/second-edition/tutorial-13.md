@@ -395,7 +395,7 @@ already satisfied by the the `defremote` macro call from
 name.
 
 It seems that we just need to implement step `1.` (read the
-`shopping.html` file from its directory) and the step `4.` (update the
+`shopping.html` file from its directory) and step `4.` (update the
 input fields of the form).
 
 [Enlive][9] offers a single macro, `deftemplate`, which allows us to
@@ -465,7 +465,7 @@ cd /path/to/modern-cljs
 mkdir src/clj/modern_cljs/templates
 ```
 
-Inside this directory create now the `shopping.clj` file where we'll
+Inside this directory create the `shopping.clj` file where we'll
 create the `deftemplate` macro call.
 
 ```bash
@@ -525,7 +525,7 @@ For a deeper understanding of the CSS-like selectors accepted by
 `deftemplate`, you need to understand CSS selectors. You need to know
 this anyway if you want to use [Domina][18], [JQuery][19], etc. So, even if
 we'd like to have a unified language for everything, you can't
-avoid to learning a little bit of HTML, CSS and JS to use
+avoid learning a little bit of HTML, CSS and JS to use
 CLJ/CLJS. That's the world we have to live in.
 
 A selector in [Enlive][9] is almost identical to the corresponding CSS
@@ -614,7 +614,7 @@ function from the `cljs.reader` lib of CLJS.
 > ATTENTION NOTE: parsing a string coming from user input with
 > `read-string` is
 > [very dangerous](http://stackoverflow.com/questions/2640169/whats-the-easiest-way-to-parse-numbers-in-clojure)
-> from a security point of view. Here where are not taking care of
+> from a security point of view. Here we are not taking care of
 > this issue, but you should. One possible solution is to use regular
 > expressions.
 
@@ -800,7 +800,7 @@ boot dev
 Elapsed time: 19.405 sec
 ```
 
-visit [shopping][2] URI and play with the form by enabling and
+Visit the [shopping][2] URI and play with the form by enabling and
 disabling the JavaScript engine of your browser. Everything should
 work as expected in both the scenarios.
 
