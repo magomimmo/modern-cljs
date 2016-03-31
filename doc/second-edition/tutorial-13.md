@@ -491,24 +491,20 @@ update its namespace declaration and substitute the `(str "You enter:
 to the newly defined `shopping` function.
 
 ```clj
-(ns modern-cljs.core
+(ns modern-cljs.core 
   (:require [compojure.core :refer [defroutes GET POST]]
-            [compojure.route :refer [resources not-found]]
-            [compojure.handler :refer [site]]
+            [compojure.route :refer [not-found files resources]]
             [modern-cljs.login :refer [authenticate-user]]
             [modern-cljs.templates.shopping :refer [shopping]]))
 
-(defroutes app-routes
-  ;; to serve document root address
-  (GET "/" [] "<p>Hello from compojure</p>")
-  ;; to authenticate the user
+(defroutes handler
+  (GET "/" [] "Hello from Compojure!")  ;; for testing only
+  (files "/" {:root "target"})          ;; to serve static resources
   (POST "/login" [email password] (authenticate-user email password))
-  ;; to server static pages saved in resources/public directory
   (POST "/shopping" [quantity price tax discount]
         (shopping quantity price tax discount))
-  (resources "/")
-  ;; if page is not found
-  (not-found "Page non found"))
+  (resources "/" {:root "target"})      ;; to serve anything else
+  (not-found "Page Not Found"))         ;; page not found
 ```
 
 Now [disable the JavaScript engine][33] of your browser again and visit the
