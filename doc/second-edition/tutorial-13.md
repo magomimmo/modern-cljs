@@ -859,4 +859,4 @@ License, the same as Clojure.
 [30]: https://github.com/emezeske/lein-cljsbuild#hooks
 [31]: https://github.com/technomancy/leiningen
 [32]: http://clojuredocs.org/clojure_core/clojure.core/format#example_839
-[33]: https://github.com/learningcljs/modern-cljs/blob/se-js-enable-disable/doc/supplemental-material/enable-disable-js.md
+[33]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
