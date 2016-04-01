@@ -1,12 +1,12 @@
 # Tutorial 16 - On pleasing TDD practitioners
 
 In the [previous tutorial][1] we looked at the problem of using a
-single JVM to run multiple `boot` tasks supporting 
-Bret Victor's Immediate Feedback Prinsociple and the Test Driven
-Development (TDD) workflow. While we are approaching that objective, 
-we have ended up with a few questions about the
-`tdd` task we defined. Namely, is it possible to define the `tdd` task so that it
-is parameterizable, while also keeping some sane defaults for typical usage?
+single JVM to run multiple `boot` tasks supporting Bret Victor's
+Immediate Feedback Principle and the Test Driven Development (TDD)
+workflow. While we are approaching that objective, we have ended up
+with a few questions about the `tdd` task we defined. Namely, is it
+possible to define the `tdd` task so that it is parameterizable, while
+also keeping some sane defaults for typical usage?
 
 In this tutorial we're going to answer that question by introducing
 the `boot`'s
@@ -25,27 +25,26 @@ git checkout se-tutorial-15
 
 ## Introduction
 
-While I have never started a new program by first writing a failing test, that has
-more to do with my age that with my opinion about TDD. That said, the
-workflow induced from the `tdd` task we ended up in the
-[previous tutorial][1] would be criticized by any TDD practitioner.
-We'd like to please them a little bit more than at present.
+While I have never started a new program by first writing a failing
+test, that has more to do with my age that with my opinion about
+TDD. That said, the workflow induced from the `tdd` task we ended up
+in the [previous tutorial][1] would be criticized by any TDD
+practitioner.  We'd like to please them a little bit more than at
+present.
 
 ## Task Options DSL
 
 As you can read from the Wiki page cited above, `boot` is a servant of
 many owners and it has to please them all:
 
-> `boot` tasks are intended to be used in many ways, including from the command line, from a
-> REPL, in the project's build.boot file, and from regular Clojure
-> namespaces. This requires support for two conceptually different
-> calling conventions: with command line options and optargs, and as
-> s-expressions in Clojure with function arguments.
->
-> Furthermore, since task definitions are the API between 
-> `boot` and the user, it's important
-> that they provide good usage and help documentation in both
-> environments.
+> `boot` tasks are intended to be used in many ways, including from
+> the command line, from a REPL, in the project's build.boot file, and
+> from regular Clojure namespaces. This requires support for two
+> conceptually different calling conventions: with command line
+> options and optargs, and as s-expressions in Clojure with function
+> arguments.  Furthermore, since task definitions are the API between
+> `boot` and the user, it's important that they provide good usage and
+> help documentation in both environments.
 
 [Command-Line options and optargs](http://www.catb.org/esr/writings/taoup/html/ch10s05.html)
 are Unix terms that any programmer should know about, while
@@ -61,14 +60,14 @@ directory, but as soon as the project gets more complicated we'll
 probably need to add more testing namespaces specifically dedicated to
 CLJ or CLJS.
 
-Even though you may organize and name your testing namespaces arbitrarily,
-it's considered good practices to keep any
-testing namespaces specific to CLJ separated from the ones specific
-to CLJS. We also want to keep both of those separated from testing
+Even though you may organize and name your testing namespaces
+arbitrarily, it's considered good practices to keep any testing
+namespaces specific to CLJ separated from the ones specific to
+CLJS. We also want to keep both of those separated from testing
 namespaces which are portable between CLJ and CLJS as well.
 
-At some point you'll probably end up with a directory layout
-something like the following:
+At some point you'll probably end up with a directory layout something
+like the following:
 
 ```bash
 test/
@@ -88,9 +87,9 @@ src/
 
 ## Be prepared for changes
 
-To be prepared for any testing scenario, while keeping the more
-common ones as simple as possible (e.g., `boot tdd`), we need to
-design our task definitions from top to bottom.
+To be prepared for any testing scenario, while keeping the more common
+ones as simple as possible (e.g., `boot tdd`), we need to design our
+task definitions from top to bottom.
 
 For example, we would like to be able to call the `tdd` task by
 passing to it one or more test directories to be added to the
@@ -1128,12 +1127,12 @@ Elapsed time: 33.700 sec
 ```
 
 As you see, the different behavior of `test-cljs` and `test` when
-called without specifying any namespace is now evident: the `test` task is
-wasting time in running tests even in namespaces which do not contain
-any test.
+called without specifying any namespace is now evident: the `test`
+task is wasting time in running tests even in namespaces which do not
+contain any test.
 
-Let's now see what happens if you create a failing test in the `validators-test`
-namespace as we've done before:
+Let's now see what happens if you create a failing test in the
+`validators-test` namespace as we've done before:
 
 ```clj
 Writing clj_test/suite.cljs...
@@ -1240,13 +1239,14 @@ both the CLJ and CLJS engines.
 
 ## Give up?
 
-I am not a TDD practitioner, but if I were, I would consider it 
-unacceptable to be forced to restart the development environment
-every time I added a new unit test file. Unfortunately, this is what the 
-`tdd` task requires if we launch it by specifying the initial test namespaces 
-using the `-n` option. I would also find it unacceptable waiting so long for test
-results, as currently occurs when the `test` behavior of `tdd` is
-called without specifying any test namespaces to run.
+I am not a TDD practitioner, but if I were, I would consider it
+unacceptable to be forced to restart the development environment every
+time I added a new unit test file. Unfortunately, this is what the
+`tdd` task requires if we launch it by specifying the initial test
+namespaces using the `-n` option. I would also find it unacceptable
+waiting so long for test results, as currently occurs when the `test`
+behavior of `tdd` is called without specifying any test namespaces to
+run.
 
 For the moment, we have to accept a tradeoff:
 
@@ -1278,11 +1278,11 @@ Elapsed time: 24.895 sec
 
 ## Add login test assertion
 
-With `boot` still running, let's add more assertions to the only 
-test defined in the `modern-cljs.login.validators-test`
-namespace. Open the corresponding file
-`test/cljc/modern_cljs/login/validators_test.cljc` and 
-add a few assertions to the `user-credential-errors-test` function:
+With `boot` still running, let's add more assertions to the only test
+defined in the `modern-cljs.login.validators-test` namespace. Open the
+corresponding file `test/cljc/modern_cljs/login/validators_test.cljc`
+and add a few assertions to the `user-credential-errors-test`
+function:
 
 ```clj
 (ns modern-cljs.login.validators-test
@@ -1358,13 +1358,13 @@ add a few assertions to the `user-credential-errors-test` function:
         (first (:password (user-credential-errors nil "toolongforthat")))))))
 ```
 
-When you save the file, `tdd` will recompile the file and rerun
-the tests, counting 38 assertions in 2 tests each.
+When you save the file, `tdd` will recompile the file and rerun the
+tests, counting 38 assertions in 2 tests each.
 
 ## Specific CLJ test in a portable test namespace
 
-Let's now add a CLJ-only test to the portable test-namespace;
-i.e. the test that an email address has a valid domain:
+Let's now add a CLJ-only test to the portable test-namespace; i.e. the
+test that an email address has a valid domain:
 
 ```clj
 (ns modern-cljs.login.validators-test
@@ -1379,12 +1379,12 @@ i.e. the test that an email address has a valid domain:
                 (first (:email (v/email-domain-errors "me@googlenospam.com")))))))
 ```
 
-In order to continue to share the 
-`modern-cljs.login.validators` namespace between CLJ and CLJS, we
-added the ``v` alias. This way we can call the `email-domain-errors`
-function which is defined in the `modern-cljs.login.validators`
-portable namespace for CLJ only. Of course, we also had to use the `#?`
-reader conditional since this test only works on the JVM.
+In order to continue to share the `modern-cljs.login.validators`
+namespace between CLJ and CLJS, we added the ``v` alias. This way we
+can call the `email-domain-errors` function which is defined in the
+`modern-cljs.login.validators` portable namespace for CLJ only. Of
+course, we also had to use the `#?` reader conditional since this test
+only works on the JVM.
 
 Here is the result in the running `tdd` task:
 
@@ -1411,18 +1411,19 @@ Ran 3 tests containing 39 assertions.
 Elapsed time: 4.024 sec
 ```
 
-The CLJS test namespaces still have 2 tests containing 38
-assertions, while the the CLJ test namespaces now have 3 tests
-containing 39 assertions.
+The CLJS test namespaces still have 2 tests containing 38 assertions,
+while the the CLJ test namespaces now have 3 tests containing 39
+assertions.
 
 To proceed to the next step, stop any related `boot` process.
 
 ## Code clean up
 
-We are almost done. There is one more thing I would like to do: cleaning up the
-`tdd` code by introducing a global map for all the defaults we used,
-and adding the above two test-namespaces as defaults so that the
-`tdd` task can be called without specifying any command line options. 
+We are almost done. There is one more thing I would like to do:
+cleaning up the `tdd` code by introducing a global map for all the
+defaults we used, and adding the above two test-namespaces as defaults
+so that the `tdd` task can be called without specifying any command
+line options.
 
 Here is the reworked `build.boot` file:
 
@@ -1548,15 +1549,18 @@ We also set default values using `let` and `or`:
      (...)))
 ```
 
-There is one last thing to consider. The time taken by the `tdd` task to run the
-unit tests may be judged unacceptably long by a strict TDD practitioner, since it requires
-more than 1-10 seconds. In the `tdd` task, most of the time is spent in the
-`test` task to process namespaces which don't contain any tests, and also internally in
-the `test-cljs` task which starts a new instance of PhantomJS every time it runs.
-We're not going to worry about solving these problems in this tutorial, but
-we can remember these points for future improvements.
+There is one last thing to consider. The time taken by the `tdd` task
+to run the unit tests may be judged unacceptably long by a strict TDD
+practitioner, since it requires more than 1-10 seconds. In the `tdd`
+task, most of the time is spent in the `test` task to process
+namespaces which don't contain any tests, and also internally in the
+`test-cljs` task which starts a new instance of PhantomJS every time
+it runs.  We're not going to worry about solving these problems in
+this tutorial, but we can remember these points for future
+improvements.
 
-That's it for now. Stop any `boot` related process and reset the git branch.
+That's it for now. Stop any `boot` related process and reset the git
+branch.
 
 ```bash
 git reset --hard
@@ -1572,7 +1576,7 @@ Interface) in such a way that the user will be notified with the
 corresponding help messages when the she/he enters invalid values in
 the form.
 
-Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-16. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
