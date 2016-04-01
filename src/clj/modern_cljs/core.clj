@@ -1,10 +1,10 @@
-(ns modern-cljs.core 
+(ns modern-cljs.core
   (:require [compojure.core :refer [defroutes GET POST]]
             [compojure.route :refer [not-found files resources]]
             [compojure.handler :refer [site]]
-            [shoreleave.middleware.rpc :refer [wrap-rpc]]
             [modern-cljs.login :refer [authenticate-user]]
-            [modern-cljs.templates.shopping :refer [shopping]]))
+            [modern-cljs.templates.shopping :refer [shopping]]
+            [shoreleave.middleware.rpc :refer [wrap-rpc]]))
 
 (defroutes handler
   (GET "/" [] "Hello from Compojure!")  ;; for testing only
@@ -16,6 +16,6 @@
   (not-found "Page Not Found"))         ;; page not found
 
 (def app
-  (-> handler
+  (-> (var handler)
       (wrap-rpc)
       (site)))
