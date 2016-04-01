@@ -547,7 +547,7 @@ the only function we need in our context: the `(set-attr &kvs)`
 function.  It accepts keyword/value pairs, where the keywords are the
 names of the attributes you want to set. In our sample, the only
 attribute we are going to set is the `value` attribute of each `input`
-field. So let's start by adding to the `deftemplate` call both the
+field. So let's start by adding to the `shopping.clj` `deftemplate` call both the
 selector clause and the trasformation function for each input field:
 
 ```clojure
