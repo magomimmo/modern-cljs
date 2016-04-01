@@ -562,7 +562,7 @@ selector clause and the trasformation function for each input field:
   [:#discount] (set-attr :value discount))
 ```
 
-Reload the [shopping][2] URI and change the values of the input fields
+With [JS disabled][33] reload the [shopping][2] URI and change the values of the input fields
 of the Shopping Calculator form. By clicking the `Calculate` button
 you'll receive the form with the same values you previously typed
 in. So far, so good.
@@ -800,9 +800,9 @@ boot dev
 Elapsed time: 19.405 sec
 ```
 
-Visit the [shopping][2] URI and play with the form by enabling and
-disabling the JavaScript engine of your browser. Everything should
-work as expected in both the scenarios.
+Visit the [shopping][2] URI and play with the form by 
+[enabling and disabling the JavaScript engine][33] of your browser. 
+Everything should work as expected in both the scenarios.
 
 When you're done, kill the `boot` process and reset your git
 repository.
