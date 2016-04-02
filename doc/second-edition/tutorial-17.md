@@ -1,12 +1,12 @@
 # Tutorial 17 - REPLing with Enlive
 
-In the [previous tutorial,][1] we reached an important milestone on our
-path of reducing code duplication. We were able to share the form
-validation and unit testing code between both the client
-and server. Anytime in the future that we need to update the
-validation rules and the corresponding unit testing, we'll be able to
-do it in one shared location, which is a big plus in terms of
-maintenance time and costs.
+In the [previous tutorial][1], we reached an important milestone on
+our path of reducing code duplication. We were able to share the form
+validation and unit testing code between both the client and
+server. Anytime in the future that we need to update the validation
+rules and the corresponding unit testing, we'll be able to do it in
+one shared location, which is a big plus in terms of maintenance time
+and costs.
 
 ## Preamble
 
@@ -209,11 +209,11 @@ transformation.
 
 That said, at the beginning [Enlive][2] is not so easy to work with,
 even by following some [good tutorials][7] available online. Enlive is
-full of very clever macros and higher-order-function (HOF) definitions which constitute a DSL
-(Domain Specific Language) for HTML/XML scraping and templating. You
-need to spend some time getting familiar with the Enlive lib. Often,
-the best way to get familiar with a new library in CLJ is by 
-playing with it in the REPL.
+full of very clever macros and higher-order-function (HOF) definitions
+which constitute a DSL (Domain Specific Language) for HTML/XML
+scraping and templating. You need to spend some time getting familiar
+with the Enlive lib. Often, the best way to get familiar with a new
+library in CLJ is by playing with it in the REPL.
 
 ### REPLing with Hiccup
 
@@ -221,9 +221,9 @@ Before to start REPLing around, do yourself a favor: do your REPLing
 by using the [hiccup][8] lib by [James Reeves][9], because it will
 avoid the headache of writing stringified HTML at the REPL.
 
-One of the nice features of `boot` is that it allows you to
-add dependencies at runtime, such as when you want to experiment
-with a lib and you aren't sure you want to include in the project file yet.
+One of the nice features of `boot` is that it allows you to add
+dependencies at runtime, such as when you want to experiment with a
+lib and you aren't sure you want to include in the project file yet.
 
 From the CLJS REPL that we previously launched, let's temporarily add
 a dependency to `hiccup`, and then require the needed namespace:
