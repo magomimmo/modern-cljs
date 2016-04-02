@@ -126,7 +126,7 @@ which uses the `valip.core` and `valip.predicates` namespaces.
 touch src/cljc/modern_cljs/shopping/validators.cljc
 ```
 
-> NOTE 1: you'll get a `java.lang.AssertionError` because there is no an
+> NOTE 1: you'll get a `java.lang.AssertionError` because there is no
 > `ns` form in the newly created file. Don't worry. As soon as you'll
 > save the edited file the error will disappear.
 
@@ -706,7 +706,7 @@ the macros.
 
 Then we have to require `modern-cljs.shopping.validators-test`
 namespace containing the assertions associated with the
-`validate-shopping-form-test` unit test
+`validate-shopping-form-test` unit test.
 
 ```clj
 cljs.user> (require '[modern-cljs.shopping.validators-test :as v])
