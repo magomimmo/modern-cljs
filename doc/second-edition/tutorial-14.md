@@ -44,7 +44,7 @@ Elapsed time: 23.261 sec
 
 ## Review the Shopping Form
 
-Now disable the JavaScript engine of your browser, visit or reload the
+Now [disable the JavaScript engine][15] of your browser, visit or reload the
 [shopping URI][4], and click the `Calculate` button. The `Total` field
 is filled with the result of the calculation executed on the
 server-side via the "/shopping" action associated to the
@@ -75,9 +75,7 @@ That's because the remote `calculate` function accepts only
 stringified numbers for its calculation and we're now passing to it a
 stringified symbol that can't be casted to a number.
 
-Now let's see what happens if we reactivate the JavaScript engine by
-unmarking the `Disable JavaScript` check-box from the Settings of the
-`Developer Tools` and reload the
+Now let's see what happens if we [reactivate the JavaScript engine][15] and reload the
 [Shopping Form](http://localhost:3000/shopping.html) URL.
 
 Try again to type `foo` instead of a number in one of the form fields
@@ -761,3 +759,4 @@ License, the same as Clojure.
 [12]: https://github.com/cemerick/clojurescript.test
 [13]: https://github.com/lynaghk/cljx
 [14]: https://github.com/lynaghk
+[15]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
