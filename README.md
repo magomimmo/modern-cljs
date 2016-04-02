@@ -218,7 +218,7 @@ using `boot`.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-2015. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-2016. Released under the Eclipse Public
 License, the same license as Clojure.
 
 
