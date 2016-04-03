@@ -38,10 +38,9 @@ Obviously this manual workflow is only acceptable while you're
 learning how to introduce unit testing in your CLJ/CLJS mixed project.
 
 In this tutorial, our objective is to progressively
-reduce as much as possible the number of manual steps. While doing
-that, we'll end up with a kind of live development environment which,
-while satisfying Bret Victor's Immediate Feedback
-Principle, will also enable a TDD workflow.
+reduce as much as possible the number of manual steps. We'll end up 
+with a kind of live development environment that will satisfying 
+Bret Victor's Immediate Feedback Principle and also enable a TDD workflow.
 
 ## Testing task
 
@@ -164,10 +163,10 @@ any `boot` related process.
 
 ## boot-test task
 
-`boot` does not came with a `test` pre-build task like
+`boot` does not have a `test` pre-build task like
 [Leiningen](https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md#tests)
 does. Fortunately, the `boot` community created the `boot-test` task
-for that job. Let's add it our `build.boot` file as usual.
+for that job. Let's add it to our `build.boot` file as usual.
 
 ```clj
 (set-env!
