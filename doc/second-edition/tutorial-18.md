@@ -678,7 +678,7 @@ previous tutorials on `domina` library usage.
 Likely `domina` offers both `css` or `xpath` selectors for such a
 case. This is the first time we deal with `css` and `xpath` selectors
 from the `domina` lib and before we start coding we want to
-familiarize ourselves a little bit with at least with one of them in the bREPL,
+familiarize ourselves a little bit with at least one of them in the bREPL,
 namely with `css` selector.
 
 Perhaps you remember that due to a bug in the `boot-cljs-repl` task,
