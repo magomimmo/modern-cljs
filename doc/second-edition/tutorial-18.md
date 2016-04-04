@@ -78,8 +78,7 @@ boot repl -c
 boot.user=>
 ```
 
-Remember to reactivate the JS engine from the Developer Tools of your
-browser and then visit the
+[Turn on the JS engine][4] in your browser and then visit the
 [Shopping Calculator](http://localhost:3000/shopping.html) URI to
 activate the websocket connection used by `tdd` to reload pages when
 you save some changes.
@@ -238,7 +237,7 @@ Shopping Calculator form:
         nil (validate-shopping-quantity "1")))))
 ```
 
-Here the intention is to test an happy path: the validator
+Here the intention is to test the happy path: the validator
 `validate-shopping-quantity`, that still does not exist, should return
 `nil`, meaning no errors, when called with an integer argument.
 
@@ -358,9 +357,9 @@ general `validate-shopping-field` receiving a field (e.g.,
 arguments.
 
 To implement `validate-shopping-field` we could use one of the
-CLJ/CLJS conditional forms: `cond`, `condp` or`case`. Perhaps we do
-not remember quite well how they work to be able to choose the one
-that better fit out case. Don't worry, we have the REPL to experiment
+CLJ/CLJS conditional forms: `cond`, `condp` or`case`. Perhaps we do 
+not remember how they work well enough to choose the one that best 
+fits our case. Don't worry, we have the REPL to experiment
 with them:
 
 First require the needed namespace:
@@ -629,17 +628,16 @@ the newly defined fields validators.
 
 ## Fill the Gap
 
-In the previous paragraph we experimented an augmented TDD workflow by
-interleaving few experiments with the language in the REPL while
-satisfying few tests and consequently refactoring some code. But we
+In the previous paragraph we experimented with an augmented TDD workflow by
+interleaving a few experiments with the language in the REPL while
+satisfying a few tests and consequently refactoring some code. But we
 still have to attach the newly defined individual field validators to
 the Shopping Calculator. Let's do that.
 
 ## Inject the validators
 
 To inject the individual validators for the input fields of the
-Shopping Calculator I'm not going to use a TDD workflow, but you could
-eventually do it by yourself.
+Shopping Calculator I'm not going to use a TDD workflow, but you could.
 
 Let's start from the `quantity` input field. We'd like to mimic the
 same effect we reached on the server-side WUI. For example, if the
@@ -679,8 +677,8 @@ previous tutorials on `domina` library usage.
 
 Likely `domina` offers both `css` or `xpath` selectors for such a
 case. This is the first time we deal with `css` and `xpath` selectors
-from the `domina` lib and before to start coding we want to
-familiarize a little bit at least with one of them in the bREPL,
+from the `domina` lib and before we start coding we want to
+familiarize ourselves a little bit with at least with one of them in the bREPL,
 namely with `css` selector.
 
 Perhaps you remember that due to a bug in the `boot-cljs-repl` task,
@@ -716,7 +714,7 @@ cljs.user> (require '[domina.core :as dom]
 nil
 ```
 
-an then let's see if we're able to select the label for the `quantity`
+and then let's see if we're able to select the label for the `quantity`
 input field by using the
 [`label[for=quantity]`](http://stackoverflow.com/questions/2599627/how-to-select-label-for-email-in-css)
 CSS attribute selector:
@@ -734,7 +732,7 @@ cljs.user> (dom/text (css/sel "label[for=quantity]"))
 "Quantity"
 ```
 
-It worked. Our goal is now to change that text with a new one and to
+It worked. Our goal is now to replace that text with a new one and to
 add the `help` class to the label in such a way that the `styles.ccs`
 included in the project will render that text in red color
 
@@ -792,7 +790,7 @@ Then we need to add the `modern-cljs.shopping.validators` to the
 
 Note that we're referring both the newly defined individual
 `validate-shopping-field` validator and the aggregate
-`validate-shopping-form` validator.„ This choice will become clearer
+`validate-shopping-form` validator. This choice will become clearer
 later when we'll update the `calculate` function.
 
 Let's now attach a listener for the `blur` event to each field of the form:
@@ -846,7 +844,7 @@ There are few important things to be noted here:
    form to keep memory of their original text labels. This is because
    we need to set them again when the input values are valid;
 2. each `blur`listener uses the same `validate-shopping-field!`
-   function and passes to it the input field is listening to and the
+   function and passes to it the input field it is listening to and the
    original text label captured by the `let` form; note that the name
    of the listener is almost the same as the name of the validator
    (i.e., `validate-shopping-field`). We only added the bang `!` to
@@ -859,7 +857,7 @@ There are few important things to be noted here:
    to `calculate!`, because this function is going to have side-effect
    on the DOM as well.
 
-Let's now define the `validate-shopping-field!` listener:
+Let's now define the `validate-shopping-field!` listener  above `init` in `shopping.cljs`:
 
 ```clj
 (defn validate-shopping-field! [field text]
@@ -877,7 +875,7 @@ As you see the definition of the `validate-shopping-field!` listener
 is quite easy:
 
 * first we get the label for the input field in the `let` form;
-* then we remove from it the `help` class, even when it's not present
+* then we remove the `help` class, even when it's not present
   because it does not hurt;
 * next, if there is any error resulting from the individual input
   validator, we add the `help` class to the label and set its text to
@@ -886,7 +884,7 @@ is quite easy:
   its original value.
 
 We are not finished yet. What happens when some input values are
-invalid and the user click the Calculate button? As minimum we should
+invalid and the user clicks the Calculate button? At a minimum we should
 prevent the remote calculate function from being called as follows:
 
 ```clj
@@ -931,15 +929,14 @@ Elapsed time: 2.347 sec
 As you remember, anytime you modify the exported `init` function that
 is attached to the `onload` event of the corresponding HTML page, you
 need to manually reload the page itself to appreciate the effects of
-your changes: just do it and see the individual fields validators at
+your changes: reload the page and see the individual fields validators at
 work by playing with the Shopping Form.
 
 ## On Improving UX (User eXperience)
 
-One more thing: while playing with the Shopping Calculator, you'll get
-quickly stuck with the need of clicking the `Calculate` button to
-calculate the total anytime you change an input value. We could be
-much more pleasant with the user of the Shopping Calculator and it's
+One more thing: while playing with the Shopping Calculator, you need to click
+the `Calculate` button to calculate the total anytime you change an input value. 
+We could improve the user experience of the Shopping Calculator and it's
 very easy too. I leave to you to understand the following final code
 for improving the Shopping Calculator UX.
 
@@ -1039,7 +1036,7 @@ as you type a value in any input field, the Shopping Calculator will
 show you in red the calculated Total.
 
 I'm really bad with HTML/CSS and I'm pretty sure that most of you can
-improve the UX even better than this.
+make the UX even better than this.
 
 You can now stop the CLJ REPL and the boot process, and then reset the
 branch as usual:
@@ -1062,3 +1059,4 @@ License, the same as Clojure.
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
 [3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
+[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
