@@ -42,14 +42,14 @@ submission by exploiting the fact that the `deftemplate` macro
 implicitly defined a function with the same name as the defining
 template.
 
+Let's look at `src/clj/modern_cljs/core.clj` and `src/clj/modern_cljs/templates/shopping.clj`.
+
 ```clj
-; src/clj/modern_cljs/core.clj
 (defroutes handler
   (GET "/" [] "Hello from Compojure!")  ; for testing only
   (files "/" {:root "target"})          ; to serve static resources
   (POST "/login" [email password] (authenticate-user email password))
 
-  ; the `/shopping` URI is linked to the `shopping` function
   (POST "/shopping" [quantity price tax discount]
         (shopping quantity price tax discount))
 
@@ -59,8 +59,6 @@ template.
 ```
 
 ```clj
-; src/clj/modern_cljs/templates/shopping.clj
-; deftemplate implicitly define the `shopping` function
 (deftemplate shopping "shopping.html"
   [quantity price tax discount]
   [:#quantity] (set-attr :value quantity)
@@ -69,6 +67,9 @@ template.
   [:#discount] (set-attr :value discount)
   [:#total] (set-attr :value (format "%.2f" (calculate quantity price tax discount))))
 ```
+
+The `/shopping` URI is linked to the `shopping` function.  
+`deftemplate` implicitly defines the `shopping` function.
 
 However, as we saw in the
 [Tutorial 14 - Better safe than sorry (Part 2)][4], we can easily
@@ -123,10 +124,8 @@ boot repl -c
 boot.user=>
 ```
 
-and visit the
-[Shopping Calculator](http://localhost:3000/shopping.html) URI. Then
-disable JavaScript from the setting of the browser's developer tools
-and reload the page.
+[Disable JavaScript][15] and visit the
+[Shopping Calculator](http://localhost:3000/shopping.html) URI. 
 
 Open the `shopping.clj` source file from the
 `src/clj/modern_cljs/templates` directory and modify it as follows.
@@ -217,16 +216,16 @@ library in CLJ is by playing with it in the REPL.
 
 ### REPLing with Hiccup
 
-Before to start REPLing around, do yourself a favor: do your REPLing
+Before we start REPLing around, do yourself a favor: do your REPLing
 by using the [hiccup][8] lib by [James Reeves][9], because it will
 avoid the headache of writing stringified HTML at the REPL.
 
 One of the nice features of `boot` is that it allows you to add
 dependencies at runtime, such as when you want to experiment with a
-lib and you aren't sure you want to include in the project file yet.
+lib and you aren't sure you want to include it in the project file yet.
 
 From the CLJS REPL that we previously launched, let's temporarily add
-a dependency to `hiccup`, and then require the needed namespace:
+`hiccup` as a dependency, and then require the needed namespace:
 
 ```clj
 boot.user=> (set-env! :dependencies #(conj % '[hiccup "1.0.5"]))
@@ -279,7 +278,7 @@ boot.user> (require '[net.cgrand.enlive-html :as e] )
 nil
 ```
 
-and call the `sniptest` macro by passing it, as a single argument, the
+and call the `sniptest` macro by passing it, a single argument, the
 result of the Hiccup `html` function, which emits a string of HTML.
 
 ```clj
@@ -356,7 +355,7 @@ scenario there were no other elements contained inside any `label`
 element, so the selector did not select any node and the transformer
 did nothing.
 
-On the other hand, the syntax of the `[[:label (attr= :for "price")]]`
+On the other hand, the syntax of the `[[:label (e/attr= :for "price")]]`
 selector is going to select any `label` which has a `for` attribute
 with the value `"price"` (i.e. conjunction rule) and this is what we
 want. So, to activate the conjunction rule, we need to put the whole
@@ -380,13 +379,13 @@ Wahoo! It worked and we're now ready to apply what we've learned by
 REPLing with the `sniptest` macro.
 
 > NOTE 3: Enlive selector syntax offers a disjunction rule too, but
-> we're not using it in this tutorial. This rule use the set syntax 
+> we're not using it in this tutorial. This rule uses the set syntax 
 > `#{ [selector 1] [selector 2] ... [selector n] }` to indicate
 > disjunction between selectors.
 
 ### Select and transform
 
-Let's resume the `update-shopping-form` template definition we wrote
+Let's resume the `shopping.clj` `update-shopping-form` template definition we wrote
 in the first refactoring step.
 
 ```clj
@@ -532,7 +531,7 @@ the entire content of the `shopping.clj` source file.
 
 We're now ready to find out if our long refactoring session has worked.
 
-First, disable the JavaScript engine of your browser. Then,
+First, [disable the JavaScript engine][15] of your browser. Then,
 visit the [Shopping Calculator](http://localhost:3000/shopping.html)
 URI, fill in the form with valid values, and click the `Calculate`
 button. Everything should work as expected.
@@ -585,3 +584,4 @@ License, the same as Clojure.
 [12]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-invalid-values.png
 [13]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-with-invalid-messages.png
 [14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
+[15]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
