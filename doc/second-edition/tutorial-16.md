@@ -9,7 +9,7 @@ possible to define the `tdd` task so that it is parameterizable, while
 also keeping some sane defaults for typical usage?
 
 In this tutorial we're going to answer that question by introducing
-the `boot`'s
+`boot`'s
 [Task Options Domain Specific Language](https://github.com/boot-clj/boot/wiki/Task-Options-DSL).
 
 ## Preamble
@@ -26,7 +26,7 @@ git checkout se-tutorial-15
 ## Introduction
 
 While I have never started a new program by first writing a failing
-test, that has more to do with my age that with my opinion about
+test, that has more to do with my age than with my opinion about
 TDD. That said, the workflow induced from the `tdd` task we ended up
 in the [previous tutorial][1] would be criticized by any TDD
 practitioner.  We'd like to please them a little bit more than at
@@ -385,7 +385,7 @@ Some of those `serve` task options could be useful for `tdd` as well:
 * `-p, --port PORT`
 * `-k, --httpkit`
 
-In the contest of the current project, I'm interested in the `-p` task
+In the context of the current project, I'm interested in the `-p` task
 option. But I'd like to test the project on the famous asynchronous
 [`http-kit`](http://www.http-kit.org/) web server as well.
 
@@ -604,8 +604,6 @@ boot.user=> (dummy "-t" "test/cljc" "-v" "-k")
 
 As you see, a boolean task option works like a switch. To proceed with
 the next step, stop the REPL.
-
-#awt =============================================================================
 
 ## Add flag task options to tdd
 
@@ -1380,7 +1378,7 @@ test that an email address has a valid domain:
 ```
 
 In order to continue to share the `modern-cljs.login.validators`
-namespace between CLJ and CLJS, we added the ``v` alias. This way we
+namespace between CLJ and CLJS, we added the `v` alias. This way we
 can call the `email-domain-errors` function which is defined in the
 `modern-cljs.login.validators` portable namespace for CLJ only. Of
 course, we also had to use the `#?` reader conditional since this test
@@ -1573,7 +1571,7 @@ Stay tuned for the next tutorial.
 In the [next tutorial][2] we're going to integrate the validators for
 the Shopping Calculator into the corresponding WUI (Web User
 Interface) in such a way that the user will be notified with the
-corresponding help messages when the she/he enters invalid values in
+corresponding help messages when they enter invalid values in
 the form.
 
 Copyright © Mimmo Cosenza, 2012-16. Released under the Eclipse Public
