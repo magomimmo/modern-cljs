@@ -567,7 +567,7 @@ CLJ/CLJS REPLs.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-15. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-16. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
