@@ -82,7 +82,7 @@ Many people worry about which operating system and editor/IDE are best
 for developing in Clojure and ClojureScript. I personally use Mac OS
 X, Debian and Ubuntu. I use Emacs as an editor.
 
-Because I'm an old-timer, *nix and Emacs are the OS and editor I know best. 
+Because I'm an old-timer, [*nix][43] and Emacs are the OS and editor I know best. 
 That being said, in this series of tutorials you're not going to find any
 suggestions or reference to operating systems or editors. Use whatever tools
 you already have and know. I have too much respect for people developing
@@ -264,3 +264,4 @@ License, the same license as Clojure.
 [40]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md 
 [41]: https://github.com/clojure/clojurescript/wiki/Rationale
 [42]: https://github.com/clojure/clojurescript/wiki/Quick-Start
+[43]: https://en.wikipedia.org/wiki/Unix-like
