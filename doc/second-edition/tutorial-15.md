@@ -334,7 +334,7 @@ all is [PhantomJS][2] which is based on [WebKit][3].
 ### Install PhantomJS
 
 To install PhantomJS follow the [instructions][4] for your Operating
-System. On any *nix OS it should be enough to download the compressed
+System. On any [*nix][6] OS it should be enough to download the compressed
 file, decompress it and add its `bin` directory to the `PATH` environment
 variable.
 
@@ -1004,3 +1004,4 @@ License, the same as Clojure.
 [3]: http://en.wikipedia.org/wiki/WebKit
 [4]: http://phantomjs.org/download.html
 [5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
+[6]: https://en.wikipedia.org/wiki/Unix-like
