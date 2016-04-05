@@ -93,6 +93,11 @@ to learn a new programming environment.
 You will need to have [git][16] and [Java][34] installed and you'll
 need some familiarity with the [basics of git][17].
 
+## Clojure community documentation
+
+Community created clojure documentation sites that you may find helpful are
+[clojuredocs](http://clojuredocs.org/) and [Grimoire](https://www.conj.io/).
+
 ## Why the name Modern ClojureScript?
 
 You might wonder why this tutorial series is named `modern-cljs` when
