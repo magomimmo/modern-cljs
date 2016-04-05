@@ -733,8 +733,6 @@ and reset the repository
 git reset --hard
 ```
 
-Stay tuned!
-
 # Next step - [Tutorial 15: It's better to be safe than sorry (Part 3)][11]
 
 In the [next Tutorial][11] of the series, we're going to do some

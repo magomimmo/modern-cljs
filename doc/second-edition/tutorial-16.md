@@ -1564,8 +1564,6 @@ branch.
 git reset --hard
 ```
 
-Stay tuned for the next tutorial.
-
 # [Next Step - Tutorial 17 - REPLing with Enlive][2]
 
 In the [next tutorial][2] we're going to integrate the validators for
