@@ -992,8 +992,6 @@ For now, stop any `boot` process and reset the git repository
 git reset --hard
 ```
 
-Stay tuned for the next tutorial
-
 # [Next Step - Tutorial 16 - On pleasing TDD practitioners][5]
 
 In the [next tutorial][5] we're going to make the `tdd` task more
