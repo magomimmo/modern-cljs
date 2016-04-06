@@ -548,7 +548,7 @@ combines the `test` and the `cljs-test` tasks.
 > previously created at the command line, and appends the `test` task
 > after the `test-cljs` task. The order of the two unit testing tasks
 > is important. A subsequent tutorial will better explain the Task
-> Options DSL (Domain Specific Language) used by `boot` to
+> Options [DSL][8] used by `boot` to
 > offer the same options at the command line and as it does 
 > in the `build.boot` file.
 
@@ -1010,3 +1010,4 @@ License, the same as Clojure.
 [5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
 [6]: https://en.wikipedia.org/wiki/Unix-like
 [7]: https://en.wikipedia.org/wiki/Mutatis_mutandis
+[8]: https://en.wikipedia.org/wiki/Domain-specific_language
