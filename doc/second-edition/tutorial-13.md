@@ -86,7 +86,7 @@ section as usual with any lib:
 
 > ATTENTION NOTE: all the figures of this tutorials have been taken a
 > couple of years ago with old versions of Chrome/Canary that are now
-> outdated. That said, Mutatis Mutandis, you should be able to follow
+> outdated. That said, *[Mutatis Mutandis][34]*, you should be able to follow
 > the tutorial without any problem.
 
 Start the IFDE as usual
@@ -854,3 +854,4 @@ License, the same as Clojure.
 [31]: https://github.com/technomancy/leiningen
 [32]: http://clojuredocs.org/clojure_core/clojure.core/format#example_839
 [33]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
+[34]: https://en.wikipedia.org/wiki/Mutatis_mutandis

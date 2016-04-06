@@ -41,6 +41,10 @@ In this tutorial, our objective is to progressively
 reduce as much as possible the number of manual steps. We'll end up 
 with a kind of live development environment that will satisfying 
 Bret Victor's Immediate Feedback Principle and also enable a TDD workflow.
+reduce as much as possible the number of manual steps. While doing
+that, we'll end up with a kind of live development environment which,
+while satisfying Bret Victor's Immediate Feedback
+Principle, will also enable a TDD workflow.
 
 ## Testing task
 
@@ -404,7 +408,7 @@ it allows us to populate the `target` directory as `cljs` does.
 
 ### Light the fire
 
-We're now ready to light the fire. *Mutatis mutandis*, we're going to
+We're now ready to light the fire. *[Mutatis mutandis][7]*, we're going to
 use the same task composition we've already adopted for the `boot-test`
 task when dealing with CLJ unit testing:
 
@@ -1005,3 +1009,4 @@ License, the same as Clojure.
 [4]: http://phantomjs.org/download.html
 [5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
 [6]: https://en.wikipedia.org/wiki/Unix-like
+[7]: https://en.wikipedia.org/wiki/Mutatis_mutandis
