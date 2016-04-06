@@ -32,7 +32,7 @@ in the [previous tutorial][1] would be criticized by any TDD
 practitioner.  We'd like to please them a little bit more than at
 present.
 
-## Task Options DSL
+## Task Options Domain Specific Language
 
 As you can read from the Wiki page cited above, `boot` is a servant of
 many owners and it has to please them all:
@@ -110,7 +110,7 @@ I know, you'd prefer something like the following form:
 boot tdd -t test/clj:test/cljs:test/cljc
 ```
 
-The task options DSL offers direct support for the former mode, named
+The task options [DSL][3] offers direct support for the former mode, named
 [multiple options](https://github.com/boot-clj/boot/wiki/Task-Options-DSL#multi-options). If
 you prefer (like I do) the `colon` separated directories mode, you
 have to parse the command arguments yourself.
@@ -213,7 +213,7 @@ boot.user=> (dummy "-t" "test/clj" "-t" "test/cljs" "-t" "test/cljc")
 ```
 
 As you see, the value assigned to the `:dirs` keyword in the `*opts*`
-map is a set of string, exactly like the DSL `#{str}` type hint we
+map is a set of string, exactly like the [DSL][3] `#{str}` type hint we
 used in the `dummy` task definition says. To proceed with the next
 step, stop the `boot` process.
 
@@ -299,7 +299,7 @@ to the `:source-paths` variable.
 > exist or contains any testing namespace, the internal `merge-env!`
 > function will not complain.
 
-Note how we used the DSL to define the same `-t` option as for the
+Note how we used the [DSL][3] to define the same `-t` option as for the
 `add-source-paths` task. The only difference for the `tdd` task is the
 description "test paths". Moreover, we used the `let` and the `or` forms to give it
 a default value, before finally passing the argument to the
@@ -634,7 +634,7 @@ We are now ready to add the `-k` and `-v` options to the `tdd` task definition.
 ```
 
 Note that this time we just passed down the boolean options as read
-from the DSL machinery. This is because in a boolean context `nil` is
+from the [DSL][3] machinery. This is because in a boolean context `nil` is
 equivalent to `false`.
 
 Let's now see `-k` and `-v` at work:
@@ -1577,6 +1577,7 @@ License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
+[3]: https://en.wikipedia.org/wiki/Domain-specific_language
 
 
 
