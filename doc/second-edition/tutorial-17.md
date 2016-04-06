@@ -209,7 +209,7 @@ transformation.
 That said, at the beginning [Enlive][2] is not so easy to work with,
 even by following some [good tutorials][7] available online. Enlive is
 full of very clever macros and higher-order-function (HOF) definitions
-which constitute a DSL (Domain Specific Language) for HTML/XML
+which constitute a [DSL][16] for HTML/XML
 scraping and templating. You need to spend some time getting familiar
 with the Enlive lib. Often, the best way to get familiar with a new
 library in CLJ is by playing with it in the REPL.
@@ -265,7 +265,7 @@ boot.user> (html [:div
 ### REPLing with Enlive
 
 [Christophe Grand][10], the author of [Enlive][2], was aware of the
-need to experiment with his powerful and complex DSL in the REPL and
+need to experiment with his powerful and complex [DSL][16] in the REPL and
 kindly defined a [sniptest][11] macro just for that. The `sniptest`
 receives a stringified HTML as a first argument and optionally one or
 more pairs of selectors/transformations. This allows it to mimic the
@@ -347,7 +347,7 @@ Ops, it did not work. What happened?
 
 ### Hierarchical and conjunction rules
 
-This unexpected behaiour has to do with the Enlive DSL grammar's
+This unexpected behaiour has to do with the Enlive [DSL][16] grammar's
 rules. The syntax of the `[:label (e/attr= :for "price")]` selector
 says to select any element with a `for` attribute with the value `"price"`
 *contained* in a `label` element (i.e. hierarchical rule). In our
@@ -550,7 +550,7 @@ You should receive the following feedback
 It worked as expected. We fixed the server-side code by refactoring it
 to inject the form validators into the Enlive template definition for
 the `shopping.html` page. And we also learned a little bit more about
-the Enlive DSL.
+the Enlive [DSL][16].
 
 Stop the CLJ REPL and the `boot` processes and reset the branch as
 usual:
@@ -585,3 +585,4 @@ License, the same as Clojure.
 [13]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/shopping-with-invalid-messages.png
 [14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
 [15]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
+[16]: https://en.wikipedia.org/wiki/Domain-specific_language
