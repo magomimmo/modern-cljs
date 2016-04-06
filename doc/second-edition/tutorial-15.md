@@ -405,7 +405,7 @@ it allows us to populate the `target` directory as `cljs` does.
 
 ### Light the fire
 
-We're now ready to light the fire. *Mutatis mutandis*, we're going to
+We're now ready to light the fire. *[Mutatis mutandis][6]*, we're going to
 use the same task composition we've already adopted for the `boot-test`
 task when dealing with CLJ unit testing:
 
@@ -1007,3 +1007,4 @@ License, the same as Clojure.
 [3]: http://en.wikipedia.org/wiki/WebKit
 [4]: http://phantomjs.org/download.html
 [5]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
+[6]: https://en.wikipedia.org/wiki/Mutatis_mutandis
