@@ -759,7 +759,7 @@ server-side.
 # Bonus Section
 
 > NOTE 4: The images of this paragraph have been generated with a
-> previous version of `shoreleave` libs. *Mutatis Mutandis* (e.g.,
+> previous version of `shoreleave` libs. *[Mutatis Mutandis][44]* (e.g.,
 > `_shoreleave` instead of `_fetch`) and the actual Google Chrome
 > Developer Tools interface, everything should be almost the same.
 
@@ -858,3 +858,4 @@ License, the same as Clojure.
 [41]: https://weavejester.github.io/compojure/compojure.handler.html#var-site
 [42]: https://github.com/technomancy/leiningen/blob/master/doc/PROFILES.md
 [43]: https://en.wiktionary.org/wiki/pain_in_the_ass
+[44]: https://en.wikipedia.org/wiki/Mutatis_mutandis
