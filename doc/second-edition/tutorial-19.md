@@ -552,7 +552,7 @@ in this Step 6.
 ### Step 7
 
 We now have to deal with the `valip` unit tests confined in the
-`src/test` directory. *Mutatis mutandis*, we have to replicate the
+`src/test` directory. *[Mutatis mutandis][3]*, we have to replicate the
 above Step 2, Step 4 and Step 5 to the content of the
 `test/valip/test` directory:
 
@@ -1876,3 +1876,4 @@ License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md
+[3]: https://en.wikipedia.org/wiki/Mutatis_mutandis
