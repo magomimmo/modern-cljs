@@ -852,7 +852,7 @@ user=>
 ```
 
 That's bad. The `present?` predicate it defined for the `nil` element,
-while the function returned by the `matches` HOF function it is not, as
+while the function returned by the `matches` [HOF][4] function it is not, as
 you can verify from it's source code:
 
 ```clj
@@ -904,7 +904,7 @@ that `nil` element as member of a function, you should uniformly stay
 with this decision, and `valip` does not. 
 
 Do you want to see other misalignment? Evaluate a couple of `valip`
-HOF functions returning predicates?
+[HOF][4] functions returning predicates?
 
 ```clj
 user=> ((v/min-length 5) nil)
@@ -1877,3 +1877,4 @@ License, the same as Clojure.
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md
 [3]: https://en.wikipedia.org/wiki/Mutatis_mutandis
+[4]: https://en.wikipedia.org/wiki/Higher-order_function
