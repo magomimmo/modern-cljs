@@ -54,7 +54,7 @@ enhancement strategy, which dictates:
 > for a while.
 
 But we're in a good position to cover the missing step, because we
-have the same language on both sides. It should not be a PITA to go
+have the same language on both sides. It should not be a [PITA][35] to go
 from one side to the other and vice-versa. Just be prepared to pay a
 little attention anytime you cross the border in either direction.
 
@@ -855,3 +855,4 @@ License, the same as Clojure.
 [32]: http://clojuredocs.org/clojure_core/clojure.core/format#example_839
 [33]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
 [34]: https://en.wikipedia.org/wiki/Mutatis_mutandis
+[35]: https://en.wiktionary.org/wiki/pain_in_the_ass
