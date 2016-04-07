@@ -208,7 +208,7 @@ transformation.
 
 That said, at the beginning [Enlive][2] is not so easy to work with,
 even by following some [good tutorials][7] available online. Enlive is
-full of very clever macros and higher-order-function (HOF) definitions
+full of very clever macros and [HOF][17] definitions
 which constitute a [DSL][16] for HTML/XML
 scraping and templating. You need to spend some time getting familiar
 with the Enlive lib. Often, the best way to get familiar with a new
@@ -586,3 +586,4 @@ License, the same as Clojure.
 [14]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
 [15]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
 [16]: https://en.wikipedia.org/wiki/Domain-specific_language
+[17]: https://en.wikipedia.org/wiki/Higher-order_function
