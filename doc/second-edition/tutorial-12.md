@@ -171,8 +171,8 @@ sample from the `valip.predicates` namespace:
 >   (fn [s] (boolean (re-matches re (str s)))))
 > ```
 
-Nothing new for any clojure-ist who knows about HOF (Higher Order
-Functions), but another nice feature to have in your hands.
+Nothing new for any clojure-ist who knows about [HOF][27], 
+but another nice feature to have in your hands.
 
 `valip` even offers the `defpredicate` macro, which allows you to
 easily compose new predicates returning a boolean value. Here is a
@@ -1198,3 +1198,4 @@ License, the same as Clojure.
 [24]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-09.md
 [25]: http://jafingerhut.github.io/cheatsheet/clojuredocs/cheatsheet-tiptip-cdocs-summary.html
 [26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
+[27]: https://en.wikipedia.org/wiki/Higher-order_function
