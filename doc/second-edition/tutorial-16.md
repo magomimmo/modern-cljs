@@ -871,7 +871,7 @@ code into JS code, which was a bit contradictory.
 
 Moreover, the `source-map` option was not available until recently.
 Before that, debugging CLJS code by setting breakpoints in the
-generated JS code quickly became a PITA.
+generated JS code quickly became a [PITA][4].
 
 These incidental complexities are now gone. You still have `none`,
 `whitespace`, `simple` and `advanced` optimization modes available, but the CLJS
@@ -1578,6 +1578,6 @@ License, the same as Clojure.
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
 [3]: https://en.wikipedia.org/wiki/Domain-specific_language
-
+[4]: https://en.wiktionary.org/wiki/pain_in_the_ass
 
 
