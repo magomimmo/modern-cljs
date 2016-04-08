@@ -1,13 +1,13 @@
 # Tutorial 18 - Augmented TDD Session
 
 In the [previous tutorial][1] we integrated the validators for the
-Shopping Calculator into the corresponding WUI (Web User Interface) in
+Shopping Calculator into the corresponding [WUI][5] in
 such a way that the user will be notified with the corresponding help
 messages when she enters invalid values in the form. By first
 injecting the validators into the server-side code, we have been
 religious about the progressive enhancement strategy. It's now time to
 fill the gap by injecting the portable validators into the client-side
-WUI as well.
+[WUI][5] as well.
 
 ## Preamble
 
@@ -23,7 +23,7 @@ git checkout se-tutorial-17
 ## Introduction
 
 In this tutorial we're going to integrate the portable validators for
-the Shopping Calculator into the client-side WUI (Web User Interface).
+the Shopping Calculator into the client-side [WUI][5].
 
 While there is nothing really new to be learned in this tutorial about
 CLJS, it represents a good opportunity to see at work the live coding
@@ -188,7 +188,7 @@ an input field does not pass the validation:
 
 ## TDD Workflow: start from a test that has to fail
 
-On the client side WUI we want to individually validate any input value
+On the client side [WUI][5] we want to individually validate any input value
 as soon as we leave the corresponding field (i.e. when the
 `blur` event is fired) as we already did in a
 [previous tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md)
@@ -640,7 +640,7 @@ To inject the individual validators for the input fields of the
 Shopping Calculator I'm not going to use a TDD workflow, but you could.
 
 Let's start from the `quantity` input field. We'd like to mimic the
-same effect we reached on the server-side WUI. For example, if the
+same effect we reached on the server-side [WUI][5]. For example, if the
 user eventually typed a decimal number in the `quantity` input field,
 when the field looses the focus we'd like to transform the following
 HTML fragment
@@ -1060,3 +1060,4 @@ License, the same as Clojure.
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
 [3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
 [4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
+[5]: https://en.wikipedia.org/wiki/User_interface#Types
