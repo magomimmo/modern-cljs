@@ -2,7 +2,7 @@
 
 In the [previous tutorial][1] we completed the job of integrating the
 client-side validators for the Shopping Calculator input fields into
-the corresponding WUI (Web User Interface) in such a way that the user
+the corresponding [WUI][5] in such a way that the user
 will be notified with the corresponding help messages when she enters
 invalid values in the form itself.
 
@@ -1878,3 +1878,4 @@ License, the same as Clojure.
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md
 [3]: https://en.wikipedia.org/wiki/Mutatis_mutandis
 [4]: https://en.wikipedia.org/wiki/Higher-order_function
+[5]: https://en.wikipedia.org/wiki/User_interface#Types

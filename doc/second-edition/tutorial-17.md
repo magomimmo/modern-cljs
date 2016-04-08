@@ -22,7 +22,7 @@ git checkout se-tutorial-16
 ## Introduction
 
 In this tutorial we're going to integrate the validators for the
-Shopping Calculator with the corresponding WUI (Web User Interface) in
+Shopping Calculator with the corresponding [WUI][18] in
 such a way that the user will receive an error
 message if they enter an invalid value in the web form.
 
@@ -587,3 +587,4 @@ License, the same as Clojure.
 [15]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
 [16]: https://en.wikipedia.org/wiki/Domain-specific_language
 [17]: https://en.wikipedia.org/wiki/Higher-order_function
+[18]: https://en.wikipedia.org/wiki/User_interface#Types
