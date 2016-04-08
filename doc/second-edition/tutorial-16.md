@@ -1567,8 +1567,8 @@ git reset --hard
 # [Next Step - Tutorial 17 - REPLing with Enlive][2]
 
 In the [next tutorial][2] we're going to integrate the validators for
-the Shopping Calculator into the corresponding WUI (Web User
-Interface) in such a way that the user will be notified with the
+the Shopping Calculator into the corresponding [WUI][5]
+in such a way that the user will be notified with the
 corresponding help messages when they enter invalid values in
 the form.
 
@@ -1579,5 +1579,6 @@ License, the same as Clojure.
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
 [3]: https://en.wikipedia.org/wiki/Domain-specific_language
 [4]: https://en.wiktionary.org/wiki/pain_in_the_ass
+[5]: https://en.wikipedia.org/wiki/User_interface#Types
 
 
