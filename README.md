@@ -12,7 +12,7 @@ Conditionals extension of CLJ/CLJS compilers.
 
 ### [Tutorial 18 - Augmented TDD session][38]
 
-Complete the client-side form validation by exploiting the TDD
+Complete the client-side form validation by exploiting the [TDD][44]
 environment augmented with CLJ/CLJS REPLs.
 
 # Modern ClojureScript
@@ -194,11 +194,11 @@ Add validators to the `shoppingForm`, and do some unit testing.
 
 Configure a development environment that simultaneously satisfy in a
 single JVM the Immediate Feedback Principle by Bret Victor and the
-Test Driven Development (TDD).
+[Test Driven Development (TDD)][44].
 
 ## [Tutorial 16 - On pleasing TDD practitioners][36]
 
-Make the Test Driven Development Environment more customizable.
+Make the [Test Driven Development][44] Environment more customizable.
 
 ## [Tutorial 17 - REPLing with Enlive][37]
 
@@ -208,7 +208,7 @@ enter invalid values in the form.
 
 ## [Tutorial 18 - Augmented TDD session][38]
 
-Complete the client-side form validation by exploiting the TDD
+Complete the client-side form validation by exploiting the [TDD][44]
 environment augmented with CLJ/CLJS REPLs.
 
 ## [Tutorial 19 - Livin' on the edge][39]
@@ -270,3 +270,4 @@ License, the same license as Clojure.
 [41]: https://github.com/clojure/clojurescript/wiki/Rationale
 [42]: https://github.com/clojure/clojurescript/wiki/Quick-Start
 [43]: https://en.wikipedia.org/wiki/Unix-like
+[44]: https://en.wikipedia.org/wiki/Test-driven_development
