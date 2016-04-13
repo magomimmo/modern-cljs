@@ -326,6 +326,10 @@ cljs.user=>
 > personally use `emacs` editor and [cider][16] only because I'm aged
 > and `emacs` is the editor I know how to configure and use the best.
 
+> If you are interested in learning more about Emacs or CIDER [here are
+some references]
+(https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/emacs-cider-references.md).
+
 
 We can now evaluate CLJS expressions at the bREPL, but we first need a
 way to access the browser DOM.
