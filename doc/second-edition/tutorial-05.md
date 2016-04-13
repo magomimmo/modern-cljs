@@ -157,7 +157,7 @@ Before we start bREPLing, let's review the content of the
 
         </fieldset>
     </form>
-    <script src="js/modern.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
 ```
