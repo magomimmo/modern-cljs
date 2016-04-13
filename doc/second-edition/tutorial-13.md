@@ -10,8 +10,8 @@ is necessary. How much testing is needed? It depends.
 I have to admit that I have never created a program by first writing a
 failing unit test, then writing the code to make the test
 succeed. When you are as old as I am, you can't change your
-habits. So, if you are religious about TDD/BDD (Test-Driven
-Development and Behavior-Driven Development), please forgive me.
+habits. So, if you are religious about [TDD (Test-Driven Development)][36]
+/[BDD (Behavior-Driven Development)][37], please forgive me.
 
 Nowadays, using functional programming languages like CLJ/CLJS, the
 unit tests are much easier to implement, compared with
@@ -215,11 +215,11 @@ asking the browser to send a POST request with the
 `localhost:3000/shopping` URI whenever the user clicks the Calculate
 button and this URI does not exist.
 
-### A kind of TDD
+### A kind of Test Driven Development
 
 By modifying the `shopping.html` file and disabling the JavaScript
-from the browser, we have just exercised a kind of TDD (Test-Driven
-Development) approach.
+from the browser, we have just exercised a kind of [TDD (Test-Driven
+Development)][36] approach.
 
 To fix the failure we just met, we need to add a route for the
 "/shopping" request to the `defroutes` macro call.
@@ -856,3 +856,5 @@ License, the same as Clojure.
 [33]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
 [34]: https://en.wikipedia.org/wiki/Mutatis_mutandis
 [35]: https://en.wiktionary.org/wiki/pain_in_the_ass
+[36]: https://en.wikipedia.org/wiki/Test-driven_development
+[37]: https://en.wikipedia.org/wiki/Behavior-driven_development
