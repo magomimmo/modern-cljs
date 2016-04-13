@@ -6,7 +6,7 @@ syntactic rules previously implemented on the client-side.
 
 One of our long term objectives is to eliminate any code duplication
 from our web applications.  That's like saying that we want to stay as
-compliant as possible with the Don't Repeat Yourself (DRY) principle.
+compliant as possible with the [Don't Repeat Yourself (DRY) principle][28].
 
 ## Preamble
 
@@ -22,8 +22,8 @@ git checkout se-tutorial-11
 # Introduction
 
 In this tutorial of the *modern-cljs* series we're going to respect the
-DRY principle while adhering to the progressive enhancement
-strategy. Specifically, we'll try to exercise both the DRY principle and
+[DRY principle][28] while adhering to the progressive enhancement
+strategy. Specifically, we'll try to exercise both the [DRY principle][28] and
 the progressive enhancement strategy in one of the most relevant contexts
 in developing a web application: the form fields validation.
 
@@ -799,7 +799,7 @@ the changes are almost identical.
 > NOTE 8: As an exercise, you can define a new function, named
 > `validate-dom-element`, which extracts an abstraction from the
 > `validate-email` and `validate-password` structure definition. It's
-> just another application of the DRY principle. This could be the
+> just another application of the [DRY principle][28]. This could be the
 > starting point of a CLJS validation library based on `defprotocol` and
 > incorporating the CLJ/CLJS shared part of the validation: the data
 > validation. A validation process could be seen as a two-part process:
@@ -858,11 +858,11 @@ We satisfied all the five requirements we started from:
   client code
 * exercise the defined validators on the server and client code.
 
-Best of all, we were able to follow the DRY and the separation of
+Best of all, we were able to follow the [DRY][28] and the separation of
 concerns principles while adhering to the progressive enhancement
 strategy.
 
-The only residual violation of the DRY principle regards the HTML5
+The only residual violation of the [DRY principle][28] regards the HTML5
 validations which are still duplicated in the `index.html` page. This
 will be solved in successive tutorials where we will introduce the so
 called *pure HTML template system*.
@@ -1164,7 +1164,7 @@ discuss unit testing. We'll also introduce the `Enlive`
 template system to implement a server-side only version of the
 Shopping Calculator aimed at adhering to the progressive enhancement
 implementation strategy. We'll even see how to exercise code
-refactoring to satisfy the DRY principle and to resolve a cyclic
+refactoring to satisfy the [DRY principle][28] and to resolve a cyclic
 namespaces dependency problem we'll meet along the way.
 
 # License
@@ -1199,3 +1199,4 @@ License, the same as Clojure.
 [25]: http://jafingerhut.github.io/cheatsheet/clojuredocs/cheatsheet-tiptip-cdocs-summary.html
 [26]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
 [27]: https://en.wikipedia.org/wiki/Higher-order_function
+[28]: https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
