@@ -27,7 +27,7 @@ the Shopping Calculator into the client-side [WUI][5].
 
 While there is nothing really new to be learned in this tutorial about
 CLJS, it represents a good opportunity to see at work the live coding
-TDD environment we setup in the
+[TDD][6] environment we setup in the
 [Tutorial 16 - On pleasing TDD practitioners][2]
 
 As said by [Fogus](http://www.fogus.me/), the author of
@@ -47,7 +47,7 @@ This statement is particularly true when you deal with OSS (Open
 Source Software) libraries which are frequently updated without
 their corresponding documentation been updated as well.
 
-Even if you are a TDD practitioner, which means that you start coding
+Even if you are a [TDD][6] practitioner, which means that you start coding
 from a failing test, you still need to know and to understand your
 programming language and the libraries you're going to use to fix the
 failed tests and to refactor your code to obtain a cleaner and more
@@ -57,7 +57,7 @@ code from a test that has to fail.
 
 ## Start TDD
 
-Start TDD environment:
+Start [TDD][6] environment:
 
 ```bash
 cd /path/to/modern-cljs
@@ -515,7 +515,7 @@ cljs.user> (let [field :quantity
 
 Now that we understood a little bit better our beloved CLJ/CLJS
 programming language by experimenting with it at the REPL while
-following a TDD approach, go back to the
+following a [TDD][6] approach, go back to the
 `modern-cljs.shopping.validators` namespace and substitute the
 previously defined `validate-shopping-quantity` validator with a more
 general one as follows:
@@ -628,7 +628,7 @@ the newly defined fields validators.
 
 ## Fill the Gap
 
-In the previous paragraph we experimented with an augmented TDD workflow by
+In the previous paragraph we experimented with an augmented [TDD][6] workflow by
 interleaving a few experiments with the language in the REPL while
 satisfying a few tests and consequently refactoring some code. But we
 still have to attach the newly defined individual field validators to
@@ -637,7 +637,7 @@ the Shopping Calculator. Let's do that.
 ## Inject the validators
 
 To inject the individual validators for the input fields of the
-Shopping Calculator I'm not going to use a TDD workflow, but you could.
+Shopping Calculator I'm not going to use a [TDD][6] workflow, but you could.
 
 Let's start from the `quantity` input field. We'd like to mimic the
 same effect we reached on the server-side [WUI][5]. For example, if the
@@ -1028,7 +1028,7 @@ for improving the Shopping Calculator UX.
     (calculate!)))
 ```
 
-As usual, when you save the above changes, the TDD environment
+As usual, when you save the above changes, the [TDD][6] environment
 triggers the recompilation and re-executes the tests. By having
 changed the `init` function, you need to manually reload the
 [Shopping Calculator page](localhost:3000/shopping.html). Now, as soon
@@ -1061,3 +1061,4 @@ License, the same as Clojure.
 [3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
 [4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
 [5]: https://en.wikipedia.org/wiki/User_interface#Types
+[6]: https://en.wikipedia.org/wiki/Test-driven_development
