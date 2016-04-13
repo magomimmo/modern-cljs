@@ -2,7 +2,7 @@
 
 In the [previous tutorial][1] we looked at the problem of using a
 single JVM to run multiple `boot` tasks supporting Bret Victor's
-Immediate Feedback Principle and the [Test Driven Development (TDD)][9]
+Immediate Feedback Principle and the [Test Driven Development (TDD)][6]
 workflow. While we are approaching that objective, we have ended up
 with a few questions about the `tdd` task we defined. Namely, is it
 possible to define the `tdd` task so that it is parameterizable, while
