@@ -2,7 +2,7 @@
 
 In the [previous tutorial][1] we looked at the problem of using a
 single JVM to run multiple `boot` tasks supporting Bret Victor's
-Immediate Feedback Principle and the Test Driven Development (TDD)
+Immediate Feedback Principle and the [Test Driven Development (TDD)][9]
 workflow. While we are approaching that objective, we have ended up
 with a few questions about the `tdd` task we defined. Namely, is it
 possible to define the `tdd` task so that it is parameterizable, while
@@ -27,8 +27,8 @@ git checkout se-tutorial-15
 
 While I have never started a new program by first writing a failing
 test, that has more to do with my age than with my opinion about
-TDD. That said, the workflow induced from the `tdd` task we ended up
-in the [previous tutorial][1] would be criticized by any TDD
+[TDD][6]. That said, the workflow induced from the `tdd` task we ended up
+in the [previous tutorial][1] would be criticized by any [TDD][6]
 practitioner.  We'd like to please them a little bit more than at
 present.
 
@@ -1237,7 +1237,7 @@ both the CLJ and CLJS engines.
 
 ## Give up?
 
-I am not a TDD practitioner, but if I were, I would consider it
+I am not a [TDD][6] practitioner, but if I were, I would consider it
 unacceptable to be forced to restart the development environment every
 time I added a new unit test file. Unfortunately, this is what the
 `tdd` task requires if we launch it by specifying the initial test
@@ -1548,7 +1548,7 @@ We also set default values using `let` and `or`:
 ```
 
 There is one last thing to consider. The time taken by the `tdd` task
-to run the unit tests may be judged unacceptably long by a strict TDD
+to run the unit tests may be judged unacceptably long by a strict [TDD][6]
 practitioner, since it requires more than 1-10 seconds. In the `tdd`
 task, most of the time is spent in the `test` task to process
 namespaces which don't contain any tests, and also internally in the
@@ -1580,5 +1580,6 @@ License, the same as Clojure.
 [3]: https://en.wikipedia.org/wiki/Domain-specific_language
 [4]: https://en.wiktionary.org/wiki/pain_in_the_ass
 [5]: https://en.wikipedia.org/wiki/User_interface#Types
+[6]: https://en.wikipedia.org/wiki/Test-driven_development
 
 
