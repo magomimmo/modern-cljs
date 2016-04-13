@@ -917,7 +917,7 @@ I don't know about you, but I can't accept such a misaligned
 behaviors, because I'm sure they're going to later generate bugs very
 difficult to be caught.
 
-Now exit the REPL, because it's time to enter in a TDD session to fix
+Now exit the REPL, because it's time to enter in a [TDD][6] session to fix
 `valip` original library.
 
 ## Enter boot
@@ -925,7 +925,7 @@ Now exit the REPL, because it's time to enter in a TDD session to fix
 Even if we could update the `project.clj` buy adding to it the
 [`lein-auto`](https://github.com/weavejester/lein-auto) plugin, we
 prefer to switch to `boot`, because we already know everything about
-creating a `build.boot` build file to support TDD.
+creating a `build.boot` build file to support [TDD][6].
 
 First, as you learned in the
 [first tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-01.md#get-rid-of-warnings)
@@ -981,7 +981,7 @@ symbol visible. Next we defined two new tasks:
 
 * `testing` task: to add the `test` directory to the `:source-paths`
   environment variable;
-* `clj-tdd`: to launch a CLJ based TDD session.
+* `clj-tdd`: to launch a CLJ based [TDD][6] session.
 
 ## TDD session
 
@@ -1406,7 +1406,7 @@ Enough words. Let's get started.
 
 ## Bootify CLJS valip 
 
-To be able to quickly set up a CLJ TDD environment, in the previous
+To be able to quickly set up a CLJ [TDD][6] environment, in the previous
 paragraph we already created the `boot.properties` and `build.boot`
 files. It is now very easy to update the `build.boot` file to be able
 to extend it for covering the CLJS version of `valip` as well. We
@@ -1848,7 +1848,7 @@ with the new updated version:
 
 ## Start TDD
 
-Start the TDD environment
+Start the [TDD][6] environment
 
 ```bash
 boot tdd
@@ -1879,3 +1879,4 @@ License, the same as Clojure.
 [3]: https://en.wikipedia.org/wiki/Mutatis_mutandis
 [4]: https://en.wikipedia.org/wiki/Higher-order_function
 [5]: https://en.wikipedia.org/wiki/User_interface#Types
+[6]: https://en.wikipedia.org/wiki/Test-driven_development
