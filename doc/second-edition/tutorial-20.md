@@ -512,7 +512,7 @@ with the newly updated one:
                  ])
 ```
 
-Next, start the TDD environment as usual:
+Next, start the [TDD][3] environment as usual:
 
 ```bash
 boot tdd
@@ -1050,3 +1050,4 @@ License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
+[3]: https://en.wikipedia.org/wiki/Test-driven_development
