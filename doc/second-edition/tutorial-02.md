@@ -434,6 +434,9 @@ different). If your editor supports `nrepl` you are going to use that
 information to connect to the now running `nrepl server` with an
 `nrepl client`.
 
+> NOTE: Emacs and CIDER support this.  You can learn more about them with these [resources]
+(https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/emacs-cider-references.md).
+
 At the moment we're happy enough to be able to run `cljs-repl` from a
 second terminal by first launching the predefined `repl` task included
 with `boot` and passing it the `-c` (i.e. client) option:

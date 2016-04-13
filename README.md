@@ -90,6 +90,10 @@ IDE/plugins for Clojure/CLJS to say that one is better than another, and
 you don't want to combine learning a new programming language with trying
 to learn a new programming environment.
 
+> NOTE: If you are interested in learning more about Emacs here are some 
+[resources to help get you started]
+(https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/emacs-cider-references.md).
+
 You will need to have [git][16] and [Java][34] installed and you'll
 need some familiarity with the [basics of git][17].
 
