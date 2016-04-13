@@ -866,6 +866,10 @@ Still working.
 > you'll end up with a total of three JVM instance, without counting
 > the one eventually created by your Editor/IDE.
 
+> If you are interested in learning about Emacs and CIDER
+[here are some resources]
+(https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/emacs-cider-references.md).
+
 Now start the CLJS bREPL
 
 ```clj
