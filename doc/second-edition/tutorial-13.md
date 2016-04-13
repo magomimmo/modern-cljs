@@ -589,7 +589,7 @@ of the Shopping Calculator by just parsing the
 
 But wait a minute. We've [already parsed those arguments][21] on the CLJS
 side of the `calculate` function and we don't want to parse them
-again. To reach this DRY objective we need to refactor the code by
+again. To reach this [DRY][36] objective we need to refactor the code by
 moving the parsing code of the fields values from the client side to
 the server side.
 
@@ -856,3 +856,4 @@ License, the same as Clojure.
 [33]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
 [34]: https://en.wikipedia.org/wiki/Mutatis_mutandis
 [35]: https://en.wiktionary.org/wiki/pain_in_the_ass
+[36]: https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
