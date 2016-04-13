@@ -161,7 +161,7 @@ Open the `shopping.clj` source file from the
 The first code refactoring step needed for injecting the validators in
 the form has been very easy.
 
-As soon as you save the file, the TDD environment re-executes the
+As soon as you save the file, the [TDD][19] environment re-executes the
 validators tests for both CLJ and CLJS. 
 
 ## Don't panic with Enlive
@@ -562,7 +562,7 @@ git reset --hard
 ## Next Step - [Tutorial 18 - Augmented TDD Session][14]
 
 In the [next tutorial][14] we're going to complete the client-side
-form validation by exploiting the TDD environment augmented with
+form validation by exploiting the [TDD][19] environment augmented with
 CLJ/CLJS REPLs.
 
 # License
@@ -588,3 +588,4 @@ License, the same as Clojure.
 [16]: https://en.wikipedia.org/wiki/Domain-specific_language
 [17]: https://en.wikipedia.org/wiki/Higher-order_function
 [18]: https://en.wikipedia.org/wiki/User_interface#Types
+[19]: https://en.wikipedia.org/wiki/Test-driven_development
