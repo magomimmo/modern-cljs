@@ -176,14 +176,14 @@ of the login form example from the [previous tutorial][29].
 
 ## [Tutorial 12 - Don't Repeat Yourself][31]
 
-Respect the Don't Repeat Yourself (DRY) principle by sharing
+Respect the [Don't Repeat Yourself (DRY) principle][44] by sharing
 validators between the client-side CLJS and the server-side Clojure.
 
 ## [Tutorial 13 - Better Safe Than Sorry (Part 1)][32]
 
 Set the stage for unit testing by learning about the `Enlive` template
 sytem and starting the shopping calculator example. Use code
-refactoring to satisfy the DRY principle and to solve a cyclic
+refactoring to satisfy the [DRY principle][44] and to solve a cyclic
 namespaces dependency problem.
 
 ## [Tutorial 14 - Better Safe Than Sorry (Part 2)][33]
@@ -270,3 +270,4 @@ License, the same license as Clojure.
 [41]: https://github.com/clojure/clojurescript/wiki/Rationale
 [42]: https://github.com/clojure/clojurescript/wiki/Quick-Start
 [43]: https://en.wikipedia.org/wiki/Unix-like
+[44]: https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
