@@ -381,9 +381,9 @@ git reset --hard
 
 One of our long-term objectives is to eliminate any code duplication
 from our web applications. That's like saying we want to
-comply with the Don't Repeat Yourself (DRY)
-principle. In the [next tutorial][9] we're going to exercise the DRY
-principle while adding a validator library to the project.
+comply with the [Don't Repeat Yourself (DRY)
+principle][12]. In the [next tutorial][9] we're going to exercise the [DRY
+principle][12] while adding a validator library to the project.
 
 # License
 
@@ -399,3 +399,4 @@ License, the same as Clojure.
 [9]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-12.md
 [10]: https://help.github.com/articles/set-up-git
 [11]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
+[12]: https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
