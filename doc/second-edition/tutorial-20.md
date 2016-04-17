@@ -379,7 +379,7 @@ complete updated version of the `build.boot` build file for the
 ```clj
 (set-env!
  :source-paths #{"src"}
- 
+
  :dependencies '[[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.228"]
                  [adzerk/boot-test "1.1.0"]
@@ -393,7 +393,7 @@ complete updated version of the `build.boot` build file for the
 (task-options!
  pom {:project 'org.clojars.magomimmo/valip
       :version "0.4.0-SNAPSHOT"
-      :description "Functional validation library for Clojure and ClojureScript. 
+      :description "Functional validation library for Clojure and ClojureScript.
                     Forked from https://github.com/cemerick/valip"
       :url "http://github.com/magomimmo/valip"
       :scm {:url "http://github.com/magomimmo/valip"}
@@ -504,7 +504,7 @@ with the newly updated one:
 ```clj
 (set-env!
  ...
- 
+
  :dependencies '[
                  ...
                  [org.clojars.<your_github_name>/valip "0.4.0-SNAPSHOT"]
@@ -512,7 +512,7 @@ with the newly updated one:
                  ])
 ```
 
-Next, start the TDD environment as usual:
+Next, start the [TDD][3] environment as usual:
 
 ```bash
 boot tdd
@@ -757,7 +757,7 @@ its main namespace as well:
 ```clj
 (set-env!
  :source-paths #{"src"}
- 
+
  :dependencies '[...
                  [adzerk/bootlaces "0.1.13"]])
 
@@ -786,7 +786,7 @@ Writing pom.xml and pom.properties...
 Writing valip-0.4.0-SNAPSHOT.jar...
 Installing valip-0.4.0-SNAPSHOT.jar...
 CLOJARS_USER and CLOJARS_PASS were not set; please enter your Clojars credentials.
-Username: 
+Username:
 Password:
              clojure.lang.ExceptionInfo: java.lang.AssertionError: Assert failed: current git branch is reader-conditionals but must be master
                                          (or (not ensure-branch) (= b ensure-branch))
@@ -863,7 +863,7 @@ Writing pom.xml and pom.properties...
 Writing valip-0.4.0-SNAPSHOT.jar...
 Installing valip-0.4.0-SNAPSHOT.jar...
 CLOJARS_USER and CLOJARS_PASS were not set; please enter your Clojars credentials.
-Username: 
+Username:
 Password:
              clojure.lang.ExceptionInfo: java.lang.AssertionError: Assert failed: project repo is not clean
                                          (or (not ensure-clean) clean?)
@@ -975,7 +975,7 @@ dependencies scope.
 ```clj
 (set-env!
  :source-paths #{"src"}
- 
+
  :dependencies '[[org.clojure/clojure "1.7.0" :scope "provided"]
                  [org.clojure/clojurescript "1.7.228" :scope "provided"]
                  [adzerk/boot-test "1.1.0" :scope "test"]
@@ -995,7 +995,7 @@ dependencies scope.
  push {:ensure-branch nil}
  pom {:project 'org.clojars.magomimmo/valip
       :version +version+
-      :description "Functional validation library for Clojure and ClojureScript. 
+      :description "Functional validation library for Clojure and ClojureScript.
                     Forked from https://github.com/cemerick/valip"
       :url "http://github.com/magomimmo/valip"
       :scm {:url "http://github.com/magomimmo/valip"}
@@ -1034,13 +1034,13 @@ Writing pom.xml and pom.properties...
 Writing valip-0.4.0-SNAPSHOT.jar...
 Installing valip-0.4.0-SNAPSHOT.jar...
 CLOJARS_USER and CLOJARS_PASS were not set; please enter your Clojars credentials.
-Username: 
+Username:
 Password:
 Deploying valip-0.4.0-SNAPSHOT.jar...
 ```
 
 That's all folks. Stay tune for the next tutorial.
- 
+
 ## Next Step - TBD
 
 # License
@@ -1050,3 +1050,4 @@ License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
+[3]: https://en.wikipedia.org/wiki/Test-driven_development

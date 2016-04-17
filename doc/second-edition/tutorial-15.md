@@ -2,12 +2,12 @@
 
 In the [previous tutorial][1] we introduced the CLJ/CLJS standard way
 to unit test namespaces. To reach that result we dynamically
-altered the `boot` runtime environment. 
+altered the `boot` runtime environment.
 
 In this tutorial we start by freezing that needed change in the `build.boot`
 file. Then we go on to configure a development environment
 that allows a single JVM to simultaneously satisfy the Immediate Feedback
-Principle by Bret Victor and enable Test Driven Development (TDD).
+Principle by Bret Victor and enable [Test Driven Development (TDD)][9].
 
 ## Preamble
 
@@ -38,13 +38,13 @@ Obviously this manual workflow is only acceptable while you're
 learning how to introduce unit testing in your CLJ/CLJS mixed project.
 
 In this tutorial, our objective is to progressively
-reduce as much as possible the number of manual steps. We'll end up 
-with a kind of live development environment that will satisfying 
-Bret Victor's Immediate Feedback Principle and also enable a TDD workflow.
+reduce as much as possible the number of manual steps. We'll end up
+with a kind of live development environment that will satisfying
+Bret Victor's Immediate Feedback Principle and also enable a [TDD][9] workflow.
 reduce as much as possible the number of manual steps. While doing
 that, we'll end up with a kind of live development environment which,
 while satisfying Bret Victor's Immediate Feedback
-Principle, will also enable a TDD workflow.
+Principle, will also enable a [TDD][9] workflow.
 
 ## Testing task
 
@@ -161,8 +161,7 @@ Ran 1 tests containing 13 assertions.
 nil
 ```
 
-Not so bad, but we want more, especially when adopting a Test Driven
-Development (TDD) workflow. Before proceeding to the next step, stop
+Not so bad, but we want more, especially when adopting a [Test Driven Development (TDD)][9] workflow. Before proceeding to the next step, stop
 any `boot` related process.
 
 ## boot-test task
@@ -223,7 +222,7 @@ Ran 1 tests containing 13 assertions.
 0 failures, 0 errors.
 ```
 
-It worked. All the assertions of the sole unit test we defined in 
+It worked. All the assertions of the sole unit test we defined in
 `modern-cljs.shopping.validators-test` have been executed
 and they all succeeded.
 
@@ -232,7 +231,7 @@ nothing to offer for CLJS. Later we'll add support for CLJS testing as well.
 
 ## CLJ TDD
 
-While we are making good progress, we still want to create a TDD-style
+While we are making good progress, we still want to create a [TDD][9]-style
 workflow. Any time you modify your source code the corresponding unit
 tests should be executed again.
 
@@ -305,7 +304,7 @@ Elapsed time: 0.473 sec
 
 As you see, the `watch` task triggered the unit tests to run and
 the modified assertion pertaining to the `Happy Path`
-failed. Correct it and save the file again. 
+failed. Correct it and save the file again.
 
 ```bash
 Testing modern-cljs.shopping.validators-test
@@ -316,12 +315,12 @@ Elapsed time: 0.252 sec
 ```
 
 Even though, for now, we're only dealing with CLJ files, our plan for supporting
-the TDD workflow seems to be working. But we are missing the CLJ REPL experience
+the [TDD][9] workflow seems to be working. But we are missing the CLJ REPL experience
 offered by IFDE.
 
-Could we have both of them? I have nothing against TDD approach, but
-once you experienced a CLJ/CLJS REPL you'd like to have it available 
-regardless of development style (TDD or otherwise).
+Could we have both of them? I have nothing against [TDD][9] approach, but
+once you experienced a CLJ/CLJS REPL you'd like to have it available
+regardless of development style ([TDD][9] or otherwise).
 
 For the moment, we'll postpone this requirement until
 later paragraphs. Indeed, we'd like first to replicate on the CLJS platform
@@ -331,7 +330,7 @@ Before proceeding with next step, stop the above `boot` process.
 
 ## CLJS TDD
 
-If you want to test CLJS code, sooner or later you will end up 
+If you want to test CLJS code, sooner or later you will end up
 testing the emitted JS in a headless browser. The most famous of them
 all is [PhantomJS][2] which is based on [WebKit][3].
 
@@ -348,7 +347,7 @@ variable.
 
 ## boot-cljs-test
 
-To be able to run CLJS unit tests with the same TDD workflow we
+To be able to run CLJS unit tests with the same [TDD][9] workflow we
 used for CLJ unit testing, you need to add to `build.boot`
 the `boot-cljs-test` task specifically devoted for CLJS, which is
 compatible with a plethora of JS Engines, including [PhantomJS][2].
@@ -397,7 +396,7 @@ Options:
 At first glance, it looks like we should be interested in two options:
 
 * `-e, --js-env` (i.e. `:js-env` inside `build.boot`), setting the
-  JS engine to use for running tests 
+  JS engine to use for running tests
 * `-n, --namespaces` (i.e. `:namespaces` inside `build.boot`),
   setting the namespaces for which unit tests will be run
 
@@ -445,7 +444,7 @@ the `main.js` JS file as the `boot-cljs` task did, it generates the
 `output.js` JS file.
 
 Now repeat the same experiments we did previously by modifying the
-unit test assertion in 
+unit test assertion in
 `test/cljc/shopping/validators-test.cljc` to verify that `boot` will
 recompile any changed files and rerun the unit tests as soon as we save
 a file:
@@ -511,17 +510,17 @@ passing. Before proceeding to the next step, stop the `boot` process.
 ## More automation
 
 Even though we've gotten good results with CLJ and CLJS unit
-testing and the TDD workflow, there are still some things
+testing and the [TDD][9] workflow, there are still some things
 we'd like to improve:
 
 1. We'd like to combine the CLJ/CLJS unit testing into a single `boot`
   command, which means in a single JVM;
 1. In turn, we'd like to combine the combined command with the `boot
-  dev` command, again to use a single JVM; 
+  dev` command, again to use a single JVM;
 1. We'd like to call the `boot` command with some sane defaults to
    reduce its length and the options we have to remember.
 
-Let's start with the first goal. 
+Let's start with the first goal.
 
 ## TDD task
 
@@ -529,14 +528,14 @@ As we have previously seen, the composable nature of `boot` tasks allows
 us to define a new task that is the result of the composition of other
 previously defined tasks.
 
-Let's try to define a new `tdd` (Test Driven Development) task which
+Let's try to define a new `tdd` ([Test Driven Development][9]) task which
 combines the `test` and the `cljs-test` tasks.
 
 ```clj
-(deftask tdd 
+(deftask tdd
   "Launch a TDD Environment"
   []
-  (comp 
+  (comp
    (testing)
    (watch)
    (test-cljs :update-fs? true :js-env :phantom :namespaces '#{modern-cljs.shopping.validators-test})
@@ -549,7 +548,7 @@ combines the `test` and the `cljs-test` tasks.
 > after the `test-cljs` task. The order of the two unit testing tasks
 > is important. A subsequent tutorial will better explain the Task
 > Options [DSL][8] used by `boot` to
-> offer the same options at the command line and as it does 
+> offer the same options at the command line and as it does
 > in the `build.boot` file.
 
 Place the new task definition in `build.boot` after the
@@ -585,7 +584,7 @@ ran the CLJS unit tests and finally ran on the JVM the same unit tests
 contained in the `modern-cljs.shopping.valuators-test` namespace.
 
 The results are exactly the expected ones. All the assertions
-succeeded on both the CLJS and CLJ platforms. 
+succeeded on both the CLJS and CLJ platforms.
 
 Now force again a failure for one of the assertions in the
 `validators_test.cljs`:
@@ -681,14 +680,14 @@ Elapsed time: 2.033 sec
 ```
 
 We again obtained the expected results, and we also addressed the first
-item in the above nice-to-have list: a TDD environment
+item in the above nice-to-have list: a [TDD][9] environment
 for both CLJ and CLJS running in the same JVM. Before proceeding with the
 next step, stop the `boot` process.
 
 ## A single JVM instance, multiple tasks
 
 As we said at the beginning of this series, one of the most attractive
-features of the `boot` build tool, compared with `leiningen`, 
+features of the `boot` build tool, compared with `leiningen`,
 is its ability to run multiple tasks in the same JVM without
 them interfering with each other. We have already unified the CLJ and the CLJS unit
 testing tasks. Let's see if we are also able to run
@@ -733,7 +732,7 @@ options, the remaining `-O`, `-o` and `-c` options seem to deal with
 the CLJS compiler options.
 
 At the moment we're only interested in the `-o` (i.e. `:out-file` when
-used inside `build.boot`) option, because it is the option for setting 
+used inside `build.boot`) option, because it is the option for setting
 the name of JS file generated by the CLJS compiler. As we previously saw while
 playing with the newly defined `tdd` task, the default filename is
 `output.js`.
@@ -757,7 +756,7 @@ Here is the updated `tdd` task definition. Please substitute it for the
 previous one in `build.boot`:
 
 ```clj
-(deftask tdd 
+(deftask tdd
   []
   (comp
    (serve :handler 'modern-cljs.core/app
@@ -767,8 +766,8 @@ previous one in `build.boot`:
    (watch)
    (reload)
    (cljs-repl)
-   (test-cljs :out-file "main.js" 
-              :js-env :phantom 
+   (test-cljs :out-file "main.js"
+              :js-env :phantom
               :namespaces '#{modern-cljs.shopping.validators-test}
               :update-fs? true)
    (test :namespaces '#{modern-cljs.shopping.validators-test})
@@ -779,7 +778,7 @@ previous one in `build.boot`:
 
 OK, we're ready. Let's see if we were able to build a development
 environment that simultaneously satisfies Bret Victor's Immediate
-Feedback Principle and enables the TDD workflow for both
+Feedback Principle and enables the [TDD][9] workflow for both
 the client and the server code. And, all of that should run
 in a single JVM.
 
@@ -834,7 +833,7 @@ usual:
 # from a new terminal
 boot repl -c
 ...
-boot.user> 
+boot.user>
 ```
 
 And play with it
@@ -1002,7 +1001,7 @@ git reset --hard
 # [Next Step - Tutorial 16 - On pleasing TDD practitioners][5]
 
 In the [next tutorial][5] we're going to make the `tdd` task more
-customizable in order to please TDD practitioners.
+customizable in order to please [TDD][9] practitioners.
 
 Copyright © Mimmo Cosenza, 2012-2016. Released under the Eclipse Public
 License, the same as Clojure.
@@ -1015,3 +1014,4 @@ License, the same as Clojure.
 [6]: https://en.wikipedia.org/wiki/Unix-like
 [7]: https://en.wikipedia.org/wiki/Mutatis_mutandis
 [8]: https://en.wikipedia.org/wiki/Domain-specific_language
+[9]: https://en.wikipedia.org/wiki/Test-driven_development

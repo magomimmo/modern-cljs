@@ -55,7 +55,7 @@ Let's look at `src/clj/modern_cljs/core.clj` and `src/clj/modern_cljs/templates/
 
   (resources "/" {:root "target"})      ; to serve anything else
   (not-found "Page Not Found"))
-  
+
 ```
 
 ```clj
@@ -73,7 +73,7 @@ The `/shopping` URI is linked to the `shopping` function.
 
 However, as we saw in the
 [Tutorial 14 - Better safe than sorry (Part 2)][4], we can easily
-break the `shoppingForm` simply by entering a non-numeric value, 
+break the `shoppingForm` simply by entering a non-numeric value,
 because the `calculate` function is only able to deal with
 stringified numbers.
 
@@ -125,7 +125,7 @@ boot.user=>
 ```
 
 [Disable JavaScript][15] and visit the
-[Shopping Calculator](http://localhost:3000/shopping.html) URI. 
+[Shopping Calculator](http://localhost:3000/shopping.html) URI.
 
 Open the `shopping.clj` source file from the
 `src/clj/modern_cljs/templates` directory and modify it as follows.
@@ -161,8 +161,8 @@ Open the `shopping.clj` source file from the
 The first code refactoring step needed for injecting the validators in
 the form has been very easy.
 
-As soon as you save the file, the TDD environment re-executes the
-validators tests for both CLJ and CLJS. 
+As soon as you save the file, the [TDD][19] environment re-executes the
+validators tests for both CLJ and CLJS.
 
 ## Don't panic with Enlive
 
@@ -379,7 +379,7 @@ Wahoo! It worked and we're now ready to apply what we've learned by
 REPLing with the `sniptest` macro.
 
 > NOTE 3: Enlive selector syntax offers a disjunction rule too, but
-> we're not using it in this tutorial. This rule uses the set syntax 
+> we're not using it in this tutorial. This rule uses the set syntax
 > `#{ [selector 1] [selector 2] ... [selector n] }` to indicate
 > disjunction between selectors.
 
@@ -506,19 +506,19 @@ the entire content of the `shopping.clj` source file.
 (deftemplate update-shopping-form "shopping.html"
   [q p t d errors]
 
-  ; select and transform input label 
+  ; select and transform input label
   [[:label (attr= :for "quantity")]]  (maybe-error (first (:quantity errors)))
   [[:label (attr= :for "price")]]     (maybe-error (first (:price errors)))
   [[:label (attr= :for "tax")]]       (maybe-error (first (:tax errors)))
   [[:label (attr= :for "discount")]]  (maybe-error (first (:discount errors)))
 
-  ; select and transform input value 
+  ; select and transform input value
   [:#quantity]  (set-attr :value q)
   [:#price]     (set-attr :value p)
   [:#tax]       (set-attr :value t)
   [:#discount]  (set-attr :value d)
 
-  ; select and transform total 
+  ; select and transform total
   [:#total] (if errors
               (set-attr :value "0.00")
               (set-attr :value (format "%.2f" (double (calculate q p t d))))))
@@ -562,7 +562,7 @@ git reset --hard
 ## Next Step - [Tutorial 18 - Augmented TDD Session][14]
 
 In the [next tutorial][14] we're going to complete the client-side
-form validation by exploiting the TDD environment augmented with
+form validation by exploiting the [TDD][19] environment augmented with
 CLJ/CLJS REPLs.
 
 # License
@@ -588,3 +588,4 @@ License, the same as Clojure.
 [16]: https://en.wikipedia.org/wiki/Domain-specific_language
 [17]: https://en.wikipedia.org/wiki/Higher-order_function
 [18]: https://en.wikipedia.org/wiki/User_interface#Types
+[19]: https://en.wikipedia.org/wiki/Test-driven_development
