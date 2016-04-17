@@ -102,6 +102,11 @@ need some familiarity with the [basics of git][17].
 Community created clojure documentation sites that you may find helpful are
 [clojuredocs](http://clojuredocs.org/) and [Grimoire](https://www.conj.io/).
 
+## Libraries and tools
+
+[Clojure Toolbox](http://www.clojure-toolbox.com/) is a directory of
+libraries and tools for CLJ/CLJS.
+
 ## Why the name Modern ClojureScript?
 
 You might wonder why this tutorial series is named `modern-cljs` when
