@@ -2,7 +2,7 @@
 
 In the [previous tutorial][1] we looked at the problem of using a
 single JVM to run multiple `boot` tasks supporting Bret Victor's
-Immediate Feedback Principle and the Test Driven Development (TDD)
+Immediate Feedback Principle and the [Test Driven Development (TDD)][6]
 workflow. While we are approaching that objective, we have ended up
 with a few questions about the `tdd` task we defined. Namely, is it
 possible to define the `tdd` task so that it is parameterizable, while
@@ -27,8 +27,8 @@ git checkout se-tutorial-15
 
 While I have never started a new program by first writing a failing
 test, that has more to do with my age than with my opinion about
-TDD. That said, the workflow induced from the `tdd` task we ended up
-in the [previous tutorial][1] would be criticized by any TDD
+[TDD][6]. That said, the workflow induced from the `tdd` task we ended up
+in the [previous tutorial][1] would be criticized by any [TDD][6]
 practitioner.  We'd like to please them a little bit more than at
 present.
 
@@ -232,7 +232,7 @@ well:
   identity)
 ```
 
-> NOTE 1: Here I used the `merge-env!` function instead of 
+> NOTE 1: Here I used the `merge-env!` function instead of
 > `set-env!` since I think it makes the code easier to be read.
 
 
@@ -260,8 +260,8 @@ previous `testing` task in the `tdd` task definition:
    (watch)
    (reload)
    (cljs-repl)
-   (test-cljs :out-file "main.js" 
-              :js-env :phantom 
+   (test-cljs :out-file "main.js"
+              :js-env :phantom
               :namespaces '#{modern-cljs.shopping.validators-test}
               :update-fs? true)
    (test :namespaces '#{modern-cljs.shopping.validators-test})
@@ -277,7 +277,7 @@ to the `:source-paths` variable.
 (deftask tdd
   "Launch a customizable TDD Environment"
   [t dirs PATH #{str} "test paths"]
-  (let [dirs (or dirs #{"test/cljc" "test/clj" "test/cljs"})] 
+  (let [dirs (or dirs #{"test/cljc" "test/clj" "test/cljs"})]
     (comp
      (serve :handler 'modern-cljs.core/app
             :resource-root "target"
@@ -286,8 +286,8 @@ to the `:source-paths` variable.
      (watch)
      (reload)
      (cljs-repl)
-     (test-cljs :out-file "main.js" 
-                :js-env :phantom 
+     (test-cljs :out-file "main.js"
+                :js-env :phantom
                 :namespaces '#{modern-cljs.shopping.validators-test}
                 :update-fs? true)
      (test :namespaces '#{modern-cljs.shopping.validators-test})
@@ -625,8 +625,8 @@ We are now ready to add the `-k` and `-v` options to the `tdd` task definition.
      (watch :verbose verbose)
      (reload)
      (cljs-repl)
-     (test-cljs :out-file "main.js" 
-                :js-env :phantom 
+     (test-cljs :out-file "main.js"
+                :js-env :phantom
                 :namespaces '#{modern-cljs.shopping.validators-test}
                 :update-fs? true)
      (test :namespaces '#{modern-cljs.shopping.validators-test})
@@ -772,7 +772,7 @@ The `-p` option is very easy to use as well.
 ```
 
 I will leave it to you to verify the working of the `port` option
-(note the `int` type hint) when starting the `tdd` task.  Before 
+(note the `int` type hint) when starting the `tdd` task.  Before
 proceeding to the next step, stop the `boot` process.
 
 ## Add CLJS compilation options
@@ -795,12 +795,12 @@ like the previous ones. Here is the updated `tdd` task definition:
 ```clj
 (deftask tdd
   "Launch a customizable TDD Environment"
-  [e testbed        ENGINE kw     "The JS testbed engine (default phantom)" 
+  [e testbed        ENGINE kw     "The JS testbed engine (default phantom)"
    k httpkit               bool   "Use http-kit web server (default jetty)"
    o output-to      NAME   str    "The JS output file name for test (default main.js)"
    O optimizations  LEVEL  kw     "The optimization level (default none)"
    p port           PORT   int    "The web server port to listen on (default 3000)"
-   t dirs           PATH   #{str} "Test paths (default test/clj test/cljs test/cljc)"   
+   t dirs           PATH   #{str} "Test paths (default test/clj test/cljs test/cljc)"
    v verbose               bool   "Print which files have changed (default false)"]
   (let [dirs        (or dirs #{"test/cljc" "test/clj" "test/cljs"})
         output-to   (or output-to "main.js")
@@ -815,8 +815,8 @@ like the previous ones. Here is the updated `tdd` task definition:
      (watch :verbose verbose)
      (reload)
      (cljs-repl)
-     (test-cljs :out-file       output-to 
-                :js-env         testbed 
+     (test-cljs :out-file       output-to
+                :js-env         testbed
                 :namespaces     '#{modern-cljs.shopping.validators-test}
                 :update-fs?     true
                 :optimizations  optimizations)
@@ -828,7 +828,7 @@ Please note how we exploited the idiomatic way of using the `let`
 and `or` forms to set default arguments for the `dirs`, `output-to` and
 the `testbed` options.
 
-You may now test the `tdd` task experiment with the various options 
+You may now test the `tdd` task experiment with the various options
 at the command line.
 
 Below we call the `tdd` task without any options,
@@ -875,13 +875,13 @@ generated JS code quickly became a [PITA][4].
 
 These incidental complexities are now gone. You still have `none`,
 `whitespace`, `simple` and `advanced` optimization modes available, but the CLJS
-compiler is 
+compiler is
 [now able to handle on its own](https://github.com/clojure/clojurescript/wiki/Compiler-Options#main)
 the addition of the needed Google Closure Libraries when you set the
 optimization mode to `none`.
 
 The `source-map` feature, which is activated by default with the
-`none` optimization mode, can also be set for the other optimization modes. 
+`none` optimization mode, can also be set for the other optimization modes.
 As a result, debugging CLJS code using the
 development tools available in your browser is now as simple as with plain JS code.
 
@@ -905,7 +905,7 @@ locations in the original ClojureScript source files.
 ```
 
 The most intriguing compiler optimization mode (or level) is the
-`advanced` one. Do you remember, in 
+`advanced` one. Do you remember, in
 [Tutorial 6 - The Easy Made Complex and the Simple Made Easy,](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-06.md)
 we introduced the `:export` metadata to allow the `init` function to
 be called from JS scripts in an HTML page? The reason for the
@@ -923,7 +923,7 @@ the parts of the resulting JS code required by a given application.
 We're not going to explain right now how this new `modules` option works, but
 we'll come back to it in a later tutorial.
 
-For the moment, we suggest that you use the `-O` flag to test 
+For the moment, we suggest that you use the `-O` flag to test
 the various CLJS compiler optimizations for the `tdd` task:
 
 ```bash
@@ -1237,7 +1237,7 @@ both the CLJ and CLJS engines.
 
 ## Give up?
 
-I am not a TDD practitioner, but if I were, I would consider it
+I am not a [TDD][6] practitioner, but if I were, I would consider it
 unacceptable to be forced to restart the development environment every
 time I added a new unit test file. Unfortunately, this is what the
 `tdd` task requires if we launch it by specifying the initial test
@@ -1290,11 +1290,11 @@ function:
 
 (deftest user-credential-errors-test
   (testing "Login Form Validation"
-    
+
     (testing "/ Happy Path"
       (are [expected actual] (= expected actual)
         nil (user-credential-errors "me@me.com" "weak1")))
-    
+
     (testing "/ Email presence"
       (are [expected actual] (= expected actual)
         "Email can't be empty."
@@ -1437,7 +1437,7 @@ Here is the reworked `build.boot` file:
                   [adzerk/boot-test                    "1.0.7"]
                   [adzerk/boot-reload                  "0.4.2"]
                   [adzerk/boot-cljs-repl               "0.3.0"]            ; add bREPL
-                  [com.cemerick/piggieback             "0.2.1"]            ; needed by bREPL 
+                  [com.cemerick/piggieback             "0.2.1"]            ; needed by bREPL
                   [compojure                           "1.4.0"]            ; for routing
                   [crisptrutski/boot-cljs-test         "0.2.1-SNAPSHOT"]
                   [enlive                              "1.1.6"]
@@ -1472,13 +1472,13 @@ Here is the reworked `build.boot` file:
 
 (deftask tdd
   "Launch a customizable TDD Environment"
-  [e testbed        ENGINE kw     "the JS testbed engine (default phantom)" 
+  [e testbed        ENGINE kw     "the JS testbed engine (default phantom)"
    k httpkit               bool   "Use http-kit web server (default jetty)"
    n namespaces     NS     #{sym} "the set of namespace symbols to run tests in"
    o output-to      NAME   str    "the JS output file name for test (default main.js)"
    O optimizations  LEVEL  kw     "the optimization level (default none)"
    p port           PORT   int    "the web server port to listen on (default 3000)"
-   t dirs           PATH   #{str} "test paths (default test/clj test/cljs test/cljc)"   
+   t dirs           PATH   #{str} "test paths (default test/clj test/cljs test/cljc)"
    v verbose               bool   "Print which files have changed (default false)"]
   (let [dirs        (or (:test-dirs defaults))
         output-to   (or output-to (:output-to defaults))
@@ -1494,15 +1494,15 @@ Here is the reworked `build.boot` file:
      (watch :verbose verbose)
      (reload)
      (cljs-repl)
-     (test-cljs :out-file output-to 
-                :js-env testbed 
+     (test-cljs :out-file output-to
+                :js-env testbed
                 :namespaces namespaces
                 :update-fs? true
                 :optimizations optimizations)
      (test :namespaces namespaces)
      (target :dir #{"target"}))))
 
-(deftask dev 
+(deftask dev
   "Launch immediate feedback dev environment"
   []
   (comp
@@ -1531,13 +1531,13 @@ We also set default values using `let` and `or`:
 ```clj
 (deftask tdd
   "Launch a customizable TDD Environment"
-  [e testbed        ENGINE kw     "the JS testbed engine (default phantom)" 
+  [e testbed        ENGINE kw     "the JS testbed engine (default phantom)"
    k httpkit               bool   "Use http-kit web server (default jetty)"
    n namespaces     NS     #{sym} "the set of namespace symbols to run tests in"
    o output-to      NAME   str    "the JS output file name for test (default main.js)"
    O optimizations  LEVEL  kw     "the optimization level (default none)"
    p port           PORT   int    "the web server port to listen on (default 3000)"
-   t dirs           PATH   #{str} "test paths (default test/clj test/cljs test/cljc)"   
+   t dirs           PATH   #{str} "test paths (default test/clj test/cljs test/cljc)"
    v verbose               bool   "Print which files have changed (default false)"]
   (let [dirs        (or (:test-dirs defaults))
         output-to   (or output-to (:output-to defaults))
@@ -1548,7 +1548,7 @@ We also set default values using `let` and `or`:
 ```
 
 There is one last thing to consider. The time taken by the `tdd` task
-to run the unit tests may be judged unacceptably long by a strict TDD
+to run the unit tests may be judged unacceptably long by a strict [TDD][6]
 practitioner, since it requires more than 1-10 seconds. In the `tdd`
 task, most of the time is spent in the `test` task to process
 namespaces which don't contain any tests, and also internally in the
@@ -1580,5 +1580,4 @@ License, the same as Clojure.
 [3]: https://en.wikipedia.org/wiki/Domain-specific_language
 [4]: https://en.wiktionary.org/wiki/pain_in_the_ass
 [5]: https://en.wikipedia.org/wiki/User_interface#Types
-
-
+[6]: https://en.wikipedia.org/wiki/Test-driven_development

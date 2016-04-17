@@ -10,8 +10,8 @@ is necessary. How much testing is needed? It depends.
 I have to admit that I have never created a program by first writing a
 failing unit test, then writing the code to make the test
 succeed. When you are as old as I am, you can't change your
-habits. So, if you are religious about TDD/BDD (Test-Driven
-Development and Behavior-Driven Development), please forgive me.
+habits. So, if you are religious about [TDD (Test-Driven
+Development)][37] / [BDD (Behavior-Driven Development)][38], please forgive me.
 
 Nowadays, using functional programming languages like CLJ/CLJS, the
 unit tests are much easier to implement, compared with
@@ -218,8 +218,8 @@ button and this URI does not exist.
 ### A kind of TDD
 
 By modifying the `shopping.html` file and disabling the JavaScript
-from the browser, we have just exercised a kind of TDD (Test-Driven
-Development) approach.
+from the browser, we have just exercised a kind of [TDD (Test-Driven
+Development)][37] approach.
 
 To fix the failure we just met, we need to add a route for the
 "/shopping" request to the `defroutes` macro call.
@@ -280,16 +280,16 @@ Open the `shopping.cljs` file and modify the function associated with the
 (defn ^:export init []
   (when (and js/document
              (aget js/document "getElementById"))
-    (listen! (by-id "calc") 
-             :click 
+    (listen! (by-id "calc")
+             :click
              (fn [evt] (calculate evt)))
-    (listen! (by-id "calc") 
-             :mouseover 
+    (listen! (by-id "calc")
+             :mouseover
              (fn []
                (append! (by-id "shoppingForm")
                         (html [:div.help "Click to calculate"]))))
-    (listen! (by-id "calc") 
-             :mouseout 
+    (listen! (by-id "calc")
+             :mouseout
              (fn []
                (destroy! (by-class "help"))))))
 ```
@@ -323,11 +323,11 @@ requirement as follows:
 
 ```clj
 (ns modern-cljs.shopping
-  (:require [domina.core :refer [append! 
+  (:require [domina.core :refer [append!
                                  by-class
-                                 by-id 
-                                 destroy! 
-                                 set-value! 
+                                 by-id
+                                 destroy!
+                                 set-value!
                                  value]]
             [domina.events :refer [listen! prevent-default]]
             [hiccups.runtime]
@@ -422,7 +422,7 @@ As you perhaps remember from the tutorial introducing Ajax, in `build.boot`
 the `serve` task had its `:resource-root` set to the `"target"` directory.
 
 ```clj
-(deftask dev 
+(deftask dev
   "Launch immediate feedback dev environment"
   []
   (comp
@@ -443,7 +443,7 @@ For the `name` argument, we're going to use the same POST
 route (i.e. `shopping`) previously defined inside the `defroutes`
 macro.
 
-Then, the `args` to be passed to `deftemplate` are the same ones as 
+Then, the `args` to be passed to `deftemplate` are the same ones as
 in the `"/shopping"` POST route: `[quantity price tax discount]`.
 
 Finally, regarding the `& forms` arguments, start by using
@@ -491,7 +491,7 @@ update its namespace declaration and substitute the `(str "You enter:
 to the newly defined `shopping` function.
 
 ```clj
-(ns modern-cljs.core 
+(ns modern-cljs.core
   (:require [compojure.core :refer [defroutes GET POST]]
             [compojure.route :refer [not-found files resources]]
             [modern-cljs.login :refer [authenticate-user]]
@@ -553,7 +553,7 @@ selector clause and the trasformation function for each input field:
 ```clojure
 (ns modern-cljs.templates.shopping
   (:require [net.cgrand.enlive-html :refer [deftemplate set-attr]]))
-  
+
 (deftemplate shopping "shopping.html"
   [quantity price tax discount]
   [:#quantity] (set-attr :value quantity)
@@ -603,7 +603,7 @@ the client side `calculate` function.
         tax         (read-string (value (by-id "tax")))
         discount    (read-string (value (by-id "discount"))) ]
     (remote-callback :calculate
-                     [quantity price tax discount] 
+                     [quantity price tax discount]
                      #(set-value! (by-id "total") (.toFixed % 2)))
     (prevent-default evt)))
 ```
@@ -668,7 +668,7 @@ Open and modify the above file as follows:
 (ns modern-cljs.templates.shopping
   (:require [net.cgrand.enlive-html :refer [deftemplate set-attr]]
             [modern-cljs.remotes :refer [calculate]]))
-    
+
 (deftemplate shopping "shopping.html"
   [quantity price tax discount]
   [:#quantity] (set-attr :value quantity)
@@ -724,7 +724,7 @@ have removed both the reference to the `modern-cljs.core` namespace
 and the `app` symbol definition.
 
 ```clj
-(ns modern-cljs.remotes 
+(ns modern-cljs.remotes
   (:require [modern-cljs.login.validators :as v]
             [shoreleave.middleware.rpc :refer [defremote]]))
 
@@ -748,7 +748,7 @@ able to reference `wrap-rpc` and `site` symbols in the `app`
 definition. Following is the modified content of the `core.clj` file.
 
 ```clj
-(ns modern-cljs.core 
+(ns modern-cljs.core
   (:require [compojure.core :refer [defroutes GET POST]]
             [compojure.route :refer [not-found files resources]]
             [compojure.handler :refer [site]]
@@ -776,7 +776,7 @@ the namespace of the `app` symbol in the `:handler` section of the
 `serve` task.
 
 ```clj
-(deftask dev 
+(deftask dev
   "Launch immediate feedback dev environment"
   []
   (comp
@@ -800,8 +800,8 @@ boot dev
 Elapsed time: 19.405 sec
 ```
 
-Visit the [shopping][2] URI and play with the form by 
-[enabling and disabling the JavaScript engine][33] of your browser. 
+Visit the [shopping][2] URI and play with the form by
+[enabling and disabling the JavaScript engine][33] of your browser.
 Everything should work as expected in both the scenarios.
 
 When you're done, kill the `boot` process and reset your git
@@ -857,3 +857,5 @@ License, the same as Clojure.
 [34]: https://en.wikipedia.org/wiki/Mutatis_mutandis
 [35]: https://en.wiktionary.org/wiki/pain_in_the_ass
 [36]: https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
+[37]: https://en.wikipedia.org/wiki/Test-driven_development
+[38]: https://en.wikipedia.org/wiki/Behavior-driven_development

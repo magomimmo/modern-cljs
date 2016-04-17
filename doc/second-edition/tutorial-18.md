@@ -27,7 +27,7 @@ the Shopping Calculator into the client-side [WUI][5].
 
 While there is nothing really new to be learned in this tutorial about
 CLJS, it represents a good opportunity to see at work the live coding
-TDD environment we setup in the
+[TDD][6] environment we setup in the
 [Tutorial 16 - On pleasing TDD practitioners][2]
 
 As said by [Fogus](http://www.fogus.me/), the author of
@@ -47,7 +47,7 @@ This statement is particularly true when you deal with OSS (Open
 Source Software) libraries which are frequently updated without
 their corresponding documentation been updated as well.
 
-Even if you are a TDD practitioner, which means that you start coding
+Even if you are a [TDD][6] practitioner, which means that you start coding
 from a failing test, you still need to know and to understand your
 programming language and the libraries you're going to use to fix the
 failed tests and to refactor your code to obtain a cleaner and more
@@ -57,7 +57,7 @@ code from a test that has to fail.
 
 ## Start TDD
 
-Start TDD environment:
+Start [TDD][6] environment:
 
 ```bash
 cd /path/to/modern-cljs
@@ -69,7 +69,7 @@ Elapsed time: 26.573 sec
 ### Start CLJ REPL
 
 Now launch the client REPL as usual
- 
+
 ```bash
 # from a new terminal
 cd /path/to/modern-cljs
@@ -95,7 +95,7 @@ Writing boot_cljs_repl.cljs...
  connected! >>
 To quit, type: :cljs/quit
 nil
-cljs.user=> 
+cljs.user=>
 ```
 
 and you're ready to go.
@@ -212,7 +212,7 @@ with the `email` and `password` input of the `Login Form`:
       (append! (by-id "loginForm") (html [:div.help.password (first errors)]))
       false)
     true))
-    
+
 (defn ^:export init []
   (if (and ...)
     (let [email (by-id "email")
@@ -230,7 +230,7 @@ start adding new test assertions for the `quantity` input of the
 Shopping Calculator form:
 
 ```clj
-(deftest validate-shopping-quantity-test 
+(deftest validate-shopping-quantity-test
   (testing "Shopping Form Quantity Validation"
     (testing "/ Happy Path"
       (are [expected actual] (= expected actual)
@@ -283,7 +283,7 @@ As soon as you save the file, you'll again receive an expected error:
 ```bash
 ...
 adzerk.boot_cljs.util.proxy$clojure.lang.ExceptionInfo$ff19274a: Referred var modern-cljs.shopping.validators/validate-shopping-quantity does not exist
-    ...    
+    ...
 Elapsed time: 0.275 sec
 ```
 
@@ -357,8 +357,8 @@ general `validate-shopping-field` receiving a field (e.g.,
 arguments.
 
 To implement `validate-shopping-field` we could use one of the
-CLJ/CLJS conditional forms: `cond`, `condp` or`case`. Perhaps we do 
-not remember how they work well enough to choose the one that best 
+CLJ/CLJS conditional forms: `cond`, `condp` or`case`. Perhaps we do
+not remember how they work well enough to choose the one that best
 fits our case. Don't worry, we have the REPL to experiment
 with them:
 
@@ -515,7 +515,7 @@ cljs.user> (let [field :quantity
 
 Now that we understood a little bit better our beloved CLJ/CLJS
 programming language by experimenting with it at the REPL while
-following a TDD approach, go back to the
+following a [TDD][6] approach, go back to the
 `modern-cljs.shopping.validators` namespace and substitute the
 previously defined `validate-shopping-quantity` validator with a more
 general one as follows:
@@ -561,7 +561,7 @@ still referenced in the test file. Let's fix it
 
 ;;; ...
 
-(deftest validate-shopping-field-test 
+(deftest validate-shopping-field-test
   (testing "Shopping Form Fields Validation"
     ;; happy path
     (testing "/ Happy Path"
@@ -628,7 +628,7 @@ the newly defined fields validators.
 
 ## Fill the Gap
 
-In the previous paragraph we experimented with an augmented TDD workflow by
+In the previous paragraph we experimented with an augmented [TDD][6] workflow by
 interleaving a few experiments with the language in the REPL while
 satisfying a few tests and consequently refactoring some code. But we
 still have to attach the newly defined individual field validators to
@@ -637,7 +637,7 @@ the Shopping Calculator. Let's do that.
 ## Inject the validators
 
 To inject the individual validators for the input fields of the
-Shopping Calculator I'm not going to use a TDD workflow, but you could.
+Shopping Calculator I'm not going to use a [TDD][6] workflow, but you could.
 
 Let's start from the `quantity` input field. We'd like to mimic the
 same effect we reached on the server-side [WUI][5]. For example, if the
@@ -690,11 +690,11 @@ Open the `src/cljs/modern_cljs/shopping.cljs` source file and add the
 
 ```clj
 (ns modern-cljs.shopping
-  (:require [domina.core :refer [append! 
+  (:require [domina.core :refer [append!
                                  by-class
-                                 by-id 
-                                 destroy! 
-                                 set-value! 
+                                 by-id
+                                 destroy!
+                                 set-value!
                                  value]]
             [domina.events :refer [listen! prevent-default]]
             [domina.css :refer [sel]] ;; domina css selector
@@ -822,18 +822,18 @@ Let's now attach a listener for the `blur` event to each field of the form:
                (fn [_] (validate-shopping-field! :discount discount-text))))
 
     ;; calculate
-    (listen! (by-id "calc") 
-             :click 
+    (listen! (by-id "calc")
+             :click
              (fn [evt] (calculate! evt)))
     ;; show help
-    (listen! (by-id "calc") 
-             :mouseover 
+    (listen! (by-id "calc")
+             :mouseover
              (fn []
                (append! (by-id "shoppingForm")
                         (html [:div#help.help "Click to calculate"]))))  ;; hiccups
     ;; remove help
-    (listen! (by-id "calc") 
-             :mouseout 
+    (listen! (by-id "calc")
+             :mouseout
              (fn []
                (destroy! (by-id "help"))))))
 ```
@@ -935,7 +935,7 @@ work by playing with the Shopping Form.
 ## On Improving UX (User eXperience)
 
 One more thing: while playing with the Shopping Calculator, you need to click
-the `Calculate` button to calculate the total anytime you change an input value. 
+the `Calculate` button to calculate the total anytime you change an input value.
 We could improve the user experience of the Shopping Calculator and it's
 very easy too. I leave to you to understand the following final code
 for improving the Shopping Calculator UX.
@@ -944,9 +944,9 @@ for improving the Shopping Calculator UX.
 ```clj
 (ns modern-cljs.shopping
   (:require [domina.core :refer [add-class!
-                                 append! 
+                                 append!
                                  by-class
-                                 by-id 
+                                 by-id
                                  destroy!
                                  remove-class!
                                  set-value!
@@ -982,10 +982,10 @@ for improving the Shopping Calculator UX.
       (do
         (add-class! label "help")
         (set-text! label error))
-      (do 
+      (do
         (set-text! label text)
         (calculate!)               ;; trigger the calculation
-        (prevent-default evt)))))  ;; and prevent default submission 
+        (prevent-default evt)))))  ;; and prevent default submission
 
 (defn ^:export init []
   (when (and js/document
@@ -1011,24 +1011,24 @@ for improving the Shopping Calculator UX.
       (listen! (by-id "discount")
                :input
                (fn [evt] (validate-shopping-field! evt :discount discount-text))))
-    (listen! (by-id "calc") 
-             :click 
-             (fn [evt] 
+    (listen! (by-id "calc")
+             :click
+             (fn [evt]
                (calculate!)
                (prevent-default evt)))
-    (listen! (by-id "calc") 
-             :mouseover 
+    (listen! (by-id "calc")
+             :mouseover
              (fn [_]
                (append! (by-id "shoppingForm")
                         (html [:div#help.help "Click to calculate"]))))  ;; hiccups
-    (listen! (by-id "calc") 
-             :mouseout 
+    (listen! (by-id "calc")
+             :mouseout
              (fn [_]
                (destroy! (by-id "help"))))
     (calculate!)))
 ```
 
-As usual, when you save the above changes, the TDD environment
+As usual, when you save the above changes, the [TDD][6] environment
 triggers the recompilation and re-executes the tests. By having
 changed the `init` function, you need to manually reload the
 [Shopping Calculator page](localhost:3000/shopping.html). Now, as soon
@@ -1061,3 +1061,4 @@ License, the same as Clojure.
 [3]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
 [4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/enable-disable-js.md
 [5]: https://en.wikipedia.org/wiki/User_interface#Types
+[6]: https://en.wikipedia.org/wiki/Test-driven_development

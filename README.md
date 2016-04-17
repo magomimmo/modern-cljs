@@ -12,7 +12,7 @@ Conditionals extension of CLJ/CLJS compilers.
 
 ### [Tutorial 18 - Augmented TDD session][38]
 
-Complete the client-side form validation by exploiting the TDD
+Complete the client-side form validation by exploiting the [TDD][45]
 environment augmented with CLJ/CLJS REPLs.
 
 # Modern ClojureScript
@@ -82,7 +82,7 @@ Many people worry about which operating system and editor/IDE are best
 for developing in Clojure and ClojureScript. I personally use Mac OS
 X, Debian and Ubuntu. I use Emacs as an editor.
 
-Because I'm an old-timer, [*nix][43] and Emacs are the OS and editor I know best. 
+Because I'm an old-timer, [*nix][43] and Emacs are the OS and editor I know best.
 That being said, in this series of tutorials you're not going to find any
 suggestions or reference to operating systems or editors. Use whatever tools
 you already have and know. I have too much respect for people developing
@@ -90,7 +90,7 @@ IDE/plugins for Clojure/CLJS to say that one is better than another, and
 you don't want to combine learning a new programming language with trying
 to learn a new programming environment.
 
-> NOTE: If you are interested in learning more about Emacs here are some 
+> NOTE: If you are interested in learning more about Emacs here are some
 [resources to help get you started]
 (https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/emacs-cider-references.md).
 
@@ -140,7 +140,7 @@ Principle to build a very interactive development environment.
 ## [Tutorial 3 - House Keeping][21]
 
 Automate the launching of the `boot` command to approach the Immediate
-Feedback Development Environment (IFDE). 
+Feedback Development Environment (IFDE).
 
 ## [Tutorial 4 - Modern ClojureScript][22]
 
@@ -198,21 +198,21 @@ Add validators to the `shoppingForm`, and do some unit testing.
 
 Configure a development environment that simultaneously satisfy in a
 single JVM the Immediate Feedback Principle by Bret Victor and the
-Test Driven Development (TDD).
+[Test Driven Development (TDD)][45].
 
 ## [Tutorial 16 - On pleasing TDD practitioners][36]
 
-Make the Test Driven Development Environment more customizable.
+Make the [Test Driven Development][45] Environment more customizable.
 
 ## [Tutorial 17 - REPLing with Enlive][37]
 
 Integrate validators into a web form in such a way that the
-user will be notified with the corresponding help messages when they 
+user will be notified with the corresponding help messages when they
 enter invalid values in the form.
 
 ## [Tutorial 18 - Augmented TDD session][38]
 
-Complete the client-side form validation by exploiting the TDD
+Complete the client-side form validation by exploiting the [TDD][45]
 environment augmented with CLJ/CLJS REPLs.
 
 ## [Tutorial 19 - Livin' on the edge][39]
@@ -268,10 +268,11 @@ License, the same license as Clojure.
 [35]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-15.md
 [36]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-16.md
 [37]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-17.md
-[38]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md 
+[38]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
 [39]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
-[40]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md 
+[40]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md
 [41]: https://github.com/clojure/clojurescript/wiki/Rationale
 [42]: https://github.com/clojure/clojurescript/wiki/Quick-Start
 [43]: https://en.wikipedia.org/wiki/Unix-like
 [44]: https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
+[45]: https://en.wikipedia.org/wiki/Test-driven_development
