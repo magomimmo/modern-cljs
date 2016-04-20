@@ -616,12 +616,12 @@ OK, the output should have been pretty printed to be more readable,
 but the concept is still evident. This is just a standard application
 of the Clojure(Script) evaluation rules: each item in a vector is
 evaluated. When an item is a symbol, it evaluates to the value of the
-symbol. If just happens that `comment-list` and `comment-box` are
-functions, so they evaluate to the corresponding functions objects.
+symbol. It just happens that `comment-list` and `comment-box` are
+functions, so they evaluate to the corresponding function objects.
 
-I strongly suggest to take your time read
+I strongly suggest to take your time to read
 [this pretty nice wiki](https://github.com/Day8/re-frame/wiki/Using-%5B%5D-instead-of-%28%29)
-on Reagent, because it explains why you should never use the round
+on Reagent, because it explains why you should never use round
 parentheses when composing components, even if you eventually could.
 
 ```clj
@@ -646,6 +646,20 @@ cljs.user> (comment-box)
 cljs.user> (r/render [comment-box] (.getElementById js/document "content"))
 #object[Object [object Object]]
 ```
+
+The two scenario are pretty clear if you add to Google Chrome Browser
+the React Developer Tools extension.
+
+By composing the components with the round parentheses, the Reagent
+`render` function produces the following hierarchy
+
+![Round Parentheses](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-round.png)
+
+while by composing them with the square brackets, the Reagent `render`
+function produces the following hierarchy:
+
+![Square Parentheses](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-square.png)
+
 
 ## Next Step - TBD
 
