@@ -132,7 +132,7 @@ Server started: http://localhost:3001/
 Now visit the [localhost:3001](http://localhost:3001/) URL in your
 browser and you should receive something like this:
 
-[[modern-cljs/doc/images/react-tut-01.png|alt=react tutorial]]
+![React Tutorial](modern-cljs/doc/images/react-tut-01.png)
 
 As you see this is a very basic web application, but it contains very
 important concept to be grasped to better understand as `React.js`
@@ -153,7 +153,7 @@ Now post a couple of new comments by using the form. You'll note the
 list of the comments to be updated without refreshing the full
 page.
 
-[[modern-cljs/doc/images/react-tut-02.png|alt=react tutorial added comments]]
+![React Tutorial new comments](modern-cljs/doc/images/react-tut-02.png)
 
 Nothing new under the sun. What is new, aside from the
 performance that we can't appreciate with such a simple sample, it is hidden
