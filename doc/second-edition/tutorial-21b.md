@@ -440,7 +440,7 @@ var CommentBox = React.createClass({
   render: function() {
     return (
       <div className="commentBox">
-        Hello, world! I'm a CommentBox.
+        Hello, world! I am a CommentBox.
       </div>
     );
   }
@@ -594,10 +594,58 @@ The `reagent.html` page is immediately updated and you should see the following 
 
 ![Reagent Composing Components](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-tut-01.png)
 
-So far, so good. We replicated with Reagent the same composition of
-React with much less incidental (i.e. plumbing) code.
+So far, so good. We replicated in Reagent the same React composition
+with much less incidental (i.e. plumbing) code. Anytime I hear someone
+saying that ClojureScript, be being a LISP dialect, has to many
+parentheses, I immediately switch my attention to a more educated
+developer. They just don't know what they are talking about.
 
+Before going on with the next step, let's evaluate the `(comment-box)`
+function again at the bREPL
 
+```clj
+cljs.user> (comment-box)
+[:div [:h1 "Comments"] [#object[cljs$user$comment_list "function cljs$user$comment_list(){
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),"Hello, world! I'm a comment-list"], null);
+}"]] [#object[cljs$user$comment_form "function cljs$user$comment_form(){
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div","div",1057191632),"Hello, world! I'm a comment-form"], null);
+}"]]]
+```
+
+OK, the output should have been pretty printed to be more readable,
+but the concept is still evident. This is just a standard application
+of the Clojure(Script) evaluation rules: each item in a vector is
+evaluated. When an item is a symbol, it evaluates to the value of the
+symbol. If just happens that `comment-list` and `comment-box` are
+functions, so they evaluate to the corresponding functions objects.
+
+I strongly suggest to take your time read
+[this pretty nice wiki](https://github.com/Day8/re-frame/wiki/Using-%5B%5D-instead-of-%28%29)
+on Reagent, because it explains why you should never use the round
+parentheses when composing components, even if you eventually could.
+
+```clj
+;; don't do this
+cljs.user> (defn comment-box []
+             [:div
+              [:h1 "Comments"]
+              (comment-list)
+              (comment-form)])
+#'cljs.user/comment-box
+```
+
+```clj
+cljs.user> (comment-box)
+[:div [:h1 "Comments"] [:div "Hello, world! I'm a comment-list"] [:div "Hello, world! I'm a comment-form"]]
+```
+
+```clj
+;; still working, but much less efficient in articulated UI scenarios, because
+;; comment-list and comment-form are transformed as React Component
+
+cljs.user> (r/render [comment-box] (.getElementById js/document "content"))
+#object[Object [object Object]]
+```
 
 ## Next Step - TBD
 
