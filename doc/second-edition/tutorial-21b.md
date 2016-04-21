@@ -54,18 +54,17 @@ to start this tutorial by porting to Reagent the
 
 ## Install React Tutorial
 
-The best way to appreciate Reagent is to use as a reference the
-official React.js tutorial by downloading and locally running it on
+To get an idea of the final web application created by the React
+Tutorial you need [Node.js](https://nodejs.org/en/) to be installed on
 your computer.
 
-### Install node.js
+### Install Node Version Manager (NVM)
 
-First you need to install [node.js](https://nodejs.org/en/). I
-personally prefer to be able to install it by using
+I personally prefer to be able to install `node` by using
 [nvm](https://github.com/creationix/nvm), a simple script to install
 and manage different node versions.
 
-The easiest way to install `nvm` is by using its script as follow:
+Open your terminal and do the following:
 
 ```bash
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
@@ -76,14 +75,14 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | b
 > where the command is set up. Simple create one with `touch
 > ~/.bash_profile` and run the install script again.
 
-You can then install `node.js` by issuing the following command at the
+You can then install `node` by issuing the following command at the
 terminal:
 
 ```bash
 nvm install 5.0
 ```
 
-You can now verify that both `node.js` and `npm` have been installed:
+Verify that both `node.js` and `npm` have been installed:
 
 ```bash
 node -v
@@ -140,20 +139,10 @@ browser and you should receive something like this:
 ![React Tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/react-tut-01.png)
 
 As you see, this is a very basic web application, but it contains
-important concepts to be grasped for better understanding `React` and,
-consequently, how `Reagent` is eventually any better to be used. Note
-that the page is composed of the following elements:
+important concepts to be grasped for better understanding `React` and
+how `Reagent` interface it.
 
-1. An `<h1>` `Comments` element;
-1. A list (i.e. `<div>`) of `Comments`;
-1. A `<form>` element to submit new `Comment`;
-
-Each comment is composed of:
-
-1. An `<h2>` element for the author of the `Comment`
-1. A `<span>` element for the `Comment` itself. 
-
-Now post a couple of new comments by using the web form. You'll note
+Post a couple of new comments by using the web form. You'll note
 the list of the comments to be updated without refreshing the full
 page.
 
@@ -168,21 +157,27 @@ under the wood.
 > bold. This is because the `<input>` element for the comment is even
 > able to parse `markdown` text.
 
-## Porting to Reagent. Step 1: your first React Component
+## Porting to Reagent. Step 1: create your first React Component
 
 Now that you have an idea about the final behavior of the web
 application, let's get started by following the official tutorial of
 `React` to progressively port it to `Reagent`.
 
-First rename the original `public/scripts/example.js` file to
-`public/scripts/complete.js` and create a new
-`public/scripts/example.js` file:
+Stop the running web server and issue the following commands at the
+terminal:
 
 ```bash
-mv public/scripts/example.js public/scripts/old.js
+git reset --hard
+HEAD is now at 2be1a2d Use 15.0.1
 ```
 
 ```bash
+git checkout -b tutorial
+Switched to a new branch 'tutorial'
+```
+
+```bash
+rm public/scripts/example.js
 touch public/scripts/example.js
 ```
 
@@ -207,21 +202,28 @@ ReactDOM.render(
 );
 ```
 
+Rerun the tutorial web app:
+
+```bash
+PORT=3001 node server.js
+Server started: http://localhost:3001/
+```
+
 Reload the [localhost:3001](http://localhost:3001/) page. You should
-see your very first and simple React Component saying "Hello, world! I
-am a CommentBox.
+see your very first and simple React Component saying `Hello, world! I
+am a CommentBox.`
 
 The above lines mix into JS code a kind of HTML code, JSX code in
-React parlance. It first defines a new class, named `CommentBox`, which
-is an UI Component containing one method only: `render()`. This
+React parlance. It first defines a new class, named `CommentBox`,
+which is an UI Component containing one method only: `render()`. This
 method uses JSX syntax to declare the structure of the component
-itself which, in this very simple case, is just a `div` tag element
-(it's a React component, not an HTML element) and the text `Hello,
-world! I am a CommentBox`.
+itself. In this very simple case, it is just a `div` tag element (it's
+a React component, not an HTML element) and the text `Hello, world! I
+am a CommentBox`.
 
-Then, this newly created UI `ComponentBox` is instantiated by the
-`ReactDOM.render()` method, which also attaches it to the `content`
-element `id` from the HTML page.
+This newly created UI `ComponentBox` component is then instantiated by
+the `ReactDOM.render()` method, which also attaches it to the
+`content` element `id` from the HTML page.
 
 Let's take a look at the `index.html` file living in the `public`
 directory of the `react-tutorial` project folder.
@@ -254,29 +256,30 @@ directory of the `react-tutorial` project folder.
 For the moment there are only two things to be noted here:
 
 1. the `<div id="content"></div>`, which represent the `root` HTML
-   element to which the `CommentBox` instance is to be attached;
+   element to which the `CommentBox` component instance is to be
+   attached;
 1. the `<script type="text/babel" src="scripts/example.js"></script>`
    `script` tag loading the `example.js` file we just coded.
 
 The JSX code contained in the `example.js` file can't be interpreter
 as is by all browsers on the market, because it uses `ECMAScript 6`,
-AKA ECMAScript 2015 or as ES6 as well. But we don't care about
-it. Just note that it needs to be passed through the
+AKA ECMAScript 2015 and ES6. But we don't care about it. Just note
+that it needs to be passed through the
 [`babel transpiler`](https://babeljs.io/) (i.e. a source to source
-compiler) to be transpiled as ES5.
+compiler) to be transpiled as ES5, which is supported by almost any
+browser out there.
 
 ## Porting to Reagent. Step 2: prepare the field
 
-Ad said, Reagent is a ClojureScript minimalist interface to React,
-which means that it uses React internally. We want to understand its
-mechanics by first interact with it via the powerful CLJS bREPL as we
-learned in previous tutorials.
+Ad said, Reagent is a ClojureScript minimalist interface to React. To
+understand its mechanics let's get started by interact with it via the
+powerful CLJS bREPL.
 
 Before starting the IFDE (Immediate Feedback Development Environment),
 we first want to add the latest available Reagent library to the
 `build.boot` of the `modern-cljs` project.
 
-```clojure
+```clj
 (set-env!
  ...
  :dependencies '[
@@ -286,17 +289,14 @@ we first want to add the latest available Reagent library to the
 ...
 ```
 
-Now create the `reagent.html` file in the `html` directory of the `modern-cljs`:
+Now create the `reagent.html` file in the `html` directory of the `modern-cljs`
 
 ```bash
 cd /path/to/modern-cljs
 touch html/reagent.html
 ```
 
-and copy into it the following very simple `html` code which resemble
-both the `index.html` file from the react tutorial and the
-`index.html` file from the `modern-cljs` project.
-
+and copy into it the following very simple `html` code:
 
 ```html
 <!DOCTYPE html>
@@ -314,21 +314,19 @@ both the `index.html` file from the react tutorial and the
 ```
 
 As you see, we linked the `main.js` file that will be created by the
-CLJS compilation. 
+CLJS compilation as soon as we'll issue the `boot dev` command to
+launch the IFDE:
 
 There are only two remarkable differences from the `index.html` and
-`shopping.html` files from the previous tutorials:
+`shopping.html` files we coded in the previous tutorials:
 
 1. in the `body` we now have a single `div` tag only. This is very
    typical of any Single Page Application (SPA) and it resembles the
    `index.html` file from the react tutorial;
-1. we did not add the call of the `init()` function to be exported
-   from the `modern-cljs.reagent` CLJS namespace, as we did in the
-   previous tutorials with the `modern-cljs.login` and
-   `modern-cljs.shopping` namespaces. This is because in the next few
-   steps we're going to work at the bREPL and we'll add that call
-   later, when we'll eventually persist our experiments with Reagent
-   in a file.
+1. we did not add the call of any `init()` function. This is because
+   in the next few steps we're going to work at the bREPL and we'll
+   add that call later, when we'll eventually persist our experiments
+   with Reagent in a file.
    
 Also copy the `base.css` file from the React Tutorial to the
 `html/css` directory of the `modern-cljs` project to obtain the same
@@ -375,8 +373,6 @@ Elapsed time: 32.980 sec
 > tdd` command. But at the moment we're not interested in executing
 > any test. We only want to learn about Reagent by interacting with it
 > through the bREPL.
-
-So far, so good.
 
 Now open a new terminal and launch the `boot` client and the `bREPL`
 on top of it as usual.
@@ -426,7 +422,7 @@ nil
 
 ```clj
 cljs.user> (defn component-box []
-             [:div "Hello, world! I am a component-box"])
+             [:div "Hello, world! I'm a component-box"])
 #'cljs.user/component-box
 ```
 
@@ -453,7 +449,7 @@ cljs.user> (r/render [component-box] (.getElementById js/document "content"))
 #object[Object [object Object]]
 ```
 
-Do you see the `Hello, world! I am a component-box` text in the page?
+Do you see the `Hello, world! I'm a component-box` text in the page?
 The above `render` call corresponds to the `ReactDOM.render` function
 call used with React:
 
@@ -468,7 +464,7 @@ ReactDOM.render(
 > (i.e. `component-box`) instead of `CamelCase` names
 > (i.e. `ComponentBox`).
 
-Does the `[:div "some text]` form remembers you something? It is the
+Does the `[:div "some text]` form remembers you something? It uses the
 same
 `[hiccup syntax](https://github.com/weavejester/hiccup/wiki/Syntax)
 we're already accustomed with from the tutorials involving
@@ -479,7 +475,7 @@ Evaluate the newly defined function at the bREPL
 
 ```clj
 cljs.user> (comment-box)
-[:div "Hello, world! I am a comment-box"]
+[:div "Hello, world! I'm a comment-box"]
 ```
 
 No surprises here. It returns exactly what you expect. The very first
@@ -499,13 +495,26 @@ Returns the mounted component instance.
 nil
 ```
 
+Considering that we still have the `domina` library available in our
+project, we can simplify the `r/render` call as follows:
+
+```clj
+cljs.user> (require '[domina.core :as dom])
+nil
+```
+
+```clj
+cljs.user> (r/render [comment-box] (dom/by-id "content"))
+#object[Object [object Object]]
+```
+
 Let's move on.
 
 ## Porting to Reagent. Step 4: Composing Component
 
 The next step in the React Tutorial is to define two new skeleton
-Components. The first, named `CommentList`, will host comments and the
-second, named `CommentForm`, will be used to create new comments.
+Components. The first, named `CommentList`, to list current comments
+and the second, named `CommentForm`, used to create new comments.
 
 Here is the corresponding code you have to add to the `example.js` JSX
 file.
@@ -532,7 +541,7 @@ var CommentForm = React.createClass({
 });
 ```
 
-We can now compose these two newly define component inside the
+We can now compose these two newly declared components inside the
 `CommentBox` one, which has to be redefined as follows:
 
 ```js
@@ -549,15 +558,15 @@ var CommentBox = React.createClass({
 });
 ```
 
-Pretty logical. The `div` component now includes an `h1` header, the
-`CommentList` and the `CommentForm` sub components.
+Pretty logical. The `div` component now includes an `h1`, an
+`CommentList` and a `CommentForm` sub components.
 
 If you now reload the [localhost:3001](http://localhost:3001/) page
 you should see the following content:
 
 ![Composing Component](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/react-tutorial-03.png)
 
-Let's do the same thing with Reagent:
+Let's do the same thing with Reagent.
 
 ```clj
 cljs.user> (defn comment-list []
@@ -583,16 +592,20 @@ cljs.user> (defn comment-box []
 #'cljs.user/comment-box
 ```
 
-Let's re-render the *root component* `comment-box` of our newly created component hierarchy
+Let's re-render the `comment-box` root component of our newly created
+component hierarchy:
 
 ```clj
-cljs.user> (r/render [comment-box] (.getElementById js/document "content"))
+cljs.user> (r/render [comment-box] (dom/by-id "content")
 #object[Object [object Object]]
 ```
 
 The `reagent.html` page is immediately updated and you should see the following content
 
 ![Reagent Composing Components](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-tut-01.png)
+
+> NOTE 8: remember that you always have to define a component with one
+> `root` component only (e.g. the above `:div`).
 
 So far, so good. We replicated in Reagent the same components
 composition with much less incidental (i.e. plumbing) code.
@@ -612,21 +625,22 @@ return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMP
 OK, the output should have been pretty printed to be more readable,
 but the concept is still evident. This is just a standard application
 of the Clojure(Script) evaluation rules for vectors: each item in a
-vector is evaluated. When an item is a symbol, it evaluates to the
+vector is evaluated and  when it is a symbol, it evaluates to the
 value of the symbol. It just happens that `comment-list` and
 `comment-box` are functions, so they evaluate to the corresponding
 function objects.
 
 I strongly suggest to take your time to read
-[this pretty nice wiki](https://github.com/Day8/re-frame/wiki/Using-%5B%5D-instead-of-%28%29)
-on Reagent, because it explains why you should never use round
-parentheses when composing components, even if you eventually could:
+[one of the best documentation](https://github.com/Day8/re-frame/wiki/Using-%5B%5D-instead-of-%28%29)
+available on Reagent, because it explains why you should never use
+round parentheses when composing components, even if you eventually
+could:
 
 ```clj
 cljs.user> (defn comment-box []
              [:div
               [:h1 "Comments"]
-              (comment-list) ;; don't do this
+              (comment-list)   ;; don't do this
               (comment-form)]) ;; don't do this
 #'cljs.user/comment-box
 ```
@@ -640,7 +654,7 @@ cljs.user> (comment-box)
 ;; still working, but much less efficient in articulated UI scenarios, because
 ;; comment-list and comment-form are not transformed by `render` into React Components
 
-cljs.user> (r/render [comment-box] (.getElementById js/document "content"))
+cljs.user> (r/render [comment-box] (dom/by-id "content"))
 #object[Object [object Object]]
 ```
 
@@ -649,14 +663,75 @@ The two scenario are pretty clear if you add the
 to your Google Chrome Browser.
 
 By composing the components with the round parentheses, the Reagent
-`render` function produces the following hierarchy
+`render` function produces the following components hierarchy
 
 ![Round Parentheses](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-round.png)
 
-while by composing them with the square brackets, the Reagent `render`
-function produces the following hierarchy:
+while, by composing them with the square brackets, the Reagent `render`
+function produces the following components hierarchy:
 
 ![Square Brackets](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-square.png)
+
+As very well explained in the cited documentation, when you compose
+components by using the round parentheses instead of the square
+brackets, the `r/render` function will not componentize them as React
+component and you'll loose the performance improvement implemented by
+the the VDOM differ algorithm.
+
+Let' move on.
+
+## Porting to Reagent. Step 5: Passing data to Components
+
+Let's create in React the `Comment` component, which will depend on
+the data passed in from its parent (i.e. `ComponentList`).
+
+```js
+var Comment = React.createClass({
+  render: function() {
+    return (
+      <div className="comment">
+        <h2 className="commentAuthor">
+          {this.props.author}
+        </h2>
+        {this.props.children}
+      </div>
+    );
+  }
+});
+```
+
+Even without going into details with the JSX syntax, you can see that
+the `Comment` component will accepts two arguments from its parent:
+
+1. the author of the comment (i.e. `this.props.author`), rendered as a `h2`;
+1. the comment itself (i.e. `this.props.children`), rendered as
+   regular text.
+
+We can now redefine the `CommentList` component (i.e. the parent of
+the `Comment` component) as follows:
+
+```js
+var CommentList = React.createClass({
+  render: function() {
+    return (
+      <div className="commentList">
+        <Comment author="Pete Hunt">This is one comment</Comment>
+        <Comment author="Jordan Walke">This is *another* comment</Comment>
+      </div>
+    );
+  }
+});
+```
+
+Note that we have we passed the `author` of the `Comment` via an
+attribute and the `text` of the `Comment` via an XML-like child node.
+
+If you reload the [localhost:3001](http://localhost:3001/) page you
+should see the following content:
+
+![Pass data to components](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/react-tut-props.png)
+
+
 
 
 ## Next Step - TBD
