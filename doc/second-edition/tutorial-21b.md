@@ -285,9 +285,15 @@ we first want to add the latest available Reagent library to the
  :dependencies '[
                  ...
                  [reagent "0.6.0-alpha"]
+                 [cljsjs/marked "0.3.5-0"]
                  ])
 ...
 ```
+
+While we were there, we also added the `cljsjs/marked "0.3.5-0"` JS
+external library. This is the same JS library used in the React
+Tutorial, opportunely packaged to be imported in a CLJS project. We'll
+see its use later.
 
 Now create the `reagent.html` file in the `html` directory of the `modern-cljs`
 
@@ -337,8 +343,8 @@ cp /path/to/react-tutorial/public/css/base.css html/css/
 ```
 
 We are almost done. Before launching the IFDE with the `boot dev`
-command, create the `reagent.cljs` file and require the `reagent.core`
-namespace into it.
+command, create the `reagent.cljs` file and require the both the
+`reagent.core` and the `cljsjs.marked` namespaces into it.
 
 ```bash
 touch src/cljs/modern_cljs/reagent.cljs
@@ -346,7 +352,8 @@ touch src/cljs/modern_cljs/reagent.cljs
 
 ```clj
 (ns modern-cljs.reagent
-  (:require [reagent.core :as r]))
+  (:require [reagent.core :as r]
+            cljsjs.marked))
 ```
 
 > NOTE 4: As we saw in previous tutorials, before to be able to use a
@@ -542,7 +549,7 @@ var CommentForm = React.createClass({
 ```
 
 We can now compose these two newly declared components inside the
-`CommentBox` one, which has to be redefined as follows:
+`CommentBox` one as follows:
 
 ```js
 var CommentBox = React.createClass({
@@ -731,7 +738,161 @@ should see the following content:
 
 ![Pass data to components](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/react-tut-props.png)
 
+Let's replicate the same thing with Reagent. We just need to define a
+function with two parameters, `author` and `comment` as follows:
 
+```clj
+cljs.user> (defn comment-component [author comment]
+             [:div
+              [:h2 author]
+              comment])
+#'cljs.user/comment-component
+```
+
+> NOTE 9: the `comment` symbol is already defined in the `cljs.core`
+> namespace. This is why we preferred to name the new component as
+> `comment-component`.
+
+In Reagent you use the function input parameters corresponds to React `props`. 
+
+```clj
+cljs.user> (comment-component "Pete Hunt" "This is a comment")
+[:div [:h2 "Pete Hunt"] "This is a comment"]
+```
+
+Again, the `comment-component` pure function can be composed for
+redefining the `comment-list` component as follows:
+
+```clj
+cljs.user> (defn comment-list []
+             [:div
+              [comment-component "Paul Hunt" "This is a comment"]
+              [comment-component "Jordan Walke" "This *another* component"]])
+#'cljs.user/comment-list
+```
+
+Let's see the result by re-rendering the `comment-box` root component
+
+```clj
+cljs.user> (r/render [comment-box] (dom/by-id "content"))
+#object[Object [object Object]]
+```
+
+As soon as you evaluate the `r/render` function, the `reagent.html`
+page gets updated and you should see the same content you previously
+saw in react
+
+![Reagent props](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-tut-props.png)
+
+## Porting to Reagent. Step 6: Adding Markdown
+
+As we saw at the very beginning of this tutorial, while playing with
+the final web application implemented in React, we discovered that the
+text input of the `CommentForm` component supports `markdown` syntax
+by using the [`marked`](https://github.com/chjj/marked) JS library
+that has been included in the `index.html` of the tutorial. The marked
+text will be then rendered by the `Comment` component.
+
+Here is the React based solution for parsing a `markdown` text and
+generating the corresponding HTML markup to be rendered by the
+browser.
+
+```js
+var Comment = React.createClass({
+  rawMarkup: function() {
+    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
+    return { __html: rawMarkup };
+  },
+
+  render: function() {
+    return (
+      <div className="comment">
+        <h2 className="commentAuthor">
+          {this.props.author}
+        </h2>
+        <span dangerouslySetInnerHTML={this.rawMarkup()} />
+      </div>
+    );
+  }
+});
+```
+
+Here the React tutorial redefines the `Comment` component by adding
+the `rawMarkup` function which is used to set the
+`dengerouslySetInnerHTML` attribute of the `span` component. The
+``dangerouslySetInnerHTML` attribute is not a regular attribute of any
+HTML element. It is internally used bay React itself.
+
+If you now reload the [localhost:3001](http://localhost:3001/) you
+should see the word *another* displayed in *italics*.
+
+Let's try to port this solution on Reagent. As you probably remember
+from the lessons involving [hiccups]() and [enlive](), the [hiccup]()
+syntax allows to set any attribute of any `html` element by using maps
+like so:
+
+```clj
+cljs.user> [:div [:label {:for "price"} "Price"]]
+[:div [:label {:for "price"} "Price"]]
+```
+
+Here we set `"price"` as the value of the `:for` attribute for the
+`:label` element. The same thing is true for Reagent Component
+definition which, as already said more times, uses the same `hiccup`
+syntax. Let's see it at work.
+
+First we need to require the `cljsjs.marked` namespace defined in the
+`cljsjs/marked` JS library packaged for CLJS that we added to the
+`:dependencies` section of the `build.boot` for the `modern-cljs`
+project at the beginning of the tutorial.
+
+```clj
+cljs.user> (require '[cljsjs.marked])
+nil
+```
+
+> NOTE 10: when you require an external JS library prepackaged for
+> being used by CLJS you can refer its symbols by using the `js`
+> synthetic namespace.
+
+We can verify if the `marked` JS library works as expected as follows:
+
+```clj
+cljs.user> (js/marked "This is *another* comment.")
+"<p>This is <em>another</em> comment.</p>\n"
+```
+
+```clj
+cljs.user> (js/marked "Reagent 0.6.0-alpha is here. [Check it out](http://reagent-project.github.io/news/news060-alpha.html)")
+"<p>Reagent 0.6.0-alpha is here. <a href=\"http://reagent-project.github.io/news/news060-alpha.html\">Check it out</a></p>\n"
+```
+
+OK, it seems to work as expected. We now need to replicate the same
+`dangerouslySetInnerHTML` React trick inside our `comment-component`
+reagent component
+
+```clj
+cljs.user> (defn comment-component 
+  [author comment]
+  [:div 
+   [:h2 author]
+   [:span {:dangerouslySetInnerHTML 
+           #js {:__html (js/marked comment)}}]])
+#'cljs.user/comment-component
+```
+
+NOTE 11: explain #js interop reader
+
+and re-render the `comment-box` as usual
+
+```clj
+cljs.user> (r/render [comment-box] (dom/by-id "content"))
+#object[Object [object Object]]
+```
+
+Again, you see the *another* word shown in *italics*
+
+![Italics](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-marked.png)
 
 
 ## Next Step - TBD
