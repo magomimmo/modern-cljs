@@ -157,7 +157,7 @@ under the wood.
 > bold. This is because the `<input>` element for the comment is even
 > able to parse `markdown` text.
 
-## Porting to Reagent. Step 1: create your first React Component
+## Porting to Reagent: your first react component
 
 Now that you have an idea about the final behavior of the web
 application, let's get started by following the official tutorial of
@@ -269,7 +269,7 @@ needs to be passed through the
 compiler) to be transpiled as ES5, which is supported by almost any
 browser out there.
 
-## Porting to Reagent. Step 2: prepare the field
+## Porting to Reagent: prepare the field
 
 Ad said, Reagent is a ClojureScript minimalist interface to React. To
 understand its mechanics let's get started by interact with it via the
@@ -361,7 +361,7 @@ touch src/cljs/modern_cljs/reagent.cljs
 > require it in a CLJS file, otherwise the bREPL is not able to access
 > it.
 
-## Porting to Reagent. Step 3: your first Reagent component
+## Porting to Reagent: your first reagent component
 
 Launch the IFDE as usual:
 
@@ -516,7 +516,7 @@ cljs.user> (r/render [comment-box] (dom/by-id "content"))
 
 Let's move on.
 
-## Porting to Reagent. Step 4: Composing Component
+## Porting to Reagent: composing components
 
 The next step in the React Tutorial is to define two new skeleton
 Components. The first, named `CommentList`, to list current comments
@@ -686,7 +686,7 @@ the the VDOM differ algorithm.
 
 Let' move on.
 
-## Porting to Reagent. Step 5: Passing data to Components
+## Porting to Reagent: passing data to components
 
 Let's now create a `Comment` component, which will depend on
 the data passed in from its parent (i.e. `ComponentList`).
@@ -784,7 +784,7 @@ saw in react
 
 ![Reagent props](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-tut-props.png)
 
-## Porting to Reagent. Step 6: Adding Markdown
+## Porting to Reagent: adding markdown
 
 As we saw at the very beginning of this tutorial while playing with
 the final web application implemented in React, we discovered that the
@@ -895,6 +895,9 @@ cljs.user> (r/render [comment-box] (dom/by-id "content"))
 Again, you immediately see the *another* word shown in *italics*
 
 ![Italics](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-marked.png)
+
+## Porting to Reagent: hook up the data model
+
 
 
 ## Next Step - TBD
