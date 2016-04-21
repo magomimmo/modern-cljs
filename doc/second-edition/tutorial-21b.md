@@ -882,7 +882,8 @@ cljs.user> (defn comment-component [author comment]
 
 > NOTE 11: the `:dangerouslySetInnerHTML` attribute expects a JS
 > object as a value. `#js` is a tagged literal transforming a CLJS
-> structure (i.e. a CLJS map in this case) into a JS object.
+> structure (i.e. a CLJS map in this case) into a JS corresponding
+> structure (i.e. a JS object in such a case)
 
 Re-render the `comment-box` as usual
 
