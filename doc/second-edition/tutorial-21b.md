@@ -594,7 +594,7 @@ Let's re-render the `comment-box` root component of our newly created
 component hierarchy:
 
 ```clj
-cljs.user> (render [comment-box] (by-id "content")
+cljs.user> (render [comment-box] (by-id "content"))
 #object[Object [object Object]]
 ```
 
@@ -895,18 +895,18 @@ Again, you immediately see the *another* word shown in *italics*
 
 Not so bad at the moment.
 
-## Porting to Reagent: hook up the data model
+## Hook up the data model in React
 
 This step requires some code refactoring. Instead of inserting the
 comments in the source code, we want to get them from a data
-structure. Eventually this will come from the server.
+structure. Eventually the data could come from the server.
 
 Here is the new React code from the official tutorial:
 
 ```js
 var data = [
   {id: 1, author: "Pete Hunt", text: "This is one comment"},
-  {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
+  {Id: 2, author: "Jordan Walke", text: "This is *another* comment"}
 ];
 ```
 
@@ -975,6 +975,79 @@ ReactDOM.render(
 Reload the [locahost:3001](http://localhost:3001/). Even if the result
 is the same as before, you could potentially get the data from a web
 service. 
+
+## Hook up the data model in Reagent
+
+The very first step to hook the data model in Reagent is easy as
+defining a vector of maps:
+
+```clj
+cljs.user> (def data [{:id 1
+                       :author "Pete Hunt"
+                       :text "This is one comment"}
+                      {:id 2
+                       :author "Jordan Walke"
+                       :text "This is *another* comment"}])
+#'cljs.user/data
+```
+
+Then we need to refactor the `comment-list` function definition to
+receive a list of comments as argument and then to call the
+`comment-component` function for each comment of the list.
+
+```clj
+(defn comment-list [comments]
+  [:div
+   (for [{:keys [id author text]} comments] 
+     ^{:key id} [comment-component author text])])
+```
+
+The above very succinct code uses a powerful destructing ClojureScript
+idiom from within a `for` macro call which is known as list
+comprehension.
+
+From each comment in `comments`, the `{:keys [id author text]}`
+destructuring form extracts the values of the `:id`, `:author` and
+`:text` keys and assigns them to the `id`, `author` and `text`
+symbols. Those values are then passed to the `comment-component`
+function to create a new comment. Note that we also used the `^` macro
+character to associate the `{:key id}` metadata map to each hiccup
+`[comment-component author text]` vector. This is required by the
+underline React lib when you deal with
+[dynamic children](http://facebook.github.io/react/docs/multiple-components.html#dynamic-children).
+
+Next we have to consequently update the `comment-box` component to
+pass the comments data to the newly defined `comment-list` component.
+
+```clj
+cljs.user> (defn comment-box [comments]
+             [:div 
+              [:h1 "Comments"]
+              [comment-list comments]
+              [comment-form]])
+#'cljs.user/comment-box
+```
+
+We are now ready to `render` the `comment-box` component into the
+`"content"` `div` of the `reagent.html` page. This time we have to
+pass the `data` to the `comment-box` to let the `comment-list` to
+dynamically generate each comment in the `data` vector.
+
+
+```clj
+cljs.user> (render [comment-box data] (by-id "content"))
+#object[Object [object Object]]
+```
+
+Hopefully, even if you do not see any difference in the rendered page,
+you should appreciate its dynamism.
+
+## Reactive state
+
+The next steps in the React Tutorial are [Fetching from the server]()
+and [Reactive State](), but we could restrict our scope to the
+Reactive State only, because it is where Reagent standouts the most
+from React.
 
 
 ## Next Step - TBD
