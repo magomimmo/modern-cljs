@@ -29,27 +29,10 @@ git checkout se-tutorial-18
 
 ## Introduction
 
-Even if the most discussed facet of
-[React.js](https://facebook.github.io/react/index.html) is the idea of
-adopting a
-[Virtual DOM](http://facebook.github.io/react/docs/working-with-the-browser.html#the-virtual-dom)
-(VDOM) maintaining a fast and immutable in-memory representation of
-the DOM, my personal opinion is that the VDOM and its differing
-algorithm only represent implementation details. To me, the most
-fundamental aspects of React.js are:
+TBD: very short introduction to React
 
-* [one-way data flow, AKA one-way binding](https://youtu.be/nYkdrAPrdcw?list=PLb0IAmt7-GS188xDYE-u1ShQmFFGbrk0v);
-* [composability model](https://facebook.github.io/react/docs/multiple-components.html);
-* [synthetic event system](http://facebook.github.io/react/docs/interactivity-and-dynamic-uis.html#event-handling-and-synthetic-events);
-
-Even if I appreciate a lot React (and React Native too) I still think
-that ClojureScript is a superior programming language when compared
-with JS and with
-[JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) as well.
-
-To explain my opinion on React and, at the same time, to introduce you
-to [Reagent](http://reagent-project.github.io/), it can be very useful
-to start this tutorial by porting to Reagent the
+To introduce you to [Reagent](http://reagent-project.github.io/), it
+can be very useful to start this tutorial by porting to Reagent the
 [official React.js introductory tutorial](https://facebook.github.io/react/docs/tutorial.html).
 
 ## Install React Tutorial
@@ -75,7 +58,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | b
 > where the command is set up. Simple create one with `touch
 > ~/.bash_profile` and run the install script again.
 
-You can then install `node` by issuing the following command at the
+You can now install `node` by issuing the following command at the
 terminal:
 
 ```bash
@@ -94,10 +77,10 @@ npm -v
 3.8.3
 ```
 
-### Get and run the React Tutorial
+### Clone and run the React Tutorial
 
-Now that you have `node` and `npm` installed on your computer you can
-clone and run the React Tutorial as follows:
+Now that you have `node` and `npm` installed on your computer, clone
+and run the React Tutorial as follows:
 
 ```bash
 git clone https://github.com/reactjs/react-tutorial.git
@@ -126,10 +109,9 @@ Server started: http://localhost:3001/
 ```
 
 > NOTE 2: I set the port of the node http server to `3001` to not
-> collide the [express server](http://expressjs.com/) with the default
+> collide its [express server](http://expressjs.com/) with the default
 > `3000` port number of the clojure web server we're going to later
-> launch with the `boot dev` command from within the `modern-cljs`
-> project folder.
+> launch to port the tutorial to reagent.
 
 ### Play with the React web application
 
@@ -142,9 +124,9 @@ As you see, this is a very basic web application, but it contains
 important concepts to be grasped for better understanding `React` and
 how `Reagent` interface it.
 
-Post a couple of new comments by using the web form. You'll note
-the list of the comments to be updated without refreshing the full
-page.
+Post a couple of new comments by using the its comment form. You'll
+note the list of the comments to be updated without refreshing the
+full page.
 
 ![React Tutorial new comments](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/react-tut-02.png)
 
@@ -157,7 +139,7 @@ under the wood.
 > bold. This is because the `<input>` element for the comment is even
 > able to parse `markdown` text.
 
-## Porting to Reagent: your first react component
+## Your first react component
 
 Now that you have an idea about the final behavior of the web
 application, let's get started by following the official tutorial of
@@ -253,13 +235,14 @@ directory of the `react-tutorial` project folder.
 </html>
 ```
 
-For the moment there are only two things to be noted here:
+There are a few things to be noted here:
 
 1. the `<div id="content"></div>`, which represent the `root` HTML
    element to which the `CommentBox` component instance is to be
    attached;
+1. the inclusion of a JS library for rendering mardown text;
 1. the `<script type="text/babel" src="scripts/example.js"></script>`
-   `script` tag loading the `example.js` file we just coded.
+   `script` tag loading the `example.js` file we just coded
 
 The code contained in the `example.js` file can't be interpreter as is
 by all browsers on the market, because it uses `ECMAScript 6`, AKA
