@@ -240,7 +240,7 @@ There are a few things to be noted here:
 1. the `<div id="content"></div>`, which represent the `root` HTML
    element to which the `CommentBox` component instance is to be
    attached;
-1. the inclusion of a JS library for rendering mardown text;
+1. the inclusion of the [marked JS library]() for rendering mardown text;
 1. the `<script type="text/babel" src="scripts/example.js"></script>`
    `script` tag loading the `example.js` file we just coded
 
@@ -252,7 +252,7 @@ needs to be passed through the
 compiler) to be transpiled as ES5, which is supported by almost any
 browser out there.
 
-## Porting to Reagent: prepare the field
+## Prepare the field
 
 Ad said, Reagent is a ClojureScript minimalist interface to React. To
 understand its mechanics let's get started by interact with it via the
@@ -344,7 +344,7 @@ touch src/cljs/modern_cljs/reagent.cljs
 > require it in a CLJS file, otherwise the bREPL is not able to access
 > it.
 
-## Porting to Reagent: your first reagent component
+## Your first Reagent Component
 
 Launch the IFDE as usual:
 
@@ -359,9 +359,9 @@ Writing target dir(s)...
 Elapsed time: 32.980 sec
 ```
 
-> NOTE 5: you could have launched instead. But at the moment we're not
-> interested in executing any test. We only want to learn about
-> Reagent by interacting with it through the bREPL.
+> NOTE 5: we could have launched `boot tdd` instead. But at the moment
+> we're not interested in executing any test. We only want to learn
+> about Reagent by interacting with it through the bREPL.
 
 Now open a new terminal and launch the `boot` client and the `bREPL`
 on top of it as usual.
@@ -405,19 +405,19 @@ very first Reagent Component, which, under the wood, will soon become
 a React Component.
 
 ```clj
-cljs.user> (require '[reagent.core :as r])
+cljs.user> (require '[reagent.core :as r :refer [render])
 nil
 ```
 
 ```clj
-cljs.user> (defn component-box []
-             [:div "Hello, world! I'm a component-box"])
+cljs.user> (defn comment-box []
+             [:div "Hello, world! I'm a comment-box"])
 #'cljs.user/component-box
 ```
 
-Believe it or not, such a simple pure function is enough to create a
-Reagent Component corresponding to the `ComponentBox` Component we
-previously created with the following `JSX` code:
+Believe it or not, such a simple function returning a vector is enough
+to create a Reagent Component corresponding to the `CommentBox`
+Component we previously created with the following `JSX` code:
 
 ```js
 var CommentBox = React.createClass({
@@ -434,11 +434,11 @@ var CommentBox = React.createClass({
 Don't you believe it? Evaluate the following form at the bREPL:
 
 ```clj
-cljs.user> (r/render [component-box] (.getElementById js/document "content"))
+cljs.user> (render [comment-box] (.getElementById js/document "content"))
 #object[Object [object Object]]
 ```
 
-Do you see the `Hello, world! I'm a component-box` text in the page?
+Do you see the `Hello, world! I'm a comment-box` text in the page?
 The above `render` call corresponds to the `ReactDOM.render` function
 call used with React:
 
@@ -450,8 +450,8 @@ ReactDOM.render(
 ```
 
 > NOTE 7: as you see, being clojurean, we used `kebab-case` names
-> (i.e. `component-box`) instead of `CamelCase` names
-> (i.e. `ComponentBox`).
+> (i.e. `comment-box`) instead of `CamelCase` names
+> (i.e. `CommentBox`).
 
 Does the `[:div "some text]` form remembers you something? It uses the
 same
@@ -471,7 +471,7 @@ No surprises here. It returns exactly what you expect. The very first
 magics of Reagent is encapsulated inside the `render` function.
 
 ```clj
-cljs.user> (doc r/render)
+cljs.user> (doc render)
 -------------------------
 reagent.core/render
 ([comp container] [comp container callback])
@@ -488,12 +488,12 @@ Considering that we still have the `domina` library available in our
 project, we can simplify the `r/render` call as follows:
 
 ```clj
-cljs.user> (require '[domina.core :as dom])
+cljs.user> (require '[domina.core :as dom :refer [by-id])
 nil
 ```
 
 ```clj
-cljs.user> (r/render [comment-box] (dom/by-id "content"))
+cljs.user> (render [comment-box] (by-id "content"))
 #object[Object [object Object]]
 ```
 
