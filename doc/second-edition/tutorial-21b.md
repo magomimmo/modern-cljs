@@ -8,14 +8,14 @@ repository and finally publish it to
 As it has been said in previous tutorials aimed at creating a kind of
 confidence with the ClojureStript programming language, by adopting
 the [domina](https://github.com/levand/domina) library for DOM
-manipulation, we have been almost prehistoric from the point of view
-of building User Interface with CLJS.
+manipulation we have been almost prehistoric from the point of view of
+building User Interface with CLJS.
 
 In this tutorial of the series we're going to fill that gap by
 introducing [Reagent](http://reagent-project.github.io/), a very well
 known minimalist ClojureScript interface to
 [React.js](https://facebook.github.io/react/index.html), a JavaScript
-library for building User Interfaces created by FaceBook and that
+library for building User Interfaces created by Facebook, that
 recently got a lot of attention all over the places.
 
 ## Preamble
@@ -35,9 +35,8 @@ Obviously, this is not a tutorial on
 not going to explain its details. Still, I think that by porting to
 [Reagent](http://reagent-project.github.io/) the
 [official React introductory tutorial](https://facebook.github.io/react/docs/tutorial.html)
-and following its steps, we could better appreciated the Reagent
-minimalism and eventually understand its different approach from React
-itself.
+step by step, we could better appreciated the Reagent minimalism and
+eventually understand its different approach from React itself.
 
 ## Install React Tutorial
 
@@ -126,11 +125,10 @@ browser and you should receive something like this:
 
 As you see, this is a very basic web application, but it contains
 important concepts to be grasped for better understanding `React` and
-how `Reagent` interface it.
+the way `Reagent` interface it.
 
-Post a couple of new comments by using the its comment form. You'll
-note the list of the comments to be updated without refreshing the
-full page.
+Post a couple of new comments by using its comment form. You'll note
+the list of the comments to be updated without full page refresh.
 
 ![React Tutorial new comments](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/react-tut-02.png)
 
@@ -140,8 +138,8 @@ under the wood.
 
 > NOTE 3: In the above image you'll note that the first newly added
 > comment contains a link and the second comment contains a word in
-> bold. This is because the `<input>` element for the comment is even
-> able to parse `markdown` text.
+> bold. This is because the `<input>` element for the comment is able
+> to parse `markdown` text.
 
 ## Your first React Component
 
@@ -199,18 +197,19 @@ and then reload the [localhost:3001](http://localhost:3001/) page. You
 should see your very first and simple React Component saying `Hello,
 world! I am a CommentBox.`
 
-The above lines mix into JS code a kind of HTML code, JSX code in
+The above lines mix into JS code a kind of HTML code,
+[JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) code in
 React parlance. It first defines a new class, named `CommentBox`,
 which is an UI Component containing one method only: `render()`. This
 method uses the JSX syntax to declare the structure of the component
 itself. In this very simple case, it is just a `div` component and the
-text `Hello, world! I am a CommentBox`.
+text node `Hello, world! I am a CommentBox`.
 
 This newly defined `ComponentBox` component class is then
 instantiated by the `ReactDOM.render()` method, which also attaches it
-to the `content` element `id` from the HTML page.
+to the `content` element `id` of the HTML page.
 
-Let's take a look at the `index.html` file living in the `public`
+Let's take a look at the `index.html` from the `public`
 directory of the `react-tutorial` project folder.
 
 ```html
@@ -247,7 +246,7 @@ There are a few things to be noted here:
 1. the `<script type="text/babel" src="scripts/example.js"></script>`
    `script` tag loading the `example.js` file we just coded
 
-The mixed JS/XML code contained in the `example.js` file can't be
+The mixed JSX code contained in the `example.js` file can't be
 interpreted as is in a browser. It first needs to pass through the
 [`babel transpiler`](https://babeljs.io/) to be transformed in JS
 source code compatible with almost any browser. That's why the `type`
@@ -271,8 +270,8 @@ the latest available Reagent library to the `build.boot` of the
 ```
 
 Note that we also added the `cljsjs/marked "0.3.5-0"` JS external
-library. This is the same JS library used in the React Tutorial
-packaged to be used in a CLJS project. We'll see its use later.
+library. This is the same JS library used in the React Tutorial, and
+it is packaged to be used in a CLJS project. We'll see its use later.
 
 Now create the `reagent.html` file in the `html` directory of the `modern-cljs`
 
@@ -302,9 +301,9 @@ As you see, we linked the `main.js` file that will be created by the
 CLJS compilation as soon as we'll issue the `boot dev` command to
 launch the CLJS development environment with the `boot dev` command.
 
-As you see the only element of the body, aside from the cited `script`
-tag, is a `div`. This is very typical of any Single Page Application
-(SPA) and it resembles the `index.html` file from the react tutorial.
+The only element of the body, aside from the cited `script` tag, is a
+`div`. This is very typical of any Single Page Application (SPA) and
+it resembles the `index.html` file from the React Tutorial.
    
 Also copy the `base.css` file from the React Tutorial to the
 `html/css` directory of the `modern-cljs` project to obtain the same
@@ -329,9 +328,9 @@ touch src/cljs/modern_cljs/reagent.cljs
 ```
 
 > NOTE 4: As we saw in previous tutorials, before to be able to use in
-> the bREPL a a library never used by other namespaces of the project,
-> we first need to require it in a CLJS file, otherwise the bREPL is
-> not able to access it.
+> the bREPL a library never used before by other namespaces of the
+> project, we first need to require its namespace in a CLJS file,
+> otherwise the bREPL is not able to access it.
 
 ## Your first Reagent Component
 
@@ -350,10 +349,10 @@ Elapsed time: 32.980 sec
 
 > NOTE 5: we could have launched `boot tdd` instead. But at the moment
 > we're not interested in executing any test. We only want to learn
-> about Reagent by interacting with it through the bREPL.
+> about Reagent by interacting with it at the bREPL.
 
-Now open a new terminal and launch the `boot` client and the `bREPL`
-on top of it as usual and finally visit the
+As usual, open a new terminal and launch the `boot` client and the
+`bREPL` on top of it. Finally visit the
 [localhost:3000/reagent.html](http://localhost:3000/reagent.html).
 
 ```bash
@@ -385,7 +384,7 @@ nil
 cljs.user=>
 ```
 
-> NOTE 6: as usual, as soon as you visit the
+> NOTE 6: as soon as you visit the
 > [localhost:3000/reagent.html](http://localhost:3000/reagent.html)
 > URL the bREPL connects with the JS engine of the browser and it is
 > ready to evaluate CLJS expressions.
@@ -432,7 +431,7 @@ Do you see the `Hello, world! I'm a comment-box` text in the page?
 The above `render` call corresponds to the `ReactDOM.render` function
 call used with React.
 
-> NOTE 7: as you see, being clojurean, we used `kebab-case` names
+> NOTE 7: being clojurean, we used `kebab-case` names
 > (i.e. `comment-box`) instead of `CamelCase` names
 > (i.e. `CommentBox`).
 
@@ -507,11 +506,13 @@ cljs.user> (render [comment-box] (by-id "content"))
 
 Let's move on.
 
-## Porting to Reagent: composing components
+## Composing components
 
 The next step in the React Tutorial is to define two new skeleton
-components. The first, named `CommentList`, to list current comments
-and the second, named `CommentForm`, used to create new comments.
+components:
+
+* the `CommentList` component, to list comments;
+* the `CommentForm` component, to create new comments.
 
 Here is the corresponding code you have to add to the `example.js` JSX
 file.
@@ -556,8 +557,8 @@ var CommentBox = React.createClass({
 });
 ```
 
-Pretty logical. The `div` component now includes the `h1`, the
-`CommentList` and the `CommentForm` sub components.
+Pretty logical. The `div` component now includes an `h1`, a
+`CommentList` and a `CommentForm` component.
 
 If you now reload the [localhost:3001](http://localhost:3001/) page
 you should see the following content:
@@ -578,8 +579,8 @@ cljs.user> (defn comment-form []
 ```
 
 We can now redefine the `comment-box` component by incorporating into
-it the `h1`, `comment-list` and `comment-form` sub components as we
-just did with `CommentBox` react component.
+it an `h1`, a `comment-list` and a `comment-form` component as we just
+did with the `CommentBox` React component.
 
 ```clj
 cljs.user> (defn comment-box []
@@ -606,7 +607,7 @@ The `reagent.html` page is immediately updated and you should see the following 
 > hierarchy with one `root` component only (e.g. the above `:div`).
 
 So far, so good. We replicated in Reagent the same components
-composition with much less incidental (i.e. plumbing) code.
+composition with much less incidental complexity (i.e. plumbing code).
 
 Before going on with the next step, let's evaluate again the
 `(comment-box)` function at the bREPL
@@ -621,17 +622,17 @@ cljs.user> (comment-box)
 
 > NOTE 9: the output has been manually simplified to make it more readable
 
-The concept still evident. This is just a standard application of the
-Clojure(Script) evaluation rules for vectors: each item in a vector is
-evaluated and when it is a symbol, it evaluates to the value of the
-symbol. It just happens that `comment-list` and `comment-box` are
-functions, so they evaluate to the corresponding function objects.
+The concept should be evident. This is just a standard application of
+the Clojure(Script) evaluation rules for vectors: each item in a
+vector is evaluated and when it is a symbol, it evaluates to the value
+of the symbol. It just happens that `comment-list` and `comment-box`
+are functions, so they evaluate to the corresponding function objects.
 
 I strongly suggest to take your time to read
 [one of the best documentation](https://github.com/Day8/re-frame/wiki/Using-%5B%5D-instead-of-%28%29)
-available on Reagent, because it very explains very well why you
-should never use round parentheses when composing components, even if
-you eventually could:
+available on Reagent, because it explains very well why you should
+never use round parentheses when composing components, even if you
+eventually could:
 
 ```clj
 cljs.user> (defn comment-box []
@@ -703,7 +704,7 @@ the `Comment` component will accept two arguments from its parent:
 1. the author of the comment (i.e. `this.props.author`), rendered as
    an `h2` component;
 1. the comment itself (i.e. `this.props.children`), rendered as
-   regular text.
+   regular text node.
 
 We can now redefine the `CommentList` component (i.e. the parent of
 the `Comment` component) as follows:
@@ -750,8 +751,9 @@ cljs.user> (comment-component "Pete Hunt" "This is a comment")
 [:div [:h2 "Pete Hunt"] "This is a comment"]
 ```
 
-Again, the `comment-component` function can be used as component. Redefine
-the `comment-list` component as follows:
+Again, the `comment-component` function can be used as component
+inside an hiccup vector. Redefine the `comment-list` component as
+follows:
 
 ```clj
 cljs.user> (defn comment-list []
@@ -821,15 +823,15 @@ syntax allows to set element attributes in a map passed as second item
 of a hiccup vector, like so:
 
 ```clj
-cljs.user> [:div [:label {:for "price"} "Price"]]
-[:div [:label {:for "price"} "Price"]]
+cljs.user> (html [:div [:label {:for "price"} "Price"]])
+"<div><label for=\"price\">Price</label></div>"
 ```
 
 Here we set `"price"` as the value of the `:for` attribute for the
 `:label` element. The same thing is true in Reagent as well. Let's see
 it at work.
 
-First, we need to require the `cljsjs.marked` namespace defined in the
+Now require the `cljsjs.marked` namespace defined in the
 `cljsjs/marked` JS library that we added to the `:dependencies`
 section of the `build.boot` at the beginning of the tutorial.
 
@@ -866,9 +868,18 @@ containing a `markdown` markup. In the second call we also passed a JS
 object as a second argument to sanitize a string containing an HTML
 markup.
 
-We're now ready to redefine the `comment-component` component to
-replicate the same behavior of the `Comment` component from the React
-Official Tutorial;
+Just for curiosity, test the `js/marked` function inside a call from
+the `hiccups` library using a map to set the `dangerouslySetInnerHTML`
+attribute for a `span` element as follows:
+
+```clj
+cljs.user> (html [:span {:dangerouslySetInnerHTML (js/marked "This is *another* comment" #js {:sanitize true})}])
+"<span dangerouslySetInnerHTML=\"&lt;p&gt;This is &lt;em&gt;another&lt;/em&gt; comment&lt;/p&gt;\n\"></span>"
+```
+
+OK, it worked. We're now ready to redefine the `comment-component`
+component to replicate the same behavior from the React Official
+Tutorial.
 
 ```clj
 cljs.user> (defn comment-component [author comment]
@@ -893,13 +904,13 @@ Again, you immediately see the *another* word shown in *italics*
 
 ![Italics](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-marked.png)
 
-Not so bad at the moment.
+Not so bad.
 
 ## Hook up the data model in React
 
 This step requires some code refactoring. Instead of inserting the
 comments in the source code, we want to get them from a data
-structure. Eventually the data could come from the server.
+structure. Eventually the data could come from a server.
 
 Here is the new React code from the official tutorial:
 
@@ -954,16 +965,16 @@ var CommentList = React.createClass({
 ```
 
 The updated `render` function creates a new `Comment` node for each
-available comment passed to it and finally returns the accumulated
-`Comment` components it created.
+available comment contained in the `data` variable and finally returns
+the accumulated `Comment` components it created.
 
 > NOTE 15: note the newly defined `key` attribute getting the value
 > from the comment `id`.
 
 Finally we have to refactor the `ReactDOM.render` function as well,
 because the `CommentBox` instance now has to get the comments from the
-`data` variable.
-
+`data` variable as well to be able to pass them to the `CommentList`
+component.
 
 ```js
 ReactDOM.render(
@@ -979,7 +990,8 @@ service.
 ## Hook up the data model in Reagent
 
 The very first step to hook the data model in Reagent is easy as
-defining a vector of maps:
+defining a vector of maps resembling the array of objects from the JS
+`data` variable:
 
 ```clj
 cljs.user> (def data [{:id 1
@@ -1002,9 +1014,10 @@ receive a list of comments as argument and then to call the
      ^{:key id} [comment-component author text])])
 ```
 
-The above very succinct code uses a powerful destructing ClojureScript
-idiom from within a `for` macro call which is known as list
-comprehension.
+The above very succinct code uses a powerful
+[destructing ClojureScript idiom](https://clojurefun.wordpress.com/2012/08/13/keyword-arguments-in-clojure/)
+within a `for` macro call, known as
+[list comprehension](https://clojuredocs.org/clojure.core/for).
 
 From each comment in `comments`, the `{:keys [id author text]}`
 destructuring form extracts the values of the `:id`, `:author` and
@@ -1040,7 +1053,7 @@ cljs.user> (render [comment-box data] (by-id "content"))
 ```
 
 Hopefully, even if you do not see any difference in the rendered page,
-you should appreciate its dynamism.
+you should appreciate its improved dynamism.
 
 ## Reactive state
 
