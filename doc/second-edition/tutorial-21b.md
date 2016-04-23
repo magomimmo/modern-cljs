@@ -147,7 +147,7 @@ Now that you have an idea about the final behavior of the web
 application implemented in the React Tutorial, let's get started by
 following it step by step to progressively port it to Reagent.
 
-Stop the running the `node` server and issue the following commands at
+Stop the running `node` server and issue the following commands at
 the terminal to start from scratch:
 
 ```bash
@@ -1044,7 +1044,7 @@ cljs.user> (defn comment-box [comments]
 
 We are now ready to `render` the `comment-box` component into the
 `"content"` `div` of the `reagent.html` page. This time we have to
-pass `data` vector to the `comment-box` so that `comment-list` can
+pass the `data` vector to the `comment-box` so that `comment-list` can
 dynamically generate each comment in the `data` vector.
 
 
