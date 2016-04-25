@@ -882,6 +882,9 @@ cljs.user> (html [:span {:dangerouslySetInnerHTML (js/marked "This is *another* 
 "<span dangerouslySetInnerHTML=\"&lt;p&gt;This is &lt;em&gt;another&lt;/em&gt; comment&lt;/p&gt;\n\"></span>"
 ```
 
+> NOTE: When you enter the command above in the bREPL you might get this warning message:
+> `WARNING: Use of undeclared Var hiccups.runtime/render-attr-map at line 1 <cljs repl>`
+
 OK, it worked. We're now ready to redefine the `comment-component`
 component to replicate the same behavior from the React Official
 Tutorial.
