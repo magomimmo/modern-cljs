@@ -449,6 +449,11 @@ nil
 ```
 
 ```clj
+cljs.user> (require '[hiccups.runtime])
+nil
+```
+
+```clj
 cljs.user> (html [:div "Hello, world! I'm a comment-box"])
 "<div>Hello, world! I'm a comment-box</div>"
 ```
@@ -1149,7 +1154,7 @@ model between data and User Interfaces, this is what they mean:
 data -> CommentBox -> CommentList -> Comment
 ```
 
-The value of the `this.state.data` is passed down to the `CommonList`
+The value of the `this.state.data` is passed down to the `CommentList`
 component. Each comment contained in `this.state.data` is then passed
 to the `Comment` component of the list. Only new or updated `Comment`
 components will be redraw.
