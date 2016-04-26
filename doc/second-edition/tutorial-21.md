@@ -1138,7 +1138,7 @@ ReactDOM.render(
 );
 ```
 
-An here is the complete content of the `reagent.cljs`
+An here is the complete content of the `reagent.cljs` file.
 
 ```clj
 (ns modern-cljs.reagent
@@ -1187,7 +1187,7 @@ git add --all .
 git commit -m "Part I"
 ```
 
-## Next Step [Tutorial 21 - A minimalist interface to React with Reagent (Part II)][6]
+## [Next Step - Tutorial 21 - A minimalist interface to React with Reagent (Part II)][6]
 
 In the [next Part II][6] of the tutorial on Reagent we'll first
 comment the official React Tutorial on state management and the the
