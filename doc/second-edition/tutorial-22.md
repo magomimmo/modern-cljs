@@ -9,7 +9,34 @@ introducing components state management.
 
 ## Preamble
 
-To start working, assuming you've `git` installed, do as follows:
+To start working, assuming you've `git` installed, do as follows to
+restart from the end of the
+[previous tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-21.md#save-your-interactive-experience)
+for both React Tutorial and its porting on Reagent.
+
+## React Tutorial
+
+Open a terminal and submit the following commands
+
+```bash
+git clone https://github.com/magomimmo/react-tutorial.git
+cd react-tutorial
+git checkout reagent-tutorial
+```
+
+Then from the same terminal install the required `npm` modules and run
+the React Tutorial server:
+
+```bash
+npm install
+PORT=3001 node server.js
+```
+
+Finally visit the [localhost:3001](http://localhost:3001/) URL.
+
+## Reagent port of React Tutorial
+
+Open a new terminal and submit the following commands
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
@@ -17,6 +44,70 @@ cd modern-cljs
 git checkout se-tutorial-21
 git checkout -b reagent-tutorial-2
 ```
+
+Then launch the development environment as usual
+
+```bash
+boot dev
+```
+
+Next visit the
+[localhost:3000/reagent.html](http://localhost:3000/reagent.html)
+URL. Event if you'll not see anything, because we still have to attach
+the `comment-box` root component to the `"content"` `div` of the
+`reagent.html` page, a websocket connection will be established
+between your development environmnet and the JS engine of your
+browser.
+
+Now open a new terminal and launch the nREPL client followed by the
+bREPL client on top of it as usual:
+
+```bash
+cd /path/to/modern-cljs
+boot repl -c
+...
+boot.user=> 
+```
+
+```clj
+boot.user> (start-repl)
+...
+cljs.user> 
+```
+
+We're almost done. To complete the setup for continuing the porting of
+the React Tutorial to Reagent, we need to require few namespaces from
+the bREPL:
+
+```clj
+cljs.user> (require '[reagent.core :as r :refer [render]])
+nil
+```
+
+```clj
+cljs.user> (require '[domina.core :as dom :refer [by-id]])
+nil
+```
+
+```clj
+cljs.user> (require '[modern-cljs.reagent :as tut :refer [comment-box data]])
+nil
+```
+
+> NOTE 1: the latest requirement is needed to make the `comment-box` and
+> `data` symbols visible in the bREPL, because they are now defined in
+> the `modern-cljs.reagent` namespace. In the previous bREPL session
+> they were defined at the bREPL in the `cljs.user` namespace.
+
+Finally, to attach and render the components we need to call the
+Reagent `render`function:
+
+```clj
+cljs.user> (render [comment-box data] (by-id "content"))
+#object[Object [object Object]]
+```
+
+You should now see the content of the `reagent.html` page.
 
 ## Reactive state
 
@@ -39,7 +130,7 @@ management:
 > component re-renders itself.
 
 In the subsequent couple of steps the React Tutorial substitutes the
-hard-coded data with some dynamic from the server. Considering I'm not
+hard-coded `data` with some dynamic from the server. Considering I'm not
 going to port to Reagent this part of the React Tutorial, I'm just
 coping the corresponding code to facilitate its pasting into the
 `example.js` source file. I'll also limit my code comments to few
@@ -89,9 +180,10 @@ ReactDOM.render(
 ```
 
 The most important variation from the previous version of `CommentBox`
-component is the substitution of the `this.props.data` *property* with
-the `this.state.data` *state* in its `render` function, initially set
-to an empty array of comments, to make the component stateful.
+React component is the substitution of the `this.props.data`
+*property* with the `this.state.data` *state* in its `render`
+function, initially set to an empty array of comments, to make the
+component stateful.
 
 Apparently, the only way to change the state of the component is via
 the `setState()` function.
@@ -111,10 +203,10 @@ model between data and User Interfaces, this is what they mean:
 data -> CommentBox -> CommentList -> Comment
 ```
 
-The value of the `this.state.data` is passed down to the `CommentList`
-component. Each comment contained in `this.state.data` is then passed
-to the `Comment` component of the list. Only new or updated `Comment`
-components will be redraw.
+The value of the `this.state.data` got from the server is passed down
+to the `CommentList` component. Each comment contained in
+`this.state.data` is then passed to the `Comment` component of the
+list. Only new or updated `Comment` components will be redraw.
 
 This last observation is very important, because it illustrates that a
 React component gets updated non only when its private state changes,
