@@ -1183,7 +1183,7 @@ git commit -am "Part I"
 
 ```bash
 cd /path/to/modern-cljs
-git add --all .
+git add --all
 git commit -m "Part I"
 ```
 
