@@ -1062,6 +1062,8 @@ cljs.user> (render [comment-box data] (by-id "content"))
 Hopefully, even if you do not see any difference in the rendered page,
 you should appreciate its improved dynamism.
 
+## Save your interactive experience
+
 I suggest you to now stop the `node server.js`, the `boot -c` and the
 `boot dev` processes and then freeze into the `example.js` JSX file
 and into the `reagent.cljs` file the components you created in this
