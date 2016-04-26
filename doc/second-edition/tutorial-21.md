@@ -1177,7 +1177,7 @@ Next, to be prepared for the next part of the tutorial on Reagent, I
 suggest you to commit your work on both repositories:
 
 ```bash
-cd /path/to/react/tutorial
+cd /path/to/react-tutorial
 git commit -am "Part I"
 ```
 
