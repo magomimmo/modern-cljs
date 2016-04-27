@@ -205,7 +205,7 @@ model between data and User Interfaces, this is what they mean:
 data -> CommentBox -> CommentList -> Comment
 ```
 
-The value of the `this.state.data` got from the server is passed down
+The value of `this.state.data` got from the server is passed down
 to the `CommentList` component. Each comment contained in
 `this.state.data` is then passed to the `Comment` component of the
 list. Only new or updated `Comment` components will be redraw.
@@ -260,7 +260,7 @@ to see a reaction in the page as you save the file:
 
 ```json
 [
-  ...,
+  // ...,
   ,
   {
     "id": 3,
@@ -416,15 +416,115 @@ bREPL. Here, the fundamental word is *time*.
 You can think about the `data` containing comments as an `atom` and
 the `comment-box` component as an observer that execute a reaction,
 redrawing itself, anytime it observes a change in the state of the
-comments.
+comments itself.
+
+> NOTE 2:  in reality, as we'll see in a moment, this statement is not
+> true.
 
 ## From atom to ratom
 
 The
 [re-frame tutorials on Reagent documentation](https://github.com/Day8/re-frame/wiki#reagent-tutorials)
-do an excellent job in explaining this behavior.
+do a terrific job in explaining Reagent and I strongly reccomend you
+to read it more times, until you really grasp the entire content.
 
-bla bla bla
+That said, Reagent offers its own version of the standard CLJS `atom`
+definition, AKA `ratom`, supporting the same `atom` protocol
+(e.g. `swap!`, `reset!`, etc.) plus something new, as you can read
+from its documentation at the REPL:
+
+```clj
+cljs.user> (doc r/atom)
+-------------------------
+reagent.core/atom
+([x] [x & rest])
+  Like clojure.core/atom, except that it keeps track of derefs.
+Reagent components that derefs one of these are automatically
+re-rendered.
+nil
+```
+
+This is very interesting: whenever a component derefs a `ratom`, it
+automagically re-renders itself. Even this statement is not totally
+true, because a Reagent component re/renders itself when it derefs a
+`ratom` only if the internal value of the `ratom` is not
+[identical](https://github.com/reagent-project/reagent/pull/143) to
+the previous one.
+
+## Ratom at work
+
+We previously saw in the React Tutorial that by modifying the array of
+comments in the `comments.json` file, periodically read by ajax, we're
+creating the condition for a change in the `CommentBox`
+`this.state.data` state and, consequently, in the `CommentList` and
+`Comment` components as well via the one-way data flow communication
+model.
+
+Even without porting the `ajax` stuff from the React Tutorial to
+Reagent, by now knowing that a Reagent component could eventually
+re-render itself by derefing a `ratom`, we should be able to obtain
+the same behavior.
+
+First, open the `reagent.cljs` file and modify the `data` symbol by
+wrapping its definition in a `ratom`:
+
+```clj
+(def data (r/atom [{:id 1
+                    :author "Pete Hunt"
+                    :text "This is one comment"}
+                   {:id 2
+                    :author "Jordan Walke"
+                    :text "This is *another* comment"}]))
+```
+
+Then modify consequently the `comment-box` component definition by
+simply adding the dereference of its comments` parameter as follows:
+
+```clj
+(defn comment-box [comments]
+  [:div 
+   [:h1 "Comments"]
+   [comment-list @comments]
+   [comment-form]])
+```
+
+Next, re-render the `comment-box` in the `"content"` div as usual:
+
+```clj
+cljs.user> (render [comment-box data] (by-id "content"))
+#object[Object [object Object]]
+```
+
+Finally, swap the content of the `ratom` by adding a new comment to
+it:
+
+```clj
+cljs.user> (swap! data conj {:id 3 :author "Mimmo Cosenza" :text "Reagent is even better"})
+[{:id 1, :author "Pete Hunt", :text "This is one comment"} {:id 2, :author "Jordan Walke", :text "This is *another* comment"} {:id 3, :author "Mimmo Cosenza", :text "Reagent is even better"}]
+```
+
+The `comment-box` *view* component should have immediately been updated
+with the new comment just added to the `ratom`.
+
+![view update](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/viewupdate.png)
+
+Let's see if the `comment-box` component reacts to an updated comment as well:
+
+```clj
+cljs.user> (swap! data assoc-in [(rand-int (count @data)) :text] "This is a **randomly** assigned comment")
+[{:id 1, :author "Pete Hunt", :text "This is one comment"} {:id 2, :author "Jordan Walke", :text "This is *another* comment"} {:id 3, :author "Mimmo Cosenza", :text "This is a **randomly** assigned comment"}]
+```
+
+> NOTE 3: the test of the comment to be updated is randomly chosen by
+> the `(rand-int (count @data))` expression.
+
+Again, a soon as the `swap!` form gets evaluated, you should see the
+corresponding components *view* been updated. Hopefully, you should
+appreciate the concision of the Reagent/CLJS code when compared with
+the corresponding React/JS code.
+
+![update comment](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/updatecomment.png)
+
 
 ## Next Step - TBD
 
