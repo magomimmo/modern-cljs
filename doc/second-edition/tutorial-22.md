@@ -519,11 +519,22 @@ cljs.user> (swap! data assoc-in [(rand-int (count @data)) :text] "This is a **ra
 > the `(rand-int (count @data))` expression.
 
 Again, a soon as the `swap!` form gets evaluated, you should see the
-corresponding components *view* been updated. Hopefully, you should
-appreciate the concision of the Reagent/CLJS code when compared with
-the corresponding React/JS code.
+corresponding components *view* been updated.
 
 ![update comment](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/updatecomment.png)
+
+We just experimented how Reagent abstracted away, in the `ratom`
+structure, the React need of using `this.state.data` instead of
+`this.props.data` to manage state management in React components.
+
+Hopefully, you should have also appreciated how the Reagent way made
+the Reagent/CLJS code much more concise than the corresponding
+React/JS code.
+
+The next and last step in porting the React Tutorial to Reagent has to
+do with `CommentForm` component.
+
+##
 
 
 ## Next Step - TBD
@@ -534,8 +545,6 @@ Copyright © Mimmo Cosenza, 2012-16. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-21.md
-[2]: https://github.com/cljsjs/packages
-[3]: https://github.com/teropa/hiccups
-[4]: https://github.com/cgrand/enlive
-[5]: https://github.com/weavejester/hiccup/wiki/Syntax
+[2]: http://reagent-project.github.io/
+[3]: https://facebook.github.io/react/docs/tutorial.html
 
