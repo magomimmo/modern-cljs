@@ -1192,8 +1192,8 @@ git commit -m "Part I"
 ## [Next Step - Tutorial 21 - A minimalist interface to React with Reagent (Part II)][6]
 
 In the [next Part II][6] of the tutorial on Reagent we'll first
-comment the official React Tutorial on state management and the the
-way you could port it to Reagent.
+comment the official React Tutorial on state management and the way
+you could port it to Reagent.
 
 # License
 

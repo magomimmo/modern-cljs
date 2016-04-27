@@ -445,9 +445,9 @@ nil
 ```
 
 This is very interesting: whenever a component derefs a `ratom`, it
-automagically re-renders itself. Even this statement is not totally
-true, because a Reagent component re-renders itself when it derefs a
-`ratom` only if the internal value of the `ratom` is not
+automagically re-renders itself. This statement is not totally true,
+because a Reagent component re-renders itself when it derefs a `ratom`
+only if the internal value of the `ratom` is not
 [identical](https://github.com/reagent-project/reagent/pull/143) to
 the previous one.
 
@@ -478,7 +478,7 @@ wrapping its definition in a `ratom`:
 ```
 
 Then modify consequently the `comment-box` component definition by
-simply adding the dereference of its comments` parameter as follows:
+simply adding the dereference of its comments parameter as follows:
 
 ```clj
 (defn comment-box [comments]
