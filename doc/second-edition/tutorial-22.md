@@ -16,7 +16,9 @@ for both React Tutorial and its porting on Reagent.
 
 ## React Tutorial
 
-Open a terminal and submit the following commands
+If you did not save the state of the React Tutorial at the end of the
+[previous tutorial]((https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-21.md#save-your-interactive-experience)),
+open a terminal and submit the following commands
 
 ```bash
 git clone https://github.com/magomimmo/react-tutorial.git
@@ -289,7 +291,7 @@ cljs.user> (def clicks (atom 0))
 #'cljs.user/clicks
 ```
 
-By evaluating `clicks`, you get an `Atom` object as its value.
+By evaluating `clicks`, you get the `Atom` object itself.
 
 ```clj
 cljs.user> clicks
@@ -304,16 +306,17 @@ cljs.user> (deref clicks)
 0
 ```
 
-The `deref` function is used so frequently that it deserves a reader
-macro to shorten its call:
+The `deref` function is used so frequently that it deserves a
+[reader macro](https://yobriefca.se/blog/2014/05/19/the-weird-and-wonderful-characters-of-clojure/)
+to shorten its call:
 
 ```clj
 cljs.user> @clicks
 0
 ```
 
-Every time the button gets clicked, you to want to change its internal
-value by using a function (i.e. `inc`):
+Every time the button gets clicked, you to want to increment its
+internal value by using a function (i.e. `inc`):
 
 ```clj
 cljs.user> (swap! clicks inc)
@@ -326,7 +329,7 @@ cljs.user> @clicks
 ```
 
 And Sometimes you want to reset the number of clicks to a specific
-value without using a function:
+value:
 
 ```clj
 cljs.user> (reset! clicks 0)
@@ -343,7 +346,38 @@ conditions, this is not the main reason we are talking about them in
 the Reagent contest.
 
 Say you want to observe the state of `clicks`. You can easily add a
-watcher to log its state in time at the `js/console`:
+watcher to log its state in time at the `js/console`.
+
+To add a `watcher` you use `add-watch`:
+
+```clj
+cljs.user> (doc add-watch)
+-------------------------
+cljs.core/add-watch
+([iref key f])
+  Adds a watch function to an atom reference. The watch fn must be a
+  fn of 4 args: a key, the reference, its old-state, its
+  new-state. Whenever the reference's state might have been changed,
+  any registered watches will have their functions called. The watch
+  fn will be called synchronously. Note that an atom's state
+  may have changed again prior to the fn call, so use old/new-state
+  rather than derefing the reference. Keys must be unique per
+  reference, and can be used to remove the watch with remove-watch,
+  but are otherwise considered opaque by the watch mechanism.  Bear in
+  mind that regardless of the result or action of the watch fns the
+  atom's value will change.  Example:
+
+      (def a (atom 0))
+      (add-watch a :inc (fn [k r o n] (assert (== 0 n))))
+      (swap! a inc)
+      ;; Assertion Error
+      (deref a)
+      ;=> 1
+nil
+```
+
+In this context, we're only interested in logging the new value
+(i.e. the forth argument passed to the watcher function).
 
 ```clj
 (add-watch clicks :log #(-> %4 clj->js js/console.log))
