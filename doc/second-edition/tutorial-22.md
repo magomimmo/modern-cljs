@@ -270,7 +270,7 @@ to see a reaction in the page as you save the file:
 ]
 ```
 
-![update a comment](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/updatecomment.png)
+![update a comment](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/updatecomment1.png)
 
 Before porting the component state management from React to Reagent,
 we have to digress a little bit about Clojure(Script)
