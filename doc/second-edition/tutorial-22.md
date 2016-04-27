@@ -315,8 +315,8 @@ cljs.user> @clicks
 0
 ```
 
-Every time the button gets clicked, you to want to increment its
-internal value by using a function (i.e. `inc`):
+Every time the button gets clicked, you want to increment its internal
+value by using a function (i.e. `inc`):
 
 ```clj
 cljs.user> (swap! clicks inc)
@@ -377,7 +377,7 @@ nil
 ```
 
 In this context, we're only interested in logging the new value
-(i.e. the forth argument passed to the watcher function).
+(i.e. the fourth argument passed to the watcher function).
 
 ```clj
 (add-watch clicks :log #(-> %4 clj->js js/console.log))
@@ -446,7 +446,7 @@ nil
 
 This is very interesting: whenever a component derefs a `ratom`, it
 automagically re-renders itself. Even this statement is not totally
-true, because a Reagent component re/renders itself when it derefs a
+true, because a Reagent component re-renders itself when it derefs a
 `ratom` only if the internal value of the `ratom` is not
 [identical](https://github.com/reagent-project/reagent/pull/143) to
 the previous one.
@@ -515,7 +515,7 @@ cljs.user> (swap! data assoc-in [(rand-int (count @data)) :text] "This is a **ra
 [{:id 1, :author "Pete Hunt", :text "This is one comment"} {:id 2, :author "Jordan Walke", :text "This is *another* comment"} {:id 3, :author "Mimmo Cosenza", :text "This is a **randomly** assigned comment"}]
 ```
 
-> NOTE 3: the test of the comment to be updated is randomly chosen by
+> NOTE 3: the text of the comment to be updated is randomly chosen by
 > the `(rand-int (count @data))` expression.
 
 Again, a soon as the `swap!` form gets evaluated, you should see the
@@ -527,15 +527,16 @@ We just experimented how Reagent abstracted away, in the `ratom`
 structure, the React need of using `this.state.data` instead of
 `this.props.data` to manage state management in React components.
 
-Hopefully, you should have also appreciated how the Reagent way made
-the Reagent/CLJS code much more concise than the corresponding
-React/JS code.
+Hopefully, you should have also appreciated how the Reagent way of
+managing components state made the Reagent/CLJS code much more concise
+than the corresponding React/JS code.
 
 The next and last step in porting the React Tutorial to Reagent has to
 do with `CommentForm` component.
 
-##
+## Adding new comments
 
+bla bla bla
 
 ## Next Step - TBD
 
