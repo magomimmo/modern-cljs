@@ -2,12 +2,12 @@
   (:require [reagent.core :as r]
             [cljsjs.marked]))
 
-(def data [{:id 1
-            :author "Pete Hunt"
-            :text "This is one comment"}
-           {:id 2
-            :author "Jordan Walke"
-            :text "This is *another* comment"}])
+(def data (r/atom [{:id 1
+                    :author "Pete Hunt"
+                    :text "This is one comment"}
+                   {:id 2
+                    :author "Jordan Walke"
+                    :text "This is *another* comment"}]))
 
 (defn comment-component [author comment]
   [:div 
@@ -26,5 +26,5 @@
 (defn comment-box [comments]
   [:div 
    [:h1 "Comments"]
-   [comment-list comments]
+   [comment-list @comments]
    [comment-form]])
