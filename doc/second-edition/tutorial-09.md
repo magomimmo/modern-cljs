@@ -104,7 +104,7 @@ calculate the total. Where do we start from?
 
 Recall that the Immediate Feedback Development Environment
 (IFDE) we setup on [Tutorial 3][19] already has an internal web server
-offered by the [`boot-http`][32] task.
+offered by the [`boot-http`][33] task.
 
 `boot-http` is configured to run [`Jetty`][34] by default, but you can
 also use [`http-kit`][35].
