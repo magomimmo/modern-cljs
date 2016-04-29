@@ -468,7 +468,7 @@ and modify it as follows:
 ```
 
 Remember to delete anything else. As soon as you save the file,
-everything get recompiled.
+everything gets recompiled.
 
 > NOTE 6: we could have returned more detailed messages from the
 > validator result to the user. To maintain the same behaviour of the
