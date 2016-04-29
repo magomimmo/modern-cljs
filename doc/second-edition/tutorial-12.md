@@ -117,7 +117,7 @@ would get a result like the following:
   [:password present? "Password can't be empty"]
   [:password (matches *re-password*) "Invalid password format"])
 
-;;; should returns
+;;; should return
 
 {:email ["Invalid email format"]
  :password ["Password can't be empty" "Invalid password format"]}
