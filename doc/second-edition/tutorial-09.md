@@ -834,7 +834,7 @@ License, the same as Clojure.
 [17]: https://github.com/cemerick
 [18]: https://github.com/weavejester/compojure
 [19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-03.md
-[20]: http://localhost:3000/shopping-dbg.html
+[20]: http://localhost:3000/shopping.html
 [21]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-01.png
 [22]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-02.png
 [23]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-03.png
