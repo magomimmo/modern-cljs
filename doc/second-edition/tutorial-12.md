@@ -528,7 +528,7 @@ currently hosted in the `src/clj` source directory of the project. It
 uses the portable namespace from the `valip` lib and does not
 use any features available on the JVM. 
 
-What does that means? It means you can safely rename the file with the
+What does that mean? It means you can safely rename the file with the
 `cljc` extension and move it under a new `src/cljc` source path
 directory in the `build.boot` file.
 
