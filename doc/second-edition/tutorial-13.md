@@ -388,8 +388,8 @@ we'll take care of later in the next tutorial.
 
 ### Enter Enlive
 
-The steps `2.` and `5.` are already satisfied by the `defroutes` macro
-from [Compojure][6]. The step `3.` - calculate the total - seems to be
+Steps `2.` and `5.` are already satisfied by the `defroutes` macro
+from [Compojure][6]. Step `3.` - calculate the total - seems to be
 already satisfied by the the `defremote` macro call from
 [Shoreleave][15], which implicitly defines a function with the same
 name.
@@ -412,10 +412,10 @@ It implicitly creates a function with the same number of `args` and
 the same `name` as the template. The `source` argument can be any HTML
 file located in the `classpath` of the application.
 
-Finally, the `&forms` argument is composed of a sequence of pairs. The
-item from the pair is a vector of CSS-like selectors, used to
+Finally, the `&forms` argument is composed of a sequence of pairs. The first
+item from each pair is a vector of CSS-like selectors, used to
 select the interested elements/nodes from the parsed HTML source. The
-second item from the pair is a function which is applied to transform
+second item from each pair is a function which is applied to transform
 each selected element/node.
 
 As you perhaps remember from the tutorial introducing Ajax, in `build.boot`
