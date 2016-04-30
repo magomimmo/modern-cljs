@@ -341,9 +341,9 @@ System. On any [*nix][6] OS it should be enough to download the compressed
 file, decompress it and add its `bin` directory to the `PATH` environment
 variable.
 
-> NOTE 3: I currently use phantomjs 1.9.2. If you want to run the
-> latest 2.0.0 release on Mac OS X you
-> [need to do some work](https://github.com/ariya/phantomjs/issues/12900).
+> NOTE 3: I currently use phantomjs 1.9.2. The 2.0 release had some  
+> [issues](https://github.com/ariya/phantomjs/issues/12900) on Mac OS X, however
+> these have been resolved in the 2.1 release.
 
 ## boot-cljs-test
 
