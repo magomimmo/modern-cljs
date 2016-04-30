@@ -436,7 +436,7 @@ There are few things to be noted.
 First, as we learned from the `boot-cljs-test` help documentation, we
 used `phantom` as headless browser, and we also passed the
 `modern-cljs.shopping.validators-test` as the sole namespace to run
-test for.
+tests for.
 
 Secondly, the `boot-test-cljs` task internally uses the CLJS compiler
 by overwriting some default values. For example, instead of generating
