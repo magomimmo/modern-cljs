@@ -34,7 +34,7 @@ git checkout se-tutorial-12
 
 Before we go ahead with the problem of testing your CLJ/CLJS
 code, we have to finish something we left behind in the previous
-tutorials. In the [Tutorial 9 - Introducing Ajax - ][1] we
+tutorials. In [Tutorial 9 - Introducing Ajax - ][1] we
 implemented a Shopping Calculator by using the Ajax style of
 communication between the browser (i.e. ClojureScript) and the server
 (i.e. Clojure).
