@@ -647,7 +647,7 @@ follows:
 ```
 
 Now the `:calculate` remote-callback function accepts strings as
-arguments and we should refactor it as well. Open the `remote.clj`
+arguments and we should refactor it as well. Open the `remotes.clj`
 file under the `src/clj/modern_cljs` directory and modify the
 `calculate` function as follows:
 
