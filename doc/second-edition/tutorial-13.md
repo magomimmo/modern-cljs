@@ -522,7 +522,7 @@ It's now time to fill the gap in the `deftemplate` call by adding the
 appropriate selector/transformation pairs.
 
 For a deeper understanding of the CSS-like selectors accepted by
-`deftemplate`, you need to understand CSS selectors. You need to know
+`deftemplate`, you need to understand [CSS selectors][39]. You need to know
 this anyway if you want to use [Domina][18], [JQuery][19], etc. So, even if
 we'd like to have a unified language for everything, you can't
 avoid learning a little bit of HTML, CSS and JS to use
@@ -859,3 +859,4 @@ License, the same as Clojure.
 [36]: https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
 [37]: https://en.wikipedia.org/wiki/Test-driven_development
 [38]: https://en.wikipedia.org/wiki/Behavior-driven_development
+[39]: https://developer.mozilla.org/en/docs/Web/Guide/CSS/Getting_started/Selectors
