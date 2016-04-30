@@ -582,6 +582,7 @@ cljs.user> (defn comment-list []
 ```clj
 cljs.user> (defn comment-form []
              [:div "Hello, world! I'm a comment-form"])
+#'cljs.user/comment-form
 ```
 
 We can now redefine the `comment-box` component by incorporating into
@@ -662,7 +663,7 @@ cljs.user> (render [comment-box] (by-id "content"))
 #object[Object [object Object]]
 ```
 
-The two scenario becomes clearer if you add, and I suggest you to do
+The two scenarios becomes clearer if you add, and I suggest you to do
 it, the
 [React Developer Tools extension](https://github.com/facebook/react-devtools)
 to your Google Chrome Browser.
@@ -728,7 +729,7 @@ var CommentList = React.createClass({
 });
 ```
 
-Note that we have we passed the author property as an attribute and
+Note that we have passed the author property as an attribute and
 the text as a child node of the `Comment` component.
 
 If you reload the [localhost:3001](http://localhost:3001/) page you
@@ -906,7 +907,7 @@ cljs.user> (render [comment-box] (by-id "content"))
 #object[Object [object Object]]
 ```
 
-Again, you immediately see the *another* word shown in *italics*
+Again, you immediately see the *another* word shown in *italics*.
 
 ![Italics](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-marked.png)
 
@@ -1191,9 +1192,8 @@ git commit -m "Part I"
 
 ## [Next Step - Tutorial 21 - A minimalist interface to React with Reagent (Part II)][6]
 
-In the [next Part II][6] of the tutorial on Reagent we'll first
-comment the official React Tutorial on state management and the way
-you could port it to Reagent.
+In [Part II of this tutorial on Reagent][6] we're going to complete our 
+porting of the official React Tutorial to Reagent, by introducing components state management.
 
 # License
 
