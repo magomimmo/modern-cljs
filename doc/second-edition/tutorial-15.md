@@ -349,7 +349,7 @@ variable.
 
 To be able to run CLJS unit tests with the same [TDD][9] workflow we
 used for CLJ unit testing, you need to add to `build.boot`
-the `boot-cljs-test` task specifically devoted for CLJS, which is
+the [boot-cljs-test][11] task specifically devoted for CLJS, which is
 compatible with a plethora of JS Engines, including [PhantomJS][2].
 
 The procedure to add a new task is always the same: add it to the
@@ -1016,3 +1016,4 @@ License, the same as Clojure.
 [8]: https://en.wikipedia.org/wiki/Domain-specific_language
 [9]: https://en.wikipedia.org/wiki/Test-driven_development
 [10]: https://github.com/adzerk-oss/boot-test
+[11]: https://github.com/crisptrutski/boot-cljs-test
