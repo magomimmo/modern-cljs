@@ -579,9 +579,9 @@ It's now time to calculate the result for the
 > of refactoring continuously, you'll find that it is easier to extend
 > and maintain code.   - Joshua Kerievsky, Refactoring to Patterns
 
-In the [Tutorial 9 - Introducing Ajax][1] we defined the remote
+In [Tutorial 9 - Introducing Ajax][1] we defined the remote
 `calculate` function by calling the `defremote` macro. The
-`defremote` call implicitly define a function with the same name
+`defremote` call implicitly defines a function with the same name
 as the remote function; that's good, since we hate any kind of
 code duplication. We could immediately use it to calculate the result
 of the Shopping Calculator by just parsing the
