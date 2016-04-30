@@ -168,7 +168,7 @@ any `boot` related process.
 
 `boot` does not have a `test` pre-build task like
 [Leiningen](https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md#tests)
-does. Fortunately, the `boot` community created the `boot-test` task
+does. Fortunately, the `boot` community created the [boot-test][10] task
 for that job. Let's add it to our `build.boot` file as usual.
 
 ```clj
@@ -1015,3 +1015,4 @@ License, the same as Clojure.
 [7]: https://en.wikipedia.org/wiki/Mutatis_mutandis
 [8]: https://en.wikipedia.org/wiki/Domain-specific_language
 [9]: https://en.wikipedia.org/wiki/Test-driven_development
+[10]: https://github.com/adzerk-oss/boot-test
