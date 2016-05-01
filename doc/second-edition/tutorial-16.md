@@ -1480,7 +1480,7 @@ Here is the reworked `build.boot` file:
    p port           PORT   int    "the web server port to listen on (default 3000)"
    t dirs           PATH   #{str} "test paths (default test/clj test/cljs test/cljc)"
    v verbose               bool   "Print which files have changed (default false)"]
-  (let [dirs        (or (:test-dirs defaults))
+  (let [dirs        (or dirs (:test-dirs defaults))
         output-to   (or output-to (:output-to defaults))
         testbed     (or testbed (:testbed defaults))
         namespaces  (or namespaces (:namespaces defaults))]
@@ -1539,7 +1539,7 @@ We also set default values using `let` and `or`:
    p port           PORT   int    "the web server port to listen on (default 3000)"
    t dirs           PATH   #{str} "test paths (default test/clj test/cljs test/cljc)"
    v verbose               bool   "Print which files have changed (default false)"]
-  (let [dirs        (or (:test-dirs defaults))
+  (let [dirs        (or dirs (:test-dirs defaults))
         output-to   (or output-to (:output-to defaults))
         testbed     (or testbed (:testbed defaults))
         namespaces  (or namespaces (:namespaces defaults))]
