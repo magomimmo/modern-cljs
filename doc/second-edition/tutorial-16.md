@@ -556,7 +556,7 @@ like to expose for the `tdd` task as its options:
 There are a total of 8 new task options to be exposed for the `tdd` task. Two of
 them, namely `-k` and `-v`, are
 [flags (boolean options)](https://github.com/boot-clj/boot/wiki/Task-Options-DSL#flags). You
-recognize this kind of options from the fact that they do not have an
+recognize this kind of option from the fact that they do not have an
 optarg like the others (e.g., `PORT`, `VAL`, `NS`, `EXPR`, etc.).
 
 ## Dummy task again
