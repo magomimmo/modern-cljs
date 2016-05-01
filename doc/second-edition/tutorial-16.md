@@ -301,7 +301,7 @@ to the `:source-paths` variable.
 
 Note how we used the [DSL][3] to define the same `-t` option as for the
 `add-source-paths` task. The only difference for the `tdd` task is the
-description "test paths". Moreover, we used the `let` and the `or` forms to give it
+description "test paths". Moreover, we used the `let` and `or` forms to give it
 a default value, before finally passing the argument to the
 internal `add-source-paths` function. This is the idiomatic way to use task
 options.
