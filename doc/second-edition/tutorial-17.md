@@ -71,7 +71,7 @@ Let's look at `src/clj/modern_cljs/core.clj` and `src/clj/modern_cljs/templates/
 The `/shopping` URI is linked to the `shopping` function.  
 `deftemplate` implicitly defines the `shopping` function.
 
-However, as we saw in the
+However, as we saw in
 [Tutorial 14 - Better safe than sorry (Part 2)][4], we can easily
 break the `shoppingForm` simply by entering a non-numeric value,
 because the `calculate` function is only able to deal with
