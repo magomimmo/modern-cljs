@@ -33,7 +33,7 @@ validators to the client-side code. Although this series of
 tutorials is mainly dedicated to CLJS, we're going to start from the
 CLJ code first, and forget about the CLJS code for a while.
 
-We have already used [Enlive][2] in the
+We have already used [Enlive][2] in
 [Tutorial 13 - Better Safe Than Sorry (Part 1)][3] to implement the
 server-side only Shopping Calculator. While we may have been a bit
 terse in explaining the details of [Enlive][2], we were able to
