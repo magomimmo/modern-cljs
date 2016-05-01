@@ -224,7 +224,7 @@ One of the nice features of `boot` is that it allows you to add
 dependencies at runtime, such as when you want to experiment with a
 lib and you aren't sure you want to include it in the project file yet.
 
-From the CLJS REPL that we previously launched, let's temporarily add
+From the CLJ REPL that we previously launched, let's temporarily add
 `hiccup` as a dependency, and then require the needed namespace:
 
 ```clj
