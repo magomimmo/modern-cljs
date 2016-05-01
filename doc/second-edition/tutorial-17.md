@@ -81,7 +81,7 @@ stringified numbers.
 
 To begin fixing this bug, we introduced form validators and we made
 them portable from CLJ to CLJS by simply using the
-[Reader Conditionals](http://clojure.org/reader#The%20Reader--Reader%20Conditionals)
+[Reader Conditionals](http://clojure.org/reference/reader#_reader_conditionals)
 introduced by the `1.7.0` release if CLJ/CLJS.
 
 With the intent of covering many possible usages of the
