@@ -211,7 +211,7 @@ to the `CommentList` component. Each comment contained in
 list. Only new or updated `Comment` components will be redraw.
 
 This last observation is very important, because it illustrates that a
-React component gets updated non only when its private state changes,
+React component gets updated not only when its private state changes,
 but even when they receive new `props` from its owner
 (e.g. `CommentBox -> CommentList -> Comment`).
 
@@ -279,11 +279,11 @@ we have to digress a little bit about Clojure(Script)
 ## On being mundane
 
 Immutability is divine, but sometime you still need to modify the
-world around you. ClojureScript chosen the immutability as the default
+world around you. ClojureScript has immutability as the default
 behavior of its data structure, but it also offers you a more mundane
 `atom` function when you really want to manipulate the reality.
 
-Let's get same help from the bREPL to learn about `atom` usage. Say
+Let's get some help from the bREPL to learn about `atom` usage. Say
 you want to maintain the number of times a button gets clicked
 
 ```clj
@@ -407,7 +407,7 @@ cljs.user> (swap! clicks dec)
 3
 ```
 
-You should see the state of the `clicks` atom to be printed at the
+You should see the state of the `clicks` atom printed at the
 browser console every time you change its internal value at the
 bREPL. Here, the fundamental word is *time*.
 
@@ -424,9 +424,9 @@ comments itself.
 ## From atom to ratom
 
 The
-[re-frame tutorials on Reagent documentation](https://github.com/Day8/re-frame/wiki#reagent-tutorials)
-do a terrific job in explaining Reagent and I strongly reccomend you
-to read it more times, until you really grasp the entire content.
+[Reagent tutorials on the re-frame wiki](https://github.com/Day8/re-frame/wiki#reagent-tutorials)
+does a terrific job explaining Reagent and I strongly reccomend you
+read it several times, until you really grasp the entire content.
 
 That said, Reagent offers its own version of the standard CLJS `atom`
 definition, AKA `ratom`, supporting the same `atom` protocol
@@ -523,8 +523,8 @@ corresponding components *view* been updated.
 
 ![update comment](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/updatecomment.png)
 
-We just experimented how Reagent abstracted away, in the `ratom`
-structure, the React need of using `this.state.data` instead of
+We just experimented with how Reagent abstracted away, in the `ratom`
+structure, the React need to use `this.state.data` instead of
 `this.props.data` to manage state management in React components.
 
 Hopefully, you should have also appreciated how the Reagent way of
@@ -532,7 +532,7 @@ managing components state made the Reagent/CLJS code much more concise
 than the corresponding React/JS code.
 
 The next and last step in porting the React Tutorial to Reagent has to
-do with `CommentForm` component.
+do with the `CommentForm` component.
 
 ## Adding new comments
 
