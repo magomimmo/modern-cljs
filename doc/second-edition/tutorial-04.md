@@ -475,7 +475,7 @@ So far so good.
 
 ### Define the `validate-form` function
 
-Now that we did few experiments in the bREPL on the interoperability
+Now that we have done a few experiments in the bREPL on the interoperability
 between CLJS and JS, we should be able to define a `validate-form`
 CLJS function cloning the corresponding JS `validateForm` behavior.
 
@@ -663,7 +663,7 @@ return false;
 }"]
 ```
 
-As you see the CLJS compiler translated the original CLJS code in a
+As you see the CLJS compiler translated the original CLJS code into
 corresponding JS code. Even if the `source-map` compiler option allows
 to debug your CLJS code in the Developer Tools of your browser, the
 understanding of the CLJS to JS translation could be very effective in
@@ -718,7 +718,7 @@ immediately return `true`.
 
 ### Port the `init` function
 
-After a little bit of bREPLing to familiarize with some stuff, we were
+After a little bit of bREPLing to get familiarized with some stuff, we were
 able to define a CLJS function resembling the corresponding JS
 `validateForm` function. But we still have to attach it to the
 `submit` button of the login form when the `index.html` page is loaded

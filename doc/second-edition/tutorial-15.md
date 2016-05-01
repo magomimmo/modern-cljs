@@ -690,7 +690,7 @@ As we said at the beginning of this series, one of the most attractive
 features of the `boot` build tool, compared with `leiningen`,
 is its ability to run multiple tasks in the same JVM without
 them interfering with each other. We have already unified the CLJ and the CLJS unit
-testing tasks. Let's see if we are also able to run
+testing tasks. Let's see if we are also able to run the
 original `dev` task in the same JVM.
 
 As we saw previously, thanks to the `watch` task, the `test-cljs` task
