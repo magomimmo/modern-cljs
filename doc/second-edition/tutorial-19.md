@@ -1456,7 +1456,7 @@ To me, warnings are potential errors and I don't at all like to
 let them survive to eventually wake me up at night or while I'm on
 vacation. This to say that we're now going to get rid of them.
 
-First, let's get a look at the `predicates.cljc` source file starting
+First, let's take a look at the `predicates.cljc` source file starting
 from its namespace declaration:
 
 ```clj
