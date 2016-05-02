@@ -1353,7 +1353,7 @@ attempt another boring part: tooling.
 
 As you saw above, it was very easy to run and test the CLJ version of
 `valip` library by using a couple of default
-[`leiningen`](http://leiningen.org/) tasks (e.g., `repl` and `test`).
+[`leiningen`](http://leiningen.org/) tasks (e.g. `repl` and `test`).
 
 On the contrary, we switched to `boot` building tool to easily create
 test automation (i.e., `clj-tdd` task).
