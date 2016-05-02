@@ -765,8 +765,7 @@ its main namespace as well:
          '[adzerk.bootlaces :refer [bootlaces! build-jar push-snapshot]])
 ```
 
-Now edit the `valip`'s `build.boot` file as suggested by the
-`bootlaces`'s
+Now edit the `valip`'s `build.boot` file as suggested by `bootlaces`'s
 [README.md](https://github.com/adzerk-oss/bootlaces#usage) file
 
 ```clj
