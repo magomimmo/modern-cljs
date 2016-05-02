@@ -674,7 +674,7 @@ able to run the newly updated `valip` library in CLJ.
 The only thing we need to do for running and testing the updated CLJ
 version of the `valip` library is to update its `project.clj` build
 file by upgrading the pinned CLJ release in the `:dependencies`
-section, but we already did it at the beginning of the tutorial:
+section - we already did this at the beginning of the tutorial:
 
 ```clj
 (defproject com.cemerick/valip "0.3.2"
