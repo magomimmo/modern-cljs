@@ -654,7 +654,7 @@ tree
 ```
 
 As you see the only surviving pure CLJ file is `def.clj`, which is the
-one containing the macros definitions.
+one containing the macro definitions.
 
 Those steps represent the easiest part of making the `valip`
 validation library compliant with the Reader Conditionals
