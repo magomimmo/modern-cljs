@@ -1801,8 +1801,8 @@ target
 ```
 
 and then it locally installs the artifact itself in your local
-[maven repository](http://stackoverflow.com/a/21048959/1310302) by
-overwriting the one that was eventually already installed:
+[maven repository](http://stackoverflow.com/a/21048959/1310302),
+overwriting any that wwere already installed:
 
 ```bash
 tree ~/.m2/repository/org/clojars/<your_github_name>/valip
