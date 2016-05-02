@@ -59,7 +59,7 @@ the same information, namely:
   "0.4.0-SNAPSHOT"
 
     > NOTE 1: `-SNAPSHOT` qualifies a version
-    > "as-yet-unreleased". Under the wood, `maven`, on which both
+    > "as-yet-unreleased". Under the hood, `maven`, on which both
     > `leiningen` and `boot` are based, will fetch the most recently
     > deployed `-SNAPSHOT` version. Even if this behavior slows down
     > the build process, in a continuous integration scenario it
