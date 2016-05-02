@@ -307,7 +307,7 @@ with the next steps, namely:
 1. get rid of the above smart and dangerous trick, by deleting the
    `src/cljs` directory and the `reader.clj` file as well;
 2. change the file extension of the `predicates.clj` and `core.clj`
-   source files hosted in the `src/valip` directory from to `.cljc`;
+   source files hosted in the `src/valip` directory from `.clj` to `.cljc`;
 3. move the specific JVM symbols' definitions from the
    `predicates.clj` source file hosted in the `src/valip/java`
    directory to the above `predicates.cljc` source file;
