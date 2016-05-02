@@ -1575,7 +1575,7 @@ declaration and then uses the class as a namespace:
 
 We have to make a choice and we need to be coherent with it, so we
 don't disorient the readers of our code. But be prepared to read
-all the other three form in the wild.
+all the other three forms in the wild.
 
 > NOTE 8: [Shane Kilkelly](https://github.com/ShaneKilkelly) suggested
 > me to use the third form, `(goog.Uri.parse (str s))`, because
