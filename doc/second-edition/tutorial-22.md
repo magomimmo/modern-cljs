@@ -249,7 +249,7 @@ Open the `comments.json` file, which is located in the
 ]
 ```
 
-When you save the file, after a moment you should see the page been
+When you save the file, after a moment you should see that the page has been
 updated with the new comment by the
 [author of Reagent](https://twitter.com/holmsand).
 
