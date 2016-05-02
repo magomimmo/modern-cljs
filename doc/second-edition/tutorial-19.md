@@ -203,9 +203,9 @@ To prepare a library originally implemented for CLJ only to cover CLJS
 via the Reader Conditionals extension, there are a few steps you should follow:
 
 * update the CLJ dependency to the `1.7.0` release, because the Reader
-  Conditional extension has been introduced from that release on (we
-  already did);
-* identify all the functions that being JVM specific, can't target
+  Conditionals extension was introduced in that release on (we
+  already did this);
+* identify all the functions that are JVM specific, these can't target
   CLJS;
 * identify all the macros defined in the library, because CLJS's
   macros must be defined in a different compilation stage from the one
