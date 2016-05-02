@@ -1517,7 +1517,7 @@ As you already know, to invoke a JS method from an object/class we
 need to prefix it with the dot `.` interop special form `(.method
 jsObj arg1 ... argn)` as above.
 
-But you can even use `(. jsObj (method arg1 ... argn))`, i.e., the syntactic
+But you can even use `(. jsObj (method arg1 ... argn))`, i.e. the syntactic
 sugar form:
 
 ```clj
