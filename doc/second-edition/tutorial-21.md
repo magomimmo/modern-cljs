@@ -118,8 +118,8 @@ Server started: http://localhost:3001/
 
 ### Play with the React web application
 
-Now visit the [localhost:3001](http://localhost:3001/) URL in your
-browser and you should receive something like this:
+Now visit the URL [localhost:3001](http://localhost:3001/) in your
+browser and you should see something like this:
 
 ![React Tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/react-tut-01.png)
 
