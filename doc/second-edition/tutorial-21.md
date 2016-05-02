@@ -1188,7 +1188,7 @@ git add --all
 git commit -m "Part I"
 ```
 
-## [Next Step - Tutorial 21 - A minimalist interface to React with Reagent (Part II)][6]
+## [Next Step - Tutorial 22 - A minimalist interface to React with Reagent (Part II)][6]
 
 In [Part II of this tutorial on Reagent][6] we're going to complete our 
 porting of the official React Tutorial to Reagent, by introducing components state management.
