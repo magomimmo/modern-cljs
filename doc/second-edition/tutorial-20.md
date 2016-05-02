@@ -954,8 +954,8 @@ The test scope indicates that a dependency is only required for the
 compilation and the test phases of the library itself and it's not
 required to consume the library from another application.
 
-Let's contextualize this concept within the `valip` library by
-analyzing its dependencies starting from the ones catheterized by a
+Let's illustrate this concept within the `valip` library by
+analyzing its dependencies starting from the ones characterized by a
 very clear role. All the `boot` tasks play a role in the building,
 testing and publishing of a library, but they are not consumed by an
 application using the library itself. We can safely say that all of
