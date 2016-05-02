@@ -942,7 +942,7 @@ the dependency scope controls the dependency transitivity as well. In
 
 
 I have to admit that I never saw more than a couple of them, namely
-"test" and "provided", in the contest of `boot` build files and even
+"test" and "provided", in the context of `boot` build files and even
 less with `leiningen`, which offers
 [`profiles` for such a thing](http://librelist.com/browser//leiningen/2014/9/7/clarifications-about-scope-in-dependencies/#32fcd639eb09c94545bec6a56c200167).
 
