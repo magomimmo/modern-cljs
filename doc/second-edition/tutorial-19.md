@@ -950,7 +950,7 @@ BOOT_EMIT_TARGET=no
 > NOTE 5: The latest available stable `boot` release at time of
 > writing is `2.5.5`.
 
-Now create the `build.file` for the `valip` project with the following content:
+Now create the `build.boot` file for the `valip` project with the following content:
 
 ```clj
 (set-env!
