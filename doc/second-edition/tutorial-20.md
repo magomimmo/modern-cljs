@@ -808,7 +808,7 @@ clojure.core/binding-conveyor-fn/fn       core.clj: 1916
                                 ...
 ```
 
-Uhm, not such a nice shot. After having required your clojars's
+Uhm, not such a nice shot. After having required your clojars
 credentials, `boot` complained about the fact that your current branch
 is not the master. As default, `bootlaces` assumes that you only
 publish a snapshot release from a master branch, but you can overwrite
