@@ -280,8 +280,8 @@ we have to digress a little bit about Clojure(Script)
 
 Immutability is divine, but sometime you still need to modify the
 world around you. ClojureScript has immutability as the default
-behavior of its data structure, but it also offers you a more mundane
-`atom` function when you really want to manipulate the reality.
+behavior of its data structures, but it also offers you a more mundane
+`atom` function when you really want to manipulate reality.
 
 Let's get some help from the bREPL to learn about `atom` usage. Say
 you want to maintain the number of times a button gets clicked
