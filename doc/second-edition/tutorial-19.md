@@ -200,7 +200,7 @@ you are going to use for the project itself.
 ## Migration preparation
 
 To prepare a library originally implemented for CLJ only to cover CLJS
-via Reader Conditionals extension, there few steps you should follow:
+via the Reader Conditionals extension, there are a few steps you should follow:
 
 * update the CLJ dependency to the `1.7.0` release, because the Reader
   Conditional extension has been introduced from that release on (we
