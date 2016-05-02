@@ -112,10 +112,9 @@ PORT=3001 node server.js
 Server started: http://localhost:3001/
 ```
 
-> NOTE 2: I set the port of the node http server to `3001` to not
-> collide its [express server](http://expressjs.com/) with the default
-> `3000` port number of the clojure web server we're going to later
-> launch.
+> NOTE 2: I set node's http server port to `3001` so that
+> its [express server](http://expressjs.com/) would not clash with the default
+> `3000` port number of the clojure web server we're going to launch later.
 
 ### Play with the React web application
 
