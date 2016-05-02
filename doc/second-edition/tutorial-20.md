@@ -314,9 +314,9 @@ Options:
   -p, --pom PATH   Set the pom.xml file to use to PATH.
 ```
 
-This help is mostly about corner cases, which it's not our
+This help is mostly about corner cases which are not in not our
 scenario. We'll stay with the default behavior, without passing any
-option to the `install` task:
+options to the `install` task:
 
 ```bash
 boot pom -p org.clojars.<your_github_name>/valip -v 0.4.0-SNAPSHOT jar install
