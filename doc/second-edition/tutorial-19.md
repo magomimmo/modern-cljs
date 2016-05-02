@@ -231,7 +231,7 @@ Let's explore the current directory layout of the `valip` library:
 * all the functions which are agnostic from the hosting platform are
   confined in the `core.clj` and `predicates.clj` source files living
   in the `src/valip` directory;
-* all the macros are confined in the `def.clj` source file hosted in
+* all the macros are confined in the `def.clj` source file are hosted in
   the `src/valip/predicates` directory.
 
 So far, so good. But what does it mean that `reader.clj` source
