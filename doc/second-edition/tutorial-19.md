@@ -145,9 +145,9 @@ clojure-dev team will deliver the `1.8.0` release):
   :dependencies [[org.clojure/clojure "1.7.0"]])
 ```
 
-> NOTE 1: this tutorial use [`leiningen`](http://leiningen.org/) build
+> NOTE 1: this tutorial uses the [`leiningen`](http://leiningen.org/) build
 > tool. You need to install it by following
-> [this very easy instruction](http://leiningen.org/#install).
+> [these very easy instructions](http://leiningen.org/#install).
 
 
 [`leiningen`](http://leiningen.org/) has a lot of
