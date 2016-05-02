@@ -328,7 +328,7 @@ cljs.user> @clicks
 1
 ```
 
-And Sometimes you want to reset the number of clicks to a specific
+Sometimes you want to reset the number of clicks to a specific
 value:
 
 ```clj
