@@ -239,7 +239,7 @@ directory of the `react-tutorial` project folder.
 
 There are a few things to be noted here:
 
-1. the `<div id="content"></div>` represent the `root` HTML
+1. `<div id="content"></div>` represents the `root` HTML
    element to which the `CommentBox` component instance is to be
    attached;
 1. the inclusion of the [marked JS library][2] for rendering mardown text;
@@ -1200,7 +1200,7 @@ Copyright © Mimmo Cosenza, 2012-16. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md
-[2]: https://github.com/cljsjs/packages
+[2]: https://github.com/cljsjs/packages/tree/master/marked
 [3]: https://github.com/teropa/hiccups
 [4]: https://github.com/cgrand/enlive
 [5]: https://github.com/weavejester/hiccup/wiki/Syntax
