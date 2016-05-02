@@ -820,7 +820,7 @@ JS library.
 The result of the `rawMarkup()` call is set as the value of the
 `dangerouslySetInnerHTML` attribute inside a `span` component.
 
-If you now reload the [localhost:3001](http://localhost:3001/) you
+If you now reload [localhost:3001](http://localhost:3001/) you
 should see the word *another* displayed in *italics*.
 
 Let's try to port this solution to Reagent. As you probably remember
