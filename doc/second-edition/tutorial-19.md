@@ -213,7 +213,7 @@ via the Reader Conditionals extension, there are a few steps you should follow:
 
 ## Valip current state
 
-With `valip` we're in good position. Indeed, its directory layout
+With `valip` we're in a good position. Indeed, its directory layout
 already partially fits with the above preparation, because Chas
 Emerick's goal was to make `valip` portable on JSVM (JavaScript
 Virtual Machine) either via the `:crossover` feature of the
