@@ -853,7 +853,7 @@ There are few important things to be noted here:
    events. This is because we want to protect the removal of the
    `help` class from the invalid field when the user move the mouse
    out of the button area;
-4. we changes the name of the button click listener from `calculate`
+4. we changed the name of the button click listener from `calculate`
    to `calculate!`, because this function is going to have side-effect
    on the DOM as well.
 
