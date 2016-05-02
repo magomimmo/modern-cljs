@@ -711,7 +711,7 @@ Currently, the modified `valip` library lives on your computer only,
 and it can't be directly shared with other developers or even with
 other computers.
 
-You have more options:
+You have a couple of options:
 
 * you can publish the updated library to clojars public
   repository. This way the library will be available to everybody;
@@ -748,7 +748,7 @@ to [register](https://clojars.org/register) with it and you're almost
 ready. Actually, there is another very handy `boot` task to be used:
 [`bootlaces`](https://github.com/adzerk-oss/bootlaces).
 
-`bootlaces` task is aimed at simplifying a tipical workflow of
+The `bootlaces` task is aimed at simplifying a tipical workflow of
 publishing a library to clojars.
 
 Open the `build.boot` file to add the `bootlaces` task and to require
