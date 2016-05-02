@@ -200,7 +200,7 @@ world! I am a CommentBox.`
 The above lines mix into JS code a kind of HTML code,
 [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) code in
 React parlance. It first defines a new class, named `CommentBox`,
-which is an UI component containing one method only: `render()`. This
+which is a UI component containing one method only: `render()`. This
 method uses the JSX syntax to declare the structure of the component
 itself. In this very simple case, it is just a `div` component and the
 text node `Hello, world! I am a CommentBox`.
