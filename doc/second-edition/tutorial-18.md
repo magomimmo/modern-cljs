@@ -679,7 +679,7 @@ Likely `domina` offers both `css` and `xpath` selectors for such a
 case. This is the first time we've dealt with `css` and `xpath` selectors
 from the `domina` lib and before we start coding we want to
 familiarize ourselves a little bit with at least one of them in the bREPL,
-namely with `css` selector.
+namely with the `css` selector.
 
 Perhaps you remember that due to a bug in the `boot-cljs-repl` task,
 before requiring a namespace of a dependency from the bREPL, you need
