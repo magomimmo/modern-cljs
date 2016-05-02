@@ -45,7 +45,7 @@ book:
 
 This statement is particularly true when you deal with OSS (Open
 Source Software) libraries which are frequently updated without
-their corresponding documentation been updated as well.
+their corresponding documentation being updated as well.
 
 Even if you are a [TDD][6] practitioner, which means that you start coding
 from a failing test, you still need to know and to understand your
