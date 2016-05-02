@@ -577,7 +577,7 @@ On the contrary, the files contained in the set of directories of the
 Now, go back to `valip`'s `build.boot` build file. By just setting
 the `:resource-paths` environment variable with the same `#{"src"}`
 value of the `:source-paths` one, we should be able to solve the
-problem of including into the `jar` the `valip`'s source files. While
+problem of including `valip`'s source files into the `jar`. While
 we are at it, let's define a new `install-jar` task, which first sets
 the `:resource-paths` environment variable and then composes the
 `pom`, `jar` and `install` built-in tasks:
