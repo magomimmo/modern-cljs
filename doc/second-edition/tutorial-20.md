@@ -570,7 +570,7 @@ would never be emitted in the final artifacts, as we just discovered
 by listing the content of the generated `jar` file.
 
 On the contrary, the files contained in the set of directories of the
-`:resource-paths` would be emitted in the final `jar` file as well.
+`:resource-paths` would be emitted in the final `jar` file.
 
 ## `install-jar` task
 
