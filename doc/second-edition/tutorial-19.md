@@ -767,7 +767,7 @@ nil
 ```
 
 As you know, when evaluated in boolean context, `nil` is like
-`false`. I would prefer that the last expression would returned
+`false`. I would prefer that the last expression return
 `false`, but I can live with it.
 
 ## Digression about corner cases
