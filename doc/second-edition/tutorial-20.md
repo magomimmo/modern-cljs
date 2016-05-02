@@ -369,10 +369,10 @@ From a build tool such as `boot` you would expect something like the `lein
 install` command we used in the [previous tutorial][1]: enter
 `task-options!`.
 
-`task-options!` allows to add any task option to the `build.boot`
+`task-options!` allows us to add any task option to the `build.boot`
 build file.  If you're only using built-in tasks, you can place it
 just after the `set-env!` form. If you are using other tasks, you'll
-place `task-options!` after the requirement form. Following it is the
+place `task-options!` after the requirement form. Following is the
 complete updated version of the `build.boot` build file for the
 `valip` project:
 
