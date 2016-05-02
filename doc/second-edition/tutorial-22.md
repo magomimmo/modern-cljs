@@ -5,7 +5,7 @@ steps of the official [React Tutorial][3].
 
 In this Part II of the tutorial on Reagent we're going to complete the
 porting of the official [React Tutorial][3] to [Reagent][2], by
-introducing components state management.
+introducing component state management.
 
 ## Preamble
 
