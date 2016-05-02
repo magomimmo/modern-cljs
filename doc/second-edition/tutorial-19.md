@@ -132,7 +132,7 @@ on the `leiningen` build tool, uses a `project.clj` build file:
   :dependencies [[org.clojure/clojure "1.4.0"]])
 ```
 
-A pretty minimal build file in such a case. As you see, `valip`
+A pretty minimal build file in this case. As you see, `valip`
 depends on CLJ `1.4.0` release. To be able to use the Reader
 Conditionals extension, the very first thing to be updated is the CLJ
 dependency: from `1.4.0` to `1.7.0` (in a very short time the
