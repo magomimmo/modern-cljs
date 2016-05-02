@@ -121,7 +121,7 @@ and you're ready to start collaborating.
 
 When I want to grasp an initial understanding of a new CLJ/CLJS
 library, the very first thing I do, aside from reading the
-corresponding `README.md` file when available, it's to take a look at
+corresponding `README.md` file when available, is to take a look at
 its build file. As most CLJ/CLJS libraries, `valip`, being based
 on the `leiningen` build tool, uses a `project.clj` build file:
 
