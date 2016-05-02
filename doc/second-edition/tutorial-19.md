@@ -329,7 +329,7 @@ with the next steps, namely:
 
 Not such a big deal, right? **Wrong!**
 
-The `valip` `project.clj` build file is for CLJ only. If we want to
+The `valip` `project.clj` build file is for CLJ only. If we want to be
 able to compile and test the migrated `valip` library on CLJS, we need
 to add both the
 [`lein-cljsbuild`](https://github.com/emezeske/lein-cljsbuild) and the
