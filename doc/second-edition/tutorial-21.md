@@ -352,8 +352,8 @@ Elapsed time: 32.980 sec
 > about Reagent by interacting with it at the bREPL.
 
 As usual, open a new terminal and launch the `boot` client and the
-`bREPL` on top of it. Finally visit the
-[localhost:3000/reagent.html](http://localhost:3000/reagent.html).
+`bREPL` on top of it. Finally, open
+[localhost:3000/reagent.html](http://localhost:3000/reagent.html) in your browser.
 
 ```bash
 boot repl -c
