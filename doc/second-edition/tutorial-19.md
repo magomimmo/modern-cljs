@@ -342,8 +342,8 @@ those things will be new to you and the signal/noise ratio of the final
 `project.clj` build file is going to be much worse when compared with
 the `project.clj` we started from.
 
-But don't worry! We're not going to complicate with `cljsbuild` the
-`project.clj` file to make `valip` compliant with Reader Conditionals
+But don't worry! We're not going to complicate the `project.clj` file 
+with `cljsbuild` to make `valip` compliant with the Reader Conditionals
 extension, we'll continue to use `boot`.
 
 ## Execution
