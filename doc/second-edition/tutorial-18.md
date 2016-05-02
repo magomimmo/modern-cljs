@@ -675,7 +675,7 @@ First note that the `label` element does not have an `id` attribute to
 be used with the `by-id` function we already used more times in
 previous tutorials on `domina` library usage.
 
-Likely `domina` offers both `css` or `xpath` selectors for such a
+Likely `domina` offers both `css` and `xpath` selectors for such a
 case. This is the first time we deal with `css` and `xpath` selectors
 from the `domina` lib and before we start coding we want to
 familiarize ourselves a little bit with at least one of them in the bREPL,
