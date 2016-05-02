@@ -193,7 +193,7 @@ Options:
   -u, --updates           Print newer releases of outdated dependencies.
 ```
 
-Wow, this is a very handy task to be used indeed. Let's play at the
+Wow, this is a very handy task indeed. Let's play on the
 command line by chaining it before and after the `pom` task as
 follows:
 
