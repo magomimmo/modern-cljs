@@ -1740,10 +1740,10 @@ library:
 
 That said, we still have work to do, namely:
 
-* locally install the updated `valip` library to test it in a context
+* locally install the updated `valip` library to test it in the context
   of a project;
 * publish the `valip` library to [`clojars`](https://clojars.org/) to
-  make it available to whoever will be interested to.
+  make it available to whomever will be interested.
 
 In this tutorial we're going to explain the first item only. In a next
 tutorial we'll deal with the next item.
