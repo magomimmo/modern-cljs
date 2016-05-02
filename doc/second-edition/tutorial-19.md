@@ -1497,7 +1497,7 @@ it's only available on the
 [Java counterpart](http://docs.oracle.com/html/E18812_01/html/fc830ed0-6054-3c49-4d9b-ec34f10e92fb.htm).
 
 Considering that `url` validation is a very complicated topic and
-would even necessitate of a URL parser, I would be inclined to remove
+would necessitate a URL parser, I would be inclined to remove
 the current CLJ and CLJS definitions from `valip`.
 
 That said, just as a matter of explanation on how to remove the above
