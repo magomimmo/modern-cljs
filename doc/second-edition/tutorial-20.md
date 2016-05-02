@@ -968,8 +968,7 @@ them to compile `valip`. Any application consuming the `valip` source
 code needs to compile it as well, but it will provide those compilers by
 itself. We can safely say that both the CLJ and the CLJS compilers should have the `:scope` set to `"provided"`.
 
-It follows the entire `build.boot` build file filled with the
-dependencies scope.
+Here is the entire `build.boot` build file complete with dependencies scoping.
 
 ```clj
 (set-env!
