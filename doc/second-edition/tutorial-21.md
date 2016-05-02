@@ -787,7 +787,7 @@ you previously saw in react.
 While playing with the final web application implemented in the React
 Official Tutorial, we previously discovered that it supports
 `markdown` markup in the text of a comment. Here is the solution
-adopted in the React Tutorial for parsing a `markdown` marked text and
+adopted in the React Tutorial for parsing `markdown` marked text and
 then generating the corresponding HTML markup to be rendered by the
 browser.
 
