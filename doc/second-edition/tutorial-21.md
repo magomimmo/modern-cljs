@@ -14,9 +14,9 @@ building User Interfaces with CLJS.
 In this tutorial of the series we're going to fill that gap by
 introducing [Reagent](http://reagent-project.github.io/), a very well
 known minimalist ClojureScript interface to
-[React.js](https://facebook.github.io/react/index.html).  React is a JavaScript
-library for building User Interfaces created by Facebook, that
-recently got a lot of attention all over the places.
+[React.js](https://facebook.github.io/react/index.html). React is a JavaScript
+library created by Facebook for building User Interfaces, that
+has recently received a lot of attention from many places.
 
 ## Preamble
 
