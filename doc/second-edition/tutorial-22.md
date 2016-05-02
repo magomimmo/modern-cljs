@@ -119,7 +119,7 @@ and
 [Reactive State](https://facebook.github.io/react/docs/tutorial.html#reactive-state). In
 this port of the React Tutorial to Reagent we're going to restrict our
 scope to the state management only, because it is where Reagent
-standouts the most from React.
+stands out the most from React.
 
 Let's start by reading the paragraph of the React Tutorial on state
 management:
