@@ -869,10 +869,10 @@ Password:
 ...
 ```
 
-This time, `push-snapshot` task complain about the fact that the git
+This time, the `push-snapshot` task complains about the fact that the git
 branch is not clean. This is something that we should like, because
-generally speaking your not publishing something that it's still to be
-committed, right? So, let's be nice with ourself, commit the work
+generally speaking you're not publishing something that is still to be
+committed, right? So, let's be nice to ourselves and commit the work
 we have done so far
 
 ```clj
