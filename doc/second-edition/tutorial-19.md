@@ -1387,7 +1387,7 @@ specialized for CLJS.
 
 [`cljx`](https://github.com/lynaghk/cljx) is a second `leiningen`
 plugin that got a lot of attention when clojurians realized the
-opportunity of writing code able to be ran on JVM and JSVM as well
+opportunity of writing portable code able that could run on JVM and JSVM 
 with few platform differences.
 
 Before the advent of the Reader Conditionals extension, these were the
