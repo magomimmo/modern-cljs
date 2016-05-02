@@ -1745,8 +1745,8 @@ That said, we still have work to do, namely:
 * publish the `valip` library to [`clojars`](https://clojars.org/) to
   make it available to whomever will be interested.
 
-In this tutorial we're going to explain the first item only. In a next
-tutorial we'll deal with the next item.
+In this tutorial we're going to explain the first item only. We'll deal with 
+publishing in a further tutorial.
 
 ## Locally install valip
 
