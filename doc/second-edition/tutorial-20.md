@@ -689,12 +689,12 @@ Let's first summarize what we already did with `valip`:
 * we made substantial changes to the `valip` source and test files to
   make it compatible with the Reader Conditionals extension of
   CLJ/CLJS compilers and to introduce few corner cases tests;
-* we increment the minor-version only of the library, because, even if
+* we incremented the minor-version only of the library, because, even if
   it would break any preexisting use of the `valip` library, its major
   version is still `0`;
 * we qualified the new minor version as SNAPSHOT, because it's
   as-yet-unreleased;
-* we bootify `valip` by creating the corresponding `build.boot` build
+* we bootified `valip` by creating the corresponding `build.boot` build
   file and the `boot.properties` file to pin the project to the
   `2.5.5` release of `boot`;
 * we tested the `valip` library in the context of the `modern-cljs`
