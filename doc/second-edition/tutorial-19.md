@@ -922,7 +922,7 @@ the original `valip` library.
 
 ## Enter boot
 
-Even if we could update the `project.clj` buy adding to it the
+Even if we could update the `project.clj` by adding to it the
 [`lein-auto`](https://github.com/weavejester/lein-auto) plugin, we
 prefer to switch to `boot`, because we already know everything about
 creating a `build.boot` build file to support [TDD][6].
