@@ -657,7 +657,7 @@ URL to play with the Shopping Calculator.
 
 You can now stop the `boot` process and go back again to the `valip`
 project directory, because there is something new to learn before
-deploying the `valip` library to `clojars` for making it available to
+deploying the `valip` library to `clojars` and making it available to
 anybody else.
 
 ## Artifact Versioning
