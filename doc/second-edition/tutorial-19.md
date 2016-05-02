@@ -1410,7 +1410,7 @@ To be able to quickly set up a CLJ [TDD][6] environment, in the previous
 paragraph we already created the `boot.properties` and `build.boot`
 files. It is now very easy to update the `build.boot` file to be able
 to extend it for covering the CLJS version of `valip` as well. We
-start very simple, by just adding the `boot-cljs` boot task and
+start very simply, by just adding the `boot-cljs` boot task and
 requiring its main `cljs` task to run the CLJS compiler.
 
 
