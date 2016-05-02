@@ -59,7 +59,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | b
 
 > NOTE 1: On OSX, if you get `nvm: command not found` after running
 > the install script, your system may not have a `.bash_profile` file
-> where the command is set up. Simple create one with `touch
+> where the command is set up. Simply create one with `touch
 > ~/.bash_profile` and run the install script again.
 
 You can now install `node` by issuing the following command at the
