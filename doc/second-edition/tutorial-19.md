@@ -1375,8 +1375,8 @@ days of CLJ itself, when CLJS was not even an idea.
 and even offers a
 [template facility](https://github.com/technomancy/leiningen/blob/master/doc/TEMPLATES.md)
 which allows to recreate at will a new project based on a
-*templatificated* project's structure, no matter how complicate it
-could be. `Leiningen` template facility could be even used to create a
+*templatificated* project's structure, no matter how complex it
+may be. The `Leiningen` template facility could even be used to create a
 `boot` [based project](https://github.com/martinklepsch/tenzing).
 
 [`lein-cljsbuild`](https://github.com/emezeske/lein-cljsbuild) is a
