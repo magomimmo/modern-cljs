@@ -519,7 +519,7 @@ and CLJS.
 Following is the `valip.predicates` namespace declaration incorporating
 the above solution for the cited security issue and any other specific
 namespace declaration specific for the two considered platforms (i.e.,
-JVM an JSVM):
+JVM and JSVM):
 
 ```clj
 (ns valip.predicates
