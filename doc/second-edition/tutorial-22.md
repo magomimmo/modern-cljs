@@ -58,7 +58,7 @@ Next visit the URL
 Event if you don't see anything, because we still have to attach
 the `comment-box` root component to the `"content"` `div` of the
 `reagent.html` page, a websocket connection will be established
-between your development environmnet and your browser's JS engine.
+between your development environment and your browser's JS engine.
 browser.
 
 Now open a new terminal and launch the nREPL client followed by the
