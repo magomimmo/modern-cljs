@@ -365,7 +365,7 @@ The previous paragraphs explained the local installation of `valip`
 step by step, but it is not something you'd like to repeat again and
 again after any project change.
 
-From a build tool as `boot` you would expect something like the `lein
+From a build tool such as `boot` you would expect something like the `lein
 install` command we used in the [previous tutorial][1]: enter
 `task-options!`.
 
