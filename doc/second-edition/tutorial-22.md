@@ -343,7 +343,7 @@ cljs.user> @clicks
 
 Even if changes to atoms are always non blocking and free of race
 conditions, this is not the main reason we are talking about them in
-the Reagent contest.
+the Reagent context.
 
 Say you want to observe the state of `clicks`. You can easily add a
 watcher to log its state in time at the `js/console`.
@@ -414,9 +414,9 @@ bREPL. Here, the fundamental word is *time*.
 ![Watch clicks atom at console](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/atom-console.png)
 
 You can think about the `data` containing comments as an `atom` and
-the `comment-box` component as an observer that execute a reaction,
+the `comment-box` component as an observer that executes a reaction,
 redrawing itself, anytime it observes a change in the state of the
-comments itself.
+comments.
 
 > NOTE 2:  in reality, as we'll see in a moment, this statement is not
 > true.
