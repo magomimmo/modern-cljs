@@ -1037,7 +1037,7 @@ Password:
 Deploying valip-0.4.0-SNAPSHOT.jar...
 ```
 
-That's all folks. Stay tune for the next tutorial.
+That's all folks. Stay tuned for the next tutorial.
 
 ## Next Step - TBD
 
