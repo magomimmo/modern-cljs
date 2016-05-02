@@ -165,7 +165,7 @@ rm public/scripts/example.js
 touch public/scripts/example.js
 ```
 
-Open the `example.js` source file with your preferred editor paste
+Open the `example.js` source file with your preferred editor and paste
 into it the following code extracted from the beginning of the
 official React Tutorial:
 
