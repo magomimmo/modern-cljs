@@ -1380,8 +1380,8 @@ may be. The `Leiningen` template facility could even be used to create a
 `boot` [based project](https://github.com/martinklepsch/tenzing).
 
 [`lein-cljsbuild`](https://github.com/emezeske/lein-cljsbuild) is a
-`leiningen` plugin created at the end of 2011 to manage any
-compilation tasks required by CLJS an its plethora of compilation
+`leiningen` plugin created at the end of 2011 to manage 
+compilation tasks required by CLJS and its plethora of compilation
 options. In some way, you could consider `cljsbuild` as a build tool
 specialized for CLJS.
 
