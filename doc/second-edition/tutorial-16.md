@@ -301,7 +301,7 @@ to the `:source-paths` variable.
 
 Note how we used the [DSL][3] to define the same `-t` option as for the
 `add-source-paths` task. The only difference for the `tdd` task is the
-description "test paths". Moreover, we used the `let` and the `or` forms to give it
+description "test paths". Moreover, we used the `let` and `or` forms to give it
 a default value, before finally passing the argument to the
 internal `add-source-paths` function. This is the idiomatic way to use task
 options.
@@ -555,8 +555,8 @@ like to expose for the `tdd` task as its options:
 
 There are a total of 8 new task options to be exposed for the `tdd` task. Two of
 them, namely `-k` and `-v`, are
-[flags boolean options](https://github.com/boot-clj/boot/wiki/Task-Options-DSL#flags). You
-recognize this kind of options from the fact that they do not have an
+[flags (boolean options)](https://github.com/boot-clj/boot/wiki/Task-Options-DSL#flags). You
+recognize this kind of option from the fact that they do not have an
 optarg like the others (e.g., `PORT`, `VAL`, `NS`, `EXPR`, etc.).
 
 ## Dummy task again
@@ -1480,7 +1480,7 @@ Here is the reworked `build.boot` file:
    p port           PORT   int    "the web server port to listen on (default 3000)"
    t dirs           PATH   #{str} "test paths (default test/clj test/cljs test/cljc)"
    v verbose               bool   "Print which files have changed (default false)"]
-  (let [dirs        (or (:test-dirs defaults))
+  (let [dirs        (or dirs (:test-dirs defaults))
         output-to   (or output-to (:output-to defaults))
         testbed     (or testbed (:testbed defaults))
         namespaces  (or namespaces (:namespaces defaults))]
@@ -1539,7 +1539,7 @@ We also set default values using `let` and `or`:
    p port           PORT   int    "the web server port to listen on (default 3000)"
    t dirs           PATH   #{str} "test paths (default test/clj test/cljs test/cljc)"
    v verbose               bool   "Print which files have changed (default false)"]
-  (let [dirs        (or (:test-dirs defaults))
+  (let [dirs        (or dirs (:test-dirs defaults))
         output-to   (or output-to (:output-to defaults))
         testbed     (or testbed (:testbed defaults))
         namespaces  (or namespaces (:namespaces defaults))]

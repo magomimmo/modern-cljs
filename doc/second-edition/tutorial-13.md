@@ -34,7 +34,7 @@ git checkout se-tutorial-12
 
 Before we go ahead with the problem of testing your CLJ/CLJS
 code, we have to finish something we left behind in the previous
-tutorials. In the [Tutorial 9 - Introducing Ajax - ][1] we
+tutorials. In [Tutorial 9 - Introducing Ajax - ][1] we
 implemented a Shopping Calculator by using the Ajax style of
 communication between the browser (i.e. ClojureScript) and the server
 (i.e. Clojure).
@@ -388,8 +388,8 @@ we'll take care of later in the next tutorial.
 
 ### Enter Enlive
 
-The steps `2.` and `5.` are already satisfied by the `defroutes` macro
-from [Compojure][6]. The step `3.` - calculate the total - seems to be
+Steps `2.` and `5.` are already satisfied by the `defroutes` macro
+from [Compojure][6]. Step `3.` - calculate the total - seems to be
 already satisfied by the the `defremote` macro call from
 [Shoreleave][15], which implicitly defines a function with the same
 name.
@@ -412,10 +412,10 @@ It implicitly creates a function with the same number of `args` and
 the same `name` as the template. The `source` argument can be any HTML
 file located in the `classpath` of the application.
 
-Finally, the `&forms` argument is composed of a sequence of pairs. The
-item from the pair is a vector of CSS-like selectors, used to
+Finally, the `&forms` argument is composed of a sequence of pairs. The first
+item from each pair is a vector of CSS-like selectors, used to
 select the interested elements/nodes from the parsed HTML source. The
-second item from the pair is a function which is applied to transform
+second item from each pair is a function which is applied to transform
 each selected element/node.
 
 As you perhaps remember from the tutorial introducing Ajax, in `build.boot`
@@ -522,7 +522,7 @@ It's now time to fill the gap in the `deftemplate` call by adding the
 appropriate selector/transformation pairs.
 
 For a deeper understanding of the CSS-like selectors accepted by
-`deftemplate`, you need to understand CSS selectors. You need to know
+`deftemplate`, you need to understand [CSS selectors][39]. You need to know
 this anyway if you want to use [Domina][18], [JQuery][19], etc. So, even if
 we'd like to have a unified language for everything, you can't
 avoid learning a little bit of HTML, CSS and JS to use
@@ -579,9 +579,9 @@ It's now time to calculate the result for the
 > of refactoring continuously, you'll find that it is easier to extend
 > and maintain code.   - Joshua Kerievsky, Refactoring to Patterns
 
-In the [Tutorial 9 - Introducing Ajax][1] we defined the remote
+In [Tutorial 9 - Introducing Ajax][1] we defined the remote
 `calculate` function by calling the `defremote` macro. The
-`defremote` call implicitly define a function with the same name
+`defremote` call implicitly defines a function with the same name
 as the remote function; that's good, since we hate any kind of
 code duplication. We could immediately use it to calculate the result
 of the Shopping Calculator by just parsing the
@@ -647,7 +647,7 @@ follows:
 ```
 
 Now the `:calculate` remote-callback function accepts strings as
-arguments and we should refactor it as well. Open the `remote.clj`
+arguments and we should refactor it as well. Open the `remotes.clj`
 file under the `src/clj/modern_cljs` directory and modify the
 `calculate` function as follows:
 
@@ -859,3 +859,4 @@ License, the same as Clojure.
 [36]: https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
 [37]: https://en.wikipedia.org/wiki/Test-driven_development
 [38]: https://en.wikipedia.org/wiki/Behavior-driven_development
+[39]: https://developer.mozilla.org/en/docs/Web/Guide/CSS/Getting_started/Selectors

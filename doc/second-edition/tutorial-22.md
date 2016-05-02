@@ -5,7 +5,7 @@ steps of the official [React Tutorial][3].
 
 In this Part II of the tutorial on Reagent we're going to complete the
 porting of the official [React Tutorial][3] to [Reagent][2], by
-introducing components state management.
+introducing component state management.
 
 ## Preamble
 
@@ -34,11 +34,11 @@ npm install
 PORT=3001 node server.js
 ```
 
-Finally visit the [localhost:3001](http://localhost:3001/) URL.
+Finally visit the URL [localhost:3001](http://localhost:3001/).
 
 ## Reagent port of React Tutorial
 
-Open a new terminal and submit the following commands
+Open a new terminal and enter the following commands
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
@@ -53,12 +53,12 @@ Then launch the development environment as usual
 boot dev
 ```
 
-Next visit the
-[localhost:3000/reagent.html](http://localhost:3000/reagent.html)
-URL. Event if you'll not see anything, because we still have to attach
+Next visit the URL
+[localhost:3000/reagent.html](http://localhost:3000/reagent.html). 
+Event if you don't see anything, because we still have to attach
 the `comment-box` root component to the `"content"` `div` of the
 `reagent.html` page, a websocket connection will be established
-between your development environmnet and the JS engine of your
+between your development environment and your browser's JS engine.
 browser.
 
 Now open a new terminal and launch the nREPL client followed by the
@@ -119,7 +119,7 @@ and
 [Reactive State](https://facebook.github.io/react/docs/tutorial.html#reactive-state). In
 this port of the React Tutorial to Reagent we're going to restrict our
 scope to the state management only, because it is where Reagent
-standouts the most from React.
+stands out the most from React.
 
 Let's start by reading the paragraph of the React Tutorial on state
 management:
@@ -134,8 +134,8 @@ management:
 In the subsequent couple of steps the React Tutorial substitutes the
 hard-coded `data` with some dynamic from the server. Considering I'm not
 going to port to Reagent this part of the React Tutorial, I'm just
-coping the corresponding code to facilitate its pasting into the
-`example.js` source file. I'll also limit my code comments to few
+copying the corresponding code to facilitate its pasting into the
+`example.js` source file. I'll also limit my code comments to a few
 things.
 
 ```js
@@ -191,12 +191,12 @@ Apparently, the only way to change the state of the component is via
 the `setState()` function.
 
 The `setState()` function is indirectly called the very first time,
-via the `loadCommentsFromServer()` function, in the body of the
-`componentDidMount()`. `componentDidMount()` function is called only
-once, immediately after the component has been mounted in the DOM buy
+via the `loadCommentsFromServer()` function, in the body of
+`componentDidMount()`. The `componentDidMount()` function is called only
+once, immediately after the component has been mounted in the DOM by
 the `ReactDOM.render` function. Then, `setState()` is indirectly
 called every 2 seconds (i.e. pollInterval), by passing to it the array
-of comments got by polling the server via ajax.
+of comments obtained by polling the server via ajax.
 
 If you heard that React implements *one-way data flow* communication
 model between data and User Interfaces, this is what they mean:
@@ -205,10 +205,10 @@ model between data and User Interfaces, this is what they mean:
 data -> CommentBox -> CommentList -> Comment
 ```
 
-The value of `this.state.data` got from the server is passed down
+The value of `this.state.data` obtained from the server is passed down
 to the `CommentList` component. Each comment contained in
 `this.state.data` is then passed to the `Comment` component of the
-list. Only new or updated `Comment` components will be redraw.
+list. Only new or updated `Comment` components will be redrawn.
 
 This last observation is very important, because it illustrates that a
 React component gets updated not only when its private state changes,
@@ -221,7 +221,7 @@ and, instead, take care of it by itself.
 
 Let's now verify if the above code refactoring works as
 expected. First reload the [localhost:3001](http://localhost:3001/)
-URL. Considering that we still have to implement the `CommentForm`
+page. Considering that we still have to implement the `CommentForm`
 component to create new comments, to see the React state management at
 work you need to manually change the `comment.json` array of comments
 which is read every two second by the the `CommentBox` component.
@@ -249,7 +249,7 @@ Open the `comments.json` file, which is located in the
 ]
 ```
 
-When you save the file, after a moment you should see the page been
+When you save the file, after a moment you should see that the page has been
 updated with the new comment by the
 [author of Reagent](https://twitter.com/holmsand).
 
@@ -280,8 +280,8 @@ we have to digress a little bit about Clojure(Script)
 
 Immutability is divine, but sometime you still need to modify the
 world around you. ClojureScript has immutability as the default
-behavior of its data structure, but it also offers you a more mundane
-`atom` function when you really want to manipulate the reality.
+behavior of its data structures, but it also offers you a more mundane
+`atom` function when you really want to manipulate reality.
 
 Let's get some help from the bREPL to learn about `atom` usage. Say
 you want to maintain the number of times a button gets clicked
@@ -328,7 +328,7 @@ cljs.user> @clicks
 1
 ```
 
-And Sometimes you want to reset the number of clicks to a specific
+Sometimes you want to reset the number of clicks to a specific
 value:
 
 ```clj
@@ -343,7 +343,7 @@ cljs.user> @clicks
 
 Even if changes to atoms are always non blocking and free of race
 conditions, this is not the main reason we are talking about them in
-the Reagent contest.
+the Reagent context.
 
 Say you want to observe the state of `clicks`. You can easily add a
 watcher to log its state in time at the `js/console`.
@@ -414,9 +414,9 @@ bREPL. Here, the fundamental word is *time*.
 ![Watch clicks atom at console](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/atom-console.png)
 
 You can think about the `data` containing comments as an `atom` and
-the `comment-box` component as an observer that execute a reaction,
+the `comment-box` component as an observer that executes a reaction,
 redrawing itself, anytime it observes a change in the state of the
-comments itself.
+comments.
 
 > NOTE 2:  in reality, as we'll see in a moment, this statement is not
 > true.
@@ -519,7 +519,7 @@ cljs.user> (swap! data assoc-in [(rand-int (count @data)) :text] "This is a **ra
 > the `(rand-int (count @data))` expression.
 
 Again, a soon as the `swap!` form gets evaluated, you should see the
-corresponding components *view* been updated.
+corresponding components *view* update.
 
 ![update comment](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/updatecomment.png)
 

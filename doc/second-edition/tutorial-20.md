@@ -1,8 +1,8 @@
 # Tutorial 20 - House Keeping
 
-In the [previous tutorial][1] we tried to explain how to make a
-library compliant with the
-[Reader Conditionals](http://clojure.org/reader#The%20Reader--Reader%20Conditionals). As
+In the [previous tutorial][1] we explained how to make a
+library compliant with 
+[Reader Conditionals](http://clojure.org/reference/reader#_reader_conditionals). As
 an example, we exploited the
 [`valip`](https://github.com/magomimmo/valip) library that we already
 used in the `modern-cljs` project for validating the input fields of
@@ -30,7 +30,7 @@ git checkout -b reader-conditionals
 ## Introduction
 
 In this tutorial we're going to fill that gap. But first we have to
-digress on a couple of topics we left uncover about the `boot` build
+digress on a couple of topics we left uncovered about the `boot` build
 tool, because they constitute a prerequisite to the `clojars`
 deployment itself, namely:
 
@@ -59,7 +59,7 @@ the same information, namely:
   "0.4.0-SNAPSHOT"
 
     > NOTE 1: `-SNAPSHOT` qualifies a version
-    > "as-yet-unreleased". Under the wood, `maven`, on which both
+    > "as-yet-unreleased". Under the hood, `maven`, on which both
     > `leiningen` and `boot` are based, will fetch the most recently
     > deployed `-SNAPSHOT` version. Even if this behavior slows down
     > the build process, in a continuous integration scenario it
@@ -128,7 +128,7 @@ Writing pom.xml and pom.properties...
 
 Even if the command reported the writing of the `pom.xml` and the
 `pom.properties` files, which is a misleading message to me, if you
-take a look at the project directory you'll not see them:
+take a look at the project directory you won't see them:
 
 ```bash
 tree
@@ -193,7 +193,7 @@ Options:
   -u, --updates           Print newer releases of outdated dependencies.
 ```
 
-Wow, this is a very handy task to be used indeed. Let's play at the
+Wow, this is a very handy task indeed. Let's play on the
 command line by chaining it before and after the `pom` task as
 follows:
 
@@ -314,9 +314,9 @@ Options:
   -p, --pom PATH   Set the pom.xml file to use to PATH.
 ```
 
-This help is mostly about corner cases, which it's not our
+This help is mostly about corner cases which are not in not our
 scenario. We'll stay with the default behavior, without passing any
-option to the `install` task:
+options to the `install` task:
 
 ```bash
 boot pom -p org.clojars.<your_github_name>/valip -v 0.4.0-SNAPSHOT jar install
@@ -365,14 +365,14 @@ The previous paragraphs explained the local installation of `valip`
 step by step, but it is not something you'd like to repeat again and
 again after any project change.
 
-From a build tool as `boot` you would expect something like the `lein
+From a build tool such as `boot` you would expect something like the `lein
 install` command we used in the [previous tutorial][1]: enter
 `task-options!`.
 
-`task-options!` allows to add any task option to the `build.boot`
+`task-options!` allows us to add any task option to the `build.boot`
 build file.  If you're only using built-in tasks, you can place it
 just after the `set-env!` form. If you are using other tasks, you'll
-place `task-options!` after the requirement form. Following it is the
+place `task-options!` after the requirement form. Following is the
 complete updated version of the `build.boot` build file for the
 `valip` project:
 
@@ -419,9 +419,9 @@ complete updated version of the `build.boot` build file for the
 > NOTE 4: we moved the `test` and the `test-cljs` option arguments
 > into the `task-options!` form as well.
 
-> NOTE 5: we enriched the `pom` task with more information, even the
-> ones, like `:description`, `:url`, `:scm` and `:license` that do no
-> make part of a minimal POM for the project to be packaged and
+> NOTE 5: we enriched the `pom` task with more information, including optional
+> fields like `:description`, `:url`, `:scm` and `:license` that are not
+> part of a minimal POM required for the project to be packaged and
 > installed.
 
 ## Shoot the gun
@@ -570,14 +570,14 @@ would never be emitted in the final artifacts, as we just discovered
 by listing the content of the generated `jar` file.
 
 On the contrary, the files contained in the set of directories of the
-`:resource-paths` would be emitted in the final `jar` file as well.
+`:resource-paths` would be emitted in the final `jar` file.
 
 ## `install-jar` task
 
-Now, go back to the `valip`'s `build.boot` build file. By just setting
+Now, go back to `valip`'s `build.boot` build file. By just setting
 the `:resource-paths` environment variable with the same `#{"src"}`
 value of the `:source-paths` one, we should be able to solve the
-problem of including into the `jar` the `valip`'s source files. While
+problem of including `valip`'s source files into the `jar`. While
 we are at it, let's define a new `install-jar` task, which first sets
 the `:resource-paths` environment variable and then composes the
 `pom`, `jar` and `install` built-in tasks:
@@ -657,7 +657,7 @@ URL to play with the Shopping Calculator.
 
 You can now stop the `boot` process and go back again to the `valip`
 project directory, because there is something new to learn before
-deploying the `valip` library to `clojars` for making it available to
+deploying the `valip` library to `clojars` and making it available to
 anybody else.
 
 ## Artifact Versioning
@@ -689,12 +689,12 @@ Let's first summarize what we already did with `valip`:
 * we made substantial changes to the `valip` source and test files to
   make it compatible with the Reader Conditionals extension of
   CLJ/CLJS compilers and to introduce few corner cases tests;
-* we increment the minor-version only of the library, because, even if
+* we incremented the minor-version only of the library, because, even if
   it would break any preexisting use of the `valip` library, its major
   version is still `0`;
 * we qualified the new minor version as SNAPSHOT, because it's
   as-yet-unreleased;
-* we bootify `valip` by creating the corresponding `build.boot` build
+* we bootified `valip` by creating the corresponding `build.boot` build
   file and the `boot.properties` file to pin the project to the
   `2.5.5` release of `boot`;
 * we tested the `valip` library in the context of the `modern-cljs`
@@ -711,7 +711,7 @@ Currently, the modified `valip` library lives on your computer only,
 and it can't be directly shared with other developers or even with
 other computers.
 
-You have more options:
+You have a couple of options:
 
 * you can publish the updated library to clojars public
   repository. This way the library will be available to everybody;
@@ -748,7 +748,7 @@ to [register](https://clojars.org/register) with it and you're almost
 ready. Actually, there is another very handy `boot` task to be used:
 [`bootlaces`](https://github.com/adzerk-oss/bootlaces).
 
-`bootlaces` task is aimed at simplifying a tipical workflow of
+The `bootlaces` task is aimed at simplifying the typical workflow of
 publishing a library to clojars.
 
 Open the `build.boot` file to add the `bootlaces` task and to require
@@ -765,8 +765,7 @@ its main namespace as well:
          '[adzerk.bootlaces :refer [bootlaces! build-jar push-snapshot]])
 ```
 
-Now edit the `valip`'s `build.boot` file as suggested by the
-`bootlaces`'s
+Now edit the `valip`'s `build.boot` file as suggested by `bootlaces`'s
 [README.md](https://github.com/adzerk-oss/bootlaces#usage) file
 
 ```clj
@@ -809,7 +808,7 @@ clojure.core/binding-conveyor-fn/fn       core.clj: 1916
                                 ...
 ```
 
-Uhm, not such a nice shot. After having required your clojars's
+Uhm, not such a nice shot. After having required your clojars
 credentials, `boot` complained about the fact that your current branch
 is not the master. As default, `bootlaces` assumes that you only
 publish a snapshot release from a master branch, but you can overwrite
@@ -824,7 +823,7 @@ internally uses the built-in `push` task:
         (push :file file :ensure-snapshot true)))
 ```
 
-Now take a look at the `push`'s docstring and concentrate your
+Now take a look at the `push` docstring and pay
 attention on the `--ensure-*` options:
 
 ```bash
@@ -842,9 +841,9 @@ Options:
   -V, --ensure-version VER    Set the version the jar's pom must contain to VER.
 ```
 
-Interesting, we can easily change the `push` task behavior by just
+Interesting, we can easily change the `push` task's behavior by just
 setting the `:ensure-branch` options to `nil` in the `task-options!`
-section we already used previosly to set configure `pom`, `test` and
+section we already used previosly to configure the `pom`, `test` and
 `test-cljs` tasks:
 
 ```clj
@@ -870,10 +869,10 @@ Password:
 ...
 ```
 
-This time, `push-snapshot` task complain about the fact that the git
+This time, the `push-snapshot` task complains about the fact that the git
 branch is not clean. This is something that we should like, because
-generally speaking your not publishing something that it's still to be
-committed, right? So, let's be nice with ourself, commit the work
+generally speaking you're not publishing something that is still to be
+committed, right? So, let's be nice to ourselves and commit the work
 we have done so far
 
 ```clj
@@ -928,9 +927,9 @@ you think you're done, you're **wrong** again!
 
 ## Dependency scope
 
-The very last topic of this tutorial has to do with the dependency
-management. `boot`, being based on `maven`, uses the same semantic of
-`maven` when dealing with the dependency scope. Take into account that
+The very last topic of this tutorial has to do with dependency
+management. `boot`, being based on `maven`, uses the same semantics as
+`maven` when dealing with dependency scope. Take into account that
 the dependency scope controls the dependency transitivity as well. In
 `maven` there are [6 scopes available](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Dependency_Scope):
 
@@ -943,11 +942,11 @@ the dependency scope controls the dependency transitivity as well. In
 
 
 I have to admit that I never saw more than a couple of them, namely
-"test" and "provided", in the contest of `boot` build files and even
+"test" and "provided", in the context of `boot` build files and even
 less with `leiningen`, which offers
 [`profiles` for such a thing](http://librelist.com/browser//leiningen/2014/9/7/clarifications-about-scope-in-dependencies/#32fcd639eb09c94545bec6a56c200167).
 
-> NOTE 6: when you no specify a `:scope`, `maven` assumes `"compile"`
+> NOTE 6: when you don't specify a `:scope`, `maven` assumes `"compile"`
 
 ### Test Scope
 
@@ -955,8 +954,8 @@ The test scope indicates that a dependency is only required for the
 compilation and the test phases of the library itself and it's not
 required to consume the library from another application.
 
-Let's contextualize this concept within the `valip` library by
-analyzing its dependencies starting from the ones catheterized by a
+Let's illustrate this concept within the `valip` library by
+analyzing its dependencies starting from the ones characterized by a
 very clear role. All the `boot` tasks play a role in the building,
 testing and publishing of a library, but they are not consumed by an
 application using the library itself. We can safely say that all of
@@ -966,11 +965,10 @@ them should have the `:scope` set to `"test"`
 
 But what about Clojure and ClojureScript compilers? Obviously, we need
 them to compile `valip`. Any application consuming the `valip` source
-code need to compile it as well, but it will provide those compiler by
+code needs to compile it as well, but it will provide those compilers by
 itself. We can safely say that both the CLJ and the CLJS compilers should have the `:scope` set to `"provided"`.
 
-It follows the entire `build.boot` build file filled with the
-dependencies scope.
+Here is the entire `build.boot` build file complete with dependencies scoping.
 
 ```clj
 (set-env!
@@ -1039,7 +1037,7 @@ Password:
 Deploying valip-0.4.0-SNAPSHOT.jar...
 ```
 
-That's all folks. Stay tune for the next tutorial.
+That's all folks. Stay tuned for the next tutorial.
 
 ## Next Step - TBD
 

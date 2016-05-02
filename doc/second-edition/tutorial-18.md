@@ -45,7 +45,7 @@ book:
 
 This statement is particularly true when you deal with OSS (Open
 Source Software) libraries which are frequently updated without
-their corresponding documentation been updated as well.
+their corresponding documentation being updated as well.
 
 Even if you are a [TDD][6] practitioner, which means that you start coding
 from a failing test, you still need to know and to understand your
@@ -336,7 +336,7 @@ Elapsed time: 7.119 sec
 ## Code Refactoring
 
 The `validate-shopping-quantity` validator is very simple, but at the
-same time it's suggesting us that `validate-shopping-price`,
+same time it's suggesting to us that `validate-shopping-price`,
 `validate-shopping-tax` and `validate-shopping-discount` validators
 would be almost identical:
 
@@ -513,7 +513,7 @@ cljs.user> (let [field :quantity
 {:quantity ["Quantity can't be negative"]}
 ```
 
-Now that we understood a little bit better our beloved CLJ/CLJS
+Now that we understand a little bit better our beloved CLJ/CLJS
 programming language by experimenting with it at the REPL while
 following a [TDD][6] approach, go back to the
 `modern-cljs.shopping.validators` namespace and substitute the
@@ -595,7 +595,7 @@ still referenced in the test file. Let's fix it
 ```
 
 While we were updating the test file to fix the above error, it was
-very easy to add few other assertions as well.
+very easy to add some other assertions as well.
 
 As soon as you save the file, the `tdd` environment fires the
 recompilation and the re-execution of all defined tests:
@@ -656,7 +656,7 @@ HTML fragment
 </div>
 ```
 
-in something like the following fragment
+into something like the following fragment
 
 ```html
 <div>
@@ -675,11 +675,11 @@ First note that the `label` element does not have an `id` attribute to
 be used with the `by-id` function we already used more times in
 previous tutorials on `domina` library usage.
 
-Likely `domina` offers both `css` or `xpath` selectors for such a
-case. This is the first time we deal with `css` and `xpath` selectors
+Likely `domina` offers both `css` and `xpath` selectors for such a
+case. This is the first time we've dealt with `css` and `xpath` selectors
 from the `domina` lib and before we start coding we want to
 familiarize ourselves a little bit with at least one of them in the bREPL,
-namely with `css` selector.
+namely with the `css` selector.
 
 Perhaps you remember that due to a bug in the `boot-cljs-repl` task,
 before requiring a namespace of a dependency from the bREPL, you need
@@ -853,7 +853,7 @@ There are few important things to be noted here:
    events. This is because we want to protect the removal of the
    `help` class from the invalid field when the user move the mouse
    out of the button area;
-4. we changes the name of the button click listener from `calculate`
+4. we changed the name of the button click listener from `calculate`
    to `calculate!`, because this function is going to have side-effect
    on the DOM as well.
 

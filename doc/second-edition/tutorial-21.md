@@ -14,9 +14,9 @@ building User Interfaces with CLJS.
 In this tutorial of the series we're going to fill that gap by
 introducing [Reagent](http://reagent-project.github.io/), a very well
 known minimalist ClojureScript interface to
-[React.js](https://facebook.github.io/react/index.html).  React is a JavaScript
-library for building User Interfaces created by Facebook, that
-recently got a lot of attention all over the places.
+[React.js](https://facebook.github.io/react/index.html). React is a JavaScript
+library created by Facebook for building User Interfaces, that
+has recently received a lot of attention from many places.
 
 ## Preamble
 
@@ -59,7 +59,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | b
 
 > NOTE 1: On OSX, if you get `nvm: command not found` after running
 > the install script, your system may not have a `.bash_profile` file
-> where the command is set up. Simple create one with `touch
+> where the command is set up. Simply create one with `touch
 > ~/.bash_profile` and run the install script again.
 
 You can now install `node` by issuing the following command at the
@@ -112,15 +112,14 @@ PORT=3001 node server.js
 Server started: http://localhost:3001/
 ```
 
-> NOTE 2: I set the port of the node http server to `3001` to not
-> collide its [express server](http://expressjs.com/) with the default
-> `3000` port number of the clojure web server we're going to later
-> launch.
+> NOTE 2: I set node's http server port to `3001` so that
+> its [express server](http://expressjs.com/) would not clash with the default
+> `3000` port number of the clojure web server we're going to launch later.
 
 ### Play with the React web application
 
-Now visit the [localhost:3001](http://localhost:3001/) URL in your
-browser and you should receive something like this:
+Now visit the URL [localhost:3001](http://localhost:3001/) in your
+browser and you should see something like this:
 
 ![React Tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/react-tut-01.png)
 
@@ -129,13 +128,13 @@ important concepts to be grasped for better understanding `React` and
 the way `Reagent` interfaces with it.
 
 Post a couple of new comments by using its comment form. You'll note
-the list of the comments will be updated without a full page refresh.
+the list of comments is updated without a full page refresh.
 
 ![React Tutorial new comments](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/react-tut-02.png)
 
 Nothing new under the sun. What is new, aside from the performance
 that we can't appreciate with such a simple sample, is well hidden
-under the wood.
+under the hood.
 
 > NOTE 3: In the above image you'll note that the first newly added
 > comment contains a link and the second comment contains a word in
@@ -166,7 +165,7 @@ rm public/scripts/example.js
 touch public/scripts/example.js
 ```
 
-Open the `example.js` source file with your preferred editor paste
+Open the `example.js` source file with your preferred editor and paste
 into it the following code extracted from the beginning of the
 official React Tutorial:
 
@@ -201,7 +200,7 @@ world! I am a CommentBox.`
 The above lines mix into JS code a kind of HTML code,
 [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) code in
 React parlance. It first defines a new class, named `CommentBox`,
-which is an UI component containing one method only: `render()`. This
+which is a UI component containing one method only: `render()`. This
 method uses the JSX syntax to declare the structure of the component
 itself. In this very simple case, it is just a `div` component and the
 text node `Hello, world! I am a CommentBox`.
@@ -240,7 +239,7 @@ directory of the `react-tutorial` project folder.
 
 There are a few things to be noted here:
 
-1. the `<div id="content"></div>` represent the `root` HTML
+1. `<div id="content"></div>` represents the `root` HTML
    element to which the `CommentBox` component instance is to be
    attached;
 1. the inclusion of the [marked JS library][2] for rendering mardown text;
@@ -349,12 +348,12 @@ Elapsed time: 32.980 sec
 ```
 
 > NOTE 5: we could have launched `boot tdd` instead. But at the moment
-> we're not interested in executing any test. We only want to learn
+> we're not interested in executing any tests. We only want to learn
 > about Reagent by interacting with it at the bREPL.
 
 As usual, open a new terminal and launch the `boot` client and the
-`bREPL` on top of it. Finally visit the
-[localhost:3000/reagent.html](http://localhost:3000/reagent.html).
+`bREPL` on top of it. Finally, open
+[localhost:3000/reagent.html](http://localhost:3000/reagent.html) in your browser.
 
 ```bash
 boot repl -c
@@ -385,13 +384,13 @@ nil
 cljs.user=>
 ```
 
-> NOTE 6: as soon as you visit the
-> [localhost:3000/reagent.html](http://localhost:3000/reagent.html)
-> URL the bREPL connects with the JS engine of the browser and it is
+> NOTE 6: as soon as you visit 
+> [localhost:3000/reagent.html](http://localhost:3000/reagent.html),
+> the bREPL connects to the browser's JS engine and is
 > ready to evaluate CLJS expressions.
 
 Now require the `reagent.core` namespace at the bREPL and create your
-very first Reagent Component, which, under the wood, will soon become
+very first Reagent Component, which, under the hood, will become
 a React Component.
 
 ```clj
@@ -788,7 +787,7 @@ you previously saw in react.
 While playing with the final web application implemented in the React
 Official Tutorial, we previously discovered that it supports
 `markdown` markup in the text of a comment. Here is the solution
-adopted in the React Tutorial for parsing a `markdown` marked text and
+adopted in the React Tutorial for parsing `markdown` marked text and
 then generating the corresponding HTML markup to be rendered by the
 browser.
 
@@ -821,7 +820,7 @@ JS library.
 The result of the `rawMarkup()` call is set as the value of the
 `dangerouslySetInnerHTML` attribute inside a `span` component.
 
-If you now reload the [localhost:3001](http://localhost:3001/) you
+If you now reload [localhost:3001](http://localhost:3001/) you
 should see the word *another* displayed in *italics*.
 
 Let's try to port this solution to Reagent. As you probably remember
@@ -848,7 +847,7 @@ nil
 ```
 
 > NOTE 11: when you require an external JS library prepackaged for
-> being used by CLJS you can refer its symbols by using the `js`
+> use by CLJS you can refer its symbols by using the `js`
 > fictitious namespace.
 
 Verify that the `marked` JS library works as expected
@@ -871,9 +870,8 @@ cljs.user> (js/marked "This is <em>another</em> comment." #js {:sanitize true})
 > use the `clj->js` function.
 
 In the first call, we only passed to the `js/marked` function a string
-containing a `markdown` markup. In the second call we also passed a JS
-object as a second argument to sanitize a string containing an HTML
-markup.
+containing `markdown` markup. In the second call we also passed a JS
+object as a second argument to sanitize a string containing HTML markup.
 
 Just for curiosity, test the `js/marked` function inside a call from
 the `hiccups` library using a map to set the `dangerouslySetInnerHTML`
@@ -907,7 +905,7 @@ cljs.user> (render [comment-box] (by-id "content"))
 #object[Object [object Object]]
 ```
 
-Again, you immediately see the *another* word shown in *italics*.
+Again, you immediately see the word *another* shown in *italics*
 
 ![Italics](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-marked.png)
 
@@ -990,7 +988,7 @@ ReactDOM.render(
 );
 ```
 
-Reload the [locahost:3001](http://localhost:3001/). Even if the result
+Reload [locahost:3001](http://localhost:3001/). Even if the result
 is the same as before, you could potentially get the data from a web
 service. 
 
@@ -1176,8 +1174,8 @@ An here is the complete content of the `reagent.cljs` file.
    [comment-form]])
 ```
 
-Next, to be prepared for the next part of the tutorial on Reagent, I
-suggest you to commit your work on both repositories:
+Next, to be prepared for part 2 of the Reagent tutorial, I
+suggest you commit your work on both repositories:
 
 ```bash
 cd /path/to/react-tutorial
@@ -1190,7 +1188,7 @@ git add --all
 git commit -m "Part I"
 ```
 
-## [Next Step - Tutorial 21 - A minimalist interface to React with Reagent (Part II)][6]
+## [Next Step - Tutorial 22 - A minimalist interface to React with Reagent (Part II)][6]
 
 In [Part II of this tutorial on Reagent][6] we're going to complete our 
 porting of the official React Tutorial to Reagent, by introducing components state management.
@@ -1201,7 +1199,7 @@ Copyright © Mimmo Cosenza, 2012-16. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md
-[2]: https://github.com/cljsjs/packages
+[2]: https://github.com/cljsjs/packages/tree/master/marked
 [3]: https://github.com/teropa/hiccups
 [4]: https://github.com/cgrand/enlive
 [5]: https://github.com/weavejester/hiccup/wiki/Syntax

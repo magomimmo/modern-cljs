@@ -284,8 +284,8 @@ One of the main reasons to use a LISP dialect like CLJ is its REPL
 (Read Eval Print Loop), which enables a very interactive style of
 programming. CLJS communities worked very hard to bring the
 same REPL-based programming experience to CLJS available in CLJ, and created a
-way to connect a CLJS REPL to almost any JS engine, included the one
-embedded in the your browser. This style of programming allows you to
+way to connect a CLJS REPL to almost any JS engine, including browser-embedded 
+engines. This style of programming allows you to
 evaluate CLJS forms in the REPL and receive an immediate feedback in
 the browser to which the REPL is connected.
 

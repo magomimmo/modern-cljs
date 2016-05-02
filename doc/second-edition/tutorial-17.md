@@ -33,7 +33,7 @@ validators to the client-side code. Although this series of
 tutorials is mainly dedicated to CLJS, we're going to start from the
 CLJ code first, and forget about the CLJS code for a while.
 
-We have already used [Enlive][2] in the
+We have already used [Enlive][2] in
 [Tutorial 13 - Better Safe Than Sorry (Part 1)][3] to implement the
 server-side only Shopping Calculator. While we may have been a bit
 terse in explaining the details of [Enlive][2], we were able to
@@ -71,7 +71,7 @@ Let's look at `src/clj/modern_cljs/core.clj` and `src/clj/modern_cljs/templates/
 The `/shopping` URI is linked to the `shopping` function.  
 `deftemplate` implicitly defines the `shopping` function.
 
-However, as we saw in the
+However, as we saw in
 [Tutorial 14 - Better safe than sorry (Part 2)][4], we can easily
 break the `shoppingForm` simply by entering a non-numeric value,
 because the `calculate` function is only able to deal with
@@ -81,7 +81,7 @@ stringified numbers.
 
 To begin fixing this bug, we introduced form validators and we made
 them portable from CLJ to CLJS by simply using the
-[Reader Conditionals](http://clojure.org/reader#The%20Reader--Reader%20Conditionals)
+[Reader Conditionals](http://clojure.org/reference/reader#_reader_conditionals)
 introduced by the `1.7.0` release if CLJ/CLJS.
 
 With the intent of covering many possible usages of the
@@ -224,7 +224,7 @@ One of the nice features of `boot` is that it allows you to add
 dependencies at runtime, such as when you want to experiment with a
 lib and you aren't sure you want to include it in the project file yet.
 
-From the CLJS REPL that we previously launched, let's temporarily add
+From the CLJ REPL that we previously launched, let's temporarily add
 `hiccup` as a dependency, and then require the needed namespace:
 
 ```clj
