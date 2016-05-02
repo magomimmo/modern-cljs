@@ -823,7 +823,7 @@ internally uses the built-in `push` task:
         (push :file file :ensure-snapshot true)))
 ```
 
-Now take a look at the `push`'s docstring and concentrate your
+Now take a look at the `push` docstring and pay
 attention on the `--ensure-*` options:
 
 ```bash
