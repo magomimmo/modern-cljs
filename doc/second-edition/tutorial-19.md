@@ -234,8 +234,8 @@ Let's explore the current directory layout of the `valip` library:
 * all the macros are confined in the `def.clj` source file are hosted in
   the `src/valip/predicates` directory.
 
-So far, so good. But what does it mean that `reader.clj` source
-file hosted in the `src/cljs` directory?
+So far, so good. But what does it mean that the `reader.clj` source
+file is hosted in the `src/cljs` directory?
 
 ## A smart trick by a smart guy
 
@@ -262,7 +262,7 @@ required even when `valip` runs on a JVM.
 
 To see how this dummy namespace is used, let's take a look at the
 `valip.predicates` namespace declaration from the `predicates.clj`
-hosted in the `src/valip` directory:
+file hosted in the `src/valip` directory:
 
 ```clj
 (ns valip.predicates
