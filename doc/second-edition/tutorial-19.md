@@ -277,7 +277,7 @@ Clojure implementations."
 The `read-string` function is first referred from the `cljs.reader`
 namespace we just saw above. Then, to prevent a symbol collision with
 the `read-string` symbol from the `clojure.core` namespace, it's
-excluded from been interned in the `valip.predicates` namespace. This
+excluded from being interned in the `valip.predicates` namespace. This
 has to do with one of the
 [differences between CLJ and CLJS](https://github.com/clojure/clojurescript/wiki/Differences-from-Clojure#the-reader),
 namely:
