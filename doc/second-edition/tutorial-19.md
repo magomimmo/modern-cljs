@@ -622,7 +622,7 @@ by using the same cited
 
 ### Step 8
 
-We can now get rid of the original source files containing platforms
+We can now get rid of the original source files containing platform
 specific predicates, because they have been completely absorbed in the
 `predicates.cljc` file:
 
