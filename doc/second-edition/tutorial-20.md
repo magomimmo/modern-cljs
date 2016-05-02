@@ -419,9 +419,9 @@ complete updated version of the `build.boot` build file for the
 > NOTE 4: we moved the `test` and the `test-cljs` option arguments
 > into the `task-options!` form as well.
 
-> NOTE 5: we enriched the `pom` task with more information, even the
-> ones, like `:description`, `:url`, `:scm` and `:license` that do no
-> make part of a minimal POM for the project to be packaged and
+> NOTE 5: we enriched the `pom` task with more information, including optional
+> fields like `:description`, `:url`, `:scm` and `:license` that are not
+> part of a minimal POM required for the project to be packaged and
 > installed.
 
 ## Shoot the gun
