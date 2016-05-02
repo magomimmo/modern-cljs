@@ -595,7 +595,7 @@ still referenced in the test file. Let's fix it
 ```
 
 While we were updating the test file to fix the above error, it was
-very easy to add few other assertions as well.
+very easy to add some other assertions as well.
 
 As soon as you save the file, the `tdd` environment fires the
 recompilation and the re-execution of all defined tests:
