@@ -53,12 +53,12 @@ Then launch the development environment as usual
 boot dev
 ```
 
-Next visit the
-[localhost:3000/reagent.html](http://localhost:3000/reagent.html)
-URL. Event if you'll not see anything, because we still have to attach
+Next visit the URL
+[localhost:3000/reagent.html](http://localhost:3000/reagent.html). 
+Event if you don't see anything, because we still have to attach
 the `comment-box` root component to the `"content"` `div` of the
 `reagent.html` page, a websocket connection will be established
-between your development environmnet and the JS engine of your
+between your development environmnet and your browser's JS engine.
 browser.
 
 Now open a new terminal and launch the nREPL client followed by the
