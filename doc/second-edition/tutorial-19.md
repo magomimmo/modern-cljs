@@ -617,8 +617,8 @@ by using the same cited
 > `:require` it, you must use the `:only` form of `:use`. In those
 > cases I still prefer to use the `:refer` form of `:require`.
 
-> NOTE 4: the `valid-email-domain?` predicate can only be evaluated on
-> JVM and so it is the corresponding test.
+> NOTE 4: the `valid-email-domain?` predicate and its corresponding test
+> can only be evaluated on the JVM.
 
 ### Step 8
 
