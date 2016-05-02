@@ -63,7 +63,7 @@ Likely, most of the CLJ/CLJS open source libraries are hosted on
 collaboration and social coding. Even if few CLJ/CLJS libraries have
 extensive documentation and/or an associated mailing-list for
 submitting doubts and questions, every CLJ/CLJS library hosted on
-github is supported by an articulated, although easy, issue and
+github is supported by complex, although easy-to-use, issue and
 version control management systems. Those two systems help a lot in
 managing almost any distributed and remote collaboration requirements.
 
