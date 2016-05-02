@@ -965,7 +965,7 @@ them should have the `:scope` set to `"test"`
 
 But what about Clojure and ClojureScript compilers? Obviously, we need
 them to compile `valip`. Any application consuming the `valip` source
-code need to compile it as well, but it will provide those compiler by
+code needs to compile it as well, but it will provide those compilers by
 itself. We can safely say that both the CLJ and the CLJS compilers should have the `:scope` set to `"provided"`.
 
 It follows the entire `build.boot` build file filled with the
