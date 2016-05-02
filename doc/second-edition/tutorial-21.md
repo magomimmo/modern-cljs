@@ -905,7 +905,7 @@ cljs.user> (render [comment-box] (by-id "content"))
 #object[Object [object Object]]
 ```
 
-Again, you immediately see the *another* word shown in *italics*.
+Again, you immediately see the word *another* shown in *italics*
 
 ![Italics](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-marked.png)
 
