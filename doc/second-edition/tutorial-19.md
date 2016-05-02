@@ -1599,7 +1599,7 @@ definition of the same function.
 ## CLJS compiler optimizations
 
 Note that in the above `boot cljs` command we did not specify any
-option to the `cljs` task. As you already know from previous
+options to the `cljs` task. As you already know from previous
 tutorials, this is because `cljs` uses `:none` as default.
 
 Let's now see if `valip` compiles with `whitespace`, `simple` and
