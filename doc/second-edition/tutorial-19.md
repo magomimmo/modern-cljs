@@ -1109,7 +1109,7 @@ We can now go back to the `predicates.cljc` file to fix the bug:
   (fn [s] (boolean (re-matches re (str s))))) ;; wrap s within str
 ```
 
-As soon as you save the file `clj-tdd` re-execute the tests and
+As soon as you save the file `clj-tdd` re-executes the tests and
 returns success:
 
 ```bash
