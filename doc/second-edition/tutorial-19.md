@@ -1542,7 +1542,7 @@ It's not enough? You have a third form too: `(jsObj.method arg1 ... argn)`
                   (re-find #"//" (str s))))))
 ```
 
-Are you getting confused? So do I. Even because there is even a forth
+Are you getting confused? So am I. Because there is even a forth
 form. It uses `:require` instead of `:import` in the namespace
 declaration and then uses the class as a namespace:
 
