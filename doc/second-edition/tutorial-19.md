@@ -1347,7 +1347,7 @@ You can now stop the `boot` process to proceed with the next step.
 
 ## Choosing among alternatives
 
-The fact the migrated `valip` library has been successful tested on
+The fact the migrated `valip` library has been successfully tested on
 CLJ does not mean that it will work on CLJS as well. We should now
 attempt another boring part: tooling.
 
