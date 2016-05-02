@@ -34,7 +34,7 @@ npm install
 PORT=3001 node server.js
 ```
 
-Finally visit the [localhost:3001](http://localhost:3001/) URL.
+Finally visit the URL [localhost:3001](http://localhost:3001/).
 
 ## Reagent port of React Tutorial
 
