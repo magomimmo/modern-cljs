@@ -128,7 +128,7 @@ important concepts to be grasped for better understanding `React` and
 the way `Reagent` interfaces with it.
 
 Post a couple of new comments by using its comment form. You'll note
-the list of the comments will be updated without a full page refresh.
+the list of comments is updated without a full page refresh.
 
 ![React Tutorial new comments](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/react-tut-02.png)
 
