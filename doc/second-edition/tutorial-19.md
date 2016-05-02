@@ -917,8 +917,8 @@ I don't know about you, but I can't accept such a misaligned
 behaviors, because I'm sure they're going to later generate bugs that will be
 difficult to catch.
 
-Now exit the REPL, because it's time to enter in a [TDD][6] session to fix
-`valip` original library.
+Now exit the REPL, because it's time to start a [TDD][6] session to fix
+the original `valip` library.
 
 ## Enter boot
 
