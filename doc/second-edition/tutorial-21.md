@@ -348,7 +348,7 @@ Elapsed time: 32.980 sec
 ```
 
 > NOTE 5: we could have launched `boot tdd` instead. But at the moment
-> we're not interested in executing any test. We only want to learn
+> we're not interested in executing any tests. We only want to learn
 > about Reagent by interacting with it at the bREPL.
 
 As usual, open a new terminal and launch the `boot` client and the
