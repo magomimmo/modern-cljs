@@ -513,7 +513,7 @@ cljs.user> (let [field :quantity
 {:quantity ["Quantity can't be negative"]}
 ```
 
-Now that we understood a little bit better our beloved CLJ/CLJS
+Now that we understand a little bit better our beloved CLJ/CLJS
 programming language by experimenting with it at the REPL while
 following a [TDD][6] approach, go back to the
 `modern-cljs.shopping.validators` namespace and substitute the
