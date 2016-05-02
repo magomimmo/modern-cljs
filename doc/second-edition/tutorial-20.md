@@ -1,7 +1,7 @@
 # Tutorial 20 - House Keeping
 
-In the [previous tutorial][1] we tried to explain how to make a
-library compliant with the
+In the [previous tutorial][1] we explained how to make a
+library compliant with 
 [Reader Conditionals](http://clojure.org/reader#The%20Reader--Reader%20Conditionals). As
 an example, we exploited the
 [`valip`](https://github.com/magomimmo/valip) library that we already
