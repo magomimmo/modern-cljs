@@ -1146,8 +1146,8 @@ Elapsed time: 0.561 sec
 ## Extend the coverage
 
 If you consider that all `valip` functions/predicates receive strings
-as arguments to be evaluates, we already have the hint to extend the
-current `valip` test assertions to cover and fix the `nil` corners
+as arguments to be evaluated, we already have a hint to extend the
+current `valip` test assertions to cover and fix the `nil` corner
 cases in the corresponding source code: just wrap any string argument
 within a `str` function.
 
