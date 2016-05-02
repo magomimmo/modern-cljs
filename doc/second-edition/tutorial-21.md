@@ -988,7 +988,7 @@ ReactDOM.render(
 );
 ```
 
-Reload the [locahost:3001](http://localhost:3001/). Even if the result
+Reload [locahost:3001](http://localhost:3001/). Even if the result
 is the same as before, you could potentially get the data from a web
 service. 
 
