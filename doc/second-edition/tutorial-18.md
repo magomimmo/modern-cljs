@@ -656,7 +656,7 @@ HTML fragment
 </div>
 ```
 
-in something like the following fragment
+into something like the following fragment
 
 ```html
 <div>
