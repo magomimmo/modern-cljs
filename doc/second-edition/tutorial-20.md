@@ -927,9 +927,9 @@ you think you're done, you're **wrong** again!
 
 ## Dependency scope
 
-The very last topic of this tutorial has to do with the dependency
-management. `boot`, being based on `maven`, uses the same semantic of
-`maven` when dealing with the dependency scope. Take into account that
+The very last topic of this tutorial has to do with dependency
+management. `boot`, being based on `maven`, uses the same semantics as
+`maven` when dealing with dependency scope. Take into account that
 the dependency scope controls the dependency transitivity as well. In
 `maven` there are [6 scopes available](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Dependency_Scope):
 
