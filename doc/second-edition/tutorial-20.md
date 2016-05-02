@@ -128,7 +128,7 @@ Writing pom.xml and pom.properties...
 
 Even if the command reported the writing of the `pom.xml` and the
 `pom.properties` files, which is a misleading message to me, if you
-take a look at the project directory you'll not see them:
+take a look at the project directory you won't see them:
 
 ```bash
 tree
