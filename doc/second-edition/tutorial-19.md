@@ -1004,7 +1004,7 @@ Elapsed time: 4.832 sec
 ```
 
 All assertions succeeded. This is not a surprise, because we already
-knew from the previous `lein test` session.
+checked this in the previous `lein test` session.
 
 ### Add corner cases assertions
 
