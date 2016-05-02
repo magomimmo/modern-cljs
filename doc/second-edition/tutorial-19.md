@@ -1392,7 +1392,7 @@ with few platform differences.
 
 Before the advent of the Reader Conditionals extension, these were the
 two fundamentals tools used to make Clojure(Script) libraries portable
-on JVM and JSVM. As said more times, `cljx` is now deprecated, but
+on JVM and JSVM. As mentioned already, `cljx` is now deprecated, but
 `cljsbuild` is still the most used building tool for CLJS.
 
 I personally used `cljsbuild` quite a lot in the past and it saved me
