@@ -748,7 +748,7 @@ to [register](https://clojars.org/register) with it and you're almost
 ready. Actually, there is another very handy `boot` task to be used:
 [`bootlaces`](https://github.com/adzerk-oss/bootlaces).
 
-The `bootlaces` task is aimed at simplifying a tipical workflow of
+The `bootlaces` task is aimed at simplifying a typical workflow of
 publishing a library to clojars.
 
 Open the `build.boot` file to add the `bootlaces` task and to require
