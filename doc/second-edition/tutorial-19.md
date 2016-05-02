@@ -1729,7 +1729,7 @@ Ok. We're done
 ## What's next
 
 We reached our first objective of making the `valip` library compliant
-with the Reader Conditional extension. During the process, we were
+with the Reader Conditionals extension. During the process, we were
 also able to solve few problems affecting the original `valip`
 library:
 
