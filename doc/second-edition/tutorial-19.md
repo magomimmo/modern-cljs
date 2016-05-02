@@ -1442,7 +1442,7 @@ WARNING: No such namespace: goog.Uri, could not locate goog/Uri.cljs, goog/Uri.c
 WARNING: Use of undeclared Var goog.Uri/parse at line 127 src/valip/predicates.cljc
 ```
 
-Oops. We immediately got a couple of warning. The first says the CLJS
+Oops. We immediately got a couple of warnings. The first says the CLJS
 compiler was not able to find the
 [`goog.Uri`](https://google.github.io/closure-library/api/class_goog_Uri.html)
 namespace. The second warning says that its `parse` symbol it is
