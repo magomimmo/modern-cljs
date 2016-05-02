@@ -31,7 +31,7 @@ features by the
 
 The problem with those alternatives is that they are now both
 deprecated in favor of the much easier, more powerful and flexible
-[Reader Conditionals](http://clojure.org/reader#The%20Reader--Reader%20Conditionals)
+[Reader Conditionals](http://clojure.org/reference/reader#_reader_conditionals)
 extension we cited above.
 
 When I recently decide to switch this series of tutorials on CLJS from
