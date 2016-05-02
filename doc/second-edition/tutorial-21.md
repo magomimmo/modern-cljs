@@ -870,9 +870,8 @@ cljs.user> (js/marked "This is <em>another</em> comment." #js {:sanitize true})
 > use the `clj->js` function.
 
 In the first call, we only passed to the `js/marked` function a string
-containing a `markdown` markup. In the second call we also passed a JS
-object as a second argument to sanitize a string containing an HTML
-markup.
+containing `markdown` markup. In the second call we also passed a JS
+object as a second argument to sanitize a string containing HTML markup.
 
 Just for curiosity, test the `js/marked` function inside a call from
 the `hiccups` library using a map to set the `dangerouslySetInnerHTML`
