@@ -1366,7 +1366,7 @@ We have two alternatives to go on with CLJS:
   plugin to compile the CLJS version of the `valip` library;
 * we could switch to `boot`.
 
-`Leiningen` has been created by
+`Leiningen` was created by
 [Phil Hagelberg](https://github.com/technomancy) in 2009, in the early
 days of CLJ itself, when CLJS was not even an idea.
 
