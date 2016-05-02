@@ -384,9 +384,9 @@ nil
 cljs.user=>
 ```
 
-> NOTE 6: as soon as you visit the
-> [localhost:3000/reagent.html](http://localhost:3000/reagent.html)
-> URL the bREPL connects with the JS engine of the browser and it is
+> NOTE 6: as soon as you visit 
+> [localhost:3000/reagent.html](http://localhost:3000/reagent.html),
+> the bREPL connects to the browser's JS engine and is
 > ready to evaluate CLJS expressions.
 
 Now require the `reagent.core` namespace at the bREPL and create your
