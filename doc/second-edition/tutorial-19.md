@@ -1228,7 +1228,7 @@ argument within a `str` call:
     (boolean (re-matches (re-pattern re) (str email))))) ; wrap within str
 ```
 
-Same thing with the `test-url?` corner cases assertion about `nil`
+Same thing with the `test-url?` corner case assertion about `nil`
 argument:
 
 ```clj
@@ -1280,7 +1280,7 @@ Again, just wrap the passed string argument within an `str` call:
 ```
 
 > NOTE 6: at the moment we do not care about the CLJS definition of
-> `url?` predicate.
+>  the `url?` predicate.
 
 Keep going on with the corner cases coverage. Next stop is `test-digit?`:
 
