@@ -30,7 +30,7 @@ git checkout -b reader-conditionals
 ## Introduction
 
 In this tutorial we're going to fill that gap. But first we have to
-digress on a couple of topics we left uncover about the `boot` build
+digress on a couple of topics we left uncovered about the `boot` build
 tool, because they constitute a prerequisite to the `clojars`
 deployment itself, namely:
 
