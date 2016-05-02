@@ -1174,8 +1174,8 @@ An here is the complete content of the `reagent.cljs` file.
    [comment-form]])
 ```
 
-Next, to be prepared for the next part of the tutorial on Reagent, I
-suggest you to commit your work on both repositories:
+Next, to be prepared for part 2 of the Reagent tutorial, I
+suggest you commit your work on both repositories:
 
 ```bash
 cd /path/to/react-tutorial
