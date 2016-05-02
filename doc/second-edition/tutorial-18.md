@@ -336,7 +336,7 @@ Elapsed time: 7.119 sec
 ## Code Refactoring
 
 The `validate-shopping-quantity` validator is very simple, but at the
-same time it's suggesting us that `validate-shopping-price`,
+same time it's suggesting to us that `validate-shopping-price`,
 `validate-shopping-tax` and `validate-shopping-discount` validators
 would be almost identical:
 
