@@ -841,9 +841,9 @@ Options:
   -V, --ensure-version VER    Set the version the jar's pom must contain to VER.
 ```
 
-Interesting, we can easily change the `push` task behavior by just
+Interesting, we can easily change the `push` task's behavior by just
 setting the `:ensure-branch` options to `nil` in the `task-options!`
-section we already used previosly to set configure `pom`, `test` and
+section we already used previosly to configure the `pom`, `test` and
 `test-cljs` tasks:
 
 ```clj
