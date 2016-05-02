@@ -506,10 +506,10 @@ talked about above:
 [**Never use** `clojure.core/read` and `clojure.core/read-string`](https://groups.google.com/forum/#!topic/clojure/YBkUaIaRaow)
 functions when dealing with untrusted sources in CLJ.
 
-That said, both `cljs.reader/read` and `cljs.reader/read-string` are
-not affected by the same security issues, because they adopted the
+That said, `cljs.reader/read` and `cljs.reader/read-string` are
+unaffected by the same security issues, because they adopted the
 same approach used to implement `clojure.edn/read` and
-`clojure.edn/read-string` which can read data structure, but are not
+`clojure.edn/read-string` which can read data structures, but are not
 able to evaluate them.
 
 All that to say that in the `valip.predicates` namespace declaration
