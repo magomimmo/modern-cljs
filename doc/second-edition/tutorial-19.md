@@ -547,7 +547,7 @@ form. If you want to make the declaration more compact you could use
 We already differentiated any platform specific symbol definition in
 the `valip.predicates` namespace while we pasted those symbols during
 the execution of the Step 3. So there is nothing else left to be done
-in this Step 6.
+in this step.
 
 ### Step 7
 
