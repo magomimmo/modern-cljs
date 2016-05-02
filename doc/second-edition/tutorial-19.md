@@ -1006,7 +1006,7 @@ Elapsed time: 4.832 sec
 All assertions succeeded. This is not a surprise, because we already
 checked this in the previous `lein test` session.
 
-### Add corner cases assertions
+### Add corner case assertions
 
 Now edit the `test/valip/test/predicates.cljc` file to start adding
 the assertions covering the domain corner cases we did not like from
