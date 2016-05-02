@@ -191,12 +191,12 @@ Apparently, the only way to change the state of the component is via
 the `setState()` function.
 
 The `setState()` function is indirectly called the very first time,
-via the `loadCommentsFromServer()` function, in the body of the
-`componentDidMount()`. `componentDidMount()` function is called only
-once, immediately after the component has been mounted in the DOM buy
+via the `loadCommentsFromServer()` function, in the body of
+`componentDidMount()`. The `componentDidMount()` function is called only
+once, immediately after the component has been mounted in the DOM by
 the `ReactDOM.render` function. Then, `setState()` is indirectly
 called every 2 seconds (i.e. pollInterval), by passing to it the array
-of comments got by polling the server via ajax.
+of comments obtained by polling the server via ajax.
 
 If you heard that React implements *one-way data flow* communication
 model between data and User Interfaces, this is what they mean:
