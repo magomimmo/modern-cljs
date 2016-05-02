@@ -851,8 +851,8 @@ NullPointerException   java.util.regex.Matcher.getTextLength (Matcher.java:1283)
 user=>
 ```
 
-That's bad. The `present?` predicate it defined for the `nil` element,
-while the function returned by the `matches` [HOF][4] function it is not, as
+That's bad. The `present?` predicate is defined for the `nil` element,
+while the function returned by the `matches` [HOF][4] function is not, as
 you can verify from it's source code:
 
 ```clj
