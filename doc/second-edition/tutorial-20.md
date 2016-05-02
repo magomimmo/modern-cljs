@@ -2,7 +2,7 @@
 
 In the [previous tutorial][1] we explained how to make a
 library compliant with 
-[Reader Conditionals](http://clojure.org/reader#The%20Reader--Reader%20Conditionals). As
+[Reader Conditionals](http://clojure.org/reference/reader#_reader_conditionals). As
 an example, we exploited the
 [`valip`](https://github.com/magomimmo/valip) library that we already
 used in the `modern-cljs` project for validating the input fields of
