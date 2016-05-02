@@ -221,7 +221,7 @@ and, instead, take care of it by itself.
 
 Let's now verify if the above code refactoring works as
 expected. First reload the [localhost:3001](http://localhost:3001/)
-URL. Considering that we still have to implement the `CommentForm`
+page. Considering that we still have to implement the `CommentForm`
 component to create new comments, to see the React state management at
 work you need to manually change the `comment.json` array of comments
 which is read every two second by the the `CommentBox` component.
