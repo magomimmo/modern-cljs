@@ -386,7 +386,7 @@ definitions and append them in the `predicates.cljc` source file.
 
 While you are at it, introduce the `#?` reader macro to inform the
 compiler that these definition are specific for the JVM platform. This
-way you're partially anticipating the Step 6:
+way you're partially anticipating Step 6:
 
 ```clj
 ;;; above the rest of the file
