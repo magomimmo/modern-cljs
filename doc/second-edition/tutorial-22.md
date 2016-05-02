@@ -38,7 +38,7 @@ Finally visit the URL [localhost:3001](http://localhost:3001/).
 
 ## Reagent port of React Tutorial
 
-Open a new terminal and submit the following commands
+Open a new terminal and enter the following commands
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
