@@ -134,7 +134,7 @@ the list of comments is updated without a full page refresh.
 
 Nothing new under the sun. What is new, aside from the performance
 that we can't appreciate with such a simple sample, is well hidden
-under the wood.
+under the hood.
 
 > NOTE 3: In the above image you'll note that the first newly added
 > comment contains a link and the second comment contains a word in
