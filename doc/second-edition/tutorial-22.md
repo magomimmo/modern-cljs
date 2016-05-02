@@ -205,10 +205,10 @@ model between data and User Interfaces, this is what they mean:
 data -> CommentBox -> CommentList -> Comment
 ```
 
-The value of `this.state.data` got from the server is passed down
+The value of `this.state.data` obtained from the server is passed down
 to the `CommentList` component. Each comment contained in
 `this.state.data` is then passed to the `Comment` component of the
-list. Only new or updated `Comment` components will be redraw.
+list. Only new or updated `Comment` components will be redrawn.
 
 This last observation is very important, because it illustrates that a
 React component gets updated not only when its private state changes,
