@@ -1396,9 +1396,9 @@ on JVM and JSVM. As mentioned already, `cljx` is now deprecated, but
 `cljsbuild` is still the most used building tool for CLJS.
 
 I personally used `cljsbuild` quite a lot in the past and it saved me
-more times from headaches. That said, from when I recently started
-using `boot` and few of the tasks implemented by they community, I
-always prefer to stay with the `boot` building tool when I have to
+many times from headaches. That said, from when I recently started
+using `boot` and few of the tasks implemented by the community, I
+prefer to stay with the `boot` building tool when I have to
 deal with CLJS, as this new edition of the `modern-cljs` series
 attests.
 
