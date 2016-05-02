@@ -390,7 +390,7 @@ cljs.user=>
 > ready to evaluate CLJS expressions.
 
 Now require the `reagent.core` namespace at the bREPL and create your
-very first Reagent Component, which, under the wood, will soon become
+very first Reagent Component, which, under the hood, will become
 a React Component.
 
 ```clj
