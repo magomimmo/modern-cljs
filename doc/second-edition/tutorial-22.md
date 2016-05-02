@@ -134,8 +134,8 @@ management:
 In the subsequent couple of steps the React Tutorial substitutes the
 hard-coded `data` with some dynamic from the server. Considering I'm not
 going to port to Reagent this part of the React Tutorial, I'm just
-coping the corresponding code to facilitate its pasting into the
-`example.js` source file. I'll also limit my code comments to few
+copying the corresponding code to facilitate its pasting into the
+`example.js` source file. I'll also limit my code comments to a few
 things.
 
 ```js
