@@ -335,11 +335,11 @@ to add both the
 [`lein-cljsbuild`](https://github.com/emezeske/lein-cljsbuild) and the
 [`lein-doo`](https://github.com/bensu/doo) plugins.
 
-Moreover, unless you got the chance to read the
+Moreover, unless you had the chance to read the
 [first edition](https://github.com/magomimmo/modern-cljs/tree/master/doc/first-edition)
 of this series or you already know about the `leiningen` build tool,
-all those stuff are new to you and the noise/signal ratio of the final
-`project.clj` build file is going to get much worst when compared with
+those things will be new to you and the signal/noise ratio of the final
+`project.clj` build file is going to be much worse when compared with
 the `project.clj` we started from.
 
 But don't worry! We're not going to complicate with `cljsbuild` the
