@@ -834,8 +834,8 @@ how `valip` behaves on corner cases. We already met one of them:
 false
 ```
 
-This corner cases does'not regards the arities of the function. It
-regards its domain/co-domain.
+This corner cases does not regard the arities of the function but the function's
+domain/co-domain.
 
 Let's now test other corner cases of the functions/predicates defined
 by the `valip` library.
