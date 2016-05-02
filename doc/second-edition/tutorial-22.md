@@ -519,7 +519,7 @@ cljs.user> (swap! data assoc-in [(rand-int (count @data)) :text] "This is a **ra
 > the `(rand-int (count @data))` expression.
 
 Again, a soon as the `swap!` form gets evaluated, you should see the
-corresponding components *view* been updated.
+corresponding components *view* update.
 
 ![update comment](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/updatecomment.png)
 
