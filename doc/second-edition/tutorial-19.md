@@ -19,7 +19,7 @@ making the original library as portable as possible between Clojure
 and ClojureScript. When Chas Emerick forked the `valip` original
 library in 2012,
 [Reader Conditionals](http://clojure.org/reference/reader#_reader_conditionals)
-did not exist. At those time you had two alternatives to make you code
+did not exist. At those time you had two alternatives to make your code
 portable from CLJ to CLJS, namely:
 
 * the
