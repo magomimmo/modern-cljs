@@ -34,7 +34,7 @@ deprecated in favor of the much easier, more powerful and flexible
 [Reader Conditionals](http://clojure.org/reference/reader#_reader_conditionals)
 extension we cited above.
 
-When I recently decide to switch this series of tutorials on CLJS from
+When I recently decided to switch this series of tutorials on CLJS from
 the [leiningen](http://leiningen.org/) build tool to the
 [boot](https://github.com/boot-clj/boot) one, I realized that I could
 exploit that decision to accommodate the `valip` portable library to
