@@ -847,7 +847,7 @@ nil
 ```
 
 > NOTE 11: when you require an external JS library prepackaged for
-> being used by CLJS you can refer its symbols by using the `js`
+> use by CLJS you can refer its symbols by using the `js`
 > fictitious namespace.
 
 Verify that the `marked` JS library works as expected
