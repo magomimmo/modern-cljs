@@ -496,8 +496,48 @@ Returns the mounted component instance.
 nil
 ```
 
+Note that the `reagent.core` namespace also offers the
+`render-to-static-markup` and `render-to-string` functions:
+
+```clj
+cljs.user> (doc r/render-to-static-markup)
+-------------------------
+reagent.core/render-to-static-markup
+([component])
+  Turns a component into an HTML string, without data-react-id attributes, etc.
+nil
+```
+
+The `render-to-static-markup` function produces a HTML string similar
+to the one produced by the hiccups `html` macro
+
+```clj
+cljs.user> (r/render-to-static-markup [comment-box])
+"<div>Hello, world! I&#x27;m a comment-box</div>"
+```
+
+while the `render-to-string` function converts the passed component
+into an HTML string instrumented as a React component:
+
+```clj
+cljs.user> (doc r/render-to-string)
+-------------------------
+reagent.core/render-to-string
+([component])
+  Turns a component into an HTML string.
+nil
+```
+
+```clj
+cljs.user> (r/render-to-string [comment-box])
+"<div data-reactid=\".3\" data-react-checksum=\"-1197271774\">Hello, world! I&#x27;m a comment-box</div>"
+```
+
+The `render-to-string` function is very useful when you want to
+pre-render a page using `node` on the server-side.
+
 Considering that we still have the `domina` library available in our
-project, we can simplify the `render` call as follows:
+project, we can simplify the previous `render` call as follows:
 
 ```clj
 cljs.user> (require '[domina.core :as dom :refer [by-id]])
