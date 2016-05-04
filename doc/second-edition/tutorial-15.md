@@ -168,7 +168,7 @@ any `boot` related process.
 
 `boot` does not have a `test` pre-build task like
 [Leiningen](https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md#tests)
-does. Fortunately, the `boot` community created the `boot-test` task
+does. Fortunately, the `boot` community created the [boot-test][10] task
 for that job. Let's add it to our `build.boot` file as usual.
 
 ```clj
@@ -341,15 +341,15 @@ System. On any [*nix][6] OS it should be enough to download the compressed
 file, decompress it and add its `bin` directory to the `PATH` environment
 variable.
 
-> NOTE 3: I currently use phantomjs 1.9.2. If you want to run the
-> latest 2.0.0 release on Mac OS X you
-> [need to do some work](https://github.com/ariya/phantomjs/issues/12900).
+> NOTE 3: I currently use phantomjs 1.9.2. The 2.0 release had some  
+> [issues](https://github.com/ariya/phantomjs/issues/12900) on Mac OS X, however
+> these have been resolved in the 2.1 release.
 
 ## boot-cljs-test
 
 To be able to run CLJS unit tests with the same [TDD][9] workflow we
 used for CLJ unit testing, you need to add to `build.boot`
-the `boot-cljs-test` task specifically devoted for CLJS, which is
+the [boot-cljs-test][11] task specifically devoted for CLJS, which is
 compatible with a plethora of JS Engines, including [PhantomJS][2].
 
 The procedure to add a new task is always the same: add it to the
@@ -436,7 +436,7 @@ There are few things to be noted.
 First, as we learned from the `boot-cljs-test` help documentation, we
 used `phantom` as headless browser, and we also passed the
 `modern-cljs.shopping.validators-test` as the sole namespace to run
-test for.
+tests for.
 
 Secondly, the `boot-test-cljs` task internally uses the CLJS compiler
 by overwriting some default values. For example, instead of generating
@@ -1015,3 +1015,5 @@ License, the same as Clojure.
 [7]: https://en.wikipedia.org/wiki/Mutatis_mutandis
 [8]: https://en.wikipedia.org/wiki/Domain-specific_language
 [9]: https://en.wikipedia.org/wiki/Test-driven_development
+[10]: https://github.com/adzerk-oss/boot-test
+[11]: https://github.com/crisptrutski/boot-cljs-test

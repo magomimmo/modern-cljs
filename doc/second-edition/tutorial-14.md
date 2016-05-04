@@ -29,7 +29,7 @@ other things:
 
 * review the Shopping Form
 * break the Shopping Form
-* add fields's validations
+* add field validations
 
 ## Start the IFDE
 

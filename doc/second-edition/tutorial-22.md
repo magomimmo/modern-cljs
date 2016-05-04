@@ -5,7 +5,7 @@ steps of the official [React Tutorial][3].
 
 In this Part II of the tutorial on Reagent we're going to complete the
 porting of the official [React Tutorial][3] to [Reagent][2], by
-introducing components state management.
+introducing component state management.
 
 ## Preamble
 
@@ -34,11 +34,11 @@ npm install
 PORT=3001 node server.js
 ```
 
-Finally visit the [localhost:3001](http://localhost:3001/) URL.
+Finally visit the URL [localhost:3001](http://localhost:3001/).
 
 ## Reagent port of React Tutorial
 
-Open a new terminal and submit the following commands
+Open a new terminal and enter the following commands
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
@@ -53,13 +53,12 @@ Then launch the development environment as usual
 boot dev
 ```
 
-Next visit the
-[localhost:3000/reagent.html](http://localhost:3000/reagent.html)
-URL. Event if you'll not see anything, because we still have to attach
-the `comment-box` root component to the `"content"` `div` of the
+Next visit the URL
+[localhost:3000/reagent.html](http://localhost:3000/reagent.html).
+Even if you don't see anything, because we still have to attach the
+`comment-box` root component to the `"content"` `div` of the
 `reagent.html` page, a websocket connection will be established
-between your development environmnet and the JS engine of your
-browser.
+between your development environment and your browser's JS engine.
 
 Now open a new terminal and launch the nREPL client followed by the
 bREPL client on top of it as usual:
@@ -119,7 +118,7 @@ and
 [Reactive State](https://facebook.github.io/react/docs/tutorial.html#reactive-state). In
 this port of the React Tutorial to Reagent we're going to restrict our
 scope to the state management only, because it is where Reagent
-standouts the most from React.
+stands out the most from React.
 
 Let's start by reading the paragraph of the React Tutorial on state
 management:
@@ -134,8 +133,8 @@ management:
 In the subsequent couple of steps the React Tutorial substitutes the
 hard-coded `data` with some dynamic from the server. Considering I'm not
 going to port to Reagent this part of the React Tutorial, I'm just
-coping the corresponding code to facilitate its pasting into the
-`example.js` source file. I'll also limit my code comments to few
+copying the corresponding code to facilitate its pasting into the
+`example.js` source file. I'll also limit my code comments to a few
 things.
 
 ```js
@@ -191,12 +190,12 @@ Apparently, the only way to change the state of the component is via
 the `setState()` function.
 
 The `setState()` function is indirectly called the very first time,
-via the `loadCommentsFromServer()` function, in the body of the
-`componentDidMount()`. `componentDidMount()` function is called only
-once, immediately after the component has been mounted in the DOM buy
+via the `loadCommentsFromServer()` function, in the body of
+`componentDidMount()`. The `componentDidMount()` function is called only
+once, immediately after the component has been mounted in the DOM by
 the `ReactDOM.render` function. Then, `setState()` is indirectly
 called every 2 seconds (i.e. pollInterval), by passing to it the array
-of comments got by polling the server via ajax.
+of comments obtained by polling the server via ajax.
 
 If you heard that React implements *one-way data flow* communication
 model between data and User Interfaces, this is what they mean:
@@ -205,10 +204,10 @@ model between data and User Interfaces, this is what they mean:
 data -> CommentBox -> CommentList -> Comment
 ```
 
-The value of `this.state.data` got from the server is passed down
+The value of `this.state.data` obtained from the server is passed down
 to the `CommentList` component. Each comment contained in
 `this.state.data` is then passed to the `Comment` component of the
-list. Only new or updated `Comment` components will be redraw.
+list. Only new or updated `Comment` components will be redrawn.
 
 This last observation is very important, because it illustrates that a
 React component gets updated not only when its private state changes,
@@ -221,7 +220,7 @@ and, instead, take care of it by itself.
 
 Let's now verify if the above code refactoring works as
 expected. First reload the [localhost:3001](http://localhost:3001/)
-URL. Considering that we still have to implement the `CommentForm`
+page. Considering that we still have to implement the `CommentForm`
 component to create new comments, to see the React state management at
 work you need to manually change the `comment.json` array of comments
 which is read every two second by the the `CommentBox` component.
@@ -249,7 +248,7 @@ Open the `comments.json` file, which is located in the
 ]
 ```
 
-When you save the file, after a moment you should see the page been
+When you save the file, after a moment you should see that the page has been
 updated with the new comment by the
 [author of Reagent](https://twitter.com/holmsand).
 
@@ -280,8 +279,8 @@ we have to digress a little bit about Clojure(Script)
 
 Immutability is divine, but sometime you still need to modify the
 world around you. ClojureScript has immutability as the default
-behavior of its data structure, but it also offers you a more mundane
-`atom` function when you really want to manipulate the reality.
+behavior of its data structures, but it also offers you a more mundane
+`atom` function when you really want to manipulate reality.
 
 Let's get some help from the bREPL to learn about `atom` usage. Say
 you want to maintain the number of times a button gets clicked
@@ -328,7 +327,7 @@ cljs.user> @clicks
 1
 ```
 
-And Sometimes you want to reset the number of clicks to a specific
+Sometimes you want to reset the number of clicks to a specific
 value:
 
 ```clj
@@ -343,7 +342,7 @@ cljs.user> @clicks
 
 Even if changes to atoms are always non blocking and free of race
 conditions, this is not the main reason we are talking about them in
-the Reagent contest.
+the Reagent context.
 
 Say you want to observe the state of `clicks`. You can easily add a
 watcher to log its state in time at the `js/console`.
@@ -414,9 +413,9 @@ bREPL. Here, the fundamental word is *time*.
 ![Watch clicks atom at console](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/atom-console.png)
 
 You can think about the `data` containing comments as an `atom` and
-the `comment-box` component as an observer that execute a reaction,
+the `comment-box` component as an observer that executes a reaction,
 redrawing itself, anytime it observes a change in the state of the
-comments itself.
+comments.
 
 > NOTE 2:  in reality, as we'll see in a moment, this statement is not
 > true.
@@ -519,7 +518,7 @@ cljs.user> (swap! data assoc-in [(rand-int (count @data)) :text] "This is a **ra
 > the `(rand-int (count @data))` expression.
 
 Again, a soon as the `swap!` form gets evaluated, you should see the
-corresponding components *view* been updated.
+corresponding components *view* update.
 
 ![update comment](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/updatecomment.png)
 
@@ -536,9 +535,460 @@ do with the `CommentForm` component.
 
 ## Adding new comments
 
-bla bla bla
+In the lastest paragraps we were able to programmatically add new
+comments to the React Tutorial by just adding them to the
+`comments.json`
+file. [Mutatis mutandis](https://en.wikipedia.org/wiki/Mutatis_mutandis),
+while porting this step from the React Tutorial to Reagent, we did a
+similar thing by just adding new comments to the `data` `ratom`.
 
-## Next Step - TBD
+Let's now afford the problem of adding new comments by using a form
+component. The final solution implemented by the React Tutorial
+follows:
+
+```js
+var CommentForm = React.createClass({
+  getInitialState: function() {
+    return {author: '', text: ''};
+  },
+  handleAuthorChange: function(e) {
+    this.setState({author: e.target.value});
+  },
+  handleTextChange: function(e) {
+    this.setState({text: e.target.value});
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var author = this.state.author.trim();
+    var text = this.state.text.trim();
+    if (!text || !author) {
+      return;
+    }
+    this.props.onCommentSubmit({author: author, text: text});
+    this.setState({author: '', text: ''});
+  },
+  render: function() {
+    return (
+      <form className="commentForm" onSubmit={this.handleSubmit}>
+        <input
+          type="text"
+          placeholder="Your name"
+          value={this.state.author}
+          onChange={this.handleAuthorChange}
+        />
+        <input
+          type="text"
+          placeholder="Say something..."
+          value={this.state.text}
+          onChange={this.handleTextChange}
+        />
+        <input type="submit" value="Post" />
+      </form>
+    );
+  }
+});
+```
+
+The easiest way to understand the code of a React component is to
+start reading its `render` function.
+
+The `CommentForm` component is composed of a `form` with three
+`input`: two `input` of `text` type and one `input`of `submit` type.
+
+The `text` `input` types get their values from a corresponding state
+of the main component: `this.state.author` and
+`this.state.text`. Their values are initially set to the void string
+`''` by the `getInitialState()` function.
+
+Whenever the user type into one of these `input` components, the
+corresponding `onChange` handler gets called
+(i.e. `handleAuthorChange` and `handleTextChange`). Those handlers
+just set the value of the corresponding state to the one typed in by
+the user. So far, so good.
+
+The `handleSubmit` function is called whenever the user click the
+`Post` submit button of the `form`. The `handleSubmit` function does
+few things:
+
+* it stops the default propagation of the submit event to the server;
+* it trims any blank from `this.state.author` and `this.state.text`
+  strings;
+* it calls the `onCommentSubmit` function passing to it the `author`
+  and `text` trimmed strings when they are not blanks and it finally
+  clears the `author` and the `text` states by setting again their
+  values to the void `''` string.
+
+But where is the `onCommentSubmit` function defined? In the
+`CommentBox` component which is the `owner` of the `CommentForm` one:
+
+```js
+var CommentBox = React.createClass({
+  loadCommentsFromServer: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  handleCommentSubmit: function(comment) {
+    var comments = this.state.data;
+    // Optimistically set an id on the new comment. It will be replaced by an
+    // id generated by the server. In a production application you would likely
+    // not use Date.now() for this and would have a more robust system in place.
+    comment.id = Date.now();
+    var newComments = comments.concat([comment]);
+    this.setState({data: newComments});
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      type: 'POST',
+      data: comment,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        this.setState({data: comments});
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  },
+  render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.state.data} />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+      </div>
+    );
+  }
+});
+```
+
+Again, if you start by reading the `render` function of the
+`CommentBox` component, you'll see that it passes the
+`handleCommentSubmit` callback function as the value of the
+`onCommentSubmit` props of the `CommentForm` sub-component. 
+
+As previously said, we are not going to port to Reagent the ajax and
+the server side parts of the React Tutorial and we leave to the
+careful reader the understanding of the `handleCommentSubmit`
+callback.
+
+To see the updated and final version of the React Tutorial at work,
+just reload the [localhost:3001](http://localhost:3001/) URL. Add any
+number of comments you want by using the newly added `CommentForm`
+component.
+
+> NOTE 4: Thanks to the provided custom backend, you can open more tabs
+> in your browser and appreciate the way they get updated anytime you
+> add a new comment in one of the tab. As previously said, I'm not going
+> to port this feature to Reagent in this tutorial.
+
+## Adding new comments in Reagent
+
+Let's start the porting of the `CommentForm` to Reagent by first
+defining the structure of the `comment-form` component as simple as
+possible. Considering that the code already ported to Reagent is now
+living in the `modern-cljs.reagent` namespace, let's first set this
+namespace as the current one in the bREPL.
+
+```clj
+cljs.user> (in-ns 'modern-cljs.reagent)
+nil
+```
+
+Now define the `comment-form` as follows:
+
+```clj
+modern-cljs.reagent> (defn comment-form []
+                       [:form
+                        [:input {:type "text"
+                                 :placeholder "Your name"}]
+                        [:input {:type "text"
+                                 :placeholder "Say something"}]
+                        [:input {:type "button"
+                                 :value "Post"}]])
+#'modern-cljs.reagent/comment-form
+```
+
+> NOTE 5: the third `input` of the `form` is of type `button` because
+> we're not going to `POST` new comments to the server.
+
+Before rendering the `comment-box` component, if we want to use the
+`by-id` function form the `domina` library as we did before, we have
+to require its `domina.core` namespace in the `modern-cljs.reagent`
+current bREPL namespace as well:
+
+```clj
+modern-cljs.reagent> (require '[domina.core :as dom :refer [by-id]])
+nil
+```
+
+Let's now render the `comment-box` as usual:
+
+```clj
+modern-cljs.reagent> (r/render [comment-box data] (by-id "content"))
+#object[Object [object Object]]
+```
+
+You should immediately see the `comment-form` component in your
+browser. The next step to replicate the same behavior of the React
+Tutorial is to manage the state for the `CommentForm` component.
+
+### Local state and new ways to create component
+
+We already used a `ratom` to manage the state of the `data` vector of
+maps recording comments. But this case is different. We need a local
+state, not a global one as it is `data`.
+
+Before to be able to create a local `ratom` to manage the local state
+of a Reagent component, we need to digress about a very important
+Reagent topic: the three different ways to create a Reagent component.
+
+Until now we only used the most simple way, known as `form-1`, for
+creating a Reagent component: a simple function definition returning a
+hiccup vector
+
+```clj
+(defn comment-component [author comment]
+  [:div 
+   [:h2 author]
+   [:span {:dangerouslySetInnerHTML 
+           #js {:__html (js/marked comment #js {:sanitize true})}}]])
+
+(defn comment-list [comments]
+  [:div
+   (for [{:keys [id author text]} comments] 
+     ^{:key id} [comment-component author text])])
+
+(defn comment-form []
+  [:form
+    [:input {:type "text"
+             :placeholder "Your name"}]
+    [:input {:type "text"
+             :placeholder "Say something"}]
+    [:input {:type "button"
+     :value "Post"}]])
+
+(defn comment-box [comments]
+  [:div 
+   [:h1 "Comments"]
+   [comment-list @comments]
+   [comment-form]])
+```
+
+The second way of creating a Reagent component, known as `form-2`, is
+to define a function returning a function which, in turn, returns an
+hiccup vector. 
+
+The `form-2` way of creating a Reagent component is used whenever you
+need some initial setup for the component which has to be executed
+only once, at its creation.
+
+This is exactly what we need to setup a local state for the
+`comment-form` component which initially set both the `author` and the
+`text` props to the void string `""`. Something like the following:
+
+```clj
+modern-cljs.reagent> (defn comment-form []
+                       (let [comment (r/atom {:author "" :text ""})] 
+                         (fn [] 
+                           [:form
+                            [:input {:type "text"
+                                     :placeholder "Your name"
+                                     :value (:author @comment)}]
+                            [:input {:type "text"
+                                     :placeholder "Say something"
+                                     :value (:text @comment)}]
+                            [:input {:type "button"
+                                     :value "Post"}]])))
+```
+
+As you see, we first create a local `ratom` comment, internally
+represented as a map with its `:author` and `:text` keys initialized
+to the void string `""`. Then we return an anonymous function that, in
+turn, returns the usual hiccup vector to be subsequently rendered. 
+
+Also note as we set the `input` attributes using a map, as we already
+did within `comment-component` to set the `dangerouslySetInnerHTML`
+attribute for its included `span` component.
+
+By using the map in the hiccup vector we were able to set the `value`
+attribute of both `author` and `text` inputs to the corresponding
+protected value of the local `ratom` by derefing it. This way, anytime
+the mutable `comment` ratom gets swapped or reset, the corresponding
+`input` component gets the opportunity to be re-rendered.
+
+So far, so good. But if you try to re-render the `comment-box` root
+component at the bREPL
+
+```clj
+modern-cljs.reagent> (r/render [comment-box data] (by-id "content"))
+#object[Object [object Object]]
+```
+
+you'll see that both the `author` and the `text` input components do
+not take any of your typing.
+
+This is because we have not defined any
+handler for the `:on-change` event.
+
+> NOTE 6: as previously said, React uses `CamelCase` names for
+> component names. For events, it uses `camelCase` names. Conversely,
+> Reagent uses `kebab-case` names for components and keywordized
+> `:kebak-case` names for both events and component attributes.
+
+Let's add the `:on-change` event handler to our input components:
+
+```clj
+modern-cljs.reagent> (defn comment-form []
+  (let [comment (r/atom {:author "" :text ""})] 
+    (fn [] 
+      [:form
+       [:input {:type "text"
+                :placeholder "Your name"
+                :value (:author @comment)
+                :on-change #(swap! comment assoc :author (-> %
+                                                             .-target
+                                                             .-value))}]
+       [:input {:type "text"
+                :placeholder "Say something"
+                :value (:text @comment)
+                :on-change #(swap! comment assoc :text (-> %
+                                                           .-target
+                                                           .-value))}]
+       [:input {:type "button"
+                :value "Post"}]])))
+#'modern-cljs.reagent/comment-form
+```
+
+As you see, each `:on-change` handler gets the value of the target of
+the `:on-change` event and sets it as the value of the corresponding
+key of the *ratomized* `comment` map by using the `swap!` function.
+
+If you re-render the `comment-box` root component the `input`
+component of the `comment-form` component is now taking your typing
+
+```clj
+modern-cljs.reagent> (r/render [comment-box data] (by-id "content"))
+#object[Object [object Object]]
+```
+
+The very last step in porting to Reagent the final version of the
+React Tutorial concerns the `:on-click` event associated with the
+`Post` button.
+
+> NOTE 7: as we decided to not port to Reagent the custom backend and
+> the corresponding ajax call to set/get comments to/from it, we
+> substituted the `submit` input type with the `button` input
+> type. Consequently, instead of having to manage the form
+> `:on-submit` event we need to manage its `:on-click` event.
+
+The `:on-click` handler associated with the `comment-form` has to do few things:
+
+* get the values of `:author` and `:text` keys from the *ratomized*
+  comment and `trim` them;
+* reset those keys' to the void string `""`;
+* when neither the `author` or the `text` value is `blank?`, add the
+  comment to the global `data` ratom providing each of them with a
+  kind of unique identifier as React Tutorial did.
+
+The `trim` function and the `blank?` predicate are included in the
+`clojure.string` namespace. So we need to require it at the bREPL:
+
+```clj
+modern-cljs.reagent> (require '[clojure.string :as s :refer [trim blank?]])
+nil
+```
+
+```clj
+modern-cljs.reagent> (trim "   trim me    ")
+"trim me"
+```
+
+```clj
+modern-cljs.reagent> (blank? nil)
+true
+modern-cljs.reagent> (blank? "    ")
+true
+modern-cljs.reagent> (blank? "")
+true
+modern-cljs.reagent> (blank? "\t")
+true
+modern-cljs.reagent> (blank? "\n")
+true
+```
+
+We can now define the `handle-comment-on-click` handler as follows:
+
+```clj
+modern-cljs.reagent> (defn handle-comment-on-click [comment]
+                       (let [author (trim (:author @comment))
+                             text (trim (:text @comment))]
+                         (reset! comment {:author "" :text ""})
+                         (when-not (or (blank? author) (blank? text))
+                           (swap! data conj {:id (.getTime (js/Date.)) :author author :text text}))))
+#'modern-cljs.reagent/handle-comment-on-click
+```
+
+Note as we *derefed* the *ratomized* comment to get the values from
+its `:author` and `:text` keys. Also note that we created an unique
+identifier for each new comment by miming the same `Date` and
+`getTime` JS constructor/function. Finally, when neither of those two
+value is blank, we `conj` the newly created comment to the global
+`data` ratom.
+
+The very last step is to redefine the `comment-form` to include the
+`:on-click` handler:
+
+```clj
+modern-cljs.reagent> (defn comment-form []
+                       (let [comment (r/atom {:author "" :text ""})] 
+                         (fn [] 
+                           [:form
+                            [:input {:type "text"
+                                     :placeholder "Your name"
+                                     :value (:author @comment)
+                                     :on-change #(swap! comment assoc :author (-> %
+                                                                                  .-target
+                                                                                  .-value))}]
+                            [:input {:type "text"
+                                     :placeholder "Say something"
+                                     :value (:text @comment)
+                                     :on-change #(swap! comment assoc :text (-> %
+                                                                                .-target
+                                                                                .-value))}]
+                            [:input {:type "button"
+                                     :value "Post"
+                                     :on-click #(handle-comment-on-click comment)}]])))
+#'modern-cljs.reagent/comment-form
+```
+
+Re-render the `comment-box` root component as usual:
+
+```clj
+modern-cljs.reagent> (r/render [comment-box data] (by-id "content"))
+#object[Object [object Object]]
+```
+
+You should now be able to add new comments by using the `comment-form`
+component as you previously did with the React Tutorial. Because we
+did not port the custom backend and the corresponding ajax call to
+set/get the comments from the backend.
+
 
 # License
 

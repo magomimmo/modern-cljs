@@ -104,7 +104,7 @@ calculate the total. Where do we start from?
 
 Recall that the Immediate Feedback Development Environment
 (IFDE) we setup on [Tutorial 3][19] already has an internal web server
-offered by the [`boot-http`][32] task.
+offered by the [`boot-http`][33] task.
 
 `boot-http` is configured to run [`Jetty`][34] by default, but you can
 also use [`http-kit`][35].
@@ -834,7 +834,7 @@ License, the same as Clojure.
 [17]: https://github.com/cemerick
 [18]: https://github.com/weavejester/compojure
 [19]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-03.md
-[20]: http://localhost:3000/shopping-dbg.html
+[20]: http://localhost:3000/shopping.html
 [21]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-01.png
 [22]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-02.png
 [23]: https://raw.github.com/magomimmo/modern-cljs/master/doc/images/network-03.png

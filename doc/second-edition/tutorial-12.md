@@ -117,7 +117,7 @@ would get a result like the following:
   [:password present? "Password can't be empty"]
   [:password (matches *re-password*) "Invalid password format"])
 
-;;; should returns
+;;; should return
 
 {:email ["Invalid email format"]
  :password ["Password can't be empty" "Invalid password format"]}
@@ -468,7 +468,7 @@ and modify it as follows:
 ```
 
 Remember to delete anything else. As soon as you save the file,
-everything get recompiled.
+everything gets recompiled.
 
 > NOTE 6: we could have returned more detailed messages from the
 > validator result to the user. To maintain the same behaviour of the
@@ -528,7 +528,7 @@ currently hosted in the `src/clj` source directory of the project. It
 uses the portable namespace from the `valip` lib and does not
 use any features available on the JVM. 
 
-What does that means? It means you can safely rename the file with the
+What does that mean? It means you can safely rename the file with the
 `cljc` extension and move it under a new `src/cljc` source path
 directory in the `build.boot` file.
 
@@ -843,7 +843,7 @@ manually reload the page to see the result. So, just reload the
 [`Login Form`](http://localhost:3000/index.html) and you'll be
 launched back to the sky again.
 
-> NOTE 10: if you did not [reactivated your browser JS Engine][26], do it
+> NOTE 10: if you did not [reactivate your browser JS Engine][26], do it
 > before reloading the Login Form page
 
 Repeat all the interactive tests you did. I know, it's boring, but at

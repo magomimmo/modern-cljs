@@ -253,7 +253,7 @@ So far so good.
 
 It's now time to start experimenting with CLJS at the bREPL by trying
 to emulate the behavior of the original `login.js` code. Let's start
-form the `validateForm()` function:
+from the `validateForm()` function:
 
 ```JS
 // Script 2.3 - login.js
@@ -665,7 +665,7 @@ return false;
 
 As you see the CLJS compiler translated the original CLJS code into
 corresponding JS code. Even if the `source-map` compiler option allows
-to debug your CLJS code in the Developer Tools of your browser, the
+you to debug your CLJS code in the Developer Tools of your browser, the
 understanding of the CLJS to JS translation could be very effective in
 identifying and solving bugs in your code.
 
@@ -780,7 +780,7 @@ As soon as you save the `login.cljs` everything get recompiled. But
 this time you have to reload the Login Page because we attached the
 `init` function to the `onload` event.
 
-You can now safety play with the Login form from the browser itself:
+You can now safely play with the Login form from the browser itself:
 
 * if you click the `Login` button before having filled both the
 `email` and the `password` fields, you should see the alert dialog
