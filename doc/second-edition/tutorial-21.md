@@ -1,4 +1,4 @@
-# Tutorial 21 - A minimalist interface to React with Reagent (Part I)
+# Tutorial 21 - A reasoned porting of the Offical React tutorial to Reagent (Part I)
 
 In the [previous tutorial][1] we enhanced the `build.boot`
 file to be able to install a CLJ/CLJS library to the local `maven`
@@ -1228,10 +1228,11 @@ git add --all
 git commit -m "Part I"
 ```
 
-## [Next Step - Tutorial 22 - A minimalist interface to React with Reagent (Part II)][6]
+## [Next Step - Tutorial 22 - A reasoned porting of the Official React Tutorial to Reagent (Part II)][6]
 
-In [Part II of this tutorial on Reagent][6] we're going to complete our 
-porting of the official React Tutorial to Reagent, by introducing components state management.
+In [Part II of this tutorial on Reagent][6] we're going to complete
+our porting of the official React Tutorial to Reagent, by introducing
+components state management.
 
 # License
 

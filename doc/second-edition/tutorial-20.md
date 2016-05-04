@@ -1037,9 +1037,12 @@ Password:
 Deploying valip-0.4.0-SNAPSHOT.jar...
 ```
 
-That's all folks. Stay tuned for the next tutorial.
+That's all folks.
 
-## Next Step - TBD
+## Next Step - [Tutorial 21 A reasoned porting of the Official React Tutorial to Reagent - Part I][4]
+
+In the [next tutorial][4] will guide you step by step in porting the
+Official React tutorial to Reagent.
 
 # License
 
@@ -1049,3 +1052,4 @@ License, the same as Clojure.
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-19.md
 [2]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-18.md
 [3]: https://en.wikipedia.org/wiki/Test-driven_development
+[4]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-21.md

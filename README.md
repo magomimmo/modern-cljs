@@ -1,19 +1,17 @@
 ## Latest tutorials
 
+### [Tutorial 22 - A reasoned porting of the Official React Tutorial to Reagent - Part II][47]
+
+Part II of a step by step reasoned porting of the Official React Tutorial to Reagent.
+
+### [Tutorial 21 - A reasoned porting of the Official React Tutorial to Reagent - Part I][46]
+
+Part I of a step by step reasoned porting of the Official React Tutorial to Reagent.
+
 ### [Tutorial 20 - House Keeping][40]
 
 Step by step guide for publishing a library to clojars repository by
 using `boot`.
-
-### [Tutorial 19 - Livin' on the edge][39]
-
-Explain how to make a library compliant with the new Reader
-Conditionals extension of CLJ/CLJS compilers.
-
-### [Tutorial 18 - Augmented TDD session][38]
-
-Complete the client-side form validation by exploiting the [TDD][45]
-environment augmented with CLJ/CLJS REPLs.
 
 # Modern ClojureScript
 
@@ -230,6 +228,14 @@ Conditionals extension on CLJ/CLJS compilers.
 Step by step guide for publishing a library to clojar repository by
 using `boot`.
 
+## [Tutorial 21 - A reasoned porting of the Official React Tutorial to Reagent - Part I][46]
+
+Part I of a step by step reasoned porting of the [Official React Tutorial][48] to [Reagent][49].
+
+## [Tutorial 22 - A reasoned porting of the Official React Tutorial to Reagent - Part II][47]
+
+Part II of a step by step reasoned porting of the [Official React Tutorial][48] to [Reagent][49].
+
 # License
 
 Copyright © Mimmo Cosenza, 2012-2016. Released under the Eclipse Public
@@ -281,3 +287,7 @@ License, the same license as Clojure.
 [43]: https://en.wikipedia.org/wiki/Unix-like
 [44]: https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
 [45]: https://en.wikipedia.org/wiki/Test-driven_development
+[46]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-21.md
+[47]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-22.md
+[48]: https://facebook.github.io/react/docs/tutorial.html
+[49]: http://reagent-project.github.io/
