@@ -947,12 +947,12 @@ modern-cljs.reagent> (defn handle-comment-on-click [comment]
 Note as we *derefed* the *ratomized* comment to get the values from
 its `:author` and `:text` keys. Also note that we created an unique
 identifier for each new comment by miming the same `Date` and
-`getTime` JS constructor/function. Finally, when neither of those two
-value is blank, we `conj` the newly created comment to the global
-`data` ratom.
+`getTime` JS constructor/function. Finally, when none of `author` or
+`text` value is blank, we `conj` the newly created comment to the
+global `data` ratom.
 
 The very last step is to redefine the `comment-form` to include the
-`:on-click` handler:
+`:on-click` newly defined handler:
 
 ```clj
 modern-cljs.reagent> (defn comment-form []
@@ -986,9 +986,13 @@ modern-cljs.reagent> (r/render [comment-box data] (by-id "content"))
 
 You should now be able to add new comments by using the `comment-form`
 component as you previously did with the React Tutorial. Because we
-did not port the custom backend and the corresponding ajax call to
-set/get the comments from the backend.
+did not port the custom backend and the corresponding ajax calls to
+set/get the comments from the backend, you'll not be able to use more
+tabs of your browser to add new comments.
 
+As a very last thing, we want to update the `reagent.cljs` source file
+to bring into it the code we evaluated at the bREPL with few small
+improvements.
 
 # License
 
