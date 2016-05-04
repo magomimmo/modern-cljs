@@ -1089,7 +1089,7 @@ cljs.user> (defn comment-box [comments]
 
 We are now ready to `render` the `comment-box` component into the
 `"content"` `div` of the `reagent.html` page. This time we have to
-pass the `data` vector to the `comment-box` so that `comment-list` can
+pass the `data` vector to the `comment-box` so that `comment-list` can
 dynamically generate each comment in the `data` vector.
 
 

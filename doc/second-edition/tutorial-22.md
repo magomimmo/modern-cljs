@@ -477,14 +477,24 @@ wrapping its definition in a `ratom`:
 ```
 
 Then modify consequently the `comment-box` component definition by
-simply adding the dereference of its comments parameter as follows:
+simply adding the *ratomized* `comments` parameter as follows:
 
 ```clj
 (defn comment-box [comments]
   [:div 
    [:h1 "Comments"]
-   [comment-list @comments]
+   [comment-list comments]
    [comment-form]])
+```
+
+By taking into account that `comments` has been *ratomized*, we now
+need to `deref` it in the `comment-list` component definition:
+
+```clj
+(defn comment-list [comments]
+  [:div
+   (for [{:keys [id author text]} @comments] 
+     ^{:key id} [comment-component author text])])
 ```
 
 Next, re-render the `comment-box` in the `"content"` div as usual:
@@ -771,7 +781,7 @@ hiccup vector
 
 (defn comment-list [comments]
   [:div
-   (for [{:keys [id author text]} comments] 
+   (for [{:keys [id author text]} @comments] 
      ^{:key id} [comment-component author text])])
 
 (defn comment-form []
@@ -786,7 +796,7 @@ hiccup vector
 (defn comment-box [comments]
   [:div 
    [:h1 "Comments"]
-   [comment-list @comments]
+   [comment-list comments]
    [comment-form]])
 ```
 
@@ -849,29 +859,29 @@ handler for the `:on-change` event.
 > NOTE 6: as previously said, React uses `CamelCase` names for
 > component names. For events, it uses `camelCase` names. Conversely,
 > Reagent uses `kebab-case` names for components and keywordized
-> `:kebak-case` names for both events and component attributes.
+> `:kebab-case` names for both events and component attributes.
 
 Let's add the `:on-change` event handler to our input components:
 
 ```clj
 modern-cljs.reagent> (defn comment-form []
-  (let [comment (r/atom {:author "" :text ""})] 
-    (fn [] 
-      [:form
-       [:input {:type "text"
-                :placeholder "Your name"
-                :value (:author @comment)
-                :on-change #(swap! comment assoc :author (-> %
-                                                             .-target
-                                                             .-value))}]
-       [:input {:type "text"
-                :placeholder "Say something"
-                :value (:text @comment)
-                :on-change #(swap! comment assoc :text (-> %
-                                                           .-target
-                                                           .-value))}]
-       [:input {:type "button"
-                :value "Post"}]])))
+                       (let [comment (r/atom {:author "" :text ""})] 
+                         (fn [] 
+                           [:form
+                            [:input {:type "text"
+                                     :placeholder "Your name"
+                                     :value (:author @comment)
+                                     :on-change #(swap! comment assoc :author (-> %
+                                                                                  .-target
+                                                                                  .-value))}]
+                            [:input {:type "text"
+                                     :placeholder "Say something"
+                                     :value (:text @comment)
+                                     :on-change #(swap! comment assoc :text (-> %
+                                                                                .-target
+                                                                                .-value))}]
+                            [:input {:type "button"
+                                     :value "Post"}]])))
 #'modern-cljs.reagent/comment-form
 ```
 
@@ -912,14 +922,8 @@ The `trim` function and the `blank?` predicate are included in the
 ```clj
 modern-cljs.reagent> (require '[clojure.string :as s :refer [trim blank?]])
 nil
-```
-
-```clj
 modern-cljs.reagent> (trim "   trim me    ")
 "trim me"
-```
-
-```clj
 modern-cljs.reagent> (blank? nil)
 true
 modern-cljs.reagent> (blank? "    ")
@@ -946,10 +950,10 @@ modern-cljs.reagent> (defn handle-comment-on-click [comment]
 
 Note as we *derefed* the *ratomized* comment to get the values from
 its `:author` and `:text` keys. Also note that we created an unique
-identifier for each new comment by miming the same `Date` and
-`getTime` JS constructor/function. Finally, when none of `author` or
-`text` value is blank, we `conj` the newly created comment to the
-global `data` ratom.
+identifier for each new comment by using the same `Date` and `getTime`
+JS constructor/function. Finally, when none of `author` or `text`
+value is blank, we `conj` the newly created comment to the global
+`data` ratom.
 
 The very last step is to redefine the `comment-form` to include the
 `:on-click` newly defined handler:
@@ -990,9 +994,122 @@ did not port the custom backend and the corresponding ajax calls to
 set/get the comments from the backend, you'll not be able to use more
 tabs of your browser to add new comments.
 
-As a very last thing, we want to update the `reagent.cljs` source file
-to bring into it the code we evaluated at the bREPL with few small
-improvements.
+For completing this tutorial we update the `reagent.cljs` source file
+to bring into it the code we evaluated at the bREPL with a small
+improvement that I leave to you to discover.
+
+We also add, as we did in previous tutorials with the `login.cljs` and
+the `shopping.cljs`, an `init` function to be exported and used in the
+`reagent.html` file to attach the `component-box` root Reagent
+component to the `"content"` div.
+
+Here is the complete `reagent.cljs` source file
+
+```clj
+(ns modern-cljs.reagent
+  (:require [reagent.core :as r :refer [render]] ;; refer render to be used in the init function
+            [domina.core :as dom :refer [by-id]]
+            [clojure.string :as s :refer [trim blank?]]
+            [cljsjs.marked]))
+
+(def data (r/atom [{:id 1
+                    :author "Pete Hunt"
+                    :text "This is one comment"}
+                   {:id 2
+                    :author "Jordan Walke"
+                    :text "This is *another* comment"}]))
+
+(defn comment-component [author comment]
+  [:div 
+   [:h2 author]
+   [:span {:dangerouslySetInnerHTML 
+           #js {:__html (js/marked comment #js {:sanitize true})}}]])
+
+(defn comment-list [comments]
+  [:div
+   (for [{:keys [id author text]} @comments] 
+     ^{:key id} [comment-component author text])])
+
+(defn handle-comment-on-click [comments comment]
+  (let [author (trim (:author @comment))
+        text (trim (:text @comment))]
+    (reset! comment {:author "" :text ""})
+    (when-not (or (blank? author) (blank? text))
+      (swap! comments conj {:id (.getTime (js/Date.)) :author author :text text}))))
+
+(defn comment-form [comments]
+  (let [comment (r/atom {:author "" :text ""})] 
+    (fn [] 
+      [:form
+       [:input {:type "text"
+                :placeholder "Your name"
+                :value (:author @comment)
+                :on-change #(swap! comment assoc :author (-> %
+                                                             .-target
+                                                             .-value))}]
+       [:input {:type "text"
+                :placeholder "Say something"
+                :value (:text @comment)
+                :on-change #(swap! comment assoc :text (-> %
+                                                           .-target
+                                                           .-value))}]
+       [:input {:type "button"
+                :value "Post"
+                :on-click #(handle-comment-on-click comments comment)}]])))
+
+(defn comment-box [comments]
+  [:div 
+   [:h1 "Comments"]
+   [comment-list comments]
+   [comment-form comments]])
+
+(defn ^export init []
+  (render [comment-box data] (by-id "content")))
+```
+
+Now that we have defined and exported the `init` function, we can call
+it in the `reagent.html` file as follows:
+
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Reagent Tutorial</title>
+    <link rel="stylesheet" href="css/base.css" />
+  </head>
+  <body>
+    <div id="content"></div>
+    <script src="main.js"></script>
+    <script>modern_cljs.reagent.init();</script>
+  </body>
+</html>
+```
+
+As soon as you save the `reagent.html` file, it gets reloaded and you
+can start adding new comments by using the `comment-form` component.
+
+![Final Reagent Tutorial Image](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/finalReagentTutorial.png)
+
+Before leaving the tutorial, I suggest you to kill all the active
+processes and commit your work:
+
+```bash
+cd /path/to/react-tutorial
+git commit -am "Part II"
+```
+
+```bash
+cd /path/to/modern-cljs
+git commit -am "Part II"
+```
+
+Stay tuned for the next tutorial, because the way we solved the local
+state for the `comment-form` can be improved by adopting a different
+communication strategy.
+
+## Next Step - TBD
 
 # License
 
