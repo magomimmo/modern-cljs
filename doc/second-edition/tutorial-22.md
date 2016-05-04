@@ -734,8 +734,78 @@ modern-cljs.reagent> (r/render [comment-box data] (by-id "content"))
 #object[Object [object Object]]
 ```
 
-You should immediately see the `form` in your browser. So far, so
-good. But what about the state of the newply defined `CommentForm`?
+You should immediately see the `form` in your browser. The next step
+to replicate the same behavior of the React Tutorial is to
+manage the state for the `CommentForm` component.
+
+### Local state and new ways to create component
+
+We already used a `ratom` to manage the state of the `data` vector of
+maps recording comments. But this case is different. We need a local
+state, not a global one.
+
+Until now we used the so called `form-1` for creating our Reagent
+components: a simple function definition returning a hiccup vector. 
+
+```clj
+(defn comment-component [author comment]
+  [:div 
+   [:h2 author]
+   [:span {:dangerouslySetInnerHTML 
+           #js {:__html (js/marked comment #js {:sanitize true})}}]])
+
+(defn comment-list [comments]
+  [:div
+   (for [{:keys [id author text]} comments] 
+     ^{:key id} [comment-component author text])])
+
+(defn comment-form []
+  [:form
+    [:input {:type "text"
+             :placeholder "Your name"}]
+    [:input {:type "text"
+             :placeholder "Say something"}]
+    [:input {:type "button"
+     :value "Post"}]])
+
+(defn comment-box [comments]
+  [:div 
+   [:h1 "Comments"]
+   [comment-list @comments]
+   [comment-form]])
+```
+
+But there is second and even a third more sophisticated Reagent ways
+to create components and they are known as `form-2` and `form-3`.
+
+In the `form-2` way to create a component, you define a function
+returning a function. This way you have the opportunity to do some
+setup for the component before defining its rendering function.
+
+As said, for the `comment-form` component we need to setup a local
+state as we did for its React counterpart to create a comment,
+represented as a map, where both the `:author` and the `:text` keys
+are initially set to the void string `""`. The values of those keys
+will be updated with the ones typed into the form by the user.
+
+```clj
+(defn comment-form []
+  (let [comment (r/atom {:author "" :text ""})] 
+    (fn [] 
+      [:form
+       [:input {:type "text"
+                :placeholder "Your name"
+                :value (:author @comment)
+                :on-change #(swap! comment assoc :author (-> % .-target .-value))}]
+       [:input {:type "text"
+                :placeholder "Say something"
+                :value (:text @comment)
+                :on-change #(swap! comment assoc :text (-> % .-target .-value))}]
+       [:input {:type "button"
+                :value "Post"
+                :on-click #(form-on-click % Next)}]])))
+```
+
 
 ## Local ratom
 
