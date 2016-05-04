@@ -803,7 +803,7 @@ will be updated with the ones typed into the form by the user.
                 :on-change #(swap! comment assoc :text (-> % .-target .-value))}]
        [:input {:type "button"
                 :value "Post"
-                :on-click #(form-on-click % Next)}]])))
+                :on-click #(form-on-click % comment)}]])))
 ```
 
 
