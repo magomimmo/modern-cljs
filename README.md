@@ -2,11 +2,11 @@
 
 ### [Tutorial 22 - A reasoned porting of the Official React Tutorial to Reagent - Part II][47]
 
-Part II of a step by step reasoned porting of the Official React Tutorial to Reagent.
+Part II of a step by step reasoned porting of the [Official React Tutorial][48] to [Reagent][49].
 
 ### [Tutorial 21 - A reasoned porting of the Official React Tutorial to Reagent - Part I][46]
 
-Part I of a step by step reasoned porting of the Official React Tutorial to Reagent.
+Part I of a step by step reasoned porting of the [Official React Tutorial][48] to [Reagent][49].
 
 ### [Tutorial 20 - House Keeping][40]
 
