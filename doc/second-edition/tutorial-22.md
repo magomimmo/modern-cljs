@@ -767,8 +767,8 @@ state, not a global one as it is `data`.
 Before to be able to create a local `ratom` to manage the local state
 of a Reagent component, we need to digress about a very important
 Reagent topic: the three different ways to create a Reagent
-component. In this tutorial we're not using the third way of creating,
-known as `form-3`, of creating Reagent components.
+component. In this tutorial we're not using the third way, known as
+`form-3`, of creating Reagent components.
 
 Until now we only used the most simple way, known as `form-1`, for
 creating a Reagent component: a simple function definition returning a
