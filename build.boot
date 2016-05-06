@@ -22,7 +22,7 @@
                  [enlive "1.1.6"]
                  [adzerk/boot-test "1.1.0"]
                  [crisptrutski/boot-cljs-test "0.2.1"]
-                 [reagent "0.6.0-alpha"]
+                 [reagent "0.6.0-alpha2"]
                  [cljsjs/marked "0.3.5-0"]
                  ])
 
