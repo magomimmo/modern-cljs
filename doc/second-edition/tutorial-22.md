@@ -979,7 +979,8 @@ modern-cljs.reagent> (defn comment-form []
                                                                                 .-value))}]
                             [:input {:type "button"
                                      :value "Post"
-                                     :on-click #(handle-comment-on-click comment)}]])))
+                                     :on-click #(handle-comment
+                                     -on-click comment)}]])))
 #'modern-cljs.reagent/comment-form
 ```
 
@@ -1041,7 +1042,7 @@ Here is the complete `reagent.cljs` source file
 
 (defn comment-form [comments]
   (let [comment (r/atom {:author "" :text ""})] 
-    (fn [] 
+    (fn [comments] 
       [:form
        [:input {:type "text"
                 :placeholder "Your name"
