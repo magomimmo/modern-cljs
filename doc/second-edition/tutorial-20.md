@@ -1041,8 +1041,8 @@ That's all folks.
 
 ## Next Step - [Tutorial 21 A reasoned porting of the Official React Tutorial to Reagent - Part I][4]
 
-In the [next tutorial][4] will guide you step by step in porting the
-Official React tutorial to Reagent.
+The [next tutorial][4] will begin guiding you through porting the
+Official React tutorial to Reagent step by step.
 
 # License
 
