@@ -31,7 +31,7 @@
 
 (defn comment-form [comments]
   (let [comment (r/atom {:author "" :text ""})] 
-    (fn [] 
+    (fn [comments] 
       [:form
        [:input {:type "text"
                 :placeholder "Your name"
