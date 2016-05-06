@@ -424,7 +424,7 @@ comments.
 
 The
 [Reagent tutorials on the re-frame wiki](https://github.com/Day8/re-frame/wiki#reagent-tutorials)
-does a terrific job explaining Reagent and I strongly reccomend you
+do a terrific job explaining Reagent and I strongly reccomend you
 read it several times, until you really grasp the entire content.
 
 That said, Reagent offers its own version of the standard CLJS `atom`
@@ -827,6 +827,7 @@ modern-cljs.reagent> (defn comment-form []
                                      :value (:text @comment)}]
                             [:input {:type "button"
                                      :value "Post"}]])))
+#'modern-cljs.reagent/comment-form
 ```
 
 As you see, we first create a local `ratom` comment, internally
@@ -909,7 +910,7 @@ React Tutorial concerns the `:on-click` event associated with the
 > type. Consequently, instead of having to manage the form
 > `:on-submit` event we need to manage its `:on-click` event.
 
-The `:on-click` handler associated with the `comment-form` has to do few things:
+The `:on-click` handler associated with the `comment-form` has to do a few things:
 
 * get the values of `:author` and `:text` keys from the *ratomized*
   comment and `trim` them;
@@ -979,8 +980,7 @@ modern-cljs.reagent> (defn comment-form []
                                                                                 .-value))}]
                             [:input {:type "button"
                                      :value "Post"
-                                     :on-click #(handle-comment
-                                     -on-click comment)}]])))
+                                     :on-click #(handle-comment-on-click comment)}]])))
 #'modern-cljs.reagent/comment-form
 ```
 
