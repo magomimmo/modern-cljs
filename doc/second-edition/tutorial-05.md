@@ -489,7 +489,7 @@ enter the following code:
 (defn init []
   (if (and js/document
            (.-getElementById js/document))
-    (let [the-form (.getElementById js/document "shoppingForm")]
+    (let [the-form (by-id "shoppingForm")]
       (set! (.-onsubmit the-form) calculate))))
 
 (set! (.-onload js/window) init)
