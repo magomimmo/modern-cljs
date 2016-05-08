@@ -55,5 +55,5 @@
    [comment-list comments]
    [comment-form comments]])
 
-(defn ^export init []
+(defn ^:export init []
   (render [comment-box data] (by-id "content")))
