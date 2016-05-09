@@ -86,12 +86,12 @@ nil
 ```
 
 ```clj
-cljs.user> (require '[domina.core :as dom :refer [by-id]])
+cljs.user> (require '[domina.core :refer [by-id]])
 nil
 ```
 
 ```clj
-cljs.user> (require '[modern-cljs.reagent :as tut :refer [comment-box data]])
+cljs.user> (require '[modern-cljs.reagent :refer [comment-box data]])
 nil
 ```
 

@@ -540,7 +540,7 @@ Considering that we still have the `domina` library available in our
 project, we can simplify the previous `render` call as follows:
 
 ```clj
-cljs.user> (require '[domina.core :as dom :refer [by-id]])
+cljs.user> (require '[domina.core :refer [by-id]])
 nil
 ```
 
