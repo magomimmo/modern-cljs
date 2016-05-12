@@ -1,4 +1,4 @@
-# Tutorial 22 - A minimalist interface to React with Reagent (Part II)
+# Tutorial 22 - A reasoned porting of the Offical React tutorial to Reagent (Part II)
 
 In the [previous tutorial][1] we ported to [Reagent][2] the first
 steps of the official [React Tutorial][3].
