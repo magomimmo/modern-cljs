@@ -236,7 +236,7 @@ Here is the complete `build.boot` file
   "Launch immediate feedback dev environment"
   []
   (comp
-   (serve :handler 'modern-cljs.core/handler           ;; ring hanlder
+   (serve :handler 'modern-cljs.core/handler           ;; ring handler
           :resource-root "target"                      ;; root classpath
           :reload true)                                ;; reload ns
    (watch)
