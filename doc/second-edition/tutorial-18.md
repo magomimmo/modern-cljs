@@ -580,7 +580,7 @@ still referenced in the test file. Let's fix it
         "Tax can't be empty" (validate-shopping-field :tax "")
         "Tax can't be empty" (validate-shopping-field :tax nil)
         "Discount can't be empty" (validate-shopping-field :discount "")
-        "Discount can't be empty" (validate-shopping-field :discount "")))
+        "Discount can't be empty" (validate-shopping-field :discount nil)))
     ;; type
     (testing "/ Type"
       (are [expected actual] (= expected actual)
