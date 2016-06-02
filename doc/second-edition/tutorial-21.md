@@ -1,4 +1,4 @@
-# Tutorial 21 - A reasoned porting of the Offical React tutorial to Reagent (Part I)
+# Tutorial 21 - A reasoned porting of the Official React tutorial to Reagent (Part I)
 
 In the [previous tutorial][1] we enhanced the `build.boot`
 file to be able to install a CLJ/CLJS library to the local `maven`
