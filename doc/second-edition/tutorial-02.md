@@ -44,15 +44,15 @@ start approaching Bret Victor's principle of Immediate Feedback:
 ## CLJ-based HTTP server
 
 Let's start by adding `boot-http` server to our `build.boot` file
-located in the `modern-cljs` home directory. 
+located in the `modern-cljs` home directory.
 
 ```clj
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- 
+
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
-                 [pandeiro/boot-http "0.7.0"]]) ;; add http dependency
+                 [pandeiro/boot-http "0.7.3"]]) ;; add http dependency
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]) ;; make serve task visible
@@ -233,10 +233,10 @@ visible to `boot` by requiring its primary command:
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- 
+
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
-                 [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.2"]]) ;; add boot-reload
+                 [pandeiro/boot-http "0.7.3"]
+                 [adzerk/boot-reload "0.4.8"]]) ;; add boot-reload
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
@@ -284,7 +284,7 @@ One of the main reasons to use a LISP dialect like CLJ is its REPL
 (Read Eval Print Loop), which enables a very interactive style of
 programming. CLJS communities worked very hard to bring the
 same REPL-based programming experience to CLJS available in CLJ, and created a
-way to connect a CLJS REPL to almost any JS engine, including browser-embedded 
+way to connect a CLJS REPL to almost any JS engine, including browser-embedded
 engines. This style of programming allows you to
 evaluate CLJS forms in the REPL and receive an immediate feedback in
 the browser to which the REPL is connected.
@@ -300,10 +300,10 @@ command at the terminal.
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- 
+
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
-                 [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.1"]
+                 [pandeiro/boot-http "0.7.3"]
+                 [adzerk/boot-reload "0.4.8"]
                  [adzerk/boot-cljs-repl "0.3.0"]]) ;; add bREPL
 
 (require '[adzerk.boot-cljs :refer [cljs]]
@@ -333,7 +333,7 @@ Options:
 ```
 
 The `cljs-repl` task has to be positioned just before the `cljs` task.
-The `cljs-repl` author also suggests being explicit about the `Clojure` 
+The `cljs-repl` author also suggests being explicit about the `Clojure`
 and `ClojureScript` releases to be added in the dependencies section of
 the `build.boot` build file.
 
@@ -341,7 +341,7 @@ the `build.boot` build file.
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- 
+
  :dependencies '[[org.clojure/clojure "1.7.0"]         ;; add CLJ
                  [org.clojure/clojurescript "1.7.170"] ;; add CLJS
                  [adzerk/boot-cljs "1.7.170-3"]
@@ -382,15 +382,15 @@ dependencies and you have to explicitly add them in the
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- 
+
  :dependencies '[
-                 [org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.170"]
+                 [org.clojure/clojure "1.8.0"]
+                 [org.clojure/clojurescript "1.8.51"]
                  [adzerk/boot-cljs "1.7.170-3"]
-                 [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.2"]
+                 [pandeiro/boot-http "0.7.3"]
+                 [adzerk/boot-reload "0.4.8"]
                  [adzerk/boot-cljs-repl "0.3.0"]
-                 [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
+                 [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL
                  [weasel "0.7.0"]                      ;; needed by bREPL
                  [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
                  ])
@@ -446,7 +446,7 @@ with `boot` and passing it the `-c` (i.e. client) option:
 cd /path/to/modern-cljs
 boot repl -c
 REPL-y 0.3.5, nREPL 0.2.12
-Clojure 1.7.0
+Clojure 1.8.0
 Java HotSpot(TM) 64-Bit Server VM 1.8.0_25-b17
         Exit: Control+D or (exit) or (quit)
     Commands: (user/help)
