@@ -135,7 +135,7 @@ follows:
 (deftask dev
   "Launch Immediate Feedback Development Environment"
   []
-  (comp 
+  (comp
    (serve :dir "target")
    (watch)
    (reload)
@@ -349,7 +349,7 @@ Now launch the `nrepl` client in a new terminal:
 ```clj
 boot repl -c
 REPL-y 0.3.7, nREPL 0.2.12
-Clojure 1.7.0
+Clojure 1.8.0
 Java HotSpot(TM) 64-Bit Server VM 1.8.0_66-b17
         Exit: Control+D or (exit) or (quit)
     Commands: (user/help)
@@ -407,4 +407,3 @@ License, the same as Clojure.
 [6]: https://github.com/clojure/clojurescript/wiki/Compiler-Options#asset-path
 [7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-04.md
 [8]: https://github.com/edn-format/edn
-
