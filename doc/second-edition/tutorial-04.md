@@ -205,7 +205,7 @@ Before going on you need to make two small changes to the copied
 Considering the efforts we made in the previous three tutorials to
 build a Development Environment approaching the Immediate Feedback
 Principle, we'd like to see it at work while porting to CLJS the JS
-code attached to the login form. 
+code attached to the login form.
 
 Start the IFDE as usual:
 
@@ -295,7 +295,7 @@ Launch the bREPL as usual:
 ```clj
 boot repl -c
 REPL-y 0.3.7, nREPL 0.2.12
-Clojure 1.7.0
+Clojure 1.8.0
 Java HotSpot(TM) 64-Bit Server VM 1.8.0_66-b17
         Exit: Control+D or (exit) or (quit)
     Commands: (user/help)
@@ -364,7 +364,7 @@ nil
 
 > NOTE 2: The `Iceweasel` web browser throws an error message when
 > console log is called from the bREPL but still outputs to the console.
-> This error message does not occur when the bREPL connects to the 
+> This error message does not occur when the bREPL connects to the
 > `Chromium` web browser.
 
 Here we called the `log` function on the `console` object living in
@@ -645,7 +645,7 @@ Here we required the `modern-cljs.login` namespace by aliasing it as
 even if it is already loaded.
 
 First take a look at the value associated with the `l/validate-form`
-symbol. 
+symbol.
 
 
 ```clj
@@ -714,7 +714,7 @@ true
 ```
 
 As expected, this time the `validate-form` function call will
-immediately return `true`. 
+immediately return `true`.
 
 ### Port the `init` function
 
@@ -731,7 +731,7 @@ Here is the original JS code:
 // Function needs to add an event listener to the form.
 function init() {
     'use strict';
-    
+
     // Confirm that document.getElementById() can be used:
     if (document && document.getElementById) {
         var loginForm = document.getElementById('loginForm');
