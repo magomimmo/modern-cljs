@@ -236,7 +236,7 @@ visible to `boot` by requiring its primary command:
  
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.2"]]) ;; add boot-reload
+                 [adzerk/boot-reload "0.4.9"]]) ;; add boot-reload
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
@@ -303,7 +303,7 @@ command at the terminal.
  
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.1"]
+                 [adzerk/boot-reload "0.4.9"]
                  [adzerk/boot-cljs-repl "0.3.0"]]) ;; add bREPL
 
 (require '[adzerk.boot-cljs :refer [cljs]]
@@ -346,7 +346,7 @@ the `build.boot` build file.
                  [org.clojure/clojurescript "1.7.170"] ;; add CLJS
                  [adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.2"]
+                 [adzerk/boot-reload "0.4.9"]
                  [adzerk/boot-cljs-repl "0.3.0"]
                  ])
 
@@ -388,7 +388,7 @@ dependencies and you have to explicitly add them in the
                  [org.clojure/clojurescript "1.7.170"]
                  [adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.2"]
+                 [adzerk/boot-reload "0.4.9"]
                  [adzerk/boot-cljs-repl "0.3.0"]
                  [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
                  [weasel "0.7.0"]                      ;; needed by bREPL
