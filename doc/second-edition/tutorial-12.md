@@ -1035,8 +1035,8 @@ We now have to call the new server-side-only validator in the
                                                   email-domain-errors]]))
 
 (defn authenticate-user [email password]
-  (if (or (user-credential-errors email password)
-          (email-domain-errors email))
+  (if (or (boolean (user-credential-errors email password))
+          (boolean (email-domain-errors email)))
     (str "Please complete the form.")
     (str email " and " password
            " passed the formal validation, but we still have to authenticate you" )))
