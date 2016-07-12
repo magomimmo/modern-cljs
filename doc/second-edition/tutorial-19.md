@@ -1301,6 +1301,13 @@ Same failure, same solution:
   (boolean (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" (str s))))
 ```
 
+```clj
+(defn digits?       
+  "Returns true if a string consists only of numerical digits."
+  [s]
+  (boolean (re-matches #"\d+" (str s))))
+```
+
 I know, it's going to be boring, but the happy path assertions are
 even more boring than those corner cases.
 
