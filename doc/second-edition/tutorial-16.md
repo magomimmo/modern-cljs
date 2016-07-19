@@ -273,7 +273,7 @@ same task option to `tdd` as well, so that we can pass a
 test directory on the command line and have it added
 to the `:source-paths` variable.
 
-```bash
+```clj
 (deftask tdd
   "Launch a customizable TDD Environment"
   [t dirs PATH #{str} "test paths"]
