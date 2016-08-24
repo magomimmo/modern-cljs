@@ -368,13 +368,13 @@ the `modern-cljs` series. So, instead of adding the canonical
                  ]
 ```
 
-> NOTE 1: the `shoreleave-remote` library to the vector will be used
-> later for the client-side code.
+> NOTE 1: the `shoreleave-remote` library will be used later for the
+> client-side code.
 
 ### defremote
 
 The next step is to define the server-side function that implements
-the calculation ot the `total` from the `quantity`, `price`, `tax` and
+the calculation of the `total` from the `quantity`, `price`, `tax` and
 `discount` inputs of our boring Shopping Form.
 
 The `shoreleave-remote-ring` library offers the `defremote` macro
