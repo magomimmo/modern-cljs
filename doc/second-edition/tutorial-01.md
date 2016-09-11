@@ -28,7 +28,7 @@ A minimum CLJS web project is composed of 3 files:
 * a CLJS source code;
 * a `boot` build file to compile CLJS source code.
 
-Even if CLJS does not dictate specific directory structure, it's a
+Even if CLJS does not dictate a specific directory structure, it's a
 good practice to organize your project in such a way that it will be
 easy for anyone, even yourself in a few months, to be able to
 understand the project components and its structure. Moreover, each
@@ -36,11 +36,11 @@ building tool has its own idiosyncrasies, which they call
 defaults. The more you adhere to the defaults of the tool at
 hand, the less pain you will experience while managing the project.
 
-While taking these premises into account, let's create a directory
+Taking these premises into account, let's create a directory
 structure for our new project, named `modern-cljs`, by adhering as
 much as possible to the `boot` defaults.
 
-The suggested files layout of the project is the following:
+The suggested file layout of the project is the following:
 
 ```bash
 modern-cljs/
@@ -65,7 +65,7 @@ modern-cljs/
 > corresponding directory names.
 
 > NOTE 3: Please note that the filename extension for ClojureScript
-> source is **cljs**, not **clj**.
+> sources is **cljs**, not **clj**.
 
 Issue the following command at the terminal:
 
@@ -103,13 +103,13 @@ path on your disk:
 
 `modern-cljs.core` <--> `modern_cljs/core.cljs`
 
-The `(enable-console-print!)` expression redirects any printing output
+The `(enable-console-print!)` expression redirects any printed output
 to the console of the browser in such a way that the `(println "Hello,
 world!")` prints `Hello, World!` to the console.
 
 ### Minimal build.boot
 
-We now need a way to compile down `core.cljs` to JS and link it to the
+We now need a way to compile `core.cljs` to JS and link it to the
 `index.html` page.
 
 First, open the file `html/index.html` and edit it as follows:
@@ -175,17 +175,17 @@ Tasks:   ...
 
 ...
 
-Do `boot <task> -h` to see usage info and TASK_OPTS for <task>.
+Run `boot <task> -h` to see usage info and TASK_OPTS for <task>.
 Implicit target dir is deprecated, please use the target task instead.
 Set BOOT_EMIT_TARGET=no to disable implicit target dir.
 ```
 
-Note that `boot` notifies a warning saying that using an implicit
+Note that `boot` issues a warning saying that using an implicit
 target directory is deprecated. Instead you should use the `target`
 task and set `BOOT_EMIT_TARGET=no` to disable implicit target
 directory generation.
 
-When you don't know anything about `boot` build tool, that message has
+If you don't know anything about the `boot` build tool, that message has
 no meaning at all even if you ask for more information with the
 following command:
 

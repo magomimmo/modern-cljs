@@ -29,7 +29,7 @@ progressively enrich it with features, *tasks* in `boot` parlance,
 aimed at filling the gaps and, perhaps, even overtake.
 
 If you take a look at the [tasks for `boot`][4] developed by the
-community, you'll discover that we already have anything we need to
+community, you'll discover that we already have everything we need to
 start approaching Bret Victor's principle of Immediate Feedback:
 
 * [`boot-http`][5]: a `boot` task providing a simple CLJ based HTTP
@@ -39,12 +39,12 @@ start approaching Bret Victor's principle of Immediate Feedback:
 * [`boot-cljs-repl`][7]: a `boot` task providing a REPL for CLJS
   development;
 
-    > NOTE 2: we already used `boot-cljs` task in the previous tutorial.
+    > NOTE 2: we already used the `boot-cljs` task in the previous tutorial.
 
 ## CLJ-based HTTP server
 
-Let's start by adding `boot-http` server to our `build.boot` file
-located in the `modern-cljs` home directory. 
+Let's start by adding the `boot-http` server to our `build.boot` file
+located in the `modern-cljs` home directory.
 
 ```clj
 (set-env!
@@ -158,7 +158,7 @@ If we want to approach the Immediate Feeback principle,
 any changed CLJS source code should be recompiled as soon as we
 modify and save a `.cljs` file.
 
-`watch` task is another of the large number of the predefined tasks
+The `watch` task is another of the large number of the predefined tasks
 already included with `boot`.
 
 ```bash
@@ -176,7 +176,7 @@ Options:
 
 Aside from triggering the execution of the CLJS recompilation whenever a
 change in the CLJS source code is saved, the `watch` task can even
-substitute the `wait` tasks, because it is not blocking as well.
+substitute the `wait` tasks, because it is not blocking either.
 
 It seems that just inserting the `watch` task before calling the
 `cljs` task we should be able to trigger the source recompilation.
@@ -233,7 +233,7 @@ visible to `boot` by requiring its primary command:
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- 
+
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.9"]]) ;; add boot-reload
@@ -284,15 +284,15 @@ One of the main reasons to use a LISP dialect like CLJ is its REPL
 (Read Eval Print Loop), which enables a very interactive style of
 programming. CLJS communities worked very hard to bring the
 same REPL-based programming experience to CLJS available in CLJ, and created a
-way to connect a CLJS REPL to almost any JS engine, including browser-embedded 
+way to connect a CLJS REPL to almost any JS engine, including browser-embedded
 engines. This style of programming allows you to
 evaluate CLJS forms in the REPL and receive an immediate feedback in
 the browser to which the REPL is connected.
 
 The `boot` community has a task to offer in this area, too. Its name is
 `boot-cljs-repl`. As we have already done for the other tasks that `boot`
-does not include, we need to add `boot-cljs-repl` to the dependencies of the `build.boot`
-project file. Then, as usual, we have to require its primary tasks
+does not include, we need to add `boot-cljs-repl` to the dependencies of the
+`build.boot` project file. Then, as usual, we have to require its primary tasks
 (i.e. `cljs-repl` and `start-repl`) to make them visible to the `boot`
 command at the terminal.
 
@@ -300,7 +300,7 @@ command at the terminal.
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- 
+
  :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
                  [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.9"]
@@ -333,7 +333,7 @@ Options:
 ```
 
 The `cljs-repl` task has to be positioned just before the `cljs` task.
-The `cljs-repl` author also suggests being explicit about the `Clojure` 
+The `cljs-repl` author also suggests being explicit about the `Clojure`
 and `ClojureScript` releases to be added in the dependencies section of
 the `build.boot` build file.
 
@@ -341,7 +341,7 @@ the `build.boot` build file.
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- 
+
  :dependencies '[[org.clojure/clojure "1.7.0"]         ;; add CLJ
                  [org.clojure/clojurescript "1.7.170"] ;; add CLJS
                  [adzerk/boot-cljs "1.7.170-3"]
@@ -356,7 +356,7 @@ the `build.boot` build file.
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
 ```
 
-If you now launch the following `boot` command you'll received a
+If you now launch the following `boot` command you'll receive a
 warning and an error:
 
 ```bash
@@ -376,13 +376,13 @@ Elapsed time: 3.720 sec
 
 This is because `boot-cljs-repl` does not transitively include its
 dependencies and you have to explicitly add them in the
-`:dependencies` section of the `build.boot` file.
+`:dependencies` section of the `build.boot` file:
 
 ```clj
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- 
+
  :dependencies '[
                  [org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.170"]
@@ -390,7 +390,7 @@ dependencies and you have to explicitly add them in the
                  [pandeiro/boot-http "0.7.0"]
                  [adzerk/boot-reload "0.4.9"]
                  [adzerk/boot-cljs-repl "0.3.0"]
-                 [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
+                 [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL
                  [weasel "0.7.0"]                      ;; needed by bREPL
                  [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
                  ])
@@ -434,7 +434,7 @@ different). If your editor supports `nrepl` you are going to use that
 information to connect to the now running `nrepl server` with an
 `nrepl client`.
 
-> NOTE: Emacs and CIDER support this.  You can learn more about them with these [resources]
+> NOTE: Emacs and CIDER support this. You can learn more about them with these [resources]
 (https://github.com/magomimmo/modern-cljs/blob/master/doc/supplemental-material/emacs-cider-references.md).
 
 At the moment we're happy enough to be able to run `cljs-repl` from a
