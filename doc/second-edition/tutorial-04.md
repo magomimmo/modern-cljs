@@ -4,7 +4,7 @@ In this tutorial we're going to port to CLJS a JavaScript (JS) sample
 from the book [Modern JavaScript: Develop and Design][1] by
 [Larry Ullman][2]. You can download the code from the book [here][3].
 
-The reason I choose it as a reference is because it starts smoothly, but
+The reason I chose it as a reference is because it starts smoothly, but
 keeps a robust approach to JS coding. I think that bringing Larry's
 approach from JS into ClojureScript (CLJS) could be helpful to anyone
 not yet fluent in CLJS.
@@ -106,7 +106,7 @@ Note that each element has both a `name` attribute and an `id`
 attribute. The `name` value will be used when the form data is submitted
 to the server-side. The `id` value will be used by JS/CSS.
 
-`login.php` script is associated with the `form action`. And
+The `login.php` script is associated with the `form action`. And
 `login.js` is linked within the html page. Aside from `login.js`,
 there is not any other direct connection between the `form` and the JS
 script. This choice has to do with the so called *progressive
@@ -126,7 +126,7 @@ the user for correction.
 
 Thanks to JS and Ajax, this user experience can be improved a lot. A
 better solution is to perform a client-side validation using JS, which
-bring us to the second sequence diagram.
+brings us to the second sequence diagram.
 
 #### Client-side validation
 
@@ -205,7 +205,7 @@ Before going on you need to make two small changes to the copied
 Considering the efforts we made in the previous three tutorials to
 build a Development Environment approaching the Immediate Feedback
 Principle, we'd like to see it at work while porting to CLJS the JS
-code attached to the login form. 
+code attached to the login form.
 
 Start the IFDE as usual:
 
@@ -279,13 +279,13 @@ function validateForm() {
 ```
 
 Here, the `validateForm()` function gets the `email` and the
-`password` ids from the form input and verifies that both have value
+`password` ids from the form input and verifies that both have values
 (i.e. `length > 0`).
 
 The `validateForm()` function returns `true` if the validation passes,
 `false` otherwise.
 
-I know, it's a very stupid validation, but it's only a kind of
+I know, it's a very basic validation, but it's only a kind of
 placeholder useful to demonstrate the approach.
 
 ### bREPLing with CLJS
@@ -318,12 +318,12 @@ cljs.user=>
 ```
 
 
-> NOTE 1: the main `boot` advantage over [`leiningen`][15] build tool
+> NOTE 1: the main `boot` advantage over the [`leiningen`][15] build tool
 > is the ability to use one JVM only by exploiting the JVM
 > classloader. If you work with an `nrepl` compliant editor, you
 > should be able to connect it to the `nrepl` server launched by the
-> `boot dev` command without launching a new JVM instance. I
-> personally use `emacs` editor and [cider][16] only because I'm aged
+> `boot dev` command without launching a new JVM instance.
+> Personally I use the `emacs` editor and [cider][16] only because I'm aged
 > and `emacs` is the editor I know how to configure and use the best.
 
 > If you are interested in learning more about Emacs or CIDER [here are
@@ -348,7 +348,7 @@ As you see, when hosted by the JSVM of the browser, CLJS defines a
 global space:
 
 * `js/window`: representing the browser's window
-* `js/document`: representing the document object (i.e. DOM)
+* `js/document`: representing the document object (i.e. the DOM)
 * `js/console`: representing the JS console of the browser
 
 Being a guest programming language, CLJS can interop with the
@@ -364,7 +364,7 @@ nil
 
 > NOTE 2: The `Iceweasel` web browser throws an error message when
 > console log is called from the bREPL but still outputs to the console.
-> This error message does not occur when the bREPL connects to the 
+> This error message does not occur when the bREPL connects to the
 > `Chromium` web browser.
 
 Here we called the `log` function on the `console` object living in
@@ -389,9 +389,9 @@ cljs.user> (js/document.getElementById "submit")
 #object[HTMLInputElement [object HTMLInputElement]]
 ```
 
-Not so bad, but CLJS syntax supports a syntactic sugar for the
+Not so bad, but CLJS syntax supports some syntactic sugar for the
 previous interoperable scenario: `(.function +args)`. This syntactic
-sugar form is considered more idiomatic by clojarians because it does
+sugar form is considered more idiomatic by Clojarians because it does
 not use the object as an implicit argument of the function. Let's try
 it:
 
@@ -431,7 +431,7 @@ cljs.user> (.-value (.getElementById js/document "password"))
 ""
 ```
 
-As you see the two calls both return the void string `""`. Now fill
+As you see the two calls both return the void string `""`. Now fill in
 both the `email` and `password` fields in the login form and evaluate
 again the above expressions:
 
@@ -443,9 +443,9 @@ cljs.user> (.-value (.getElementById js/document "password"))
 ```
 
 We still need other things. We need a way to set a value for a DOM
-element. Again, CLJS offer a way to do that via the `(set! (.-property
+element. Again, CLJS offers a way to do that via the `(set! (.-property
 object) arg)` form. Let's try to set the `value` property of the
-`password` element and then get it back.
+`password` element and then get it back:
 
 ```clj
 cljs.user> (set! (.-value (.getElementById js/document "password"))
@@ -462,7 +462,7 @@ cljs.user> (.-value (.getElementById js/document "password"))
 
 Lastly, we need a function for counting the length of a string. The
 `count` function works on any kind of collection and on strings as
-well.
+well:
 
 ```clj
 cljs.user> (count (.-value (.getElementById js/document "email")))
@@ -482,7 +482,7 @@ CLJS function cloning the corresponding JS `validateForm` behavior.
 Create a new CLJS file named `login.cljs` in the
 `src/cljs/modern_cljs` directory which already hosts the `core.cljs`
 source created in the [Tutorial-01][12]. Copy the following content
-into it.
+into it:
 
 ```clj
 (ns modern-cljs.login)
@@ -645,7 +645,7 @@ Here we required the `modern-cljs.login` namespace by aliasing it as
 even if it is already loaded.
 
 First take a look at the value associated with the `l/validate-form`
-symbol. 
+symbol.
 
 
 ```clj
@@ -714,7 +714,7 @@ true
 ```
 
 As expected, this time the `validate-form` function call will
-immediately return `true`. 
+immediately return `true`.
 
 ### Port the `init` function
 
@@ -731,7 +731,7 @@ Here is the original JS code:
 // Function needs to add an event listener to the form.
 function init() {
     'use strict';
-    
+
     // Confirm that document.getElementById() can be used:
     if (document && document.getElementById) {
         var loginForm = document.getElementById('loginForm');
@@ -776,7 +776,7 @@ Add the following code at the end of the `login.cljs` file.
 (set! (.-onload js/window) init)
 ```
 
-As soon as you save the `login.cljs` everything get recompiled. But
+As soon as you save the `login.cljs` everything is recompiled. But
 this time you have to reload the Login Page because we attached the
 `init` function to the `onload` event.
 
@@ -787,7 +787,7 @@ You can now safely play with the Login form from the browser itself:
 popping up and asking you to complete the form;
 * if you click the `Login` button after having filled both the `email`
 and the `password` fields you should see the browser error page saying
-that the page `localhost:3000/login.php` not found. That's because the
+that the page `localhost:3000/login.php` was not found. That's because the
 action attribute of the html form still references `login.php` as the
 server-side validation script. The server-side validation will be
 implemented in CLJ in a subsequent tutorial.

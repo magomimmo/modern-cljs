@@ -116,7 +116,7 @@ From the user point of view, one of the interesting aspects of `boot` is
 the composable nature of its tasks, whether predefined by `boot` or
 not. You could spend days studying `boot` source code to better
 understand its architecture, but we want to be pragmatic. At the
-moment we are only interested in reducing the need of to memorize task
+moment we are only interested in reducing the need to memorize task
 names and order while launching the `boot` command from the terminal.
 
 All we have to do is to open the `build.boot` and define a new task as
@@ -135,7 +135,7 @@ follows:
 (deftask dev
   "Launch Immediate Feedback Development Environment"
   []
-  (comp 
+  (comp
    (serve :dir "target")
    (watch)
    (reload)
@@ -245,9 +245,9 @@ others can be set by defining appropriate [`edn`][8] files located in
 the right position in the resources directories (e.g. into the `html`
 directory in our project).
 
-Let's not go into too many details about the reasons that
-`boot-cljs` supports the compiler options the way it does; instead, let's be pragmatic again
-and just list what you need to do:
+Let's not go into too many details about the reasons that `boot-cljs` supports
+the compiler options the way it does; instead, let's be pragmatic again and
+just list what you need to do:
 
 First you have to create the `js` subdirectory in the `html` directory
 containing the html pages.
@@ -382,7 +382,7 @@ nil
 cljs.user=>
 ```
 
-Play around as you like. When finished, quit everything and reset you
+Play around as you like. When finished, quit everything and reset your
 git branch.
 
 ```bash
