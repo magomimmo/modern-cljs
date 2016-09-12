@@ -6,7 +6,7 @@ In this tutorial we are going to investigate the issue we met in the
 ## Preamble
 
 If you want to start working from the end of the [previous tutorial][1],
-assuming you've [git][9] installed, do as follows.
+assuming you've [git][9] installed, do as follows:
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
@@ -32,7 +32,7 @@ depends on the Google Closure/CLJS pair of compilers driven by the
 In the [first tutorial][3], we set `:source-paths` in the `build.boot`
 file to the `#{src/cljs}` path.
 
-The `:source-paths` directive instructs Google Closure/CLJS pair of
+The `:source-paths` directive instructs the  Google Closure/CLJS pair of
 compilers to look for any CLJS source code in the `src/cljs` directory
 structure for doing its job.
 
@@ -55,7 +55,7 @@ structures?
 ## Easy made complex
 
 From the above discussion the reader could infer that CLJS is
-good only for *Single Page Application* (SPA). Indeed, there is a very
+good only for *Single Page Applications* (SPA). Indeed, there is a very
 modest solution to the above conflict between more calls setting the
 same `onload` property of the JS `window` object: code duplication!
 
@@ -90,7 +90,7 @@ Now the simple made easy way:
 > JS code. In our example the two functions will be available as:
 > `modern_cljs.login.init()` and `modern_cljs.shopping.init()`.
 
-Here is the related fragment of `login.cljs`
+Here is the related fragment of `login.cljs`:
 
 ```clj
 ;; the rest as before
@@ -105,7 +105,7 @@ Here is the related fragment of `login.cljs`
 ;; (set! (.-onload js/window) init)
 ```
 
-And here is the related fragment of `shopping.cljs`
+And here is the related fragment of `shopping.cljs`:
 
 ```clj
 ;; the rest as before
@@ -118,14 +118,14 @@ And here is the related fragment of `shopping.cljs`
 ;; (set! (.-onload js/window) init)
 
 ```
-Here is the related fragment of `index.html`
+Here is the related fragment of `index.html`:
 
 ```html
     <script src="js/main.js"></script>
     <script>modern_cljs.login.init();</script>
 ```
 
-And here is the related fragment of `shopping.html`
+And here is the related fragment of `shopping.html`:
 
 ```html
   <script src="js/main.js"></script>
@@ -160,7 +160,7 @@ debits that sooner or later you're going to have to pay for.
 
 Let's apply this second tradeoff.
 
-First, delete the `html/js/main.cljs.edn` file.
+First, delete the `html/js/main.cljs.edn` file:
 
 ```bash
 cd /path/to/modern-cljs
@@ -169,7 +169,7 @@ rm -rf html/js
 
 Now edit both the `html/index.html` and the `html/shopping.html` files
 to reset the `src` attribute of their `<script>` tag from `js/main.js`
-to `main.js`.
+to `main.js`:
 
 ```html
 <!doctype html>
@@ -200,7 +200,7 @@ the `core.cljs` source file in the `src/cljs/modern_cljs`
 directory. It only prints `Hello, world!` in the console of the
 browser and it was created just as a kind of a placeholder to show
 our IFDE was working. We do not need it anymore and you can safely delete
-it.
+it:
 
 ```bash
 rm src/cljs/modern_cljs/core.cljs
@@ -223,7 +223,7 @@ http://localhost:3000/shopping.html URLs for verifying the two forms
 are now working as expected.
 
 As usual, if you want to play with the bREPL, launch it as usual and
-then reload one of the above URLs.
+then reload one of the above URLs:
 
 ```clj
 # from a new terminal
@@ -235,7 +235,7 @@ boot.user=> (start-repl)
 cljs.user=>
 ```
 
-You can now stop any `boot` related process and reset your git repository.
+You can now stop any `boot` related process and reset your git repository:
 
 ```bash
 git reset --hard

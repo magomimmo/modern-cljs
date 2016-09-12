@@ -796,7 +796,7 @@ Have you noted that we never had to stop/restart the IFDE during the
 porting of the login form validation from JS to CLJS?
 
 That's it for this tutorial and you can kill any `boot` related
-process and reset you git repository.
+process and reset your git repository.
 
 ```bash
 git reset --hard

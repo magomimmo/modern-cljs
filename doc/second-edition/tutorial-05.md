@@ -7,7 +7,7 @@ the [previous tutorial][2].
 ## Preamble
 
 If you want to start working from the end of the [previous tutorial][2],
-assuming you've [git][13] installed, do as follows.
+assuming you've [git][13] installed, do as follows:
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
@@ -28,7 +28,7 @@ CLJS. Now it's time to try something better.
 > provide a basic functional interface to DOM manipulation that feels
 > natural in ClojureScript.
 
-When I first met `clojurescriptone`in searching for a CLJS guide,
+When I first met `clojurescriptone`in search for a CLJS guide,
 and read about `Design and templating`, I found myself very much in
 agreement with the following reasoning:
 
@@ -50,7 +50,7 @@ the page in more idiomatic CLJS.
 
 Nowadays, the diffusion of the so called Single Page Application (SPA)
 is progressively changing the web development landscape and it's not
-unusual to see a single HTML page composed by one `div` tag only
+unusual to see a single HTML page composed of one `div` tag only
 delegating all the DOM manipulation to JS.
 
 That said, there is still a very large number of organizations keeping
@@ -59,7 +59,7 @@ ready to give life to a bunch of pure static HTML/CSS pages.
 
 ## Domina lib
 
-[Domina][1] was one of the first DOM library written in CLJS and it
+[Domina][1] was one of the first DOM libraries written in CLJS and it
 has not been updated to follow the evolution of CLJS compiler. If you
 use the canonical `domina` release (i.e., `[domina "1.0.3"]`), during
 the compilation you'll get a warning about the fact that it uses a
@@ -70,9 +70,9 @@ those warnings.  That said, even if I would never suggest to use
 `domina` in a new CLJS project, this tutorial could still be useful to
 understand the way CLJS works.
 
-As usual to use a new library, you need to add it to the dependencies'
+As usual to use a new library, you need to add it to the dependencies
 section of the `build.boot` file living in the home directory of the
-project.
+project:
 
 ```clj
 (set-env!
@@ -121,7 +121,7 @@ cljs.user=>
 
 Before we start bREPLing, let's review the content of the
 `html/index.html` file containing the login form we used in
-[Tutorial 4][2].
+[Tutorial 4][2]:
 
 ```html
 <!doctype html>
@@ -185,9 +185,10 @@ of the passed element, and `set-value!` which sets its value.
 
 > NOTE 3: Due to a bug of the `boot-cljs-repl` task, we need to first
 > require a namespace from a namespace declaration to be able to
-> require it in the bREPL as well. We will use `domina` later to update 
+> require it in the bREPL as well. We will use `domina` later to update
 > our `validate-form` function in `login.cljs`. You can require the
-> `domina.core` namespace there.
+> `domina.core` namespace there. Change the first line of your
+> `login.cljs` file:
 
 > ```clj
 > (ns modern-cljs.login
@@ -197,7 +198,7 @@ of the passed element, and `set-value!` which sets its value.
 Let's now familiarize ourselves in the bREPL with the above `domina`
 functions.
 
-First we need to require the `domina.core` namespace.
+First we need to require the `domina.core` namespace:
 
 ```clj
 cljs.user=> (require '[domina.core :refer [by-id value set-value!]])
@@ -208,7 +209,7 @@ As you see, instead of aliasing the required namespace as we did in
 the [previous tutorial][2], we're now directly interning `by-id`,
 `value` and `set-value!` symbols into the `cljs.user` namespace loaded
 by default by the bREPL in such a way that we can use them from the
-bREPL without specifying any namespace's name or alias.
+bREPL without specifying any namespace's name or alias:
 
 ```clj
 cljs.user=> (doc by-id)
@@ -222,7 +223,7 @@ cljs.user=> (by-id "email")
 ```
 
 Pretty easy. Let's familiarize ourselves with `set-value!` and `value`
-symbols as well.
+symbols as well:
 
 ```clj
 cljs.user=> (doc set-value!)
@@ -256,7 +257,7 @@ the corresponding fields in the login form have been updated?
 
 ## Update `login.cljs`
 
-Now that we better understand a few `domina` functions, we are going to 
+Now that we better understand a few `domina` functions, we are going to
 update the `validate-form` function. Open the
 `login.cljs` file and update both the namespace declaration and the
 `validate-form` function definition as follows:
@@ -282,13 +283,13 @@ and reloads the `index.html` file as well.
 You can safely interact with the login form which is now managed via the
 `domina` lib.
 
-Require the `modern-cljs.login` namespace.
+Require the `modern-cljs.login` namespace:
 ```clj
 cljs.user=> (require '[modern-cljs.login :as l] :reload)
 nil
 ```
 
-Then repeat the kind of experiments we did in [the previous tutorial][2].
+Then repeat the kind of experiments we did in [the previous tutorial][2]:
 
 ```clj
 cljs.user=> l/validate-form
@@ -316,25 +317,25 @@ As already shown in the [previous tutorial][2], the evaluation of the
 CLJS compiler from the corresponding `validate-form` CLJS function
 definition.
 
-Then, when we called the `validate-form` while the `email` and
+Then, when we call the `validate-form` while the `email` and
 `password` fields are empty, it returns the `false` boolean value.
 
-Finally, after having set a not void string for both the fields, the
+Finally, after having set a non-void string for both fields, the
 `validate-form` evaluation returns, as expected, the `true` boolean
 value.
 
 ## Shopping calculator sample
 
-Now let's try to port to CLJS a second example from Larry Ullman
-[Modern JavaScript][6] book: a kind of e-commerce tool that will
+Now let's try to port a second example from Larry Ullman's
+[Modern JavaScript][6] book to CLJS: a kind of e-commerce tool that will
 calculate the total of an order, including tax, minus any discount.
 
 ### Pure HTML/CSS page
 
-Here is the `shopping.html` content which is in line with
+Here is the `shopping.html` content which is in line with the
 `clojurescriptone approach` and [Larry Ullman][6] to keep the design
 of the HTML/CSS/images separated from the code which is going to
-implement its behavior. Save it in `html` directory.
+implement its behavior. Save it in your `html` directory:
 
 ```html
 <!doctype html>
@@ -402,7 +403,7 @@ implement its behavior. Save it in `html` directory.
 </html>
 ```
 
-As before, we included the link to `js/main.js` external JS file
+As before, we included the link to `js/main.js`, the  external JS file
 which will be generated by the CLJS compilation. Note that this time
 we have not attached any value to the `action` attribute of the
 form. That's because in this new example there is no server-side form
@@ -413,14 +414,14 @@ can confirm by visiting the `http://localhost:3000/shopping.html` URL.
 
 ![Shopping Page][9]
 
-If your Developer Tool is open, the console notified you about the
-following error
+If your Developer Tool is open, the console will notify you about the
+following error:
 
 ```bash
 Uncaught TypeError: Cannot set property 'onsubmit' of null
 ```
 
-pertaining the `login.cljs` CLJS source file. This is because the
+pertaining the `login.cljs` CLJS source file. This is because
 `shopping.html` does not have any `loginForm` id available on which to
 set the value for the `onsubmit` property. At the moment, we don't care
 about this issue.
@@ -429,7 +430,7 @@ about this issue.
 
 Before starting to define the function for calculating the total
 amount you're going to spend, let's play a little bit by bREPLing
-with the Shopping Calculator form and its fields ids.
+with the Shopping Calculator form and its field ids:
 
 ```clj
 cljs.user=> (value (by-id "quantity"))
@@ -456,15 +457,15 @@ cljs.user> (let [quantity (value (by-id "quantity"))
 "1.00"
 ```
 
-Not so bad eh!
+Not so bad, eh!
 
 If you don't know about the thread macros `->` and `->>`, I strongly suggest to
-take some time to see this awesome [video tutorial][14].
+take some time to watch this awesome [video tutorial][14].
 
 ## Create `shopping.cljs`
 
 Now it's time to freeze the above experimental tests into a source
-file.  Remember that we have to write back the total amount into the
+file. Remember that we have to write back the total amount into the
 shopping form and return `false` to prevent the browser from
 attempting to submit the data to a server-side script.
 
@@ -495,7 +496,7 @@ enter the following code:
 (set! (.-onload js/window) init)
 ```
 
-Here we created the `modern-cljs.shopping` namespace and required
+Here we created the `modern-cljs.shopping` namespace and required the
 `domina.core` namespace, referring `by-id`, `value`, and
 `set-value!` into the current namespace.
 
@@ -504,18 +505,18 @@ it as the value of the `total` field of the form, before finally returning
 the `false` boolean value.
 
 The `init` function is almost identical to the one defined for the
-previous login form. Finally we set the `init` function itself as the
+previous login form. At last we set the `init` function itself as the
 value of the `onsubmit` property of the `window` object defined in the
 `js` special namespace.
 
 As soon as you save the `shopping.cljs` file, it gets recompiled and
-the corresponding `shopping.html` page reloaded.
+the corresponding `shopping.html` page is reloaded.
 
 But we still have to make another change. We need to add the newly
 created `modern-cljs.shopping` namespace to the required section of
 the `main.cljs.edn` file living in the `html/js` directory.
 
-Open the `html/js/main.cljs.edn` file and do the above addition.
+Open the `html/js/main.cljs.edn` file and enter the above addition:
 
 ```clj
 {:require [modern-cljs.core modern-cljs.login modern-cljs.shopping]
@@ -535,8 +536,8 @@ Open the `html/js/main.cljs.edn` file and do the above addition.
 
 ### bREPLing with the calculator
 
-Go back to the bREPL and require the newly create namespace to play
-with the shopping calculator.
+Go back to the bREPL and require the newly created namespace to play
+with the shopping calculator:
 
 ```clj
 cljs.user> (require '[modern-cljs.shopping :as s] :reload)
@@ -555,8 +556,8 @@ cljs.user> cljs.user> (s/calculate)
 false
 ```
 
-As you see, the `calculate` function display the correct value in the
-shopping form and return `false` as expected.
+As you see, the `calculate` function displays the correct value in the
+shopping form and returns `false` as expected.
 
 But now there is a bad surprise waiting for you at the corner that has
 to do with the `onsubmit` error we received before.
@@ -566,9 +567,9 @@ to do with the `onsubmit` error we received before.
 Let's go back to the login form by visiting the
 `http://localhost:3000/index.html` URL and click the Login botton.
 
-Ops, you got the Page Not Found notification. What happens?
+Ops, you got the `Page Not Found` notification. What happened?
 
-Revisit the `index.html` page and go back to your bREPL active
+Revisit the `index.html` page and go back to your active bREPL
 session. Just to be sure, require again the `modern-cljs.login`
 namespace and call the `l/validate-form` function:
 
@@ -577,7 +578,7 @@ cljs.user> (require '[modern-cljs.login :as l] :reload)
 nil
 cljs.user> (l/validate-form)
 false
-cljs.user> 
+cljs.user>
 ```
 
 As you see that function is still working as expected and the previous
@@ -587,7 +588,7 @@ with what we have in our hands.
 
 As we saw the `validate-form` function is correctly called in the
 bREPL, but not by the `Login` button of the form. Let's see if the
-bREPL may help us in investigating the problem we have.
+bREPL may help us in investigating the problem we have:
 
 ```clj
 cljs.user> (.-onsubmit (by-id "loginForm"))
@@ -598,7 +599,7 @@ Oops, the `onsubmit` property of the `loginForm` form element has no
 value. `validate-form` should have been set as its value by the `init`
 function which, in turn, should have been set as the value of the
 `onload` property of the `window` object. Let's now see what's the
-value of the `onload` property of the `window` object.
+value of the `onload` property of the `window` object:
 
 ```clj
 cljs.user> (.-onload js/window)
@@ -645,7 +646,7 @@ return false;
 
 If you now evaluate again the above expression to get the function
 associated with the `onsubmit` property of the `loginForm`, you'll get
-the right answer.
+the right answer:
 
 ```clj
 cljs.user> (.-onsubmit (by-id "loginForm"))
@@ -663,7 +664,7 @@ return false;
 You can now use the login form as usual by clicking its Login button.
 
 You should now stop any `boot` related process and reset your git
-repository.
+repository:
 
 ```bash
 git reset --hard
@@ -672,7 +673,7 @@ git reset --hard
 # Next Step [Tutorial 6: The Easy Made Complex and Simple Made Easy][12]
 
 In the [next tutorial][12] we're going to investigate and solve in two
-different ways the problem we just met.
+different ways the problem we have just met.
 
 # License
 
