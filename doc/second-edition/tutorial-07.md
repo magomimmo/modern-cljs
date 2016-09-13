@@ -8,7 +8,7 @@ CLJS/JS interop features. In this tutorial we're going to introduce
 ## Preamble
 
 If you want to start working from the end of the [previous tutorial][5],
-assuming you've [git][10] installed, do as follows.
+assuming you've [git][10] installed, do as follows:
 
 ```bash
 git clone https://github.com/magomimmo/modern-cljs.git
@@ -40,12 +40,12 @@ with the `calc` id. For the same reason we are also removing both the
 
 > NOTE 1: By replacing `submit` with `button`, we're breaking
 > the progressive enhancement strategy. We will fix this issue in a subsequent
-> tutorial. Here we're focusing on the [domina events][2] machinery. 
+> tutorial. Here we're focusing on the [domina events][2] machinery.
 
 ## Launch the IFDE
 
 As in previous tutorials, we like to progress step by step by using a
-live development environment. So, let's start by launching the IFDE.
+live development environment. So, let's start by launching the IFDE:
 
 ```bash
 boot dev
@@ -57,7 +57,7 @@ Elapsed time: 19.122 sec
 
 ## Launch the bREPL
 
-Then launch the bREPL from a new terminal
+Then launch the bREPL from a new terminal:
 
 ```clj
 cd /path/to/modern-cljs
@@ -69,7 +69,7 @@ boot.user=> (start-repl)
 Then visit the [shopping](http://localhost:3000/shopping.html) URL to
 activate the bREPL.
 
-Edit the `html/shopping.html` file to use a button input, as discussed above.
+Edit the `html/shopping.html` file to use a button input, as discussed above:
 
 ```html
 <!doctype html>
@@ -86,7 +86,7 @@ Edit the `html/shopping.html` file to use a button input, as discussed above.
 ```
 
 Here is the updated shopping calculator form as rendered by the
-browser.
+browser:
 
 ![Shopping calculator][6]
 
@@ -107,7 +107,7 @@ Let's start playing with `domina` events by first using a namespace declaration 
 domina namespace we're interested in using: `modern-cljs.shopping`.
 
 Open the `src/cljs/modern_cljs/shopping.cljs` file to update its
-requirements.
+requirements:
 
 ```cljs
 (ns modern-cljs.shopping
@@ -121,7 +121,7 @@ requirements.
 
 Now repeat the above requirements in the bREPL. Remember that at the
 bREPL prompt you need to quote (i.e. `'`) the namespace symbols in the
-requirment form.
+requirment form:
 
 ```clj
 cljs.user> (require '[modern-cljs.shopping :as shop] :reload
@@ -149,10 +149,10 @@ domina.events/listen!
 nil
 ```
 
-It says that `listen!` listens for event during the bubble phase of
+It says that `listen!` listens for events during the bubble phase of
 events. Just for curiosity, let's see if `domina` offers a
 corresponding function listening for events during the capturing phase
-as well.
+as well:
 
 > NOTE 3: if you're interested in the differences between the bubbling
 > and the capturing phase of DOM events, look at
@@ -184,7 +184,7 @@ them with 2 or with 3 arguments. We're interested in the 3-arity
 versions because we want to add a listener (i.e. `calculate`) to the
 `click` event of the `calc` button. Note the bang `!` char at the
 end. It informs you that those functions mutate the argument/element
-you're passing to.
+you're passing to:
 
 ```clj
 cljs.user> (evt/listen! (dom/by-id "calc") :click shop/calculate)
@@ -196,10 +196,10 @@ cljs.user> (evt/listen! (dom/by-id "calc") :click shop/calculate)
 
 Go to the browser and test the shopping form to verify that it works as expected.
 
-### Edit shopping.cljs 
+### Edit shopping.cljs
 
 We're now ready to update the `shopping.cljs` source code according to
-the above bREPL experiment.
+the above bREPL experiment:
 
 ```clj
 (ns modern-cljs.shopping
@@ -234,7 +234,7 @@ the above bREPL experiment.
 As usual, as soon as you save the file the IFDE takes care of its
 recompilation and reloading.
 
-Play with the Shopping Form to verify it works as expected. 
+Play with the Shopping Form to verify it works as expected.
 
 ### Bubbling and capture models
 
@@ -245,7 +245,7 @@ models. In the above shopping calculator example we used the domina
 defined by `domina` to use the *bubbling* method of handling DOM
 events. If you want to experience the *capture* method you have to
 simply substitute the `listen!` call with the corresponding `capture!`
-call and you're done.
+call and you're done:
 
 ```clj
 cljs.user> (evt/unlisten! (dom/by-id "calc") :click)
@@ -261,7 +261,7 @@ that there are no more listeners for `calc` attached to that event.
 If you click the `Calculate` button nothing happens.
 
 Now call the `capture!` function to trigger the `calculate` function
-during the *capture* phase of the click event. 
+during the *capture* phase of the click event:
 
 ```clj
 cljs.user> (evt/capture! (dom/by-id "calc") :click shop/calculate)
@@ -270,7 +270,7 @@ cljs.user> (evt/capture! (dom/by-id "calc") :click shop/calculate)
 
 The `Calculate` button starts working again.
 
-You can now stop any `boot` related process and reset your git repository.
+You can now stop any `boot` related process and reset your git repository:
 
 ```bash
 git reset --hard
