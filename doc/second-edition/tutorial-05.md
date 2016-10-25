@@ -506,7 +506,7 @@ the `false` boolean value.
 
 The `init` function is almost identical to the one defined for the
 previous login form. At last we set the `init` function itself as the
-value of the `onsubmit` property of the `window` object defined in the
+value of the `onload` property of the `window` object defined in the
 `js` special namespace.
 
 As soon as you save the `shopping.cljs` file, it gets recompiled and
@@ -619,7 +619,7 @@ return null;
 }"]
 ```
 
-Ops, the `init` function assigned as the value for the `window`
+Oops, the `init` function assigned as the value for the `window`
 `onload` property is not the one we previously assigned to it, but
 the `init` function we defined for `shoppingForm`.
 
