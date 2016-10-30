@@ -61,7 +61,7 @@ Here are some book recommendations:
 * [Programming Clojure][8]: written by another legendary Clojure
   developer, it's the easiest path to learning Clojure.
 * [The Joy of Clojure][9]: the title speaks by itself. A must read!
-* [ClojureScript Rational][41] and [ClojureScript Quick Start][42]
+* [ClojureScript Rationale][41] and [ClojureScript Quick Start][42]
 * [ClojureScript Up and Running][10]: at the moment, it's the only
   published book on ClojureScript. The book is a bit outdated since
   ClojureScript is evolving quickly. It's brief and useful, especially
