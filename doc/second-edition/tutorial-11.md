@@ -48,10 +48,10 @@ boot repl -c
 ...
 boot.user> (start-repl)
 ...
-cljs.user> 
+cljs.user>
 ```
 
-We are now ready for the frist step.
+We are now ready for the first step.
 
 # The highest surface
 
@@ -89,7 +89,7 @@ form and added the `placeholder`, `title` and `pattern` HTML5
 attributes to both the `email` and the `password` HTML5 input field
 elements of the form.
 
-As usual, as you save the file, IFDE will reload it. 
+As usual, as you save the file, IFDE will reload it.
 
 The `pattern` values (i.e. regexp) are a kind of code duplication I
 really hate. Luckily we have a handy solution based on the
@@ -101,7 +101,7 @@ function defined in the `domina.core` namespace.
 
 ## bREPLing with HTML5 new attributes
 
-Go the bREPL and familiarize with the new HTML5 attributes. 
+Go the bREPL and familiarize with the new HTML5 attributes.
 
 First require the `domina.core` namespace, then ask for the `attr`
 docstring and finally get the value of the `pattern` and `title`
@@ -124,7 +124,7 @@ cljs.user> (dom/attr (dom/by-id "email") :title)
 
 We are now ready to substitute the previous `validate-email` and
 `validate-password` functions with the ones getting the regexp and the
-help message directly from the Login Form. 
+help message directly from the Login Form.
 
 ## login.cljs
 
@@ -161,7 +161,7 @@ Open the `login.cljs` file and edit it as follows:
 ```
 
 > NOTE 1: we added the `attr` symbol to the `:refer` section of the
-> `domina.core` requirement, and we then deleted the previous definitions 
+> `domina.core` requirement, and we then deleted the previous definitions
 > of both `*email-re*` and `*password-re*`.
 
 As usual, check that the Login Form is still working as expected.
@@ -235,7 +235,7 @@ method request and we need to add it to `handler`.
 Following is the updated `core.clj` source code.
 
 ```clj
-(ns modern-cljs.core 
+(ns modern-cljs.core
   (:require [compojure.core :refer [defroutes GET POST]]  ; <- add POST
             [compojure.route :refer [not-found files resources]]))
 
@@ -252,7 +252,7 @@ Following is the updated `core.clj` source code.
 Whenever the web server receives a POST request with the "/login"
 URI, the `email` and `password` parameters are extracted from the body
 of the POST request and the `authenticate-user` function will be called
-with those parameters. 
+with those parameters.
 
 We have not yet defined the `authenticate-user` function. In order
 to respect the separation of concerns principle, we'll define it
@@ -314,7 +314,7 @@ it's now defined in that namespace.
 
 Following is the updated `core.clj` source code.
 ```clj
-(ns modern-cljs.core 
+(ns modern-cljs.core
   (:require [compojure.core :refer [defroutes GET POST]]
             [compojure.route :refer [not-found files resources]]
             [modern-cljs.login :refer [authenticate-user]]))

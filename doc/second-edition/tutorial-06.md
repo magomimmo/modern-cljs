@@ -30,7 +30,7 @@ depends on the Google Closure/CLJS pair of compilers driven by the
 ## Introducing Google Closure Compiler (GCSL)
 
 In the [first tutorial][3], we set `:source-paths` in the `build.boot`
-file to the `#{src/cljs}` path.
+file to the `#{"src/cljs"}` path.
 
 The `:source-paths` directive instructs the  Google Closure/CLJS pair of
 compilers to look for any CLJS source code in the `src/cljs` directory
