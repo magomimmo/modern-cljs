@@ -156,22 +156,22 @@ sample from the `valip.predicates` namespace:
 > NOTE 2: I personally consider the above `matches` definition as
 > buggy. As you'll see in a subsequent tutorial specifically dedicated
 > to `unit tests`, I always like to start testing functions from border
-> cases. In the above returned predicate, what happens when the 
+> cases. In the above returned predicate, what happens when the
 > argument `s` is `nil`?
-> 
+>
 > You'll get a `NullPointerException` on the JVM and an almost
 > incomprehensible error on the JSVM.
-> 
+>
 > A more defensive approach is to wrap the argument `s` with the `str`
 > function:
-> 
+>
 > ```clj
 > (defn matches
 >   [re]
 >   (fn [s] (boolean (re-matches re (str s)))))
 > ```
 
-Nothing new for any clojure-ist who knows about [HOF][27], 
+Nothing new for any clojure-ist who knows about [HOF][27],
 but another nice feature to have in your hands.
 
 `valip` even offers the `defpredicate` macro, which allows you to
@@ -218,7 +218,7 @@ clojure-ist minds.
 The surprise is that Chas Emerick chose it a couple of years later,
 when CLJS had already been reified from a very smart idea into a
 programming language. So, if the original [valip][3] library was so
-dependent on the JVM, why would Chas Emerick chose it over other,
+dependent on the JVM, why would Chas Emerick choose it over other,
 less-compromised CLJ validation libraries? Maybe the answer is just
 that the predefined predicates and functions were confined to the
 `valip.predicates` namespace and most of them were easily redefinable
@@ -248,7 +248,7 @@ portable) CLJ/CLJS lib:
 > tutorials I made the choice of using the `boot` building tools instead
 > of the more standard `leiningen` one. There are two main reasons for
 > that:
-> 
+>
 > * the `build.boot` is shorter/simpler than the corresponding
 >   `project.clj` when adding `CLJS` stuff;
 > * you can run everything in a single JVM instance.
@@ -422,7 +422,7 @@ build file.
 ```
 
 In the same file you now have to define the validators for the user
-credential (i.e `email` and `password`). 
+credential (i.e `email` and `password`).
 
 ```clj
 (def ^:dynamic *re-password* #"^(?=.*\d).{4,8}$")
@@ -439,13 +439,13 @@ As you see, we wrapped the above `validate` call inside a function
 definition.
 
 > NOTE 4: Again following separation of concerns principle, we
-> copy the *re-password* regular expression 
+> copy the *re-password* regular expression
 > from `login.clj` to here. Later we'll delete it from there.
 
 > NOTE 5: `valip` provides the `email-address?` built-in predicate
 > which tests the user's email value using a built-in regular
 > expression. This regular expression is based on RFC 2822 and it is
-> defined in the `valip.predicates` namespace. So, we don't need to 
+> defined in the `valip.predicates` namespace. So, we don't need to
 > supply our own `*re-email*` regular expression any longer.
 > Later, we'll delete the one defined in the `login.clj` source file.
 
@@ -513,7 +513,7 @@ Clojure `1.7.0` release: [`Reader Conditionals`][22].
 > can run on multiple Clojure platforms with only small changes. In
 > particular, this feature aims to support the increasingly common case
 > of libraries targeting both Clojure and ClojureScript.
-> 
+>
 > Code intended to be common across multiple platforms should use a new
 > supported file extension: ".cljc". When requesting to load a namespace,
 > the platform-specific file extension (.clj, .cljs) will be checked
@@ -526,7 +526,7 @@ solution of the `Feature Expression` problem.
 The `modern-cljs.login.validators` namespace we just wrote is
 currently hosted in the `src/clj` source directory of the project. It
 uses the portable namespace from the `valip` lib and does not
-use any features available on the JVM. 
+use any features available on the JVM.
 
 What does that mean? It means you can safely rename the file with the
 `cljc` extension and move it under a new `src/cljc` source path
@@ -733,9 +733,9 @@ could kiss the CLJ/CLJS contributors one by one. No way that anybody
 could convince me that there is something better than CLJ/CLJS on
 Planet Web.
 
-## Back on Earth
+## Back to Earth
 
-OK, we had enough magic for now. Let's came back on Earth to update
+OK, we had enough magic for now. Let's go back to Earth to update
 the CLJS `modern-cljs.login` namespace by using this magic.
 
 Open the `login.cljs` source file living in the `src/cljs/modern_cljs`
@@ -937,7 +937,7 @@ boot.user> (validate {:email "me@google-nospam.com"}
 {:email ["The domain does not exist!"]}
 ```
 
-So far, so good. 
+So far, so good.
 
 We now have to decide in which namespace to define a new validator
 verifying the domain of the email entered by the user.
@@ -990,8 +990,8 @@ add a new `email-domain-errors` validator which use the JVM based
 ```clj
 (ns modern-cljs.login.validators
   (:require [valip.core :refer [validate]]
-            [valip.predicates :as pred :refer [present? 
-                                               matches 
+            [valip.predicates :as pred :refer [present?
+                                               matches
                                                email-address?]]))
 
 (def ^:dynamic *re-password* #"^(?=.*\d).{4,8}$")
@@ -1005,7 +1005,7 @@ add a new `email-domain-errors` validator which use the JVM based
 
 
 #? (:clj (defn email-domain-errors [email]
-           (validate 
+           (validate
             {:email email}
             [:email pred/valid-email-domain? "The domain of the email doesn't exist."])))
 ```
@@ -1045,10 +1045,10 @@ We now have to call the new server-side-only validator in the
 In the namespace declaration we only added the `email-domain-errors`
 to the `:refer` section of the namespace requirement.
 
-We also changes the `authenticate-user` definition by adding the new
-validator inside an `or` form with the old one. 
+We also changed the `authenticate-user` definition by adding the new
+validator inside an `or` form with the old one.
 
-> NOTE 11: To maintain the previous behaviour of the server-side validation
+> NOTE 11: To maintain the previous behavior of the server-side validation
 > we're using the validators as if they were predicates which return just
 > `true` or `false`.
 
@@ -1062,7 +1062,7 @@ well.
 
 ## Second step - Remotize the server-side-only validator
 
-As we already know, we can easly remotize a function by using the
+As we already know, we can easily remotize a function by using the
 [shoreleave][18] machinery. Open the `remotes.clj` file and update the
 namespace declaration by requiring the `modern-cljs.login.validators`
 namespace, where we defined the `email-domain-errors` server-side-only
@@ -1071,7 +1071,7 @@ the [9th Tutorial][24] with the `calculate` function. Here is the
 updated content of `remotes.clj`
 
 ```clj
-(ns modern-cljs.remotes 
+(ns modern-cljs.remotes
   (:require [modern-cljs.core :refer [handler]]
             [compojure.handler :refer [site]]
             [shoreleave.middleware.rpc :refer [defremote wrap-rpc]]
