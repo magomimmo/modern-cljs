@@ -962,7 +962,7 @@ Here is the new React code from the official tutorial:
 ```js
 var data = [
   {id: 1, author: "Pete Hunt", text: "This is one comment"},
-  {Id: 2, author: "Jordan Walke", text: "This is *another* comment"}
+  {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
 ];
 ```
 
