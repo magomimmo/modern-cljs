@@ -39,12 +39,8 @@ learning how to introduce unit testing in your CLJ/CLJS mixed project.
 
 In this tutorial, our objective is to progressively
 reduce as much as possible the number of manual steps. We'll end up
-with a kind of live development environment that will satisfying
+with a kind of live development environment that will satisfy
 Bret Victor's Immediate Feedback Principle and also enable a [TDD][9] workflow.
-reduce as much as possible the number of manual steps. While doing
-that, we'll end up with a kind of live development environment which,
-while satisfying Bret Victor's Immediate Feedback
-Principle, will also enable a [TDD][9] workflow.
 
 ## Testing task
 
