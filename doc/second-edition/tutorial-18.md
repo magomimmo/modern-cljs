@@ -345,7 +345,7 @@ would be almost identical:
   (validate-shopping-form "1" price "0" "0"))
 
 (defn validate-shopping-tax [tax]
-  (validate-shopping-form "1" "0" price "0"))
+  (validate-shopping-form "1" "0" tax "0"))
 
 (defn validate-shopping-discount [discount]
   (validate-shopping-form "1" "0" "0" discount))
