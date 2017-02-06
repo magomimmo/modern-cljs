@@ -865,7 +865,7 @@ you can verify from it's source code:
 nil
 ```
 
-Let's go one with few other functions/predicates corner cases:
+Let's go on with few other functions/predicates corner cases:
 
 ```clj
 user=> (v/email-address? nil)
