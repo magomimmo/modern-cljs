@@ -314,7 +314,7 @@ Options:
   -p, --pom PATH   Set the pom.xml file to use to PATH.
 ```
 
-This help is mostly about corner cases which are not in not our
+This help is mostly about corner cases which are not in our
 scenario. We'll stay with the default behavior, without passing any
 options to the `install` task:
 
@@ -877,7 +877,7 @@ we have done so far
 
 ```clj
 cd /path/to/valip
-got commit -am "prepare for publish to clojar"
+git commit -am "prepare for publish to clojar"
 ```
 
 and shoot the snapshot again:
@@ -902,7 +902,7 @@ library within the `modern-cljs` context, we want to be sure
 installed in the local `maven` repository of our machine. The
 accomplishment of this assignment is very easy.
 
-First, delete the installed `valip` form the local `maven` repository
+First, delete the installed `valip` from the local `maven` repository
 
 ```bash
 rm -rf ~/.m2/repository/org/clojars/<your_github_name/valip
