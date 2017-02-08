@@ -136,7 +136,6 @@ tree
 ├── README.md
 ├── boot.properties
 ├── build.boot
-├── pom.xml
 ├── project.clj
 ├── src
 │   └── valip
@@ -149,7 +148,6 @@ tree
             ├── core.cljc
             └── predicates.cljc
 ```
-
 > NOTE 3: after I wrote the [previous tutorial][1], I decided to move
 > the `def.clj` file containing the `valip` macros to a more
 > conventional place and rename it as `macros.clj`. You could do the
