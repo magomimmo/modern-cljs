@@ -427,6 +427,8 @@ The
 do a terrific job explaining Reagent and I strongly reccomend you
 read it several times, until you really grasp the entire content.
 
+> Re-Frame are currently under a heavy update. Actually its version is 0.8.0
+
 That said, Reagent offers its own version of the standard CLJS `atom`
 definition, AKA `ratom`, supporting the same `atom` protocol
 (e.g. `swap!`, `reset!`, etc.) plus something new, as you can read
