@@ -190,7 +190,7 @@ no meaning at all even if you ask for more information with the
 following command:
 
 ```bash
-boot target -h
+bot target -h
 Writes output files to the given directory on the filesystem.
 
 Options:
