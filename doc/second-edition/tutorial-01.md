@@ -140,7 +140,7 @@ different extension:
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
 
- :dependencies '[[adzerk/boot-cljs "1.7.170-3"]])
+ :dependencies '[[adzerk/boot-cljs "1.7.228-2"]])
 
 (require '[adzerk.boot-cljs :refer [cljs]])
 ```
@@ -190,7 +190,7 @@ no meaning at all even if you ask for more information with the
 following command:
 
 ```bash
-bot target -h
+boot target -h
 Writes output files to the given directory on the filesystem.
 
 Options:
