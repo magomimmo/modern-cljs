@@ -533,7 +533,7 @@ this in the `domina.events` namespace it will save some typing.
 ```clj
 cljs.user> (in-ns 'domina.events)
 nil
-domina.events> (map keyword (gobj/getValues events/EventType))
+domina.events> (map keyword (goog.object/getValues goog.events/EventType))
 (:click :rightclick :dblclick :mousedown :mouseup :mouseover :mouseout
  :mousemove :mouseenter :mouseleave :selectstart :wheel :keypress
  :keydown :keyup :blur :focus :deactivate :DOMFocusIn :DOMFocusOut
