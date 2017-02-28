@@ -48,7 +48,7 @@ The first thing we want to eliminate is the need to add the
 `test/cljc` directory to the `:source-paths` environment variable each
 time we start the IFDE runtime.
 
-Let's create a a new task in the `build.boot` configuration file and name it `testing`:
+Let's create a new task in the `build.boot` configuration file and name it `testing`:
 
 ```clj
 (deftask testing
