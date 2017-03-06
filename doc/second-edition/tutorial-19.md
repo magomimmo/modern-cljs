@@ -694,7 +694,7 @@ lein test valip.test.core
 
 lein test valip.test.predicates
 
-Ran 20 tests containing 75 assertions.
+Ran 21 tests containing 78 assertions.
 0 failures, 0 errors.
 ```
 
@@ -706,7 +706,7 @@ cd /path/to/valip
 lein repl
 nREPL server started on port 49762 on host 127.0.0.1 - nrepl://127.0.0.1:49762
 REPL-y 0.3.7, nREPL 0.2.10
-Clojure 1.7.0
+Clojure 1.8.0
 Java HotSpot(TM) 64-Bit Server VM 1.8.0_66-b17
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
@@ -927,28 +927,20 @@ Even if we could update the `project.clj` by adding to it the
 prefer to switch to `boot`, because we already know everything about
 creating a `build.boot` build file to support [TDD][6].
 
-First, as you learned in the
-[first tutorial](https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-01.md#get-rid-of-warnings)
-we want to pin the current `boot` release to `2.5.5` and get rid of
-the warning about the deprecated implicit target directory emission:
-
+Let's create the `boot.properties` file:
 ```bash
 cd /path/to/valip
 boot -V > boot.properties
 ```
-Now edit the `boot.properties` to remove the deprecation warning as follows:
+If you open it you'll see:
 
 ```bash
 #http://boot-clj.com
-#Fri Jan 08 12:16:18 CET 2016
+#Fri Mar 03 15:11:25 CET 2017
 BOOT_CLOJURE_NAME=org.clojure/clojure
-BOOT_CLOJURE_VERSION=1.7.0
-BOOT_VERSION=2.5.5
-BOOT_EMIT_TARGET=no
+BOOT_CLOJURE_VERSION=1.8.0
+BOOT_VERSION=2.7.1
 ```
-
-> NOTE 5: The latest available stable `boot` release at time of
-> writing is `2.5.5`.
 
 Now create the `build.boot` file for the `valip` project with the following content:
 
@@ -956,8 +948,8 @@ Now create the `build.boot` file for the `valip` project with the following cont
 (set-env!
  :source-paths #{"src"}
 
- :dependencies '[[org.clojure/clojure "1.7.0"]
-                 [adzerk/boot-test "1.0.7"]])
+ :dependencies '[[org.clojure/clojure "1.8.0"]
+                 [adzerk/boot-test "1.2.0"]])
 
 (require '[adzerk.boot-test :refer [test]])
 
@@ -998,7 +990,7 @@ Testing valip.test.core
 
 Testing valip.test.predicates
 
-Ran 20 tests containing 75 assertions.
+Ran 21 tests containing 78 assertions.
 0 failures, 0 errors.
 Elapsed time: 4.832 sec
 ```
@@ -1031,10 +1023,10 @@ expected: (not ((matches #"...") nil))
   actual: java.lang.NullPointerException: null
  at ...
 
-Ran 20 tests containing 76 assertions.
+Ran 21 tests containing 79 assertions.
 0 failures, 1 errors.
 clojure.lang.ExceptionInfo: Some tests failed or errored
-    data: {:test 20, :pass 75, :fail 0, :error 1, :type :summary}
+    data: {:test 21, :pass 78, :fail 0, :error 1, :type :summary}
     ...
 Elapsed time: 0.647 sec
 ```
@@ -1064,7 +1056,7 @@ cd /path/to/valip
 boot repl
 nREPL server started on port 50035 on host 127.0.0.1 - nrepl://127.0.0.1:50035
 REPL-y 0.3.7, nREPL 0.2.12
-Clojure 1.7.0
+Clojure 1.8.0
 Java HotSpot(TM) 64-Bit Server VM 1.8.0_66-b17
         Exit: Control+D or (exit) or (quit)
     Commands: (user/help)
@@ -1117,7 +1109,7 @@ Testing valip.test.core
 
 Testing valip.test.predicates
 
-Ran 20 tests containing 76 assertions.
+Ran 21 tests containing 79 assertions.
 0 failures, 0 errors.
 Elapsed time: 0.656 sec
 ```
@@ -1138,7 +1130,7 @@ Testing valip.test.core
 
 Testing valip.test.predicates
 
-Ran 20 tests containing 77 assertions.
+Ran 21 tests containing 80 assertions.
 0 failures, 0 errors.
 Elapsed time: 0.561 sec
 ```
@@ -1250,10 +1242,10 @@ expected: (not (url? nil))
   actual: java.lang.NullPointerException: null
  at java.net.URI$Parser.parse (URI.java:3042)
     ...
-Ran 21 tests containing 89 assertions.
+Ran 21 tests containing 87 assertions.
 0 failures, 1 errors.
 clojure.lang.ExceptionInfo: Some tests failed or errored
-    data: {:test 21, :pass 88, :fail 0, :error 1, :type :summary}
+    data: {:test 21, :pass 86, :fail 0, :error 1, :type :summary}
 ...
 Elapsed time: 0.572 sec
 ```
@@ -1345,7 +1337,7 @@ Testing valip.test.core
 
 Testing valip.test.predicates
 
-Ran 21 tests containing 97 assertions.
+Ran 21 tests containing 90 assertions.
 0 failures, 0 errors.
 Elapsed time: 0.619 sec
 ```
@@ -1425,8 +1417,8 @@ requiring its main `cljs` task to run the CLJS compiler.
 (set-env!
  ...
  :dependencies '[...
-                 [org.clojure/clojurescript "1.7.228"]
-                 [adzerk/boot-cljs "1.7.170-3"]])
+                 [org.clojure/clojurescript "1.9.494"]
+                 [adzerk/boot-cljs "1.7.228-2"]])
 
 (require '...
          '[adzerk.boot-cljs :refer [cljs]])
@@ -1557,13 +1549,11 @@ declaration and then uses the class as a namespace:
 (ns valip.predicates
   "Predicates useful for validating input strings, such as ones from HTML forms."
   #?(:clj (:require [clojure.string :as str]
-                    [clojure.edn :refer [read-string]]
-                    [valip.macros :refer [defpredicate]])
+                    [clojure.edn :refer [read-string]])
      :cljs (:require [clojure.string :as str]
                      [cljs.reader :refer [read-string]]
                      [goog.Uri :as guri])) ;; as a namespace
-  #?(:clj (:refer-clojure :exclude [read-string])
-     :cljs (:require-macros [valip.macros :refer [defpredicate]]))
+  #?(:clj (:refer-clojure :exclude [read-string]))
   #?(:clj (:import (java.net URI URISyntaxException)
                    java.util.Hashtable
                    javax.naming.NamingException
@@ -1649,7 +1639,7 @@ task visible to `boot` itself.
  ...
 
  :dependencies '[...
-                 [crisptrutski/boot-cljs-test "0.2.1"]])
+                 [crisptrutski/boot-cljs-test "0.3.0"]])
 
 (require '...
          '[crisptrutski.boot-cljs-test :refer [test-cljs]])
@@ -1672,16 +1662,18 @@ boot cljs-tdd
 
 Starting file watcher (CTRL-C to quit)...
 
-Writing clj_test/suite.cljs...
-Writing output.cljs.edn...
 Compiling ClojureScript...
-• output.js
-Running cljs tests...
+• cljs_test/generated_test_suite.js
+
+;; ======================================================================
+;; Testing with Phantom:
+
+
 Testing valip.test.core
 
 Testing valip.test.predicates
 
-Ran 20 tests containing 91 assertions.
+Ran 20 tests containing 86 assertions.
 0 failures, 0 errors.
 Elapsed time: 15.061 sec
 ```
@@ -1706,29 +1698,29 @@ following `tdd` new task definition
 and launch it:
 
 ```clj
-boot tdd
-
 Starting file watcher (CTRL-C to quit)...
 
-Writing clj_test/suite.cljs...
-Writing output.cljs.edn...
 Compiling ClojureScript...
-• output.js
-Running cljs tests...
+• cljs_test/generated_test_suite.js
+
+;; ======================================================================
+;; Testing with Phantom:
+
+
 Testing valip.test.core
 
 Testing valip.test.predicates
 
-Ran 20 tests containing 91 assertions.
+Ran 20 tests containing 86 assertions.
 0 failures, 0 errors.
 
 Testing valip.test.core
 
 Testing valip.test.predicates
 
-Ran 21 tests containing 97 assertions.
+Ran 21 tests containing 90 assertions.
 0 failures, 0 errors.
-Elapsed time: 18.135 sec
+Elapsed time: 21.285 sec
 ```
 
 Ok. We're done
