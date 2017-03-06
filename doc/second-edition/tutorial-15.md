@@ -436,9 +436,12 @@ used `phantom` as headless browser, and we also passed the
 tests for.
 
 Secondly, the `boot-test-cljs` task internally uses the CLJS compiler
-by overwriting some default values. For example, instead of generating
+by overwriting some default values, as the :main option reported in the warning. Further more, instead of generating
 the `main.js` JS file as the `boot-cljs` task did, it generates the
 `output.js` JS file.
+
+> NOTA 
+> The warning is no longer printed out from the version 0.3.0 of boot-test-cljs. Nonetheless I prefer to continue to use the old version 0.2.1 for a reason that will be clear later.
 
 Now repeat the same experiments we did previously by modifying the
 unit test assertion in
