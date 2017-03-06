@@ -1427,7 +1427,7 @@ Writing main.cljs.edn...
 Compiling ClojureScript...
 WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
-Running cljs tests...Unexpected response code: 400
+Running cljs tests...
 
 Testing modern-cljs.login.validators-test
 
@@ -1466,25 +1466,25 @@ Here is the reworked `build.boot` file:
  :source-paths #{"src/clj" "src/cljs" "src/cljc"}
  :resource-paths #{"html"}
 
- :dependencies '[ [org.clojure/clojure                 "1.7.0"]            ; add CLJ
-                  [org.clojure/clojurescript           "1.7.170"]          ; add CLJS
+ :dependencies '[ [org.clojure/clojure                 "1.8.0"]            ; add CLJ
+                  [org.clojure/clojurescript           "1.9.473"]          ; add CLJS
                   [org.clojure/tools.nrepl             "0.2.12"]           ; needed by bREPL
-                  [adzerk/boot-cljs                    "1.7.170-3"]
-                  [adzerk/boot-test                    "1.0.7"]
-                  [adzerk/boot-reload                  "0.4.2"]
+                  [adzerk/boot-cljs                    "1.7.228-2"]
+                  [adzerk/boot-test                    "1.2.0"]
+                  [adzerk/boot-reload                  "0.5.1"]
                   [adzerk/boot-cljs-repl               "0.3.0"]            ; add bREPL
                   [com.cemerick/piggieback             "0.2.1"]            ; needed by bREPL
-                  [compojure                           "1.4.0"]            ; for routing
+                  [compojure                           "1.5.2"]            ; for routing
                   [crisptrutski/boot-cljs-test         "0.2.1-SNAPSHOT"]
                   [enlive                              "1.1.6"]
                   [hiccups                             "0.3.0"]
-                  [javax.servlet/servlet-api           "2.5"]
-                  [pandeiro/boot-http                  "0.7.0"]
+                  [javax.servlet/javax.servlet-api     "3.1.0"]
+                  [pandeiro/boot-http                  "0.7.6"]
                   [weasel                              "0.7.0"]            ; needed by bREPL
 
                   [org.clojars.magomimmo/domina                     "2.0.0-SNAPSHOT"]
                   [org.clojars.magomimmo/valip                      "0.4.0-SNAPSHOT"]
-                  [org.clojars.magomimmo/shoreleave-remote-ring     "0.3.1"]
+                  [org.clojars.magomimmo/shoreleave-remote-ring     "0.3.3"]
                   [org.clojars.magomimmo/shoreleave-remote          "0.3.1"] ] )
 
 (require '[adzerk.boot-cljs               :refer [cljs]]
