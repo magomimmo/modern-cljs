@@ -221,7 +221,7 @@ directory of the `react-tutorial` project folder.
     <script src="https://unpkg.com/react-dom@15.3.0/dist/react-dom.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
     <script src="https://unpkg.com/jquery@3.1.0/dist/jquery.min.js"></script>
-    <script src="https://unpkg.com/remarkable@1.7.1/dist/remarkable.min.js"></script>
+   
   </head>
   <body>
     <div id="content"></div>
@@ -239,9 +239,22 @@ There are a few things to be noted here:
 1. `<div id="content"></div>` represents the `root` HTML
    element to which the `CommentBox` component instance is to be
    attached;
-1. the inclusion of the [remarkable JS library][2] for rendering mardown text;
+1. the inclusion of the [remarkable JS library][2] for rendering mardown text. 
+   In order to simplify the porting to CLJS we decide to replace the library 
+   `remarkable` with the library [`marked`] (https://github.com/cljsjs/packages/tree/master/marked)
+   which is already packaged for CLJS. So we proceed to delete the line:
+   ```html
+    <script src="https://unpkg.com/remarkable@1.7.1/dist/remarkable.min.js"></script>
+   ```
+   and replace it with:
+   ```html
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+   ```
+   The library `marked`  was also used in an older version of the React tutorial.
 1. the `<script type="text/babel" src="scripts/example.js"></script>`
    `script` tag loading the `example.js` file we just coded
+
+
 
 The JSX code contained in the `example.js` file can't be
 interpreted as is in a browser. It first needs to pass through the
@@ -266,8 +279,7 @@ the latest available Reagent library to the `build.boot` of the
 ...
 ```
 
-Note that we also added the `cljsjs/marked "0.3.5-0"` JS external
-library, which is already packaged to be used in a CLJS project, instead of the `remarkable` library used in the React tutorial. We'll see the use of `marked` later.
+Note that we also added the cljsjs/marked "0.3.5-0" JS external library. This is the same JS library used in the React Tutorial, and it is packaged to be used in a CLJS project. We'll see its use later.
 
 Now create the `reagent.html` file in the `html` directory of the `modern-cljs`
 
@@ -391,13 +403,13 @@ a React Component.
 
 ```clj
 cljs.user> (require '[reagent.core :as r :refer [render]])
-nil
+
 ```
 
 ```clj
 cljs.user> (defn comment-box []
              [:div "Hello, world! I'm a comment-box"])
-#'cljs.user/component-box
+#'cljs.user/comment-box
 ```
 
 Believe it or not, such a simple function returning a vector is enough
@@ -441,12 +453,12 @@ by yourself:
 
 ```clj
 cljs.user> (require-macros '[hiccups.core :refer [html]])
-nil
+
 ```
 
 ```clj
 cljs.user> (require '[hiccups.runtime])
-nil
+
 ```
 
 ```clj
@@ -537,12 +549,12 @@ project, we can simplify the previous `render` call as follows:
 
 ```clj
 cljs.user> (require '[domina.core :refer [by-id]])
-nil
+
 ```
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Let's move on.
@@ -638,7 +650,7 @@ component hierarchy:
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 The `reagent.html` page is immediately updated and you should see the following content
@@ -879,7 +891,7 @@ section of the `build.boot` at the beginning of the tutorial.
 
 ```clj
 cljs.user> (require '[cljsjs.marked])
-nil
+
 ```
 
 > NOTE 11: when you require an external JS library prepackaged for
@@ -1091,7 +1103,7 @@ dynamically generate each comment in the `data` vector.
 
 ```clj
 cljs.user> (render [comment-box data] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Hopefully, even if you do not see any difference in the rendered page,
