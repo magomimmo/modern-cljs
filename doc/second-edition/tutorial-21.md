@@ -436,7 +436,7 @@ Don't you believe it? Evaluate the following form at the bREPL:
 
 ```clj
 cljs.user> (render [comment-box] (.getElementById js/document "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Do you see the `Hello, world! I'm a comment-box` text in the page?
@@ -711,7 +711,7 @@ cljs.user> (comment-box)
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 The two scenarios becomes clearer if you add, and I suggest you to do
@@ -825,7 +825,7 @@ Let's see the result by re-rendering the `comment-box` root component
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 As soon as you evaluate the `render` function, the DOM of the
@@ -954,7 +954,7 @@ Re-render the `comment-box` as usual
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Again, you immediately see the word *another* shown in *italics*
