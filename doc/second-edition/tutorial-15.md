@@ -441,7 +441,7 @@ the `main.js` JS file as the `boot-cljs` task did, it generates the
 `output.js` JS file.
 
 > NOTE 4
-> The warning is no longer printed out from the version 0.3.0 of boot-test-cljs. Nonetheless I prefer to continue to use the old version 0.2.1 for a reason that will be clear later.
+> The warning is no longer printed out from the version 0.3.0 of boot-test-cljs. Nonetheless I prefer to continue to use the old version 0.2.1 for a reason that will be clearer later.
 
 Now repeat the same experiments we did previously by modifying the
 unit test assertion in
