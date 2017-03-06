@@ -1641,7 +1641,9 @@ task visible to `boot` itself.
  ...
 
  :dependencies '[...
-                 [crisptrutski/boot-cljs-test "0.3.0"]])
+                 [crisptrutski/boot-cljs-test "0.3.0"]
+                 [doo "0.1.7"] ; used by boot-cljs-test
+                 ])
 
 (require '...
          '[crisptrutski.boot-cljs-test :refer [test-cljs]])
@@ -1655,12 +1657,16 @@ task visible to `boot` itself.
    (watch)
    (test-cljs :namespaces #{'valip.test.core 'valip.test.predicates})))
 ```
+> NOTE 9: We added the `doo` library to the dependencies because it is used by this version of `boot-cljs-test`. 
+> You could not add it, but you'll see the message `Adding: ([doo "0.1.7"]) to :dependencies` printed on the console when
+> you run the  `cljs test`.
 
 You can now safely launch the `cljs-tdd` newly defined task as
 follows.
 
 ```bash
 boot cljs-tdd
+Adding: ([doo "0.1.7"]) to :dependencies
 
 Starting file watcher (CTRL-C to quit)...
 
@@ -1771,7 +1777,7 @@ Note that I changed the `groupId/artifactID` identifier from
 artifact identifier. Note also that in the above identifier **you
 should substitute** `magomimmo` with **your github name**.
 
-> NOTE 9: I also added the
+> NOTE 10: I also added the
 > [`:clean-targets`](https://github.com/technomancy/leiningen/blob/master/sample.project.clj#L295)
 > directive of `lein`.
 
