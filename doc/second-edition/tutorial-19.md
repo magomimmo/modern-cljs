@@ -1549,11 +1549,13 @@ declaration and then uses the class as a namespace:
 (ns valip.predicates
   "Predicates useful for validating input strings, such as ones from HTML forms."
   #?(:clj (:require [clojure.string :as str]
-                    [clojure.edn :refer [read-string]])
+                    [clojure.edn :refer [read-string]]
+                    [valip.predicates.def :refer [defpredicate]])
      :cljs (:require [clojure.string :as str]
                      [cljs.reader :refer [read-string]]
                      [goog.Uri :as guri])) ;; as a namespace
-  #?(:clj (:refer-clojure :exclude [read-string]))
+  #?(:clj (:refer-clojure :exclude [read-string])
+     :cljs (:require-macros [valip.predicates.def :refer [defpredicate]]))
   #?(:clj (:import (java.net URI URISyntaxException)
                    java.util.Hashtable
                    javax.naming.NamingException
