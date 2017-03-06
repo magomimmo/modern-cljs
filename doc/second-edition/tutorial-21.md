@@ -221,7 +221,7 @@ directory of the `react-tutorial` project folder.
     <script src="https://unpkg.com/react-dom@15.3.0/dist/react-dom.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
     <script src="https://unpkg.com/jquery@3.1.0/dist/jquery.min.js"></script>
-   
+    <script src="https://unpkg.com/remarkable@1.7.1/dist/remarkable.min.js">
   </head>
   <body>
     <div id="content"></div>
@@ -243,13 +243,17 @@ There are a few things to be noted here:
    In order to simplify the porting to CLJS we decide to replace the library 
    `remarkable` with the library [`marked`] (https://github.com/cljsjs/packages/tree/master/marked)
    which is already packaged for CLJS. So we proceed to delete the line:
+
    ```html
     <script src="https://unpkg.com/remarkable@1.7.1/dist/remarkable.min.js"></script>
    ```
+
    and replace it with:
+
    ```html
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
    ```
+
    The library `marked`  was also used in an older version of the React tutorial.
 1. the `<script type="text/babel" src="scripts/example.js"></script>`
    `script` tag loading the `example.js` file we just coded
