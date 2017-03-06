@@ -172,7 +172,7 @@ for that job. Let's add it to our `build.boot` file as usual.
  ...
  :dependencies '[
                  ...
-                 [adzerk/boot-test "1.0.7"]
+                 [adzerk/boot-test "1.2.0"]
                  ])
 
 (require ...
@@ -415,6 +415,7 @@ Starting file watcher (CTRL-C to quit)...
 Writing suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • output.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -435,9 +436,12 @@ used `phantom` as headless browser, and we also passed the
 tests for.
 
 Secondly, the `boot-test-cljs` task internally uses the CLJS compiler
-by overwriting some default values. For example, instead of generating
+by overwriting some default values, as the :main option reported in the warning. Further more, instead of generating
 the `main.js` JS file as the `boot-cljs` task did, it generates the
 `output.js` JS file.
+
+> NOTE 4
+> The warning is no longer printed out from the version 0.3.0 of boot-test-cljs. Nonetheless I prefer to continue to use the old version 0.2.1 for a reason that will be clearer later.
 
 Now repeat the same experiments we did previously by modifying the
 unit test assertion in
@@ -465,6 +469,7 @@ reported result:
 Writing suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • output.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -491,6 +496,7 @@ Correct the induced bug, save the file and wait for the new report:
 Writing suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • output.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -561,6 +567,7 @@ Starting file watcher (CTRL-C to quit)...
 Writing suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • output.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -603,6 +610,7 @@ After you save the file you'll receive the following report:
 Writing suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • output.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -661,6 +669,7 @@ report:
 Writing suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • output.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -760,7 +769,7 @@ previous one in `build.boot`:
           :reload true)
    (testing)
    (watch)
-   (reload)
+   (reload :ws-host "localhost")
    (cljs-repl)
    (test-cljs :out-file "main.js"
               :js-env :phantom
@@ -769,6 +778,16 @@ previous one in `build.boot`:
    (test :namespaces '#{modern-cljs.shopping.validators-test})
    (target :dir #{"target"})))
 ```
+
+> NOTE 5
+> In the "0.3.0" version of boot-test-cljs the parameter :out-file is deprecated and doesn't work.
+> Instead it suggests to use the `:ids [str]` parameter. The reason for this change is probrably to
+> conform the library to the use of .edn files, but it is still possible to avoid it, placing
+> a (cljs) task before the "test-cljs" one (i.e. we are using a different location for testing and running programs).
+> Of course this lead to a double up of operations time, since it recompiles the code twice.
+> So, to avoid this PITA I decided to remain to the 0.2.1 library.
+ 
+
 
 ### Light the fire
 
@@ -796,6 +815,7 @@ nREPL server started on port 51347 on host 127.0.0.1 - nrepl://127.0.0.1:51347
 Writing suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -817,7 +837,7 @@ sides (i.e. CLJ).
 Now visit the usual
 [Shopping Form](http://localhost:3000/shopping.html) and play with it.
 
-> NOTE 4: Remember that even if we already defined and tested the
+> NOTE 6: Remember that even if we already defined and tested the
 > validators for both the client and the server sides of the Shopping
 > Calculator, we still have to attach them to the form itself. So, if
 > you do not follow the happy path you'll get an error anyway.
@@ -849,7 +869,7 @@ Ran 1 tests containing 13 assertions.
 
 Still working.
 
-> NOTE 5: I use emacs+cider (release 0.10.0). It means that I can
+> NOTE 7: I use emacs+cider (release 0.10.0). It means that I can
 > create more `nrepl-client` connections with the running
 > `nrepl-server` implicitly started from the above `boot tdd`
 > command. I use one nrepl connection for the CLJ REPL, and second
@@ -903,6 +923,7 @@ confirmation, repeat the kind of forced failures we did before:
 Writing suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -962,6 +983,7 @@ correct the forced bug and observe the report again:
 Writing suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...Unexpected response code: 400
 

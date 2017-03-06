@@ -258,7 +258,7 @@ previous `testing` task in the `tdd` task definition:
           :reload true)
    (add-source-paths :dirs #{"test/cljc"})      ; old name was testing
    (watch)
-   (reload)
+   (reload :ws-host "localhost")
    (cljs-repl)
    (test-cljs :out-file "main.js"
               :js-env :phantom
@@ -284,7 +284,7 @@ to the `:source-paths` variable.
             :reload true)
      (add-source-paths :dirs dirs)
      (watch)
-     (reload)
+     (reload :ws-host "localhost")
      (cljs-repl)
      (test-cljs :out-file "main.js"
                 :js-env :phantom
@@ -623,7 +623,7 @@ We are now ready to add the `-k` and `-v` options to the `tdd` task definition.
             :httpkit httpkit)
      (add-source-paths :dirs dirs)
      (watch :verbose verbose)
-     (reload)
+     (reload :ws-host "localhost")
      (cljs-repl)
      (test-cljs :out-file "main.js"
                 :js-env :phantom
@@ -813,7 +813,7 @@ like the previous ones. Here is the updated `tdd` task definition:
             :port           port)
      (add-source-paths :dirs dirs)
      (watch :verbose verbose)
-     (reload)
+     (reload :ws-host "localhost")
      (cljs-repl)
      (test-cljs :out-file       output-to
                 :js-env         testbed
@@ -1492,7 +1492,7 @@ Here is the reworked `build.boot` file:
             :port port)
      (add-source-paths :dirs dirs)
      (watch :verbose verbose)
-     (reload)
+     (reload :ws-host "localhost")
      (cljs-repl)
      (test-cljs :out-file output-to
                 :js-env testbed
