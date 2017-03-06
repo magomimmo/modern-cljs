@@ -779,13 +779,13 @@ previous one in `build.boot`:
    (target :dir #{"target"})))
 ```
 
->NOTE 5
->In the "0.3.0" version of boot-test-cljs the parameter :out-file is deprecated and doesn't work.
->Instead it suggests to use the `:ids [str]` parameter. This in order to fit this library
-> with the use of .edn files, but it is still possible to avoid it, placing
-> a (cljs) task (i.e. we use a different location for testing and running programs).
-> Of course this lead to a double up of operation time, because it need to recompile twice.
-> To avoid this complaint I decided to avoid the update to 0.3.0 library and remain to the 0.2.1.
+> NOTE 5
+> In the "0.3.0" version of boot-test-cljs the parameter :out-file is deprecated and doesn't work.
+> Instead it suggests to use the `:ids [str]` parameter. The reason for this change is probrably to
+> conform the library to the use of .edn files, but it is still possible to avoid it, placing
+> a (cljs) task before the "test-cljs" one (i.e. we are using a different location for testing and running programs).
+> Of course this lead to a double up of operations time, since it recompiles the code twice.
+> So, to avoid this PITA I decided to remain to the 0.2.1 library.
  
 
 
