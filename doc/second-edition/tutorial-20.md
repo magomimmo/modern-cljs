@@ -197,22 +197,23 @@ follows:
 
 ```bash
 boot show -f pom -p org.clojars.magomimmo/valip -v 0.4.0-SNAPSHOT show -f
-valip
-├── core.cljc
-├── macros.clj
-└── predicates.cljc
+└── valip
+    ├── core.cljc
+    ├── macros.clj
+
+    └── predicates.cljc
 Writing pom.xml and pom.properties...
 
-META-INF
-└── maven
-    └── org.clojars.magomimmo
-        └── valip
-            ├── pom.properties
-            └── pom.xml
-valip
-├── core.cljc
-├── macros.clj
-└── predicates.cljc
+├── valip
+│   ├── core.cljc
+│   ├── macros.clj
+│   └── predicates.cljc
+└── META-INF
+    └── maven
+        └── org.clojars.magomimmo
+            └── valip
+                ├── pom.properties
+                └── pom.xmlc
 ```
 
 Initially, the `fileset` includes the `valip` source code files
@@ -247,18 +248,20 @@ Try it:
 ```bash
 boot pom -p org.clojars.magomimmo/valip -v 0.4.0-SNAPSHOT jar show -f
 Writing pom.xml and pom.properties...
+
 Writing valip-0.4.0-SNAPSHOT.jar...
-META-INF
-└── maven
-    └── org.clojars.magomimmo
-        └── valip
-            ├── pom.properties
-            └── pom.xml
-valip
-├── core.cljc
-├── macros.clj
-└── predicates.cljc
-valip-0.4.0-SNAPSHOT.jar
+
+├── valip
+│   ├── core.cljc
+│   ├── macros.clj
+│   └── predicates.cljc
+├── META-INF
+│   └── maven
+│       └── org.clojars.magomimmo
+│           └── valip
+│               ├── pom.properties
+│               └── pom.xml
+└── valip-0.4.0-SNAPSHOT.jar
 ```
 
 Do you see the `valip-0.4.0-SNAPSHOT.jar` file shown by the `show -f`
@@ -378,11 +381,13 @@ complete updated version of the `build.boot` build file for the
 (set-env!
  :source-paths #{"src"}
 
- :dependencies '[[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.228"]
-                 [adzerk/boot-test "1.1.0"]
-                 [adzerk/boot-cljs "1.7.170-3"]
-                 [crisptrutski/boot-cljs-test "0.2.1"]])
+ :dependencies '[[org.clojure/clojure "1.8.0"]
+                 [adzerk/boot-test "1.2.0"]
+                 [org.clojure/clojurescript "1.9.494"]
+                 [adzerk/boot-cljs "1.7.228-2"]
+                 [crisptrutski/boot-cljs-test "0.3.0"]
+                 [doo "0.1.7"]]
+                 )
 
 (require '[adzerk.boot-test :refer [test]]
          '[adzerk.boot-cljs :refer [cljs]]
@@ -430,25 +435,25 @@ working:
 ```bash
 boot tdd
 
-Starting file watcher (CTRL-C to quit)...
-
-Writing clj_test/suite.cljs...
-Writing output.cljs.edn...
 Compiling ClojureScript...
-• output.js
-Running cljs tests...
+• cljs_test/generated_test_suite.js
+
+;; ======================================================================
+;; Testing with Phantom:
+
+
 Testing valip.test.core
 
 Testing valip.test.predicates
 
-Ran 20 tests containing 91 assertions.
+Ran 20 tests containing 86 assertions.
 0 failures, 0 errors.
 
 Testing valip.test.core
 
 Testing valip.test.predicates
 
-Ran 21 tests containing 97 assertions.
+Ran 21 tests containing 90 assertions.
 0 failures, 0 errors.
 Elapsed time: 15.959 sec
 ```
@@ -539,13 +544,13 @@ instead of quickly proceeding with the `valip` installation:
 
 ```bash
 jar -tvf ~/.m2/repository/org/clojars/magomimmo/valip/0.4.0-SNAPSHOT/valip-0.4.0-SNAPSHOT.jar
-     0 Sun Jan 10 14:12:26 CET 2016 META-INF/
-     0 Sun Jan 10 14:12:26 CET 2016 META-INF/maven/
-     0 Sun Jan 10 14:12:26 CET 2016 META-INF/maven/org.clojars.magomimmo/
-     0 Sun Jan 10 14:12:26 CET 2016 META-INF/maven/org.clojars.magomimmo/valip/
-   158 Sun Jan 10 14:12:26 CET 2016 META-INF/maven/org.clojars.magomimmo/valip/pom.properties
-  1930 Sun Jan 10 14:12:26 CET 2016 META-INF/maven/org.clojars.magomimmo/valip/pom.xml
-    25 Sun Jan 10 14:12:26 CET 2016 META-INF/MANIFEST.MF
+     0 Mon Mar 06 18:01:43 CET 2017 META-INF/
+     0 Mon Mar 06 18:01:43 CET 2017 META-INF/maven/
+     0 Mon Mar 06 18:01:43 CET 2017 META-INF/maven/org.clojars.magomimmo/
+     0 Mon Mar 06 18:01:43 CET 2017 META-INF/maven/org.clojars.magomimmo/valip/
+  2136 Mon Mar 06 18:01:43 CET 2017 META-INF/maven/org.clojars.magomimmo/valip/pom.xml
+   158 Mon Mar 06 18:01:43 CET 2017 META-INF/maven/org.clojars.magomimmo/valip/pom.properties
+    25 Mon Mar 06 18:01:43 CET 2017 META-INF/MANIFEST.MF
 ```
 
 That's very bad. The locally installed `jar` package for the `valip`
@@ -605,17 +610,17 @@ Now list the content of the generated `jar` package file again
 
 ```bash
 jar -tvf ~/.m2/repository/org/clojars/magomimmo/valip/0.4.0-SNAPSHOT/valip-0.4.0-SNAPSHOT.jar
-     0 Sun Jan 10 15:25:14 CET 2016 valip/
-   995 Sun Jan 10 10:02:55 CET 2016 valip/core.cljc
-  1027 Sun Jan 10 10:02:55 CET 2016 valip/macros.clj
-  4944 Sun Jan 10 10:02:55 CET 2016 valip/predicates.cljc
-     0 Sun Jan 10 15:25:14 CET 2016 META-INF/
-     0 Sun Jan 10 15:25:14 CET 2016 META-INF/maven/
-     0 Sun Jan 10 15:25:14 CET 2016 META-INF/maven/org.clojars.magomimmo/
-     0 Sun Jan 10 15:25:14 CET 2016 META-INF/maven/org.clojars.magomimmo/valip/
-   158 Sun Jan 10 15:25:14 CET 2016 META-INF/maven/org.clojars.magomimmo/valip/pom.properties
-  1930 Sun Jan 10 15:25:14 CET 2016 META-INF/maven/org.clojars.magomimmo/valip/pom.xml
-    25 Sun Jan 10 15:25:14 CET 2016 META-INF/MANIFEST.MF
+     0 Mon Mar 06 18:09:25 CET 2017 META-INF/
+     0 Mon Mar 06 18:09:25 CET 2017 META-INF/maven/
+     0 Mon Mar 06 18:09:25 CET 2017 META-INF/maven/org.clojars.magomimmo/
+     0 Mon Mar 06 18:09:25 CET 2017 META-INF/maven/org.clojars.magomimmo/valip/
+  2136 Mon Mar 06 18:09:25 CET 2017 META-INF/maven/org.clojars.magomimmo/valip/pom.xml
+   158 Mon Mar 06 18:09:25 CET 2017 META-INF/maven/org.clojars.magomimmo/valip/pom.properties
+     0 Mon Mar 06 18:09:25 CET 2017 valip/
+  4961 Mon Mar 06 16:47:54 CET 2017 valip/predicates.cljc
+  1027 Mon Mar 06 16:47:31 CET 2017 valip/macros.clj
+   995 Tue Feb 28 18:17:17 CET 2017 valip/core.cljc
+    25 Mon Mar 06 18:09:25 CET 2017 META-INF/MANIFEST.MF
 ```
 
 That's much better. Run the `modern-cljs` again project to see the
@@ -624,27 +629,41 @@ result:
 ```bash
 cd /path/to/modern-cljs
 boot tdd
-...
+Starting reload server on ws://localhost:46523
+Writing boot_cljs_repl.cljs...
+2017-03-06 18:15:26.943:INFO::clojure-agent-send-off-pool-0: Logging initialized @21591ms
+2017-03-06 18:15:27.073:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
+2017-03-06 18:15:27.137:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@2a6e421a{HTTP/1.
+1}{0.0.0.0:3000}
+2017-03-06 18:15:27.138:INFO:oejs.Server:clojure-agent-send-off-pool-0: Started @21786ms
+Started Jetty on http://localhost:3000
+
+Starting file watcher (CTRL-C to quit)...
+
+
+Writing adzerk/boot_reload.cljs to connect to ws://localhost:46523...
+nREPL server started on port 38395 on host 127.0.0.1 - nrepl://127.0.0.1:38395
 Writing clj_test/suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.login.validators-test
 
 Testing modern-cljs.shopping.validators-test
 
-Ran 3 tests containing 57 assertions.
+Ran 3 tests containing 55 assertions.
 0 failures, 0 errors.
 
 Testing modern-cljs.login.validators-test
 
 Testing modern-cljs.shopping.validators-test
 
-Ran 4 tests containing 58 assertions.
+Ran 4 tests containing 56 assertions.
 0 failures, 0 errors.
 Writing target dir(s)...
-Elapsed time: 28.470 sec
+Elapsed time: 34.338 sec
 ```
 
 Now we are talking. Just to be sure that everything is still working
@@ -683,7 +702,7 @@ Let's first summarize what we already did with `valip`:
 * we added the remote upstream repo;
 * we created the `reader-conditionals` branch;
 * we modified the leiningen `project.clj` build file to update the CLJ
-  dependency from `1.4.0` to `1.7.0`;
+  dependency from `1.4.0` to `1.8.0`;
 * we made substantial changes to the `valip` source and test files to
   make it compatible with the Reader Conditionals extension of
   CLJ/CLJS compilers and to introduce few corner cases tests;
@@ -693,8 +712,7 @@ Let's first summarize what we already did with `valip`:
 * we qualified the new minor version as SNAPSHOT, because it's
   as-yet-unreleased;
 * we bootified `valip` by creating the corresponding `build.boot` build
-  file and the `boot.properties` file to pin the project to the
-  `2.5.5` release of `boot`;
+  file and the `boot.properties` file.
 * we tested the `valip` library in the context of the `modern-cljs`
   project by installing it into the local maven repository.
 
@@ -973,11 +991,12 @@ Here is the entire `build.boot` build file complete with dependencies scoping.
 (set-env!
  :source-paths #{"src"}
 
- :dependencies '[[org.clojure/clojure "1.7.0" :scope "provided"]
-                 [org.clojure/clojurescript "1.7.228" :scope "provided"]
-                 [adzerk/boot-test "1.1.0" :scope "test"]
-                 [adzerk/boot-cljs "1.7.170-3" :scope "test"]
-                 [crisptrutski/boot-cljs-test "0.2.1" :scope "test"]
+ :dependencies '[[org.clojure/clojure "1.8.0" :scope "provided"]
+                 [adzerk/boot-test "1.2.0" :scope "test"]
+                 [org.clojure/clojurescript "1.9.494" :scope "provided"]
+                 [adzerk/boot-cljs "1.7.228-2" :scope "test"]
+                 [crisptrutski/boot-cljs-test "0.3.0" :scope "test"]
+                 [doo "0.1.7" :scope "test"]
                  [adzerk/bootlaces "0.1.13" :scope "test"]])
 
 (require '[adzerk.boot-test :refer [test]]

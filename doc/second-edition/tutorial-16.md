@@ -258,7 +258,7 @@ previous `testing` task in the `tdd` task definition:
           :reload true)
    (add-source-paths :dirs #{"test/cljc"})      ; old name was testing
    (watch)
-   (reload)
+   (reload :ws-host "localhost")
    (cljs-repl)
    (test-cljs :out-file "main.js"
               :js-env :phantom
@@ -284,7 +284,7 @@ to the `:source-paths` variable.
             :reload true)
      (add-source-paths :dirs dirs)
      (watch)
-     (reload)
+     (reload :ws-host "localhost")
      (cljs-repl)
      (test-cljs :out-file "main.js"
                 :js-env :phantom
@@ -323,6 +323,7 @@ Now call it from the command line:
 boot tdd -t test/cljc
 ...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -365,16 +366,19 @@ Listens on port 3000 by default.
 
 Options:
   -h, --help                Print this help info.
-  -d, --dir PATH            Set the directory to serve; created if doesn't exist to PATH.
-  -H, --handler SYM         Set the ring handler to serve to SYM.
-  -i, --init SYM            Set a function to run prior to starting the server to SYM.
-  -c, --cleanup SYM         Set a function to run after the server stops to SYM.
-  -r, --resource-root ROOT  Set the root prefix when serving resources from classpath to ROOT.
-  -p, --port PORT           Set the port to listen on. (Default: 3000) to PORT.
+  -d, --dir PATH            PATH sets the directory to serve; created if doesn't exist.
+  -H, --handler SYM         SYM sets the ring handler to serve.
+  -i, --init SYM            SYM sets a function to run prior to starting the server.
+  -c, --cleanup SYM         SYM sets a function to run after the server stops.
+  -r, --resource-root ROOT  ROOT sets the root prefix when serving resources from classpath.
+  -p, --port PORT           PORT sets the port to listen on. (Default: 3000).
   -k, --httpkit             Use Http-kit server instead of Jetty
   -s, --silent              Silent-mode (don't output anything)
+  -t, --ssl                 Serve via Jetty SSL connector on localhost on default port 3443 using cert from ./boot-http-keystore.jks
+  -T, --ssl-props SSL       SSL sets override default SSL properties e.g. "{:port 3443, :keystore "boot-http-keystore.jks", :key-password "p@ssw0rd"}".
   -R, --reload              Reload modified namespaces on each request.
-  -n, --nrepl REPL          Set nREPL server parameters e.g. "{:port 3001, :bind "0.0.0.0"}" to REPL.
+  -n, --nrepl REPL          REPL sets nREPL server parameters e.g. "{:port 3001, :bind "0.0.0.0"}".
+  -N, --not-found SYM       SYM sets a ring handler for requested resources that aren't in your directory. Useful for pushState.
 ```
 
 Some of those `serve` task options could be useful for `tdd` as well:
@@ -397,13 +401,14 @@ Following is the `watch` task's help:
 boot watch -h
 Call the next handler when source files change.
 
-Debouncing time is 10ms by default.
-
 Options:
-  -h, --help     Print this help info.
-  -q, --quiet    Suppress all output from running jobs.
-  -v, --verbose  Print which files have changed.
-  -M, --manual   Use a manual trigger instead of a file watcher.
+  -h, --help           Print this help info.
+  -q, --quiet          Suppress all output from running jobs.
+  -v, --verbose        Print which files have changed.
+  -M, --manual         Use a manual trigger instead of a file watcher.
+  -d, --debounce MS    MS sets debounce time (how long to wait for filesystem events) in milliseconds.
+  -i, --include REGEX  Conj REGEX onto the set of regexes the paths of changed files must match for watch to fire.
+  -e, --exclude REGEX  Conj REGEX onto the set of regexes the paths of changed files must not match for watch to fire.
 ```
 
 Here the `-v` task option is the only one I'm currently interested in.
@@ -426,16 +431,25 @@ Examples:
 vim --remote +norm%sG%s| %s
 emacsclient -n +%s:%s %s
 
+Client options can also be set in .cljs.edn file, using property :boot-reload, e.g.
+:boot-reload {:on-jsload frontend.core/reload}
+
 Options:
-  -h, --help               Print this help info.
-  -b, --ids BUILD_IDS      Conj [BUILD IDS] onto only inject reloading into these builds (= .cljs.edn files)
-  -i, --ip ADDR            Set the (optional) IP address for the websocket server to listen on to ADDR.
-  -p, --port PORT          Set the (optional) port the websocket server listens on to PORT.
-  -w, --ws-host WSADDR     Set the (optional) websocket host address to pass to clients to WSADDR.
-  -j, --on-jsload SYM      Set the (optional) callback to call when JS files are reloaded to SYM.
-  -a, --asset-path PATH    Set the (optional) asset-path. This is removed from the start of reloaded urls to PATH.
-  -s, --secure             Flag to indicate whether the client should connect via wss. Defaults to false.
-  -o, --open-file COMMAND  Set the (optional) command to run when warning or exception is clicked on HUD. Passed to format to COMMAND.
+  -h, --help                  Print this help info.
+  -b, --ids BUILD_IDS         Conj [BUILD IDS] onto only inject reloading into these builds (= .cljs.edn files)
+  -i, --ip ADDR               ADDR sets the IP address for the websocket server to listen on. (optional).
+  -p, --port PORT             PORT sets the port the websocket server listens on. (optional).
+      --ws-port PORT          PORT sets the port the websocket will connect to. (optional).
+  -w, --ws-host WSADDR        WSADDR sets the websocket host clients connect to. Defaults to current host. (optional).
+  -s, --secure                Flag to indicate whether the client should connect via wss. Defaults to false.
+  -j, --on-jsload SYM         SYM sets the callback to call when JS files are reloaded. (client, optional).
+      --asset-host HOST       HOST sets the asset-host where to load files from. Defaults to host of opened page. (client, optional).
+  -a, --asset-path PATH       PATH sets sets the output directory for temporary files used during compilation. (optional).
+  -c, --cljs-asset-path PATH  PATH sets the actual asset path. This is added to the start of reloaded urls. (optional).
+  -o, --open-file COMMAND     COMMAND sets the command to run when warning or exception is clicked on HUD. Passed to format. (optional).
+  -v, --disable-hud           Toggle to disable HUD. Defaults to false (visible).
+  -t, --target-path VAL       VAL sets target path to load files from, used WHEN serving files using file: protocol. (optional).
+      --only-by-re REGEXES    Conj REGEXES onto vector of path regexes (for `boot.core/by-re`) to restrict reloads to only files within these paths (optional).
 ```
 
 Even if there are some very interesting options available for the future
@@ -508,7 +522,7 @@ Following is the `test` task's help:
 
 ```bash
 boot test -h
-Run clojure.test tests in a pod.
+Run clojure.test tests in a pod. Throws on test errors or failures.
 
 The --namespaces option specifies the namespaces to test. The default is to
 run tests in all namespaces found in the project.
@@ -519,12 +533,24 @@ The --filters option specifies Clojure expressions that are evaluated with %
 bound to a Var in a namespace under test. All must evaluate to true for a Var
 to be considered for testing by clojure.test/test-vars.
 
+The --junit-output-to option specifies the path to a directory relative to the
+target directory where a junit xml file for each test namespace will be
+generated by using the clojure.test.junit facility. When present it will make
+the target to be synced even when there are test errors or failures
+
 Options:
-  -h, --help                  Print this help info.
-  -n, --namespaces NAMESPACE  Conj NAMESPACE onto the set of namespace symbols to run tests in.
-  -e, --exclusions NAMESPACE  Conj NAMESPACE onto the set of namespace symbols to be excluded from test.
-  -f, --filters EXPR          Conj EXPR onto the set of expressions to use to filter namespaces.
-  -r, --requires REQUIRES     Conj REQUIRES onto extra namespaces to pre-load into the pool of test pods for speed.
+  -h, --help                      Print this help info.
+  -c, --clojure VERSION           VERSION sets the version of Clojure for testing.
+  -n, --namespaces NAMESPACE      Conj NAMESPACE onto the set of namespace symbols to run tests in.
+  -e, --exclusions NAMESPACE      Conj NAMESPACE onto the set of namespace symbols to be excluded from test.
+  -f, --filters EXPR              Conj EXPR onto the set of expressions to use to filter namespaces.
+  -X, --exclude REGEX             REGEX sets the filter for excluded namespaces.
+  -I, --include REGEX             REGEX sets the filter for included namespaces.
+  -r, --requires REQUIRES         Conj REQUIRES onto extra namespaces to pre-load into the pool of test pods for speed.
+  -s, --shutdown FN               Conj FN onto functions to be called prior to pod shutdown
+  -S, --startup FN                Conj FN onto functions to be called at pod startup
+  -j, --junit-output-to JUNITOUT  JUNITOUT sets the directory where a junit formatted report will be generated for each ns.
+
 ```
 
 For the `tdd` task, at the moment we are interested only in the `-n,
@@ -623,7 +649,7 @@ We are now ready to add the `-k` and `-v` options to the `tdd` task definition.
             :httpkit httpkit)
      (add-source-paths :dirs dirs)
      (watch :verbose verbose)
-     (reload)
+     (reload :ws-host "localhost")
      (cljs-repl)
      (test-cljs :out-file "main.js"
                 :js-env :phantom
@@ -701,6 +727,7 @@ the `watch` verbose option at work:
 
 ...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 ...
@@ -726,6 +753,7 @@ recompilation and rerun the tests.
 Writing suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -813,7 +841,7 @@ like the previous ones. Here is the updated `tdd` task definition:
             :port           port)
      (add-source-paths :dirs dirs)
      (watch :verbose verbose)
-     (reload)
+     (reload :ws-host "localhost")
      (cljs-repl)
      (test-cljs :out-file       output-to
                 :js-env         testbed
@@ -843,6 +871,7 @@ Starting file watcher (CTRL-C to quit)...
 
 ...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -931,6 +960,7 @@ boot tdd -O whitespace
 ...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -967,6 +997,7 @@ boot tdd -O advanced
 Writing suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -1063,6 +1094,7 @@ then without the `-n` option:
 boot tdd -n modern-cljs.shopping.validators-test
 ...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -1098,6 +1130,7 @@ nREPL server started on port 50275 on host 127.0.0.1 - nrepl://127.0.0.1:50275
 Writing clj_test/suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -1136,6 +1169,7 @@ Let's now see what happens if you create a failing test in the
 Writing clj_test/suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -1256,6 +1290,7 @@ For the moment, we have to accept a tradeoff:
 boot tdd -n modern-cljs.shopping.validators-test -n modern-cljs.login.validators-test
 ...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.login.validators-test
@@ -1390,8 +1425,9 @@ Here is the result in the running `tdd` task:
 Writing suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
-Running cljs tests...Unexpected response code: 400
+Running cljs tests...
 
 Testing modern-cljs.login.validators-test
 
@@ -1430,25 +1466,25 @@ Here is the reworked `build.boot` file:
  :source-paths #{"src/clj" "src/cljs" "src/cljc"}
  :resource-paths #{"html"}
 
- :dependencies '[ [org.clojure/clojure                 "1.7.0"]            ; add CLJ
-                  [org.clojure/clojurescript           "1.7.170"]          ; add CLJS
+ :dependencies '[ [org.clojure/clojure                 "1.8.0"]            ; add CLJ
+                  [org.clojure/clojurescript           "1.9.473"]          ; add CLJS
                   [org.clojure/tools.nrepl             "0.2.12"]           ; needed by bREPL
-                  [adzerk/boot-cljs                    "1.7.170-3"]
-                  [adzerk/boot-test                    "1.0.7"]
-                  [adzerk/boot-reload                  "0.4.2"]
+                  [adzerk/boot-cljs                    "1.7.228-2"]
+                  [adzerk/boot-test                    "1.2.0"]
+                  [adzerk/boot-reload                  "0.5.1"]
                   [adzerk/boot-cljs-repl               "0.3.0"]            ; add bREPL
                   [com.cemerick/piggieback             "0.2.1"]            ; needed by bREPL
-                  [compojure                           "1.4.0"]            ; for routing
+                  [compojure                           "1.5.2"]            ; for routing
                   [crisptrutski/boot-cljs-test         "0.2.1-SNAPSHOT"]
                   [enlive                              "1.1.6"]
                   [hiccups                             "0.3.0"]
-                  [javax.servlet/servlet-api           "2.5"]
-                  [pandeiro/boot-http                  "0.7.0"]
+                  [javax.servlet/javax.servlet-api     "3.1.0"]
+                  [pandeiro/boot-http                  "0.7.6"]
                   [weasel                              "0.7.0"]            ; needed by bREPL
 
                   [org.clojars.magomimmo/domina                     "2.0.0-SNAPSHOT"]
                   [org.clojars.magomimmo/valip                      "0.4.0-SNAPSHOT"]
-                  [org.clojars.magomimmo/shoreleave-remote-ring     "0.3.1"]
+                  [org.clojars.magomimmo/shoreleave-remote-ring     "0.3.3"]
                   [org.clojars.magomimmo/shoreleave-remote          "0.3.1"] ] )
 
 (require '[adzerk.boot-cljs               :refer [cljs]]
@@ -1492,7 +1528,7 @@ Here is the reworked `build.boot` file:
             :port port)
      (add-source-paths :dirs dirs)
      (watch :verbose verbose)
-     (reload)
+     (reload :ws-host "localhost")
      (cljs-repl)
      (test-cljs :out-file output-to
                 :js-env testbed

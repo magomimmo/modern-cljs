@@ -34,8 +34,8 @@ git checkout -b reagent-tutorial
 Obviously, this is not a tutorial on
 [React](https://facebook.github.io/react/docs/why-react.html) and I'm
 not going to explain its details. Still, I think that by porting to
-[Reagent](http://reagent-project.github.io/) the
-[official React introductory tutorial](https://facebook.github.io/react/docs/tutorial.html)
+[Reagent](http://reagent-project.github.io/) one of the
+[React introductory tutorials](https://github.com/facebook/react/blob/0.14-stable/docs/docs/tutorial.md)
 step by step, we could better appreciated the Reagent minimalism and
 eventually understand its different approach from React itself.
 
@@ -54,7 +54,7 @@ and manage different `node` versions.
 Open your terminal and do the following:
 
 ```bash
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
 ```
 
 > NOTE 1: On OSX, if you get `nvm: command not found` after running
@@ -66,19 +66,19 @@ You can now install `node` by issuing the following command at the
 terminal:
 
 ```bash
-nvm install 5.0
+nvm install 6
 ```
 
 Verify that both `node.js` and `npm` have been installed:
 
 ```bash
 node -v
-v5.10.0
+v6.10.0
 ```
 
 ```bash
 npm -v
-3.8.3
+3.10.10
 ```
 
 ### Clone and run the React Tutorial
@@ -89,22 +89,19 @@ and run the React Tutorial final web application as follows:
 ```bash
 git clone https://github.com/reactjs/react-tutorial.git
 Cloning into 'react-tutorial'...
-remote: Counting objects: 496, done.
-remote: Total 496 (delta 0), reused 0 (delta 0), pack-reused 496
-Receiving objects: 100% (496/496), 98.83 KiB | 0 bytes/s, done.
-Resolving deltas: 100% (246/246), done.
-Checking connectivity... done.
+remote: Counting objects: 546, done.
+remote: Total 546 (delta 0), reused 0 (delta 0), pack-reused 546
+Receiving objects: 100% (546/546), 109.85 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (263/263), done.
 ```
 
 ```bash
-cd react-tutorial
+cd react-tutorial/
 npm install
-react-tutorial@0.0.0 /Users/mimmo/tmp/react-tutorial
-├─┬ body-parser@1.15.0
+react-tutorial@0.0.0 /Users/mimmo/temp/react-tutorial
+├─┬ body-parser@1.17.0 
 ...
-  └── vary@1.0.1
-
-npm WARN react-tutorial@0.0.0 No license field.
+  └── vary@1.1.0 
 ```
 
 ```bash
@@ -152,7 +149,7 @@ the terminal to start from scratch:
 
 ```bash
 git reset --hard
-HEAD is now at 2be1a2d Use 15.0.1
+HEAD is now at ec8d845 remarkable 1.7.1
 ```
 
 ```bash
@@ -220,11 +217,11 @@ directory of the `react-tutorial` project folder.
     <title>React Tutorial</title>
     <!-- Not present in the tutorial. Just for basic styling. -->
     <link rel="stylesheet" href="css/base.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+    <script src="https://unpkg.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <script src="https://unpkg.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="https://unpkg.com/remarkable@1.7.1/dist/remarkable.min.js">
   </head>
   <body>
     <div id="content"></div>
@@ -242,9 +239,26 @@ There are a few things to be noted here:
 1. `<div id="content"></div>` represents the `root` HTML
    element to which the `CommentBox` component instance is to be
    attached;
-1. the inclusion of the [marked JS library][2] for rendering mardown text;
+1. the inclusion of the [remarkable JS library][2] for rendering mardown text. 
+   In order to simplify the porting to CLJS we decide to replace the library 
+   `remarkable` with the library [`marked`] (https://github.com/cljsjs/packages/tree/master/marked)
+   which is already packaged for CLJS. So we proceed to delete the line:
+
+   ```html
+    <script src="https://unpkg.com/remarkable@1.7.1/dist/remarkable.min.js"></script>
+   ```
+
+   and replace it with:
+
+   ```html
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+   ```
+
+   The library `marked`  was also used in an older version of the React tutorial.
 1. the `<script type="text/babel" src="scripts/example.js"></script>`
    `script` tag loading the `example.js` file we just coded
+
+
 
 The JSX code contained in the `example.js` file can't be
 interpreted as is in a browser. It first needs to pass through the
@@ -263,15 +277,13 @@ the latest available Reagent library to the `build.boot` of the
  ...
  :dependencies '[
                  ...
-                 [reagent "0.6.0-alpha2"]
+                 [reagent "0.6.0"]
                  [cljsjs/marked "0.3.5-0"]
                  ])
 ...
 ```
 
-Note that we also added the `cljsjs/marked "0.3.5-0"` JS external
-library. This is the same JS library used in the React Tutorial, and
-it is packaged to be used in a CLJS project. We'll see its use later.
+Note that we also added the cljsjs/marked "0.3.5-0" JS external library. This is the same JS library used in the React Tutorial, and it is packaged to be used in a CLJS project. We'll see its use later.
 
 Now create the `reagent.html` file in the `html` directory of the `modern-cljs`
 
@@ -395,13 +407,13 @@ a React Component.
 
 ```clj
 cljs.user> (require '[reagent.core :as r :refer [render]])
-nil
+
 ```
 
 ```clj
 cljs.user> (defn comment-box []
              [:div "Hello, world! I'm a comment-box"])
-#'cljs.user/component-box
+#'cljs.user/comment-box
 ```
 
 Believe it or not, such a simple function returning a vector is enough
@@ -424,7 +436,7 @@ Don't you believe it? Evaluate the following form at the bREPL:
 
 ```clj
 cljs.user> (render [comment-box] (.getElementById js/document "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Do you see the `Hello, world! I'm a comment-box` text in the page?
@@ -445,12 +457,12 @@ by yourself:
 
 ```clj
 cljs.user> (require-macros '[hiccups.core :refer [html]])
-nil
+
 ```
 
 ```clj
 cljs.user> (require '[hiccups.runtime])
-nil
+
 ```
 
 ```clj
@@ -541,12 +553,12 @@ project, we can simplify the previous `render` call as follows:
 
 ```clj
 cljs.user> (require '[domina.core :refer [by-id]])
-nil
+
 ```
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Let's move on.
@@ -642,7 +654,7 @@ component hierarchy:
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 The `reagent.html` page is immediately updated and you should see the following content
@@ -699,7 +711,7 @@ cljs.user> (comment-box)
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 The two scenarios becomes clearer if you add, and I suggest you to do
@@ -813,7 +825,7 @@ Let's see the result by re-rendering the `comment-box` root component
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 As soon as you evaluate the `render` function, the DOM of the
@@ -883,7 +895,7 @@ section of the `build.boot` at the beginning of the tutorial.
 
 ```clj
 cljs.user> (require '[cljsjs.marked])
-nil
+
 ```
 
 > NOTE 11: when you require an external JS library prepackaged for
@@ -942,7 +954,7 @@ Re-render the `comment-box` as usual
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Again, you immediately see the word *another* shown in *italics*
@@ -1095,7 +1107,7 @@ dynamically generate each comment in the `data` vector.
 
 ```clj
 cljs.user> (render [comment-box data] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Hopefully, even if you do not see any difference in the rendered page,
@@ -1240,7 +1252,7 @@ Copyright © Mimmo Cosenza, 2012-16. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md
-[2]: https://github.com/cljsjs/packages/tree/master/marked
+[2]: https://github.com/jonschlinkert/remarkable
 [3]: https://github.com/teropa/hiccups
 [4]: https://github.com/cgrand/enlive
 [5]: https://github.com/weavejester/hiccup/wiki/Syntax
