@@ -552,7 +552,7 @@ domina.set_value_BANG_.call(null,domina.by_id.call(null,"total"),(((quantity * p
 
 return false;
 }"]
-cljs.user> cljs.user> (s/calculate)
+cljs.user>(s/calculate)
 false
 ```
 
