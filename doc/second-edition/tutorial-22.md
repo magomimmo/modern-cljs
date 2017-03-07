@@ -740,7 +740,7 @@ modern-cljs.reagent> (defn comment-form []
 > we're not going to `POST` new comments to the server.
 
 Before rendering the `comment-box` component, if we want to use the
-`by-id` function form the `domina` library as we did before, we have
+`by-id` function from the `domina` library as we did before, we have
 to require its `domina.core` namespace in the `modern-cljs.reagent`
 current bREPL namespace as well:
 

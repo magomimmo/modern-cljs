@@ -737,7 +737,8 @@ and anyone may publish a lib to it.
 
 That said, if you want to push your own version of somebody else's
 library, which is our case, do not use the original `groupId`: use
-your personal `groupId`, e.g., `org.clojars.<your_github_name>`.
+your personal `groupId`, e.g., `org.clojars.<your_clojars_name>`.
+
 
 ### `bootlaces` task
 

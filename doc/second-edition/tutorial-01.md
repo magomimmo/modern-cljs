@@ -180,6 +180,8 @@ Implicit target dir is deprecated, please use the target task instead.
 Set BOOT_EMIT_TARGET=no to disable implicit target dir.
 ```
 
+[comment]: <>I have no warning with the command 'boot -h'
+
 Note that `boot` issues a warning saying that using an implicit
 target directory is deprecated. Instead you should use the `target`
 task and set `BOOT_EMIT_TARGET=no` to disable implicit target
