@@ -441,7 +441,8 @@ the `main.js` JS file as the `boot-cljs` task did, it generates the
 `output.js` JS file.
 
 > NOTE 4
-> The warning is no longer printed out from the version 0.3.0 of boot-test-cljs. Nonetheless I prefer to continue to use the old version 0.2.1 for a reason that will be clearer later.
+> The warning is no longer printed out from the version 0.3.0 of boot-test-cljs. 
+> Nonetheless I prefer to continue to use the old version 0.2.1 since the new one is still facing some problems [12].
 
 Now repeat the same experiments we did previously by modifying the
 unit test assertion in
@@ -545,7 +546,7 @@ combines the `test` and the `cljs-test` tasks.
    (target :dir #{"target"})))
 ```
 
-> Note 4: The above task composition mimics the same composition we
+> Note 5: The above task composition mimics the same composition we
 > previously created at the command line, and appends the `test` task
 > after the `test-cljs` task. The order of the two unit testing tasks
 > is important. A subsequent tutorial will better explain the Task
@@ -778,16 +779,6 @@ previous one in `build.boot`:
    (test :namespaces '#{modern-cljs.shopping.validators-test})
    (target :dir #{"target"})))
 ```
-
-> NOTE 5
-> In the "0.3.0" version of boot-test-cljs the parameter :out-file is deprecated and doesn't work.
-> Instead it suggests to use the `:ids [str]` parameter. The reason for this change is probrably to
-> conform the library to the use of .edn files, but it is still possible to avoid it, placing
-> a (cljs) task before the "test-cljs" one (i.e. we are using a different location for testing and running programs).
-> Of course this lead to a double up of operations time, since it recompiles the code twice.
-> So, to avoid this PITA I decided to remain to the 0.2.1 library.
- 
-
 
 ### Light the fire
 
@@ -1035,3 +1026,4 @@ License, the same as Clojure.
 [9]: https://en.wikipedia.org/wiki/Test-driven_development
 [10]: https://github.com/adzerk-oss/boot-test
 [11]: https://github.com/crisptrutski/boot-cljs-test
+[12]: https://github.com/crisptrutski/boot-cljs-test/issues/54
