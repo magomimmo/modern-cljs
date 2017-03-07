@@ -602,26 +602,24 @@ function which, in turn, should have been set as the value of the
 value of the `onload` property of the `window` object:
 
 ```clj
-cljs.user> (.-onload js/window)
-#object[modern_cljs$shopping$init "function modern_cljs$shopping$init(){
-if(cljs.core.truth_((function (){var and__4974__auto__ = document;
-if(cljs.core.truth_(and__4974__auto__)){
+cljs.user=> (.-onload js/window)
+#object[modern_cljs$login$init "function modern_cljs$login$init(){
+if(cljs.core.truth_((function (){var and__7101__auto__ = document;
+if(cljs.core.truth_(and__7101__auto__)){
 return document.getElementById;
 } else {
-return and__4974__auto__;
+return and__7101__auto__;
 }
 })())){
-var the_form = document.getElementById("shoppingForm");
-return the_form.onsubmit = modern_cljs.shopping.calculate;
+var login_form = document.getElementById("loginForm");
+return login_form.onsubmit = modern_cljs.login.validate_form;
 } else {
 return null;
 }
 }"]
 ```
 
-Oops, the `init` function assigned as the value for the `window`
-`onload` property is not the one we previously assigned to it, but
-the `init` function we defined for `shoppingForm`.
+Even more misteriously, the `init` function is the correct one, i.e. the one associated to the login form.
 
 What just happened has to do with the CLJS/Google Closure Compiler
 pair. They get every CLJS file from the `:source-paths` we set in the
