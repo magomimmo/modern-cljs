@@ -752,7 +752,8 @@ Let's try to rearrange the `tdd` task composition by:
 * prepending the `serve` task in the same way we did for the `dev`
   task;
 * adding the `reload` task to trigger the reloading of static
-  resources as we did for the `dev` task;
+  resources as we did for the `dev` task. I added the :ws-host
+  to specify the default host for web-socket;
 * adding the `cljs-repl` task immediately before the `test-cljs` task
   in the same way we did for the `dev` task;
 * passing the `"main.js"` value to the `:out-file` option for the
