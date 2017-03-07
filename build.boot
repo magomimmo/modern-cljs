@@ -4,14 +4,14 @@
 
  :dependencies '[
                  [org.clojure/clojure "1.8.0"]         ;; add CLJ
-                 [org.clojure/clojurescript "1.8.51"] ;; add CLJS
-                 [adzerk/boot-cljs "1.7.170-3"]
-                 [pandeiro/boot-http "0.7.3"]
-                 [adzerk/boot-reload "0.4.8"]
-                 [adzerk/boot-cljs-repl "0.3.0"]       ;; add bREPL
+                 [org.clojure/clojurescript "1.9.473"] ;; add CLJS
+                 [adzerk/boot-cljs "1.7.228-2"]
+                 [pandeiro/boot-http "0.7.6"]
+                 [adzerk/boot-reload "0.5.1"]
+                 [adzerk/boot-cljs-repl "0.3.3"]       ;; add bREPL
                  [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL
                  [weasel "0.7.0"]                      ;; needed by bREPL
-                 [org.clojure/tools.nrepl "0.2.12"]])    ;; needed by bREPL
+                 [org.clojure/tools.nrepl "0.2.12"]])    ;; needed by boot-http and  bREPL
 
 
 (require '[adzerk.boot-cljs :refer [cljs]]
