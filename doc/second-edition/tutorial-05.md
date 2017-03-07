@@ -619,7 +619,7 @@ return null;
 }"]
 ```
 
-Even more misteriously, the `init` function is the correct one, i.e. the one associated to the login form.
+Even more mysteriously, the `init` function is the correct one, i.e. the one associated to the login form.
 
 What just happened has to do with the CLJS/Google Closure Compiler
 pair. They get every CLJS file from the `:source-paths` we set in the
