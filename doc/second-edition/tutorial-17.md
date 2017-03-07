@@ -170,7 +170,7 @@ We now need to manipulate the HTML source to inject the eventual
 error/help message in the right place for each invalid input value
 typed in by the user.
 
-For example, if the user typed in "foo" as the value of the the
+For example, if the user typed in "foo" as the value of the
 `price` input field we'd like to show to her/him the following
 notification.
 

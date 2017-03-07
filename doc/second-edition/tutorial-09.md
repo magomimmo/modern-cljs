@@ -200,7 +200,7 @@ Let's add it to the `dependencies` section of the `build.boot` file.
  ...
  :dependencies '[
                  ...
-                 [compojure "1.4.0"]                   ;; routing lib
+                 [compojure "1.5.2"]                   ;; routing lib
                  ...
 ```
 
@@ -212,18 +212,18 @@ Here is the complete `build.boot` file
  :resource-paths #{"html"}
 
  :dependencies '[
-                 [org.clojure/clojure "1.7.0"]         ;; add CLJ
-                 [org.clojure/clojurescript "1.7.170"] ;; add CLJS
-                 [adzerk/boot-cljs "1.7.170-3"]        ;; CLJS compiler
-                 [pandeiro/boot-http "0.7.0"]          ;; web server
-                 [adzerk/boot-reload "0.4.2"]          ;; live reload
-                 [adzerk/boot-cljs-repl "0.3.0"]       ;; CLJS bREPL
+                 [org.clojure/clojure "1.8.0"]         ;; add CLJ
+                 [org.clojure/clojurescript "1.9.473"] ;; add CLJS
+                 [adzerk/boot-cljs "1.7.228-2"]        ;; CLJS compiler
+                 [pandeiro/boot-http "0.7.6"]          ;; web server
+                 [adzerk/boot-reload "0.5.1"]          ;; live reload
+                 [adzerk/boot-cljs-repl "0.3.3"]       ;; CLJS bREPL
                  [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
                  [weasel "0.7.0"]                      ;; needed by bREPL
                  [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
                  [org.clojars.magomimmo/domina "2.0.0-SNAPSHOT"] ;; DOM manip
                  [hiccups "0.3.0"]
-                 [compojure "1.4.0"]                   ;; routing lib
+                 [compojure "1.5.2"]                   ;; routing lib
                  ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
@@ -363,7 +363,7 @@ the `modern-cljs` series. So, instead of adding the canonical
 ```clj
   ...
   :dependencies '[...
-                   [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1"]
+                   [org.clojars.magomimmo/shoreleave-remote-ring "0.3.3"]
                    [org.clojars.magomimmo/shoreleave-remote "0.3.1"]
                  ]
 ```
@@ -490,7 +490,7 @@ development, as reported in the
 > into errors when executing tests or running alternative adapters. To
 > resolve this, include the following dependency in your dev profile:
 > 
-> `[javax.servlet/servlet-api "2.5"]`
+> `[javax.servlet/javax.servlet-api "3.1.0"]`
 
 In a future tutorial, we'll further investigate the `boot` way of managing
 configuration analagous to [leiningen profiles][42]. For the moment, we just want to
@@ -503,21 +503,21 @@ Here is the complete file:
  :resource-paths #{"html"}
 
  :dependencies '[
-                 [org.clojure/clojure "1.7.0"]         ;; add CLJ
-                 [org.clojure/clojurescript "1.7.170"] ;; add CLJS
-                 [adzerk/boot-cljs "1.7.170-3"]
-                 [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.2"]
-                 [adzerk/boot-cljs-repl "0.3.0"]       ;; add bREPL
+                 [org.clojure/clojure "1.8.0"]         ;; add CLJ
+                 [org.clojure/clojurescript "1.9.473"] ;; add CLJS
+                 [adzerk/boot-cljs "1.7.228-2"]
+                 [pandeiro/boot-http "0.7.6"]
+                 [adzerk/boot-reload "0.5.1"]
+                 [adzerk/boot-cljs-repl "0.3.3"]       ;; add bREPL
                  [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL 
                  [weasel "0.7.0"]                      ;; needed by bREPL
                  [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
                  [org.clojars.magomimmo/domina "2.0.0-SNAPSHOT"]
                  [hiccups "0.3.0"]
-                 [compojure "1.4.0"]                   ;; for routing
-                 [org.clojars.magomimmo/shoreleave-remote-ring "0.3.1"]
+                 [compojure "1.5.2"]                   ;; for routing
+                 [org.clojars.magomimmo/shoreleave-remote-ring "0.3.3"]
                  [org.clojars.magomimmo/shoreleave-remote "0.3.1"]
-                 [javax.servlet/servlet-api "2.5"]     ;; for dev only
+                 [javax.servlet/javax.servlet-api "3.1.0"]     ;; for dev only
                  ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]

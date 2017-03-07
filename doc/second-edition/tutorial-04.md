@@ -340,9 +340,21 @@ cljs.user=> js/window
 cljs.user=> js/document
 #object[HTMLDocument [object HTMLDocument]]
 cljs.user> js/console
-#object[Console [object Console]]
+#js {:debug #object[debug "function debug() {
+    [native code]
+}"], :error #object[error "function error() {
+    [native code]
+}"], :log #object[log "function log() {
+    [native code]
+}"], 
+...
+     :groupEnd #object[groupEnd "function groupEnd() {
+    [native code]
+}"]}
+
 ```
 
+[comment] <> the command js/console do not return a Console object but an object without name (anonymous?)
 As you see, when hosted by the JSVM of the browser, CLJS defines a
 `js` special namespace to allow accessing JS objects defined in the
 global space:

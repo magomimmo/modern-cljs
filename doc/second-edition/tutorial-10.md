@@ -38,7 +38,7 @@ capabilities.
 The lowest user experience is the one offered by a web application
 when the browser does not support JS (or it has been disabled by the
 user). The highest user experience is the one offered by a web
-application when the the browser supports JS and the application uses
+application when the browser supports JS and the application uses
 the Ajax communication model.
 
 Generally speaking, you should always start by first supporting the
@@ -533,7 +533,7 @@ this in the `domina.events` namespace it will save some typing.
 ```clj
 cljs.user> (in-ns 'domina.events)
 nil
-domina.events> (map keyword (gobj/getValues events/EventType))
+domina.events> (map keyword (goog.object/getValues goog.events/EventType))
 (:click :rightclick :dblclick :mousedown :mouseup :mouseover :mouseout
  :mousemove :mouseenter :mouseleave :selectstart :wheel :keypress
  :keydown :keyup :blur :focus :deactivate :DOMFocusIn :DOMFocusOut

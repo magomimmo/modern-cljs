@@ -48,7 +48,7 @@ The first thing we want to eliminate is the need to add the
 `test/cljc` directory to the `:source-paths` environment variable each
 time we start the IFDE runtime.
 
-Let's create a a new task in the `build.boot` configuration file and name it `testing`:
+Let's create a new task in the `build.boot` configuration file and name it `testing`:
 
 ```clj
 (deftask testing
@@ -172,7 +172,7 @@ for that job. Let's add it to our `build.boot` file as usual.
  ...
  :dependencies '[
                  ...
-                 [adzerk/boot-test "1.0.7"]
+                 [adzerk/boot-test "1.2.0"]
                  ])
 
 (require ...
@@ -415,6 +415,7 @@ Starting file watcher (CTRL-C to quit)...
 Writing suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • output.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -435,9 +436,13 @@ used `phantom` as headless browser, and we also passed the
 tests for.
 
 Secondly, the `boot-test-cljs` task internally uses the CLJS compiler
-by overwriting some default values. For example, instead of generating
+by overwriting some default values, as the :main option reported in the warning. Further more, instead of generating
 the `main.js` JS file as the `boot-cljs` task did, it generates the
 `output.js` JS file.
+
+> NOTE 4
+> The warning is no longer printed out from the version 0.3.0 of boot-test-cljs. 
+> Nonetheless I prefer to continue to use the old version 0.2.1 since the new one is still facing some [problems][12].
 
 Now repeat the same experiments we did previously by modifying the
 unit test assertion in
@@ -465,6 +470,7 @@ reported result:
 Writing suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • output.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -491,6 +497,7 @@ Correct the induced bug, save the file and wait for the new report:
 Writing suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • output.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -539,7 +546,7 @@ combines the `test` and the `cljs-test` tasks.
    (target :dir #{"target"})))
 ```
 
-> Note 4: The above task composition mimics the same composition we
+> Note 5: The above task composition mimics the same composition we
 > previously created at the command line, and appends the `test` task
 > after the `test-cljs` task. The order of the two unit testing tasks
 > is important. A subsequent tutorial will better explain the Task
@@ -561,6 +568,7 @@ Starting file watcher (CTRL-C to quit)...
 Writing suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • output.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -603,6 +611,7 @@ After you save the file you'll receive the following report:
 Writing suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • output.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -661,6 +670,7 @@ report:
 Writing suite.cljs...
 Writing output.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • output.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -742,7 +752,8 @@ Let's try to rearrange the `tdd` task composition by:
 * prepending the `serve` task in the same way we did for the `dev`
   task;
 * adding the `reload` task to trigger the reloading of static
-  resources as we did for the `dev` task;
+  resources as we did for the `dev` task. I added the :ws-host
+  to specify the default host for web-socket;
 * adding the `cljs-repl` task immediately before the `test-cljs` task
   in the same way we did for the `dev` task;
 * passing the `"main.js"` value to the `:out-file` option for the
@@ -760,7 +771,7 @@ previous one in `build.boot`:
           :reload true)
    (testing)
    (watch)
-   (reload)
+   (reload :ws-host "localhost")
    (cljs-repl)
    (test-cljs :out-file "main.js"
               :js-env :phantom
@@ -796,6 +807,7 @@ nREPL server started on port 51347 on host 127.0.0.1 - nrepl://127.0.0.1:51347
 Writing suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -817,7 +829,7 @@ sides (i.e. CLJ).
 Now visit the usual
 [Shopping Form](http://localhost:3000/shopping.html) and play with it.
 
-> NOTE 4: Remember that even if we already defined and tested the
+> NOTE 6: Remember that even if we already defined and tested the
 > validators for both the client and the server sides of the Shopping
 > Calculator, we still have to attach them to the form itself. So, if
 > you do not follow the happy path you'll get an error anyway.
@@ -849,7 +861,7 @@ Ran 1 tests containing 13 assertions.
 
 Still working.
 
-> NOTE 5: I use emacs+cider (release 0.10.0). It means that I can
+> NOTE 7: I use emacs+cider (release 0.10.0). It means that I can
 > create more `nrepl-client` connections with the running
 > `nrepl-server` implicitly started from the above `boot tdd`
 > command. I use one nrepl connection for the CLJ REPL, and second
@@ -903,6 +915,7 @@ confirmation, repeat the kind of forced failures we did before:
 Writing suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.shopping.validators-test
@@ -962,6 +975,7 @@ correct the forced bug and observe the report again:
 Writing suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...Unexpected response code: 400
 
@@ -1013,3 +1027,4 @@ License, the same as Clojure.
 [9]: https://en.wikipedia.org/wiki/Test-driven_development
 [10]: https://github.com/adzerk-oss/boot-test
 [11]: https://github.com/crisptrutski/boot-cljs-test
+[12]: https://github.com/crisptrutski/boot-cljs-test/issues/54
