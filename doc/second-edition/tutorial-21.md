@@ -95,7 +95,7 @@ remote: Total 546 (delta 0), reused 0 (delta 0), pack-reused 546
 Receiving objects: 100% (546/546), 109.85 KiB | 0 bytes/s, done.
 Resolving deltas: 100% (263/263), done.
 ```
-> NOTE 2 We set the head of the git repository to a specific commit to keep consistent with earlier versions of this tutorial.
+> NOTE 2: We set the head of the git repository to a specific commit in order to remain consistent with the earlier versions of this tutorial.
 
 ```bash
 cd react-tutorial/
@@ -219,11 +219,11 @@ directory of the `react-tutorial` project folder.
     <title>React Tutorial</title>
     <!-- Not present in the tutorial. Just for basic styling. -->
     <link rel="stylesheet" href="css/base.css" />
-    <script src="https://unpkg.com/react@15.3.0/dist/react.js"></script>
-    <script src="https://unpkg.com/react-dom@15.3.0/dist/react-dom.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-    <script src="https://unpkg.com/jquery@3.1.0/dist/jquery.min.js"></script>
-    <script src="https://unpkg.com/remarkable@1.7.1/dist/remarkable.min.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
   </head>
   <body>
     <div id="content"></div>
