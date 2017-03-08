@@ -604,22 +604,24 @@ recompilation and the re-execution of all defined tests:
 Writing clj_test/suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.login.validators-test
 
 Testing modern-cljs.shopping.validators-test
 
-Ran 3 tests containing 55 assertions.
+Ran 3 tests containing 61 assertions.
 0 failures, 0 errors.
 
 Testing modern-cljs.login.validators-test
 
 Testing modern-cljs.shopping.validators-test
 
-Ran 4 tests containing 56 assertions.
+Ran 4 tests containing 62 assertions.
 0 failures, 0 errors.
-Elapsed time: 2.513 sec
+Writing target dir(s)...
+Elapsed time: 9,245 sec
 ```
 
 I leave to you the addition of any other assertion you could be
@@ -908,22 +910,24 @@ source files and re-executes both the CLJS and the CLJ tests.
 Writing clj_test/suite.cljs...
 Writing main.cljs.edn...
 Compiling ClojureScript...
+WARNING: Replacing ClojureScript compiler option :main with automatically set value.
 • main.js
 Running cljs tests...
 Testing modern-cljs.login.validators-test
 
 Testing modern-cljs.shopping.validators-test
 
-Ran 3 tests containing 55 assertions.
+Ran 3 tests containing 61 assertions.
 0 failures, 0 errors.
 
 Testing modern-cljs.login.validators-test
 
 Testing modern-cljs.shopping.validators-test
 
-Ran 4 tests containing 56 assertions.
+Ran 4 tests containing 62 assertions.
 0 failures, 0 errors.
-Elapsed time: 2.347 sec
+Writing target dir(s)...
+Elapsed time: 9,245 sec
 ```
 
 As you remember, anytime you modify the exported `init` function that
