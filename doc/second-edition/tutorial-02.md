@@ -337,7 +337,6 @@ Options:
 
 The `cljs-repl` task has to be positioned just before the `cljs` task.
 
-[comment]: but in the exemple it is not before the cljs task
 
 The `cljs-repl` author also suggests being explicit about the `Clojure`
 and `ClojureScript` releases to be added in the dependencies section of
