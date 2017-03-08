@@ -354,7 +354,7 @@ cljs.user> js/console
 
 ```
 
-[comment] <> the command js/console do not return a Console object but an object without name (anonymous?)
+
 As you see, when hosted by the JSVM of the browser, CLJS defines a
 `js` special namespace to allow accessing JS objects defined in the
 global space:
