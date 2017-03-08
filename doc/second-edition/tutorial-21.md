@@ -88,12 +88,13 @@ and run the React Tutorial final web application as follows:
 
 ```bash
 git clone https://github.com/reactjs/react-tutorial.git
-git checkout 2be1a2d
 Cloning into 'react-tutorial'...
 remote: Counting objects: 546, done.
 remote: Total 546 (delta 0), reused 0 (delta 0), pack-reused 546
 Receiving objects: 100% (546/546), 109.85 KiB | 0 bytes/s, done.
 Resolving deltas: 100% (263/263), done.
+
+git checkout 2be1a2d
 ```
 > NOTE 2: We set the head of the git repository to a specific commit in order to remain consistent with the earlier versions of this tutorial.
 
@@ -151,7 +152,7 @@ the terminal to start from scratch:
 
 ```bash
 git reset --hard
-HEAD is now at ec8d845 remarkable 1.7.1
+HEAD is now at 2be1a2d... Use 15.0.1
 ```
 
 ```bash
@@ -241,22 +242,7 @@ There are a few things to be noted here:
 1. `<div id="content"></div>` represents the `root` HTML
    element to which the `CommentBox` component instance is to be
    attached;
-1. the inclusion of the [remarkable JS library][2] for rendering mardown text. 
-   In order to simplify the porting to CLJS we decide to replace the library 
-   `remarkable` with the library [`marked`] (https://github.com/cljsjs/packages/tree/master/marked)
-   which is already packaged for CLJS. So we proceed to delete the line:
-
-   ```html
-    <script src="https://unpkg.com/remarkable@1.7.1/dist/remarkable.min.js"></script>
-   ```
-
-   and replace it with:
-
-   ```html
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-   ```
-
-   The library `marked`  was also used in an older version of the React tutorial.
+1. the inclusion of the [marked JS library][2] for rendering mardown text;
 1. the `<script type="text/babel" src="scripts/example.js"></script>`
    `script` tag loading the `example.js` file we just coded
 
@@ -1254,7 +1240,7 @@ Copyright © Mimmo Cosenza, 2012-16. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-20.md
-[2]: https://github.com/jonschlinkert/remarkable
+[2]: https://github.com/cljsjs/packages/tree/master/marked
 [3]: https://github.com/teropa/hiccups
 [4]: https://github.com/cgrand/enlive
 [5]: https://github.com/weavejester/hiccup/wiki/Syntax
