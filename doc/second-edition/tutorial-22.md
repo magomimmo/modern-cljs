@@ -82,17 +82,17 @@ the bREPL:
 
 ```clj
 cljs.user> (require '[reagent.core :as r :refer [render]])
-nil
+
 ```
 
 ```clj
 cljs.user> (require '[domina.core :refer [by-id]])
-nil
+
 ```
 
 ```clj
 cljs.user> (require '[modern-cljs.reagent :refer [comment-box data]])
-nil
+
 ```
 
 > NOTE 1: the latest requirement is needed to make the `comment-box` and
@@ -105,7 +105,7 @@ Reagent `render`function:
 
 ```clj
 cljs.user> (render [comment-box data] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 You should now see the content of the `reagent.html` page.
@@ -427,6 +427,8 @@ The
 do a terrific job explaining Reagent and I strongly reccomend you
 read it several times, until you really grasp the entire content.
 
+
+
 That said, Reagent offers its own version of the standard CLJS `atom`
 definition, AKA `ratom`, supporting the same `atom` protocol
 (e.g. `swap!`, `reset!`, etc.) plus something new, as you can read
@@ -501,7 +503,7 @@ Next, re-render the `comment-box` in the `"content"` div as usual:
 
 ```clj
 cljs.user> (render [comment-box data] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Finally, swap the content of the `ratom` by adding a new comment to
@@ -738,20 +740,20 @@ modern-cljs.reagent> (defn comment-form []
 > we're not going to `POST` new comments to the server.
 
 Before rendering the `comment-box` component, if we want to use the
-`by-id` function form the `domina` library as we did before, we have
+`by-id` function from the `domina` library as we did before, we have
 to require its `domina.core` namespace in the `modern-cljs.reagent`
 current bREPL namespace as well:
 
 ```clj
 modern-cljs.reagent> (require '[domina.core :as dom :refer [by-id]])
-nil
+
 ```
 
 Let's now render the `comment-box` as usual:
 
 ```clj
 modern-cljs.reagent> (r/render [comment-box data] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 You should immediately see the `comment-form` component in your
@@ -764,7 +766,7 @@ We already used a `ratom` to manage the state of the `data` vector of
 maps recording comments. But this case is different. We need a local
 state, not a global one as it is `data`.
 
-Before to be able to create a local `ratom` to manage the local state
+Before creating a local `ratom` to manage the local state
 of a Reagent component, we need to digress about a very important
 Reagent topic: the three different ways to create a Reagent
 component. In this tutorial we're not using the third way, known as
@@ -850,7 +852,7 @@ component at the bREPL
 
 ```clj
 modern-cljs.reagent> (r/render [comment-box data] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 you'll see that both the `author` and the `text` input components do
@@ -904,7 +906,7 @@ The very last step in porting to Reagent the final version of the
 React Tutorial concerns the `:on-click` event associated with the
 `Post` button.
 
-> NOTE 7: as we decided to not port to Reagent the custom backend and
+> NOTE 7: as we decided not to port to Reagent the custom backend and
 > the corresponding ajax call to set/get comments to/from it, we
 > substituted the `submit` input type with the `button` input
 > type. Consequently, instead of having to manage the form
@@ -924,7 +926,7 @@ The `trim` function and the `blank?` predicate are included in the
 
 ```clj
 modern-cljs.reagent> (require '[clojure.string :as s :refer [trim blank?]])
-nil
+
 modern-cljs.reagent> (trim "   trim me    ")
 "trim me"
 modern-cljs.reagent> (blank? nil)
@@ -988,7 +990,7 @@ Re-render the `comment-box` root component as usual:
 
 ```clj
 modern-cljs.reagent> (r/render [comment-box data] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 You should now be able to add new comments by using the `comment-form`

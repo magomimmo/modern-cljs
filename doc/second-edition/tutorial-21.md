@@ -34,8 +34,8 @@ git checkout -b reagent-tutorial
 Obviously, this is not a tutorial on
 [React](https://facebook.github.io/react/docs/why-react.html) and I'm
 not going to explain its details. Still, I think that by porting to
-[Reagent](http://reagent-project.github.io/) the
-[official React introductory tutorial](https://facebook.github.io/react/docs/tutorial.html)
+[Reagent](http://reagent-project.github.io/) one of the
+[React introductory tutorials](https://github.com/facebook/react/blob/0.14-stable/docs/docs/tutorial.md)
 step by step, we could better appreciated the Reagent minimalism and
 eventually understand its different approach from React itself.
 
@@ -54,7 +54,7 @@ and manage different `node` versions.
 Open your terminal and do the following:
 
 ```bash
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
 ```
 
 > NOTE 1: On OSX, if you get `nvm: command not found` after running
@@ -66,19 +66,19 @@ You can now install `node` by issuing the following command at the
 terminal:
 
 ```bash
-nvm install 5.0
+nvm install 6
 ```
 
 Verify that both `node.js` and `npm` have been installed:
 
 ```bash
 node -v
-v5.10.0
+v6.10.0
 ```
 
 ```bash
 npm -v
-3.8.3
+3.10.10
 ```
 
 ### Clone and run the React Tutorial
@@ -89,22 +89,22 @@ and run the React Tutorial final web application as follows:
 ```bash
 git clone https://github.com/reactjs/react-tutorial.git
 Cloning into 'react-tutorial'...
-remote: Counting objects: 496, done.
-remote: Total 496 (delta 0), reused 0 (delta 0), pack-reused 496
-Receiving objects: 100% (496/496), 98.83 KiB | 0 bytes/s, done.
-Resolving deltas: 100% (246/246), done.
-Checking connectivity... done.
+remote: Counting objects: 546, done.
+remote: Total 546 (delta 0), reused 0 (delta 0), pack-reused 546
+Receiving objects: 100% (546/546), 109.85 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (263/263), done.
+
+git checkout 2be1a2d
 ```
+> NOTE 2: We set the head of the git repository to a specific commit in order to remain consistent with the earlier versions of this tutorial.
 
 ```bash
-cd react-tutorial
+cd react-tutorial/
 npm install
-react-tutorial@0.0.0 /Users/mimmo/tmp/react-tutorial
-├─┬ body-parser@1.15.0
+react-tutorial@0.0.0 /Users/mimmo/temp/react-tutorial
+├─┬ body-parser@1.17.0 
 ...
-  └── vary@1.0.1
-
-npm WARN react-tutorial@0.0.0 No license field.
+  └── vary@1.1.0 
 ```
 
 ```bash
@@ -112,7 +112,7 @@ PORT=3001 node server.js
 Server started: http://localhost:3001/
 ```
 
-> NOTE 2: I set node's http server port to `3001` so that
+> NOTE 3: I set node's http server port to `3001` so that
 > its [express server](http://expressjs.com/) would not clash with the default
 > `3000` port number of the clojure web server we're going to launch later.
 
@@ -136,7 +136,7 @@ Nothing new under the sun. What is new, aside from the performance
 that we can't appreciate with such a simple sample, is well hidden
 under the hood.
 
-> NOTE 3: In the above image you'll note that the first newly added
+> NOTE 4: In the above image you'll note that the first newly added
 > comment contains a link and the second comment contains a word in
 > bold. This is because the `<input>` element for the comment is able
 > to parse `markdown` text.
@@ -152,7 +152,7 @@ the terminal to start from scratch:
 
 ```bash
 git reset --hard
-HEAD is now at 2be1a2d Use 15.0.1
+HEAD is now at 2be1a2d... Use 15.0.1
 ```
 
 ```bash
@@ -246,6 +246,8 @@ There are a few things to be noted here:
 1. the `<script type="text/babel" src="scripts/example.js"></script>`
    `script` tag loading the `example.js` file we just coded
 
+
+
 The JSX code contained in the `example.js` file can't be
 interpreted as is in a browser. It first needs to pass through the
 [`babel transpiler`](https://babeljs.io/) to be transformed into JS
@@ -263,15 +265,13 @@ the latest available Reagent library to the `build.boot` of the
  ...
  :dependencies '[
                  ...
-                 [reagent "0.6.0-alpha2"]
+                 [reagent "0.6.0"]
                  [cljsjs/marked "0.3.5-0"]
                  ])
 ...
 ```
 
-Note that we also added the `cljsjs/marked "0.3.5-0"` JS external
-library. This is the same JS library used in the React Tutorial, and
-it is packaged to be used in a CLJS project. We'll see its use later.
+Note that we also added the cljsjs/marked "0.3.5-0" JS external library. This is the same JS library used in the React Tutorial, and it is packaged to be used in a CLJS project. We'll see its use later.
 
 Now create the `reagent.html` file in the `html` directory of the `modern-cljs`
 
@@ -327,7 +327,7 @@ touch src/cljs/modern_cljs/reagent.cljs
             [cljsjs.marked]))
 ```
 
-> NOTE 4: As we saw in previous tutorials, to be able to use in
+> NOTE 5: As we saw in previous tutorials, to be able to use in
 > the bREPL a library never used before by other namespaces of the
 > project, we first need to require its namespace in a CLJS file,
 > otherwise the bREPL is not able to access it.
@@ -347,7 +347,7 @@ Writing target dir(s)...
 Elapsed time: 32.980 sec
 ```
 
-> NOTE 5: we could have launched `boot tdd` instead. But at the moment
+> NOTE 6: we could have launched `boot tdd` instead. But at the moment
 > we're not interested in executing any tests. We only want to learn
 > about Reagent by interacting with it at the bREPL.
 
@@ -384,7 +384,7 @@ nil
 cljs.user=>
 ```
 
-> NOTE 6: as soon as you visit 
+> NOTE 7: as soon as you visit 
 > [localhost:3000/reagent.html](http://localhost:3000/reagent.html),
 > the bREPL connects to the browser's JS engine and is
 > ready to evaluate CLJS expressions.
@@ -395,13 +395,13 @@ a React Component.
 
 ```clj
 cljs.user> (require '[reagent.core :as r :refer [render]])
-nil
+
 ```
 
 ```clj
 cljs.user> (defn comment-box []
              [:div "Hello, world! I'm a comment-box"])
-#'cljs.user/component-box
+#'cljs.user/comment-box
 ```
 
 Believe it or not, such a simple function returning a vector is enough
@@ -424,14 +424,14 @@ Don't you believe it? Evaluate the following form at the bREPL:
 
 ```clj
 cljs.user> (render [comment-box] (.getElementById js/document "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Do you see the `Hello, world! I'm a comment-box` text in the page?
 The above `render` call corresponds to the `ReactDOM.render` function
 call used with React.
 
-> NOTE 7: being clojurean, we used `kebab-case` names
+> NOTE 8: being clojurean, we used `kebab-case` names
 > (i.e. `comment-box`) instead of `CamelCase` names
 > (i.e. `CommentBox`).
 
@@ -445,12 +445,12 @@ by yourself:
 
 ```clj
 cljs.user> (require-macros '[hiccups.core :refer [html]])
-nil
+
 ```
 
 ```clj
 cljs.user> (require '[hiccups.runtime])
-nil
+
 ```
 
 ```clj
@@ -541,12 +541,12 @@ project, we can simplify the previous `render` call as follows:
 
 ```clj
 cljs.user> (require '[domina.core :refer [by-id]])
-nil
+
 ```
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Let's move on.
@@ -642,14 +642,14 @@ component hierarchy:
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 The `reagent.html` page is immediately updated and you should see the following content
 
 ![Reagent Composing Components](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-tut-01.png)
 
-> NOTE 8: remember that you always have to define a component
+> NOTE 9: remember that you always have to define a component
 > hierarchy with one `root` component only (e.g. the above `:div`).
 
 So far, so good. We replicated in Reagent the same components
@@ -666,7 +666,7 @@ cljs.user> (comment-box)
   [#object[...]]]  ;; comment-form function object
 ```
 
-> NOTE 9: the output has been manually simplified to make it more readable
+> NOTE 10: the output has been manually simplified to make it more readable
 
 The concept should be evident. This is just a standard application of
 the Clojure(Script) evaluation rules for vectors: each item in a
@@ -699,7 +699,7 @@ cljs.user> (comment-box)
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 The two scenarios becomes clearer if you add, and I suggest you to do
@@ -788,7 +788,7 @@ cljs.user> (defn comment-component [author text]
 #'cljs.user/comment-component
 ```
 
-> NOTE 10: the `comment` symbol is already taken by the `cljs.core`
+> NOTE 11: the `comment` symbol is already taken by the `cljs.core`
 > namespace. This is why we preferred to name the new component as
 > `comment-component`.
 
@@ -813,7 +813,7 @@ Let's see the result by re-rendering the `comment-box` root component
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 As soon as you evaluate the `render` function, the DOM of the
@@ -883,10 +883,10 @@ section of the `build.boot` at the beginning of the tutorial.
 
 ```clj
 cljs.user> (require '[cljsjs.marked])
-nil
+
 ```
 
-> NOTE 11: when you require an external JS library prepackaged for
+> NOTE 12: when you require an external JS library prepackaged for
 > use by CLJS you can refer its symbols by using the `js`
 > fictitious namespace.
 
@@ -902,7 +902,7 @@ cljs.user> (js/marked "This is <em>another</em> comment." #js {:sanitize true})
 "<p>This is &lt;em&gt;another&lt;/em&gt; comment.</p>\n"
 ```
 
-> NOTE 12: the `js/marked` function expects a JS object as a second
+> NOTE 13: the `js/marked` function expects a JS object as a second
 > optional argument. `#js` tagged literal transforms a CLJS structure
 > (a CLJS map in this case) into a JS corresponding structure (a JS
 > object in this case). #js is not recursive. If you need to transform
@@ -935,14 +935,14 @@ cljs.user> (defn comment-component [author comment]
 #'cljs.user/comment-component
 ```
 
-> NOTE 13: the `dangerouslySetInnerHTML` attribute expects a JS object
+> NOTE 14: the `dangerouslySetInnerHTML` attribute expects a JS object
 > as a value. See above for the use of the `#js` tagged literal.
 
 Re-render the `comment-box` as usual
 
 ```clj
 cljs.user> (render [comment-box] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Again, you immediately see the word *another* shown in *italics*
@@ -966,7 +966,7 @@ var data = [
 ];
 ```
 
-> NOTE 14: note the newly added `id` attribute.
+> NOTE 15: note the newly added `id` attribute.
 
 Now, instead of manually instantiating the `Comment` components in the
 `CommentList` component, the `CommentBox` component has to get the
@@ -1013,7 +1013,7 @@ The updated `render` function creates a new `Comment` node for each
 available comment contained in the `data` variable and finally returns
 the accumulated `Comment` components it created.
 
-> NOTE 15: note the newly defined `key` attribute getting the value
+> NOTE 16: note the newly defined `key` attribute getting the value
 > from the comment `id`.
 
 Finally we have to refactor the `ReactDOM.render` function as well,
@@ -1095,7 +1095,7 @@ dynamically generate each comment in the `data` vector.
 
 ```clj
 cljs.user> (render [comment-box data] (by-id "content"))
-#object[Object [object Object]]
+#object[Constructor [object Object]]
 ```
 
 Hopefully, even if you do not see any difference in the rendered page,

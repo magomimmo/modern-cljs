@@ -164,7 +164,7 @@ Following is the content of the newly created `validators.cljc` file.
 
             ;; validate range
 
-            [:quantity (gt 0) "Quantity can't be negative"]
+            [:quantity (gt -0.1) "Quantity can't be negative"]
 
             ;; other specific platform validations (not at the moment)
 

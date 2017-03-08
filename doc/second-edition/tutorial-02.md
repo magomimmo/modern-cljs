@@ -51,8 +51,9 @@ located in the `modern-cljs` home directory.
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
  
- :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
-                 [pandeiro/boot-http "0.7.0"]]) ;; add http dependency
+ :dependencies '[[adzerk/boot-cljs "1.7.228-2"]
+                 [pandeiro/boot-http "0.7.6"]         ;; add http dependency
+                 [org.clojure/tools.nrepl "0.2.12"]]) ;; required by boot-http
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]) ;; make serve task visible
@@ -65,7 +66,7 @@ the project dependencies and made the `serve` task visible to the
 Note that we're still implicitly exploiting a few `boot` defaults:
 
 * the use of Clojure 1.7.0, defined in the `boot.properties` file;
-* the use of ClojureScript 1.7.170, implicitly imported by the
+* the use of ClojureScript 1.7.228, implicitly imported by the
   `boot-cljs` dependency;
 
 As usual let's take a look at the help documentation of the newly
@@ -234,9 +235,10 @@ visible to `boot` by requiring its primary command:
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
 
- :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
-                 [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.9"]]) ;; add boot-reload
+ :dependencies '[[adzerk/boot-cljs "1.7.228-2"]
+                 [pandeiro/boot-http "0.7.6"]
+                 [adzerk/boot-reload "0.5.1"]       ;; add boot-reload
+		 [org.clojure/tools.nrepl "0.2.12"]]) 
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
@@ -301,10 +303,11 @@ command at the terminal.
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
 
- :dependencies '[[adzerk/boot-cljs "1.7.170-3"]
-                 [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.9"]
-                 [adzerk/boot-cljs-repl "0.3.0"]]) ;; add bREPL
+ :dependencies '[[adzerk/boot-cljs "1.7.228-2"]
+                 [pandeiro/boot-http "0.7.6"]
+                 [adzerk/boot-reload "0.5.1"]
+                 [org.clojure/tools.nrepl "0.2.12"]
+                 [adzerk/boot-cljs-repl "0.3.3"]])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
@@ -333,6 +336,8 @@ Options:
 ```
 
 The `cljs-repl` task has to be positioned just before the `cljs` task.
+
+
 The `cljs-repl` author also suggests being explicit about the `Clojure`
 and `ClojureScript` releases to be added in the dependencies section of
 the `build.boot` build file.
@@ -342,12 +347,13 @@ the `build.boot` build file.
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
 
- :dependencies '[[org.clojure/clojure "1.7.0"]         ;; add CLJ
-                 [org.clojure/clojurescript "1.7.170"] ;; add CLJS
-                 [adzerk/boot-cljs "1.7.170-3"]
-                 [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.9"]
-                 [adzerk/boot-cljs-repl "0.3.0"]
+ :dependencies '[[org.clojure/clojure "1.8.0"]         ;; add CLJ
+                 [org.clojure/clojurescript "1.9.473"] ;; add CLJS
+                 [adzerk/boot-cljs "1.7.228-2"]
+                 [pandeiro/boot-http "0.7.6"]
+		 [org.clojure/tools.nrepl "0.2.12"]
+                 [adzerk/boot-reload "0.5.1"]
+                 [adzerk/boot-cljs-repl "0.3.3"]
                  ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
@@ -379,26 +385,27 @@ dependencies and you have to explicitly add them in the
 `:dependencies` section of the `build.boot` file:
 
 ```clj
+
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
 
- :dependencies '[
-                 [org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.170"]
-                 [adzerk/boot-cljs "1.7.170-3"]
-                 [pandeiro/boot-http "0.7.0"]
-                 [adzerk/boot-reload "0.4.9"]
-                 [adzerk/boot-cljs-repl "0.3.0"]
+ :dependencies '[[org.clojure/clojure "1.8.0"]         ;; add CLJ
+                 [org.clojure/clojurescript "1.9.473"] ;; add CLJS
+                 [adzerk/boot-cljs "1.7.228-2"]
+                 [pandeiro/boot-http "0.7.6"]
+                 [org.clojure/tools.nrepl "0.2.12"]
+                 [adzerk/boot-reload "0.5.1"]
+                 [adzerk/boot-cljs-repl "0.3.3"]
                  [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL
                  [weasel "0.7.0"]                      ;; needed by bREPL
-                 [org.clojure/tools.nrepl "0.2.12"]    ;; needed by bREPL
-                 ])
+		 ])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
          '[adzerk.boot-reload :refer [reload]]
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
+
 ```
 
 > NOTE 3: At the moment we don't take care of the `:scope` of the
