@@ -88,12 +88,14 @@ and run the React Tutorial final web application as follows:
 
 ```bash
 git clone https://github.com/reactjs/react-tutorial.git
+git checkout 2be1a2d
 Cloning into 'react-tutorial'...
 remote: Counting objects: 546, done.
 remote: Total 546 (delta 0), reused 0 (delta 0), pack-reused 546
 Receiving objects: 100% (546/546), 109.85 KiB | 0 bytes/s, done.
 Resolving deltas: 100% (263/263), done.
 ```
+> NOTE 2 We set the head of the git repository to a specific commit to keep consistent with earlier versions of this tutorial.
 
 ```bash
 cd react-tutorial/
@@ -109,7 +111,7 @@ PORT=3001 node server.js
 Server started: http://localhost:3001/
 ```
 
-> NOTE 2: I set node's http server port to `3001` so that
+> NOTE 3: I set node's http server port to `3001` so that
 > its [express server](http://expressjs.com/) would not clash with the default
 > `3000` port number of the clojure web server we're going to launch later.
 
@@ -133,7 +135,7 @@ Nothing new under the sun. What is new, aside from the performance
 that we can't appreciate with such a simple sample, is well hidden
 under the hood.
 
-> NOTE 3: In the above image you'll note that the first newly added
+> NOTE 4: In the above image you'll note that the first newly added
 > comment contains a link and the second comment contains a word in
 > bold. This is because the `<input>` element for the comment is able
 > to parse `markdown` text.
@@ -339,7 +341,7 @@ touch src/cljs/modern_cljs/reagent.cljs
             [cljsjs.marked]))
 ```
 
-> NOTE 4: As we saw in previous tutorials, to be able to use in
+> NOTE 5: As we saw in previous tutorials, to be able to use in
 > the bREPL a library never used before by other namespaces of the
 > project, we first need to require its namespace in a CLJS file,
 > otherwise the bREPL is not able to access it.
@@ -359,7 +361,7 @@ Writing target dir(s)...
 Elapsed time: 32.980 sec
 ```
 
-> NOTE 5: we could have launched `boot tdd` instead. But at the moment
+> NOTE 6: we could have launched `boot tdd` instead. But at the moment
 > we're not interested in executing any tests. We only want to learn
 > about Reagent by interacting with it at the bREPL.
 
@@ -396,7 +398,7 @@ nil
 cljs.user=>
 ```
 
-> NOTE 6: as soon as you visit 
+> NOTE 7: as soon as you visit 
 > [localhost:3000/reagent.html](http://localhost:3000/reagent.html),
 > the bREPL connects to the browser's JS engine and is
 > ready to evaluate CLJS expressions.
@@ -443,7 +445,7 @@ Do you see the `Hello, world! I'm a comment-box` text in the page?
 The above `render` call corresponds to the `ReactDOM.render` function
 call used with React.
 
-> NOTE 7: being clojurean, we used `kebab-case` names
+> NOTE 8: being clojurean, we used `kebab-case` names
 > (i.e. `comment-box`) instead of `CamelCase` names
 > (i.e. `CommentBox`).
 
@@ -661,7 +663,7 @@ The `reagent.html` page is immediately updated and you should see the following 
 
 ![Reagent Composing Components](https://github.com/magomimmo/modern-cljs/blob/master/doc/images/reagent-tut-01.png)
 
-> NOTE 8: remember that you always have to define a component
+> NOTE 9: remember that you always have to define a component
 > hierarchy with one `root` component only (e.g. the above `:div`).
 
 So far, so good. We replicated in Reagent the same components
@@ -678,7 +680,7 @@ cljs.user> (comment-box)
   [#object[...]]]  ;; comment-form function object
 ```
 
-> NOTE 9: the output has been manually simplified to make it more readable
+> NOTE 10: the output has been manually simplified to make it more readable
 
 The concept should be evident. This is just a standard application of
 the Clojure(Script) evaluation rules for vectors: each item in a
@@ -800,7 +802,7 @@ cljs.user> (defn comment-component [author text]
 #'cljs.user/comment-component
 ```
 
-> NOTE 10: the `comment` symbol is already taken by the `cljs.core`
+> NOTE 11: the `comment` symbol is already taken by the `cljs.core`
 > namespace. This is why we preferred to name the new component as
 > `comment-component`.
 
@@ -898,7 +900,7 @@ cljs.user> (require '[cljsjs.marked])
 
 ```
 
-> NOTE 11: when you require an external JS library prepackaged for
+> NOTE 12: when you require an external JS library prepackaged for
 > use by CLJS you can refer its symbols by using the `js`
 > fictitious namespace.
 
@@ -914,7 +916,7 @@ cljs.user> (js/marked "This is <em>another</em> comment." #js {:sanitize true})
 "<p>This is &lt;em&gt;another&lt;/em&gt; comment.</p>\n"
 ```
 
-> NOTE 12: the `js/marked` function expects a JS object as a second
+> NOTE 13: the `js/marked` function expects a JS object as a second
 > optional argument. `#js` tagged literal transforms a CLJS structure
 > (a CLJS map in this case) into a JS corresponding structure (a JS
 > object in this case). #js is not recursive. If you need to transform
@@ -947,7 +949,7 @@ cljs.user> (defn comment-component [author comment]
 #'cljs.user/comment-component
 ```
 
-> NOTE 13: the `dangerouslySetInnerHTML` attribute expects a JS object
+> NOTE 14: the `dangerouslySetInnerHTML` attribute expects a JS object
 > as a value. See above for the use of the `#js` tagged literal.
 
 Re-render the `comment-box` as usual
@@ -978,7 +980,7 @@ var data = [
 ];
 ```
 
-> NOTE 14: note the newly added `id` attribute.
+> NOTE 15: note the newly added `id` attribute.
 
 Now, instead of manually instantiating the `Comment` components in the
 `CommentList` component, the `CommentBox` component has to get the
@@ -1025,7 +1027,7 @@ The updated `render` function creates a new `Comment` node for each
 available comment contained in the `data` variable and finally returns
 the accumulated `Comment` components it created.
 
-> NOTE 15: note the newly defined `key` attribute getting the value
+> NOTE 16: note the newly defined `key` attribute getting the value
 > from the comment `id`.
 
 Finally we have to refactor the `ReactDOM.render` function as well,
