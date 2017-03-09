@@ -28,7 +28,7 @@ for CLJ developers. However, the `boot` community is working hard to
 progressively enrich it with features, *tasks* in `boot` parlance,
 aimed at filling the gaps and, perhaps, even overtake.
 
-If you take a look at the [tasks for `boot`][4] developed by the
+If you take a look at the [tasks for boot][4] developed by the
 community, you'll discover that we already have everything we need to
 start approaching Bret Victor's principle of Immediate Feedback:
 
@@ -50,7 +50,7 @@ located in the `modern-cljs` home directory.
 (set-env!
  :source-paths #{"src/cljs"}
  :resource-paths #{"html"}
- 
+
  :dependencies '[[adzerk/boot-cljs "1.7.228-2"]
                  [pandeiro/boot-http "0.7.6"]         ;; add http dependency
                  [org.clojure/tools.nrepl "0.2.12"]]) ;; required by boot-http
@@ -79,15 +79,19 @@ Listens on port 3000 by default.
 
 Options:
   -h, --help                Print this help info.
-  -d, --dir PATH            Set the directory to serve; created if doesn't exist to PATH.
-  -H, --handler SYM         Set the ring handler to serve to SYM.
-  -i, --init SYM            Set a function to run prior to starting the server to SYM.
-  -c, --cleanup SYM         Set a function to run after the server stops to SYM.
-  -r, --resource-root ROOT  Set the root prefix when serving resources from classpath to ROOT.
-  -p, --port PORT           Set the port to listen on. (Default: 3000) to PORT.
+  -d, --dir PATH            PATH sets the directory to serve; created if doesn't exist.
+  -H, --handler SYM         SYM sets the ring handler to serve.
+  -i, --init SYM            SYM sets a function to run prior to starting the server.
+  -c, --cleanup SYM         SYM sets a function to run after the server stops.
+  -r, --resource-root ROOT  ROOT sets the root prefix when serving resources from classpath.
+  -p, --port PORT           PORT sets the port to listen on. (Default: 3000).
   -k, --httpkit             Use Http-kit server instead of Jetty
   -s, --silent              Silent-mode (don't output anything)
+  -t, --ssl                 Serve via Jetty SSL connector on localhost on default port 3443 using cert from ./boot-http-keystore.jks
+  -T, --ssl-props SSL       SSL sets override default SSL properties e.g. "{:port 3443, :keystore "boot-http-keystore.jks", :key-password "p@ssw0rd"}".
   -R, --reload              Reload modified namespaces on each request.
+  -n, --nrepl REPL          REPL sets nREPL server parameters e.g. "{:port 3001, :bind "0.0.0.0"}".
+  -N, --not-found SYM       SYM sets a ring handler for requested resources that aren't in your directory. Useful for pushState.
 ```
 
 The `-d` option is used to set the directory to be served. It will
@@ -129,14 +133,13 @@ boot wait serve -d target
 << started Jetty on http://localhost:3000 >>
 ```
 
-The `boot` command does not exit anymore and you'll obtain the
-`index.html` page when connecting to `http://localhost:3000` from
+The `boot` command does not exit anymore when connecting to `http://localhost:3000` from
 your browser. Now kill the server (`CTRL-C`).
 
 `boot` tasks can be easily chained:
 
 ```bash
-boot wait serve -d target cljs target -d target
+boot wait serve -d target cljs target
 2016-01-03 11:14:09.949:INFO::clojure-agent-send-off-pool-0: Logging initialized @7356ms
 Directory 'target' was not found. Creating it...2016-01-03 11:14:10.011:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
 2016-01-03 11:14:10.048:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@31c694ca{HTTP/1.1}{0.0.0.0:3000}
@@ -183,7 +186,7 @@ It seems that just inserting the `watch` task before calling the
 `cljs` task we should be able to trigger the source recompilation.
 
 ```bash
-boot serve -d target watch cljs target -d target
+boot serve -d target watch cljs target
 2016-01-03 11:17:19.733:INFO::clojure-agent-send-off-pool-0: Logging initialized @7494ms
 2016-01-03 11:17:19.796:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
 2016-01-03 11:17:19.834:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@523e2274{HTTP/1.1}{0.0.0.0:3000}
@@ -238,7 +241,7 @@ visible to `boot` by requiring its primary command:
  :dependencies '[[adzerk/boot-cljs "1.7.228-2"]
                  [pandeiro/boot-http "0.7.6"]
                  [adzerk/boot-reload "0.5.1"]       ;; add boot-reload
-		 [org.clojure/tools.nrepl "0.2.12"]]) 
+		             [org.clojure/tools.nrepl "0.2.12"]])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
@@ -249,7 +252,7 @@ This task has to be inserted in the `boot` command immediately before
 the `cljs` compilation. Give it a try:
 
 ```bash
-boot serve -d target watch reload cljs target -d target
+boot serve -d target watch reload cljs target
 Starting reload server on ws://localhost:58020
 Writing boot_reload.cljs...
 2016-01-03 11:22:21.323:INFO::clojure-agent-send-off-pool-0: Logging initialized @9526ms
@@ -351,7 +354,7 @@ the `build.boot` build file.
                  [org.clojure/clojurescript "1.9.473"] ;; add CLJS
                  [adzerk/boot-cljs "1.7.228-2"]
                  [pandeiro/boot-http "0.7.6"]
-		 [org.clojure/tools.nrepl "0.2.12"]
+		             [org.clojure/tools.nrepl "0.2.12"]
                  [adzerk/boot-reload "0.5.1"]
                  [adzerk/boot-cljs-repl "0.3.3"]
                  ])
@@ -366,7 +369,7 @@ If you now launch the following `boot` command you'll receive a
 warning and an error:
 
 ```bash
-boot serve -d target watch reload cljs-repl cljs target -d target
+boot serve -d target watch reload cljs-repl cljs target
 Starting reload server on ws://localhost:55540
 Writing boot_reload.cljs...
 You are missing necessary dependencies for boot-cljs-repl.
