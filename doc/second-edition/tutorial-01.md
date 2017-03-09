@@ -257,6 +257,7 @@ Writing target dir(s)...
 ```bash
 tree
 .
+├── boot.properties
 ├── build.boot
 ├── html
 │   └── index.html
@@ -265,6 +266,7 @@ tree
 │       └── modern_cljs
 │           └── core.cljs
 └── target
+    ├── index.html
     ├── main.js
     └── main.out
         ├── boot
@@ -300,7 +302,7 @@ tree
             ├── core.js
             └── core.js.map
 
-17 directories, 25 files
+17 directories, 27 files
 ```
 
 A lot of stuff. We're not digging into it right now. At the
