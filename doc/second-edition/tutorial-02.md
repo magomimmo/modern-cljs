@@ -59,6 +59,9 @@ located in the `modern-cljs` home directory.
          '[pandeiro.boot-http :refer [serve]]) ;; make serve task visible
 ```
 
+    > NOTE 3: because of a bug in the current `0.7.6` version of `boot-http` we
+    > had to add the `0.2.12` version of `tools.nrepl` as well.
+
 As you see, we added the latest available release of `boot-http` to
 the project dependencies and made the `serve` task visible to the
 `boot` command by referring it in the `require` form.
@@ -133,7 +136,7 @@ boot wait serve -d target
 << started Jetty on http://localhost:3000 >>
 ```
 
-The `boot` command does not exit anymore when connecting to `http://localhost:3000` from
+The `boot` command does not exit anymore and you can connect to `http://localhost:3000` from
 your browser. Now kill the server (`CTRL-C`).
 
 `boot` tasks can be easily chained:
@@ -169,13 +172,14 @@ already included with `boot`.
 boot watch -h
 Call the next handler when source files change.
 
-Debouncing time is 10ms by default.
-
 Options:
-  -h, --help     Print this help info.
-  -q, --quiet    Suppress all output from running jobs.
-  -v, --verbose  Print which files have changed.
-  -M, --manual   Use a manual trigger instead of a file watcher.
+  -h, --help           Print this help info.
+  -q, --quiet          Suppress all output from running jobs.
+  -v, --verbose        Print which files have changed.
+  -M, --manual         Use a manual trigger instead of a file watcher.
+  -d, --debounce MS    MS sets debounce time (how long to wait for filesystem events) in milliseconds.
+  -i, --include REGEX  Conj REGEX onto the set of regexes the paths of changed files must match for watch to fire.
+  -e, --exclude REGEX  Conj REGEX onto the set of regexes the paths of changed files must not match for watch to fire.
 ```
 
 Aside from triggering the execution of the CLJS recompilation whenever a
@@ -187,10 +191,10 @@ It seems that just inserting the `watch` task before calling the
 
 ```bash
 boot serve -d target watch cljs target
-2016-01-03 11:17:19.733:INFO::clojure-agent-send-off-pool-0: Logging initialized @7494ms
-2016-01-03 11:17:19.796:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
-2016-01-03 11:17:19.834:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@523e2274{HTTP/1.1}{0.0.0.0:3000}
-2016-01-03 11:17:19.836:INFO:oejs.Server:clojure-agent-send-off-pool-0: Started @7596ms
+2017-03-09 23:07:18.959:INFO::clojure-agent-send-off-pool-0: Logging initialized @7461ms
+2017-03-09 23:07:19.024:INFO:oejs.Server:clojure-agent-send-off-pool-0: jetty-9.2.10.v20150310
+2017-03-09 23:07:19.075:INFO:oejs.ServerConnector:clojure-agent-send-off-pool-0: Started ServerConnector@693339d8{HTTP/1.1}{0.0.0.0:3000}
+2017-03-09 23:07:19.080:INFO:oejs.Server:clojure-agent-send-off-pool-0: Started @7582ms
 Started Jetty on http://localhost:3000
 
 Starting file watcher (CTRL-C to quit)...
@@ -199,7 +203,7 @@ Writing main.cljs.edn...
 Compiling ClojureScript...
 • main.js
 Writing target dir(s)...
-Elapsed time: 6.197 sec
+Elapsed time: 8.787 sec
 ```
 
 Visit `http://localhost:3000` again in your browser to confirm
@@ -240,8 +244,8 @@ visible to `boot` by requiring its primary command:
 
  :dependencies '[[adzerk/boot-cljs "1.7.228-2"]
                  [pandeiro/boot-http "0.7.6"]
-                 [adzerk/boot-reload "0.5.1"]       ;; add boot-reload
-		             [org.clojure/tools.nrepl "0.2.12"]])
+		             [org.clojure/tools.nrepl "0.2.12"]
+                 [adzerk/boot-reload "0.5.1"]]) ;; add boot-reload
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
@@ -308,8 +312,8 @@ command at the terminal.
 
  :dependencies '[[adzerk/boot-cljs "1.7.228-2"]
                  [pandeiro/boot-http "0.7.6"]
-                 [adzerk/boot-reload "0.5.1"]
                  [org.clojure/tools.nrepl "0.2.12"]
+                 [adzerk/boot-reload "0.5.1"]
                  [adzerk/boot-cljs-repl "0.3.3"]])
 
 (require '[adzerk.boot-cljs :refer [cljs]]
@@ -323,6 +327,8 @@ documentation on its advanced options.
 
 ```bash
 boot cljs-repl -h
+Retrieving boot-cljs-repl-0.3.3.pom from https://repo.clojars.org/ (1k)
+Retrieving boot-cljs-repl-0.3.3.jar from https://repo.clojars.org/ (4k)
 Start a ClojureScript REPL server.
 
 The default configuration starts a websocket server on a random available
@@ -331,10 +337,10 @@ port on localhost.
 Options:
   -h, --help                   Print this help info.
   -b, --ids BUILD_IDS          Conj [BUILD IDS] onto only inject reloading into these builds (= .cljs.edn files)
-  -i, --ip ADDR                Set the IP address for the server to listen on to ADDR.
-  -n, --nrepl-opts NREPL_OPTS  Set options passed to the `repl` task to NREPL_OPTS.
-  -p, --port PORT              Set the port the websocket server listens on to PORT.
-  -w, --ws-host WSADDR         Set the (optional) websocket host address to pass to clients to WSADDR.
+  -i, --ip ADDR                ADDR sets the IP address for the server to listen on.
+  -n, --nrepl-opts NREPL_OPTS  NREPL_OPTS sets options passed to the `repl` task.
+  -p, --port PORT              PORT sets the port the websocket server listens on.
+  -w, --ws-host WSADDR         WSADDR sets the (optional) websocket host address to pass to clients.
   -s, --secure                 Flag to indicate whether the client should connect via wss. Defaults to false.
 ```
 
@@ -365,22 +371,32 @@ the `build.boot` build file.
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
 ```
 
+Before to go on with experimenting the newly added `cljs-repl` task, remember to
+update the version of clojure compiler used by `boot` itself in the `boot.properties`
+file we introduced in the previous tutorial as follows:
+
+```bash
+#http://boot-clj.com
+#Thu Mar 09 21:18:39 CET 2017
+BOOT_CLOJURE_NAME=org.clojure/clojure
+BOOT_CLOJURE_VERSION=1.8.0
+BOOT_VERSION=2.7.1
+```
 If you now launch the following `boot` command you'll receive a
 warning and an error:
 
 ```bash
 boot serve -d target watch reload cljs-repl cljs target
-Starting reload server on ws://localhost:55540
-Writing boot_reload.cljs...
+Retrieving
+...
+Starting reload server on ws://localhost:53582
 You are missing necessary dependencies for boot-cljs-repl.
 Please add the following dependencies to your project:
 [com.cemerick/piggieback "0.2.1" :scope "test"]
 [weasel "0.7.0" :scope "test"]
-[org.clojure/tools.nrepl "0.2.12" :scope "test"]
 ...
 java.io.FileNotFoundException: Could not locate cemerick/piggieback__init.class or cemerick/piggieback.clj on classpath.
-...
-Elapsed time: 3.720 sec
+Elapsed time: 0.734 sec
 ```
 
 This is because `boot-cljs-repl` does not transitively include its
@@ -401,8 +417,7 @@ dependencies and you have to explicitly add them in the
                  [adzerk/boot-reload "0.5.1"]
                  [adzerk/boot-cljs-repl "0.3.3"]
                  [com.cemerick/piggieback "0.2.1"]     ;; needed by bREPL
-                 [weasel "0.7.0"]                      ;; needed by bREPL
-		 ])
+                 [weasel "0.7.0"]])                    ;; needed by bREPL
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[pandeiro.boot-http :refer [serve]]
@@ -418,7 +433,7 @@ After having quit the previous process, you can safety run the
 `boot` command in the terminal as follows:
 
 ```bash
-boot serve -d target watch reload cljs-repl cljs target -d target
+boot serve -d target watch reload cljs-repl cljs target
 Starting reload server on ws://localhost:58051
 Writing boot_reload.cljs...
 Writing boot_cljs_repl.cljs...
@@ -455,9 +470,9 @@ with `boot` and passing it the `-c` (i.e. client) option:
 # in a new terminal
 cd /path/to/modern-cljs
 boot repl -c
-REPL-y 0.3.5, nREPL 0.2.12
-Clojure 1.7.0
-Java HotSpot(TM) 64-Bit Server VM 1.8.0_25-b17
+REPL-y 0.3.7, nREPL 0.2.12
+Clojure 1.8.0
+Java HotSpot(TM) 64-Bit Server VM 1.8.0_112-b16
         Exit: Control+D or (exit) or (quit)
     Commands: (user/help)
         Docs: (doc function-name-here)
