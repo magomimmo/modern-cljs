@@ -42,7 +42,7 @@ Then we launched the CLJS compilation with the following `boot`
 command:
 
 ```bash
-boot cljs target -d target
+boot cljs target
 ```
 
 We did not pass any compilation option to the task by exploiting a few
@@ -64,13 +64,12 @@ available defaults. Namely:
 
 In [Tutorial 2][1] we started by adding the `serve` task to the `boot`
 command. We passed it the `-d target` option to instruct the task
-about the directory to serve, the same directory we specified for the
-`target` task to get rid from the deprecated implicit target
-directory.  As you remember, we also needed to add the `wait` task for
+about the directory to serve, the same directory name used as default by the
+`target` task.  As you remember, we also needed to add the `wait` task for
 keeping the web server running.
 
 ```bash
-boot wait serve -d target cljs target -d target
+boot wait serve -d target cljs target
 ```
 
 ### CLJS recompilation
@@ -80,7 +79,7 @@ source file, we substituted the `wait` task with the `watch` task
 which requires to be positioned before the `cljs` task.
 
 ```bash
-boot serve -d target watch cljs target -d target
+boot serve -d target watch cljs target
 ```
 
 ### boot-reload
@@ -90,7 +89,7 @@ changes or changes in the CLJS source code they link, we added the
 `reload` task to the pipeline just before the `cljs` task.
 
 ```bash
-boot serve -d target watch reload cljs target -d target
+boot serve -d target watch reload cljs target
 ```
 
 ### bREPL
@@ -101,7 +100,7 @@ we had to add the `cljs-repl` task. Don't forget to prepend the
 `cljs-repl` task to the `cljs` one.
 
 ```bash
-boot serve -d target watch reload cljs-repl cljs target -d target
+boot serve -d target watch reload cljs-repl cljs target
 ```
 
 If you complain about the things you have to remember just to start
@@ -396,7 +395,7 @@ form validation in CLJS.
 
 # License
 
-Copyright © Mimmo Cosenza, 2012-2014. Released under the Eclipse Public
+Copyright © Mimmo Cosenza, 2012-2017. Released under the Eclipse Public
 License, the same as Clojure.
 
 [1]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-02.md
@@ -407,4 +406,3 @@ License, the same as Clojure.
 [6]: https://github.com/clojure/clojurescript/wiki/Compiler-Options#asset-path
 [7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-04.md
 [8]: https://github.com/edn-format/edn
-
