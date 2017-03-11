@@ -346,14 +346,13 @@ cljs.user> js/console
     [native code]
 }"], :log #object[log "function log() {
     [native code]
-}"], 
+}"],
 ...
      :groupEnd #object[groupEnd "function groupEnd() {
     [native code]
 }"]}
 
 ```
-
 
 As you see, when hosted by the JSVM of the browser, CLJS defines a
 `js` special namespace to allow accessing JS objects defined in the
@@ -363,7 +362,7 @@ global space:
 * `js/document`: representing the document object (i.e. the DOM)
 * `js/console`: representing the JS console of the browser
 
-Being a guest programming language, CLJS can interop with the
+Being a guest programming language, CLJS can interoperate with the
 underlying JS engine via special forms.
 
 The `.` special form allows you to interoperate with the underlying JS
