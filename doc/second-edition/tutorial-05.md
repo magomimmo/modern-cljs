@@ -526,7 +526,7 @@ Open the `html/js/main.cljs.edn` file and enter the above addition:
 > NOTE 4: this an incidental complexity produced by the `boot-cljs`
 > task. Do you remember when at the beginning of this series I wrote
 > about the idiosyncrasies of the building tools when you walk a
-> little bit out of its defaults? This is one them. Here you have to
+> little bit out of its defaults? This is one of them. Here you have to
 > choose between two alternatives: either you adhere to the very widespread
 > convention of keeping the `js` resources confined in a `js`
 > subdirectory of the directory where your html pages live; or, to
