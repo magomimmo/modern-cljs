@@ -252,8 +252,8 @@ of the login form to be uploaded as well.
 So far so good.
 
 It's now time to start experimenting with CLJS at the bREPL by trying
-to emulate the behavior of the original `login.js` code. Let's start
-from the `validateForm()` function:
+to emulate the behavior of the original `login.js` code. Before we start
+lets consider example validateForm() function:
 
 ```JS
 // Script 2.3 - login.js
