@@ -187,13 +187,14 @@ of the passed element, and `set-value!` which sets its value.
 > require a namespace from a namespace declaration to be able to
 > require it in the bREPL as well. We will use `domina` later to update
 > our `validate-form` function in `login.cljs`. You can require the
-> `domina.core` namespace there. Change the first line of your
-> `login.cljs` file:
+> `domina.core` namespace there.
 
-> ```clj
-> (ns modern-cljs.login
->   (:require [domina.core :refer [by-id value set-value!]]))
-> ```
+Change the first line of your `login.cljs` file:
+
+```clj
+(ns modern-cljs.login
+  (:require [domina.core :refer [by-id value set-value!]]))
+```
 
 Let's now familiarize ourselves in the bREPL with the above `domina`
 functions.
