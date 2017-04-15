@@ -12,6 +12,8 @@ To install `java` follow the [instructions][3] for your operating
 system. To install `boot` follow the very easy instructions in the
 corresponding section of its [README][4].
 
+> Note: For this tutorial to work as expected, make sure you install boot version 2.4.2
+
 Test the installation by issuing the `boot -h` command at the
 terminal. Then submit the `boot -u` command to get the latest `boot`
 updates.
