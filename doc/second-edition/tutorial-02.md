@@ -371,8 +371,8 @@ the `build.boot` build file.
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]])
 ```
 
-Before to go on with experimenting the newly added `cljs-repl` task, remember to
-update the version of clojure compiler used by `boot` itself in the `boot.properties`
+Before to go on with experimenting the newly added `cljs-repl` task,
+edit the version of clojure compiler used by `boot` itself in the `boot.properties`
 file we introduced in the previous tutorial as follows:
 
 ```bash
