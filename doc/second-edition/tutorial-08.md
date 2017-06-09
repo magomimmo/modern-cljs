@@ -442,7 +442,7 @@ file:
     (listen! (by-id "calc")
              :click
              calculate)
-    (listen! (by-id "calc"
+    (listen! (by-id "calc")
              :mouseover
              (fn []
                (append! (by-id "shoppingForm")
