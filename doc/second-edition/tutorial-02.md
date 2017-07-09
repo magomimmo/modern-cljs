@@ -429,7 +429,7 @@ dependencies and you have to explicitly add them in the
 > NOTE 3: At the moment we don't take care of the `:scope` of the
 > dependencies. We'll come back to this directive in a later tutorial.
 
-After having quit the previous process, you can safety run the
+After having quit the previous process, you can safely run the
 `boot` command in the terminal as follows:
 
 ```bash
