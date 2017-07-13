@@ -295,7 +295,7 @@ to the `:source-paths` variable.
 ```
 
 > NOTE 2: The `-t` default value is now `#{"test/cljc" "test/clj"
-> "test/cljs"}`. In boot versions previous of 2.7.1 even if none of these directories
+> "test/cljs"}`. In boot versions previous to 2.7.1 even if none of these directories
 > exist or contains any testing namespace, the internal `merge-env!`
 > function will not complain, but from 2.7.1 they must exist, or an exception java.nio.file.NoSuchFileException will be thrown
 
