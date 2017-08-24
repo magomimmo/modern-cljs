@@ -271,7 +271,7 @@ Now edit that file as follows:
 ```
 
 As you see we just required the `modern-cljs.core` namespace of the
-project and set the `asset-path` option to the CLJS compiler. That's it.
+project and set the `asset-path` option to the CLJS compiler. If the `output-to` option is not specified default value is created based on [relative path of the .cljs.edn file][9]. This way we have completed configuration for CLJS compiler. That's it.
 
 You can now run the CLJS compilation. To see the very verbose output
 of the CLJS compilation task, use the `-vv` option of the `boot`
@@ -406,3 +406,4 @@ License, the same as Clojure.
 [6]: https://github.com/clojure/clojurescript/wiki/Compiler-Options#asset-path
 [7]: https://github.com/magomimmo/modern-cljs/blob/master/doc/second-edition/tutorial-04.md
 [8]: https://github.com/edn-format/edn
+[9]: https://github.com/boot-clj/boot-cljs/blob/master/docs/compiler-options.md
