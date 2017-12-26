@@ -244,7 +244,7 @@ visible to `boot` by requiring its primary command:
 
  :dependencies '[[adzerk/boot-cljs "1.7.228-2"]
                  [pandeiro/boot-http "0.7.6"]
-		             [org.clojure/tools.nrepl "0.2.12"]
+                 [org.clojure/tools.nrepl "0.2.12"]
                  [adzerk/boot-reload "0.5.1"]]) ;; add boot-reload
 
 (require '[adzerk.boot-cljs :refer [cljs]]
@@ -360,7 +360,7 @@ the `build.boot` build file.
                  [org.clojure/clojurescript "1.9.473"] ;; add CLJS
                  [adzerk/boot-cljs "1.7.228-2"]
                  [pandeiro/boot-http "0.7.6"]
-		             [org.clojure/tools.nrepl "0.2.12"]
+                 [org.clojure/tools.nrepl "0.2.12"]
                  [adzerk/boot-reload "0.5.1"]
                  [adzerk/boot-cljs-repl "0.3.3"]
                  ])
