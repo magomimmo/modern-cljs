@@ -161,7 +161,7 @@ current `boot` process (`CTRL-C`).
 
 ## CLJS source recompilation
 
-If we want to approach the Immediate Feeback principle,
+If we want to approach the Immediate Feedback principle,
 any changed CLJS source code should be recompiled as soon as we
 modify and save a `.cljs` file.
 
