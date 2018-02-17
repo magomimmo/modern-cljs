@@ -426,7 +426,7 @@ the `serve` task had its `:resource-root` set to the `"target"` directory.
   "Launch immediate feedback dev environment"
   []
   (comp
-   (serve :handler 'modern-cljs.remotes/app            ;; ring hanlder
+   (serve :handler 'modern-cljs.remotes/app            ;; ring handler
           :resource-root "target"                      ;; root classpath
           :reload true)                                ;; reload ns
    (watch)
