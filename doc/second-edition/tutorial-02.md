@@ -298,8 +298,8 @@ engines. This style of programming allows you to
 evaluate CLJS forms in the REPL and receive an immediate feedback in
 the browser to which the REPL is connected.
 
-The `boot` community has a task to offer in this area, too. Its name is
-`boot-cljs-repl`. As we have already done for the other tasks that `boot`
+The `boot` community has a task to offer in this area, too. Its name is:
+[`boot-cljs-repl`][7]. As we have already done for the other tasks that `boot`
 does not include, we need to add `boot-cljs-repl` to the dependencies of the
 `build.boot` project file. Then, as usual, we have to require its primary tasks
 (i.e. `cljs-repl` and `start-repl`) to make them visible to the `boot`
