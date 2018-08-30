@@ -595,7 +595,7 @@ task again.
   "A dummy task"
   [t dirs PATH #{str} ":source-paths"
    v verbose bool "print which files have changed"
-   k httpkit bool "use httt-kit web server instead of jetty"]
+   k httpkit bool "use http-kit web server instead of jetty"]
   *opts*)
 ```
 

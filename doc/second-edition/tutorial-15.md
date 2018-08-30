@@ -251,7 +251,7 @@ Elapsed time: 4.244 sec
 ```
 
 Now modify one of the assertions in the
-`test/cljc/shopping/validators-test.cljc` to force a failure:
+`test/cljc/modern_cljs/shopping/validators_test.cljc` to force a failure:
 
 ```clj
 (deftest validate-shopping-form-test
@@ -446,7 +446,7 @@ the `main.js` JS file as the `boot-cljs` task did, it generates the
 
 Now repeat the same experiments we did previously by modifying the
 unit test assertion in
-`test/cljc/shopping/validators-test.cljc` to verify that `boot` will
+`test/cljc/modern_cljs/shopping/validators_test.cljc` to verify that `boot` will
 recompile any changed files and rerun the unit tests as soon as we save
 a file:
 
